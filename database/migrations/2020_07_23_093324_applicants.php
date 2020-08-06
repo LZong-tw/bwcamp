@@ -21,6 +21,7 @@ class Applicants extends Migration
             $table->string('name', 40);
             $table->boolean('is_admitted');
             $table->string('group', 10);
+            $table->string('number', 10);    
             $table->boolean('is_attend');
             $table->string('gender', 2);
             $table->string('birthyear', 4);
