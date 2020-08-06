@@ -18,7 +18,15 @@ class Ecamp extends Migration
         Schema::create('ecamp', function (Blueprint $table) {
             $table->id();
             $table->foreignId('applicant_id')->constrained('applicants');
-            
+            $table->string('belief', 20)->nullable();
+            $table->string('education', 10)->nullable();
+            $table->string('unit', 40)->nullable();
+            $table->string('unit_location', 8)->nullable();
+            $table->string('title', 20)->nullable();
+            $table->string('job_property', 16)->nullable();
+            $table->text('experience')->nullable();   
+            $table->integer('employees')->nullable();   
+            $table->integer('direct_managed_employees')->nullable();   
             $table->timestamps();
         });
     }
