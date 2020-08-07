@@ -1999,12 +1999,14 @@
 
     <!--- 福智活動 -->
     <div class='row form-group'>
-    <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>曾參與過福智團體所舉辦之活動與課程（可複選）</label><div class='col-md-10'><label>
-    <INPUT type=checkbox   name=item[25] value='福智高中' > 就讀福智高中</label> <br/><label>
-    <INPUT type=checkbox   name=item[26] value='福智中小學' > 就讀福智中小學</label> <br/><label>
-    <INPUT type=checkbox   name=item[27] value='青少年班' > 參加青少年班</label> <br/><label>
-    <INPUT type=checkbox   name=item[28] value='青少年營' > 參加青少年營</label> <br/><label>
-    其它：<input type=text  name=item[29] value=''></label> <br/></div>
+        <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>曾參與過福智團體所舉辦之活動與課程（可複選）</label>
+        <div class='col-md-10'>
+            <label><INPUT type=checkbox name=item[25] value='福智高中' > 就讀福智高中</label> <br/>
+            <label><INPUT type=checkbox name=item[26] value='福智中小學' > 就讀福智中小學</label> <br/>
+            <label><INPUT type=checkbox name=item[27] value='青少年班' > 參加青少年班</label> <br/>
+            <label><INPUT type=checkbox name=item[28] value='青少年營' > 參加青少年營</label> <br/>
+            <label>其它：<input type=text name=item[29] value=''></label> <br/>
+        </div>
     </div>
 
     <!--- 錄取通知  -->
