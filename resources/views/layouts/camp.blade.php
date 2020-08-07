@@ -28,8 +28,8 @@
     <!-- Bootstrap core JS -->
     <script src='{{ asset('js/bootstrap.min.js') }}'></script>
     <!-- Bootstrap confirmation JS -->
-    <script src='{{ asset('js/bootstrap-confirmation.js') }}'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js'></script>
+    <script src='{{ asset('js/bootstrap-confirmation.min.js') }}'></script>
+    <script src='{{ asset('js/bootstrap-validate.js') }}'></script>
 
     <meta property='og:url' content='http://youth.blisswisdom.org/camp/winter/'/>
     <meta property='og:title' content='大專青年生命成長營'/>
@@ -43,11 +43,11 @@
 <div id='fb-root'></div>
 
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #ebfbeb;">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
     <div class="container">
         <a class='navbar-brand' href='{{ app('request')->input('batch_id') }}'>大專青年生命成長營</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 {{-- <li class="nav-item active"> --}}
