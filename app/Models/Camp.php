@@ -2,21 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Model;
 
-class Camp extends Authenticatable
+class Camp extends Model
 {
-    use Notifiable;
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'table', 'registration_start', 'registration_end', 'admission_announcing_date', 'admission_confirming_end', 'camp_start', 'camp_end',
+        'name', 'table', 'registration_start', 'registration_end', 'admission_announcing_date', 'admission_confirming_end', 
     ];
 
     /**
