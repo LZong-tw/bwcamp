@@ -1667,29 +1667,25 @@
             <span class='text-danger'>＊必填</span>
         </div>
     </div>
-
-    <div class='row form-group'>
+    {{-- <div class='row form-group'>
         <label for='inputDate' class='col-md-2 control-label text-md-right'>報名日期</label>
         <div class='col-md-10'>
             {{ \Carbon\Carbon::now()->toDateString() }}
             <input type=hidden name=item[50] value='{{ \Carbon\Carbon::now()->toDateString() }}'>
         </div>
-    </div>
-
+    </div> --}}
     <div class='row form-group'>
         <label for='inputDate' class='col-md-2 control-label text-md-right'>營隊梯次</label>
         <div class='col-md-10'>
             {{ $camp_data->fullName . $camp_data->name . '梯' }} ({{ $camp_data->batch_start }} ~ {{ $camp_data->batch_end }})
         </div>
     </div>
-
     <div class='row form-group required'>
         <label for='inputName' class='col-md-2 control-label text-md-right'>姓名</label>
         <div class='col-md-10'>
             <input type='text' name='name' value='' class='form-control' id='inputName' placeholder='請填寫全名' required>
         </div>
     </div>
-
     <div class='row form-group required'>
         <label for='inputGender' class='col-md-2 control-label text-md-right'>性別</label>
         <div class='col-md-10'>
@@ -1701,11 +1697,10 @@
             </label> 
         </div>
     </div>
-
     <div class='row form-group required'>
         <label for='inputNationName' class='col-md-2 control-label text-md-right'>國籍</label>
         <div class='col-md-2'>
-        <select  class='form-control' name=item[37]>
+        <select class='form-control' name='nationality' id='inputNationName'>
             <option value='美國' >美國</option>
             <option value='加拿大' >加拿大</option>
             <option value='澳大利亞' >澳大利亞</option>
@@ -1732,9 +1727,9 @@
         <label for='inputBirth' class='col-md-2 control-label text-md-right'>生日</label>
         <div class='date col-md-10' id='inputBirth'>
         西元 
-        <input type=number required  name=item[2] min=1985 max=2005 value='' placeholder=''>年
-        <input type=number required  name=item[3] min=1 max=12 value='' placeholder=''>月
-        <input type=number required  name=item[4] min=1 max=31 value='' placeholder=''>日
+        <input type='number' required name='birthyear' min=1985 max='{{ \Carbon\Carbon::now()->subYears(16)->year }}' value='' placeholder=''>年
+        <input type='number' required name='birthmonth' min=1 max=12 value='' placeholder=''>月
+        <input type='number' required name='birthday' min=1 max=31 value='' placeholder=''>日
         <div class='help-block with-errors'></div>
         </div>
     </div>
@@ -1743,7 +1738,7 @@
     <div class='row form-group'>
         <label for='inputInterest' class='col-md-2 control-label text-md-right'>興趣</label>
         <div class='col-md-10'>
-        <input type='text'  name=item[5] value='' class='form-control' id='inputInterest' placeholder=''>
+        <input type='text' name=item[5] value='' class='form-control' id='inputInterest' placeholder=''>
         </div>
     </div>
 
