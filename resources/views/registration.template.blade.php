@@ -1652,11 +1652,11 @@
         參考頁面：https://youth.blisswisdom.org/camp/winter/form/index_addto.php
     --}}
     <div class='alert alert-info' role='alert'>
-        您在本網站所填寫的個人資料，僅用於此次大專營的報名及活動聯絡之用。
+        您在本網站所填寫的個人資料，僅用於此次OO營的報名及活動聯絡之用。
     </div>
 
     <div class=page-header>
-        <h4>2020第52屆大專青年生命成長營線上報名表</h4>
+        <h4>{{ $camp_data->fullName }}線上報名表</h4>
     </div>
 
     <form method=post name=Camp class=form-horizontal role='form' data-toggle='validator'>
@@ -1676,8 +1676,9 @@
     <div class='row form-group'>
         <label for='inputDate' class='col-md-2 control-label text-md-right'>報名日期</label>
         <div class='col-md-10'>
-            <p class='form-control-static'>2020-08-06 
-                <input type=hidden name=item[50] value='2020-08-06'>
+            <p class='form-control-static'>
+                {{ \Carbon\Carbon::now()->toDateString() }}
+                <input type=hidden name=item[50] value='{{ \Carbon\Carbon::now()->toDateString() }}'>
             </p>
         </div>
     </div>

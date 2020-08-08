@@ -44,7 +44,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #ebfbeb;">
     <div class="container">
-        <a class='navbar-brand' href='{{ app('request')->input('batch_id') }}'>大專青年生命成長營</a>
+        <a class='navbar-brand' href=''>大專青年生命成長營</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>

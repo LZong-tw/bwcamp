@@ -39,6 +39,6 @@ class Camp extends Authenticatable
 
     public static function getCampWithBatch($camp_id, $batch_id)
     {
-        return Camp::join('batchs', 'batchs.camp_id', '=', 'camps.id')->where('camps.id', $camp_id)->where('batchs.id', $batch_id)->get();
+        return Camp::join('batchs', 'batchs.camp_id', '=', 'camps.id')->where('camps.id', $camp_id)->where('batchs.id', $batch_id)->first();
     }
 }
