@@ -31,6 +31,10 @@ class PagesController extends Controller
 
     public function campRegistration($camp_id = 1, $batch_id = 1)
     {
-        return view('registration');
+        $camp_data = Camp::getCampWithBatch($camp_id, $batch_id);
+        return view($camp_data->table . '.registration',
+            ['camp_id' => $camp_id,
+            'batch_id' => $batch_id,
+            'camp_data' => $camp_data]);
     }
 }
