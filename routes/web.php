@@ -37,7 +37,8 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['prefix' => 'camp/{camp_id}/{batch_id}/'], function () {
+Route::group(['prefix' => 'camp/{batch_id}'], function () {
     Route::get('/', 'PagesController@campIndex');
     Route::get('/registration', 'PagesController@campRegistration');
+    Route::post('/submit', 'PagesController@campRegistrationFormSubmitted')->name('formSubmit');
 });
