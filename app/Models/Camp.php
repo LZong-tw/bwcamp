@@ -15,6 +15,8 @@ class Camp extends Model
         'name', 'table', 'registration_start', 'registration_end', 'admission_announcing_date', 'admission_confirming_end', 
     ];
 
+    protected $guarded = ['*'];
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -33,8 +35,8 @@ class Camp extends Model
         'email_verified_at' => 'datetime',
     ];
 
-    public static function getCampWithBatch($camp_id, $batch_id)
+    public static function getCampWithBatch($batch_id)
     {
-        return Camp::join('batchs', 'batchs.camp_id', '=', 'camps.id')->where('camps.id', $camp_id)->where('batchs.id', $batch_id)->first();
+        return Camp::join('batchs', 'batchs.camp_id', '=', 'camps.id')->where('batchs.id', $batch_id)->first();
     }
 }
