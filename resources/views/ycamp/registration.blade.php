@@ -2129,7 +2129,7 @@
     <div class="row form-group text-danger tips d-none">
         <div class='col-md-2'></div>
         <div class='col-md-10'>
-            請檢查是否有未填寫或填寫錯誤的欄位。
+            請檢查是否有未填寫或格式錯誤的欄位。
         </div>
     </div>
 
