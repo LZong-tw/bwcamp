@@ -39,4 +39,9 @@ class Camp extends Model
     {
         return Camp::join('batchs', 'batchs.camp_id', '=', 'camps.id')->where('batchs.id', $batch_id)->first();
     }
+
+    public static function getCampTable($batch_id)
+    {
+        return Camp::select('table as tableName')->join('batchs', 'batchs.camp_id', '=', 'camps.id')->where('batchs.id', $batch_id)->first()->tableName;
+    }
 }
