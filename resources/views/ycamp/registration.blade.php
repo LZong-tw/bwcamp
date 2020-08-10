@@ -1734,11 +1734,30 @@
     <div class='row form-group required'>
         <label for='inputBirth' class='col-md-2 control-label text-md-right'>生日</label>
         <div class='date col-md-10' id='inputBirth'>
-        西元 
-        <input type='number' required name='birthyear' min=1985 max='{{ \Carbon\Carbon::now()->subYears(16)->year }}' value='' placeholder=''>年
-        <input type='number' required name='birthmonth' min=1 max=12 value='' placeholder=''>月
-        <input type='number' required name='birthday' min=1 max=31 value='' placeholder=''>日
-        <div class='help-block with-errors'></div>
+            <div class='row form-group required'>
+                <div class="col-md-1">
+                    西元
+                </div>
+                <div class="col-md-3">
+                    <input type='number' required class='form-control' name='birthyear' min=1985 max='{{ \Carbon\Carbon::now()->subYears(16)->year }}' value='' placeholder=''>
+                </div>
+                <div class="col-md-1">
+                    年
+                </div>
+                <div class="col-md-2">
+                    <input type='number' required class='form-control' name='birthmonth' min=1 max=12 value='' placeholder=''>
+                </div>
+                <div class="col-md-1">
+                    月
+                </div>
+                <div class="col-md-3">
+                    <input type='number' required class='form-control' name='birthday' min=1 max=31 value='' placeholder=''>
+                </div>
+                <div class="col-md-1">
+                    日
+                </div>
+            </div>
+            <div class='help-block with-errors'></div>
         </div>
     </div>
 
@@ -1991,7 +2010,7 @@
     <div class='row form-group required'>
         <label for='inputExpect' class='col-md-2 control-label text-md-right'>您對這次活動的期望？</label>
         <div class='col-md-10'>
-        <textarea class=form-control rows=2 required  name='expectation' id=inputExpect></textarea>
+        <textarea class='form-control' rows=2 required  name='expectation' id=inputExpect></textarea>
         </div>
     </div>
 
@@ -2003,7 +2022,14 @@
             <label><input type=checkbox name=blisswisdom_type[] value='福智中小學' > 就讀福智中小學</label> <br/>
             <label><input type=checkbox name=blisswisdom_type[] value='青少年班' > 參加青少年班</label> <br/>
             <label><input type=checkbox name=blisswisdom_type[] value='青少年營' > 參加青少年營</label> <br/>
-            <label>其它：<input type=text name=blisswisdom_type[] value=''></label> <br/>
+            <div class='row form-group'>
+                <div class='col-md-2'>
+                    <label>其它：</label>
+                </div>
+                <div class='col-md-10'>
+                    <input type=text class='form-control' name=blisswisdom_type[] value=''>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -2078,24 +2104,57 @@
         <label class='col-md-2 control-label text-md-right'>填寫人</label>
         <div class='col-md-10'>
             <label class=radio-inline>
-            <input type=radio required name="is_inperson" value="1" > 本表係本人填寫 <br/>
+                <input type=radio required name="is_inperson" value="1" > 本表係本人填寫 <br/>
             </label> <br/>
             <label class=radio-inline>
-            <input type=radio required name="is_inperson" value="0" > 本表由他人代填 <br/>
-                代填人姓名： <input type=text  name="agent_name" value=''> <br/>
-                代填人聯絡電話： <input type=tel  name="agent_phone" value=''>
-            </label> <br/>
+                <input type=radio required name="is_inperson" value="0" > 本表由他人代填 
+            </label>
+            <div class='row form-group'>
+                <div class='col-md-2'>
+                    代填人姓名： 
+                </div>
+                <div class='col-md-10'>
+                    <input type=text class='form-control' name="agent_name" value=''>
+                </div>
+            </div>
+            <div class='row form-group'>
+                <div class='col-md-2'>
+                    代填人聯絡電話：
+                </div>
+                <div class='col-md-10'>
+                    <input type=tel class='form-control' name="agent_phone" value=''>
+                </div>
+            </div>     
         </div>
     </div>
 
     <div class='row form-group required'>
         <label class='col-md-2 control-label text-md-right'>緊急聯絡人</label>
         <div class='col-md-10'>
-            <label class=radio-inline>
-                姓名： <input type='text'  name="emergency_name" value=''> <br/>
-                關係： <input type='tel'  name="emergency_relationship" value=''> <br/>
-                聯絡電話： <input type='tel'  name="emergency_mobile" value=''>
-            </label> <br/>
+            <div class='row form-group'>
+                <div class='col-md-2'>
+                    姓名：
+                </div>
+                <div class='col-md-10'>
+                    <input type='text'class='form-control' name="emergency_name" value=''>
+                </div>
+            </div>   
+            <div class='row form-group'>
+                <div class='col-md-2'>
+                    關係：
+                </div>
+                <div class='col-md-10'>
+                    <input type='tel' class='form-control' name="emergency_relationship" value=''>
+                </div>
+            </div>   
+            <div class='row form-group'>
+                <div class='col-md-2'>
+                    聯絡電話：
+                </div>
+                <div class='col-md-10'>
+                    <input type='tel' class='form-control' name="emergency_mobile" value=''>
+                </div>
+            </div>   
         </div>
     </div>
 
