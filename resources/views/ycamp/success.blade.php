@@ -15,7 +15,11 @@
                 錄取結果將於 <u>{{ $camp_data->admission_announcing_date }} ({{ $admission_announcing_date_Weekday }})</u> 網上公佈，請自行上網查詢，<br>
                 並於 <u>{{ $camp_data->admission_confirming_end }} ({{ $admission_confirming_end_Weekday }})</u> 前上網回覆確認參加，倘未回覆，視同放棄。
             </p>
-            <a href="{{ route("queryview", ["batch_id" => $applicant->batch_id, "name" => $applicant->name, "sn" => $applicant->id, "_token" => csrf_token()]) }}" class="btn btn-primary">檢視報名資料</a>
+            <form action="{{ route("queryview", $applicant->batch_id) }}" method="post" class="d-inline">
+                @csrf
+                <input type="hidden" name="sn" value="{{ $applicant->id }}">
+                <button class="btn btn-primary">檢視報名資料</button>
+            </form>
             <a href="{{ $camp_data->site_url }}" class="btn btn-primary">回營隊首頁</a>
         </div>
     </div>
