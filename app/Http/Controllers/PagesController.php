@@ -100,4 +100,13 @@ class PagesController extends Controller
             'admission_announcing_date_Weekday' => $admission_announcing_date_Weekday,
             'admission_confirming_end_Weekday' => $admission_confirming_end_Weekday]);
     }
+
+    public function campQueryRegistrationDataPage($batch_id){
+        $camp_data = Camp::getCampWithBatch($batch_id);
+        return view($camp_data->table . '.query')->with('camp_data', $camp_data);
+    }
+
+    public function campViewRegistrationData(Request $request){
+
+    }
 }
