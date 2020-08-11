@@ -55,9 +55,20 @@ class PagesController extends Controller
         }
         //營隊報名
         else{
-            $count = Applicant::where('name', $request->name)->where('email', $request->email)->count();
-            if($count > 0){
-                return "<h1>重複報名。</h1>";
+            $applicant = Applicant::where('name', $request->name)->where('email', $request->email)->first();
+            if($applicant){
+                // 營隊基本資料
+                $camp_data = $this->campDataService->getCampData($batch_id);
+                $admission_announcing_date_Weekday = $camp_data['admission_announcing_date_Weekday'];
+                $admission_confirming_end_Weekday = $camp_data['admission_confirming_end_Weekday'];
+                $camp_data = $camp_data['camp_data'];
+
+                return view($camp_data->table . '.success',
+                    ['isRepeat' => true,
+                    'applicant' => $applicant,
+                    'camp_data' => $camp_data,
+                    'admission_announcing_date_Weekday' => $admission_announcing_date_Weekday,
+                    'admission_confirming_end_Weekday' => $admission_confirming_end_Weekday]);
             }
             $request->merge([
                 'blisswisdom_type' => implode(', ', $request->blisswisdom_type)
