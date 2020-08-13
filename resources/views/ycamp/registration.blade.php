@@ -5,6 +5,25 @@
 @section('content')
     @include('partials.schools_script')
     @include('partials.counties_areas_script')
+    @if(isset($applicant))
+        <script>
+            // self executing function here
+            (function() {
+                let applicant = JSON.parse('{!! $applicant !!}');
+                for (const [key, value] of Object.entries(applicant)) {
+                    console.log(document.getElementsByName(String(key))[0]);
+                    if(typeof document.getElementsByName(key)[0] !== "undefined") 
+                        document.getElementsByName(key)[0].value = value;
+                }
+                // Object.keys(applicant).forEach(function(element){
+                //     console.log(element.value);
+                //     console.log(typeof document.getElementsByName(element)[0]);
+                //     if(typeof document.getElementsByName(element)[0] !== "undefined") 
+                //         document.getElementsByName(element)[0].value = applicant['element'];
+                // });
+            })();
+        </script>
+    @endif
     <div class='alert alert-info' role='alert'>
         您在本網站所填寫的個人資料，僅用於此次大專營的報名及活動聯絡之用。
     </div>
@@ -32,7 +51,7 @@
         <label for='inputDate' class='col-md-2 control-label text-md-right'>營隊梯次</label>
         <div class='col-md-10'>
             {{ $camp_data->fullName . $camp_data->name . '梯' }} ({{ $camp_data->batch_start }} ~ {{ $camp_data->batch_end }})
-            @if(isset($applicant_id))
+            @if(isset($applicant))
                 <input type='hidden' name='applicant_id' value='{{ $applicant_id }}'>
             @endif
         </div>
