@@ -38,9 +38,9 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['prefix' => 'camp/{batch_id}'], function () {
-    Route::get('/', 'PagesController@campIndex');
-    Route::get('/registration', 'PagesController@campRegistration');
-    Route::get('/query', 'PagesController@campQueryRegistrationDataPage')->name('query');
-    Route::post('/queryview', 'PagesController@campViewRegistrationData')->name('queryview');
-    Route::post('/submit', 'PagesController@campRegistrationFormSubmitted')->name('formSubmit');
+    Route::get('/', 'CampController@campIndex');
+    Route::get('/registration', 'CampController@campRegistration')->name('registration');
+    Route::get('/query', 'CampController@campQueryRegistrationDataPage')->name('query');
+    Route::post('/queryview', 'CampController@campViewRegistrationData')->name('queryview');
+    Route::post('/submit', 'CampController@campRegistrationFormSubmitted')->name('formSubmit');
 });

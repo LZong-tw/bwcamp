@@ -43,10 +43,10 @@
                     <a class="nav-link" href="#">營隊資訊</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">報名表單</a>
+                    <a class="nav-link" href="{{ route('registration', $batch_id) }}">報名表單</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">報名查詢</a>
+                    <a class="nav-link" href="{{ route('query', $batch_id) }}">報名查詢/修改</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">課程表</a>
