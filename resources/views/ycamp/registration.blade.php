@@ -5,25 +5,6 @@
 @section('content')
     @include('partials.schools_script')
     @include('partials.counties_areas_script')
-    @if(isset($applicant))
-        <script>
-            // self executing function here
-            (function() {
-                let applicant = JSON.parse('{!! $applicant !!}');
-                for (const [key, value] of Object.entries(applicant)) {
-                    console.log(document.getElementsByName(String(key))[0]);
-                    if(typeof document.getElementsByName(key)[0] !== "undefined") 
-                        document.getElementsByName(key)[0].value = value;
-                }
-                // Object.keys(applicant).forEach(function(element){
-                //     console.log(element.value);
-                //     console.log(typeof document.getElementsByName(element)[0]);
-                //     if(typeof document.getElementsByName(element)[0] !== "undefined") 
-                //         document.getElementsByName(element)[0].value = applicant['element'];
-                // });
-            })();
-        </script>
-    @endif
     <div class='alert alert-info' role='alert'>
         您在本網站所填寫的個人資料，僅用於此次大專營的報名及活動聯絡之用。
     </div>
@@ -32,7 +13,7 @@
         <h4>{{ $camp_data->fullName }}線上報名表</h4>
     </div>
 
-    <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' name='Camp' class='form-horizontal needs-validation' role='form'>
+    <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form'>
     @csrf
     <div class='row form-group'>
         <div class='col-md-2'></div>
@@ -620,7 +601,36 @@
                     }, false);
                 });
             }, false);
-        })();
+        })();        
+    
+        @if(isset($applicant_data))
+            {{-- 回填報名資料 --}}
+            (function() {
+                let applicant_data = JSON.parse('{!! $applicant_data !!}');
+                let inputs = document.getElementsByTagName('input');
+                let selects = document.getElementsByTagName('select');
+                let textareas = document.getElementsByTagName('textarea');
+                // console.log(inputs); 
+                for (var i = 0; i < inputs.length; i++){
+                    if(typeof applicant_data[inputs[i].name] !== "undefined"){
+                        inputs[i].value = applicant_data[inputs[i].name]; 
+                    }
+                    if(inputs[i].name == 'emailConfirm'){
+                        inputs[i].value = applicant_data['email'];
+                    }
+                }
+                for (var i = 0; i < selects.length; i++){
+                    if(typeof applicant_data[selects[i].name] !== "undefined"){
+                        selects[i].value = applicant_data[selects[i].name]; 
+                    }
+                }
+                for (var i = 0; i < textareas.length; i++){
+                    if(typeof applicant_data[textareas[i].name] !== "undefined"){
+                        textareas[i].value = applicant_data[textareas[i].name]; 
+                    }
+                }
+            })();
+        @endif
     </script>
     <style>
         .required .control-label::after {
