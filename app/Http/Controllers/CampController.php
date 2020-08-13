@@ -62,12 +62,17 @@ class CampController extends Controller
                     ['isRepeat' => true,
                     'applicant' => $applicant]);
             }
-            $request->merge([
-                'blisswisdom_type' => implode(', ', $request->blisswisdom_type)
-            ]);
+            // 各營隊客製化欄位特殊處理
+            // 大專營：參加過的福智活動
+            if(!isset($request->blisswisdom_type)){
+                $request->merge([
+                    'blisswisdom_type' => implode(', ', $request->blisswisdom_type)
+                ]);
+            }
             $formData = $request->toArray();
             $formData['batch_id'] = $this->batch_id;
-            // 報名程序，使用 transaction 確保可以同時將資料寫入不同的表，或確保若其中一個步驟失敗，不會留下任何敗餘的資料
+            // 報名資料開始寫入資料庫，使用 transaction 確保可以同時將資料寫入不同的表，
+            // 或確保若其中一個步驟失敗，不會留下任何敗餘的資料
             // $applicant 為最終報名資料
             $applicant = \DB::transaction(function () use ($formData) {
                 $applicant = Applicant::create($formData);
@@ -90,10 +95,10 @@ class CampController extends Controller
         if($applicant){
             return view($this->camp_data->table . '.registration')
                 ->with('applicant_id', $applicant->id)
-                ->with('applicant', $applicant->toJson());
+                ->with('applicant_data', $applicant->toJson());
         }
         else{
-            return back()->withErrors(['找不到報名資料，請再次確認是否填寫錯誤。']);
+            return back()->withInput()->withErrors(['找不到報名資料，請再次確認是否填寫錯誤。']);
         }
         return view();
     }
