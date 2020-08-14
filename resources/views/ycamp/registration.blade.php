@@ -379,10 +379,10 @@
     <div class='row form-group'>
         <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>曾參與過福智團體所舉辦之活動與課程（可複選）</label>
         <div class='col-md-10'>
-            <label><input type=checkbox name=blisswisdom_type[] value='福智高中' > 就讀福智高中</label> <br/>
-            <label><input type=checkbox name=blisswisdom_type[] value='福智中小學' > 就讀福智中小學</label> <br/>
-            <label><input type=checkbox name=blisswisdom_type[] value='青少年班' > 參加青少年班</label> <br/>
-            <label><input type=checkbox name=blisswisdom_type[] value='青少年營' > 參加青少年營</label> <br/>
+            <label><input type="checkbox" name=blisswisdom_type[] value='福智高中' > 就讀福智高中</label> <br/>
+            <label><input type="checkbox" name=blisswisdom_type[] value='福智中小學' > 就讀福智中小學</label> <br/>
+            <label><input type="checkbox" name=blisswisdom_type[] value='青少年班' > 參加青少年班</label> <br/>
+            <label><input type="checkbox" name=blisswisdom_type[] value='青少年營' > 參加青少年營</label> <br/>
             <div class='row form-group'>
                 <div class='col-md-2'>
                     <label>其它：</label>

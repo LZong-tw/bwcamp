@@ -53,6 +53,7 @@ class CampController extends Controller
     {
         //修改資料
         if(isset($request->applicant_id)){
+            $request = $this->campDataService->checkBoxToArray($request);
             $formData = $request->toArray();
             $applicant = \DB::transaction(function () use ($formData) {
                 $applicant = Applicant::where('id', $formData['applicant_id'])->first();
@@ -81,19 +82,13 @@ class CampController extends Controller
         }
         //營隊報名
         else{
-            $applicant = Applicant::join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')->where('name', $request->name)->where('email', $request->email)->first();
+            $applicant = Applicant::select('applicants.*')->join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')->where('name', $request->name)->where('email', $request->email)->first();
             if($applicant){
                 return view($this->camp_data->table . '.success',
                     ['isRepeat' => true,
                     'applicant' => $applicant]);
             }
-            // 各營隊客製化欄位特殊處理
-            // 大專營：參加過的福智活動
-            if(isset($request->blisswisdom_type)){
-                $request->merge([
-                    'blisswisdom_type' => implode(',', $request->blisswisdom_type)
-                ]);
-            }
+            $request = $this->campDataService->checkBoxToArray($request);
             $formData = $request->toArray();
             $formData['batch_id'] = $this->batch_id;
             // 報名資料開始寫入資料庫，使用 transaction 確保可以同時將資料寫入不同的表，
@@ -120,7 +115,7 @@ class CampController extends Controller
         if($request->name != null){
             $applicant = Applicant::join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')->where('applicants.id', $request->sn)->where('name', $request->name)->first();
         }
-        else{
+        else if(request()->headers->get('referer') == route('formSubmit', $this->batch_id)){
             $applicant = Applicant::join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')->where('applicants.id', $request->sn)->first();
         }
         if($applicant){
