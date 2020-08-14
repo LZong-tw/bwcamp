@@ -32,7 +32,7 @@
         <label for='inputDate' class='col-md-2 control-label text-md-right'>營隊梯次</label>
         <div class='col-md-10'>
             {{ $camp_data->fullName . $camp_data->name . '梯' }} ({{ $camp_data->batch_start }} ~ {{ $camp_data->batch_end }})
-            @if(isset($applicant))
+            @if(isset($applicant_data))
                 <input type='hidden' name='applicant_id' value='{{ $applicant_id }}'>
             @endif
         </div>
@@ -593,7 +593,6 @@
                 var validation = Array.prototype.filter.call(forms, function(form) {
                     form.addEventListener('submit', function(event) {
                         if (form.checkValidity() === false) {
-
                             event.preventDefault();
                             event.stopPropagation();
                         }
@@ -606,6 +605,9 @@
         @if(isset($applicant_data))
             {{-- 回填報名資料 --}}
             (function() {
+                {{-- 開啟父母及介紹人資料欄位以免漏填 --}}
+                parent_field(1);
+                referer_field(1);
                 let applicant_data = JSON.parse('{!! $applicant_data !!}');
                 let inputs = document.getElementsByTagName('input');
                 let selects = document.getElementsByTagName('select');
@@ -613,7 +615,28 @@
                 // console.log(inputs); 
                 for (var i = 0; i < inputs.length; i++){
                     if(typeof applicant_data[inputs[i].name] !== "undefined"){
-                        inputs[i].value = applicant_data[inputs[i].name]; 
+                        if(inputs[i].type == "radio"){
+                            let radios = document.getElementsByName(inputs[i].name);
+                            for( j = 0; j < radios.length; j++ ) {
+                                if( radios[j].value == applicant_data[inputs[i].name] ) {
+                                    radios[j].checked = true;
+                                }
+                            }
+                        }
+                        else if(inputs[i].type == "checkbox"){
+                            let checkboxes = document.getElementsByName(inputs[i].name);
+                            let checkedValues = applicant_data[inputs[i].name].split(',');
+                            for( j = 0; j < checkboxes.length; j++ ) {
+                                for( k = 0; k < checkboxes.length; k++ ) {
+                                    if( checkboxes[j].value == checkedValues[k] ) {
+                                        checkboxes[j].checked = true;
+                                    }
+                                }
+                            }
+                        }
+                        else{
+                            inputs[i].value = applicant_data[inputs[i].name]; 
+                        }
                     }
                     if(inputs[i].name == 'emailConfirm'){
                         inputs[i].value = applicant_data['email'];
@@ -629,7 +652,30 @@
                         textareas[i].value = applicant_data[textareas[i].name]; 
                     }
                 }
+                {{-- 填完資料，檢查是否有父母或介紹人資料，若無則關閉 --}}
+                let father_name = document.getElementsByName("father_name")[0].value;
+                let father_lamrim = document.getElementsByName("father_lamrim")[0].value;
+                let father_phone = document.getElementsByName("father_phone")[0].value;
+                let mother_name = document.getElementsByName("mother_name")[0].value;
+                let mother_lamrim = document.getElementsByName("mother_lamrim")[0].value;
+                let mother_phone = document.getElementsByName("mother_phone")[0].value;
+                let parents = [father_name, father_lamrim, father_phone, mother_name, mother_lamrim, mother_phone];
+                if(parents.every(checkIfNull)){
+                    parent_field(0);
+                }
+                let introducer_name = document.getElementsByName("introducer_name")[0].value;
+                let introducer_relationship = document.getElementsByName("introducer_relationship")[0].value;
+                let introducer_participated = document.getElementsByName("introducer_participated")[0].value;
+                let introducer_phone = document.getElementsByName("introducer_phone")[0].value;
+                let introducer = [introducer_name, introducer_relationship, introducer_participated, introducer_phone];
+                if(introducer.every(checkIfNull)){
+                    referer_field(0);
+                }
             })();
+
+            function checkIfNull(val) {
+                return val == "";
+            }
         @endif
     </script>
     <style>

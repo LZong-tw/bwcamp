@@ -15,7 +15,7 @@ class Camp extends Model
         'name', 'table', 'registration_start', 'registration_end', 'admission_announcing_date', 'admission_confirming_end', 
     ];
 
-    protected $guarded = ['*'];
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for arrays.
