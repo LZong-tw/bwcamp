@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Camp;
 use App\Models\Applicant;
 use App\Services\CampDataService;
+use Illuminate\Support\Arr;
 use View;
 
 class CampController extends Controller
@@ -52,7 +53,31 @@ class CampController extends Controller
     {
         //修改資料
         if(isset($request->applicant_id)){
+            $formData = $request->toArray();
+            $applicant = \DB::transaction(function () use ($formData) {
+                $applicant = Applicant::where('id', $formData['applicant_id'])->first();
+                $model = '\\App\\Models\\' . ucfirst($this->camp_data->table);
+                $camp = $model::where('applicant_id', $formData['applicant_id'])->first();
+                $applicantFillable = $applicant->getFillable();
+                $campFillable = $camp->getFillable();
+                $applicantData = array();
+                $campData = array();
+                foreach($formData as $key => $value){
+                    if(Arr::exists($applicantFillable, $key)){
+                        $applicantData = Arr::prepend($applicantData, $key, $value);
+                    }
+                    if(Arr::exists($campFillable, $key)){
+                        $campData = Arr::prepend($campData, $key, $value);
+                    }
+                }
+                $applicant->fill($applicantData);
+                $applicant->save();
+                $camp->fill($campData);
+                $camp->save();
 
+                return $applicant;
+            });
+            return view($this->camp_data->table . '.modifyingSuccessful', ['applicant' => $applicant]);
         }
         //營隊報名
         else{
@@ -64,9 +89,9 @@ class CampController extends Controller
             }
             // 各營隊客製化欄位特殊處理
             // 大專營：參加過的福智活動
-            if(!isset($request->blisswisdom_type)){
+            if(isset($request->blisswisdom_type)){
                 $request->merge([
-                    'blisswisdom_type' => implode(', ', $request->blisswisdom_type)
+                    'blisswisdom_type' => implode(',', $request->blisswisdom_type)
                 ]);
             }
             $formData = $request->toArray();
@@ -91,7 +116,13 @@ class CampController extends Controller
     }
 
     public function campViewRegistrationData(Request $request){
-        $applicant = Applicant::join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')->where('applicants.id', $request->sn)->where('name', $request->name)->first();
+        $applicant = null;
+        if($request->name != null){
+            $applicant = Applicant::join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')->where('applicants.id', $request->sn)->where('name', $request->name)->first();
+        }
+        else{
+            $applicant = Applicant::join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')->where('applicants.id', $request->sn)->first();
+        }
         if($applicant){
             return view($this->camp_data->table . '.registration')
                 ->with('applicant_id', $applicant->id)
