@@ -23,4 +23,16 @@ class CampDataService
             'admission_confirming_end_Weekday' => $admission_confirming_end_Weekday
         ];
     }
+
+    public function checkBoxToArray($request){
+        // 各營隊客製化欄位特殊處理
+        // 大專營：參加過的福智活動
+        if(isset($request->blisswisdom_type)){
+            $request->merge([
+                'blisswisdom_type' => implode(',', $request->blisswisdom_type)
+            ]);
+        }
+
+        return $request;
+    }
 }
