@@ -3,7 +3,7 @@
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }}</h4>
     </div>
-    @if(isset($isRepeat) && $isRepeat)<div class="alert alert-warning">已成功報名，請勿重複送出報名資料。</div>@endif
+    @if(isset($isRepeat))<div class="alert alert-warning">{{ $isRepeat }}</div>@endif
     <div class="card">
         <div class="card-header">
             報名成功
