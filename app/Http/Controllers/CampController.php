@@ -64,16 +64,16 @@ class CampController extends Controller
                 $applicantData = array();
                 $campData = array();
                 foreach($formData as $key => $value){
-                    if(Arr::exists($applicantFillable, $key)){
-                        $applicantData = Arr::prepend($applicantData, $key, $value);
+                    if(in_array($key, $applicantFillable)){
+                        $applicantData[$key] = $value;
                     }
-                    if(Arr::exists($campFillable, $key)){
-                        $campData = Arr::prepend($campData, $key, $value);
+                    if(in_array($key, $campFillable)){
+                        $campData[$key] = $value;
                     }
                 }
-                $applicant->fill($applicantData);
+                $applicant->where('id', $formData['applicant_id'])->update($applicantData);
                 $applicant->save();
-                $camp->fill($campData);
+                $camp->where('applicant_id', $formData['applicant_id'])->update($campData);
                 $camp->save();
 
                 return $applicant;
@@ -92,7 +92,7 @@ class CampController extends Controller
             $formData = $request->toArray();
             $formData['batch_id'] = $this->batch_id;
             // 報名資料開始寫入資料庫，使用 transaction 確保可以同時將資料寫入不同的表，
-            // 或確保若其中一個步驟失敗，不會留下任何敗餘的資料
+            // 或確保若其中一個步驟失敗，不會留下任何殘餘、未完整的資料（屍體）
             // $applicant 為最終報名資料
             $applicant = \DB::transaction(function () use ($formData) {
                 $applicant = Applicant::create($formData);
