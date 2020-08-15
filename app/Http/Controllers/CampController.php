@@ -85,7 +85,7 @@ class CampController extends Controller
             $applicant = Applicant::select('applicants.*')->join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')->where('name', $request->name)->where('email', $request->email)->first();
             if($applicant){
                 return view($this->camp_data->table . '.success',
-                    ['isRepeat' => true,
+                    ['isRepeat' => "已成功報名，請勿重複送出報名資料。",
                     'applicant' => $applicant]);
             }
             $request = $this->campDataService->checkBoxToArray($request);
@@ -113,16 +113,23 @@ class CampController extends Controller
     public function campViewRegistrationData(Request $request){
         $applicant = null;
         $isModify = false;
-        if($request->name != null){
-            $applicant = Applicant::select('applicants.*', $this->camp_data->table . '.*')->join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')->where('applicants.id', $request->sn)->where('name', $request->name)->first();
+        $campTable = $this->camp_data->table;
+        if($request->name != null && !$request->isModify){
+            $applicant = Applicant::select('applicants.*', $campTable . '.*')
+                ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
+                ->where('applicants.id', $request->sn)
+                ->where('name', $request->name)->first();
         }
-        // 唯一允許進入修改資料的來源：從檢視資料進來的請求
-        else if(request()->headers->get('referer') == route('queryview', $this->batch_id)){
-            $applicant = Applicant::select('applicants.*', $this->camp_data->table . '.*')->join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')->where('applicants.id', $request->sn)->first();
+        // 唯二允許進入修改資料的來源：從檢視資料進來及從報名資料查詢/修改頁面進來的請求
+        else if(request()->headers->get('referer') == route('queryview', $this->batch_id) ||
+                request()->headers->get('referer') == route('query', $this->batch_id)){
+            $applicant = Applicant::select('applicants.*', $campTable . '.*')
+                ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
+                ->where('applicants.id', $request->sn)->first();
             $isModify = true;
         }
         if($applicant){
-            return view($this->camp_data->table . '.registration')
+            return view($campTable . '.registration')
                 ->with('applicant_id', $applicant->applicant_id)
                 ->with('applicant_batch_id', $applicant->batch_id)
                 ->with('applicant_data', $applicant->toJson())
@@ -131,6 +138,24 @@ class CampController extends Controller
         else{
             return back()->withInput()->withErrors(['找不到報名資料，請再次確認是否填寫錯誤。']);
         }
-        return view();
+    }
+
+    public function campGetApplicantSN(Request $request){
+        $campTable = $this->camp_data->table;
+        $applicant = Applicant::select('applicants.id', $campTable . '.*')
+                ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
+                ->where('applicants.name', $request->name)
+                ->where('birthyear', $request->birthyear)
+                ->where('birthmonth', $request->birthmonth)
+                ->where('birthday', $request->birthday)
+                ->first();
+        if($applicant){
+            return view($campTable . '.getSN')
+                ->with('applicant_id', $applicant->id);
+        }
+        else{
+            return view($campTable . '.getSN')
+                ->with('error', "找不到報名資料，請確認是否已成功報名，或是輸入了錯誤的查詢資料。");
+        }
     }
 }

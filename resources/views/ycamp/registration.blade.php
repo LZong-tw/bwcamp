@@ -570,7 +570,6 @@
             {{-- 以上皆非: 檢視資料狀態 --}}
             @else
                 <input type="hidden" name="sn" value="{{ $applicant_id }}">
-                <input type="hidden" name="isModify" value="1">
                 <button class="btn btn-primary">修改報名資料</button>
             @endif
         </div>
