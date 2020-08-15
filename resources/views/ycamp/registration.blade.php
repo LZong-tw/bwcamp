@@ -12,8 +12,13 @@
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }}線上報名表</h4>
     </div>
-
+{{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態--}}
+@if(!isset($isModify) || $isModify)
     <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form'>
+{{-- 以上皆非: 檢視資料狀態 --}}
+@else
+    <form action="{{ route("queryupdate", $applicant_batch_id) }}" method="post" class="d-inline">
+@endif
     @csrf
     <div class='row form-group'>
         <div class='col-md-2'></div>
@@ -557,13 +562,21 @@
     <div class='row form-group'>
         <div class='col-md-2'></div>
         <div class='col-md-10'>
-            <input type='button' class='btn btn-success' value='確認送出' data-toggle="confirmation">
-            <input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>
-            <input type='reset' class='btn btn-danger' value='清除再來'>
+            {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態--}}
+            @if(!isset($isModify) || $isModify)
+                <input type='button' class='btn btn-success' value='確認送出' data-toggle="confirmation">
+                <input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>
+                <input type='reset' class='btn btn-danger' value='清除再來'>
+            {{-- 以上皆非: 檢視資料狀態 --}}
+            @else
+                <input type="hidden" name="sn" value="{{ $applicant_id }}">
+                <input type="hidden" name="isModify" value="1">
+                <button class="btn btn-primary">修改報名資料</button>
+            @endif
         </div>
     </div>
-
     </form>
+            
     <script>
         $('[data-toggle="confirmation"]').confirmation({
             rootSelector: '[data-toggle=confirmation]',
@@ -616,7 +629,6 @@
                 referer_field(1);
                 let applicant_data = JSON.parse('{!! $applicant_data !!}');
                 let inputs = document.getElementsByTagName('input');
-                let checkboxes = document.querySelectorAll("input[type='checkbox']");
                 let selects = document.getElementsByTagName('select');
                 let textareas = document.getElementsByTagName('textarea');
                 // console.log(inputs); 
@@ -633,11 +645,13 @@
                         else if(inputs[i].type == "checkbox"){
                             let checkboxes = document.getElementsByName(inputs[i].name);
                             let deArray = inputs[i].name.slice(0, -2); 
-                            let checkedValues = applicant_data[deArray].split(',');
-                            for( j = 0; j < checkboxes.length; j++ ) {
-                                for( k = 0; k < checkboxes.length; k++ ) {
-                                    if( checkboxes[j].value == checkedValues[k] ) {
-                                        checkboxes[j].checked = true;
+                            if(typeof applicant_data[deArray] !== "undefined"){
+                                let checkedValues = applicant_data[deArray].split(',');
+                                for( j = 0; j < checkboxes.length; j++ ) {
+                                    for( k = 0; k < checkboxes.length; k++ ) {
+                                        if( checkboxes[j].value == checkedValues[k] ) {
+                                            checkboxes[j].checked = true;
+                                        }
                                     }
                                 }
                             }
@@ -679,6 +693,23 @@
                 if(introducer.every(checkIfNull)){
                     referer_field(0);
                 }
+
+                @if(!$isModify)
+                    for (var i = 0; i < inputs.length; i++){
+                        if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox"){
+                            inputs[i].disabled = true;
+                        }
+                        if(inputs[i].name == 'emailConfirm'){
+                            inputs[i].disabled = true;
+                        }
+                    }
+                    for (var i = 0; i < selects.length; i++){
+                        selects[i].disabled = true;
+                    }
+                    for (var i = 0; i < textareas.length; i++){
+                        textareas[i].disabled = true;
+                    }
+                @endif
             })();
 
             function checkIfNull(val) {

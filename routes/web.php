@@ -42,5 +42,6 @@ Route::group(['prefix' => 'camp/{batch_id}'], function () {
     Route::get('/registration', 'CampController@campRegistration')->name('registration');
     Route::get('/query', 'CampController@campQueryRegistrationDataPage')->name('query');
     Route::post('/queryview', 'CampController@campViewRegistrationData')->name('queryview');
+    Route::post('/queryupdate', 'CampController@campViewRegistrationData')->name('queryupdate');
     Route::post('/submit', 'CampController@campRegistrationFormSubmitted')->name('formSubmit');
 });

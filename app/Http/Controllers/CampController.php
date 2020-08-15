@@ -112,16 +112,21 @@ class CampController extends Controller
 
     public function campViewRegistrationData(Request $request){
         $applicant = null;
+        $isModify = false;
         if($request->name != null){
-            $applicant = Applicant::join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')->where('applicants.id', $request->sn)->where('name', $request->name)->first();
+            $applicant = Applicant::select('applicants.*', $this->camp_data->table . '.*')->join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')->where('applicants.id', $request->sn)->where('name', $request->name)->first();
         }
-        else if(request()->headers->get('referer') == route('formSubmit', $this->batch_id)){
-            $applicant = Applicant::join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')->where('applicants.id', $request->sn)->first();
+        // 唯一允許進入修改資料的來源：從檢視資料進來的請求
+        else if(request()->headers->get('referer') == route('queryview', $this->batch_id)){
+            $applicant = Applicant::select('applicants.*', $this->camp_data->table . '.*')->join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')->where('applicants.id', $request->sn)->first();
+            $isModify = true;
         }
         if($applicant){
             return view($this->camp_data->table . '.registration')
-                ->with('applicant_id', $applicant->id)
-                ->with('applicant_data', $applicant->toJson());
+                ->with('applicant_id', $applicant->applicant_id)
+                ->with('applicant_batch_id', $applicant->batch_id)
+                ->with('applicant_data', $applicant->toJson())
+                ->with('isModify', $isModify);
         }
         else{
             return back()->withInput()->withErrors(['找不到報名資料，請再次確認是否填寫錯誤。']);
