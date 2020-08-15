@@ -579,6 +579,12 @@
                         }
                         else{
                             $(".tips").addClass('d-none');
+                            if(typeof document.getElementsByName("father_name")[0] === "undefined"){
+                                parent_field(1);
+                            }
+                            if(typeof document.getElementsByName("introducer_name")[0] === "undefined"){
+                                referer_field(1);
+                            }
                             document.Camp.submit();
                         }
                         document.Camp.classList.add('was-validated');
@@ -610,11 +616,12 @@
                 referer_field(1);
                 let applicant_data = JSON.parse('{!! $applicant_data !!}');
                 let inputs = document.getElementsByTagName('input');
+                let checkboxes = document.querySelectorAll("input[type='checkbox']");
                 let selects = document.getElementsByTagName('select');
                 let textareas = document.getElementsByTagName('textarea');
                 // console.log(inputs); 
                 for (var i = 0; i < inputs.length; i++){
-                    if(typeof applicant_data[inputs[i].name] !== "undefined"){
+                    if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox"){
                         if(inputs[i].type == "radio"){
                             let radios = document.getElementsByName(inputs[i].name);
                             for( j = 0; j < radios.length; j++ ) {
@@ -625,7 +632,8 @@
                         }
                         else if(inputs[i].type == "checkbox"){
                             let checkboxes = document.getElementsByName(inputs[i].name);
-                            let checkedValues = applicant_data[inputs[i].name].split(',');
+                            let deArray = inputs[i].name.slice(0, -2); 
+                            let checkedValues = applicant_data[deArray].split(',');
                             for( j = 0; j < checkboxes.length; j++ ) {
                                 for( k = 0; k < checkboxes.length; k++ ) {
                                     if( checkboxes[j].value == checkedValues[k] ) {
