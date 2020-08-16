@@ -14,7 +14,7 @@ class BackendController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('backend');
+        $this->middleware('permitted');
     }
 
     /**
@@ -22,8 +22,8 @@ class BackendController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function backendIndex()
     {
-        return view('home');
+        return view('backend.index');
     }
 }

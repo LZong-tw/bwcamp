@@ -18,7 +18,7 @@
     <link href='{{ asset('css/camp.css') }}' rel='stylesheet'>
     <!-- jQuery library-->
     <script src='{{ asset('js/jquery-3.5.1.min.js') }}'></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="{{ asset('js/popper_1.12.9.min.js') }}"></script>
     <!-- Bootstrap core JS -->
     <script src='{{ asset('js/bootstrap.bundle.min.js') }}'></script>
     <!-- Bootstrap confirmation JS -->
