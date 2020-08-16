@@ -1,8 +1,8 @@
 ## 待實作
 
-- --Checkbox 無法正確回填資料--
-- --所有未填寫或格式不符的欄位都應出現提醒文字--
-- --檢查 Email 是否填寫一致--
+- ~~Checkbox 無法正確回填資料~~
+- ~~所有未填寫或格式不符的欄位都應出現提醒文字~~
+- ~~檢查 Email 是否填寫一致~~
 - 報名序號寄至信箱或是直接顯示在網頁上？
 
 ## <a href="https://docs.google.com/spreadsheets/d/1UXCVFgP8OXzr2fD_aiCnSbRW_zoQ_0Vu8MakmMOYuYc/">欄位及功能(routing)列表</a>
