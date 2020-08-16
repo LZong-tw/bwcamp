@@ -45,13 +45,17 @@ class CampController extends Controller
 
     public function campRegistration()
     {
-        return view($this->camp_data->table . '.registration');
+        return view($this->camp_data->table . '.form');
     }
 
 
     public function campRegistrationFormSubmitted(Request $request)
     {
-        //修改資料
+        // 檢查電子郵件是否一致
+        if($request->email != $request->emailConfirm){
+            return view("errorPage")->with('error', '電子郵件不一致，請檢查是否輸入錯誤。');
+        }
+        // 修改資料
         if(isset($request->applicant_id)){
             $request = $this->campDataService->checkBoxToArray($request);
             $formData = $request->toArray();
@@ -80,7 +84,7 @@ class CampController extends Controller
             });
             return view($this->camp_data->table . '.modifyingSuccessful', ['applicant' => $applicant]);
         }
-        //營隊報名
+        // 營隊報名
         else{
             $applicant = Applicant::select('applicants.*')->join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')->where('name', $request->name)->where('email', $request->email)->first();
             if($applicant){
@@ -114,22 +118,28 @@ class CampController extends Controller
         $applicant = null;
         $isModify = false;
         $campTable = $this->camp_data->table;
-        if($request->name != null && !$request->isModify){
+        if($request->name != null && $request->sn != null){
             $applicant = Applicant::select('applicants.*', $campTable . '.*')
                 ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
                 ->where('applicants.id', $request->sn)
                 ->where('name', $request->name)->first();
         }
-        // 唯二允許進入修改資料的來源：從檢視資料進來及從報名資料查詢/修改頁面進來的請求
-        else if(request()->headers->get('referer') == route('queryview', $this->batch_id) ||
-                request()->headers->get('referer') == route('query', $this->batch_id)){
+        // 只使用報名 ID（報名序號）查詢資料，儘開放有限的存取
+        //（因會有個資洩漏的疑慮，故只在檢視報名資料及報名資料送出後的畫面允許使用）
+        // 唯三允許進入修改資料的來源：兩個地方（報名、報名資料修改）的報名資料送出後
+        //                        及檢視報名資料頁面所進來的請求
+        else if(request()->headers->get('referer') == route('formSubmit', $this->batch_id) ||
+                request()->headers->get('referer') == route('queryupdate', $this->batch_id) ||
+                request()->headers->get('referer') == route('queryview', $this->batch_id)){
             $applicant = Applicant::select('applicants.*', $campTable . '.*')
                 ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
                 ->where('applicants.id', $request->sn)->first();
+        }
+        if($request->isModify){
             $isModify = true;
         }
         if($applicant){
-            return view($campTable . '.registration')
+            return view($campTable . '.form')
                 ->with('applicant_id', $applicant->applicant_id)
                 ->with('applicant_batch_id', $applicant->batch_id)
                 ->with('applicant_data', $applicant->toJson())
@@ -156,6 +166,27 @@ class CampController extends Controller
         else{
             return view($campTable . '.getSN')
                 ->with('error', "找不到報名資料，請確認是否已成功報名，或是輸入了錯誤的查詢資料。");
+        }
+    }
+
+    public function campViewAdmission(){
+        return view($this->camp_data->table . ".queryadmission");
+    }
+
+    public function campQueryAdmission(Request $request){
+        $campTable = $this->camp_data->table;
+        $applicant = null;
+        if($request->name != null && $request->sn != null){
+            $applicant = Applicant::select('applicants.*', $campTable . '.*')
+                ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
+                ->where('applicants.id', $request->sn)
+                ->where('name', $request->name)->first();
+        }
+        if($applicant){
+            return view($campTable . ".admissionResult")->with('applicant', $applicant);
+        }
+        else{
+            return back()->withInput()->with('error', "找不到報名資料，請確認是否已成功報名，或是輸入了錯誤的查詢資料。");
         }
     }
 }
