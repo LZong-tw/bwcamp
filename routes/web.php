@@ -49,6 +49,8 @@ Route::group(['prefix' => 'camp/{batch_id}'], function () {
     Route::post('/submit', 'CampController@campRegistrationFormSubmitted')->name('formSubmit');
 });
 
-Route::group(['prefix' => 'backend', ], function () {
+Route::get('/backend', 'BackendController@backendMasterIndex');
+
+Route::group(['prefix' => 'backend/{batch_id}', ], function () {
     Route::get('/', 'BackendController@backendIndex');
 });

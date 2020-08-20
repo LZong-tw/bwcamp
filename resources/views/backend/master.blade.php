@@ -27,12 +27,12 @@
             </div>
 
             <ul class="list-unstyled components">
-                <p>營隊統計管理系統</p>
+                <p>營隊列表</p>
                 <li class="active">
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">功能1</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">
                         <li>
-                            <a href="#">Home 1</a>
+                            <a href="#">1</a>
                         </li>
                         <li>
                             <a href="#">Home 2</a>
@@ -43,8 +43,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">About</a>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">功能2</a>
                     <ul class="collapse list-unstyled" id="pageSubmenu">
                         <li>
                             <a href="#">Page 1</a>
@@ -58,21 +57,38 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">Portfolio</a>
+                    <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">功能3</a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu2">
+                        <li>
+                            <a href="#">Page 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Page 2</a>
+                        </li>
+                        <li>
+                            <a href="#">Page 3</a>
+                        </li>
+                    </ul>
                 </li>
                 <li>
-                    <a href="#">Contact</a>
+                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        {{-- {{ __('Logout') }} --}}
+                        登出
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
                 </li>
             </ul>
 
-            <ul class="list-unstyled CTAs">
+            {{-- <ul class="list-unstyled CTAs">
                 <li>
                     <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
                 </li>
                 <li>
                     <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
                 </li>
-            </ul>
+            </ul> --}}
         </nav>
 
         <!-- Page Content Holder -->
@@ -92,17 +108,11 @@
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">營隊選單</a>
+                            </li>
                             <li class="nav-item active">
-                                <a class="nav-link" href="#">營隊1</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">營隊2</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">營隊3</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">營隊4</a>
+                                <a class="nav-link" href="#">@if(isset($camp_data)) {{ $camp_data->fullName }} @endif</a>
                             </li>
                         </ul>
                     </div>
