@@ -7,8 +7,7 @@ use App;
 
 class CampDataService
 {
-    public function getCampData($batch_id)
-    {
+    public function getCampData($batch_id){
         //營隊基本資料
         $camp_data = Camp::getCampWithBatch($batch_id);
         // 錄取日期、確認參加日期資料轉換 (取得星期字串)
@@ -34,5 +33,13 @@ class CampDataService
         }
 
         return $request;
+    }
+
+    public function getAvailableCamps($permission){
+        $camps = null;
+        if($permission == 1){
+            $camps = Camp::all();
+        }
+        return $camps;
     }
 }

@@ -12,5 +12,5 @@
     <div class="line"></div> --}}
 
     <h2>{{ env("APP_NAME") }}</h2>
-    <p>請從左側選單選擇功能。</p>
+    <p>請從左側選單選擇功能，從上方選單選擇營隊。</p>
 @endsection

@@ -27,7 +27,7 @@
             </div>
 
             <ul class="list-unstyled components">
-                <p>營隊列表</p>
+                <p>功能列表</p>
                 <li class="active">
                     <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">功能1</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">
@@ -109,11 +109,17 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="#">營隊選單</a>
+                                <a class="nav-link" href="#">選擇營隊</a>
                             </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">@if(isset($camp_data)) {{ $camp_data->fullName }} @endif</a>
-                            </li>
+                            @if(isset($camp_data))
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="#">{{ $camp_data->fullName }}</a>
+                                </li>
+                            @else
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="#">未選擇營隊</a>
+                                </li>
+                            @endif
                         </ul>
                     </div>
                 </div>
