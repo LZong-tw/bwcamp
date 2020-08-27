@@ -36,4 +36,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    public function getPermission(){
+        return \DB::table("role_user")
+                    ->join("roles", "roles.id", "=", "role_user.role_id")
+                    ->select("role_id", "name")
+                    ->where("user_id", $this->id)->first();
+    }
 }

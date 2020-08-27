@@ -29,14 +29,16 @@ class BackendController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * 營隊選單、登入後顯示的畫面
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function backendMasterIndex()
     {
-        // $this->campDataService->getCampData($this->batch_id);
-        return view('backend.MasterIndex');
+        // 檢查權限
+        $permission = auth()->user()->getPermission();
+        $camps = $this->campDataService->getAvailableCamps($permission);
+        return view('backend.MasterIndex')->with("camps", $camps);
     }
 
     public function backendIndex()

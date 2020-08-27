@@ -26,7 +26,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         //
-        Gate::define('master', function ($user) {
+        Gate::define('getPermission', function ($user) {
             // return policy class name...
         });
         

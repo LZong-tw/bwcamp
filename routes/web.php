@@ -51,6 +51,6 @@ Route::group(['prefix' => 'camp/{batch_id}'], function () {
 
 Route::get('/backend', 'BackendController@backendMasterIndex');
 
-Route::group(['prefix' => 'backend/{batch_id}', ], function () {
+Route::group(['prefix' => 'backend/{camp_id}', ], function () {
     Route::get('/', 'BackendController@backendIndex');
 });
