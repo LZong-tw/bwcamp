@@ -37,7 +37,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     
-    public function getPermission(){
+    public function getPermission() {
         return \DB::table("role_user")
                     ->join("roles", "roles.id", "=", "role_user.role_id")
                     ->select("role_id", "name")

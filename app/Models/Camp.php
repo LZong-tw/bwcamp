@@ -35,6 +35,10 @@ class Camp extends Model
         'email_verified_at' => 'datetime',
     ];
 
+    public function batchs(){
+        return $this->hasMany('App\Models\Batch');
+    }
+
     public static function getCampWithBatch($batch_id)
     {
         return Camp::join('batchs', 'batchs.camp_id', '=', 'camps.id')->where('batchs.id', $batch_id)->first();

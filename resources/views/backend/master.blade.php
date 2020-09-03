@@ -25,51 +25,53 @@
             <div class="sidebar-header">
                 <h3>{{ env("APP_NAME") }}</h3>
             </div>
-
             <ul class="list-unstyled components">
                 <p>功能列表</p>
-                <li class="active">
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">功能1</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li>
-                            <a href="#">1</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 3</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">功能2</a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu">
-                        <li>
-                            <a href="#">Page 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 3</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">功能3</a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu2">
-                        <li>
-                            <a href="#">Page 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 3</a>
-                        </li>
-                    </ul>
-                </li>
+                @if(isset($campFullData))
+                    <li class="active">
+                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">錄取作業</a>
+                        <ul class="collapse list-unstyled" id="homeSubmenu">
+                            <li>
+                                <a href="{{ route("admission", $campFullData->id) }}">錄取</a>
+                            </li>
+                            <li>
+                                <a href="#">查詢及下載</a>
+                            </li>
+                            <li>
+                                <a href="#">組別名單</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">報名作業</a>
+                        <ul class="collapse list-unstyled" id="pageSubmenu2">
+                            <li>
+                                <a href="{{ route("showRegistration", $campFullData->id) }}">報名</a>
+                            </li>
+                            <li>
+                                <a href="#">查詢及下載</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">正行相關</a>
+                        <ul class="collapse list-unstyled" id="pageSubmenu">
+                            <li>
+                                <a href="#">回覆參加名單</a>
+                            </li>
+                            <li>
+                                <a href="#">交通名單</a>
+                            </li>
+                            <li>
+                                <a href="#">輔導組表格</a>
+                            </li>
+                        </ul>
+                    </li>
+                @else
+                    <li class="active">
+                        <a class="" href="">未選擇營隊</a>
+                    </li>
+                @endif
                 <li>
                     <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         {{-- {{ __('Logout') }} --}}
@@ -109,15 +111,15 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="#">選擇營隊</a>
+                                <a class="nav-link" href="{{ route('backendIndex') }}">選擇營隊</a>
                             </li>
-                            @if(isset($camp_data))
+                            @if(isset($campFullData))
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="#">{{ $camp_data->fullName }}</a>
+                                    <a class="nav-link" href="">{{ $campFullData->fullName }}</a>
                                 </li>
                             @else
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="#">未選擇營隊</a>
+                                    <a class="nav-link" href="">未選擇營隊</a>
                                 </li>
                             @endif
                         </ul>

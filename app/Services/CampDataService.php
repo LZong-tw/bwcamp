@@ -7,7 +7,7 @@ use App;
 
 class CampDataService
 {
-    public function getCampData($batch_id){
+    public function getCampData($batch_id) {
         //營隊基本資料
         $camp_data = Camp::getCampWithBatch($batch_id);
         // 錄取日期、確認參加日期資料轉換 (取得星期字串)
@@ -23,10 +23,10 @@ class CampDataService
         ];
     }
 
-    public function checkBoxToArray($request){
+    public function checkBoxToArray($request) {
         // 各營隊客製化欄位特殊處理
         // 大專營：參加過的福智活動
-        if(isset($request->blisswisdom_type)){
+        if(isset($request->blisswisdom_type)) {
             $request->merge([
                 'blisswisdom_type' => implode(',', $request->blisswisdom_type)
             ]);
@@ -35,9 +35,14 @@ class CampDataService
         return $request;
     }
 
-    public function getAvailableCamps($permission){
+    /**
+     * 取得該使用者擁有權限存取的營隊資料，與 \App\Http\Middleware\Permitted 功能類似
+     *
+     * @return \App\Models\Camp
+     */
+    public function getAvailableCamps($permission) {
         $camps = null;
-        if($permission == 1){
+        if($permission->role_id == 1) {
             $camps = Camp::all();
         }
         return $camps;
