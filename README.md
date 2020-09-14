@@ -9,6 +9,8 @@
 - 逾期不得報名，除非從後台進入
 - 後台權限系統：以功能區分，總部（所有功能，1）、主辦區（當屆所有功能，2）、各區輔導行政(當屆功能限制，3)、輔導員（當屆功能限制、唯讀，4）、交通（僅交通統計唯讀，5）
 
+- 後台參考：https://youth.blisswisdom.org/camp/wadmin/
+
 ## <a href="https://docs.google.com/spreadsheets/d/1UXCVFgP8OXzr2fD_aiCnSbRW_zoQ_0Vu8MakmMOYuYc/">欄位及功能(routing)列表</a>
 
 <p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
