@@ -4,20 +4,23 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\CampDataService;
+use App\Services\ApplicantService;
 use App\Models\Camp;
+use App\Models\Applicant;
 use View;
 
 class BackendController extends Controller
 {
-    protected $campDataService, $batch_id, $camp_data;
+    protected $campDataService, $applicantService,$batch_id, $camp_data;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(CampDataService $campDataService,  Request $request) {
+    public function __construct(CampDataService $campDataService, ApplicantService $applicantService, Request $request) {
         $this->middleware('auth');
         $this->campDataService = $campDataService;
+        $this->applicantService = $applicantService;
         if($request->route()->parameter('batch_id')){
             // 營隊資料，存入 view 全域
             $this->batch_id = $request->route()->parameter('batch_id');
@@ -50,8 +53,62 @@ class BackendController extends Controller
         return view('backend.campIndex');
     }
 
-    public function admission() {
-        return view('backend.admission');
+    public function admission(Request $request) {
+        if ($request->isMethod('POST')) {
+            $candidate = Applicant::find($request->id);
+            if($request->get("clear") == "清除錄取序號"){
+                $candidate->is_admitted = 0;
+                $candidate->group = null;
+                $candidate->number = null;
+                $candidate->save();
+                $message = "錄取序號已清除。";
+            }
+            else{
+                $group = substr($request->admittedSN, 0, 4);
+                $number = substr($request->admittedSN, 4, strlen($request->admittedSN));
+                $check = Applicant::select('applicants.*')
+                ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
+                ->where('group', 'like', $group)->where('number', 'like', $number)->first();
+                if($check){
+                    $candidate = $this->applicantService->Mandarization($candidate);
+                    $error = "報名序號重複。";
+                    return view('backend.showCandidate', compact('candidate', 'error'));
+                }
+                $candidate->is_admitted = 1;
+                $candidate->group = $group;
+                $candidate->number = $number;
+                $candidate->save();
+                $message = "錄取完成。";
+            }
+            $candidate = $this->applicantService->Mandarization($candidate);
+            return view('backend.showCandidate', compact('candidate', 'message'));
+        }
+        else{
+            $candidates = Applicant::select('applicants.*')
+            ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
+            ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+            ->join('camps', 'camps.id', '=', 'batchs.camp_id');
+            $count = $candidates->count();
+            $admitted = $candidates->where('is_admitted', 1)->count();
+            return view('backend.admission', compact('count', 'admitted'));
+        }
+    }
+
+    public function showCandidate(Request $request){
+        $group = substr($request->snORadmittedSN, 0, 4);
+        $number = substr($request->snORadmittedSN, 4, strlen($request->snORadmittedSN));
+        $candidate = Applicant::select('applicants.*')
+        ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
+        ->where('applicants.id', $request->snORadmittedSN)
+        ->orWhere(function ($query) use ($group, $number) {
+            $query->where('group', 'like', $group);
+            $query->where('number', 'like', $number);
+        })->first();
+        if($candidate){
+            $candidate = $this->applicantService->Mandarization($candidate);
+        }
+        
+        return view('backend.showCandidate', compact('candidate'));
     }
 
     public function showRegistration() {

@@ -28,6 +28,35 @@
             <ul class="list-unstyled components">
                 <p>功能列表</p>
                 @if(isset($campFullData))
+                    <li>
+                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">統計資料</a>
+                        <ul class="collapse list-unstyled" id="homeSubmenu">
+                            <li>
+                                <a href="">報名日期</a>
+                            </li>
+                            <li>
+                                <a href="#">性別比率</a>
+                            </li>
+                            <li>
+                                <a href="#">區域縣市</a>
+                            </li>
+                            <li>
+                                <a href="#">出生年次</a>
+                            </li>
+                            <li>
+                                <a href="#">就讀學程</a>
+                            </li>
+                            <li>
+                                <a href="#">報名梯次</a>
+                            </li>
+                            <li>
+                                <a href="#">管道統計</a>
+                            </li>
+                            <li>
+                                <a href="#">國籍</a>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="active">
                         <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">錄取作業</a>
                         <ul class="collapse list-unstyled" id="homeSubmenu">
