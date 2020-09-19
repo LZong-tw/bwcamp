@@ -1,6 +1,6 @@
 @extends('backend.master')
 @section('content')
-    <h2>統計 - 區域縣市</h2>
+    <h2>{{ $campFullData->abbreviation }} 統計資料：區域縣市</h2>
     <!--Div that will hold the column chart-->
     <table class='columns'>
         <tr>

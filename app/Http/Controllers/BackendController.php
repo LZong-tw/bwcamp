@@ -72,7 +72,7 @@ class BackendController extends Controller
                 if($check){
                     $candidate = $this->applicantService->Mandarization($candidate);
                     $error = "報名序號重複。";
-                    return view('backend.showCandidate', compact('candidate', 'error'));
+                    return view('backend.registration.showCandidate', compact('candidate', 'error'));
                 }
                 $candidate->is_admitted = 1;
                 $candidate->group = $group;
@@ -81,7 +81,7 @@ class BackendController extends Controller
                 $message = "錄取完成。";
             }
             $candidate = $this->applicantService->Mandarization($candidate);
-            return view('backend.showCandidate', compact('candidate', 'message'));
+            return view('backend.registration.showCandidate', compact('candidate', 'message'));
         }
         else{
             $candidates = Applicant::select('applicants.*')
@@ -90,7 +90,7 @@ class BackendController extends Controller
             ->join('camps', 'camps.id', '=', 'batchs.camp_id');
             $count = $candidates->count();
             $admitted = $candidates->where('is_admitted', 1)->count();
-            return view('backend.admission', compact('count', 'admitted'));
+            return view('backend.registration.admission', compact('count', 'admitted'));
         }
     }
 
@@ -108,7 +108,7 @@ class BackendController extends Controller
             $candidate = $this->applicantService->Mandarization($candidate);
         }
         
-        return view('backend.showCandidate', compact('candidate'));
+        return view('backend.registration.showCandidate', compact('candidate'));
     }
 
     public function showRegistration() {
