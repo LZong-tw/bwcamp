@@ -156,6 +156,9 @@ class BackendController extends Controller
         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
         ->groupBy('applicants.gender')->get();
         $rows = count($applicants);
+        foreach($applicants as $applicant){
+            $applicant = $this->applicantService->Mandarization($applicant);
+        }
         $array = $applicants->toArray();
 
         $total = 0 ;
