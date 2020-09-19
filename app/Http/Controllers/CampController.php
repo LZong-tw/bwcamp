@@ -143,7 +143,8 @@ class CampController extends Controller
                 ->with('applicant_id', $applicant->applicant_id)
                 ->with('applicant_batch_id', $applicant->batch_id)
                 ->with('applicant_data', $applicant->toJson())
-                ->with('isModify', $isModify);
+                ->with('isModify', $isModify)
+                ->with('isBackend', $request->isBackend);
         }
         else{
             return back()->withInput()->withErrors(['找不到報名資料，請再次確認是否填寫錯誤。']);

@@ -16,7 +16,10 @@
     <!-- Font Awesome JS -->
     <script defer src="{{ asset('js/solid.js') }}"></script>
     <script defer src="{{ asset('js/fontawesome.js') }}"></script>
-
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type='text/javascript'>
+        google.charts.load('current', {'packages':['corechart','table'], 'language':'zh_TW'});
+    </script>
 </head>
 <body>
     <div class="wrapper">
@@ -29,10 +32,10 @@
                 <p>功能列表</p>
                 @if(isset($campFullData))
                     <li>
-                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">統計資料</a>
-                        <ul class="collapse list-unstyled" id="homeSubmenu">
+                        <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">統計資料</a>
+                        <ul class="collapse list-unstyled" id="pageSubmenu3">
                             <li>
-                                <a href="">報名日期</a>
+                                <a href="{{ route("appliedDate", $campFullData->id) }}">報名日期</a>
                             </li>
                             <li>
                                 <a href="#">性別比率</a>

@@ -114,4 +114,44 @@ class BackendController extends Controller
     public function showRegistration() {
         return view('backend.registration');
     }
+    
+    public function appliedDate() {
+        // $query = "select data0, count(*) as total from ".env('DB_TABLE_REGISTRATION')." group by data0;";
+        // $SQLquerier = SQLquerier::getQuerier();
+        // $SQLquerier->setQuery($query);
+        // $SQLquerier->exec();
+        
+
+        $applicants = Applicant::select(\DB::raw('DATE_FORMAT(applicants.created_at, "%Y-%m-%d") as date, count(*) as total'))
+                        ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
+                        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+                        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+                        ->groupBy('applicants.created_at')->get();
+        $rows = count($applicants);
+        $array = $applicants->toArray();
+        
+        $i = 0 ;
+        $total = 0 ;
+        $GChartData = array('cols'=> array(
+                        array('id'=>'date','label'=>'日期','type'=>'date'),
+                        array('id'=>'people','label'=>'人數','type'=>'number'),
+                        array('id'=>'annotation','role'=>'annotation','type'=>'number')
+                    ),
+                    'rows' => array());
+        for($i = 0; $i < $rows; $i ++) {
+            $record = $array[$i];
+            $year = (int) substr($record['date'], 0, 4);
+            $month = ((int) substr($record['date'], 5, 2)) - 1;
+            $day = (int) substr($record['date'], -2);
+            array_push($GChartData['rows'], array('c' => array(
+                array('v' => "Date($year, $month, $day)"),
+                array('v' => intval($record['total'])),
+                array('v' => intval($record['total']))
+            )));
+            $total = $total + $record['total'];
+        }
+        $GChartData = json_encode($GChartData);
+
+        return view('backend.stat.appliedDate', compact('GChartData',  'total'));
+    }
 }
