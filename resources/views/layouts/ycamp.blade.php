@@ -28,41 +28,48 @@
 
 <BODY>
 <div id='fb-root'></div>
-
-<nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #ebfbeb;">
-    <div class="container">
-        <a class='navbar-brand' href=''>{{ $camp_data->abbreviation }}</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                {{-- <li class="nav-item active"> --}}
-                {{-- <span class="sr-only">(current)</span> --}}
-                <li class="nav-item">
-                    <a class="nav-link" href="#">營隊資訊</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('registration', $batch_id) }}">報名表單</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('query', $batch_id) }}">報名查詢/修改</a>
-                </li>
-                @if(\Carbon\Carbon::now() >= \Carbon\Carbon::createFromFormat("Y-m-d", $camp_data->admission_announcing_date))
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('queryadmit', $batch_id) }}">錄取查詢</a>
-                    </li>
-                @endif
-                <li class="nav-item">
-                    <a class="nav-link" href="#">課程表</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">報名簡章下載</a>
-                </li>
-            </ul>
+@if(isset($isBackend) && $isBackend)
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #f8d7da;">
+        <div class="container" style="color: #721c24">
+            目前為後台檢視狀態。
         </div>
-    </div>
-</nav>
+    </nav>
+@else
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #ebfbeb;">
+        <div class="container">
+            <a class='navbar-brand' href=''>{{ $camp_data->abbreviation }}</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    {{-- <li class="nav-item active"> --}}
+                    {{-- <span class="sr-only">(current)</span> --}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">營隊資訊</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('registration', $batch_id) }}">報名表單</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('query', $batch_id) }}">報名查詢/修改</a>
+                    </li>
+                    @if(\Carbon\Carbon::now() >= \Carbon\Carbon::createFromFormat("Y-m-d", $camp_data->admission_announcing_date))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('queryadmit', $batch_id) }}">錄取查詢</a>
+                        </li>
+                    @endif
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">課程表</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">報名簡章下載</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+@endif
 <div class=container>
     @yield('content')
     <!-- Site footer -->

@@ -12,8 +12,8 @@
                 {{ $error }}
             </div>
         @endif
-        <h4>{{ $candidate->name }}({{ $candidate->gender }})</h4>
         <p>
+            <h5>{{ $candidate->name }}({{ $candidate->gender }})</h5>
             報名序號：{{ $candidate->id }} <br>
             @if($candidate->region)
                 報名區域：{{ $candidate->region }} <br>
@@ -21,13 +21,19 @@
             @if(isset($candidate->group) && isset($candidate->number))
                 錄取序號：{{ $candidate->group.$candidate->number }} <br>
             @endif
-            <a href="" class="btn btn-info">檢視詳細資料</a>
+            <form target="_blank" action="{{ route("queryview", $candidate->batch_id) }}" method="post" class="d-inline">
+                @csrf
+                <input type="hidden" name="sn" value="{{ $candidate->id }}">
+                <input type="hidden" name="name" value="{{ $candidate->name }}">
+                <input type="hidden" name="isBackend" value="1">
+                <button class="btn btn-info" style="margin-top: 10px">檢視報名資料</button>
+            </form>
         </p>
         <form action="{{ route("admission", $campFullData->id) }}" method="post" class="form-horizontal">
             @csrf
             <input type="hidden" name="id" value="{{ $candidate->id }}">
             @if(isset($candidate->group) && isset($candidate->number))
-                <a href="" class="btn btn-secondary">寄送電子郵件</a><br>
+                <a href="" class="btn btn-secondary" style="margin-bottom: 15px">寄送電子郵件</a>
                 <br>
                 輸入正取序號：<input type="text" name="admittedSN" class="form-control" placeholder="">
                 <br>

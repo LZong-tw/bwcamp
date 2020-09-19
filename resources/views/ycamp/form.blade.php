@@ -5,9 +5,11 @@
 @section('content')
     @include('partials.schools_script')
     @include('partials.counties_areas_script')
-    <div class='alert alert-info' role='alert'>
-        您在本網站所填寫的個人資料，僅用於此次大專營的報名及活動聯絡之用。
-    </div>
+    @if(!isset($isBackend) && !$isBackend)
+        <div class='alert alert-info' role='alert'>
+            您在本網站所填寫的個人資料，僅用於此次大專營的報名及活動聯絡之用。
+        </div>
+    @endif
 
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }}線上報名表</h4>
@@ -684,7 +686,7 @@
                 <input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>
                 <input type='reset' class='btn btn-danger' value='清除再來'>
             {{-- 以上皆非: 檢視資料狀態 --}}
-            @else
+            @elseif(!isset($isBackend) && !$isBackend)
                 <input type="hidden" name="sn" value="{{ $applicant_id }}">
                 <input type="hidden" name="isModify" value="1">
                 <button class="btn btn-primary">修改報名資料</button>
