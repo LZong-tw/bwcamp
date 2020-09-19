@@ -57,5 +57,7 @@ Route::group(['prefix' => 'backend/{camp_id}', ], function () {
     Route::post('/showCandidate', 'BackendController@showCandidate')->name('showCandidate');
     Route::post('/admission', 'BackendController@admission')->name('admission');
     Route::get('/registration', 'BackendController@showRegistration')->name('showRegistration');
-    Route::get('/stat/appliedDate', 'BackendController@appliedDate')->name('appliedDate');
+    Route::get('/stat/appliedDate', 'BackendController@appliedDateStat')->name('appliedDateStat');
+    Route::get('/stat/gender', 'BackendController@genderStat')->name('genderStat');
+    Route::get('/stat/county', 'BackendController@countyStat')->name('countyStat');
 });
