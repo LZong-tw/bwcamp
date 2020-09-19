@@ -112,7 +112,7 @@ class BackendController extends Controller
     }
 
     public function showRegistration() {
-        return view('backend.registration');
+        return view('backend.registration.registration');
     }
     
     public function appliedDateStat() {

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Camp;
 use App\Models\Applicant;
 use App\Services\CampDataService;
+use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use View;
 
@@ -17,8 +18,7 @@ class CampController extends Controller
      *
      * @return void
      */
-    public function __construct(CampDataService $campDataService,  Request $request)
-    {
+    public function __construct(CampDataService $campDataService,  Request $request) {
         $this->campDataService = $campDataService;
         // 營隊資料，存入 view 全域
         $this->batch_id = $request->route()->parameter('batch_id');
@@ -37,20 +37,23 @@ class CampController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function campIndex()
-    {
+    public function campIndex() {
         dd($this->camp_data);
         return ;
     }
 
-    public function campRegistration()
-    {
-        return view($this->camp_data->table . '.form');
+    public function campRegistration(Request $request) {
+        $registration_end = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $this->camp_data->registration_end . "23:59:59");
+        if(\Carbon\Carbon::now() > $registration_end && !isset($request->isBackend)){
+            return view($this->camp_data->table . '.outdated');
+        }
+        else{
+            return view($this->camp_data->table . '.form')->with('isBackend', $request->isBackend);
+        }
     }
 
 
-    public function campRegistrationFormSubmitted(Request $request)
-    {
+    public function campRegistrationFormSubmitted(Request $request) {
         // 檢查電子郵件是否一致
         if($request->email != $request->emailConfirm){
             return view("errorPage")->with('error', '電子郵件不一致，請檢查是否輸入錯誤。');
@@ -110,15 +113,15 @@ class CampController extends Controller
         return view($this->camp_data->table . '.success')->with('applicant', $applicant);
     }
 
-    public function campQueryRegistrationDataPage(){
+    public function campQueryRegistrationDataPage() {
         return view($this->camp_data->table . '.query');
     }
 
-    public function campViewRegistrationData(Request $request){
+    public function campViewRegistrationData(Request $request) {
         $applicant = null;
         $isModify = false;
         $campTable = $this->camp_data->table;
-        if($request->name != null && $request->sn != null){
+        if($request->name != null && $request->sn != null) {
             $applicant = Applicant::select('applicants.*', $campTable . '.*')
                 ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
                 ->where('applicants.id', $request->sn)
@@ -135,10 +138,10 @@ class CampController extends Controller
                 ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
                 ->where('applicants.id', $request->sn)->first();
         }
-        if($request->isModify){
+        if($request->isModify) {
             $isModify = true;
         }
-        if($applicant){
+        if($applicant) {
             return view($campTable . '.form')
                 ->with('applicant_id', $applicant->applicant_id)
                 ->with('applicant_batch_id', $applicant->batch_id)
@@ -151,7 +154,7 @@ class CampController extends Controller
         }
     }
 
-    public function campGetApplicantSN(Request $request){
+    public function campGetApplicantSN(Request $request) {
         $campTable = $this->camp_data->table;
         $applicant = Applicant::select('applicants.id', $campTable . '.*')
                 ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
@@ -160,7 +163,7 @@ class CampController extends Controller
                 ->where('birthmonth', $request->birthmonth)
                 ->where('birthday', $request->birthday)
                 ->first();
-        if($applicant){
+        if($applicant) {
             return view($campTable . '.getSN')
                 ->with('applicant_id', $applicant->id);
         }
@@ -170,20 +173,20 @@ class CampController extends Controller
         }
     }
 
-    public function campViewAdmission(){
+    public function campViewAdmission() {
         return view($this->camp_data->table . ".queryadmission");
     }
 
-    public function campQueryAdmission(Request $request){
+    public function campQueryAdmission(Request $request) {
         $campTable = $this->camp_data->table;
         $applicant = null;
-        if($request->name != null && $request->sn != null){
+        if($request->name != null && $request->sn != null) {
             $applicant = Applicant::select('applicants.*', $campTable . '.*')
                 ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
                 ->where('applicants.id', $request->sn)
                 ->where('name', $request->name)->first();
         }
-        if($applicant){
+        if($applicant) {
             return view($campTable . ".admissionResult")->with('applicant', $applicant);
         }
         else{
