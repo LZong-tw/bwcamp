@@ -104,7 +104,13 @@
                         <a class="" href="">未選擇營隊</a>
                     </li>
                 @endif
+            </ul>
+            
+            <ul class="list-unstyled CTAs">
                 <li>
+                    <a href="{{ route("home") }}" target="_blank" class="article">帳號資料</a>
+                </li>
+                <li class="download">
                     <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         {{-- {{ __('Logout') }} --}}
                         登出
