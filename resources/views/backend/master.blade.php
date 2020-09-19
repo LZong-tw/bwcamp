@@ -108,7 +108,7 @@
             
             <ul class="list-unstyled CTAs">
                 <li>
-                    <a href="{{ route("home") }}" target="_blank">帳號資料</a>
+                    <a href="{{ route("home") }}" target="_blank">{{ Auth::user()->name }}</a>
                 </li>
                 <li>
                     <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
