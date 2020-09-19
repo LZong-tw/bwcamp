@@ -108,9 +108,9 @@
             
             <ul class="list-unstyled CTAs">
                 <li>
-                    <a href="{{ route("home") }}" target="_blank" class="article">帳號資料</a>
+                    <a href="{{ route("home") }}" target="_blank">帳號資料</a>
                 </li>
-                <li class="download">
+                <li>
                     <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         {{-- {{ __('Logout') }} --}}
                         登出
