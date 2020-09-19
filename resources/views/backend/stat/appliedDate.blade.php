@@ -14,7 +14,7 @@
             var data = new google.visualization.DataTable({!! $GChartData !!});
             // Set chart options
             var options = {
-                'title':'報名日期統計，共 <?=$total?> 人',
+                'title':'報名日期統計，共 {{ $total }} 人',
                 'hAxis': {
                     'title':'報名日期',
                     'titleTextStyle': {'bold':true,'italic':false},
@@ -25,7 +25,7 @@
                     'titleTextStyle': {'bold':true,'italic':false},
                     'format':'decimal'
                 },
-                'width':900,
+                'width':1000,
                 'height':400,
                 'legend':{'position':'none'},
                 'annotations':{'alwaysOutside': true}

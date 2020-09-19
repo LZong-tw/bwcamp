@@ -115,18 +115,12 @@ class BackendController extends Controller
         return view('backend.registration');
     }
     
-    public function appliedDate() {
-        // $query = "select data0, count(*) as total from ".env('DB_TABLE_REGISTRATION')." group by data0;";
-        // $SQLquerier = SQLquerier::getQuerier();
-        // $SQLquerier->setQuery($query);
-        // $SQLquerier->exec();
-        
-
+    public function appliedDateStat() {
         $applicants = Applicant::select(\DB::raw('DATE_FORMAT(applicants.created_at, "%Y-%m-%d") as date, count(*) as total'))
-                        ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
-                        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
-                        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
-                        ->groupBy('applicants.created_at')->get();
+        ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
+        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+        ->groupBy('applicants.created_at')->get();
         $rows = count($applicants);
         $array = $applicants->toArray();
         
@@ -151,7 +145,68 @@ class BackendController extends Controller
             $total = $total + $record['total'];
         }
         $GChartData = json_encode($GChartData);
-
+        
         return view('backend.stat.appliedDate', compact('GChartData',  'total'));
+    }
+
+    public function genderStat() {
+        $applicants = Applicant::select(\DB::raw('applicants.gender, count(*) as total'))
+        ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
+        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+        ->groupBy('applicants.gender')->get();
+        $rows = count($applicants);
+        $array = $applicants->toArray();
+
+        $total = 0 ;
+        $GChartData = array('cols'=> array(
+                        array('id'=>'gender','label'=>'性別','type'=>'string'),
+                        array('id'=>'people','label'=>'人數','type'=>'number'),
+                        array('id'=>'annotation','role'=>'annotation','type'=>'number')
+                    ),
+                    'rows' => array());
+        for($i = 0; $i < $rows; $i ++) {
+            $record = $array[$i];
+            array_push($GChartData['rows'], array('c' => array(
+                array('v' => $record['gender']),
+                array('v' => intval($record['total'])),
+                array('v' => intval($record['total']))
+            )));
+            $total = $total + $record['total'];
+        }
+        $GChartData = json_encode($GChartData);
+
+        return view('backend.stat.gender', compact('GChartData',  'total'));
+    }
+
+    public function countyStat() {
+        $applicants = Applicant::select(\DB::raw('SUBSTRING(applicants.address, 1, 3) as county, count(*) as total'))
+        ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
+        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+        ->groupBy('applicants.address')->get();
+        $rows = count($applicants);
+        $array = $applicants->toArray();
+
+        $i = 0 ;
+        $total = 0 ;
+        $GChartData = array('cols'=> array(
+                        array('id'=>'city','label'=>'縣市','type'=>'string'),
+                        array('id'=>'people','label'=>'人數','type'=>'number'),
+                        array('id'=>'annotation','role'=>'annotation','type'=>'number')
+                    ),
+                    'rows' => array());
+        for($i = 0; $i < $rows; $i ++) {
+            $record = $array[$i];
+            array_push($GChartData['rows'], array('c' => array(
+                array('v' => $record['county'] == null ? '其他' : $record['county']),
+                array('v' => intval($record['total'])),
+                array('v' => intval($record['total']))
+            )));
+            $total = $total + $record['total'];
+        }
+        $GChartData = json_encode($GChartData);
+
+        return view('backend.stat.county', compact('GChartData',  'total'));
     }
 }
