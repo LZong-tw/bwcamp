@@ -120,7 +120,7 @@ class BackendController extends Controller
         ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
-        ->groupBy('applicants.created_at')->get();
+        ->groupBy('date')->get();
         $rows = count($applicants);
         $array = $applicants->toArray();
         
@@ -184,7 +184,7 @@ class BackendController extends Controller
         ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
-        ->groupBy('applicants.address')->get();
+        ->groupBy('county')->get();
         $rows = count($applicants);
         $array = $applicants->toArray();
 
