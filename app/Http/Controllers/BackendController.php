@@ -146,7 +146,7 @@ class BackendController extends Controller
         }
         $GChartData = json_encode($GChartData);
         
-        return view('backend.stat.appliedDate', compact('GChartData',  'total'));
+        return view('backend.statistics.appliedDate', compact('GChartData',  'total'));
     }
 
     public function genderStat() {
@@ -179,7 +179,7 @@ class BackendController extends Controller
         }
         $GChartData = json_encode($GChartData);
 
-        return view('backend.stat.gender', compact('GChartData',  'total'));
+        return view('backend.statistics.gender', compact('GChartData',  'total'));
     }
 
     public function countyStat() {
@@ -210,6 +210,6 @@ class BackendController extends Controller
         }
         $GChartData = json_encode($GChartData);
 
-        return view('backend.stat.county', compact('GChartData',  'total'));
+        return view('backend.statistics.county', compact('GChartData',  'total'));
     }
 }
