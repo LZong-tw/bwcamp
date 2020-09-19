@@ -40,6 +40,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['prefix' => 'camp/{batch_id}'], function () {
     Route::get('/', 'CampController@campIndex');
     Route::get('/registration', 'CampController@campRegistration')->name('registration');
+    Route::post('/registration', 'CampController@campRegistration')->name('registration');
     Route::get('/query', 'CampController@campQueryRegistrationDataPage')->name('query');
     Route::post('/queryview', 'CampController@campViewRegistrationData')->name('queryview');
     Route::post('/queryupdate', 'CampController@campViewRegistrationData')->name('queryupdate');

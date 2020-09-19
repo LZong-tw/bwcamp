@@ -31,7 +31,7 @@
 @if(isset($isBackend) && $isBackend)
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #f8d7da;">
         <div class="container" style="color: #721c24">
-            目前為後台檢視狀態。
+            目前為後台檢視/報名狀態。
         </div>
     </nav>
 @else
