@@ -1,6 +1,6 @@
 @extends('backend.master')
 @section('content')
-    <h2>統計 - 報名日期</h2>
+    <h2>{{ $campFullData->abbreviation }} 統計資料：報名日期</h2>
     <div id='chart_div'></div>
     <script type='text/javascript'>
         // Set a callback to run when the Google Visualization API is loaded.

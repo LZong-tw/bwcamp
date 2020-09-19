@@ -1,6 +1,6 @@
 @extends('backend.master')
 @section('content')
-    <h2>統計 - 性別比率</h2>
+    <h2>{{ $campFullData->abbreviation }} 統計資料：性別比率</h2>
     <!--Table and divs that hold the pie charts-->
     <table class='columns'>
         <tr>
