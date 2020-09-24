@@ -8,10 +8,10 @@
         <li><p>確認參加期限：{{ $campFullData->admission_confirming_end }}</p></li>
     </ul>
     <p>本營隊梯次：</p>
-    @foreach ($campFullData->batchs as $key => $batch)
-        <ol>
+    <ol>
+        @foreach ($campFullData->batchs as $key => $batch)
             <li><p>{{ $batch->name }}，{{ $batch->batch_start }} ~ {{ $batch->batch_end }}</p></li>
-        </ol>
-    @endforeach
+        @endforeach
+    </ol>
     <p>請從左側選單選擇功能。</p>
 @endsection
