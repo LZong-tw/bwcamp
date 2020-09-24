@@ -25,7 +25,7 @@
                 @csrf
                 <input type="hidden" name="sn" value="{{ $candidate->id }}">
                 <input type="hidden" name="name" value="{{ $candidate->name }}">
-                <input type="hidden" name="isBackend" value="1">
+                <input type="hidden" name="isBackend" value="目前為後台檢視狀態。">
                 <button class="btn btn-info" style="margin-top: 10px">檢視報名資料</button>
             </form>
         </p>
