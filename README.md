@@ -19,9 +19,9 @@
 
 ## <a href="https://docs.google.com/spreadsheets/d/1UXCVFgP8OXzr2fD_aiCnSbRW_zoQ_0Vu8MakmMOYuYc/">欄位及功能(routing)列表</a>
 
-## 待實作
+## 已完成功能
 
-- ~~Checkbox 無法正確回填資料~~
-- ~~所有未填寫或格式不符的欄位都應出現提醒文字~~
-- ~~檢查 Email 是否填寫一致~~
-- ~~逾期不得報名，除非從後台進入~~
+- Checkbox 無法正確回填資料
+- 所有未填寫或格式不符的欄位都應出現提醒文字
+- 檢查 Email 是否填寫一致
+- 逾期不得報名，除非從後台進入
