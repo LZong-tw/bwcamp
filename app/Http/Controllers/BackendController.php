@@ -64,8 +64,8 @@ class BackendController extends Controller
                 $message = "錄取序號已清除。";
             }
             else{
-                $group = substr($request->admittedSN, 0, 4);
-                $number = substr($request->admittedSN, 4, strlen($request->admittedSN));
+                $group = substr($request->admittedSN, 0, 3);
+                $number = substr($request->admittedSN, 3, strlen($request->admittedSN));
                 $check = Applicant::select('applicants.*')
                 ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
                 ->where('group', 'like', $group)->where('number', 'like', $number)->first();
