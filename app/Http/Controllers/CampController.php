@@ -8,6 +8,8 @@ use App\Models\Applicant;
 use App\Services\CampDataService;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ApplicantMail;
 use View;
 
 class CampController extends Controller
@@ -62,6 +64,7 @@ class CampController extends Controller
         if(isset($request->applicant_id)){
             $request = $this->campDataService->checkBoxToArray($request);
             $formData = $request->toArray();
+            $formData = $this->campDataService->handelRegion($formData, $this->camp_data->table);
             $applicant = \DB::transaction(function () use ($formData) {
                 $applicant = Applicant::where('id', $formData['applicant_id'])->first();
                 $model = '\\App\\Models\\' . ucfirst($this->camp_data->table);
@@ -98,6 +101,7 @@ class CampController extends Controller
             $request = $this->campDataService->checkBoxToArray($request);
             $formData = $request->toArray();
             $formData['batch_id'] = $this->batch_id;
+            $formData = $this->campDataService->handelRegion($formData, $this->camp_data->table);
             // 報名資料開始寫入資料庫，使用 transaction 確保可以同時將資料寫入不同的表，
             // 或確保若其中一個步驟失敗，不會留下任何殘餘、未完整的資料（屍體）
             // $applicant 為最終報名資料
@@ -108,6 +112,8 @@ class CampController extends Controller
                 $model::create($formData);
                 return $applicant;
             });
+            // 寄送報名資料
+            Mail::to($applicant)->send(new ApplicantMail($applicant, $this->camp_data));
         }
         
         return view($this->camp_data->table . '.success')->with('applicant', $applicant);
@@ -156,7 +162,7 @@ class CampController extends Controller
 
     public function campGetApplicantSN(Request $request) {
         $campTable = $this->camp_data->table;
-        $applicant = Applicant::select('applicants.id', $campTable . '.*')
+        $applicant = Applicant::select('applicants.id', 'applicants.email', 'applicants.name', $campTable . '.*')
                 ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
                 ->where('applicants.name', $request->name)
                 ->where('birthyear', $request->birthyear)
@@ -164,8 +170,10 @@ class CampController extends Controller
                 ->where('birthday', $request->birthday)
                 ->first();
         if($applicant) {
+            // 寄送報名序號
+            Mail::to($applicant)->send(new ApplicantMail($applicant, $this->camp_data, true));
             return view($campTable . '.getSN')
-                ->with('applicant_id', $applicant->id);
+                ->with('applicant', $applicant);
         }
         else{
             return view($campTable . '.getSN')
