@@ -26,17 +26,17 @@
             <span class='text-danger'>＊必填</span>
         </div>
     </div>
-    <div class='row form-group'>
+    {{-- <div class='row form-group'>
         <label for='inputDate' class='col-md-2 control-label text-md-right'>報名日期</label>
         <div class='col-md-10'>
             {{ \Carbon\Carbon::now()->toDateString() }}
             <input type=hidden name='created_at' value='{{ \Carbon\Carbon::now()->toDateString() }}'>
         </div>
-    </div>
+    </div> --}}
     <div class='row form-group'>
         <label for='inputBatch' class='col-md-2 control-label text-md-right'>營隊梯次</label>
         <div class='col-md-10'>
-            {{ $camp_data->fullName . $camp_data->name . '梯' }} ({{ $camp_data->batch_start }} ~ {{ $camp_data->batch_end }})
+            <h3>{{ $camp_data->fullName . $camp_data->name . '梯' }} ({{ $camp_data->batch_start }} ~ {{ $camp_data->batch_end }})</h3>
             @if(isset($applicant_data))
                 <input type='hidden' name='applicant_id' value='{{ $applicant_id }}'>
             @endif
