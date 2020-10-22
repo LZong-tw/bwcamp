@@ -28,7 +28,7 @@ class CampDataService
         // 大專營：參加過的福智活動
         if(isset($request->blisswisdom_type)) {
             $request->merge([
-                'blisswisdom_type' => implode(',', $request->blisswisdom_type)
+                'blisswisdom_type' => implode("||/", $request->blisswisdom_type)
             ]);
         }
 

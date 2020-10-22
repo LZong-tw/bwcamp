@@ -764,7 +764,7 @@
                             let checkboxes = document.getElementsByName(inputs[i].name);
                             let deArray = inputs[i].name.slice(0, -2); 
                             if(typeof applicant_data[deArray] !== "undefined"){
-                                let checkedValues = applicant_data[deArray].split(',');
+                                let checkedValues = applicant_data[deArray].split('||/');
                                 for( j = 0; j < checkboxes.length; j++ ) {
                                     for( k = 0; k < checkboxes.length; k++ ) {
                                         if( checkboxes[j].value == checkedValues[k] ) {

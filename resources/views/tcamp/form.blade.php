@@ -386,9 +386,9 @@
 
     <div class='row form-group required'>
         <label for='inputEmail' class='col-md-2 control-label text-md-right'>願意收到福智文教基金會相關活動資訊</label>
-        <div class="form-check form-check-inline">
+        <div class="col-md-10">
             <label class="form-check-label" for="1">
-                <input class="form-check-input" type="radio" name="is_allow_notified" value="1" required>
+                <input type="radio" name="is_allow_notified" value="1" required>
                 是
                 <div class="invalid-feedback">
                     請選擇一項
@@ -397,7 +397,7 @@
         </div>
         <div class="form-check form-check-inline">
             <label class="form-check-label" for="0">
-                <input class="form-check-input" type="radio" name="is_allow_notified" value="0" required>
+                <input type="radio" name="is_allow_notified" value="0" required>
                 否
                 <div class="invalid-feedback">
                     &nbsp;
@@ -913,7 +913,7 @@
                             let checkboxes = document.getElementsByName(inputs[i].name);
                             let deArray = inputs[i].name.slice(0, -2); 
                             if(typeof applicant_data[deArray] !== "undefined"){
-                                let checkedValues = applicant_data[deArray].split(',');
+                                let checkedValues = applicant_data[deArray].split("||/");
                                 for( j = 0; j < checkboxes.length; j++ ) {
                                     if( checkboxes[j].type == "text"){
                                         checkboxes[j].value = checkedValues[j];
