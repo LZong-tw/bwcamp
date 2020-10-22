@@ -14,7 +14,10 @@ class Permitted
      * @return mixed
      */
     public function handle($request, Closure $next) {
-        if(auth()->user()->getPermission()->role_id == 1) {
+        if(auth()->user()->getPermission()->level == 1) {
+            return $next($request);
+        }
+        else if(\Str::contains(auth()->user()->getPermission()->camp_id, 2)){
             return $next($request);
         }
         else{
