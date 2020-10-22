@@ -40,7 +40,7 @@ class User extends Authenticatable
     public function getPermission() {
         return \DB::table("role_user")
                     ->join("roles", "roles.id", "=", "role_user.role_id")
-                    ->select("role_id", "name")
+                    ->select("level", "name", "camp_id")
                     ->where("user_id", $this->id)->first();
     }
 }

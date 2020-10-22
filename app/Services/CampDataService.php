@@ -42,8 +42,11 @@ class CampDataService
      */
     public function getAvailableCamps($permission) {
         $camps = null;
-        if($permission->role_id == 1) {
+        if($permission->level == 1) {
             $camps = Camp::all();
+        }
+        else($permission->level == 2) {
+            $camp = Camp::find($permission->camp_id)
         }
         return $camps;
     }
