@@ -197,58 +197,58 @@
         <label for='inputIsEducating' class='col-md-2 control-label text-md-right'>是否在學校或教育單位任職</label>
         <div class='col-md-10'>
             <label class=radio-inline>
-                <input type=radio required name='is_educating' value=1 > 是（請續填下方任職資料）
+                <input type=radio required name='is_educating' value=1 id="is_educating_y"> 是（請續填下方任職資料）
                 <div class="invalid-feedback">
                     請勾選是否在學校或教育單位任職
                 </div>
             </label> 
             <label class=radio-inline>
-                <input type=radio required name='is_educating' value=0 > 否
+                <input type=radio required name='is_educating' value=0 id="is_educating_n"> 否
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
             </label> 
         </div>
     </div>
-
+    <span id="rowIsEducating">
     <div class='row form-group required'>
         <label for='inputSchoolOrCourse' class='col-md-2 control-label text-md-right'>任職機關/任教學程</label>
         <div class='col-md-10'>
             <label class=radio-inline>
-                <input type=radio required name='school_or_course' value=教育部 > 教育部
-                <div class="invalid-feedback">
+                <input type=radio required name='school_or_course' value=教育部 class="officials"> 教育部
+                <div class="invalid-feedback crumb">
                     請勾選任職機關/任教學程
                 </div>
             </label> 
             <label class=radio-inline>
-                <input type=radio required name='school_or_course' value=教育局/處 > 教育局/處
-                <div class="invalid-feedback">
+                <input type=radio required name='school_or_course' value=教育局/處 class="officials"> 教育局/處
+                <div class="invalid-feedback crumb">
                     &nbsp;
                 </div>
             </label> 
             <label class=radio-inline>
-                <input type=radio required name='school_or_course' value=大專校院 > 大專校院
-                <div class="invalid-feedback">
+                <input type=radio required name='school_or_course' value=大專校院 class="universities"> 大專校院
+                <div class="invalid-feedback crumb">
                     &nbsp;
                 </div>
             </label> <label class=radio-inline>
-                <input type=radio required name='school_or_course' value=高中職 > 高中職
-                <div class="invalid-feedback">
+                <input type=radio required name='school_or_course' value=高中職 class="compulsories"> 高中職
+                <div class="invalid-feedback crumb">
                     &nbsp;
                 </div>
             </label> <label class=radio-inline>
-                <input type=radio required name='school_or_course' value=國中 > 國中
-                <div class="invalid-feedback">
+                <input type=radio required name='school_or_course' value=國中 class="compulsories"> 國中
+                <div class="invalid-feedback crumb">
                     &nbsp;
                 </div>
             </label> <label class=radio-inline>
-                <input type=radio required name='school_or_course' value=國小 > 國小
-                <div class="invalid-feedback">
+                <input type=radio required name='school_or_course' value=國小 class="compulsories"> 國小
+                <div class="invalid-feedback crumb">
                     &nbsp;
                 </div>
             </label> <label class=radio-inline>
-                <input type=radio required name='school_or_course' value=幼教 > 幼教
-                <div class="invalid-feedback">
+                <input type=radio required name='school_or_course' value=幼教 class="compulsories"> 幼教
+                <div class="invalid-feedback crumb">
                     &nbsp;
                 </div>
             </label> 
@@ -259,30 +259,60 @@
     <label for='inputSubjectTeaches' class='col-md-2 control-label text-md-right'>任教科系/任教科目</label>
         <div class='col-md-10'>
             <input type=text required  name='subject_teaches' value='' class='form-control' id='inputSubjectTeaches'>
-            <div class="invalid-feedback">
+            <div class="invalid-feedback crumb">
                 請填寫任教科系/任教科目
             </div>
         </div>
     </div>
 
-{{-- 職稱待補 --}}
+    <div class='row form-group required'> 
+    <label for='inputSubjectTeaches' class='col-md-2 control-label text-md-right'>職稱</label>
+        <div class='col-md-10'>
+            <div id='tip' style='color: red; font-weight: bold;'>請先選擇任教機關/任教學程</div>
+            <div style="display: none;" class="titles officials">
+                <input type="radio" name="data[12]" class="officials" value="行政人員">行政人員
+                <input type="radio" name="data[12]" class="officials" value="其他">其他
+            </div>
+            <div style="display: none;" class="titles universities">
+                <input type="radio" name="data[12]" class="universities" value="校長">校長
+                <input type="radio" name="data[12]" class="universities" value="教授">教授
+                <input type="radio" name="data[12]" class="universities" value="副教授">副教授
+                <input type="radio" name="data[12]" class="universities" value="助理教授">助理教授
+                <input type="radio" name="data[12]" class="universities" value="講師">講師<br>
+                <input type="radio" name="data[12]" class="universities" value="職員">職員
+                <input type="radio" name="data[12]" class="universities" value="其他">其他
+            </div>
+            <div style="display: none;" class="titles compulsories">
+                <input type="radio" name="data[12]" class="compulsories" value="校長">校長
+                <input type="radio" name="data[12]" class="compulsories" value="主任">主任
+                <input type="radio" name="data[12]" class="compulsories" value="教師">教師
+                <input type="radio" name="data[12]" class="compulsories" value="教師兼行政">教師兼行政
+                <input type="radio" name="data[12]" class="compulsories" value="代理教師">代理教師<br>
+                <input type="radio" name="data[12]" class="compulsories" value="兼課老師">兼課老師
+                <input type="radio" name="data[12]" class="compulsories" value="職員">職員
+                <input type="radio" name="data[12]" class="compulsories" value="其他">其他
+            </div>
+            <input type=text required name='title' value='' class='form-control' id='title'>
+            <div class="invalid-feedback crumb">
+                請填寫職稱
+            </div>
+        </div>
+    </div>
 
     <div class='row form-group required'> 
     <label for='inputUnit' class='col-md-2 control-label text-md-right'>服務單位名稱/校名</label>
         <div class='col-md-10'>
-            <input type=text required  name='unit' value='' class='form-control' id='inputUnit'>
-            <div class="invalid-feedback">
+            <input type=text required name='unit' value='' class='form-control' id='inputUnit'>
+            <div class="invalid-feedback crumb">
                 請填寫服務單位名稱/校名
             </div>
         </div>
     </div>
 
-
     <div class='row form-group required'>
         <label for='inputUnitCounty' class='col-md-2 control-label text-md-right'>服務單位所在縣市</label>
-
         <div class='col-md-10'>
-            <select required  class='form-control' name='unit_county'' onChange='SchooList(this.options[this.options.selectedIndex].value);'>
+            <select required class='form-control' name='unit_county'' onChange='SchooList(this.options[this.options.selectedIndex].value);'>
                 <option value='' selected>- 請先選縣市 -</option>
                 <option value='臺北市' >臺北市</option>
                 <option value='新北市' >新北市</option>
@@ -311,12 +341,12 @@
             </select>
         </div>  
     </div>
-    
+    </span>
     <p class='form-control-static text-danger'>連絡方式</p>
     <div class='row form-group required'>
         <label for='inputCell' class='col-md-2 control-label text-md-right'>行動電話</label>
         <div class='col-md-10'>
-            <input type=tel required  name='mobile' value='' class='form-control' id='inputCell' placeholder='格式：0912-345-678'>
+            <input type=tel required name='mobile' value='' class='form-control' id='inputCell' placeholder='格式：0912-345-678'>
             <div class="invalid-feedback">
                 請填寫行動電話
             </div>
@@ -349,8 +379,30 @@
     <div class='row form-group required'>
         <label for='inputEmail' class='col-md-2 control-label text-md-right'>確認電子郵件</label>
         <div class='col-md-10'>
-            <input type='email' required  name='emailConfirm' value='' class='form-control' id='inputEmailConfirm' @if(isset($isModify) && $isModify) disabled @endif>
+            <input type='email' required name='emailConfirm' value='' class='form-control' id='inputEmailConfirm' @if(isset($isModify) && $isModify) disabled @endif>
             {{-- data-match='#inputEmail' data-match-error='郵件不符合' placeholder='請再次填寫確認郵件填寫正確' --}}
+        </div>
+    </div>
+
+    <div class='row form-group required'>
+        <label for='inputEmail' class='col-md-2 control-label text-md-right'>願意收到福智文教基金會相關活動資訊</label>
+        <div class="form-check form-check-inline">
+            <label class="form-check-label" for="1">
+                <input class="form-check-input" type="radio" name="is_allow_notified" value="1" required>
+                是
+                <div class="invalid-feedback">
+                    請選擇一項
+                </div>
+            </label>
+        </div>
+        <div class="form-check form-check-inline">
+            <label class="form-check-label" for="0">
+                <input class="form-check-input" type="radio" name="is_allow_notified" value="0" required>
+                否
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label>
         </div>
     </div>
 
@@ -394,7 +446,7 @@
             <input readonly type=text name=zipcode value='' class='form-control'>
         </div>
         <div class='col-md-3'>
-            <input type=text required  name='address' value='' maxlength=80 class='form-control' placeholder='請填寫通訊地址'>
+            <input type=text required name='address' value='' maxlength=80 class='form-control' placeholder='請填寫通訊地址'>
             <div class="invalid-feedback">
                 請填寫通訊地址
             </div>
@@ -404,10 +456,10 @@
     <div class='row form-group'>
         <label for='inputExpect' class='col-md-2 control-label text-md-right'>您對這次活動的期望？</label>
         <div class='col-md-10'>
-            <textarea class='form-control' rows=2 required  name='expectation' id=inputExpect></textarea>
-        </div>
-        <div class="invalid-feedback">
-            請填寫本欄位
+            <textarea class='form-control' rows=2 name='expectation' id=inputExpect></textarea>
+            {{-- <div class="invalid-feedback">
+                請填寫本欄位
+            </div> --}}
         </div>
     </div>
 
@@ -552,7 +604,7 @@
                     聯絡電話：
                 </div>
                 <div class='col-md-10'>
-                    <input type='tel' class='form-control' name="introducer_mobile" value=''>
+                    <input type='tel' class='form-control' name="introducer_phone" value=''>
                 </div>
                 <div class="invalid-feedback">
                     請填寫本欄位
@@ -587,7 +639,7 @@
     </div>
     </form>
             
-    <script>
+    <script>        
         $('[data-toggle="confirmation"]').confirmation({
             rootSelector: '[data-toggle=confirmation]',
             title: "敬請再次確認資料填寫無誤。",
@@ -602,12 +654,6 @@
                         }
                         else{
                             $(".tips").addClass('d-none');
-                            if(typeof document.getElementsByName("father_name")[0] === "undefined"){
-                                parent_field(1);
-                            }
-                            if(typeof document.getElementsByName("introducer_name")[0] === "undefined"){
-                                referer_field(1);
-                            }
                             document.Camp.submit();
                         }
                         document.Camp.classList.add('was-validated');
@@ -629,14 +675,225 @@
                     }, false);
                 });
             }, false);
-        })();        
-    
+        })();     
+        
+        let categories = null;
+        let rowIsEducating = null;
+
+        /**
+        * Ready functions.
+        * Executes commands after the web page is loaded. 
+        */
+        document.onreadystatechange = () => {
+            if (document.readyState === 'complete') {
+                /**
+                * 是否在學校或教育單位任職，勾選後顯示/隱藏任職單位相關欄位。
+                */
+                rowIsEducating = document.getElementById("rowIsEducating");
+                document.getElementById("is_educating_y").addEventListener("change", showFields);
+                document.getElementById("is_educating_n").addEventListener("change", hideFields);
+                if(document.getElementById("is_educating_n").checked){
+                    hideFields();
+                }
+                /**
+                * 任職機關/任教學程，勾選後顯示對應職稱。
+                */
+                categories = document.getElementsByName("school_or_course");
+                for(let i = 0; i < categories.length; i++){
+                    categories[i].addEventListener("click", changeJobTitleList);
+                    categories[i].addEventListener("change", changeJobTitleList);
+                }                
+                /**
+                * 選擇職稱後，將職稱填至欄位中。
+                */
+                titles = document.getElementsByName("data[12]");
+                for(let i = 0; i < titles.length; i++){
+                    titles[i].addEventListener("click", fillTheTitle);
+                    titles[i].addEventListener("change", fillTheTitle);
+                }
+            }
+        };
+
+        function showFields(){        
+            rowIsEducating.innerHTML = "<div class='row form-group required'>" +
+                "    <label for='inputSchoolOrCourse' class='col-md-2 control-label text-md-right'>任職機關/任教學程</label>" +
+                "    <div class='col-md-10'>" +
+                "        <label class=radio-inline>" +
+                "            <input type=radio required name='school_or_course' value=教育部 class='officials'> 教育部" +
+                "            <div class='invalid-feedback crumb'>" +
+                "                請勾選任職機關/任教學程" +
+                "            </div>" +
+                "        </label> " +
+                "        <label class=radio-inline>" +
+                "            <input type=radio required name='school_or_course' value=教育局/處 class='officials'> 教育局/處" +
+                "            <div class='invalid-feedback crumb'>" +
+                "                &nbsp;" +
+                "            </div>" +
+                "        </label> " +
+                "        <label class=radio-inline>" +
+                "            <input type=radio required name='school_or_course' value=大專校院 class='universities'> 大專校院" +
+                "            <div class='invalid-feedback crumb'>" +
+                "                &nbsp;" +
+                "            </div>" +
+                "        </label> <label class=radio-inline>" +
+                "            <input type=radio required name='school_or_course' value=高中職 class='compulsories'> 高中職" +
+                "            <div class='invalid-feedback crumb'>" +
+                "                &nbsp;" +
+                "            </div>" +
+                "        </label> <label class=radio-inline>" +
+                "            <input type=radio required name='school_or_course' value=國中 class='compulsories'> 國中" +
+                "            <div class='invalid-feedback crumb'>" +
+                "                &nbsp;" +
+                "            </div>" +
+                "        </label> <label class=radio-inline>" +
+                "            <input type=radio required name='school_or_course' value=國小 class='compulsories'> 國小" +
+                "            <div class='invalid-feedback crumb'>" +
+                "                &nbsp;" +
+                "            </div>" +
+                "        </label> <label class=radio-inline>" +
+                "            <input type=radio required name='school_or_course' value=幼教 class='compulsories'> 幼教" +
+                "            <div class='invalid-feedback crumb'>" +
+                "                &nbsp;" +
+                "            </div>" +
+                "        </label> " +
+                "    </div>" +
+                "</div>" +
+                "<div class='row form-group required'> " +
+                "<label for='inputSubjectTeaches' class='col-md-2 control-label text-md-right'>任教科系/任教科目</label>" +
+                "    <div class='col-md-10'>" +
+                "        <input type=text required  name='subject_teaches' value='' class='form-control' id='inputSubjectTeaches'>" +
+                "        <div class='invalid-feedback crumb'>" +
+                "            請填寫任教科系/任教科目" +
+                "        </div>" +
+                "    </div>" +
+                "</div>" +
+                "<div class='row form-group required'> " +
+                "<label for='inputSubjectTeaches' class='col-md-2 control-label text-md-right'>職稱</label>" +
+                "    <div class='col-md-10'>" +
+                "        <div id='tip' style='color: red; font-weight: bold;'>請先選擇任教機關/任教學程</div>" +
+                "        <div style='display: none;' class='titles officials'>" +
+                "            <input type='radio' name='data[12]' class='officials' value='行政人員'>行政人員" +
+                "            <input type='radio' name='data[12]' class='officials' value='其他'>其他" +
+                "        </div>" +
+                "        <div style='display: none;' class='titles universities'>" +
+                "            <input type='radio' name='data[12]' class='universities' value='校長'>校長" +
+                "            <input type='radio' name='data[12]' class='universities' value='教授'>教授" +
+                "            <input type='radio' name='data[12]' class='universities' value='副教授'>副教授" +
+                "            <input type='radio' name='data[12]' class='universities' value='助理教授'>助理教授" +
+                "            <input type='radio' name='data[12]' class='universities' value='講師'>講師<br>" +
+                "            <input type='radio' name='data[12]' class='universities' value='職員'>職員" +
+                "            <input type='radio' name='data[12]' class='universities' value='其他'>其他" +
+                "        </div>" +
+                "        <div style='display: none;' class='titles compulsories'>" +
+                "            <input type='radio' name='data[12]' class='compulsories' value='校長'>校長" +
+                "            <input type='radio' name='data[12]' class='compulsories' value='主任'>主任" +
+                "            <input type='radio' name='data[12]' class='compulsories' value='教師'>教師" +
+                "            <input type='radio' name='data[12]' class='compulsories' value='教師兼行政'>教師兼行政" +
+                "            <input type='radio' name='data[12]' class='compulsories' value='代理教師'>代理教師<br>" +
+                "            <input type='radio' name='data[12]' class='compulsories' value='兼課老師'>兼課老師" +
+                "            <input type='radio' name='data[12]' class='compulsories' value='職員'>職員" +
+                "            <input type='radio' name='data[12]' class='compulsories' value='其他'>其他" +
+                "        </div>" +
+                "        <input type=text required name='title' value='' class='form-control' id='title'>" +
+                "        <div class='invalid-feedback crumb'>" +
+                "            請填寫職稱" +
+                "        </div>" +
+                "    </div>" +
+                "</div>" +
+                "<div class='row form-group required'> " +
+                "<label for='inputUnit' class='col-md-2 control-label text-md-right'>服務單位名稱/校名</label>" +
+                "    <div class='col-md-10'>" +
+                "        <input type=text required name='unit' value='' class='form-control' id='inputUnit'>" +
+                "        <div class='invalid-feedback crumb'>" +
+                "            請填寫服務單位名稱/校名" +
+                "        </div>" +
+                "    </div>" +
+                "</div>" +
+                "<div class='row form-group required'>" +
+                "    <label for='inputUnitCounty' class='col-md-2 control-label text-md-right'>服務單位所在縣市</label>" +
+                "    <div class='col-md-10'>" +
+                "        <select required class='form-control' name='unit_county'' onChange='SchooList(this.options[this.options.selectedIndex].value);'>" +
+                "            <option value='' selected>- 請先選縣市 -</option>" +
+                "            <option value='臺北市' >臺北市</option>" +
+                "            <option value='新北市' >新北市</option>" +
+                "            <option value='基隆市' >基隆市</option>" +
+                "            <option value='宜蘭縣' >宜蘭縣</option>" +
+                "            <option value='花蓮縣' >花蓮縣</option>" +
+                "            <option value='桃園市' >桃園市</option>" +
+                "            <option value='新竹市' >新竹市</option>" +
+                "            <option value='新竹縣' >新竹縣</option>" +
+                "            <option value='苗栗縣' >苗栗縣</option>" +
+                "            <option value='臺中市' >臺中市</option>" +
+                "            <option value='彰化縣' >彰化縣</option>" +
+                "            <option value='南投縣' >南投縣</option>" +
+                "            <option value='雲林縣' >雲林縣</option>" +
+                "            <option value='嘉義市' >嘉義市</option>" +
+                "            <option value='嘉義縣' >嘉義縣</option>" +
+                "            <option value='臺南市' >臺南市</option>" +
+                "            <option value='高雄市' >高雄市</option>" +
+                "            <option value='屏東縣' >屏東縣</option>" +
+                "            <option value='臺東縣' >臺東縣</option>" +
+                "            <option value='澎湖縣' >澎湖縣</option>" +
+                "            <option value='金門縣' >金門縣</option>" +
+                "            <option value='連江縣' >連江縣</option>" +
+                "            <option value='南海諸島' >南海諸島</option>" +
+                "            <option value='海外' >海外</option>" +
+                "        </select>" +
+                "    </div>  " +
+                "</div>";
+        }
+
+        function hideFields(){        
+            rowIsEducating.innerHTML = '';
+        }
+
+        function setUnrequired(elements){
+            for(let i = 0; i < elements.length; i++){
+                elements[i].required = false;
+            }
+        }
+
+        function setRequired(elements){
+            for(let i = 0; i < elements.length; i++){
+                elements[i].required = true;
+            }
+        }
+
+        function changeJobTitleList(){
+            if(this.checked){
+                document.getElementById('tip').style.display = 'none';
+                document.getElementById('title').value = '';
+                titleSets = document.getElementsByClassName("titles");
+                for(let i = 0 ; i < titleSets.length ; i++){
+                    if(titleSets[i].className.includes(this.className)){
+                        titleSets[i].style.display = "";
+                    }
+                    else{
+                        inputs = titleSets[i].getElementsByTagName('input');
+                        for(let j = 0 ; j < inputs.length ; j++){
+                            inputs[j].checked = false;
+                        }
+                        titleSets[i].style.display = "none";
+                    }
+                }
+            }
+        }
+        
+        function fillTheTitle(){
+            if(this.value == '其他'){
+                document.getElementById('title').value = '請在此處自行輸入職稱';
+            }
+            else if(this.value == '兼課老師'){
+                document.getElementById('title').value = '兼課老師(兼課時數: 小時)';
+            }
+            else if(this.value != null){
+                document.getElementById('title').value = this.value;
+            }            
+        }
+
         @if(isset($applicant_data))
             {{-- 回填報名資料 --}}
             (function() {
-                {{-- 開啟父母及介紹人資料欄位以免漏填 --}}
-                parent_field(1);
-                referer_field(1);
                 let applicant_data = JSON.parse('{!! $applicant_data !!}');
                 let inputs = document.getElementsByTagName('input');
                 let selects = document.getElementsByTagName('select');
@@ -658,6 +915,9 @@
                             if(typeof applicant_data[deArray] !== "undefined"){
                                 let checkedValues = applicant_data[deArray].split(',');
                                 for( j = 0; j < checkboxes.length; j++ ) {
+                                    if( checkboxes[j].type == "text"){
+                                        checkboxes[j].value = checkedValues[j];
+                                    }
                                     for( k = 0; k < checkboxes.length; k++ ) {
                                         if( checkboxes[j].value == checkedValues[k] ) {
                                             checkboxes[j].checked = true;
@@ -669,6 +929,9 @@
                         else{
                             inputs[i].value = applicant_data[inputs[i].name]; 
                         }
+                    }
+                    else if(inputs[i].type == "text" && inputs[i].name != 'blisswisdom_type[]'){
+                        inputs[i].value = applicant_data[inputs[i].name]; 
                     }
                     if(inputs[i].name == 'emailConfirm'){
                         inputs[i].value = applicant_data['email'];
@@ -684,32 +947,10 @@
                         textareas[i].value = applicant_data[textareas[i].name]; 
                     }
                 }
-                {{-- 填完資料，檢查是否有父母或介紹人資料，若無則關閉 --}}
-                let father_name = document.getElementsByName("father_name")[0].value;
-                let father_lamrim = document.getElementsByName("father_lamrim")[0].value;
-                let father_phone = document.getElementsByName("father_phone")[0].value;
-                let mother_name = document.getElementsByName("mother_name")[0].value;
-                let mother_lamrim = document.getElementsByName("mother_lamrim")[0].value;
-                let mother_phone = document.getElementsByName("mother_phone")[0].value;
-                let parents = [father_name, father_lamrim, father_phone, mother_name, mother_lamrim, mother_phone];
-                if(parents.every(checkIfNull)){
-                    parent_field(0);
-                }
-                let introducer_name = document.getElementsByName("introducer_name")[0].value;
-                let introducer_relationship = document.getElementsByName("introducer_relationship")[0].value;
-                let introducer_participated = document.getElementsByName("introducer_participated")[0].value;
-                let introducer_phone = document.getElementsByName("introducer_phone")[0].value;
-                let introducer = [introducer_name, introducer_relationship, introducer_participated, introducer_phone];
-                if(introducer.every(checkIfNull)){
-                    referer_field(0);
-                }
 
                 @if(!$isModify)
                     for (var i = 0; i < inputs.length; i++){
-                        if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox"){
-                            inputs[i].disabled = true;
-                        }
-                        if(inputs[i].name == 'emailConfirm'){
+                        if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox" || inputs[i].name == 'emailConfirm' || inputs[i].name == "blisswisdom_type[]"){
                             inputs[i].disabled = true;
                         }
                     }
