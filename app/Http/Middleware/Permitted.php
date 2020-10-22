@@ -17,7 +17,7 @@ class Permitted
         if(auth()->user()->getPermission()->level == 1) {
             return $next($request);
         }
-        else if(\Str::contains(auth()->user()->getPermission()->camp_id, 2)){
+        else if(\Str::contains(auth()->user()->getPermission()->camp_id, $request->route('camp_id'))){
             return $next($request);
         }
         else{
