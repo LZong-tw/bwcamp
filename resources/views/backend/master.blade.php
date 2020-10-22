@@ -64,13 +64,16 @@
                         <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">錄取作業</a>
                         <ul class="collapse list-unstyled" id="homeSubmenu">
                             <li>
-                                <a href="{{ route("admission", $campFullData->id) }}">錄取</a>
+                                <a href="{{ route("admission", $campFullData->id) }}">單一錄取</a>
+                            </li>
+                            <li>
+                                <a href="{{ route("admission", $campFullData->id) }}">批次錄取</a>
                             </li>
                             <li>
                                 <a href="#">查詢及下載</a>
                             </li>
                             <li>
-                                <a href="#">組別名單</a>
+                                <a href="{{ route("showGroupList", $campFullData->id) }}">組別名單</a>
                             </li>
                         </ul>
                     </li>

@@ -7,6 +7,7 @@ use App\Services\CampDataService;
 use App\Services\ApplicantService;
 use App\Models\Camp;
 use App\Models\Applicant;
+use App\Models\Batch;
 use View;
 
 class BackendController extends Controller
@@ -113,6 +114,14 @@ class BackendController extends Controller
 
     public function showRegistration() {
         return view('backend.registration.registration');
+    }
+
+    public function showGroupList() {
+        $batches = Batch::where('camp_id', $this->camp_id)->get()->all();
+        foreach($batches as $batch){
+            
+        }
+        return view('backend.registration.groupList')->with('batches', $batches);
     }
     
     public function appliedDateStat() {
