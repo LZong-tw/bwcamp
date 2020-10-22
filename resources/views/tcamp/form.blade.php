@@ -36,7 +36,7 @@
     <div class='row form-group'>
         <label for='inputBatch' class='col-md-2 control-label text-md-right'>營隊梯次</label>
         <div class='col-md-10'>
-            <h3>{{ $camp_data->fullName . $camp_data->name . '梯' }} ({{ $camp_data->batch_start }} ~ {{ $camp_data->batch_end }})</h3>
+            <h3>{{ $camp_data->name . '梯' }} ({{ $camp_data->batch_start }} ~ {{ $camp_data->batch_end }})</h3>
             @if(isset($applicant_data))
                 <input type='hidden' name='applicant_id' value='{{ $applicant_id }}'>
             @endif
