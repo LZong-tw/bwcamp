@@ -1,0 +1,13 @@
+FTPIP==203.67.41.68
+FTPPort==21
+FTPAccount==user040
+FTPPassword==01120085
+FTPRemotePath==
+FTPFileName==FESNET-M011200894950615-FD913
+FTPLocalPath==F:\jsmooth\download
+DBDriver==com.microsoft.sqlserver.jdbc.SQLServerDriver
+DBURL==jdbc:sqlserver://bwbook-PC\SQLEXPRESS;databaseName=北區文教課
+DBAccount==GodBlessYou
+DBPassword==ZsE4RfVgY7
+DBInsertTable==11:北區2018中階會考銀行銷帳資料;12:北區2016君子冬令營銀行銷帳資料;13:全區2018高階會考銀行銷帳資料;14:北區2017初階會考銀行銷帳資料;15:全區2017教師生命成長營報銀行銷帳資料;16:全區2019經典繁星會考銀行銷帳資料;17:全區2019經典背誦恆星會考銀行銷帳資料
+DBUpdateTable==11:北區2018中階會考報名資料;12:北區2016君子冬令營報名資料;13:全區2018高階會考報名資料;14:北區2017初階會考報名資料;15:全區2017教師生命成長營報名資料;16:全區2019經典繁星會考報名資料;17:全區2019經典背誦恆星會考報名資料
