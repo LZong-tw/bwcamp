@@ -1,0 +1,13 @@
+FTPIP==
+FTPPort==21
+FTPAccount==
+FTPPassword==
+FTPRemotePath==
+FTPFileName==
+FTPLocalPath==
+DBDriver==com.microsoft.sqlserver.jdbc.SQLServerDriver
+DBURL==
+DBAccount==
+DBPassword==
+DBInsertTable==
+DBUpdateTable==

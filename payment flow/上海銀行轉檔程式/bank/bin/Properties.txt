@@ -1,0 +1,13 @@
+FTPIP==ftp.speed.hinet.net
+FTPPort==21
+FTPAccount==ftp
+FTPPassword==ftp
+FTPRemotePath==
+FTPFileName==test_001
+FTPLocalPath==C:\Users\ikea\Desktop
+DBDriver==com.microsoft.sqlserver.jdbc.SQLServerDriver
+DBURL==jdbc:sqlserver://S9600CB8A7F\SQL2012EXPRESS;databaseName=北區文教課
+DBAccount==root
+DBPassword==123456
+DBInsertTable==11:北區2015中階會考銀行銷帳資料;12:北區2016君子冬令營銀行銷帳資料
+DBUpdateTable==11:北區2015中階會考報名資料;12:北區2015君子冬令營報名資料
