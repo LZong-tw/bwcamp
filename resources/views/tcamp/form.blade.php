@@ -387,22 +387,24 @@
     <div class='row form-group required'>
         <label for='inputEmail' class='col-md-2 control-label text-md-right'>願意收到福智文教基金會相關活動資訊</label>
         <div class="col-md-10">
-            <label class="form-check-label" for="1">
-                <input type="radio" name="is_allow_notified" value="1" required>
-                是
-                <div class="invalid-feedback">
-                    請選擇一項
-                </div>
-            </label>
-        </div>
-        <div class="form-check form-check-inline">
-            <label class="form-check-label" for="0">
-                <input type="radio" name="is_allow_notified" value="0" required>
-                否
-                <div class="invalid-feedback">
-                    &nbsp;
-                </div>
-            </label>
+            <div class="form-check form-check-inline">
+                <label class="form-check-label" for="1">
+                    <input type="radio" name="is_allow_notified" value="1" required>
+                    是
+                    <div class="invalid-feedback">
+                        請選擇一項
+                    </div>
+                </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <label class="form-check-label" for="0">
+                    <input type="radio" name="is_allow_notified" value="0" required>
+                    否
+                    <div class="invalid-feedback">
+                        &nbsp;
+                    </div>
+                </label>
+            </div>
         </div>
     </div>
 
