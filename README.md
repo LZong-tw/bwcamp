@@ -22,6 +22,7 @@
 - 台北(P)、台中(C)、桃園(T)、新竹(H)、雲林(Y)、嘉義(J)、台南(N)、高雄(K)
 
 - 後台參考：https://youth.blisswisdom.org/camp/wadmin/
+- 上海銀行條碼格式：Barcode 39
 
 ## <a href="https://docs.google.com/spreadsheets/d/1UXCVFgP8OXzr2fD_aiCnSbRW_zoQ_0Vu8MakmMOYuYc/">欄位及功能(routing)列表</a>
 
