@@ -2,7 +2,7 @@
 @section('content')
     <h2>組別名單</h2>
     @foreach ($batches as $batch)
-        梯次：{{ $batch->name }}
+        <h4>梯次：{{ $batch->name }}</h4>
         <table>
             <tr>
                 @foreach ($batch->regions as $region)
@@ -14,7 +14,7 @@
                         @endphp
                         @foreach ($region->groups as $group)
                             <tr>
-                                <td>{{ $group->group }}</td>
+                                <td><a href="{{ route("showGroup", [$campFullData->id, $batch->id, $group->group]) }}" class="card-link">{{ $group->group }}</a></td>
                                 <td>{{ $group->count }}</td>
                                 @php
                                     $count = $count + $group->count;

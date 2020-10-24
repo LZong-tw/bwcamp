@@ -8,11 +8,13 @@ use App\Services\ApplicantService;
 use App\Models\Camp;
 use App\Models\Applicant;
 use App\Models\Batch;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AdmittedMail;
 use View;
 
 class BackendController extends Controller
 {
-    protected $campDataService, $applicantService,$batch_id, $camp_data;
+    protected $campDataService, $applicantService, $batch_id, $camp_data, $batch;
     /**
      * Create a new controller instance.
      *
@@ -26,6 +28,8 @@ class BackendController extends Controller
             // 營隊資料，存入 view 全域
             $this->batch_id = $request->route()->parameter('batch_id');
             $this->camp_data = $this->campDataService->getCampData($this->batch_id)['camp_data'];
+            $this->batch = Batch::find($request->route()->parameter('batch_id'));
+            View::share('batch', $this->batch);
             View::share('batch_id', $this->batch_id);
             View::share('camp_data', $this->camp_data);
         }
@@ -116,6 +120,13 @@ class BackendController extends Controller
         return view('backend.registration.registration');
     }
 
+    public function sendAdmittedMail(Request $request){
+        foreach($request->emails as $key => $email){
+            Mail::to($email)->send(new AdmittedMail($request->names[$key], $request->admittedNos[$key], $this->campFullData));
+        }
+        return back();
+    }
+
     public function showGroupList() {
         $batches = Batch::where('camp_id', $this->camp_id)->get()->all();
         foreach($batches as &$batch){
@@ -126,6 +137,13 @@ class BackendController extends Controller
             }
         }
         return view('backend.registration.groupList')->with('batches', $batches);
+    }
+
+    public function showGroup(Request $request){
+        $batch_id = $request->route()->parameter('batch_id');
+        $group = $request->route()->parameter('group');
+        $applicants = Applicant::join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')->where('batch_id', $batch_id)->where('group', $group)->get();
+        return view('backend.registration.group', compact('applicants'));
     }
     
     public function appliedDateStat() {
