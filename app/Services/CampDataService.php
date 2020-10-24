@@ -147,52 +147,52 @@ class CampDataService
                 $formData["region"] = '嘉義';
             }
         }
-        // else if($camp == "tcamp"){
-        //     $region = "";
-        //     $north = array ("臺北市", "基隆市", "新北市", "宜蘭縣", "花蓮縣", "金門縣", "連江縣");
-        //     $central = array ("臺中市", "彰化縣", "南投縣");
-        //     $chiayi = array ("嘉義縣", "嘉義市", "雲林縣");
-        //     $south = array ("高雄市", "屏東縣", "澎湖縣", "臺東縣", "南海諸島");
+        else if($camp == "tcamp"){
+            $region = "";
+            $north = array ("臺北市", "基隆市", "新北市", "宜蘭縣", "花蓮縣", "金門縣", "連江縣");
+            $central = array ("臺中市", "彰化縣", "南投縣");
+            $chiayi = array ("嘉義縣", "嘉義市", "雲林縣");
+            $south = array ("高雄市", "屏東縣", "澎湖縣", "臺東縣", "南海諸島");
 
-        //     foreach($north as $ele){
-        //         if(strpos($formData["unit_county"], $ele) !== false) $region = "北區";
-        //     }
+            foreach($north as $ele){
+                if(strpos($formData["unit_county"], $ele) !== false) $region = "台北";
+            }
 
-        //     for($k = 0; $k < Count($central); $k++){
-        //         if(strpos($formData["unit_county"], $central[$k]) !== false) $region = "中區";
-        //     }
+            for($k = 0; $k < Count($central); $k++){
+                if(strpos($formData["unit_county"], $central[$k]) !== false) $region = "台中";
+            }
 
-        //     for($l = 0; $l < Count($chiayi); $l++){
-        //         if($formData["unit_county"] == $chiayi[$l]) $region = "嘉區";
-        //     }
+            for($l = 0; $l < Count($chiayi); $l++){
+                if($formData["unit_county"] == $chiayi[$l]) $region = "嘉義";
+            }
 
-        //     for($m = 0; $m < Count($south); $m++){
-        //         if(strpos($formData["unit_county"], $south[$m]) !== false)	$region = "高區";
-        //     }
+            for($m = 0; $m < Count($south); $m++){
+                if(strpos($formData["unit_county"], $south[$m]) !== false)	$region = "高雄";
+            }
 
-        //     if($formData["unit_county"] == "苗栗縣"){
-        //         if($formData["unit_district"] == "頭份鎮" || $formData["unit_district"] == "竹南鎮") {
-        //             $region = "竹區";
-        //         }
-        //         else{
-        //             $region = "中區";
-        //         }
-        //     }
+            if($formData["unit_county"] == "苗栗縣"){
+                if($formData["unit_district"] == "頭份鎮" || $formData["unit_district"] == "竹南鎮") {
+                    $region = "新竹";
+                }
+                else{
+                    $region = "台中";
+                }
+            }
 
-        //     if($formData["unit_county"] == "臺南市"){
-        //         $region = "南區";
-        //     }
-        //     if($formData["unit_county"] == "桃園市"){
-        //         $region = "桃區";
-        //     }
-        //     if($formData["unit_county"] == "新竹縣" || $formData["unit_county"] == "新竹市"){
-        //         $region = "竹區";
-        //     }
+            if($formData["unit_county"] == "臺南市"){
+                $region = "台巿";
+            }
+            if($formData["unit_county"] == "桃園市"){
+                $region = "桃園";
+            }
+            if($formData["unit_county"] == "新竹縣" || $formData["unit_county"] == "新竹市"){
+                $region = "新竹";
+            }
 
-        //     if($region == "") $region = "其他";
+            if($region == "") $region = "其他";
 
-        //     $formData["region"] = $region;
-        // }
+            $formData["region"] = $region;
+        }
         // else if($camp == "ecamp"){
 
         // }
