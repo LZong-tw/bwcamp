@@ -149,13 +149,7 @@ class BackendController extends Controller
             $groupAndNumber = $this->applicantService->groupAndNumberSeperator($applicant);
             $group = $groupAndNumber['group'];
             $number = $groupAndNumber['number'];
-            $candidate = Applicant::select('applicants.*')
-            ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
-            ->where('applicants.id', $applicant)
-            ->orWhere(function ($query) use ($group, $number) {
-                $query->where('group', 'like', $group);
-                $query->where('number', 'like', $number);
-            })->first();
+            $candidate = $this->applicantService->fetchApplicantData($this->campFullData->table, $applicant, $group, $number);
             if($candidate){
                 $applicant = $this->applicantService->Mandarization($candidate);
             }
@@ -175,13 +169,7 @@ class BackendController extends Controller
         $groupAndNumber = $this->applicantService->groupAndNumberSeperator($request->snORadmittedSN);
         $group = $groupAndNumber['group'];
         $number = $groupAndNumber['number'];
-        $candidate = Applicant::select('applicants.*')
-        ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
-        ->where('applicants.id', $request->snORadmittedSN)
-        ->orWhere(function ($query) use ($group, $number) {
-            $query->where('group', 'like', $group);
-            $query->where('number', 'like', $number);
-        })->first();
+        $candidate = $this->applicantService->fetchApplicantData($this->campFullData->table, $request->snORadmittedSN, $group, $number);
         if($candidate){
             $candidate = $this->applicantService->Mandarization($candidate);
         }
