@@ -1,6 +1,6 @@
 @extends('backend.master')
 @section('content')
-    <h2>{{ $campFullData->abbreviation }} 錄取程序</h2>
+    <h2>{{ $campFullData->abbreviation }} 單一錄取程序</h2>
     <p>
         全區報名人數：{{ $count }}<br>
         錄取人數：{{ $admitted }}

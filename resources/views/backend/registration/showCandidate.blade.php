@@ -1,6 +1,6 @@
 @extends('backend.master')
 @section('content')
-    <h2>{{ $campFullData->abbreviation }} 錄取程序</h2>
+    <h2>{{ $campFullData->abbreviation }} 單一錄取程序</h2>
     @if($candidate)
         @if(isset($message))
             <div class="alert alert-success" role="alert">

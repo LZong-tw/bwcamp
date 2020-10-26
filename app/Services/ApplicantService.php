@@ -14,4 +14,10 @@ class ApplicantService
         }
         return $applicant;
     }
+
+    public function groupAndNumberSeperator($admittedSN){
+        $group = substr($admittedSN, 0, 3);
+        $number = substr($admittedSN, 3, strlen($admittedSN));
+        return compact('group', 'number');
+    }
 }
