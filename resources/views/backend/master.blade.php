@@ -67,7 +67,7 @@
                                 <a href="{{ route("admission", $campFullData->id) }}">單一錄取</a>
                             </li>
                             <li>
-                                <a href="{{ route("admission", $campFullData->id) }}">批次錄取</a>
+                                <a href="{{ route("batchAdmission", $campFullData->id) }}">批次錄取</a>
                             </li>
                             <li>
                                 <a href="#">查詢及下載</a>

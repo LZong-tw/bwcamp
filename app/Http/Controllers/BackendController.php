@@ -69,8 +69,9 @@ class BackendController extends Controller
                 $message = "錄取序號已清除。";
             }
             else{
-                $group = substr($request->admittedSN, 0, 3);
-                $number = substr($request->admittedSN, 3, strlen($request->admittedSN));
+                $groupAndNumber = $this->applicantService->groupAndNumberSeperator($request->admittedSN);
+                $group = $groupAndNumber['group'];
+                $number = $groupAndNumber['number'];
                 $check = Applicant::select('applicants.*')
                 ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
                 ->where('group', 'like', $group)->where('number', 'like', $number)->first();
@@ -99,9 +100,81 @@ class BackendController extends Controller
         }
     }
 
+    public function batchAdmission(Request $request) {
+        if ($request->isMethod('POST')) {
+
+            $candidate = Applicant::find($request->id);
+            if($request->get("clear") == "清除錄取序號"){
+                $candidate->is_admitted = 0;
+                $candidate->group = null;
+                $candidate->number = null;
+                $candidate->save();
+                $message = "錄取序號已清除。";
+            }
+            else{
+                $groupAndNumber = $this->applicantService->groupAndNumberSeperator($request->admittedSN);
+                $group = $groupAndNumber['group'];
+                $number = $groupAndNumber['number'];
+                $check = Applicant::select('applicants.*')
+                ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
+                ->where('group', 'like', $group)->where('number', 'like', $number)->first();
+                if($check){
+                    $candidate = $this->applicantService->Mandarization($candidate);
+                    $error = "報名序號重複。";
+                    return view('backend.registration.showCandidate', compact('candidate', 'error'));
+                }
+                $candidate->is_admitted = 1;
+                $candidate->group = $group;
+                $candidate->number = $number;
+                $candidate->save();
+                $message = "錄取完成。";
+            }
+            $candidate = $this->applicantService->Mandarization($candidate);
+            return view('backend.registration.showCandidate', compact('candidate', 'message'));
+        }
+        else{
+            $candidates = Applicant::select('applicants.*')
+            ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
+            ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+            ->join('camps', 'camps.id', '=', 'batchs.camp_id');
+            $count = $candidates->count();
+            $admitted = $candidates->where('is_admitted', 1)->count();
+            return view('backend.registration.batchAdmission', compact('count', 'admitted'));
+        }
+    }
+
+    public function showBatchCandidate(Request $request){
+        $applicants = explode(",", $request->snORadmittedSN);
+        foreach($applicants as &$applicant){
+            $groupAndNumber = $this->applicantService->groupAndNumberSeperator($applicant);
+            $group = $groupAndNumber['group'];
+            $number = $groupAndNumber['number'];
+            $candidate = Applicant::select('applicants.*')
+            ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
+            ->where('applicants.id', $applicant)
+            ->orWhere(function ($query) use ($group, $number) {
+                $query->where('group', 'like', $group);
+                $query->where('number', 'like', $number);
+            })->first();
+            if($candidate){
+                $applicant = $this->applicantService->Mandarization($candidate);
+            }
+            else{
+                $id = $applicant;
+                $applicant = collect();
+                $applicant->id = $id;
+                $applicant->name = "無資料";
+                $applicant->gender = "N/A";
+            }
+        }
+        
+        return view('backend.registration.showBatchCandidate', compact('applicants'));
+    }
+
     public function showCandidate(Request $request){
-        $group = substr($request->snORadmittedSN, 0, 4);
-        $number = substr($request->snORadmittedSN, 4, strlen($request->snORadmittedSN));
+        $groupAndNumber = $this->applicantService->groupAndNumberSeperator($request->snORadmittedSN);
+        $group = $groupAndNumber['group'];
+        $number = $groupAndNumber['number'];
         $candidate = Applicant::select('applicants.*')
         ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
         ->where('applicants.id', $request->snORadmittedSN)
@@ -124,6 +197,7 @@ class BackendController extends Controller
         foreach($request->emails as $key => $email){
             Mail::to($email)->send(new AdmittedMail($request->names[$key], $request->admittedNos[$key], $this->campFullData));
         }
+        \Session::flash('message', "已成功寄送全組錄取通知信。");
         return back();
     }
 
