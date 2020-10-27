@@ -19,7 +19,7 @@
                     <th>行動電話</th>
                     <th>家中電話</th>           
                 @endif  			
-                    <th>區域</th>   			
+                    <th>分區</th>   			
             </tr>
         </thead>
         @foreach ($applicants as $applicant)
@@ -43,13 +43,18 @@
             </tr>
         @endforeach
     </table>
-    <form action="{{ route("sendAdmittedMail", $camp_data->id) }}" method="post">
+    @if(Session::has("message"))
+        <div class="alert alert-success" role="alert">
+            {{ Session::get("message") }}
+        </div>
+    @endif
+    <form action="{{ route("sendAdmittedMail", $camp_data->id) }}" method="post" name="sendEmailByGroup">
         @csrf
         @foreach ($applicants as $applicant)
             <input type="hidden" name="names[]" value="{{ $applicant->name }}">
             <input type="hidden" name="emails[]" value="{{ $applicant->email }}">
             <input type="hidden" name="admittedNos[]" value="{{ $applicant->group }}{{ $applicant->number }}">
         @endforeach
-        <button type="submit" class="btn btn-success" style="margin-bottom: 15px">全組寄送錄取通知信</button>
+        <button type="submit" class="btn btn-success" style="margin-bottom: 15px" onclick="this.innerText = '寄送中'; this.disabled = true; document.sendEmailByGroup.submit();">全組寄送錄取通知信</button>
     </form>
 @endsection
