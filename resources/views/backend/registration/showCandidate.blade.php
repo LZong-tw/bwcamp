@@ -1,6 +1,6 @@
 @extends('backend.master')
 @section('content')
-    <h2>{{ $campFullData->abbreviation }} 錄取程序</h2>
+    <h2>{{ $campFullData->abbreviation }} 單一錄取程序</h2>
     @if($candidate)
         @if(isset($message))
             <div class="alert alert-success" role="alert">
@@ -16,7 +16,7 @@
             <h5>{{ $candidate->name }}({{ $candidate->gender }})</h5>
             報名序號：{{ $candidate->id }} <br>
             @if($candidate->region)
-                報名區域：{{ $candidate->region }} <br>
+                分區：{{ $candidate->region }} <br>
             @endif
             @if(isset($candidate->group) && isset($candidate->number))
                 錄取序號：{{ $candidate->group.$candidate->number }} <br>
