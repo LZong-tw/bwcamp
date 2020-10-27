@@ -13,22 +13,51 @@
     @endif
 
     @if(isset($applicants))
-        @foreach ($applicants as $applicant)
-            <h5>{{ $applicant->name }}({{ $applicant->gender }})</h5>
-            報名序號：{{ $applicant->id }} <br>
-            @if(isset($applicant->region))
-                報名區域：{{ $applicant->region }} <br>
-            @endif
-            @if(isset($applicant->group) && isset($applicant->number))
-                錄取序號：{{ $applicant->group.$applicant->number }} <br>
-            @endif
-        @endforeach
+        <form action="" method="post">
+            @csrf
+            <table class="table table-bordered"> 
+                <thead>
+                    <tr>
+                        <th>報名序號</th>
+                        <th>姓名 / 生理性別</th>
+                        <th>分區</th>
+                        <th>錄取序號</th>
+                        <th>輸入錄取序號</th>
+                    </tr>
+                </thead>
+                @foreach ($applicants as $applicant)
+                    <tr>
+                        <td>{{ $applicant->id }}</td>
+                        <td>
+                            {{ $applicant->name }}({{ $applicant->gender }})
+                            {{-- <form target="_blank" action="{{ route("queryview", $applicant->batch_id) }}" method="post" class="d-inline">
+                                @csrf
+                                <input type="hidden" name="sn" value="{{ $applicant->id }}">
+                                <input type="hidden" name="name" value="{{ $applicant->name }}">
+                                <input type="hidden" name="isBackend" value="目前為後台檢視狀態。">
+                                <button class="btn btn-info" style="margin-top: 10px">檢視報名資料</button>
+                            </form> --}}
+                        </td>
+                        <td>{{ $applicant->region }}</td>
+                        <td>{{ $applicant->group.$applicant->number }}</td>
+                        <td>
+                            @if($applicant->gender !== "N/A")
+                                <input type="hidden" name="id[]" value="{{ $applicant->id }}">
+                                <input type="text" name="admittedSN[]" class="form-control">
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
+            </table>
+            <button type="submit" class="btn btn-success">確認批次錄取</button>
+        </form>
     @endif
+    <br>
     {{-- <p>
         <h5>{{ $candidate->name }}({{ $candidate->gender }})</h5>
         報名序號：{{ $candidate->id }} <br>
         @if($candidate->region)
-            報名區域：{{ $candidate->region }} <br>
+            分區：{{ $candidate->region }} <br>
         @endif
         @if(isset($candidate->group) && isset($candidate->number))
             錄取序號：{{ $candidate->group.$candidate->number }} <br>

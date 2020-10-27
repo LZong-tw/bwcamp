@@ -157,8 +157,12 @@ class BackendController extends Controller
                 $id = $applicant;
                 $applicant = collect();
                 $applicant->id = $id;
+                $applicant->batch_id = "";
                 $applicant->name = "無資料";
                 $applicant->gender = "N/A";
+                $applicant->region = "--";
+                $applicant->group = "-";
+                $applicant->number = "-";
             }
         }
         
