@@ -1,5 +1,13 @@
 @extends('backend.master')
 @section('content')
+    <style>
+        .card-link{
+            color: #3F86FB!important;
+        }
+        .card-link:hover{
+            color: #33B2FF!important;
+        }
+    </style>
     <h2>組別名單</h2>
     @foreach ($batches as $batch)
         <h4>梯次：{{ $batch->name }}</h4>

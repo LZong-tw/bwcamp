@@ -19,7 +19,7 @@
                     <th>行動電話</th>
                     <th>家中電話</th>           
                 @endif  			
-                    <th>區域</th>   			
+                    <th>分區</th>   			
             </tr>
         </thead>
         @foreach ($applicants as $applicant)
