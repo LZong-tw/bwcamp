@@ -147,7 +147,7 @@ class CampDataService
                 $formData["region"] = '嘉義';
             }
         }
-        else if($camp == "tcamp"){
+        else if($camp == "tcamp" && isset($formData["unit_county"])){
             $region = "";
             $north = array ("臺北市", "基隆市", "新北市", "宜蘭縣", "花蓮縣", "金門縣", "連江縣");
             $central = array ("臺中市", "彰化縣", "南投縣");

@@ -704,7 +704,8 @@
                 for(let i = 0; i < categories.length; i++){
                     categories[i].addEventListener("click", changeJobTitleList);
                     categories[i].addEventListener("change", changeJobTitleList);
-                }                
+                }
+                            
                 /**
                 * 選擇職稱後，將職稱填至欄位中。
                 */
@@ -843,6 +844,15 @@
                 "        </select>" +
                 "    </div>  " +
                 "</div>";
+                
+            /*************************************
+             * 物件重建後需重新設定 event listener
+             *************************************/
+            categories = document.getElementsByName("school_or_course");
+            for(let i = 0; i < categories.length; i++){
+                categories[i].addEventListener("click", changeJobTitleList);
+                categories[i].addEventListener("change", changeJobTitleList);
+            }
         }
 
         function hideFields(){        
