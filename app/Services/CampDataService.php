@@ -27,8 +27,24 @@ class CampDataService
         // 各營隊客製化欄位特殊處理
         // 大專營：參加過的福智活動
         if(isset($request->blisswisdom_type)) {
+            /**
+             * 避免出現 Indirect modification of overloaded property 
+             * Illuminate\Http\Request::$blisswisdom_type has no effect
+             * 這類錯誤
+             */
+            $blisswisdom_type = $request->blisswisdom_type;
+            /**
+             * 由於 blisswisdom_type 包含 text 欄位，text 欄位即使留白也會 set，
+             * 所以需額外判斷 blisswisdom_type 的各欄位是否真的有填寫，若沒填寫則
+             * 將其移除，避免寫入多餘的資料。
+             */
+            foreach($blisswisdom_type as $key => $item){
+                if($item == null){
+                    unset($blisswisdom_type[$key]);
+                }
+            }
             $request->merge([
-                'blisswisdom_type' => implode("||/", $request->blisswisdom_type)
+                'blisswisdom_type' => implode("||/", $blisswisdom_type)
             ]);
         }
 

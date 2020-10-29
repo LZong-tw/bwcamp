@@ -859,6 +859,12 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 categories[i].addEventListener("click", changeJobTitleList);
                 categories[i].addEventListener("change", changeJobTitleList);
             }
+
+            titles = document.getElementsByName("data[12]");
+            for(let i = 0; i < titles.length; i++){
+                titles[i].addEventListener("click", fillTheTitle);
+                titles[i].addEventListener("change", fillTheTitle);
+            }
         }
 
         function hideFields(){        
@@ -930,11 +936,11 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         else if(inputs[i].type == "checkbox"){
                             let checkboxes = document.getElementsByName(inputs[i].name);
                             let deArray = inputs[i].name.slice(0, -2); 
-                            if(typeof applicant_data[deArray] !== "undefined"){
+                            if(applicant_data[deArray]){
                                 let checkedValues = applicant_data[deArray].split("||/");
                                 for( j = 0; j < checkboxes.length; j++ ) {
                                     if( checkboxes[j].type == "text"){
-                                        checkboxes[j].value = checkedValues[j];
+                                        checkboxes[j].value = checkedValues[j];    
                                     }
                                     for( k = 0; k < checkboxes.length; k++ ) {
                                         if( checkboxes[j].value == checkedValues[k] ) {
