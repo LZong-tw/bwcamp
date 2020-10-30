@@ -196,7 +196,7 @@ class CampDataService
             }
 
             if($formData["unit_county"] == "臺南市"){
-                $region = "台巿";
+                $region = "台南";
             }
             if($formData["unit_county"] == "桃園市"){
                 $region = "桃園";
