@@ -769,9 +769,12 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         else if(inputs[i].type == "checkbox"){
                             let checkboxes = document.getElementsByName(inputs[i].name);
                             let deArray = inputs[i].name.slice(0, -2); 
-                            if(typeof applicant_data[deArray] !== "undefined"){
-                                let checkedValues = applicant_data[deArray].split('||/');
+                            if(applicant_data[deArray]){
+                                let checkedValues = applicant_data[deArray].split("||/");
                                 for( j = 0; j < checkboxes.length; j++ ) {
+                                    if( checkboxes[j].type == "text"){
+                                        checkboxes[j].value = checkedValues[j];  
+                                    }
                                     for( k = 0; k < checkboxes.length; k++ ) {
                                         if( checkboxes[j].value == checkedValues[k] ) {
                                             checkboxes[j].checked = true;
@@ -780,12 +783,18 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                                 }
                             }
                         }
-                        else{
+                        else if(applicant_data[inputs[i].name]){
                             inputs[i].value = applicant_data[inputs[i].name]; 
                         }
                     }
+                    else if(inputs[i].type == "text" && inputs[i].name != 'blisswisdom_type[]'){
+                        inputs[i].value = applicant_data[inputs[i].name]; 
+                    }
                     if(inputs[i].name == 'emailConfirm'){
                         inputs[i].value = applicant_data['email'];
+                    }
+                    if(inputs[i].name == 'zipcode'){
+                        inputs[i].value = "";
                     }
                 }
                 for (var i = 0; i < selects.length; i++){
