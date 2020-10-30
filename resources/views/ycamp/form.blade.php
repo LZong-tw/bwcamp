@@ -322,7 +322,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputCell' class='col-md-2 control-label text-md-right'>行動電話</label>
         <div class='col-md-10'>
-            <input type=tel required  name='mobile' value='' class='form-control' id='inputCell' placeholder='格式：0912-345-678'>
+            <input type=tel required  name='mobile' value='' class='form-control' id='inputCell' placeholder='格式：0912345678'>
             <div class="invalid-feedback">
                 請填寫行動電話
             </div>
@@ -332,7 +332,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group'>
         <label for='inputTelHome' class='col-md-2 control-label text-md-right'>家中電話</label>
         <div class='col-md-10'>
-            <input type=tel  name='phone_home' value='' class='form-control' id='inputTelHome' placeholder='格式：02-2545-2546#520'>
+            <input type=tel  name='phone_home' value='' class='form-control' id='inputTelHome' placeholder='格式：0225452546#520'>
         </div>
     </div>
 
