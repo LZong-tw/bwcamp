@@ -8,9 +8,9 @@
             報名序號查詢
         </div>
         <div class="card-body">
-            @if(isset($applicant_id))
+            @if(isset($applicant))
                 <p class="card-text">
-                    您的報名序號為<span class="text-danger font-weight-bold">《 {{ $applicant_id }} 》</span>。
+                    您的報名序號已寄至 <span class="text-danger font-weight-bold">{{ $applicant->email }}</span>，請查收。
                 </p>
             @endif
             @if(isset($error))
