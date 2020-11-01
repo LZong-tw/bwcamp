@@ -793,9 +793,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     if(inputs[i].name == 'emailConfirm'){
                         inputs[i].value = applicant_data['email'];
                     }
-                    if(inputs[i].name == 'zipcode'){
-                        inputs[i].value = "";
-                    }
                 }
                 for (var i = 0; i < selects.length; i++){
                     if(typeof applicant_data[selects[i].name] !== "undefined"){
