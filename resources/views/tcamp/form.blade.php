@@ -482,7 +482,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     <label>班別：</label>
                 </div>
                 <div class='col-md-10'>
-                    <input type=text class='form-control' name=blisswisdom_type[] value=''>
+                    <input type=text class='form-control' name=blisswisdom_type_complement[] value=''>
                 </div>
             </div>    
             <label><input type="checkbox" name=blisswisdom_type[] value='其它' > 其它</label> <br/>
@@ -491,7 +491,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     <label>活動名稱：</label>
                 </div>
                 <div class='col-md-10'>
-                    <input type=text class='form-control' name=blisswisdom_type[] value=''>
+                    <input type=text class='form-control' name=blisswisdom_type_complement[] value=''>
                 </div>
             </div>
         </div>
@@ -922,6 +922,8 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 let inputs = document.getElementsByTagName('input');
                 let selects = document.getElementsByTagName('select');
                 let textareas = document.getElementsByTagName('textarea');
+                let complementPivot = 0;                
+                let complementData = applicant_data["blisswisdom_type_complement"].split("||/"); 
                 // console.log(inputs); 
                 for (var i = 0; i < inputs.length; i++){
                     if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox"){
@@ -939,9 +941,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                             if(applicant_data[deArray]){
                                 let checkedValues = applicant_data[deArray].split("||/");
                                 for( j = 0; j < checkboxes.length; j++ ) {
-                                    if( checkboxes[j].type == "text"){
-                                        checkboxes[j].value = checkedValues[j - 1];
-                                    }
                                     for( k = 0; k < checkboxes.length; k++ ) {
                                         if( checkboxes[j].value == checkedValues[k] ) {
                                             checkboxes[j].checked = true;
@@ -954,14 +953,15 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                             inputs[i].value = applicant_data[inputs[i].name]; 
                         }
                     }
-                    else if(inputs[i].type == "text" && inputs[i].name != 'blisswisdom_type[]'){
+                    else if(inputs[i].type == "text" && inputs[i].name == 'blisswisdom_type_complement[]'){
+                        inputs[i].value = complementData[complementPivot];
+                        complementPivot++;
+                    }
+                    else if(inputs[i].type == "text"){
                         inputs[i].value = applicant_data[inputs[i].name]; 
                     }
                     if(inputs[i].name == 'emailConfirm'){
                         inputs[i].value = applicant_data['email'];
-                    }
-                    if(inputs[i].name == 'zipcode'){
-                        inputs[i].value = "";
                     }
                 }
                 for (var i = 0; i < selects.length; i++){

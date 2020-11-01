@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class RenameApplicantsColumn2 extends Migration
+class BlisswisdomTypeComplementAdded extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class RenameApplicantsColumn2 extends Migration
      */
     public function up()
     {
-        //
-        Schema::table('applicants', function (Blueprint $table) {
-            $table->renameColumn('postal_code', 'zipcode');
+        Schema::table('tcamp', function (Blueprint $table) {
+            //
+            $table->string('blisswisdom_type_complement', 40)->nullable()->after('blisswisdom_type');
         });
     }
 
@@ -26,9 +26,9 @@ class RenameApplicantsColumn2 extends Migration
      */
     public function down()
     {
-        //
-        Schema::table('applicants', function (Blueprint $table) {
-            $table->renameColumn('zipcode', 'postal_code');
+        Schema::table('tcamp', function (Blueprint $table) {
+            //
+            $table->dropColumn('blisswisdom_type_complement');
         });
     }
 }
