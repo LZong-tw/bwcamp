@@ -40,8 +40,7 @@ class CampController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function campIndex() {
-        dd($this->camp_data);
-        return ;
+        return "";
     }
 
     public function campRegistration(Request $request) {
@@ -200,5 +199,9 @@ class CampController extends Controller
         else{
             return back()->withInput()->with('error', "找不到報名資料，請確認是否已成功報名，或是輸入了錯誤的查詢資料。");
         }
+    }
+
+    public function showDownloads() {
+        return view($this->camp_data->table . '.downloads');
     }
 }
