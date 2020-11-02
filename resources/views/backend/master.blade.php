@@ -50,7 +50,7 @@
                                 <a href="#">就讀學程</a>
                             </li>
                             <li>
-                                <a href="#">報名梯次</a>
+                                <a href="{{ route("batchesStat", $campFullData->id) }}">報名梯次</a>
                             </li>
                             <li>
                                 <a href="#">管道統計</a>
