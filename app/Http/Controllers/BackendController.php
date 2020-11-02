@@ -217,6 +217,7 @@ class BackendController extends Controller
         ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+        ->where('camps.id', $this->campFullData->id)
         ->groupBy('date')->get();
         $rows = count($applicants);
         $array = $applicants->toArray();
@@ -251,6 +252,7 @@ class BackendController extends Controller
         ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+        ->where('camps.id', $this->campFullData->id)
         ->groupBy('applicants.gender')->get();
         $rows = count($applicants);
         foreach($applicants as $applicant){
@@ -284,10 +286,10 @@ class BackendController extends Controller
         ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+        ->where('camps.id', $this->campFullData->id)
         ->groupBy('county')->get();
         $rows = count($applicants);
         $array = $applicants->toArray();
-
         $i = 0 ;
         $total = 0 ;
         $GChartData = array('cols'=> array(
@@ -308,5 +310,36 @@ class BackendController extends Controller
         $GChartData = json_encode($GChartData);
 
         return view('backend.statistics.county', compact('GChartData',  'total'));
+    }
+
+    public function batchesStat(){
+        $applicants = Applicant::select(\DB::raw('batchs.name as batch, count(*) as total'))
+        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+        ->where('camps.id', $this->campFullData->id)
+        ->groupBy('batchs.name')->get();
+        $rows = count($applicants);
+        $array = $applicants->toArray();
+
+        $i = 0 ;
+        $total = 0 ;
+        $GChartData = array('cols'=> array(
+                        array('id'=>'batch','label'=>'梯次','type'=>'string'),
+                        array('id'=>'people','label'=>'人數','type'=>'number'),
+                        array('id'=>'annotation','role'=>'annotation','type'=>'number')
+                    ),
+                    'rows' => array());
+        for($i = 0; $i < $rows; $i ++) {
+            $record = $array[$i];
+            array_push($GChartData['rows'], array('c' => array(
+                array('v' => $record['batch'] == null ? '其他' : $record['batch']),
+                array('v' => intval($record['total'])),
+                array('v' => intval($record['total']))
+            )));
+            $total = $total + $record['total'];
+        }
+        $GChartData = json_encode($GChartData);
+
+        return view('backend.statistics.batches', compact('GChartData',  'total'));
     }
 }
