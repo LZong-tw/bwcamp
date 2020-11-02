@@ -923,7 +923,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 let selects = document.getElementsByTagName('select');
                 let textareas = document.getElementsByTagName('textarea');
                 let complementPivot = 0;                
-                let complementData = applicant_data["blisswisdom_type_complement"].split("||/"); 
+                let complementData = applicant_data["blisswisdom_type_complement"] ? applicant_data["blisswisdom_type_complement"].split("||/") : null; 
                 // console.log(inputs); 
                 for (var i = 0; i < inputs.length; i++){
                     if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox"){
@@ -954,7 +954,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         }
                     }
                     else if(inputs[i].type == "text" && inputs[i].name == 'blisswisdom_type_complement[]'){
-                        inputs[i].value = complementData[complementPivot];
+                        inputs[i].value = complementData ? complementData[complementPivot] : null;
                         complementPivot++;
                     }
                     else if(inputs[i].type == "text"){
@@ -977,7 +977,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 
                 @if(!$isModify)
                     for (var i = 0; i < inputs.length; i++){
-                        if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox" || inputs[i].name == 'emailConfirm' || inputs[i].name == "blisswisdom_type[]"){
+                        if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox" || inputs[i].name == 'emailConfirm' || inputs[i].name == "blisswisdom_type[]" || inputs[i].name == "blisswisdom_type_complement[]"){
                             inputs[i].disabled = true;
                         }
                     }
