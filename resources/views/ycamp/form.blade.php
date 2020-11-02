@@ -773,7 +773,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                                 let checkedValues = applicant_data[deArray].split("||/");
                                 for( j = 0; j < checkboxes.length; j++ ) {
                                     if( checkboxes[j].type == "text"){
-                                        checkboxes[j].value = checkedValues[j];  
+                                        checkboxes[j].value = checkedValues[j - 1];  
                                     }
                                     for( k = 0; k < checkboxes.length; k++ ) {
                                         if( checkboxes[j].value == checkedValues[k] ) {
@@ -792,9 +792,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     }
                     if(inputs[i].name == 'emailConfirm'){
                         inputs[i].value = applicant_data['email'];
-                    }
-                    if(inputs[i].name == 'zipcode'){
-                        inputs[i].value = "";
                     }
                 }
                 for (var i = 0; i < selects.length; i++){
