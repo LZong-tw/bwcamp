@@ -4,11 +4,11 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name='description' content='擁抱世界，成為帶給世界溫暖與希望的人。邀請你報名參加大專青年生命成長營，1/16-19@大仁科技大學。' />
+    <meta name='description' content='「教育是人類升沈的樞紐」邀請您報名參加教師生命成長營。' />
     <meta name='author' content='福智文教基金會'>
     <meta property='og:url' content='http://youth.blisswisdom.org/camp/winter/'/>
     <meta property='og:title' content='{{ $camp_data->abbreviation }}'/>
-    <meta property='og:description' content='擁抱世界，成為帶給世界溫暖與希望的人。邀請你報名參加大專青年生命成長營，1/16-19@大仁科技大學。' />
+    <meta property='og:description' content='「教育是人類升沈的樞紐」邀請您報名參加教師生命成長營。' />
     <meta property='og:image' content='http://youth.blisswisdom.org/camp/media/2016Wbanner.png'/>
     {{-- <link rel='icon' href='/camp/favicon.ico'> --}}
     <title> {{ $camp_data->fullName }} </title>
@@ -46,7 +46,7 @@
                     {{-- <li class="nav-item active"> --}}
                     {{-- <span class="sr-only">(current)</span> --}}
                     <li class="nav-item">
-                        <a class="nav-link" href="#">營隊資訊</a>
+                        <a class="nav-link" href="https://bwfoce.org/tcamp">營隊資訊</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('registration', $batch_id) }}">報名表單</a>
@@ -60,10 +60,10 @@
                         </li>
                     @endif
                     <li class="nav-item">
-                        <a class="nav-link" href="#">課程表</a>
+                        <a class="nav-link" href="https://bwfoce.wixsite.com/bwtcamp/courses">課程表</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">報名簡章下載</a>
+                        <a class="nav-link" href="{{ url("downloads/tcamp2021/2021教師生命成長營簡章.docx") }}">報名簡章下載</a>
                     </li>
                 </ul>
             </div>
@@ -74,7 +74,7 @@
     @yield('content')
     <!-- Site footer -->
     <footer class='footer'>
-        <p class=text-center>&copy; 財團法人福智文教基金會 <br> 福智青年聯誼會</p>
+        <p class=text-center>&copy; 財團法人福智文教基金會</p>
     </footer>
 </div>
 </body></html>
