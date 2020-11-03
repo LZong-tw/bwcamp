@@ -270,6 +270,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     </div>
+    </span>
 
     <div class='row form-group required'> 
     <label for='inputSubjectTeaches' class='col-md-2 control-label text-md-right'>職稱</label>
@@ -304,7 +305,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     </div>
-    </span>
 
     <div class='row form-group required'> 
     <label for='inputUnit' class='col-md-2 control-label text-md-right'>服務單位名稱/校名</label>
@@ -775,40 +775,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 "            請填寫任教科系/任教科目" +
                 "        </div>" +
                 "    </div>" +
-                "</div>" +
-                "<div class='row form-group required'> " +
-                "<label for='inputSubjectTeaches' class='col-md-2 control-label text-md-right'>職稱</label>" +
-                "    <div class='col-md-10'>" +
-                "        <div id='tip' style='color: red; font-weight: bold;'>請先選擇任教機關/任教學程</div>" +
-                "        <div style='display: none;' class='titles officials'>" +
-                "            <input type='radio' name='data[12]' class='officials' value='行政人員'>行政人員" +
-                "            <input type='radio' name='data[12]' class='officials' value='其他'>其他" +
-                "        </div>" +
-                "        <div style='display: none;' class='titles universities'>" +
-                "            <input type='radio' name='data[12]' class='universities' value='校長'>校長" +
-                "            <input type='radio' name='data[12]' class='universities' value='教授'>教授" +
-                "            <input type='radio' name='data[12]' class='universities' value='副教授'>副教授" +
-                "            <input type='radio' name='data[12]' class='universities' value='助理教授'>助理教授" +
-                "            <input type='radio' name='data[12]' class='universities' value='講師'>講師<br>" +
-                "            <input type='radio' name='data[12]' class='universities' value='職員'>職員" +
-                "            <input type='radio' name='data[12]' class='universities' value='其他'>其他" +
-                "        </div>" +
-                "        <div style='display: none;' class='titles compulsories'>" +
-                "            <input type='radio' name='data[12]' class='compulsories' value='校長'>校長" +
-                "            <input type='radio' name='data[12]' class='compulsories' value='主任'>主任" +
-                "            <input type='radio' name='data[12]' class='compulsories' value='教師'>教師" +
-                "            <input type='radio' name='data[12]' class='compulsories' value='教師兼行政'>教師兼行政" +
-                "            <input type='radio' name='data[12]' class='compulsories' value='代理教師'>代理教師<br>" +
-                "            <input type='radio' name='data[12]' class='compulsories' value='兼課老師'>兼課老師" +
-                "            <input type='radio' name='data[12]' class='compulsories' value='職員'>職員" +
-                "            <input type='radio' name='data[12]' class='compulsories' value='其他'>其他" +
-                "        </div>" +
-                "        <input type=text required name='title' value='' class='form-control' id='title'>" +
-                "        <div class='invalid-feedback crumb'>" +
-                "            請填寫職稱" +
-                "        </div>" +
-                "    </div>" +
                 "</div>";
+
+            document.getElementById("tip").innerHTML = '請先選擇任教機關/任教學程';
                 
             /*************************************
              * 物件重建後需重新設定 event listener
@@ -828,6 +797,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 
         function hideFields(){        
             rowIsEducating.innerHTML = '';
+            document.getElementById("tip").innerHTML = '';
         }
 
         function setUnrequired(elements){
