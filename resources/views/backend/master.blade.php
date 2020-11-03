@@ -84,7 +84,7 @@
                                 <a href="{{ route("showRegistration", $campFullData->id) }}">報名</a>
                             </li>
                             <li>
-                                <a href="#">查詢及下載</a>
+                                <a href="{{ route("showRegistrationList", $campFullData->id)}}">查詢及下載</a>
                             </li>
                         </ul>
                     </li>
