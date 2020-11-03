@@ -189,6 +189,42 @@ class BackendController extends Controller
         return view('backend.registration.list');
     }
 
+    public function getRegistrationList(Request $request){
+        if(isset($request->region)){
+            $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn")
+                        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+                        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+                        ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
+                        ->where('camps.id', $this->campFullData->id);
+            if($request->region == '全區'){
+                $applicants = $query->get();
+            }
+            else{
+                $applicants = $query->where('region', $request->region)->get();
+            }
+            return view('backend.registration.list', compact('applicants'));
+        }
+        elseif(isset($request->school_or_course)){
+            //教師營使用 school_or_course 欄位
+            $applicants = Applicant::select("applicants.*", "tcamp.*", "batchs.name as bName", "applicants.id as sn")
+                            ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+                            ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+                            ->join('tcamp', 'applicants.id', '=', 'tcamp.applicant_id')
+                            ->where('camps.id', $this->campFullData->id)
+                            ->where('school_or_course', $request->school_or_course)->get();
+            return view('backend.registration.list', compact('applicants'));
+        }
+        else{
+            $applicants = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn")
+                            ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+                            ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+                            ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
+                            ->where('camps.id', $this->campFullData->id)
+                            ->where('address', "like", "%" . $request->address . "%")->get();
+            return view('backend.registration.list', compact('applicants'));
+        }
+    }
+
     public function sendAdmittedMail(Request $request){
         foreach($request->emails as $key => $email){
             Mail::to($email)->send(new AdmittedMail($request->names[$key], $request->admittedNos[$key], $this->campFullData));
