@@ -10,7 +10,8 @@
     }
 </style>
 <h2>查詢及下載</h2>
-<form method=post action="" class="form-inline">
+<form method=post action="{{ route('getRegistrationList', $campFullData->id) }}" class="form-inline" name="Camp">
+    @csrf
     <table class="table table-responsive">
         <tr>
             <td align=left valign=middle nowrap>
@@ -29,13 +30,13 @@
         <tr>
             <td align=left valign=middle nowrap>
                 <2> 學程：    
-                <input class="btn btn-warning" type=submit name=system value='教育部'>&nbsp;
-                <input class="btn btn-warning" type=submit name=system value='教育局/處'>&nbsp;
-                <input class="btn btn-warning" type=submit name=system value='大專校院'>&nbsp;
-                <input class="btn btn-warning" type=submit name=system value='高中職'>&nbsp;
-                <input class="btn btn-warning" type=submit name=system value='國中'>&nbsp;
-                <input class="btn btn-warning" type=submit name=system value='國小'>&nbsp;
-                <input class="btn btn-warning" type=submit name=system value='幼教'>&nbsp;
+                <input class="btn btn-warning" type=submit name=school_or_course value='教育部'>&nbsp;
+                <input class="btn btn-warning" type=submit name=school_or_course value='教育局/處'>&nbsp;
+                <input class="btn btn-warning" type=submit name=school_or_course value='大專校院'>&nbsp;
+                <input class="btn btn-warning" type=submit name=school_or_course value='高中職'>&nbsp;
+                <input class="btn btn-warning" type=submit name=school_or_course value='國中'>&nbsp;
+                <input class="btn btn-warning" type=submit name=school_or_course value='國小'>&nbsp;
+                <input class="btn btn-warning" type=submit name=school_or_course value='幼教'>&nbsp;
             </td>
         </tr>
         <tr>
@@ -80,4 +81,29 @@
         </tr>
     </table>
 </form>
+
+<table class="table table-responsive">
+    <thead>
+        <tr>
+            <th>報名序號</th>
+            <th>姓名</th>
+            <th>梯次</th>
+            <th>區域</th>
+            <th>學程</th>
+            <th>地址</th>
+        </tr>
+    </thead>
+    @forelse ($applicants as $applicant)
+        <tr>
+            <td>{{ $applicant->sn }}</td>
+            <td>{{ $applicant->name }}</td>
+            <td>{{ $applicant->bName }}</td>
+            <td>{{ $applicant->region }}</td>
+            <td>{{ $applicant->school_or_course }}</td>
+            <td>{{ $applicant->address }}</td>
+        </tr>
+    @empty
+        沒有資料/尚未查詢
+    @endforelse
+</table>
 @endsection
