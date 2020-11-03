@@ -304,6 +304,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     </div>
+    </span>
 
     <div class='row form-group required'> 
     <label for='inputUnit' class='col-md-2 control-label text-md-right'>服務單位名稱/校名</label>
@@ -347,7 +348,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </select>
         </div>  
     </div>
-    </span>
     <p class='form-control-static text-danger'>連絡方式</p>
     <div class='row form-group required'>
         <label for='inputCell' class='col-md-2 control-label text-md-right'>行動電話</label>
@@ -808,47 +808,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 "            請填寫職稱" +
                 "        </div>" +
                 "    </div>" +
-                "</div>" +
-                "<div class='row form-group required'> " +
-                "<label for='inputUnit' class='col-md-2 control-label text-md-right'>服務單位名稱/校名</label>" +
-                "    <div class='col-md-10'>" +
-                "        <input type=text required name='unit' value='' class='form-control' id='inputUnit'>" +
-                "        <div class='invalid-feedback crumb'>" +
-                "            請填寫服務單位名稱/校名" +
-                "        </div>" +
-                "    </div>" +
-                "</div>" +
-                "<div class='row form-group required'>" +
-                "    <label for='inputUnitCounty' class='col-md-2 control-label text-md-right'>服務單位所在縣市</label>" +
-                "    <div class='col-md-10'>" +
-                "        <select required class='form-control' name='unit_county'' onChange='SchooList(this.options[this.options.selectedIndex].value);'>" +
-                "            <option value='' selected>- 請先選縣市 -</option>" +
-                "            <option value='臺北市' >臺北市</option>" +
-                "            <option value='新北市' >新北市</option>" +
-                "            <option value='基隆市' >基隆市</option>" +
-                "            <option value='宜蘭縣' >宜蘭縣</option>" +
-                "            <option value='花蓮縣' >花蓮縣</option>" +
-                "            <option value='桃園市' >桃園市</option>" +
-                "            <option value='新竹市' >新竹市</option>" +
-                "            <option value='新竹縣' >新竹縣</option>" +
-                "            <option value='苗栗縣' >苗栗縣</option>" +
-                "            <option value='臺中市' >臺中市</option>" +
-                "            <option value='彰化縣' >彰化縣</option>" +
-                "            <option value='南投縣' >南投縣</option>" +
-                "            <option value='雲林縣' >雲林縣</option>" +
-                "            <option value='嘉義市' >嘉義市</option>" +
-                "            <option value='嘉義縣' >嘉義縣</option>" +
-                "            <option value='臺南市' >臺南市</option>" +
-                "            <option value='高雄市' >高雄市</option>" +
-                "            <option value='屏東縣' >屏東縣</option>" +
-                "            <option value='臺東縣' >臺東縣</option>" +
-                "            <option value='澎湖縣' >澎湖縣</option>" +
-                "            <option value='金門縣' >金門縣</option>" +
-                "            <option value='連江縣' >連江縣</option>" +
-                "            <option value='南海諸島' >南海諸島</option>" +
-                "            <option value='海外' >海外</option>" +
-                "        </select>" +
-                "    </div>  " +
                 "</div>";
                 
             /*************************************
