@@ -60,7 +60,7 @@
                         </li>
                     @endif
                     <li class="nav-item">
-                        <a class="nav-link" href="https://bwfoce.wixsite.com/bwtcamp/courses">課程表</a>
+                        <a class="nav-link" href="{{ url("downloads/tcamp2021/2021教師生命成長營課程表.pdf") }}">課程表</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url("downloads/tcamp2021/2021教師生命成長營簡章.docx") }}">報名簡章下載</a>
