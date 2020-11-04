@@ -70,7 +70,7 @@
                     <option value='其他'>其他</option>
                 </select>&nbsp;&nbsp;
 
-                <select class="form-control" id=subarea name=subarea size=1>
+                <select class="form-control" id=subarea name=subarea size=1 onChange='document.Camp.zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.address.value=MyAddress(document.Camp.county.value, this.options[this.options.selectedIndex].text);'>
                     <option value=''>- 再選區鄉鎮 -</option>
                 </select>&nbsp;
                 <input type="hidden" name="zipcode">
@@ -81,29 +81,31 @@
         </tr>
     </table>
 </form>
-
-<table class="table table-responsive">
-    <thead>
-        <tr>
-            <th>報名序號</th>
-            <th>姓名</th>
-            <th>梯次</th>
-            <th>區域</th>
-            <th>學程</th>
-            <th>地址</th>
-        </tr>
-    </thead>
-    @forelse ($applicants as $applicant)
-        <tr>
-            <td>{{ $applicant->sn }}</td>
-            <td>{{ $applicant->name }}</td>
-            <td>{{ $applicant->bName }}</td>
-            <td>{{ $applicant->region }}</td>
-            <td>{{ $applicant->school_or_course }}</td>
-            <td>{{ $applicant->address }}</td>
-        </tr>
-    @empty
-        沒有資料/尚未查詢
-    @endforelse
-</table>
+@if(isset($applicants))
+    <h3>查詢條件：{{ $query }}</h3>
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>報名序號</th>
+                <th>姓名</th>
+                <th>梯次</th>
+                <th>區域</th>
+                <th>學程</th>
+                <th>地址</th>
+            </tr>
+        </thead>
+        @forelse ($applicants as $applicant)
+            <tr>
+                <td>{{ $applicant->sn }}</td>
+                <td>{{ $applicant->name }}</td>
+                <td>{{ $applicant->bName }}</td>
+                <td>{{ $applicant->region }}</td>
+                <td>{{ $applicant->school_or_course }}</td>
+                <td>{{ $applicant->address }}</td>
+            </tr>
+        @empty
+            查詢的條件沒有資料
+        @endforelse
+    </table>
+@endif
 @endsection
