@@ -176,7 +176,7 @@ class CampDataService
             }
 
             if($formData["unit_county"] == "苗栗縣"){
-                if($formData["unit_district"] == "頭份鎮" || $formData["unit_district"] == "竹南鎮") {
+                if(isset($formData["unit_district"]) && ($formData["unit_district"] == "頭份鎮" || $formData["unit_district"] == "竹南鎮")) {
                     $region = "新竹";
                 }
                 else{

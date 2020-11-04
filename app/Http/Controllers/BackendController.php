@@ -202,7 +202,8 @@ class BackendController extends Controller
             else{
                 $applicants = $query->where('region', $request->region)->get();
             }
-            return view('backend.registration.list', compact('applicants'));
+            $query = $request->region;
+            return view('backend.registration.list', compact('applicants', 'query'));
         }
         elseif(isset($request->school_or_course)){
             //教師營使用 school_or_course 欄位
@@ -212,7 +213,8 @@ class BackendController extends Controller
                             ->join('tcamp', 'applicants.id', '=', 'tcamp.applicant_id')
                             ->where('camps.id', $this->campFullData->id)
                             ->where('school_or_course', $request->school_or_course)->get();
-            return view('backend.registration.list', compact('applicants'));
+            $query = $request->school_or_course;
+            return view('backend.registration.list', compact('applicants', 'query'));
         }
         else{
             $applicants = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn")
@@ -221,7 +223,8 @@ class BackendController extends Controller
                             ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
                             ->where('camps.id', $this->campFullData->id)
                             ->where('address', "like", "%" . $request->address . "%")->get();
-            return view('backend.registration.list', compact('applicants'));
+            $query = $request->address;
+            return view('backend.registration.list', compact('applicants', 'query'));
         }
     }
 
