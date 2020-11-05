@@ -236,36 +236,33 @@ class BackendController extends Controller
             $query = $request->address;
         }
         if(isset($request->download)){
-            $fileName = $this->campFullData->table . $query . \Carbon\Carbon::now()->format('YmdHis') . '.csv';
+            $fileName = $this->campFullData->abbreviation . $query . \Carbon\Carbon::now()->format('YmdHis') . '.csv';
             $headers = array(
-                "Content-type"        => "text/csv",
+                "Content-Encoding"    => "Big5",
+                "Content-type"        => "text/csv; charset=big5",
                 "Content-Disposition" => "attachment; filename=$fileName",
                 "Pragma"              => "no-cache",
                 "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
                 "Expires"             => "0"
             );
             $columns = array();
-            $row = array();
 
             $callback = function() use($applicants, $columns) {
                 $file = fopen('php://output', 'w');
-                $keys = \Schema::getColumnListing('applicants');
-                $campKeys = \Schema::getColumnListing($this->campFullData->table);
-                $keys = array_merge($keys, $campKeys);
-                foreach ($applicants as $applicant) {
-                    foreach($keys as $key){
-                        $columns[] = $key;
-                    }
-                    break;
+                // 先寫入此三個字元使 Excel 能正確辨認編碼為 UTF-8
+                // http://jeiworld.blogspot.com/2009/09/phpexcelutf-8csv.html
+                fwrite($file, "\xEF\xBB\xBF");
+                $keys = $this->campDataService->csvColumnParser($this->campFullData->table);                
+                foreach($keys['keys'] as $key){
+                    $columns[] = $key;
                 }
                 fputcsv($file, $columns);
 
                 foreach ($applicants as $applicant) {
                     $rows = array();
                     foreach($keys as $key){
-                        array_push($rows, $applicant[$key]);
+                        array_push($rows, '="' . $applicant[$key] . '"');
                     }
-
                     fputcsv($file, $rows);
                 }
 
