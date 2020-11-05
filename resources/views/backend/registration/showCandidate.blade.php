@@ -33,8 +33,6 @@
             @csrf
             <input type="hidden" name="id" value="{{ $candidate->id }}">
             @if(isset($candidate->group) && isset($candidate->number))
-                <a href="" class="btn btn-secondary" style="margin-bottom: 15px">寄送電子郵件</a>
-                <br>
                 輸入正取序號：<input type="text" name="admittedSN" class="form-control" placeholder="">
                 <br>
                 <input type="submit" class="btn btn-warning" value="修改錄取序號">
