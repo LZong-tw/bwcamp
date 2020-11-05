@@ -14,6 +14,9 @@
     @csrf
     <table class="table table-responsive">
         <tr>
+            <td><0> 設定下載 <input type="checkbox" name="download" id=""></td>
+        </tr>
+        <tr>
             <td align=left valign=middle nowrap>
                 <1> 區域：
                 <input class="btn btn-primary" type=submit name=region value='全區'>&nbsp;

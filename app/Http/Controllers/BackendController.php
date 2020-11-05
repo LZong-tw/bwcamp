@@ -235,6 +235,44 @@ class BackendController extends Controller
                             ->where('address', "like", "%" . $request->address . "%")->get();
             $query = $request->address;
         }
+        if(isset($request->download)){
+            $fileName = $this->campFullData->table . $query . \Carbon\Carbon::now()->format('YmdHis') . '.csv';
+            $headers = array(
+                "Content-type"        => "text/csv",
+                "Content-Disposition" => "attachment; filename=$fileName",
+                "Pragma"              => "no-cache",
+                "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+                "Expires"             => "0"
+            );
+            $columns = array();
+            $row = array();
+
+            $callback = function() use($applicants, $columns) {
+                $file = fopen('php://output', 'w');
+                $keys = \Schema::getColumnListing('applicants');
+                $campKeys = \Schema::getColumnListing($this->campFullData->table);
+                $keys = array_merge($keys, $campKeys);
+                foreach ($applicants as $applicant) {
+                    foreach($keys as $key){
+                        $columns[] = $key;
+                    }
+                    break;
+                }
+                fputcsv($file, $columns);
+
+                foreach ($applicants as $applicant) {
+                    $rows = array();
+                    foreach($keys as $key){
+                        array_push($rows, $applicant[$key]);
+                    }
+
+                    fputcsv($file, $rows);
+                }
+
+                fclose($file);
+            };
+            return response()->stream($callback, 200, $headers);
+        }
         return view('backend.registration.list', compact('applicants', 'query', 'batches'));
     }
 
