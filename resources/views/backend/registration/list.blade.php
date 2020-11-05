@@ -9,7 +9,7 @@
         color: #33B2FF!important;
     }
 </style>
-<h2>查詢及下載</h2>
+<h2>報名查詢及下載</h2>
 <form method=post action="{{ route('getRegistrationList', $campFullData->id) }}" class="form-inline" name="Camp">
     @csrf
     <table class="table table-responsive">
@@ -41,7 +41,15 @@
         </tr>
         <tr>
             <td align=left valign=middle nowrap>
-                <3> 縣市：    
+                <3> 梯次：    
+                @foreach ($batches as $batch)
+                    <input class="btn btn-secondary" type=submit name=batch value='{{ $batch->name }}'>&nbsp;
+                @endforeach
+            </td>
+        </tr>
+        <tr>
+            <td align=left valign=middle nowrap>
+                <4> 縣市：    
                 <select class="form-control" name=county size=1 onChange='Address(this.options[this.options.selectedIndex].value);'>
                     <option value=''>- 請選縣市 -</option>
                     <option value='臺北市'>臺北市</option>
@@ -83,6 +91,7 @@
 </form>
 @if(isset($applicants))
     <h3>查詢條件：{{ $query }}</h3>
+    共 {{ $applicants->count() }} 筆資料
     <table class="table table-responsive">
         <thead>
             <tr>
