@@ -186,10 +186,12 @@ class BackendController extends Controller
     }
 
     public function showRegistrationList() {
-        return view('backend.registration.list');
+        $batches = Batch::where("camp_id", $this->campFullData->id)->get();
+        return view('backend.registration.list', compact('batches'));
     }
 
     public function getRegistrationList(Request $request){
+        $batches = Batch::where("camp_id", $this->campFullData->id)->get();
         if(isset($request->region)){
             $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn")
                         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
@@ -203,7 +205,6 @@ class BackendController extends Controller
                 $applicants = $query->where('region', $request->region)->get();
             }
             $query = $request->region;
-            return view('backend.registration.list', compact('applicants', 'query'));
         }
         elseif(isset($request->school_or_course)){
             //教師營使用 school_or_course 欄位
@@ -214,7 +215,15 @@ class BackendController extends Controller
                             ->where('camps.id', $this->campFullData->id)
                             ->where('school_or_course', $request->school_or_course)->get();
             $query = $request->school_or_course;
-            return view('backend.registration.list', compact('applicants', 'query'));
+        }
+        elseif(isset($request->batch)){
+            $applicants = Applicant::select("applicants.*", "tcamp.*", "batchs.name as bName", "applicants.id as sn")
+                        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+                        ->join('camps', 'camps.id', '=', 'batchs.camp_id')                        
+                        ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
+                        ->where('camps.id', $this->campFullData->id)
+                        ->where('batchs.name', $request->batch)->get();
+            $query = $request->batch;
         }
         else{
             $applicants = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn")
@@ -224,8 +233,8 @@ class BackendController extends Controller
                             ->where('camps.id', $this->campFullData->id)
                             ->where('address', "like", "%" . $request->address . "%")->get();
             $query = $request->address;
-            return view('backend.registration.list', compact('applicants', 'query'));
         }
+        return view('backend.registration.list', compact('applicants', 'query', 'batches'));
     }
 
     public function sendAdmittedMail(Request $request){
