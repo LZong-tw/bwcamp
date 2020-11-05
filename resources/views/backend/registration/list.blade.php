@@ -100,7 +100,8 @@
                 <th>梯次</th>
                 <th>區域</th>
                 <th>學程</th>
-                <th>地址</th>
+                <th>職稱</th>
+                <th>單位</th>
             </tr>
         </thead>
         @forelse ($applicants as $applicant)
@@ -110,7 +111,8 @@
                 <td>{{ $applicant->bName }}</td>
                 <td>{{ $applicant->region }}</td>
                 <td>{{ $applicant->school_or_course }}</td>
-                <td>{{ $applicant->address }}</td>
+                <td>{{ $applicant->title }}</td>
+                <td>{{ $applicant->unit }}</td>
             </tr>
         @empty
             查詢的條件沒有資料
