@@ -60,6 +60,29 @@
                             <li>
                                 <a href="{{ route("batchesStat", $campFullData->id) }}">報名梯次</a>
                             </li>
+                            @if($campFullData->table == "tcamp")
+                                <li>
+                                    ---開 發 中---
+                                </li>
+                                <li>
+                                    <a href="#">有無教師證</a>
+                                </li>
+                                <li>
+                                    <a href="#">職稱</a>
+                                </li>
+                                <li>
+                                    <a href="#">任教學程</a>
+                                </li>
+                                <li>
+                                    <a href="#">服務縣市</a>
+                                </li>
+                                <li>
+                                    <a href="#">參加意願</a>
+                                </li>
+                                <li>
+                                    ---開 發 中---
+                                </li>
+                            @endif
                         </ul>
                     </li>
                     <li class="active">
