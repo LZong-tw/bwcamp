@@ -102,35 +102,36 @@ class BackendController extends Controller
 
     public function batchAdmission(Request $request) {
         if ($request->isMethod('POST')) {
-
-            $candidate = Applicant::find($request->id);
-            if($request->get("clear") == "清除錄取序號"){
-                $candidate->is_admitted = 0;
-                $candidate->group = null;
-                $candidate->number = null;
-                $candidate->save();
-                $message = "錄取序號已清除。";
+            $error = array();
+            $message = array();
+            $applicants = array();
+            if(!isset($request->id)){
+                return "沒有輸入任何欄位，請回上上頁重試。";
             }
-            else{
-                $groupAndNumber = $this->applicantService->groupAndNumberSeperator($request->admittedSN);
+            foreach($request->id as $key => $id){
+                $skip = false;
+                $groupAndNumber = $this->applicantService->groupAndNumberSeperator($request->admittedSN[$key]);
                 $group = $groupAndNumber['group'];
                 $number = $groupAndNumber['number'];
                 $check = Applicant::select('applicants.*')
                 ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
                 ->where('group', 'like', $group)->where('number', 'like', $number)->first();
+                $candidate = Applicant::find($id);
                 if($check){
-                    $candidate = $this->applicantService->Mandarization($candidate);
-                    $error = "報名序號重複。";
-                    return view('backend.registration.showCandidate', compact('candidate', 'error'));
+                    array_push($error, $candidate->name . "，錄取序號" . $request->admittedSN[$key] . "重複。");
+                    $skip = true;
                 }
-                $candidate->is_admitted = 1;
-                $candidate->group = $group;
-                $candidate->number = $number;
-                $candidate->save();
-                $message = "錄取完成。";
+                if(!$skip){
+                    $candidate->is_admitted = 1;
+                    $candidate->group = $group;
+                    $candidate->number = $number;
+                    $applicant = $candidate->save();
+                    array_push($message, $candidate->name . "，錄取序號" . $request->admittedSN[$key] . "錄取完成。");
+                }
+                $applicant = $this->applicantService->Mandarization($candidate);
+                array_push($applicants, $applicant);
             }
-            $candidate = $this->applicantService->Mandarization($candidate);
-            return view('backend.registration.showCandidate', compact('candidate', 'message'));
+            return view('backend.registration.showBatchCandidate', compact('applicants', 'error', 'message'));
         }
         else{
             $candidates = Applicant::select('applicants.*')
