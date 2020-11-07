@@ -203,4 +203,17 @@ class CampDataService
         // }
         return $formData;
     }
+
+    public function csvColumnParser($table) {
+        $keys = \Schema::getColumnListing('applicants');
+        $campKeys = \Schema::getColumnListing($table);
+        $keys = array_merge(['sn', 'bName'], $keys, $campKeys);
+        $keysToBeRemoved = ['id', 'batch_id', 'is_foreigner', 'updated_at', 'applicant_id'];
+        foreach($keys as $key => $value){
+            if(in_array($value, $keysToBeRemoved)){
+                unset($keys[$key]);
+            }
+        }    
+        return $keys;
+    }
 }
