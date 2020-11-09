@@ -1,0 +1,67 @@
+<?php
+
+return [
+   
+    'general' => [
+        "sn" => "報名序號",
+        "bName" => "梯次",
+        "group" => "組別", 
+        "number" => "座號", 
+        "created_at" => "報名日期", 
+        "is_admitted" => "錄取", 
+        "region" => "區域", 
+        "is_attend" => "回覆參加", 
+        "name" => "姓名", 
+        "gender" => "生理性別", 
+        "birthyear" => "出生年", 
+        "birthmonth" => "出生月", 
+        "birthday" => "出生日", 
+        "nationality" => "國籍", 
+        "idno" => "身分證字號", 
+        "is_foreigner" => "海外身分", 
+        "is_allow_notified" => "願意收到電子報", 
+        "mobile" => "手機", 
+        "phone_home" => "家中電話", 
+        "phone_work" => "工作電話", 
+        "fax" => "傳真", 
+        "line" => "Line", 
+        "wechat" => "WeChat", 
+        "email" => "Email", 
+        "zipcode" => "郵遞區號", 
+        "address" => "地址", 
+        "emergency_name" => "緊急聯絡人電話", 
+        "emergency_relationship" => "緊急聯絡人關係", 
+        "emergency_mobile" => "緊急聯絡人手機", 
+        "emergency_phone_home" => "緊急聯絡人家中電話", 
+        "emergency_phone_work" => "緊急聯絡人工作電話", 
+        "emergency_fax" => "緊急聯絡人傳真", 
+        "introducer_name" => "介紹人", 
+        "introducer_relationship" => "介紹人關係", 
+        "introducer_phone" => "介紹人電話", 
+        "introducer_participated" => "介紹人參加過的福智活動", 
+        "portrait_agree" => "肖像權", 
+        "profile_agree" => "個人資料允許", 
+        "expectation" => "對活動的期望"
+    ],
+
+    'ycamp' => [
+        'guard' => 'web',
+        'passwords' => 'users',
+    ],
+
+    'tcamp' => [
+        "is_educating" => "是否在教育單位任職？", 
+        "has_license" => "是否有教師證", 
+        "years_teached" => "教學年資", 
+        "education" => "學歷", 
+        "school_or_course" => "任職機關/學程", 
+        "subject_teaches" => "任教科系/科目", 
+        "title" => "職稱", 
+        "unit" => "服務單位", 
+        "unit_county" => "服務單位所在縣市", 
+        "unit_district" => "服務單位所在行政區",
+        "is_blisswisdom" => "參加過福智的活動",
+        "blisswisdom_type" => "參加過的福智活動",
+        "blisswisdom_type_complement" => "參加過的福智活動註記"
+    ],
+];

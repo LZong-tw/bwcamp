@@ -252,9 +252,10 @@ class BackendController extends Controller
                 // 先寫入此三個字元使 Excel 能正確辨認編碼為 UTF-8
                 // http://jeiworld.blogspot.com/2009/09/phpexcelutf-8csv.html
                 fwrite($file, "\xEF\xBB\xBF");
-                $keys = $this->campDataService->csvColumnParser($this->campFullData->table);                
-                foreach($keys['keys'] as $key){
-                    $columns[] = $key;
+                $keys = $this->campDataService->csvColumnParser($this->campFullData->table);   
+                $zhKeys = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table));             
+                foreach($keys as $key){
+                    $columns[] = $zhKeys[$key];
                 }
                 fputcsv($file, $columns);
 
