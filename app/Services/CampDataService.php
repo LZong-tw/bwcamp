@@ -208,15 +208,12 @@ class CampDataService
         $keys = \Schema::getColumnListing('applicants');
         $campKeys = \Schema::getColumnListing($table);
         $keys = array_merge(['sn', 'bName'], $keys, $campKeys);
-        $zhKeys = array();
         $keysToBeRemoved = ['id', 'batch_id', 'is_foreigner', 'updated_at', 'applicant_id'];
-        foreach($keys as &$key){
-            if(in_array($key, $keysToBeRemoved)){
-                unset($key);
-                continue;
+        foreach($keys as $key => $value){
+            if(in_array($value, $keysToBeRemoved)){
+                unset($keys[$key]);
             }
-            
         }    
-        return ['keys' => $keys, 'zhKeys' => $zhKeys];
+        return $keys;
     }
 }
