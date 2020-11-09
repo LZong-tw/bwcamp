@@ -224,7 +224,7 @@ class BackendController extends Controller
                         ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
                         ->where('camps.id', $this->campFullData->id)
                         ->where('batchs.name', $request->batch)->get();
-            $query = $request->batch;
+            $query = $request->batch . '梯';
         }
         else{
             $applicants = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn")
