@@ -111,6 +111,9 @@
                             <li>
                                 <a href="{{ route("showRegistrationList", $campFullData->id)}}">查詢及下載</a>
                             </li>
+                            <li>
+                                <a href="{{ route("changeBatchOrRegion", $campFullData->id) }}">修改梯次 / 區域</a>
+                            </li>
                         </ul>
                     </li>
                     <li>

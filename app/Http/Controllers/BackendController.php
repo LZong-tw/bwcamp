@@ -179,6 +179,10 @@ class BackendController extends Controller
             $candidate = $this->applicantService->Mandarization($candidate);
         }
         
+        if(isset($request->change)){
+            $batches = Batch::where('camp_id', $this->campFullData->id)->get();
+            return view('backend.registration.changeBatchOrRegionForm', compact('candidate', 'batches'));
+        }
         return view('backend.registration.showCandidate', compact('candidate'));
     }
 
@@ -272,6 +276,21 @@ class BackendController extends Controller
             return response()->stream($callback, 200, $headers);
         }
         return view('backend.registration.list', compact('applicants', 'query', 'batches'));
+    }
+
+    public function changeBatchOrRegion(Request $request){
+        if ($request->isMethod('POST')) {
+            $candidate = Applicant::find($request->id);
+            $candidate->batch_id = $request->batch;
+            $candidate->region = $request->region;
+            $candidate->save();
+            $message = "梯次 / 區域修改完成。";      
+            $batches = Batch::where('camp_id', $this->campFullData->id)->get();      
+            return view('backend.registration.changeBatchOrRegionForm', compact('candidate', 'message', 'batches'));
+        }
+        else{
+            return view("backend.registration.changeBatchOrRegion");
+        }
     }
 
     public function sendAdmittedMail(Request $request){
