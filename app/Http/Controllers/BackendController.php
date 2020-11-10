@@ -274,6 +274,10 @@ class BackendController extends Controller
         return view('backend.registration.list', compact('applicants', 'query', 'batches'));
     }
 
+    public function changeBatchOrRegion(){
+        return ;
+    }
+
     public function sendAdmittedMail(Request $request){
         foreach($request->emails as $key => $email){
             Mail::to($email)->send(new AdmittedMail($request->names[$key], $request->admittedNos[$key], $this->campFullData));
