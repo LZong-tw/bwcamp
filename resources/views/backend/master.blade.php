@@ -62,6 +62,9 @@
                             </li>
                             @if($campFullData->table == "tcamp")
                                 <li>
+                                    <a href="{{ route("schoolOrCourseStat", $campFullData->id) }}">任教學程</a>
+                                </li>
+                                <li>
                                     ---開 發 中---
                                 </li>
                                 <li>
@@ -69,9 +72,6 @@
                                 </li>
                                 <li>
                                     <a href="#">職稱</a>
-                                </li>
-                                <li>
-                                    <a href="#">任教學程</a>
                                 </li>
                                 <li>
                                     <a href="#">服務縣市</a>
