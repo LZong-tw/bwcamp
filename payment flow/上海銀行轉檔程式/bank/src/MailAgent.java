@@ -36,14 +36,14 @@ public class MailAgent {
 			message = new MimeMessage(session);
 			message.setFrom(new InternetAddress("tpce25453788@gmail.com"));
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("ivergaccc@yahoo.com.tw,happy3842@gmail.com"));
-			message.setSubject("¤¤¶¥³Q¸g·|¦Ò - »È¦æºİ¸ê®Æ¦Û°Ê¤Æµ{¦¡°õ¦æµ²ªG");
-			//message.setText("Dear Levin, \n\n ´ú¸Õ ´ú¸Õ ´ú¸Õ ´ú¸Õ ´ú¸Õ ´ú¸Õ email !");
+			message.setSubject("ä¸­éšè¢«ç¶“æœƒè€ƒ - éŠ€è¡Œç«¯è³‡æ–™è‡ªå‹•åŒ–ç¨‹å¼åŸ·è¡Œçµæœ");
+			//message.setText("Dear Levin, \n\n æ¸¬è©¦ æ¸¬è©¦ æ¸¬è©¦ æ¸¬è©¦ æ¸¬è©¦ æ¸¬è©¦ email !");
 
 			transport = session.getTransport("smtp");
 			transport.connect(host, port, username, password);
 
 			//transport.send(message);
-			//System.out.println("±H°eemailµ²§ô.");
+			//System.out.println("å¯„é€emailçµæŸ.");
 
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
