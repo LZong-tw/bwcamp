@@ -34,10 +34,10 @@ public class PropertiesFileParsing {
 		BufferedReader reader = null;
 		try {
 			String absolutePath = this.getClass().getResource("").getPath();
-			System.out.println("·í«e¸ô®|" + " = " + absolutePath);
-			Bank.MailContent += "\n" + "·í«e¸ô®|" + " = " + absolutePath;
+			System.out.println("ç•¶å‰è·¯å¾‘" + " = " + absolutePath);
+			Bank.MailContent += "\n" + "ç•¶å‰è·¯å¾‘" + " = " + absolutePath;
 			
-			reader = new BufferedReader(new InputStreamReader(new FileInputStream(absolutePath + filePath), "big5")); // «ü©wÅª¨ú¤å¥óªº½s½X®æ¦¡¡A¥H§K¥X²{¤¤¤å¶Ã½X
+			reader = new BufferedReader(new InputStreamReader(new FileInputStream(absolutePath + filePath), "big5")); // æŒ‡å®šè®€å–æ–‡ä»¶çš„ç·¨ç¢¼æ ¼å¼ï¼Œä»¥å…å‡ºç¾ä¸­æ–‡äº‚ç¢¼
 			String str = null;
 			String key = "";
 			String value = "";
@@ -108,7 +108,7 @@ public class PropertiesFileParsing {
 			    }
 			}
 			
-			// ­×§ïFileName¡A«e­±¥[¤WyyyyMMdd
+			// ä¿®æ”¹FileNameï¼Œå‰é¢åŠ ä¸ŠyyyyMMdd
 			this.FTPFileName = new SimpleDateFormat("yyyyMMdd").format(new Date()) + "-" + FTPFileName;
 			System.out.println("PropertiesFileParsing : " + "FTPFileName" + " = " + FTPFileName);
 			Bank.MailContent += "\n" + "FTPFileName" + " = " + FTPFileName;
@@ -135,6 +135,6 @@ public class PropertiesFileParsing {
     	String trace = cw.toString();
     	System.out.println("PropertiesFileParsing : " + trace);
     	Bank.MailContent += "\n" + trace;
-    	new MailAgent().send(Bank.MailSubject + " : ¥¢±Ñ", Bank.MailContent);
+    	new MailAgent().send(Bank.MailSubject + " : å¤±æ•—", Bank.MailContent);
     }
 }
