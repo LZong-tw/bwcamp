@@ -15,7 +15,7 @@
                     @endif
 
                     {{ __('You are logged in!') }} <br>
-                    @if(isset(auth()->user()->getPermission()->camp_id))
+                    @if(isset(auth()->user()->getPermission()))
                         <a href="{{ route("backendIndex") }}" class="btn btn-success">後台首頁</a>
                         <a href="" class="btn btn-primary">報到系統</a>
                     @endif
