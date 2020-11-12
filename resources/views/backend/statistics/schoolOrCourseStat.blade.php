@@ -23,13 +23,13 @@
             var data = new google.visualization.DataTable({!! $GChartData !!});
     
             // Set chart options
-            var piechart_options = {'title':'教程統計，共 {{ $total }} 人',
+            var piechart_options = {'title':'學程統計，共 {{ $total }} 人',
                             'hAxis': {
                             'title':'報名人數',
                             'titleTextStyle': {'bold':true,'ilatic':false},
                             },
                             'vAxis': {
-                            'title':'教程',
+                            'title':'學程',
                             'titleTextStyle': {'bold':true,'ilatic':false},
                             },
                             'width':450,
