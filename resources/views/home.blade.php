@@ -15,8 +15,10 @@
                     @endif
 
                     {{ __('You are logged in!') }} <br>
-                    <a href="{{ route("backendIndex") }}" class="btn btn-success">後台首頁</a>
-                    <a href="" class="btn btn-primary">報到系統</a>
+                    @if(isset(auth()->user()->getPermission()->camp_id))
+                        <a href="{{ route("backendIndex") }}" class="btn btn-success">後台首頁</a>
+                        <a href="" class="btn btn-primary">報到系統</a>
+                    @endif
                 </div>
             </div>
         </div>
