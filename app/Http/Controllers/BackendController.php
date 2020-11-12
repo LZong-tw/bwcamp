@@ -420,6 +420,37 @@ class BackendController extends Controller
         return view('backend.statistics.county', compact('GChartData',  'total'));
     }
 
+    public function birthyearStat(){
+        $applicants = Applicant::select(\DB::raw('birthyear, count(*) as total'))
+        ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
+        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+        ->where('camps.id', $this->campFullData->id)
+        ->groupBy('birthyear')->get();
+        $rows = count($applicants);
+        $array = $applicants->toArray();
+        $i = 0 ;
+        $total = 0 ;
+        $GChartData = array('cols'=> array(
+                        array('id'=>'birthyear','label'=>'年次','type'=>'string'),
+                        array('id'=>'people','label'=>'人數','type'=>'number'),
+                        array('id'=>'annotation','role'=>'annotation','type'=>'number')
+                    ),
+                    'rows' => array());
+        for($i = 0; $i < $rows; $i ++) {
+            $record = $array[$i];
+            array_push($GChartData['rows'], array('c' => array(
+                array('v' => $record['birthyear'] == null ? '其他' : $record['birthyear']),
+                array('v' => intval($record['total'])),
+                array('v' => intval($record['total']))
+            )));
+            $total = $total + $record['total'];
+        }
+        $GChartData = json_encode($GChartData);
+
+        return view('backend.statistics.birthyear', compact('GChartData',  'total'));
+    }
+
     public function batchesStat(){
         $applicants = Applicant::select(\DB::raw('batchs.name as batch, count(*) as total'))
         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')

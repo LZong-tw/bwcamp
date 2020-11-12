@@ -72,6 +72,7 @@ Route::group(['prefix' => 'backend/{camp_id}', ], function () {
     Route::get('/statistics/appliedDate', 'BackendController@appliedDateStat')->name('appliedDateStat');
     Route::get('/statistics/gender', 'BackendController@genderStat')->name('genderStat');
     Route::get('/statistics/county', 'BackendController@countyStat')->name('countyStat');
+    Route::get('/statistics/birthyear', 'BackendController@birthyearStat')->name('birthyearStat');
     Route::get('/statistics/batches', 'BackendController@batchesStat')->name('batchesStat');
     Route::get('/statistics/schoolOrCourse', 'BackendController@schoolOrCourseStat')->name('schoolOrCourseStat');
 });

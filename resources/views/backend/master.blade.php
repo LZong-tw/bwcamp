@@ -44,7 +44,7 @@
                                 <a href="{{ route("countyStat", $campFullData->id) }}">區域縣市</a>
                             </li>
                             <li>
-                                <a href="#">出生年次</a>
+                                <a href="{{ route("birthyearStat", $campFullData->id) }}">出生年次</a>
                             </li>
                             @if($campFullData->table == "ycamp")
                                 <li>
