@@ -369,7 +369,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputEmail' class='col-md-2 control-label text-md-right'>電子郵件</label>
         <div class='col-md-10'>
-            <input type='email' required name='email' value='' class='form-control' id='inputEmail' placeholder='請務必填寫正確，以利營隊相關訊息通知' @if(isset($isModify) && $isModify) disabled @endif>
+            <input type='email' required name='email' value='' class='form-control' id='inputEmail' placeholder='請務必填寫正確，以利營隊相關訊息通知'>
             <div class="invalid-feedback">
                 郵件不正確
             </div>
@@ -385,7 +385,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputEmail' class='col-md-2 control-label text-md-right'>確認電子郵件</label>
         <div class='col-md-10'>
-            <input type='email' required name='emailConfirm' value='' class='form-control' id='inputEmailConfirm' @if(isset($isModify) && $isModify) disabled @endif>
+            <input type='email' required name='emailConfirm' value='' class='form-control' id='inputEmailConfirm'>
             {{-- data-match='#inputEmail' data-match-error='郵件不符合' placeholder='請再次填寫確認郵件填寫正確' --}}
         </div>
     </div>
