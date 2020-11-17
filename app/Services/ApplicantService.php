@@ -32,4 +32,6 @@ class ApplicantService
                 $query->where('number', 'like', $number);
             })->first();
     }
+
+    // todo: 錄取後，自動生成轉帳資料的 function
 }
