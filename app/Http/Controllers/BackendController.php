@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\CampDataService;
 use App\Services\ApplicantService;
+use App\Services\PaymentflowService;
 use App\Models\Camp;
 use App\Models\Applicant;
 use App\Models\Batch;
@@ -14,16 +15,17 @@ use View;
 
 class BackendController extends Controller
 {
-    protected $campDataService, $applicantService, $batch_id, $camp_data, $batch;
+    protected $campDataService, $applicantService, $paymentflowService, $batch_id, $camp_data, $batch;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(CampDataService $campDataService, ApplicantService $applicantService, Request $request) {
+    public function __construct(CampDataService $campDataService, ApplicantService $applicantService, PaymentflowService $paymentflowService, Request $request) {
         $this->middleware('auth');
         $this->campDataService = $campDataService;
         $this->applicantService = $applicantService;
+        $this->paymentflowService = $paymentflowService;
         if($request->route()->parameter('batch_id')){
             // 營隊資料，存入 view 全域
             $this->batch_id = $request->route()->parameter('batch_id');
@@ -80,9 +82,16 @@ class BackendController extends Controller
                     $error = "報名序號重複。";
                     return view('backend.registration.showCandidate', compact('candidate', 'error'));
                 }
+                $data = config('camps_payments.general');
+                $paymentFlow = new $this->paymentflowService($data);
                 $candidate->is_admitted = 1;
                 $candidate->group = $group;
                 $candidate->number = $number;
+                $candidate->store_first_barcode = $paymentFlow->getStoreFirstBarcode();
+                $candidate->store_second_barcode = $paymentFlow->getStoreSecondBarcode();
+                $candidate->store_third_barcode = $paymentFlow->getStoreThirdBarcode();
+                $candidate->bank_second_barcode = $paymentFlow->getBankSecondBarcode();
+                $candidate->bank_third_barcode = $paymentFlow->getBankThirdBarcode();;
                 $candidate->save();
                 $message = "錄取完成。";
             }
@@ -122,9 +131,16 @@ class BackendController extends Controller
                     $skip = true;
                 }
                 if(!$skip){
+                    $data = config('camps_payments.general');
+                    $paymentFlow = new $this->paymentflowService($data);
                     $candidate->is_admitted = 1;
                     $candidate->group = $group;
                     $candidate->number = $number;
+                    $candidate->store_first_barcode = $paymentFlow->getStoreFirstBarcode();
+                    $candidate->store_second_barcode = $paymentFlow->getStoreSecondBarcode();
+                    $candidate->store_third_barcode = $paymentFlow->getStoreThirdBarcode();
+                    $candidate->bank_second_barcode = $paymentFlow->getBankSecondBarcode();
+                    $candidate->bank_third_barcode = $paymentFlow->getBankThirdBarcode();;
                     $applicant = $candidate->save();
                     array_push($message, $candidate->name . "，錄取序號" . $request->admittedSN[$key] . "錄取完成。");
                 }

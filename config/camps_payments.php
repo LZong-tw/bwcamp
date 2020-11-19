@@ -1,0 +1,28 @@
+<?php
+
+return [
+   
+    'general' => [
+        "超商代收代號" => "6W5",
+        "7碼收款人帳戶" => "4090615",
+        "銀行檢查碼權數" => "123987614321",
+        "銷帳流水號前2碼" => "17"
+    ],
+
+
+    // 上海銀行對帳 FTP（由環境變數提供，避免明文寫入原始碼/版本控制）
+    'scsb_ftp' => [
+        'host' => env('SCSB_FTP_HOST'),
+        'username' => env('SCSB_FTP_USERNAME'),
+        'password' => env('SCSB_FTP_PASSWORD'),
+        'port' => env('SCSB_FTP_PORT', 21),
+        'passive' => env('SCSB_FTP_PASSIVE', true),
+        'timeout' => env('SCSB_FTP_TIMEOUT', 30),
+        'root' => env('SCSB_FTP_ROOT', ''),
+    ],
+    'ycamp' => [
+    ],
+
+    'tcamp' => [
+    ],
+];
