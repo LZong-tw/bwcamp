@@ -15,17 +15,16 @@ use View;
 
 class BackendController extends Controller
 {
-    protected $campDataService, $applicantService, $paymentflowService, $batch_id, $camp_data, $batch;
+    protected $campDataService, $applicantService, $batch_id, $camp_data, $batch;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(CampDataService $campDataService, ApplicantService $applicantService, PaymentflowService $paymentflowService, Request $request) {
+    public function __construct(CampDataService $campDataService, ApplicantService $applicantService, Request $request) {
         $this->middleware('auth');
         $this->campDataService = $campDataService;
         $this->applicantService = $applicantService;
-        $this->paymentflowService = $paymentflowService;
         if($request->route()->parameter('batch_id')){
             // 營隊資料，存入 view 全域
             $this->batch_id = $request->route()->parameter('batch_id');
@@ -83,7 +82,7 @@ class BackendController extends Controller
                     return view('backend.registration.showCandidate', compact('candidate', 'error'));
                 }
                 $data = config('camps_payments.general');
-                $paymentFlow = new $this->paymentflowService($data);
+                $paymentFlow = new PaymentflowService($data);
                 $candidate->is_admitted = 1;
                 $candidate->group = $group;
                 $candidate->number = $number;
@@ -132,7 +131,7 @@ class BackendController extends Controller
                 }
                 if(!$skip){
                     $data = config('camps_payments.general');
-                    $paymentFlow = new $this->paymentflowService($data);
+                    $paymentFlow = new PaymentflowService($data);
                     $candidate->is_admitted = 1;
                     $candidate->group = $group;
                     $candidate->number = $number;
