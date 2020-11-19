@@ -9,6 +9,7 @@ use App\Services\CampDataService;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use App\Mail\ApplicantMail;
 use View;
 
@@ -136,9 +137,9 @@ class CampController extends Controller
         //（因會有個資洩漏的疑慮，故只在檢視報名資料及報名資料送出後的畫面允許使用）
         // 唯三允許進入修改資料的來源：兩個地方（報名、報名資料修改）的報名資料送出後
         //                        及檢視報名資料頁面所進來的請求
-        else if(request()->headers->get('referer') == route('formSubmit', $this->batch_id) ||
-                request()->headers->get('referer') == route('queryupdate', $this->batch_id) ||
-                request()->headers->get('referer') == route('queryview', $this->batch_id)){
+        else if(Str::contains(request()->headers->get('referer'), 'formSubmit') ||
+                Str::contains(request()->headers->get('referer'), 'queryupdate') ||
+                Str::contains(request()->headers->get('referer'), 'queryview')){
             $applicant = Applicant::select('applicants.*', $campTable . '.*')
                 ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
                 ->where('applicants.id', $request->sn)->first();
