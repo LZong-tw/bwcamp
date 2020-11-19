@@ -24,7 +24,7 @@ class PaymentflowService
 	
 	public function getStoreFirstBarcode() {
         // 民國年月日繳費期限6碼 + 代收代號3碼
-		return $this->request["繳費期限"] + $this->request["超商代收代號"];
+		return $this->request["繳費期限"] . $this->request["超商代收代號"];
 	}
 	
 	public function getStoreSecondBarcode() {		
@@ -46,7 +46,7 @@ class PaymentflowService
 		$shouldPay = "";
 		$shouldPayArray = array();
 		//char[] 金額CharArray = sc.getInitParameter("報名費用").toCharArray();
-		$feeStr = "" . $fee;
+		$feeStr = $fee;
 		$feeCharArray = str_split($feeStr);
 		for($i = 0; $i < count($feeCharArray); $i++) {
             array_push($shouldPayArray, $feeCharArray[$i]);
@@ -120,7 +120,7 @@ class PaymentflowService
 			} 
         }
 		
-		$checkSumFirstElement = "" . ($oddSum % 11);
+		$checkSumFirstElement = $oddSum % 11;
 		if($checkSumFirstElement == "0") {
 			$checkSumFirstElement = "A";
         }
@@ -163,12 +163,13 @@ class PaymentflowService
 				$evenSum += $value;
 			}
 		}
+
+		$checkSumSecondElement = $evenSum % 11;
 		
-		$checkSumSecondElement = "" + ($evenSum % 11);
-		if($evenSum == "0") {
+		if($checkSumSecondElement == "0") {
 			$checkSumSecondElement = "X";
         } 
-        else if($evenSum == "10") {
+        else if($checkSumSecondElement == "10") {
 			$checkSumSecondElement =  "Y";
 		}
 		
@@ -211,7 +212,7 @@ class PaymentflowService
 			
 			// 拆去第三碼，剩12碼
 			unset($accountArray[2]);
-			
+			$accountArray = array_values($accountArray);
 //			String aaa = "";
 //			for(Object obj : 流水帳號Vector) {
 //				aaa += obj.toString();
