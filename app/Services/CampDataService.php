@@ -53,6 +53,13 @@ class CampDataService
         else if($permission->level == 2) {
             $camps = Camp::whereIn('id', [$permission->camp_id])->get()->all();
         }
+        else if($permission->level == 3) {
+            $camps = Camp::whereIn('id', [$permission->camp_id])->get()->all();
+        }
+        else if($permission->level == 4) {
+            $camps = Camp::whereIn('id', [$permission->camp_id])->get()->all();
+        }
+
         return $camps;
     }
 

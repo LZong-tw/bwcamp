@@ -1,8 +1,6 @@
 <?
 namespace App\Services;
 
-use Illuminate\Http\Request;
-
 class PaymentflowService
 {
     private $accountingSN, $request;
@@ -15,8 +13,9 @@ class PaymentflowService
 			"1", "2", "3", "4", "5", "6", "7", "8", "9", "1", "2", "3", "4", 
 			"5", "6", "7", "8", "9", "2", "3", "4", "5", "6", "7", "8", "9"];
     
-    public function __construct(Request $request){
-        $this->request = $request;
+    public function __construct($request){
+		$this->request = $request;
+		$this->accountingSN = $request['銷帳流水號前2碼'];
     }
     
 	public function BillBarcodeGenerator(String $accountingSN) {
@@ -230,9 +229,14 @@ class PaymentflowService
 				return $bankCheckCode;
 			}
 			
-			Vector 乘積Vector = new Vector();
-			for(int i=0; i<流水帳號Vector.size(); i++) {
-				乘積Vector.add(Integer.parseInt(流水帳號Vector.get(i).toString()) * Integer.parseInt(銀行檢查碼權數Vector.get(i).toString()));
+			// Vector 乘積Vector = new Vector();
+			// for(int i=0; i<流水帳號Vector.size(); i++) {
+			// 	乘積Vector.add(Integer.parseInt(流水帳號Vector.get(i).toString()) * Integer.parseInt(銀行檢查碼權數Vector.get(i).toString()));
+			// }
+
+			$product = array();
+			for($i = 0; $i < count($accountArray); $i++) {
+				array_push($product, $accountArray[$i] * $weightArray[$i]);
 			}
 			
 //			aaa = "";
@@ -242,11 +246,17 @@ class PaymentflowService
 //			System.out.println("乘積 = " + aaa);
 			
 			// 取個位數
-			Vector 乘積取個位數Vector = new Vector();
-			for(int i=0; i<乘積Vector.size(); i++) {
-				Object obj = 乘積Vector.get(i);
-				int 個位數 = Integer.parseInt(obj.toString()) % 10;
-				乘積取個位數Vector.add(個位數);
+			// Vector 乘積取個位數Vector = new Vector();
+			// for(int i=0; i<乘積Vector.size(); i++) {
+			// 	Object obj = 乘積Vector.get(i);
+			// 	int 個位數 = Integer.parseInt(obj.toString()) % 10;
+			// 	乘積取個位數Vector.add(個位數);
+			// }
+
+			$productDigitArray = array();
+			for($i = 0; $i < count($product); $i++) {
+				$digit = $product[$i] % 10;
+				array_push($productDigitArray, $digit);
 			}
 			
 //			aaa = "";
@@ -256,30 +266,34 @@ class PaymentflowService
 //			System.out.println("取個位數 = " + aaa);
 			
 			// 總和
-			int 總和 = 0;
-			for(int i=0; i<乘積取個位數Vector.size(); i++) {
-				總和 += Integer.parseInt(乘積取個位數Vector.get(i).toString());
+			// int 總和 = 0;
+			// for(int i=0; i<乘積取個位數Vector.size(); i++) {
+			// 	總和 += Integer.parseInt(乘積取個位數Vector.get(i).toString());
+			// }
+			$sum = 0;
+			for($i = 0; $i < count($productDigitArray); $i++) {
+				$sum += $productDigitArray[$i];
 			}
-			
 			//System.out.println("總和 = " + 總和);
 			
 			// 再取個位數
-			int 個位數 = 總和 % 10;
+			// int 個位數 = 總和 % 10;
+			$digit = $sum % 10;
 			
 			//System.out.println("取個位數 = " + 個位數);
 			
 			// 最後取10的補數
-			if(個位數 == 0) {
-				bankCheckCode = 0;
+			if($digit == 0) {
+				$bankCheckCode = 0;
 			} else {
-				bankCheckCode = 10 - 個位數;
+				$bankCheckCode = 10 - $digit;
 			}
 			
 			//System.out.println("10的補數 = " + bankCheckCode);
 			
-			return bankCheckCode;
-		} catch(Exception e) {
-			return bankCheckCode;
+			return $bankCheckCode;
+		} catch(\Exception $e) {
+			return $bankCheckCode;
 		}
 	}
 }
