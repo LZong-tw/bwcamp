@@ -123,6 +123,12 @@ class CampController extends Controller
         return view($this->camp_data->table . '.query');
     }
 
+    /**
+     * 查詢/修改報名資料
+     * 如果從 query 頁選擇查詢報名資料，則可跨梯次查詢資料，但無法再按下修改資料
+     * 如果從 query 頁選擇修改報名資料，則可跨梯次修改資料
+     * 
+     */
     public function campViewRegistrationData(Request $request) {
         $applicant = null;
         $isModify = false;
@@ -148,12 +154,15 @@ class CampController extends Controller
             $isModify = true;
         }
         if($applicant) {
+            // 取得報名者梯次資料
+            $camp_data = $this->campDataService->getCampData($applicant->batch_id);
             return view($campTable . '.form')
                 ->with('applicant_id', $applicant->applicant_id)
                 ->with('applicant_batch_id', $applicant->batch_id)
                 ->with('applicant_data', $applicant->toJson())
                 ->with('isModify', $isModify)
-                ->with('isBackend', $request->isBackend);
+                ->with('isBackend', $request->isBackend)
+                ->with('camp_data', $camp_data['camp_data']);
         }
         else{
             return back()->withInput()->withErrors(['找不到報名資料，請再次確認是否填寫錯誤。']);

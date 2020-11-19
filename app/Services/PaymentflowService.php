@@ -63,7 +63,7 @@ class PaymentflowService
 		// 校對碼
 		$storeFirstBarcode = $this->getStoreFirstBarcode();
 		$storeSecondBarcode = $this->getStoreSecondBarcode();
-		$storeThirdBarcode = $deadline + $shouldPay;
+		$storeThirdBarcode = $deadline . $shouldPay;
 		
 //		超商第一段條碼 = "991231Y01";
 //		超商第二段條碼 = "ABCDEFGHIKLMNPQR";
@@ -92,7 +92,7 @@ class PaymentflowService
 				$value = $storeFirstBarcodeArray[$i - 1];
 				for($j = 0; $j < count($this->alpabets); $j++) {
 					if($this->alpabets[$j] == $value) {
-						$value = $numbers[$j];
+						$value = $this->numbers[$j];
 					}
 				}
 				$oddSum += $value;
@@ -103,7 +103,7 @@ class PaymentflowService
 				$value = $storeSecondBarcodeArray[$i - 1];
 				for($j = 0; $j < count($this->alpabets); $j++) {
 					if($this->alpabets[$j] == $value) {
-						$value = $numbers[$j];
+						$value = $this->numbers[$j];
 					}
 				}
 				$oddSum += $value;
@@ -114,7 +114,7 @@ class PaymentflowService
 				$value = $storeThirdBarcodeArray[$i - 1];
 				for($j = 0; $j < count($this->alpabets); $j++) {
 					if($this->alpabets[$j] == $value) {
-						$value = $numbers[$j];
+						$value = $this->numbers[$j];
 					}
 				}
 				$oddSum += $value;
@@ -134,9 +134,9 @@ class PaymentflowService
 		for($i = 1; $i <= count($storeFirstBarcodeArray); $i++) {
 			if($i % 2 == 0) {
 				$value = $storeFirstBarcodeArray[$i - 1];
-				for($j = 0; $j < count($alpabets); $j++) {
-					if($alpabets[$j] == $value) {
-						$value = $numbers[$j];
+				for($j = 0; $j < count($this->alpabets); $j++) {
+					if($this->alpabets[$j] == $value) {
+						$value = $this->numbers[$j];
 					}
 				}
 				$evenSum += $value;
@@ -145,9 +145,9 @@ class PaymentflowService
         for($i = 1; $i <= count($storeSecondBarcodeArray); $i++) {
 			if($i % 2 == 0) {
 				$value = $storeSecondBarcodeArray[$i - 1];
-				for($j = 0; $j < count($alpabets); $j++) {
-					if($alpabets[$j] == $value) {
-						$value = $numbers[$j];
+				for($j = 0; $j < count($this->alpabets); $j++) {
+					if($this->alpabets[$j] == $value) {
+						$value = $this->numbers[$j];
 					}
 				}
 				$evenSum += $value;
@@ -156,9 +156,9 @@ class PaymentflowService
         for($i = 1; $i <= count($storeThirdBarcodeArray); $i++) {
 			if($i % 2 == 0) {
 				$value = $storeThirdBarcodeArray[$i - 1];
-				for($j = 0; $j < count($alpabets); $j++) {
-					if($alpabets[$j] == $value) {
-						$value = $numbers[$j];
+				for($j = 0; $j < count($this->alpabets); $j++) {
+					if($this->alpabets[$j] == $value) {
+						$value = $this->numbers[$j];
 					}
 				}
 				$evenSum += $value;
@@ -178,44 +178,40 @@ class PaymentflowService
 		//System.out.println("超商校對碼 = " + 超商校對碼);
 		
 		// 4碼應繳月日 + 2碼超商校對碼 + 9碼應繳金額
-		$storeThirdBarcode = $deadline + $storeThirdBarcode + $shouldPay;
+		$storeThirdBarcode = $deadline . $storeThirdBarcode . $shouldPay;
 		
 		return $storeThirdBarcode;
 	}
 	
-	public String get銀行第二段條碼() {
-		String 銀行第二段條碼 = "";
-		
+	public function getBankSecondBarcode() {		
 		// 00 + 7碼收款人帳戶 + 6碼銷帳流水號 + 銀行檢查碼
-		String 前13碼 = sc.getInitParameter("7碼收款人帳戶") + 銷帳流水號;
-		銀行第二段條碼 = 前13碼 + this.getBankCheckCode(前13碼, sc.getInitParameter("銀行檢查碼權數"));
+		$first13codes = $this->request["7碼收款人帳戶"] . $this->accountingSN;
 		
-		return 銀行第二段條碼;
+		return $first13codes . $this->getBankCheckCode($first13codes, $this->request["銀行檢查碼權數"]);
 	}
 	
-	public String get銀行第三段條碼(int 報名費) {
-		return "" + 報名費;
+	public function getBankThirdBarcode($fee) {
+		return $fee;
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public int getBankCheckCode(String 流水帳號, String 銀行檢查碼權數) {
-		int bankCheckCode = 10;
+	public function getBankCheckCode(String $account, String $weight) {
+		$bankCheckCode = 10;
 		try{
 //			System.out.println("13碼 = " + 流水帳號);
 //			System.out.println("銀行檢查碼權數 = " + 銀行檢查碼權數);
 			// 13碼
-			char[] 流水帳號CharArray = 流水帳號.toCharArray();
-			Vector 流水帳號Vector = new Vector();
-			for(int i=0; i<流水帳號CharArray.length; i++) {
-				流水帳號Vector.add(流水帳號CharArray[i]);
-			}
+			$accountArray = str_split($account);
+			// Vector 流水帳號Vector = new Vector();
+			// for(int i=0; i<流水帳號CharArray.length; i++) {
+			// 	流水帳號Vector.add(流水帳號CharArray[i]);
+			// }
 			
-			if(流水帳號Vector.size() != 13) {
-				return bankCheckCode;
+			if(count($accountArray) != 13) {
+				return $bankCheckCode;
 			}
 			
 			// 拆去第三碼，剩12碼
-			流水帳號Vector.remove(2);
+			unset($accountArray[2]);
 			
 //			String aaa = "";
 //			for(Object obj : 流水帳號Vector) {
@@ -224,14 +220,14 @@ class PaymentflowService
 //			System.out.println("12碼 = " + aaa);
 			
 			// 乘上權數
-			char[] 銀行檢查碼權數CharArray = 銀行檢查碼權數.toCharArray();
-			Vector 銀行檢查碼權數Vector = new Vector();
-			for(int i=0; i<銀行檢查碼權數CharArray.length; i++) {
-				銀行檢查碼權數Vector.add(銀行檢查碼權數CharArray[i]);
-			}
+			$weightArray = str_split($weight);
+			// Vector 銀行檢查碼權數Vector = new Vector();
+			// for(int i=0; i<銀行檢查碼權數CharArray.length; i++) {
+			// 	銀行檢查碼權數Vector.add(銀行檢查碼權數CharArray[i]);
+			// }
 			
-			if(流水帳號Vector.size() != 12 || 銀行檢查碼權數Vector.size() != 12) {
-				return bankCheckCode;
+			if(count($accountArray) != 12 || count($weightArray) != 12) {
+				return $bankCheckCode;
 			}
 			
 			Vector 乘積Vector = new Vector();
