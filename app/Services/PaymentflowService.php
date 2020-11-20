@@ -15,7 +15,7 @@ class PaymentflowService
     
     public function __construct($request){
 		$this->request = $request;
-		$this->accountingSN = $request['銷帳流水號前2碼'];
+		$this->accountingSN = $request['銷帳編號'];
     }
     
 	public function BillBarcodeGenerator(String $accountingSN) {
