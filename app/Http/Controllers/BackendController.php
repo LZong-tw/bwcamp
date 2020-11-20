@@ -94,6 +94,8 @@ class BackendController extends Controller
                 $candidate->store_third_barcode = $paymentFlow->getStoreThirdBarcode($this->campFullData['fee'] ?? 0);
                 $candidate->bank_second_barcode = $paymentFlow->getBankSecondBarcode();
                 $candidate->bank_third_barcode = $paymentFlow->getBankThirdBarcode($this->campFullData['fee'] ?? 0);
+                $candidate->fee = $this->campFullData['fee'];
+                $candidate->deposit = 0;
                 $candidate->save();
                 $message = "錄取完成。";
             }
@@ -146,6 +148,8 @@ class BackendController extends Controller
                     $candidate->store_third_barcode = $paymentFlow->getStoreThirdBarcode($this->campFullData['fee'] ?? 0);
                     $candidate->bank_second_barcode = $paymentFlow->getBankSecondBarcode();
                     $candidate->bank_third_barcode = $paymentFlow->getBankThirdBarcode($this->campFullData['fee'] ?? 0);
+                    $candidate->fee = $this->campFullData['fee'];
+                    $candidate->deposit = 0;
                     $applicant = $candidate->save();
                     array_push($message, $candidate->name . "，錄取序號" . $request->admittedSN[$key] . "錄取完成。");
                 }
