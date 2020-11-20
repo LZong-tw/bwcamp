@@ -177,10 +177,8 @@ class PaymentflowService
 		
 		//System.out.println("超商校對碼 = " + 超商校對碼);
 		
-		// 4碼應繳月日 + 2碼超商校對碼 + 9碼應繳金額
-		$storeThirdBarcode = $deadline . $storeThirdBarcode . $shouldPay;
-		
-		return $storeThirdBarcode;
+		// 4碼應繳月日 + 2碼超商校對碼 + 9碼應繳金額		
+		return $deadline . $storeChecksumCode . $shouldPay;
 	}
 	
 	public function getBankSecondBarcode() {		
