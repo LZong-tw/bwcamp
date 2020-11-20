@@ -22,6 +22,7 @@
 
 - 後台參考：https://youth.blisswisdom.org/camp/wadmin/
 - 上海銀行條碼格式：Barcode 39
+- 條碼產生器文件：https://github.com/milon/barcode
 
 ## <a href="https://docs.google.com/spreadsheets/d/1UXCVFgP8OXzr2fD_aiCnSbRW_zoQ_0Vu8MakmMOYuYc/">欄位及功能(routing)列表</a>
 
