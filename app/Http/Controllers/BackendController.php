@@ -83,8 +83,8 @@ class BackendController extends Controller
                 }
                 $data = array_merge(config('camps_payments.general'), config('camps_payments.tcamp'));
                 $data["應繳日期"] = $this->campFullData['payment_startdate'] ?? "0000";
-                $data["繳費期限"] = $this->campFullData['payment_deadline'] ?? "0000";
-                $data["銷帳流水號前2碼"] = $data["銷帳流水號前2碼"] . str_pad($candidate->id, 5, '0', STR_PAD_LEFT);
+                $data["繳費期限"] = $this->campFullData['payment_deadline'] ?? "000000";
+                $data["銷帳編號"] = $data["銷帳流水號前2碼"] . str_pad($candidate->id, 5, '0', STR_PAD_LEFT);
                 $paymentFlow = new PaymentflowService($data);
                 $candidate->is_admitted = 1;
                 $candidate->group = $group;
@@ -94,6 +94,8 @@ class BackendController extends Controller
                 $candidate->store_third_barcode = $paymentFlow->getStoreThirdBarcode($this->campFullData['fee'] ?? 0);
                 $candidate->bank_second_barcode = $paymentFlow->getBankSecondBarcode();
                 $candidate->bank_third_barcode = $paymentFlow->getBankThirdBarcode($this->campFullData['fee'] ?? 0);
+                $candidate->fee = $this->campFullData['fee'];
+                $candidate->deposit = 0;
                 $candidate->save();
                 $message = "錄取完成。";
             }
@@ -135,8 +137,8 @@ class BackendController extends Controller
                 if(!$skip){
                     $data = array_merge(config('camps_payments.general'), config('camps_payments.tcamp'));
                     $data["應繳日期"] = $this->campFullData['payment_startdate'] ?? "0000";
-                    $data["繳費期限"] = $this->campFullData['payment_deadline'] ?? "0000";
-                    $data["銷帳流水號前2碼"] = $data["銷帳流水號前2碼"] . str_pad($candidate->id, 5, '0', STR_PAD_LEFT);
+                    $data["繳費期限"] = $this->campFullData['payment_deadline'] ?? "000000";
+                    $data["銷帳編號"] = $data["銷帳流水號前2碼"] . str_pad($candidate->id, 5, '0', STR_PAD_LEFT);
                     $paymentFlow = new PaymentflowService($data);
                     $candidate->is_admitted = 1;
                     $candidate->group = $group;
@@ -146,6 +148,8 @@ class BackendController extends Controller
                     $candidate->store_third_barcode = $paymentFlow->getStoreThirdBarcode($this->campFullData['fee'] ?? 0);
                     $candidate->bank_second_barcode = $paymentFlow->getBankSecondBarcode();
                     $candidate->bank_third_barcode = $paymentFlow->getBankThirdBarcode($this->campFullData['fee'] ?? 0);
+                    $candidate->fee = $this->campFullData['fee'];
+                    $candidate->deposit = 0;
                     $applicant = $candidate->save();
                     array_push($message, $candidate->name . "，錄取序號" . $request->admittedSN[$key] . "錄取完成。");
                 }
