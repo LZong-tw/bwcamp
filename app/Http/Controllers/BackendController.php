@@ -113,12 +113,18 @@ class BackendController extends Controller
         }
     }
 
-    public function showPaymentForm($applicant_id) {
+    public function showPaymentForm($camp_id, $applicant_id) {
         $applicant = Applicant::select('camps.*', 'batchs.name as bName', 'applicants.*')
                         ->join('batchs', 'applicants.batch_id', '=', 'batchs.id')
                         ->join('camps', 'batchs.camp_id', '=', 'camps.id')
                         ->find($applicant_id);
-        return view('backend.registration.paymentForm', compact('applicant'));
+        $download = $_GET['download'] ?? false;
+        if(!$download){
+            return view('backend.registration.paymentForm', compact('applicant','download'));
+        }
+        else{
+            return \PDF::loadView('backend.registration.paymentFormPDF', compact('applicant', 'download'))->download('invoice.pdf');
+        }
     }
 
     public function batchAdmission(Request $request) {
