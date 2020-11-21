@@ -114,7 +114,7 @@ class BackendController extends Controller
     }
 
     public function showPaymentForm($applicant_id) {
-        $applicant = Applicant::select('camps.*', 'batchs.*', 'applicants.*')
+        $applicant = Applicant::select('camps.*', 'batchs.name as bName', 'applicants.*')
                         ->join('batchs', 'applicants.batch_id', '=', 'batchs.id')
                         ->join('camps', 'batchs.camp_id', '=', 'camps.id')
                         ->find($applicant_id);
