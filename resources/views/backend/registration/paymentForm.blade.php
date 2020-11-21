@@ -21,7 +21,9 @@
         margin-right: 15px;
     }
 </style>
-
+<a href="{{ route('showPaymentForm', [$applicant->batch_id, $applicant->id]) }}?download=1" target="blank">下載繳費單</a>
+財團法人福智文教基金會
+<a style="float:right; writing-mode: vertical-lr;text-orientation: mixed; margin-top: 200px">代收行存查聯</a>
 <table class="table">
     <tr>
         <td rowspan="6" class="indent">
@@ -31,7 +33,7 @@
             &nbsp;&nbsp;代號011 → 輸入銷帳編號輸入應繳金額，跨行轉帳須支付手續費。 <br>
             *超商繳納：請持本繳款單至7-11、全家、萊爾富、OK 繳費，免付手續費。<br> 
             *臨櫃匯款：收款行 = 上海商業儲蓄銀行南京東路分行，<br>
-            &nbsp;&nbsp;銀行代碼 = 0110406，戶名 = 財團法人福智文教基金<br>
+            &nbsp;&nbsp;銀行代碼 = 0110406，戶名 = 財團法人福智文教基金會<br>
             &nbsp;&nbsp;帳號 = 銷帳編號(14碼)，須自付手續費。
         </td>
     </tr>
@@ -80,7 +82,7 @@
 <ul>
     <li>費用：1200元</li>
     <li>繳費地點：可至超商、上海銀行繳費，或使用ATM轉帳、臨櫃匯款。</li>
-    <li>可自行於報名網頁( 網址http://{{ url('camp/' . $applicant->batch_id) }} )查詢是否已繳費完畢。</li>
+    <li>可自行於報名網頁（網址{{ url('camp/' . $applicant->batch_id) }}）查詢是否已繳費完畢。</li>
     <li>若繳費後，因故無法參加研習需退費者，請參照報名網申請退費注意事項（https://bwfoce.wixsite.com/bwtcamp/faq），並填寫退費申請單。</li>
     <li>台北場 諮詢窗口：劉慧娟小姐 (02)2545-3788#529</li>
     <li>桃園場 諮詢窗口：趙小姐 (03)275-6133#1312</li>
