@@ -21,14 +21,6 @@
             @if(isset($candidate->group) && isset($candidate->number))
                 錄取序號：{{ $candidate->group.$candidate->number }} <br>
             @endif            
-            應繳日期(mmdd)：{{ $campFullData->payment_startdate }} <br>
-            繳費期限(民國yymmdd)：{{ $campFullData->payment_deadline }} <br>
-            應繳金額：{{ $campFullData->fee }} <br>
-            超商第一段條碼：{!! \DNS1D::getBarcodeSVG($candidate->store_first_barcode, 'C39', 1, 50) !!} <br><br>
-            超商第二段條碼：{!! \DNS1D::getBarcodeSVG($candidate->store_second_barcode, 'C39', 1, 50) !!} <br><br>
-            超商第三段條碼：{!! \DNS1D::getBarcodeSVG($candidate->store_third_barcode, 'C39', 1, 50) !!} <br><br>
-            銀行條碼(銷帳編號)：{!! \DNS1D::getBarcodeSVG($candidate->bank_second_barcode, 'C39', 1, 50) !!} <br><br>
-            銀行條碼(應繳金額)：{!! \DNS1D::getBarcodeSVG($candidate->bank_third_barcode, 'C39', 1, 50) !!} <br><br>
             <form target="_blank" action="{{ route("queryview", $candidate->batch_id) }}" method="post" class="d-inline">
                 @csrf
                 <input type="hidden" name="sn" value="{{ $candidate->id }}">
@@ -36,6 +28,7 @@
                 <input type="hidden" name="isBackend" value="目前為後台檢視狀態。">
                 <button class="btn btn-info" style="margin-top: 10px">檢視報名資料</button>
             </form>
+            <a href="{{ route('showPaymentForm', [$candidate->batch_id, $candidate->id]) }}" class="btn btn-primary" target="blank" style="margin-top: 10px">顯示繳費單</a>
         </p>
         <form action="{{ route("admission", $campFullData->id) }}" method="post" class="form-horizontal">
             @csrf
