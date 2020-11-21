@@ -3,7 +3,7 @@ namespace App\Services;
 
 class PaymentflowService
 {
-    private $accountingSN, $request;
+    private $accountingSN, $data;
 	
 	private $alpabets = [
 			"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", 
@@ -13,9 +13,9 @@ class PaymentflowService
 			"1", "2", "3", "4", "5", "6", "7", "8", "9", "1", "2", "3", "4", 
 			"5", "6", "7", "8", "9", "2", "3", "4", "5", "6", "7", "8", "9"];
     
-    public function __construct($request){
-		$this->request = $request;
-		$this->accountingSN = $request['銷帳流水號前2碼'];
+    public function __construct($data){
+		$this->data = $data;
+		$this->accountingSN = $data['銷帳流水號前2碼'];
     }
     
 	public function BillBarcodeGenerator(String $accountingSN) {
@@ -24,20 +24,20 @@ class PaymentflowService
 	
 	public function getStoreFirstBarcode() {
         // 民國年月日繳費期限6碼 + 代收代號3碼
-		return $this->request["繳費期限"] . $this->request["超商代收代號"];
+		return $this->data["繳費期限"] . $this->data["超商代收代號"];
 	}
 	
 	public function getStoreSecondBarcode() {		
 		// 00 + 7碼收款人帳戶 + 6碼銷帳流水號 + 銀行檢查碼
-		$first13codes = $this->request["7碼收款人帳戶"] . $this->accountingSN;
-		$storeSecondBarcode = $first13codes . $this->getBankCheckCode($first13codes, $this->request["銀行檢查碼權數"]);
+		$first13codes = $this->data["7碼收款人帳戶"] . $this->accountingSN;
+		$storeSecondBarcode = $first13codes . $this->getBankCheckCode($first13codes, $this->data["銀行檢查碼權數"]);
 		
 		return "00" . $storeSecondBarcode;
 	}
 	
 	public function getStoreThirdBarcode(int $fee) {		
 		// 4碼應繳月日
-		$deadline = $this->request["應繳日期"];
+		$deadline = $this->data["應繳日期"];
 		
 		// 2碼超商校對碼 
 		$storeChecksumCode = "**";
@@ -185,9 +185,9 @@ class PaymentflowService
 	
 	public function getBankSecondBarcode() {		
 		// 00 + 7碼收款人帳戶 + 6碼銷帳流水號 + 銀行檢查碼
-		$first13codes = $this->request["7碼收款人帳戶"] . $this->accountingSN;
+		$first13codes = $this->data["7碼收款人帳戶"] . $this->accountingSN;
 		
-		return $first13codes . $this->getBankCheckCode($first13codes, $this->request["銀行檢查碼權數"]);
+		return $first13codes . $this->getBankCheckCode($first13codes, $this->data["銀行檢查碼權數"]);
 	}
 	
 	public function getBankThirdBarcode($fee) {
