@@ -15,7 +15,7 @@ class PaymentflowService
     
     public function __construct($data){
 		$this->data = $data;
-		$this->accountingSN = $data['銷帳流水號前2碼'];
+		$this->accountingSN = $data['銷帳編號'];
     }
     
 	public function BillBarcodeGenerator(String $accountingSN) {
@@ -37,7 +37,7 @@ class PaymentflowService
 	
 	public function getStoreThirdBarcode(int $fee) {		
 		// 4碼應繳月日
-		$deadline = $this->data["應繳日期"];
+		$start_date = $this->data["應繳日期"];
 		
 		// 2碼超商校對碼 
 		$storeChecksumCode = "**";
@@ -62,7 +62,7 @@ class PaymentflowService
 		// 校對碼
 		$storeFirstBarcode = $this->getStoreFirstBarcode();
 		$storeSecondBarcode = $this->getStoreSecondBarcode();
-		$storeThirdBarcode = $deadline . $shouldPay;
+		$storeThirdBarcode = $start_date . $shouldPay;
 		
 //		超商第一段條碼 = "991231Y01";
 //		超商第二段條碼 = "ABCDEFGHIKLMNPQR";
@@ -71,18 +71,9 @@ class PaymentflowService
 //		System.out.println("超商第二段條碼 = " + 超商第二段條碼);
 //		System.out.println("超商第三段條碼 = " + 超商第三段條碼);
 		
-        $storeFirstBarcodeArray = array();
-		$storeSecondBarcodeArray = array();
-		$storeThirdBarcodeArray = array();
-        for($i = 0; $i < count(str_split($storeFirstBarcode)); $i++){
-            array_push($storeFirstBarcodeArray, str_split($storeFirstBarcode)[$i]);
-        }
-        for($i = 0; $i < count(str_split($storeSecondBarcode)); $i++){
-            array_push($storeSecondBarcodeArray, str_split($storeSecondBarcode)[$i]);
-        }
-        for($i = 0; $i < count(str_split($storeThirdBarcode)); $i++){
-            array_push($storeThirdBarcodeArray, str_split($storeThirdBarcode)[$i]);
-        }
+        $storeFirstBarcodeArray = str_split($storeFirstBarcode);
+		$storeSecondBarcodeArray = str_split($storeSecondBarcode);
+		$storeThirdBarcodeArray = str_split($storeThirdBarcode);
 		
 		// 校對碼第一碼 : 3段條碼之奇數碼加總值除以11之餘數 (0=A，10=B)
         $oddSum = 0;
@@ -177,10 +168,8 @@ class PaymentflowService
 		
 		//System.out.println("超商校對碼 = " + 超商校對碼);
 		
-		// 4碼應繳月日 + 2碼超商校對碼 + 9碼應繳金額
-		$storeThirdBarcode = $deadline . $storeThirdBarcode . $shouldPay;
-		
-		return $storeThirdBarcode;
+		// 4碼應繳月日 + 2碼超商校對碼 + 9碼應繳金額		
+		return $start_date . $storeChecksumCode . $shouldPay;
 	}
 	
 	public function getBankSecondBarcode() {		

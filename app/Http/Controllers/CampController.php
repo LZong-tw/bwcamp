@@ -143,7 +143,7 @@ class CampController extends Controller
         //（因會有個資洩漏的疑慮，故只在檢視報名資料及報名資料送出後的畫面允許使用）
         // 唯三允許進入修改資料的來源：兩個地方（報名、報名資料修改）的報名資料送出後
         //                        及檢視報名資料頁面所進來的請求
-        else if(Str::contains(request()->headers->get('referer'), 'formSubmit') ||
+        else if(Str::contains(request()->headers->get('referer'), 'submit') ||
                 Str::contains(request()->headers->get('referer'), 'queryupdate') ||
                 Str::contains(request()->headers->get('referer'), 'queryview')){
             $applicant = Applicant::select('applicants.*', $campTable . '.*')
