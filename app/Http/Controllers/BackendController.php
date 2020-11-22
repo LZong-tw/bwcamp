@@ -123,7 +123,7 @@ class BackendController extends Controller
             return view('backend.registration.paymentForm', compact('applicant','download'));
         }
         else{
-            return \PDF::loadView('backend.registration.paymentFormPDF', compact('applicant', 'download'))->download(\Carbon\Carbon::now()->format('YmdHis') . $this->campFullData->table . $applicant->id . '.pdf');
+            return \PDF::loadView('backend.registration.paymentFormPDF', compact('applicant'))->download(\Carbon\Carbon::now()->format('YmdHis') . $this->campFullData->table . $applicant->id . '.pdf');
         }
     }
 
@@ -333,8 +333,7 @@ class BackendController extends Controller
                         ->join('batchs', 'applicants.batch_id', '=', 'batchs.id')
                         ->join('camps', 'batchs.camp_id', '=', 'camps.id')
                         ->find($request->sns[$key]);
-            $download = true;
-            $paymentFile = \PDF::loadView('backend.registration.paymentFormPDF', compact('applicant', 'download'))->download();
+            $paymentFile = \PDF::loadView('backend.registration.paymentFormPDF', compact('applicant'))->download();
             Mail::to($email)->send(new AdmittedMail($applicant, $this->campFullData, $paymentFile));            
         }
         \Session::flash('message', "已成功寄送全組錄取通知信。");

@@ -36,9 +36,6 @@
     </style>
 </head>
 <body>
-@if(!$download)
-    <a href="{{ route('showPaymentForm', [$applicant->batch_id, $applicant->id]) }}?download=1" target="blank">下載繳費單</a>
-@endif
 財團法人福智文教基金會
 <p style="float:right; clear: both; margin-top:180px; margin-right: -6px">代</p>
 <p style="float:right; clear: both; margin-top:210px; margin-right: -6px">收</p>
