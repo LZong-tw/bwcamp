@@ -20,6 +20,9 @@
         float: right;
         margin-right: 15px;
     }
+    u{
+        color: red;
+    }
 </style>
 <a href="{{ route('showPaymentForm', [$applicant->batch_id, $applicant->id]) }}?download=1" target="blank">下載繳費單</a>
 財團法人福智文教基金會
@@ -68,7 +71,7 @@
     </tr>
 </table>
 <hr>
-<h2 class="center">2021教師生命成長營 錄取繳費通知單</h2>
+<h2 class="center">{{ $applicant->fullName }} 錄取繳費通知單</h2>
 <table width="100%" style="table-layout:fixed; border: 0;">
     <tr>
         <td>場次：{{ $applicant->bName }}</td>
@@ -77,7 +80,7 @@
         <td>組別：{{ $applicant->group }}</td>
     </tr>
 </table><br>
-恭喜您錄取「{{ $applicant->fullName }}」！竭誠歡迎您的到來，期待與您共享這場心靈饗宴，希望您能獲得豐盛的收穫。請於{{ \Carbon\Carbon::now()->year }}年{{ substr($campFullData->payment_deadline, 2, 2) }}月{{ substr($campFullData->payment_deadline, 4, 2) }}日前完成繳費，逾時將視同放棄錄取資格！
+恭喜您錄取「{{ $applicant->fullName }}」！竭誠歡迎您的到來，期待與您共享這場心靈饗宴，希望您能獲得豐盛的收穫。請於{{ \Carbon\Carbon::now()->year }}年{{ substr($campFullData->payment_deadline, 2, 2) }}月{{ substr($campFullData->payment_deadline, 4, 2) }}日前完成繳費，<u>逾時將視同放棄錄取資格！</u>
 <br>
 <ul>
     <li>費用：1200元</li>
