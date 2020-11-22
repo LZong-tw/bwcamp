@@ -237,7 +237,7 @@ class BackendController extends Controller
     public function getRegistrationList(Request $request){
         $batches = Batch::where("camp_id", $this->campFullData->id)->get();
         if(isset($request->region)){
-            $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn")
+            $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
                         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                         ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
@@ -252,7 +252,7 @@ class BackendController extends Controller
         }
         elseif(isset($request->school_or_course)){
             //教師營使用 school_or_course 欄位
-            $applicants = Applicant::select("applicants.*", "tcamp.*", "batchs.name as bName", "applicants.id as sn")
+            $applicants = Applicant::select("applicants.*", "tcamp.*", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
                             ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                             ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                             ->join('tcamp', 'applicants.id', '=', 'tcamp.applicant_id')
@@ -261,7 +261,7 @@ class BackendController extends Controller
             $query = $request->school_or_course;
         }
         elseif(isset($request->batch)){
-            $applicants = Applicant::select("applicants.*", "tcamp.*", "batchs.name as bName", "applicants.id as sn")
+            $applicants = Applicant::select("applicants.*", "tcamp.*", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
                         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                         ->join('camps', 'camps.id', '=', 'batchs.camp_id')                        
                         ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
@@ -270,7 +270,7 @@ class BackendController extends Controller
             $query = $request->batch . '梯';
         }
         else{
-            $applicants = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn")
+            $applicants = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
                             ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                             ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                             ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
@@ -288,23 +288,18 @@ class BackendController extends Controller
                 "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
                 "Expires"             => "0"
             );
-            $columns = array();
 
-            $callback = function() use($applicants, $columns) {
+            $callback = function() use($applicants) {
                 $file = fopen('php://output', 'w');
                 // 先寫入此三個字元使 Excel 能正確辨認編碼為 UTF-8
                 // http://jeiworld.blogspot.com/2009/09/phpexcelutf-8csv.html
                 fwrite($file, "\xEF\xBB\xBF");
-                $keys = $this->campDataService->csvColumnParser($this->campFullData->table);   
-                $zhKeys = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table));             
-                foreach($keys as $key){
-                    $columns[] = $zhKeys[$key];
-                }
+                $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table));    
                 fputcsv($file, $columns);
 
                 foreach ($applicants as $applicant) {
                     $rows = array();
-                    foreach($keys as $key){
+                    foreach($columns as $key => $v){
                         array_push($rows, '="' . $applicant[$key] . '"');
                     }
                     fputcsv($file, $rows);

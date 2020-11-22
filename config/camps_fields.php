@@ -4,10 +4,10 @@ return [
    
     'general' => [
         "sn" => "報名序號",
+        "applied_at" => "報名日期", 
         "bName" => "梯次",
         "group" => "組別", 
         "number" => "座號", 
-        "created_at" => "報名日期", 
         "is_admitted" => "錄取", 
         "region" => "區域", 
         "is_attend" => "回覆參加", 
@@ -45,8 +45,7 @@ return [
     ],
 
     'ycamp' => [
-        'guard' => 'web',
-        'passwords' => 'users',
+        
     ],
 
     'tcamp' => [
