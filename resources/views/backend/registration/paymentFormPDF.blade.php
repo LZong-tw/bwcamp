@@ -100,7 +100,7 @@
     </tr>
 </table>
 <hr>
-<h2 class="center">2021教師生命成長營 錄取繳費通知單</h2>
+<h2 class="center">{{ $applicant->fullName }} 錄取繳費通知單</h2>
 <table style="width: 100%; table-layout:fixed; border: 0;">
     <tr>
         <td>場次：{{ $applicant->bName }}</td>

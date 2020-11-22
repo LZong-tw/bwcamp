@@ -51,9 +51,8 @@
     <form action="{{ route("sendAdmittedMail", $camp_data->id) }}" method="post" name="sendEmailByGroup">
         @csrf
         @foreach ($applicants as $applicant)
-            <input type="hidden" name="names[]" value="{{ $applicant->name }}">
             <input type="hidden" name="emails[]" value="{{ $applicant->email }}">
-            <input type="hidden" name="admittedNos[]" value="{{ $applicant->group }}{{ $applicant->number }}">
+            <input type="hidden" name="sns[]" value="{{ $applicant->id }}">
         @endforeach
         <button type="submit" class="btn btn-success" style="margin-bottom: 15px" onclick="this.innerText = '寄送中'; this.disabled = true; document.sendEmailByGroup.submit();">全組寄送錄取通知信</button>
     </form>

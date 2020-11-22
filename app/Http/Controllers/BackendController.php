@@ -329,7 +329,13 @@ class BackendController extends Controller
 
     public function sendAdmittedMail(Request $request){
         foreach($request->emails as $key => $email){
-            Mail::to($email)->send(new AdmittedMail($request->names[$key], $request->admittedNos[$key], $this->campFullData));
+            $applicant = Applicant::select('camps.*', 'batchs.name as bName', 'applicants.*')
+                        ->join('batchs', 'applicants.batch_id', '=', 'batchs.id')
+                        ->join('camps', 'batchs.camp_id', '=', 'camps.id')
+                        ->find($request->sns[$key]);
+            $download = true;
+            $paymentFile = \PDF::loadView('backend.registration.paymentFormPDF', compact('applicant', 'download'))->download();
+            Mail::to($email)->send(new AdmittedMail($applicant, $this->campFullData, $paymentFile));            
         }
         \Session::flash('message', "已成功寄送全組錄取通知信。");
         return back();
@@ -350,7 +356,7 @@ class BackendController extends Controller
     public function showGroup(Request $request){
         $batch_id = $request->route()->parameter('batch_id');
         $group = $request->route()->parameter('group');
-        $applicants = Applicant::join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')->where('batch_id', $batch_id)->where('group', $group)->get();
+        $applicants = Applicant::select('applicants.*', $this->camp_data->table . '.*', 'applicants.id as id')->join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')->where('batch_id', $batch_id)->where('group', $group)->get();
         return view('backend.registration.group', compact('applicants'));
     }
     

@@ -1,6 +1,5 @@
 ## 待實作
 
-- 錄取通知加上繳費單附件
 - 繳費資料表、銷帳資料表
 - **自動銷帳（定期檢查是否有新資料，若有便將 txt 解析後存入資料庫，不可重複讀寫)**
 - 銷帳資料頁
@@ -24,10 +23,13 @@
 - 上海銀行條碼格式：Barcode 39
 - 條碼產生器文件：https://github.com/milon/barcode
 
+- PDF 產生器文件：https://github.com/barryvdh/laravel-dompdf
+
 ## <a href="https://docs.google.com/spreadsheets/d/1UXCVFgP8OXzr2fD_aiCnSbRW_zoQ_0Vu8MakmMOYuYc/">欄位及功能(routing)列表</a>
 
 ## 已完成功能
 
+- 錄取通知加上繳費單附件
 - 錄取後生成繳費帳號
 - 梯次：新增欄位（地點名稱、地址、報到時間、聯絡電話）
 - 任教學程統計
