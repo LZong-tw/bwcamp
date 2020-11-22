@@ -81,7 +81,7 @@ class BackendController extends Controller
                     $error = "報名序號重複。";
                     return view('backend.registration.showCandidate', compact('candidate', 'error'));
                 }
-                $data = array_merge(config('camps_payments.general'), config('camps_payments.tcamp'));
+                $data = array_merge(config('camps_payments.general'), config('camps_payments.' . $this->campFullData->table));
                 $data["應繳日期"] = $this->campFullData['payment_startdate'] ?? "0000";
                 $data["繳費期限"] = $this->campFullData['payment_deadline'] ?? "000000";
                 $data["銷帳編號"] = $data["銷帳流水號前1碼"] . str_pad($candidate->id, 5, '0', STR_PAD_LEFT);
@@ -123,7 +123,7 @@ class BackendController extends Controller
             return view('backend.registration.paymentForm', compact('applicant','download'));
         }
         else{
-            return \PDF::loadView('backend.registration.paymentFormPDF', compact('applicant', 'download'))->download('invoice.pdf');
+            return \PDF::loadView('backend.registration.paymentFormPDF', compact('applicant', 'download'))->download(\Carbon\Carbon::now()->format('YmdHis') . $this->campFullData->table . $applicant->id . '.pdf');
         }
     }
 
@@ -149,7 +149,7 @@ class BackendController extends Controller
                     $skip = true;
                 }
                 if(!$skip){
-                    $data = array_merge(config('camps_payments.general'), config('camps_payments.tcamp'));
+                    $data = array_merge(config('camps_payments.general'), config('camps_payments.' . $this->campFullData->table));
                     $data["應繳日期"] = $this->campFullData['payment_startdate'] ?? "0000";
                     $data["繳費期限"] = $this->campFullData['payment_deadline'] ?? "000000";
                     $data["銷帳編號"] = $data["銷帳流水號前1碼"] . str_pad($candidate->id, 5, '0', STR_PAD_LEFT);
