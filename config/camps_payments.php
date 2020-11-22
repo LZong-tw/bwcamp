@@ -20,6 +20,7 @@ return [
         'root' => env('SCSB_FTP_ROOT', ''),
     ],
     'ycamp' => [
+        "銷帳流水號前1碼" => "5"
     ],
 
     'tcamp' => [
