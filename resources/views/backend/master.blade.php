@@ -86,7 +86,7 @@
                         </ul>
                     </li>
                     <li class="active">
-                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">錄取作業</a>
+                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">錄取相關</a>
                         <ul class="collapse list-unstyled" id="homeSubmenu">
                             <li>
                                 <a href="{{ route("admission", $campFullData->id) }}">單一錄取</a>
@@ -103,7 +103,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">報名作業</a>
+                        <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">報名相關</a>
                         <ul class="collapse list-unstyled" id="pageSubmenu2">
                             <li>
                                 <a href="{{ route("showRegistration", $campFullData->id) }}">報名</a>
