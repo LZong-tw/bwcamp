@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\CampDataService;
 use App\Services\ApplicantService;
-use App\Services\PaymentflowService;
 use App\Models\Camp;
 use App\Models\Applicant;
 use App\Models\Batch;
@@ -80,22 +79,11 @@ class BackendController extends Controller
                     $candidate = $this->applicantService->Mandarization($candidate);
                     $error = "報名序號重複。";
                     return view('backend.registration.showCandidate', compact('candidate', 'error'));
-                }
-                $data = array_merge(config('camps_payments.general'), config('camps_payments.' . $this->campFullData->table));
-                $data["應繳日期"] = $this->campFullData['payment_startdate'] ?? "0000";
-                $data["繳費期限"] = $this->campFullData['payment_deadline'] ?? "000000";
-                $data["銷帳編號"] = $data["銷帳流水號前1碼"] . str_pad($candidate->id, 5, '0', STR_PAD_LEFT);
-                $paymentFlow = new PaymentflowService($data);
+                }                
                 $candidate->is_admitted = 1;
                 $candidate->group = $group;
                 $candidate->number = $number;
-                $candidate->store_first_barcode = $paymentFlow->getStoreFirstBarcode();
-                $candidate->store_second_barcode = $paymentFlow->getStoreSecondBarcode();
-                $candidate->store_third_barcode = $paymentFlow->getStoreThirdBarcode($this->campFullData['fee'] ?? 0);
-                $candidate->bank_second_barcode = $paymentFlow->getBankSecondBarcode();
-                $candidate->bank_third_barcode = $paymentFlow->getBankThirdBarcode($this->campFullData['fee'] ?? 0);
-                $candidate->fee = $this->campFullData['fee'];
-                $candidate->deposit = 0;
+                $candidate = $this->applicantService->fillPaymentData($candidate, $this->campFullData);
                 $candidate->save();
                 $message = "錄取完成。";
             }
@@ -106,7 +94,8 @@ class BackendController extends Controller
             $candidates = Applicant::select('applicants.*')
             ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
             ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
-            ->join('camps', 'camps.id', '=', 'batchs.camp_id');
+            ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+            ->where('camps.id', $this->campFullData->id);
             $count = $candidates->count();
             $admitted = $candidates->where('is_admitted', 1)->count();
             return view('backend.registration.admission', compact('count', 'admitted'));
@@ -148,22 +137,11 @@ class BackendController extends Controller
                     array_push($error, $candidate->name . "，錄取序號" . $request->admittedSN[$key] . "重複。");
                     $skip = true;
                 }
-                if(!$skip){
-                    $data = array_merge(config('camps_payments.general'), config('camps_payments.' . $this->campFullData->table));
-                    $data["應繳日期"] = $this->campFullData['payment_startdate'] ?? "0000";
-                    $data["繳費期限"] = $this->campFullData['payment_deadline'] ?? "000000";
-                    $data["銷帳編號"] = $data["銷帳流水號前1碼"] . str_pad($candidate->id, 5, '0', STR_PAD_LEFT);
-                    $paymentFlow = new PaymentflowService($data);
+                if(!$skip){                    
                     $candidate->is_admitted = 1;
                     $candidate->group = $group;
                     $candidate->number = $number;
-                    $candidate->store_first_barcode = $paymentFlow->getStoreFirstBarcode();
-                    $candidate->store_second_barcode = $paymentFlow->getStoreSecondBarcode();
-                    $candidate->store_third_barcode = $paymentFlow->getStoreThirdBarcode($this->campFullData['fee'] ?? 0);
-                    $candidate->bank_second_barcode = $paymentFlow->getBankSecondBarcode();
-                    $candidate->bank_third_barcode = $paymentFlow->getBankThirdBarcode($this->campFullData['fee'] ?? 0);
-                    $candidate->fee = $this->campFullData['fee'];
-                    $candidate->deposit = 0;
+                    $candidate = $this->applicantService->fillPaymentData($candidate, $this->campFullData);
                     $applicant = $candidate->save();
                     array_push($message, $candidate->name . "，錄取序號" . $request->admittedSN[$key] . "錄取完成。");
                 }
@@ -189,7 +167,7 @@ class BackendController extends Controller
             $groupAndNumber = $this->applicantService->groupAndNumberSeperator($applicant);
             $group = $groupAndNumber['group'];
             $number = $groupAndNumber['number'];
-            $candidate = $this->applicantService->fetchApplicantData($this->campFullData->table, $applicant, $group, $number);
+            $candidate = $this->applicantService->fetchApplicantData($this->campFullData->id, $this->campFullData->table, $applicant, $group, $number);
             if($candidate){
                 $applicant = $this->applicantService->Mandarization($candidate);
             }
@@ -213,7 +191,7 @@ class BackendController extends Controller
         $groupAndNumber = $this->applicantService->groupAndNumberSeperator($request->snORadmittedSN);
         $group = $groupAndNumber['group'];
         $number = $groupAndNumber['number'];
-        $candidate = $this->applicantService->fetchApplicantData($this->campFullData->table, $request->snORadmittedSN, $group, $number);
+        $candidate = $this->applicantService->fetchApplicantData($this->campFullData->id, $this->campFullData->table, $request->snORadmittedSN, $group, $number);
         if($candidate){
             $candidate = $this->applicantService->Mandarization($candidate);
         }

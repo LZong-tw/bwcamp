@@ -6,6 +6,8 @@
         <li><p>報名期間：{{ $campFullData->registration_start }} ~ {{ $campFullData->registration_end }}</p></li>
         <li><p>錄取公佈日：{{ $campFullData->admission_announcing_date }}</p></li>
         <li><p>確認參加期限：{{ $campFullData->admission_confirming_end }}</p></li>
+        <li><p>繳費金額：{{ $campFullData->fee }}</p></li>
+        <li><p>繳費期限(民國年 yymmdd)：{{ $campFullData->payment_deadline }}</p></li>
     </ul>
     <p>本營隊梯次：</p>
     <ol>
