@@ -18,8 +18,9 @@
             padding-left: 10px;
         }
         html,body{
+            {{-- line-height 及 font-size 已達極限 --}}
+            line-height: 15px;
             font-size: 14px;
-            font-family: "kaiu";
             word-wrap: break-word;
         }
         .right{
@@ -121,11 +122,7 @@
     <li>台南場 諮詢窗口：簡小姐0919-852066</li>
     <li>高雄場 諮詢窗口：胡小姐 (07)9769341#417 </li>
 </ul>
-
-
-
 <a class="right">財團法人福智文教基金會　謹此</a><br>  
 <a class="right">{{ \Carbon\Carbon::now()->year }}  年　{{ \Carbon\Carbon::now()->month }}  月 　 {{ \Carbon\Carbon::now()->day }}  日</a>
-
 </body>
 </html>

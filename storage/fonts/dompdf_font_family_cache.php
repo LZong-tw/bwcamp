@@ -77,16 +77,10 @@
     'italic' => $rootDir . '/lib/fonts/DejaVuSerif-Italic',
     'normal' => $rootDir . '/lib/fonts/DejaVuSerif',
   ),
-  '標楷體' => array(
-    'normal' => $rootDir . '/lib/fonts/kaiu',
-    'bold' => $rootDir . '/lib/fonts/kaiu',
-    'italic' => $rootDir . '/lib/fonts/kaiu',
-    'bold_italic' => $rootDir . '/lib/fonts/kaiu',
-  ),
-  'kaiu' => array(
-    'normal' => $fontDir . '/kaiu',
-    'bold' => $fontDir . '/kaiu',
-    'italic' => $fontDir . '/kaiu',
-    'bold_italic' => $fontDir . '/kaiu',
+  'msjh' => array(
+    'normal' => $fontDir . '/msjh',
+    'bold' => $fontDir . '/msjh',
+    'italic' => $fontDir . '/msjh',
+    'bold_italic' => $fontDir . '/msjh',
   ),
 ) ?>
