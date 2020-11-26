@@ -1,5 +1,5 @@
 <?php
-// php load_font.php "標楷體" kaiu.ttf
+// php load_font.php "FONT ALIAS" kaiu.ttf
 // 1. [Required] Point to the composer or dompdf autoloader
 require_once "vendor/autoload.php";
 
