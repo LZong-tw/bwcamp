@@ -1,6 +1,7 @@
 @extends('backend.master')
 @section('content')
-    <h2>{{ $batch->name }} {{ request()->group }}組 組別名單</h2>
+    <div><h2 class="d-inline-block">{{ $batch->name }} {{ request()->group }}組 組別名單</h2>
+    <a href="{{ route("showGroup", [$campFullData->id, $batch->id, request()->group]) }}?download=1" class="btn btn-primary d-inline-block" style="margin-bottom: 14px">下載名單</a></div>
     <table class="table table-bordered">
         <thead>
             <tr class="">

@@ -334,6 +334,37 @@ class BackendController extends Controller
         $batch_id = $request->route()->parameter('batch_id');
         $group = $request->route()->parameter('group');
         $applicants = Applicant::select('applicants.*', $this->camp_data->table . '.*', 'applicants.id as id')->join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')->where('batch_id', $batch_id)->where('group', $group)->get();
+        if(isset($request->download)){
+            $fileName = $this->campFullData->abbreviation . $group . "組名單" . \Carbon\Carbon::now()->format('YmdHis') . '.csv';
+            $headers = array(
+                "Content-Encoding"    => "Big5",
+                "Content-type"        => "text/csv; charset=big5",
+                "Content-Disposition" => "attachment; filename=$fileName",
+                "Pragma"              => "no-cache",
+                "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+                "Expires"             => "0"
+            );
+
+            $callback = function() use($applicants) {
+                $file = fopen('php://output', 'w');
+                // 先寫入此三個字元使 Excel 能正確辨認編碼為 UTF-8
+                // http://jeiworld.blogspot.com/2009/09/phpexcelutf-8csv.html
+                fwrite($file, "\xEF\xBB\xBF");
+                $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table));    
+                fputcsv($file, $columns);
+
+                foreach ($applicants as $applicant) {
+                    $rows = array();
+                    foreach($columns as $key => $v){
+                        array_push($rows, '="' . $applicant[$key] . '"');
+                    }
+                    fputcsv($file, $rows);
+                }
+
+                fclose($file);
+            };
+            return response()->stream($callback, 200, $headers);
+        }
         return view('backend.registration.group', compact('applicants'));
     }
     
