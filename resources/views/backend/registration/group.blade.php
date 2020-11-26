@@ -25,7 +25,7 @@
         </thead>
         @foreach ($applicants as $applicant)
             <tr>
-                <td>{{ $applicant->id }}</td>
+                <td>{{ $applicant->sn }}</td>
                 <td>{{ $applicant->group }}{{ $applicant->number }}</td>
                 <td>{{ $applicant->name }}</td>
                 <td>{{ $applicant->gender }}</td>

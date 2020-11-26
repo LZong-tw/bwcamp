@@ -333,7 +333,10 @@ class BackendController extends Controller
     public function showGroup(Request $request){
         $batch_id = $request->route()->parameter('batch_id');
         $group = $request->route()->parameter('group');
-        $applicants = Applicant::select('applicants.*', $this->camp_data->table . '.*', 'applicants.id as id')->join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')->where('batch_id', $batch_id)->where('group', $group)->get();
+        $applicants = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
+        ->join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')
+        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+        ->where('batch_id', $batch_id)->where('group', $group)->get();
         if(isset($request->download)){
             $fileName = $this->campFullData->abbreviation . $group . "組名單" . \Carbon\Carbon::now()->format('YmdHis') . '.csv';
             $headers = array(

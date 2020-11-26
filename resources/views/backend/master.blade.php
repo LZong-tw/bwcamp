@@ -95,10 +95,7 @@
                                 <a href="{{ route("batchAdmission", $campFullData->id) }}">批次錄取</a>
                             </li>
                             <li>
-                                <a href="#">查詢及下載</a>
-                            </li>
-                            <li>
-                                <a href="{{ route("showGroupList", $campFullData->id) }}">組別名單</a>
+                                <a href="{{ route("showGroupList", $campFullData->id) }}">組別名單查詢/下載</a>
                             </li>
                         </ul>
                     </li>
