@@ -34,12 +34,13 @@
             @csrf
             <input type="hidden" name="id" value="{{ $candidate->id }}">
             @if(isset($candidate->group) && isset($candidate->number))
-                輸入正取序號：<input type="text" name="admittedSN" class="form-control" placeholder="">
-                <br>
+                輸入正取序號：<input type="text" name="admittedSN" class="form-control" placeholder="請確認錄取梯次前綴後再送出修改">
+                本梯次正取序號前綴：{{ $candidate->getBatch->admission_suffix }}
+                <br><br>
                 <input type="submit" class="btn btn-warning" value="修改錄取序號">
                 <input type="submit" name="clear" class="btn btn-danger" value="清除錄取序號">
             @else    
-                輸入正取序號：<input type="text" name="admittedSN" class="form-control" placeholder="">
+                輸入正取序號：<input type="text" name="admittedSN" class="form-control" placeholder="" value="{{ $candidate->getBatch->admission_suffix }}">
                 <br>
                 <input type="submit" class="btn btn-success" value="確認錄取">
             @endif

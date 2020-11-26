@@ -40,7 +40,7 @@
                         <td>
                             @if($applicant->gender !== "N/A" && !$applicant->group && !$applicant->number)
                                 <input type="hidden" name="id[]" value="{{ $applicant->id }}">
-                                <input type="text" name="admittedSN[]" class="form-control" required>
+                                <input type="text" name="admittedSN[]" value="{{ $applicant->getBatch->admission_suffix }}" class="form-control" required>
                             @endif
                         </td>
                     </tr>

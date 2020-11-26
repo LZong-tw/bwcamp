@@ -12,4 +12,8 @@ class Applicant extends Model
     ];
 
     protected $guarded = [];
+
+    public function getBatch(){
+        return $this->belongsTo(Batch::class, 'batch_id', 'id');
+    }
 }
