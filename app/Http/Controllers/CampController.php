@@ -44,9 +44,15 @@ class CampController extends Controller
         return "";
     }
 
-    public function campRegistration(Request $request) {
-        $registration_end = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $this->camp_data->registration_end . "23:59:59");
-        if(\Carbon\Carbon::now() > $registration_end && !isset($request->isBackend)){
+    public function campRegistration(Request $request) {        
+        $now = \Carbon\Carbon::now();
+        if($this->camp_data->is_late_registration_end){
+            $registration_end = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $this->camp_data->late_registration_end . "23:59:59");
+        }
+        else{
+            $registration_end = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $this->camp_data->registration_end . "23:59:59");
+        }         
+        if($now > $registration_end && !isset($request->isBackend)){
             return view($this->camp_data->table . '.outdated');
         }
         else{
