@@ -1,30 +1,35 @@
 ## 待實作
 
-- 銷帳資料頁
 - 報到系統：可以分天報到 -> 使用單一報到表格儲存報到記錄
 - 組別名單：增加選項 - 過濾未繳費的名單，一樣要可下載
 - 權限功能完善：各區限制（只能下載自己梯次、可以檢視和改到別梯次）
 - 使用 Queue 郵寄
 - 不同營隊不同郵寄地址
 
+- 未來：
+    1. 教師營：按學程顯示名單，勾選人員後進入批次錄取列表
+
+## 資料設定及參考文件
+
 - 後台權限系統：以功能區分，總部（所有功能，1）、主辦區（當屆所有功能，2）、各區輔導行政(當屆功能限制，3)、輔導員（當屆功能限制、唯讀，4）、交通（僅交通統計唯讀，5）、**大教聯（3，但僅能下載大專教職資料）**
 
 - 錄取編號首字母設定：各梯次不同字首，格式：1 字母 + 2 組別 + 2 編號
     - 台北(A)、桃園(B)、新竹(C)、台中(D)、雲林(E)、嘉義(F)、台南(G)、高雄(H)
     
+- Queue 指令：php artisan queue:work --daemon --quiet --queue=default --delay=3 --sleep=3 --tries=3
+    - https://learnku.com/articles/3729/use-laravel-queue-to-understand-the-knowledge
+
 - 後台參考：https://youth.blisswisdom.org/camp/wadmin/
 - 上海銀行條碼格式：Barcode 39
 - 條碼產生器文件：https://github.com/milon/barcode
 
 - PDF 產生器文件：https://github.com/barryvdh/laravel-dompdf
 
-- 未來：
-    1. 教師營：按學程顯示名單，勾選人員後進入批次錄取列表
-
 ## <a href="https://docs.google.com/spreadsheets/d/1UXCVFgP8OXzr2fD_aiCnSbRW_zoQ_0Vu8MakmMOYuYc/">欄位及功能(routing)列表</a>
 
 ## 已完成功能
 
+- 銷帳資料頁
 - 錄取頁面及檢視個人資料顯示報名日期
 - 繳費資料表、銷帳資料表
 - **自動銷帳（定期檢查是否有新資料，若有便將 txt 解析後存入資料庫，不可重複讀寫)**
