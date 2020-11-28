@@ -306,13 +306,19 @@ class BackendController extends Controller
     }
 
     public function sendAdmittedMail(Request $request){
-        foreach($request->emails as $key => $email){
+        ini_set('memory_limit', -1);
+        ini_set('max_execution_time', 180);
+        if(!$request->sns){
+            \Session::flash('error', "未選取任何被錄取者。");
+            return back();
+        }
+        foreach($request->sns as $sn){
             $applicant = Applicant::select('camps.*', 'batchs.name as bName', 'applicants.*')
                         ->join('batchs', 'applicants.batch_id', '=', 'batchs.id')
                         ->join('camps', 'batchs.camp_id', '=', 'camps.id')
-                        ->find($request->sns[$key]);
+                        ->find($sn);
             $paymentFile = \PDF::loadView('backend.registration.paymentFormPDF', compact('applicant'))->download();
-            Mail::to($email)->send(new AdmittedMail($applicant, $this->campFullData, $paymentFile));            
+            Mail::to($applicant->email)->send(new AdmittedMail($applicant, $this->campFullData, $paymentFile));            
         }
         \Session::flash('message', "已成功寄送全組錄取通知信。");
         return back();
