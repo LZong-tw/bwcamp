@@ -24,6 +24,7 @@ return [
     ],
 
     'tcamp' => [
+        "accounting_table" => "accounting_scsb",
         "銷帳流水號前1碼" => "5",
         "對帳檔檔名後綴" => "-FESNET-M011200894950615-FD913",
         'scsb_enum' => [

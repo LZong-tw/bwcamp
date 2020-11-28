@@ -570,4 +570,9 @@ class BackendController extends Controller
 
         return view('backend.statistics.schoolOrCourseStat', compact('GChartData',  'total'));
     }
+
+    public function showAccountingPage() {
+        $accountings = \DB::table(config('camps_payments.' . $this->campFullData->table . '.accounting_table'))->get();
+        return view('backend.registration.accounting')->with('accountings', $accountings);
+    }
 }

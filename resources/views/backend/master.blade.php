@@ -127,6 +127,9 @@
                             </li>
                         </ul>
                     </li>
+                    <li>
+                        <a href="{{ route("accounting", $campFullData->id) }}">銷帳資料</a>
+                    </li>
                 @else
                     <li class="active">
                         <a class="" href="">未選擇營隊</a>

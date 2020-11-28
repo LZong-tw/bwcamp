@@ -76,4 +76,5 @@ Route::group(['prefix' => 'backend/{camp_id}', ], function () {
     Route::get('/statistics/birthyear', 'BackendController@birthyearStat')->name('birthyearStat');
     Route::get('/statistics/batches', 'BackendController@batchesStat')->name('batchesStat');
     Route::get('/statistics/schoolOrCourse', 'BackendController@schoolOrCourseStat')->name('schoolOrCourseStat');
+    Route::get('/accounting', 'BackendController@showAccountingPage')->name('accounting');
 });

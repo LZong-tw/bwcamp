@@ -18,7 +18,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }}線上報名表</h4>
     </div>
-{{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態--}}
+{{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
 @if(!isset($isModify) || $isModify)
     <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form'>
 {{-- 以上皆非: 檢視資料狀態 --}}
@@ -32,13 +32,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <span class='text-danger'>＊必填</span>
         </div>
     </div>
-    {{-- <div class='row form-group'>
-        <label for='inputDate' class='col-md-2 control-label text-md-right'>報名日期</label>
-        <div class='col-md-10'>
-            {{ \Carbon\Carbon::now()->toDateString() }}
-            <input type=hidden name='created_at' value='{{ \Carbon\Carbon::now()->toDateString() }}'>
-        </div>
-    </div> --}}
     <div class='row form-group'>
         <label for='inputBatch' class='col-md-2 control-label text-md-right'>營隊梯次</label>
         <div class='col-md-10'>
@@ -48,6 +41,14 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             @endif
         </div>
     </div>
+    @if(isset($isModify))
+        <div class='row form-group'>
+            <label for='inputBatch' class='col-md-2 control-label text-md-right'>報名日期</label>
+            <div class='col-md-10'>
+                {{ $applicant_raw_data->created_at }}
+            </div>
+        </div>
+    @endif
     <div class='row form-group required'>
         <label for='inputName' class='col-md-2 control-label text-md-right'>姓名</label>
         <div class='col-md-10'>

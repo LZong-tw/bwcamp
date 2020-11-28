@@ -166,6 +166,7 @@ class CampController extends Controller
                 ->with('applicant_id', $applicant->applicant_id)
                 ->with('applicant_batch_id', $applicant->batch_id)
                 ->with('applicant_data', $applicant->toJson())
+                ->with('applicant_raw_data', $applicant)
                 ->with('isModify', $isModify)
                 ->with('isBackend', $request->isBackend)
                 ->with('camp_data', $camp_data['camp_data']);
