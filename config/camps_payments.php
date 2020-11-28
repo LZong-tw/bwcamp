@@ -34,7 +34,8 @@ return [
             "HI" => "萊爾富",
         ],
         'email' => [
-            "lzong.tw@gmail.com"
+            "lzong.tw@gmail.com",
+            "bwmedu@blisswisdom.org",
         ]
     ],
 ];
