@@ -8,7 +8,7 @@
             color: #33B2FF!important;
         }
     </style>
-    <h2>組別名單</h2>
+    <h2>{{ $campFullData->abbreviation }} 組別名單</h2>
     @foreach ($batches as $batch)
         <h4>梯次：{{ $batch->name }}</h4>
         <table>
