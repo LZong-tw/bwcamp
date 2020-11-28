@@ -45,7 +45,7 @@
                 @endif
                 <td>{{ $applicant->region }}</td>
                 <td>
-                    <input type="checkbox" name="sns[]" value="{{ $applicant->id }}" class="selected">
+                    <input type="checkbox" name="sns[]" value="{{ $applicant->sn }}" class="selected">
                 </td>
             </tr>
         @endforeach
@@ -60,7 +60,7 @@
             {{ Session::get("error") }}
         </div>
     @endif
-    <button type="submit" class="btn btn-success" style="margin-bottom: 15px" onclick="this.innerText = '寄送中'; this.disabled = true; document.sendEmailByGroup.submit();">全組寄送錄取通知信</button>
+    <button type="submit" class="btn btn-success" style="margin-bottom: 15px" onclick="this.innerText = '處理中'; this.disabled = true; document.sendEmailByGroup.submit();">全組寄送錄取通知信</button>
 </form>
 <script>
     function toggler(){
