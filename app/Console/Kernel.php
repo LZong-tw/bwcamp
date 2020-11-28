@@ -24,8 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
-        // todo: 自動檢查入帳結果
+        $schedule->command('check:Accounting tcamp')->dailyAt("16:30");
     }
 
     /**
