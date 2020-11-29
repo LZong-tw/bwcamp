@@ -39,13 +39,13 @@ class checkPayment extends Command
     {
         // 1. FTP 初始化
         $ftp = \Storage::createFtpDriver([
-            'host'     => '203.67.41.68',
+            // 'host'     => '203.67.41.68',
+            'host'     => '127.0.0.1',
             'username' => 'user040',
             'password' => '01120085',
             'port'     => '21',
             'passive'  => '1',
             'timeout'  => '30',
-            'root' => storage_path('payment_data'),
         ]); 
         // 當日對帳檔檔名格式
         $filenamePattern = \Carbon\Carbon::now()->format("Ymd") . config('camps_payments.' . $this->argument('camp') . '.對帳檔檔名後綴'); 
@@ -56,8 +56,9 @@ class checkPayment extends Command
             // 3. 比對檔名，符合即下載（正常情況下只會有一個檔案）
             foreach($fileList as $fileName){
                 if(\Str::contains($fileName, $filenamePattern) && !\Str::contains($fileName, ".END")){
-                    $ftp->download($fileName);
+                    $content = $ftp->get($fileName);
                     $filename = $fileName;
+                    \Storage::disk('local')->put('payment_data/' . $filename, $content);
                 }
             }
         }
@@ -144,8 +145,6 @@ class checkPayment extends Command
                 }
                 $this->info("資料庫寫入完成");   
                 $mailContent .= "資料庫寫入完成\n";
-                // 6. 對帳資料 raw 檔改名 
-                \Storage::move('payment_data/' . $filename, 'payment_data/history/' . $filename);
             }
             catch(\Exception $e){
                 logger($e);
@@ -157,6 +156,8 @@ class checkPayment extends Command
             $this->info("今日無營隊所屬入帳資料");
             $mailContent .= "今日無營隊所屬入帳資料\n";
         }
+        // 6. 對帳資料 raw 檔改名 
+        \Storage::move('payment_data/' . $filename, 'payment_data/history/' . $filename);
         // 7. 寄出通知信
         $emails = config('camps_payments.' . $this->argument('camp') . '.email');
         foreach($emails as $email){
