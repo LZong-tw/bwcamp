@@ -318,11 +318,12 @@ class BackendController extends Controller
                         ->join('camps', 'batchs.camp_id', '=', 'camps.id')
                         ->find($sn);
             $paymentFile = \PDF::loadView('backend.registration.paymentFormPDF', compact('applicant'))->download();
-            // $paymentFile = mb_convert_encoding($paymentFile, 'UTF-8');
-            Mail::to($applicant->email)->send(new AdmittedMail($applicant, $this->campFullData, $paymentFile));            
+            $paymentFile = mb_convert_encoding($paymentFile, 'UTF-8');
+            $campFullData = Camp::find($this->campFullData->id);
+            Mail::to($applicant->email)->queue(new AdmittedMail($applicant, $campFullData, $paymentFile));
         }
-        \Session::flash('message', "已成功寄送全組錄取通知信。");
-        // \Session::flash('message', "已將產生之信件排入任務佇列。");
+        // \Session::flash('message', "已成功寄送全組錄取通知信。");
+        \Session::flash('message', "已將產生之信件排入任務佇列。");
         return back();
     }
 
