@@ -39,8 +39,7 @@ class checkPayment extends Command
     {
         // 1. FTP 初始化
         $ftp = \Storage::createFtpDriver([
-            // 'host'     => '203.67.41.68',
-            'host'     => '127.0.0.1',
+            'host'     => '203.67.41.68',
             'username' => 'user040',
             'password' => '01120085',
             'port'     => '21',
