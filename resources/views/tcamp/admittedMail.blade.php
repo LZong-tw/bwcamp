@@ -19,7 +19,7 @@
     <li>請於{{ \Carbon\Carbon::now()->year }}年{{ substr($campFullData->payment_deadline, 2, 2) }}月{{ substr($campFullData->payment_deadline, 4, 2) }}日前完成繳費，<a style="color: red;">逾時將<u>視同放棄錄取資格</u>！</a></li>
     <li>繳費地點：可至超商、上海銀行繳費，或使用ATM轉帳、臨櫃匯款。</li>
     <li>若完成繳費，請於至少一個工作天後，上網查詢是否已繳費完畢。<br>
-        （{{ url('camp/' . $applicant->batch_id) }}）</li>
+        （{{ url('camp/' . $applicant->batch_id . '/queryadmit') }}）</li>
     <li>若繳費後，因故無法參加研習需退費者，請參照報名網申請退費注意事項（https://bwfoce.wixsite.com/bwtcamp/faq），並填寫退費申請單。</li>
     <li>各區諮詢窗口<strong>（請於周一至周五 10:00~17:30 來電）</strong>：
         <table width="100%" style="table-layout:fixed; border: 0;">

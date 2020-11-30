@@ -17,7 +17,7 @@
 <ul>
     <li>費用：1200元</li>
     <li>繳費地點：可至超商、上海銀行繳費，或使用ATM轉帳、臨櫃匯款。</li>
-    <li>可自行於報名網頁（網址{{ url('camp/' . $applicant->batch_id) }}）查詢是否已繳費完畢。</li>
+    <li>可自行於報名網頁（網址{{ url('camp/' . $applicant->batch_id . '/queryadmit') }}）查詢是否已繳費完畢。</li>
     <li>若繳費後，因故無法參加研習需退費者，請參照報名網申請退費注意事項（https://bwfoce.wixsite.com/bwtcamp/faq），並填寫退費申請單。</li>
     <li>台北場 諮詢窗口：劉慧娟小姐 (02)2545-3788#529</li>
     <li>桃園場 諮詢窗口：趙小姐 (03)275-6133#1312</li>
