@@ -50,14 +50,26 @@ class checkPayment extends Command
         $filenamePattern = \Carbon\Carbon::now()->format("Ymd") . config('camps_payments.' . $this->argument('camp') . '.對帳檔檔名後綴'); 
         $filename = '';
         if(!$this->option('file')){
-            // 2. 取得檔案列表
-            $fileList = $ftp->files();
-            // 3. 比對檔名，符合即下載（正常情況下只會有一個檔案）
-            foreach($fileList as $fileName){
-                if(\Str::contains($fileName, $filenamePattern) && !\Str::contains($fileName, ".END")){
-                    $content = $ftp->get($fileName);
-                    $filename = $fileName;
-                    \Storage::disk('local')->put('payment_data/' . $filename, $content);
+            try{
+                // 2. 取得檔案列表
+                $fileList = $ftp->files();
+                // 3. 比對檔名，符合即下載（正常情況下只會有一個檔案）
+                foreach($fileList as $fileName){
+                    if(\Str::contains($fileName, $filenamePattern) && !\Str::contains($fileName, ".END")){
+                        $content = $ftp->get($fileName);
+                        $filename = $fileName;
+                        \Storage::disk('local')->put('payment_data/' . $filename, $content);
+                    }
+                }
+            }
+            catch(\Exception $e){
+                $emails = config('camps_payments.' . $this->argument('camp') . '.email');
+                foreach($emails as $email){
+                    \Mail::send([], [], function ($message) use ($email){
+                        $message->to($email)
+                          ->subject($this->argument('camp') . " 上海銀行自動對帳結果")
+                          ->setBody("今日無對帳資料"); 
+                    });
                 }
             }
         }
