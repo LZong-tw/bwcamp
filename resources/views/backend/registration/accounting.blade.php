@@ -27,7 +27,7 @@
         @foreach ($accountings as $accounting)
             <tr>
                 <td>{{ $accounting->id }}</td>
-                <td>{{ $accounting->camp->abbreviation }}{{ $accounting->batch->ame }}</td>
+                <td>{{ $accounting->batch->camp->abbreviation }}{{ $accounting->batch->ame }}</td>
                 <td>{{ $accounting->aName }}</td>
                 <td>{{ $accounting->shouldPay }}</td>
                 <td>{{ $accounting->amount }}</td>
