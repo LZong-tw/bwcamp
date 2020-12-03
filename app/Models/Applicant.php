@@ -13,8 +13,6 @@ class Applicant extends Model
 
     protected $guarded = [];
 
-    protected $with = ['batch'];
-
     public function batch()
     {
         return $this->belongsTo('App\Models\Batch');
