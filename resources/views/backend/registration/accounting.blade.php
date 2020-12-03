@@ -31,7 +31,7 @@
             @endphp
             <tr>
                 <td>{{ $accounting->id }}</td>
-                <td>{{ $camp->abbreviation }}{{ $batch->ame }}</td>
+                <td>{{ $camp->abbreviation }}{{ $batch->name }}</td>
                 <td>{{ $accounting->aName }}</td>
                 <td>{{ $accounting->shouldPay }}</td>
                 <td>{{ $accounting->amount }}</td>
