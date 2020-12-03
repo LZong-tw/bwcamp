@@ -145,7 +145,7 @@ class checkPayment extends Command
                 foreach($arrayList as $item) {
                     \DB::table('accounting_scsb')->insert(
                         ['name' => array_key_exists($item["代收類別"], config('camps_payments.' . $this->argument('camp') . '.scsb_enum')) ? config('camps_payments.' . $this->argument('camp') . '.scsb_enum')[$item["代收類別"]] : $item["代收類別"], 
-                         'creddited_at' => \Carbon\Carbon::createFromFormat('Ymd', $item["入帳日期"]),
+                         'creditted_at' => \Carbon\Carbon::createFromFormat('Ymd', $item["入帳日期"]),
                          'paid_at' => \Carbon\Carbon::createFromFormat('Ymd', $item["繳費日期"]),
                          'accounting_sn' => $item["銷帳流水號"],
                          'accounting_no' => $item["銷帳帳號"],                         
