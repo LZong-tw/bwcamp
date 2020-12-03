@@ -13,12 +13,7 @@ class Applicant extends Model
 
     protected $guarded = [];
 
-    protected $with = ['camp', 'batch'];
-
-    public function camp(){
-        return $this->hasOneThrough('App\Models\Batch', 'App\Models\Camp');
-
-    }
+    protected $with = ['batch'];
 
     public function batch()
     {
