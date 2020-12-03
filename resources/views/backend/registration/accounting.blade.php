@@ -26,7 +26,7 @@
         </thead>
         @foreach ($accountings as $accounting)
             @php
-                $batch = $accounting->batch();
+                $batch = \App\Models\Batch::find($accounting->batch_id);
                 $camp = \App\Models\Camp::find($batch->camp_id);
             @endphp
             <tr>
