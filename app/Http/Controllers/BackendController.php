@@ -10,7 +10,6 @@ use App\Models\Applicant;
 use App\Models\Batch;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\AdmittedMail;
-use Applicants;
 use View;
 
 class BackendController extends Controller
