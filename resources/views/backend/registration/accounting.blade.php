@@ -13,6 +13,9 @@
         <thead>
             <tr class="bg-secondary text-white">
                 <th>銷帳流水序號</th>
+                <th>營隊梯次</th>
+                <th>姓名</th>
+                <th>應繳金額</th>
                 <th>實繳金額</th>
                 <th>銷帳流水號</th>
                 <th>銷帳編號</th>
@@ -24,9 +27,12 @@
         @foreach ($accountings as $accounting)
             <tr>
                 <td>{{ $accounting->id }}</td>
-                <td>{{ $accounting->paid }}</td>
-                <td>{{ $accounting->sn }}</td>
-                <td>{{ $accounting->no }}</td>
+                <td>{{ $accounting->camp->abbreviation }}{{ $accounting->batch->ame }}</td>
+                <td>{{ $accounting->aName }}</td>
+                <td>{{ $accounting->shouldPay }}</td>
+                <td>{{ $accounting->amount }}</td>
+                <td>{{ $accounting->accounting_sn }}</td>
+                <td>{{ $accounting->accounting_no }}</td>
                 <td>{{ $accounting->paid_at }}</td>
                 <td>{{ $accounting->creditted_at }}</td>
                 <td>{{ $accounting->name }}</td>

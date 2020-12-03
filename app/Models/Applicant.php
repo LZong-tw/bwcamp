@@ -13,6 +13,18 @@ class Applicant extends Model
 
     protected $guarded = [];
 
+    protected $with = ['camp', 'batch'];
+
+    public function camp(){
+        return $this->hasOneThrough('App\Models\Batch', 'App\Models\Camp');
+
+    }
+
+    public function batch()
+    {
+        return $this->belongsTo('App\Models\Batch');
+    }
+
     public function getBatch(){
         return $this->belongsTo(Batch::class, 'batch_id', 'id');
     }

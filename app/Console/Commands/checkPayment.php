@@ -153,6 +153,11 @@ class checkPayment extends Command
                          'created_at' => \Carbon\Carbon::now(),
                          'updated_at' => \Carbon\Carbon::now(),]
                     );
+                    $applicant = \App\Models\Applicant::where('bank_second_barcode', $item["銷帳帳號"])->orderBy("id", "desc")->first();
+                    if($applicant){
+                        $applicant->deposit = $applicant->deposit + $item["繳款金額"];
+                        $applicant->save();
+                    }                    
                 }
                 $this->info("資料庫寫入完成");   
                 $mailContent .= "資料庫寫入完成\n";
