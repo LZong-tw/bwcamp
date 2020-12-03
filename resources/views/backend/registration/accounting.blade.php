@@ -25,9 +25,13 @@
             </tr>
         </thead>
         @foreach ($accountings as $accounting)
+            @php
+                $batch = $accounting->batch();
+                $camp = $batch->camp();
+            @endphp
             <tr>
                 <td>{{ $accounting->id }}</td>
-                <td>{{ $accounting->batch->camp->abbreviation }}{{ $accounting->batch->ame }}</td>
+                <td>{{ $camp->abbreviation }}{{ $batch->ame }}</td>
                 <td>{{ $accounting->aName }}</td>
                 <td>{{ $accounting->shouldPay }}</td>
                 <td>{{ $accounting->amount }}</td>
