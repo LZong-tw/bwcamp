@@ -318,7 +318,6 @@ class BackendController extends Controller
                         ->join('camps', 'batchs.camp_id', '=', 'camps.id')
                         ->find($sn);
             $paymentFile = \PDF::loadView('backend.registration.paymentFormPDF', compact('applicant'))->download();
-            $paymentFile = mb_convert_encoding($paymentFile, 'UTF-8');
             $campFullData = Camp::find($this->campFullData->id);
             Mail::to($applicant->email)->queue(new AdmittedMail($applicant, $campFullData, $paymentFile));
         }
