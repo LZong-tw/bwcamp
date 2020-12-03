@@ -1,7 +1,7 @@
 @extends('backend.master')
 @section('content')
     <div><h2 class="d-inline-block">{{ $campFullData->abbreviation }} {{ $batch->name }} {{ request()->group }}組 組別名單</h2>
-    @if(auth()->user()->getPermission() == 1)
+    @if(auth()->user()->getPermission()->level == 1)
         <a href="{{ route("showGroup", [$campFullData->id, $batch->id, request()->group]) }}?download=1" class="btn btn-primary d-inline-block" style="margin-bottom: 14px">下載名單</a>
     @endif
     </div>
