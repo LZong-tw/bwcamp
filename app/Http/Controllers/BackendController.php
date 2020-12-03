@@ -10,6 +10,7 @@ use App\Models\Applicant;
 use App\Models\Batch;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\AdmittedMail;
+use Applicants;
 use View;
 
 class BackendController extends Controller
@@ -575,7 +576,8 @@ class BackendController extends Controller
     }
 
     public function showAccountingPage() {
-        $accountings = \DB::table(config('camps_payments.' . $this->campFullData->table . '.accounting_table'))->get();
+        $accountingTable = config('camps_payments.' . $this->campFullData->table . '.accounting_table');
+        $accountings = Applicant::select('applicants.name as aName', 'applicants.fee as shouldPay', $accountingTable.'.*')->join($accountingTable, $accountingTable.'.accounting_no', '=', 'applicants.bank_second_barcode')->get();
         return view('backend.registration.accounting')->with('accountings', $accountings);
     }
 }
