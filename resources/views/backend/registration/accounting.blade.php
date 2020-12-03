@@ -25,13 +25,9 @@
             </tr>
         </thead>
         @foreach ($accountings as $accounting)
-            @php
-                $batch = \App\Models\Batch::find($accounting->batch_id);
-                $camp = \App\Models\Camp::find($batch->camp_id);
-            @endphp
             <tr>
                 <td>{{ $accounting->id }}</td>
-                <td>{{ $camp->abbreviation }}{{ $batch->name }}</td>
+                <td>{{ $accounting->batch->camp->abbreviation }} - {{ $accounting->batch->name }}</td>
                 <td>{{ $accounting->aName }}</td>
                 <td>{{ $accounting->shouldPay }}</td>
                 <td>{{ $accounting->amount }}</td>
