@@ -576,7 +576,7 @@ class BackendController extends Controller
 
     public function showAccountingPage() {
         $accountingTable = config('camps_payments.' . $this->campFullData->table . '.accounting_table');
-        $accountings = Applicant::select('applicants.batch_id', 'applicants.name as aName', 'applicants.fee as shouldPay', $accountingTable.'.*')->join($accountingTable, $accountingTable.'.accounting_no', '=', 'applicants.bank_second_barcode')->get();
+        $accountings = Applicant::select('applicants.id', 'applicants.name as aName', 'applicants.fee as shouldPay', $accountingTable.'.*')->join($accountingTable, $accountingTable.'.accounting_no', '=', 'applicants.bank_second_barcode')->get();
         return view('backend.registration.accounting')->with('accountings', $accountings);
     }
 }
