@@ -1,9 +1,7 @@
 @extends('backend.master')
 @section('content')
     <div><h2 class="d-inline-block">{{ $campFullData->abbreviation }} {{ $batch->name }} {{ request()->group }}組 組別名單</h2>
-    @if(auth()->user()->getPermission()->level == 1)
-        <a href="{{ route("showGroup", [$campFullData->id, $batch->id, request()->group]) }}?download=1" class="btn btn-primary d-inline-block" style="margin-bottom: 14px">下載名單</a>
-    @endif
+    <a href="{{ route("showGroup", [$campFullData->id, $batch->id, request()->group]) }}?download=1" class="btn btn-primary d-inline-block" style="margin-bottom: 14px">下載名單</a>
     </div>
     <form action="{{ route("sendAdmittedMail", $camp_data->id) }}" method="post" name="sendEmailByGroup">
     <table class="table table-bordered">
@@ -63,7 +61,9 @@
             {{ Session::get("error") }}
         </div>
     @endif
-    <button type="submit" class="btn btn-success" style="margin-bottom: 15px" onclick="this.innerText = '處理中'; this.disabled = true; document.sendEmailByGroup.submit();">全組寄送錄取通知信</button>
+    @if(auth()->user()->getPermission()->level <= 2)
+        <button type="submit" class="btn btn-success" style="margin-bottom: 15px" onclick="this.innerText = '處理中'; this.disabled = true; document.sendEmailByGroup.submit();">全組寄送錄取通知信</button>
+    @endif
 </form>
 <script>
     function toggler(){

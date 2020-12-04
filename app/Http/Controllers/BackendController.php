@@ -573,6 +573,38 @@ class BackendController extends Controller
         return view('backend.statistics.schoolOrCourseStat', compact('GChartData',  'total'));
     }
 
+    public function admissionStat(){
+        $applicants = Applicant::select(\DB::raw('batchs.name, count(*) as total'))
+        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+        ->where('camps.id', $this->campFullData->id)
+        ->where('is_admitted', 1)
+        ->groupBy('batchs.name')->get();
+        $rows = count($applicants);
+        $array = $applicants->toArray();
+
+        $i = 0 ;
+        $total = 0 ;
+        $GChartData = array('cols'=> array(
+                        array('id'=>'name','label'=>'梯次','type'=>'string'),
+                        array('id'=>'people','label'=>'人數','type'=>'number'),
+                        array('id'=>'annotation','role'=>'annotation','type'=>'number')
+                    ),
+                    'rows' => array());
+        for($i = 0; $i < $rows; $i ++) {
+            $record = $array[$i];
+            array_push($GChartData['rows'], array('c' => array(
+                array('v' => $record['name'] == null ? '其他' : $record['name']),
+                array('v' => intval($record['total'])),
+                array('v' => intval($record['total']))
+            )));
+            $total = $total + $record['total'];
+        }
+        $GChartData = json_encode($GChartData);
+
+        return view('backend.statistics.admission', compact('GChartData',  'total'));
+    }
+
     public function showAccountingPage() {
         $accountingTable = config('camps_payments.' . $this->campFullData->table . '.accounting_table');
         $accountings = Applicant::select('applicants.batch_id', 'applicants.name as aName', 'applicants.fee as shouldPay', $accountingTable.'.*')->with('batch', 'batch.camp')->join($accountingTable, $accountingTable.'.accounting_no', '=', 'applicants.bank_second_barcode')->get();
