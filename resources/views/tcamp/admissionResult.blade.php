@@ -69,10 +69,10 @@
                         <p class="card-text">
                             繳費狀態：<strong>{{ $applicant->payment_status }}</strong>
                         </p>
-                        <form action="{{ route("downloadPaymentForm", $applicant->batch_id) }}" method="post">
+                        <form action="{{ route("downloadPaymentForm", $applicant->batch_id) }}" method="post" name="downloadPaymentForm">
                             @csrf
                             <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
-                            <button class="btn btn-success" onclick="this.innerText = '正在產生繳費聯'; this.disabled = true">下載繳費聯</button>
+                            <button class="btn btn-success" onclick="this.innerText = '正在產生繳費聯'; this.disabled = true; document.downloadPaymentForm.submit();">下載繳費聯</button>
                         </form>
                     </div>
                 </div>
