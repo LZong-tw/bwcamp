@@ -47,6 +47,7 @@ Route::group(['prefix' => 'camp/{batch_id}'], function () {
     Route::post('/querysn', 'CampController@campGetApplicantSN')->name('querysn');
     Route::get('/queryadmit', 'CampController@campViewAdmission')->name('queryadmit');
     Route::post('/queryadmit', 'CampController@campQueryAdmission')->name('queryadmit');
+    Route::post('/downloadPaymentForm', 'CampController@downloadPaymentForm')->name('downloadPaymentForm');
     Route::post('/submit', 'CampController@campRegistrationFormSubmitted')->name('formSubmit');
     Route::get('/downloads', 'CampController@showDownloads')->name('showDownloads');
 });
