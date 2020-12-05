@@ -112,7 +112,7 @@ class BackendController extends Controller
             return view('backend.registration.paymentForm', compact('applicant','download'));
         }
         else{
-            return \PDF::loadView('backend.registration.paymentFormPDF', compact('applicant'))->download(\Carbon\Carbon::now()->format('YmdHis') . $this->campFullData->table . $applicant->id . '.pdf');
+            return \PDF::loadView('backend.registration.paymentFormPDF', compact('applicant'))->download(\Carbon\Carbon::now()->format('YmdHis') . $applicant->batch->camp->table . $applicant->id . '.pdf');
         }
     }
 

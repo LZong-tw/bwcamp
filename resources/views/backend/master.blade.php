@@ -88,20 +88,6 @@
                             @endif
                         </ul>
                     </li>
-                    <li class="active">
-                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">錄取相關</a>
-                        <ul class="collapse list-unstyled" id="homeSubmenu">
-                            <li>
-                                <a href="{{ route("admission", $campFullData->id) }}">單一錄取<br>查詢報名資料</a>
-                            </li>
-                            <li>
-                                <a href="{{ route("batchAdmission", $campFullData->id) }}">批次錄取</a>
-                            </li>
-                            <li>
-                                <a href="{{ route("showGroupList", $campFullData->id) }}">組別名單查詢/下載<br>寄送錄取通知信</a>
-                            </li>
-                        </ul>
-                    </li>
                     <li>
                         <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">報名相關</a>
                         <ul class="collapse list-unstyled" id="pageSubmenu2">
@@ -113,6 +99,20 @@
                             </li>
                             <li>
                                 <a href="{{ route("changeBatchOrRegion", $campFullData->id) }}">修改梯次 / 區域</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="active">
+                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">錄取相關</a>
+                        <ul class="collapse list-unstyled" id="homeSubmenu">
+                            <li>
+                                <a href="{{ route("admission", $campFullData->id) }}">單一錄取<br>查詢報名資料</a>
+                            </li>
+                            <li>
+                                <a href="{{ route("batchAdmission", $campFullData->id) }}">批次錄取</a>
+                            </li>
+                            <li>
+                                <a href="{{ route("showGroupList", $campFullData->id) }}">組別名單查詢/下載<br>寄送錄取通知信</a>
                             </li>
                         </ul>
                     </li>

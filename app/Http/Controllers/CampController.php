@@ -211,6 +211,19 @@ class CampController extends Controller
                 ->where('name', $request->name)->first();
         }
         if($applicant) {
+            if($applicant->deposit == 0){
+                $status = "未繳費";
+            }
+            elseif($applicant->fee - $applicant->deposit > 0){
+                $status = "已繳部分金額，尚餘" . ($applicant->fee - $applicant->deposit) . "元";
+            }
+            elseif($applicant->fee - $applicant->deposit < 0){
+                $status = "已繳費，溢繳" . ($applicant->deposit - $applicant->fee) . "元";
+            }
+            else{
+                $status = "已繳費";
+            }
+            $applicant->payment_status = $status;
             return view($campTable . ".admissionResult")->with('applicant', $applicant);
         }
         else{
@@ -220,5 +233,14 @@ class CampController extends Controller
 
     public function showDownloads() {
         return view($this->camp_data->table . '.downloads');
+    }
+
+    public function downloadPaymentForm(Request $request) {
+        ini_set('memory_limit', -1);
+        $applicant = Applicant::select('camps.*', 'batchs.name as bName', 'applicants.*')
+                        ->join('batchs', 'applicants.batch_id', '=', 'batchs.id')
+                        ->join('camps', 'batchs.camp_id', '=', 'camps.id')
+                        ->find($request->applicant_id);
+        return \PDF::loadView('backend.registration.paymentFormPDF', compact('applicant'))->download(\Carbon\Carbon::now()->format('YmdHis') . $this->camp_data->table . $applicant->id . '繳費聯.pdf');
     }
 }
