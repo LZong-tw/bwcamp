@@ -9,6 +9,7 @@ return [
         "group" => "組別", 
         "number" => "座號", 
         "is_admitted" => "錄取", 
+        "is_paid" => "是否已繳費",
         "region" => "區域", 
         "is_attend" => "回覆參加", 
         "name" => "姓名", 
