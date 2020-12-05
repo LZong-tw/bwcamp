@@ -13,7 +13,7 @@
             <div class="col-sm-10">
                 <div class="card">
                     <div class="card-header">
-                        {{ $camp_data->fullName }} 錄取暨繳費通知
+                        錄取暨繳費通知
                     </div>
                     <div class="card-body">
                         <p class="card-text">
@@ -86,7 +86,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
-                        {{ $camp_data->fullName }} 報名結果通知單
+                        報名結果通知單
                     </div>
                     <div class="card-body">
                         <p class="card-text">敬愛的教育界先進，您好!</p>
