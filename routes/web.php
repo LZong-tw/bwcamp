@@ -69,6 +69,8 @@ Route::group(['prefix' => 'backend/{camp_id}', ], function () {
     Route::post('/registration/sendAdmittedMail', 'BackendController@sendAdmittedMail')->name('sendAdmittedMail');
     Route::get('/registration/groupList', 'BackendController@showGroupList')->name('showGroupList');
     Route::get('/registration/group/{batch_id}/{group}', 'BackendController@showGroup')->name('showGroup');
+    Route::get('/formal/groupList', 'BackendController@showFormalGroupList')->name('showFormalGroupList');
+    Route::get('/formal/group/{batch_id}/{group}', 'BackendController@showFormalGroup')->name('showFormalGroup');
     Route::get('/statistics/appliedDate', 'BackendController@appliedDateStat')->name('appliedDateStat');
     Route::get('/statistics/gender', 'BackendController@genderStat')->name('genderStat');
     Route::get('/statistics/county', 'BackendController@countyStat')->name('countyStat');
