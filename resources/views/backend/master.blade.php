@@ -120,6 +120,9 @@
                         <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">正行相關</a>
                         <ul class="collapse list-unstyled" id="pageSubmenu">
                             <li>
+                                <a href="{{ route('showFormalGroupList', $campFullData->id) }}">正式錄取組別名單<br>寄送報到通知信</a>
+                            </li>
+                            <li>
                                 <a href="#">回覆參加名單</a>
                             </li>
                             <li>

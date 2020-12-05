@@ -319,6 +319,97 @@ class BackendController extends Controller
         $applicants = Applicant::join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')->where('batch_id', $batch_id)->where('group', $group)->get();
         return view('backend.registration.group', compact('applicants'));
     }
+
+    public function sendCheckInNotifydMail(Request $request){
+        if(!$request->sns){
+            \Session::flash('error', "未選取任何被錄取者。");
+            return back();
+        }
+        foreach($request->sns as $sn){
+            \App\Jobs\SendAdmittedMail::dispatch($sn);
+        }
+        \Session::flash('message', "已將產生之信件排入任務佇列。");
+        return back();
+    }
+
+    public function showFormalGroupList() {
+        $batches = Batch::where('camp_id', $this->camp_id)->get()->all();
+        foreach($batches as &$batch){
+            $batch->regions = Applicant::select('region')
+                                ->where('batch_id', $batch->id)
+                                ->where('is_admitted', 1)
+                                ->groupBy('region')
+                                ->get();
+            foreach($batch->regions as &$region){
+                $region->groups = Applicant::select('group')
+                                    ->where('batch_id', $batch->id)
+                                    ->where('region', $region->region)
+                                    ->where('is_admitted', 1)
+                                    ->groupBy('group')->get();
+                foreach($region->groups as &$applicant){
+                    if($applicant->deposit - $applicant->fee < 0){
+                        unset($applicant);
+                    }
+                }
+                $region->region = $region->region ?? "其他";
+            }
+        }
+        return view('backend.formal.groupList')->with('batches', $batches);
+    }
+
+    public function showFormalGroup(Request $request){
+        $batch_id = $request->route()->parameter('batch_id');
+        $group = $request->route()->parameter('group');
+        $applicants = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
+                    ->join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')
+                    ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+                    ->where('batch_id', $batch_id)
+                    ->where('group', $group)
+                    ->get();
+        foreach($applicants as &$applicant){
+            if($applicant->deposit - $applicant->fee < 0){
+                unset($applicant);
+            }
+        }
+        if(isset($request->download)){
+            $fileName = $this->campFullData->abbreviation . $group . "組名單" . \Carbon\Carbon::now()->format('YmdHis') . '.csv';
+            $headers = array(
+                "Content-Encoding"    => "Big5",
+                "Content-type"        => "text/csv; charset=big5",
+                "Content-Disposition" => "attachment; filename=$fileName",
+                "Pragma"              => "no-cache",
+                "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+                "Expires"             => "0"
+            );
+
+            $callback = function() use($applicants) {
+                $file = fopen('php://output', 'w');
+                // 先寫入此三個字元使 Excel 能正確辨認編碼為 UTF-8
+                // http://jeiworld.blogspot.com/2009/09/phpexcelutf-8csv.html
+                fwrite($file, "\xEF\xBB\xBF");
+                $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table));    
+                fputcsv($file, $columns);
+
+                foreach ($applicants as $applicant) {
+                    $rows = array();
+                    foreach($columns as $key => $v){
+                        if($key == "is_paid"){
+                            $result = $applicant['fee'] - $applicant['deposit'] <= 0 ? '是' : '否';
+                            array_push($rows, '="' . $result . '"');
+                        }
+                        else{
+                            array_push($rows, '="' . $applicant[$key] . '"');
+                        }
+                    }
+                    fputcsv($file, $rows);
+                }
+
+                fclose($file);
+            };
+            return response()->stream($callback, 200, $headers);
+        }
+        return view('backend.formal.group', compact('applicants'));
+    }
     
     public function appliedDateStat() {
         $applicants = Applicant::select(\DB::raw('DATE_FORMAT(applicants.created_at, "%Y-%m-%d") as date, count(*) as total'))
