@@ -306,22 +306,13 @@ class BackendController extends Controller
     }
 
     public function sendAdmittedMail(Request $request){
-        ini_set('memory_limit', -1);
-        ini_set('max_execution_time', 180);
         if(!$request->sns){
             \Session::flash('error', "未選取任何被錄取者。");
             return back();
         }
         foreach($request->sns as $sn){
-            $applicant = Applicant::select('camps.*', 'batchs.name as bName', 'applicants.*')                        
-                        ->join('batchs', 'applicants.batch_id', '=', 'batchs.id')
-                        ->join('camps', 'batchs.camp_id', '=', 'camps.id')
-                        ->find($sn);
-            $paymentFile = \PDF::loadView('backend.registration.paymentFormPDF', compact('applicant'))->download();
-            $campFullData = Camp::find($this->campFullData->id);
-            Mail::to($applicant->email)->queue(new AdmittedMail($applicant, $campFullData, $paymentFile));
+            \App\Jobs\SendAdmittedMail::dispatch($sn);
         }
-        // \Session::flash('message', "已成功寄送全組錄取通知信。");
         \Session::flash('message', "已將產生之信件排入任務佇列。");
         return back();
     }
@@ -367,7 +358,13 @@ class BackendController extends Controller
                 foreach ($applicants as $applicant) {
                     $rows = array();
                     foreach($columns as $key => $v){
-                        array_push($rows, '="' . $applicant[$key] . '"');
+                        if($key == "is_paid"){
+                            $result = $applicant['fee'] - $applicant['deposit'] <= 0 ? '是' : '否';
+                            array_push($rows, '="' . $result . '"');
+                        }
+                        else{
+                            array_push($rows, '="' . $applicant[$key] . '"');
+                        }
                     }
                     fputcsv($file, $rows);
                 }
@@ -609,5 +606,17 @@ class BackendController extends Controller
         $accountingTable = config('camps_payments.' . $this->campFullData->table . '.accounting_table');
         $accountings = Applicant::select('applicants.batch_id', 'applicants.name as aName', 'applicants.fee as shouldPay', $accountingTable.'.*')->with('batch', 'batch.camp')->join($accountingTable, $accountingTable.'.accounting_no', '=', 'applicants.bank_second_barcode')->get();
         return view('backend.registration.accounting')->with('accountings', $accountings);
+    }
+
+    public function showJobs(){
+        $jobs = \DB::table('jobs')->get();
+        $failedJobs = \DB::table('failed_jobs')->get();
+        $jobs = json_decode($jobs, true);
+        $failedJobs = json_decode($failedJobs, true);
+        return view('backend.jobs', compact('jobs', 'failedJobs'));
+    }
+
+    public function failedJobsClear(){
+        return \DB::table('failed_jobs')->truncate();
     }
 }

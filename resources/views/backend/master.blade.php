@@ -138,6 +138,9 @@
                         <a class="" href="">未選擇營隊</a>
                     </li>
                 @endif
+                <li>
+                    <a href="{{ route("jobs", $campFullData->id ?? "") }}">任務佇列</a>
+                </li>
             </ul>
             
             <ul class="list-unstyled CTAs">

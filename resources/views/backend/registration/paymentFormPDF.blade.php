@@ -63,8 +63,8 @@
             <table class="table" style="margin: -12px">
                 <tr>
                     <td>
-                        繳費期限：{{ \Carbon\Carbon::now()->year }}/{{ substr($campFullData->payment_deadline, 2, 2) }}/{{ substr($campFullData->payment_deadline, 4, 2) }}<br>
-                        應繳金額：{{ $campFullData->fee }}
+                        繳費期限：{{ \Carbon\Carbon::now()->year }}/{{ substr($applicant->batch->camp->payment_deadline, 2, 2) }}/{{ substr($applicant->batch->camp->payment_deadline, 4, 2) }}<br>
+                        應繳金額：{{ $applicant->batch->camp->fee }}
                     </td>
                 </tr>
                 <tr>
@@ -98,18 +98,18 @@
     </tr>
 </table>
 <hr>
-<h2 class="center">{{ $applicant->fullName }} 錄取繳費通知單</h2>
+<h2 class="center">{{ $applicant->batch->camp->fullName }} 錄取繳費通知單</h2>
 <table style="width: 100%; table-layout:fixed; border: 0;">
     <tr>
-        <td>場次：{{ $applicant->bName }}</td>
+        <td>場次：{{ $applicant->batch->name }}</td>
         <td>姓名：{{ $applicant->name }}</td>
         <td>錄取編號：{{ $applicant->group }}{{ $applicant->number }}</td>
         <td>組別：{{ $applicant->group }}</td>
     </tr>
 </table>
-恭喜您錄取「{{ $applicant->fullName }}」！竭誠歡迎您的到來，期待與您共享這場心靈饗宴，希望您能獲得豐盛的收穫。請於{{ \Carbon\Carbon::now()->year }}年{{ substr($campFullData->payment_deadline, 2, 2) }}月{{ substr($campFullData->payment_deadline, 4, 2) }}日前完成繳費，<u>逾時將視同放棄錄取資格！</u>
+恭喜您錄取「{{ $applicant->batch->camp->fullName }}」！竭誠歡迎您的到來，期待與您共享這場心靈饗宴，希望您能獲得豐盛的收穫。請於{{ \Carbon\Carbon::now()->year }}年{{ substr($applicant->batch->camp->payment_deadline, 2, 2) }}月{{ substr($applicant->batch->camp->payment_deadline, 4, 2) }}日前完成繳費，<u>逾時將視同放棄錄取資格！</u>
 <ul>
-    <li>活動費用：{{ $campFullData->fee }}元</li>
+    <li>活動費用：{{ $applicant->batch->camp->fee }}元</li>
     <li>繳費地點：可至超商、上海銀行繳費，或使用ATM轉帳、臨櫃匯款。</li>
     <li>若完成繳費，請於至少一個工作天後，上網查詢是否已繳費完畢。<br>
         <a href="{{ url('camp/' . $applicant->batch_id . '/queryadmit') }}">（{{ url('camp/' . $applicant->batch_id . '/queryadmit') }}）</a></li>
