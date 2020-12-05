@@ -227,7 +227,7 @@ class CampController extends Controller
             return view($campTable . ".admissionResult")->with('applicant', $applicant);
         }
         else{
-            return back()->withInput()->with('error', "找不到報名資料，請確認是否已成功報名，或是輸入了錯誤的查詢資料。");
+            return back()->withInput()->withErrors(["找不到報名資料，請確認是否已成功報名，或是輸入了錯誤的查詢資料。"]);
         }
     }
 
