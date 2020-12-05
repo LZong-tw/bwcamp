@@ -1,5 +1,10 @@
 @extends('layouts.tcamp')
 @section('content')
+    <style>
+        .indent{
+            text-indent: 22px;
+        }
+    </style>
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }}</h4>
     </div>
@@ -8,7 +13,7 @@
             <div class="col-sm-10">
                 <div class="card">
                     <div class="card-header">
-                        錄取查詢
+                        {{ $camp_data->fullName }} 錄取暨繳費通知
                     </div>
                     <div class="card-body">
                         <p class="card-text">
@@ -81,12 +86,18 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
-                        錄取查詢
+                        {{ $camp_data->fullName }} 報名結果通知單
                     </div>
                     <div class="card-body">
-                        <p class="card-text">
-                            你沒錄取。
-                        </p>
+                        <p class="card-text">敬愛的教育界先進，您好!</p>
+                        <p class="card-text indent">「教師生命成長營」自舉辦以來，每年都得到教育界先進們的支持和肯定，思及社會上仍有 這麼多人共同關心莘莘學子們的學習成長，令人深感振奮!每一位老師的報名都是鼓舞我們的一 分力量，激勵基金會的義工們持續不懈，與大家共同攜手為教育盡心盡力。</p>
+                        <p class="card-text indent">非常感謝您的報名，由於場地容量的侷限，不克錄取，造成您的不便，敬請見諒包涵!</p>
+                        <p class="card-text indent">福智文教基金會在全省各縣市的分支機構，平日都設有適合各年齡層的多元心靈提升課程， 誠摯歡迎您的參與!</p>
+                        <p class="card-text indent">關注「福智文教基金會」網站: <a href="https://bwfoce.org" target="_blank" rel="noopener noreferrer">https://bwfoce.org</a></p>
+                        <p class="card-text indent">關注「哈特麥 1D」(heart mind edu.)FB: <a href="https://www.facebook.com/heartmind1d/" target="_blank" rel="noopener noreferrer">https://www.facebook.com/heartmind1d/</a></p>
+                        <p class="card-text">祝福　教安，健康平安!</p>
+                        <p class="card-text text-right">財團法人福智文教基金會</p>
+                        <p class="card-text text-right">謹此 2020 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
                         <input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>
                         <a href="{{ $camp_data->site_url }}" class="btn btn-primary">回營隊首頁</a>
                     </div>
