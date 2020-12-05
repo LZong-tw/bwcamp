@@ -12,19 +12,19 @@ class AdmittedMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $name, $admittedNo, $campData;
+    public $applicant, $campFullData, $attachment;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($name, $admittedNo, $campData)
+    public function __construct($applicant, $campFullData, $attachment = null)
     {
         //
-        $this->name = $name;
-        $this->admittedNo = $admittedNo;
-        $this->campData = $campData;
+        $this->applicant = $applicant;
+        $this->campFullData = $campFullData;
+        $this->attachment = $attachment;
     }
 
     /**
@@ -34,7 +34,10 @@ class AdmittedMail extends Mailable
      */
     public function build()
     {
-        return $this->subject($this->campData->abbreviation . '錄取通知')
-                ->view($this->campData->table . ".admittedMail");
+        return $this->subject($this->campFullData->abbreviation . '錄取通知')
+                ->view($this->campFullData->table . ".admittedMail")
+                ->attachData($this->attachment, '繳費暨錄取通知單' . \Carbon\Carbon::now()->format('YmdHis') . $this->campFullData->table . $this->applicant->group . $this->applicant->number . '.pdf', [
+                    'mime' => 'application/pdf',
+                ]);
     }
 }

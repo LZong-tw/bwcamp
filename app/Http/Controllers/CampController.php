@@ -9,6 +9,7 @@ use App\Services\CampDataService;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use App\Mail\ApplicantMail;
 use View;
 
@@ -43,9 +44,15 @@ class CampController extends Controller
         return "";
     }
 
-    public function campRegistration(Request $request) {
-        $registration_end = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $this->camp_data->registration_end . "23:59:59");
-        if(\Carbon\Carbon::now() > $registration_end && !isset($request->isBackend)){
+    public function campRegistration(Request $request) {        
+        $now = \Carbon\Carbon::now();
+        if($this->camp_data->is_late_registration_end){
+            $registration_end = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $this->camp_data->late_registration_end . "23:59:59");
+        }
+        else{
+            $registration_end = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $this->camp_data->registration_end . "23:59:59");
+        }         
+        if($now > $registration_end && !isset($request->isBackend)){
             return view($this->camp_data->table . '.outdated');
         }
         else{
@@ -122,6 +129,12 @@ class CampController extends Controller
         return view($this->camp_data->table . '.query');
     }
 
+    /**
+     * 查詢/修改報名資料
+     * 如果從 query 頁選擇查詢報名資料，則可跨梯次查詢資料，但無法再按下修改資料
+     * 如果從 query 頁選擇修改報名資料，則可跨梯次修改資料
+     * 
+     */
     public function campViewRegistrationData(Request $request) {
         $applicant = null;
         $isModify = false;
@@ -136,9 +149,9 @@ class CampController extends Controller
         //（因會有個資洩漏的疑慮，故只在檢視報名資料及報名資料送出後的畫面允許使用）
         // 唯三允許進入修改資料的來源：兩個地方（報名、報名資料修改）的報名資料送出後
         //                        及檢視報名資料頁面所進來的請求
-        else if(request()->headers->get('referer') == route('formSubmit', $this->batch_id) ||
-                request()->headers->get('referer') == route('queryupdate', $this->batch_id) ||
-                request()->headers->get('referer') == route('queryview', $this->batch_id)){
+        else if(Str::contains(request()->headers->get('referer'), 'submit') ||
+                Str::contains(request()->headers->get('referer'), 'queryupdate') ||
+                Str::contains(request()->headers->get('referer'), 'queryview')){
             $applicant = Applicant::select('applicants.*', $campTable . '.*')
                 ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
                 ->where('applicants.id', $request->sn)->first();
@@ -147,12 +160,16 @@ class CampController extends Controller
             $isModify = true;
         }
         if($applicant) {
+            // 取得報名者梯次資料
+            $camp_data = $this->campDataService->getCampData($applicant->batch_id);
             return view($campTable . '.form')
                 ->with('applicant_id', $applicant->applicant_id)
                 ->with('applicant_batch_id', $applicant->batch_id)
                 ->with('applicant_data', $applicant->toJson())
+                ->with('applicant_raw_data', $applicant)
                 ->with('isModify', $isModify)
-                ->with('isBackend', $request->isBackend);
+                ->with('isBackend', $request->isBackend)
+                ->with('camp_data', $camp_data['camp_data']);
         }
         else{
             return back()->withInput()->withErrors(['找不到報名資料，請再次確認是否填寫錯誤。']);
@@ -194,14 +211,36 @@ class CampController extends Controller
                 ->where('name', $request->name)->first();
         }
         if($applicant) {
+            if($applicant->deposit == 0){
+                $status = "未繳費";
+            }
+            elseif($applicant->fee - $applicant->deposit > 0){
+                $status = "已繳部分金額，尚餘" . ($applicant->fee - $applicant->deposit) . "元";
+            }
+            elseif($applicant->fee - $applicant->deposit < 0){
+                $status = "已繳費，溢繳" . ($applicant->deposit - $applicant->fee) . "元";
+            }
+            else{
+                $status = "已繳費";
+            }
+            $applicant->payment_status = $status;
             return view($campTable . ".admissionResult")->with('applicant', $applicant);
         }
         else{
-            return back()->withInput()->with('error', "找不到報名資料，請確認是否已成功報名，或是輸入了錯誤的查詢資料。");
+            return back()->withInput()->withErrors(["找不到報名資料，請確認是否已成功報名，或是輸入了錯誤的查詢資料。"]);
         }
     }
 
     public function showDownloads() {
         return view($this->camp_data->table . '.downloads');
+    }
+
+    public function downloadPaymentForm(Request $request) {
+        ini_set('memory_limit', -1);
+        $applicant = Applicant::select('camps.*', 'batchs.name as bName', 'applicants.*')
+                        ->join('batchs', 'applicants.batch_id', '=', 'batchs.id')
+                        ->join('camps', 'batchs.camp_id', '=', 'camps.id')
+                        ->find($request->applicant_id);
+        return \PDF::loadView('backend.registration.paymentFormPDF', compact('applicant'))->download(\Carbon\Carbon::now()->format('YmdHis') . $this->camp_data->table . $applicant->id . '繳費聯.pdf');
     }
 }

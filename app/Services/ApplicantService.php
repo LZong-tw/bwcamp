@@ -23,13 +23,51 @@ class ApplicantService
         return compact('group', 'number');
     }
 
-    public function fetchApplicantData($table, $id, $group, $number){
+    /**
+     * 取得報名者完整資料
+     * 
+     * @param 營隊 ID
+     * @param 營隊資料表
+     * @param 報名者 ID
+     * @param 報名者組別
+     * @param 報名者座號
+     * @return 一個報名者 model
+     */
+    public function fetchApplicantData($camp_id, $table, $id, $group, $number){
         return Applicant::select('applicants.*')
             ->join($table, 'applicants.id', '=', $table . '.applicant_id')
-            ->where('applicants.id', $id)
-            ->orWhere(function ($query) use ($group, $number) {
-                $query->where('group', 'like', $group);
-                $query->where('number', 'like', $number);
+            ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+            ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+            ->where('camps.id', $camp_id)
+            ->where(function ($query) use ($id, $group, $number) {
+                $query->where('applicants.id', $id)
+                ->orWhere(function ($query) use ($group, $number) {
+                    $query->where('group', 'like', $group);
+                    $query->where('number', 'like', $number);
+                });
             })->first();
+    }
+
+    /**
+     * 錄取後，自動生成轉帳資料
+     * 
+     * @param 一個報名者 model
+     * @param 營隊完整資料
+     * @return 一個報名者 model
+     */
+    public function fillPaymentData($candidate, $campFullData){
+        $data = array_merge(config('camps_payments.general'), config('camps_payments.' . $campFullData->table));
+        $data["應繳日期"] = $campFullData['payment_startdate'] ?? "0000";
+        $data["繳費期限"] = $campFullData['payment_deadline'] ?? "000000";
+        $data["銷帳編號"] = $data["銷帳流水號前1碼"] . str_pad($candidate->id, 5, '0', STR_PAD_LEFT);
+        $paymentFlow = new PaymentflowService($data);        
+        $candidate->store_first_barcode = $paymentFlow->getStoreFirstBarcode();
+        $candidate->store_second_barcode = $paymentFlow->getStoreSecondBarcode();
+        $candidate->store_third_barcode = $paymentFlow->getStoreThirdBarcode($campFullData['fee'] ?? 0);
+        $candidate->bank_second_barcode = $paymentFlow->getBankSecondBarcode();
+        $candidate->bank_third_barcode = $paymentFlow->getBankThirdBarcode($campFullData['fee'] ?? 0);
+        $candidate->fee = $campFullData['fee'];
+        $candidate->deposit = 0;
+        return $candidate;
     }
 }

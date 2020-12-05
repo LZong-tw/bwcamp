@@ -32,7 +32,7 @@ Route::post('register', 'Auth\RegisterController@register');
 Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
-Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
 /****************************************************************************/
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -47,15 +47,19 @@ Route::group(['prefix' => 'camp/{batch_id}'], function () {
     Route::post('/querysn', 'CampController@campGetApplicantSN')->name('querysn');
     Route::get('/queryadmit', 'CampController@campViewAdmission')->name('queryadmit');
     Route::post('/queryadmit', 'CampController@campQueryAdmission')->name('queryadmit');
+    Route::post('/downloadPaymentForm', 'CampController@downloadPaymentForm')->name('downloadPaymentForm');
     Route::post('/submit', 'CampController@campRegistrationFormSubmitted')->name('formSubmit');
     Route::get('/downloads', 'CampController@showDownloads')->name('showDownloads');
 });
 
 Route::get('/backend', 'BackendController@masterIndex')->name('backendIndex');
+Route::get('/jobs/{camp_id?}', 'BackendController@showJobs')->name('jobs');
+Route::get('/failedJobsClear', 'BackendController@failedJobsClear')->name('failedJobsClear');
 
 Route::group(['prefix' => 'backend/{camp_id}', ], function () {
     Route::get('/', 'BackendController@campIndex')->name('campIndex');
     Route::get('/registration/admission', 'BackendController@admission')->name('admission');
+    Route::get('/registration/showPaymentForm/{applicant_id}', 'BackendController@showPaymentForm')->name('showPaymentForm');
     Route::get('/registration/batchAdmission', 'BackendController@batchAdmission')->name('batchAdmission');
     Route::post('/registration/showCandidate', 'BackendController@showCandidate')->name('showCandidate');
     Route::post('/registration/showBatchCandidate', 'BackendController@showBatchCandidate')->name('showBatchCandidate');
@@ -74,5 +78,9 @@ Route::group(['prefix' => 'backend/{camp_id}', ], function () {
     Route::get('/statistics/appliedDate', 'BackendController@appliedDateStat')->name('appliedDateStat');
     Route::get('/statistics/gender', 'BackendController@genderStat')->name('genderStat');
     Route::get('/statistics/county', 'BackendController@countyStat')->name('countyStat');
+    Route::get('/statistics/birthyear', 'BackendController@birthyearStat')->name('birthyearStat');
     Route::get('/statistics/batches', 'BackendController@batchesStat')->name('batchesStat');
+    Route::get('/statistics/schoolOrCourse', 'BackendController@schoolOrCourseStat')->name('schoolOrCourseStat');
+    Route::get('/statistics/admission', 'BackendController@admissionStat')->name('admissionStat');
+    Route::get('/accounting', 'BackendController@showAccountingPage')->name('accounting');
 });
