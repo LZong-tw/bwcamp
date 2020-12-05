@@ -18,7 +18,7 @@
             區域：{{ $candidate->region }} <br>
             梯次：
             @foreach ($batches as $batch)
-                @if($candidate->batch_id == $batch->id) {{ $batch->name }} @endif 梯</option>
+                @if($candidate->batch_id == $batch->id) {{ $batch->name }}梯 @endif
             @endforeach <br>
             <form target="_blank" action="{{ route("queryview", $candidate->batch_id) }}" method="post" class="d-inline">
                 @csrf

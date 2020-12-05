@@ -79,10 +79,11 @@ class BackendController extends Controller
                     $candidate = $this->applicantService->Mandarization($candidate);
                     $error = "報名序號重複。";
                     return view('backend.registration.showCandidate', compact('candidate', 'error'));
-                }
+                }                
                 $candidate->is_admitted = 1;
                 $candidate->group = $group;
                 $candidate->number = $number;
+                $candidate = $this->applicantService->fillPaymentData($candidate, $this->campFullData);
                 $candidate->save();
                 $message = "錄取完成。";
             }
@@ -93,10 +94,25 @@ class BackendController extends Controller
             $candidates = Applicant::select('applicants.*')
             ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
             ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
-            ->join('camps', 'camps.id', '=', 'batchs.camp_id');
+            ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+            ->where('camps.id', $this->campFullData->id);
             $count = $candidates->count();
             $admitted = $candidates->where('is_admitted', 1)->count();
             return view('backend.registration.admission', compact('count', 'admitted'));
+        }
+    }
+
+    public function showPaymentForm($camp_id, $applicant_id) {
+        $applicant = Applicant::select('camps.*', 'batchs.name as bName', 'applicants.*')
+                        ->join('batchs', 'applicants.batch_id', '=', 'batchs.id')
+                        ->join('camps', 'batchs.camp_id', '=', 'camps.id')
+                        ->find($applicant_id);
+        $download = $_GET['download'] ?? false;
+        if(!$download){
+            return view('backend.registration.paymentForm', compact('applicant','download'));
+        }
+        else{
+            return \PDF::loadView('backend.registration.paymentFormPDF', compact('applicant'))->download(\Carbon\Carbon::now()->format('YmdHis') . $applicant->batch->camp->table . $applicant->id . '.pdf');
         }
     }
 
@@ -121,10 +137,11 @@ class BackendController extends Controller
                     array_push($error, $candidate->name . "，錄取序號" . $request->admittedSN[$key] . "重複。");
                     $skip = true;
                 }
-                if(!$skip){
+                if(!$skip){                    
                     $candidate->is_admitted = 1;
                     $candidate->group = $group;
                     $candidate->number = $number;
+                    $candidate = $this->applicantService->fillPaymentData($candidate, $this->campFullData);
                     $applicant = $candidate->save();
                     array_push($message, $candidate->name . "，錄取序號" . $request->admittedSN[$key] . "錄取完成。");
                 }
@@ -150,7 +167,7 @@ class BackendController extends Controller
             $groupAndNumber = $this->applicantService->groupAndNumberSeperator($applicant);
             $group = $groupAndNumber['group'];
             $number = $groupAndNumber['number'];
-            $candidate = $this->applicantService->fetchApplicantData($this->campFullData->table, $applicant, $group, $number);
+            $candidate = $this->applicantService->fetchApplicantData($this->campFullData->id, $this->campFullData->table, $applicant, $group, $number);
             if($candidate){
                 $applicant = $this->applicantService->Mandarization($candidate);
             }
@@ -174,7 +191,7 @@ class BackendController extends Controller
         $groupAndNumber = $this->applicantService->groupAndNumberSeperator($request->snORadmittedSN);
         $group = $groupAndNumber['group'];
         $number = $groupAndNumber['number'];
-        $candidate = $this->applicantService->fetchApplicantData($this->campFullData->table, $request->snORadmittedSN, $group, $number);
+        $candidate = $this->applicantService->fetchApplicantData($this->campFullData->id, $this->campFullData->table, $request->snORadmittedSN, $group, $number);
         if($candidate){
             $candidate = $this->applicantService->Mandarization($candidate);
         }
@@ -198,7 +215,7 @@ class BackendController extends Controller
     public function getRegistrationList(Request $request){
         $batches = Batch::where("camp_id", $this->campFullData->id)->get();
         if(isset($request->region)){
-            $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn")
+            $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
                         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                         ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
@@ -213,7 +230,7 @@ class BackendController extends Controller
         }
         elseif(isset($request->school_or_course)){
             //教師營使用 school_or_course 欄位
-            $applicants = Applicant::select("applicants.*", "tcamp.*", "batchs.name as bName", "applicants.id as sn")
+            $applicants = Applicant::select("applicants.*", "tcamp.*", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
                             ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                             ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                             ->join('tcamp', 'applicants.id', '=', 'tcamp.applicant_id')
@@ -222,7 +239,7 @@ class BackendController extends Controller
             $query = $request->school_or_course;
         }
         elseif(isset($request->batch)){
-            $applicants = Applicant::select("applicants.*", "tcamp.*", "batchs.name as bName", "applicants.id as sn")
+            $applicants = Applicant::select("applicants.*", "tcamp.*", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
                         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                         ->join('camps', 'camps.id', '=', 'batchs.camp_id')                        
                         ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
@@ -231,7 +248,7 @@ class BackendController extends Controller
             $query = $request->batch . '梯';
         }
         else{
-            $applicants = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn")
+            $applicants = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
                             ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                             ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                             ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
@@ -249,23 +266,18 @@ class BackendController extends Controller
                 "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
                 "Expires"             => "0"
             );
-            $columns = array();
 
-            $callback = function() use($applicants, $columns) {
+            $callback = function() use($applicants) {
                 $file = fopen('php://output', 'w');
                 // 先寫入此三個字元使 Excel 能正確辨認編碼為 UTF-8
                 // http://jeiworld.blogspot.com/2009/09/phpexcelutf-8csv.html
                 fwrite($file, "\xEF\xBB\xBF");
-                $keys = $this->campDataService->csvColumnParser($this->campFullData->table);   
-                $zhKeys = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table));             
-                foreach($keys as $key){
-                    $columns[] = $zhKeys[$key];
-                }
+                $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table));    
                 fputcsv($file, $columns);
 
                 foreach ($applicants as $applicant) {
                     $rows = array();
-                    foreach($keys as $key){
+                    foreach($columns as $key => $v){
                         array_push($rows, '="' . $applicant[$key] . '"');
                     }
                     fputcsv($file, $rows);
@@ -294,10 +306,14 @@ class BackendController extends Controller
     }
 
     public function sendAdmittedMail(Request $request){
-        foreach($request->emails as $key => $email){
-            Mail::to($email)->send(new AdmittedMail($request->names[$key], $request->admittedNos[$key], $this->campFullData));
+        if(!$request->sns){
+            \Session::flash('error', "未選取任何被錄取者。");
+            return back();
         }
-        \Session::flash('message', "已成功寄送全組錄取通知信。");
+        foreach($request->sns as $sn){
+            \App\Jobs\SendAdmittedMail::dispatch($sn);
+        }
+        \Session::flash('message', "已將產生之信件排入任務佇列。");
         return back();
     }
 
@@ -316,7 +332,47 @@ class BackendController extends Controller
     public function showGroup(Request $request){
         $batch_id = $request->route()->parameter('batch_id');
         $group = $request->route()->parameter('group');
-        $applicants = Applicant::join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')->where('batch_id', $batch_id)->where('group', $group)->get();
+        $applicants = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
+        ->join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')
+        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+        ->where('batch_id', $batch_id)->where('group', $group)->get();
+        if(isset($request->download)){
+            $fileName = $this->campFullData->abbreviation . $group . "組名單" . \Carbon\Carbon::now()->format('YmdHis') . '.csv';
+            $headers = array(
+                "Content-Encoding"    => "Big5",
+                "Content-type"        => "text/csv; charset=big5",
+                "Content-Disposition" => "attachment; filename=$fileName",
+                "Pragma"              => "no-cache",
+                "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+                "Expires"             => "0"
+            );
+
+            $callback = function() use($applicants) {
+                $file = fopen('php://output', 'w');
+                // 先寫入此三個字元使 Excel 能正確辨認編碼為 UTF-8
+                // http://jeiworld.blogspot.com/2009/09/phpexcelutf-8csv.html
+                fwrite($file, "\xEF\xBB\xBF");
+                $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table));    
+                fputcsv($file, $columns);
+
+                foreach ($applicants as $applicant) {
+                    $rows = array();
+                    foreach($columns as $key => $v){
+                        if($key == "is_paid"){
+                            $result = $applicant['fee'] - $applicant['deposit'] <= 0 ? '是' : '否';
+                            array_push($rows, '="' . $result . '"');
+                        }
+                        else{
+                            array_push($rows, '="' . $applicant[$key] . '"');
+                        }
+                    }
+                    fputcsv($file, $rows);
+                }
+
+                fclose($file);
+            };
+            return response()->stream($callback, 200, $headers);
+        }
         return view('backend.registration.group', compact('applicants'));
     }
 
@@ -511,6 +567,37 @@ class BackendController extends Controller
         return view('backend.statistics.county', compact('GChartData',  'total'));
     }
 
+    public function birthyearStat(){
+        $applicants = Applicant::select(\DB::raw('birthyear, count(*) as total'))
+        ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
+        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+        ->where('camps.id', $this->campFullData->id)
+        ->groupBy('birthyear')->get();
+        $rows = count($applicants);
+        $array = $applicants->toArray();
+        $i = 0 ;
+        $total = 0 ;
+        $GChartData = array('cols'=> array(
+                        array('id'=>'birthyear','label'=>'年次','type'=>'string'),
+                        array('id'=>'people','label'=>'人數','type'=>'number'),
+                        array('id'=>'annotation','role'=>'annotation','type'=>'number')
+                    ),
+                    'rows' => array());
+        for($i = 0; $i < $rows; $i ++) {
+            $record = $array[$i];
+            array_push($GChartData['rows'], array('c' => array(
+                array('v' => $record['birthyear'] == null ? '其他' : $record['birthyear']),
+                array('v' => intval($record['total'])),
+                array('v' => intval($record['total']))
+            )));
+            $total = $total + $record['total'];
+        }
+        $GChartData = json_encode($GChartData);
+
+        return view('backend.statistics.birthyear', compact('GChartData',  'total'));
+    }
+
     public function batchesStat(){
         $applicants = Applicant::select(\DB::raw('batchs.name as batch, count(*) as total'))
         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
@@ -540,5 +627,87 @@ class BackendController extends Controller
         $GChartData = json_encode($GChartData);
 
         return view('backend.statistics.batches', compact('GChartData',  'total'));
+    }
+
+    public function schoolOrCourseStat(){
+        $applicants = Applicant::select(\DB::raw('tcamp.school_or_course as school_or_course, count(*) as total'))
+        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+        ->join('tcamp', 'tcamp.applicant_id', '=', 'applicants.id')
+        ->where('camps.id', $this->campFullData->id)
+        ->groupBy('tcamp.school_or_course')->get();
+        $rows = count($applicants);
+        $array = $applicants->toArray();
+
+        $i = 0 ;
+        $total = 0 ;
+        $GChartData = array('cols'=> array(
+                        array('id'=>'school_or_course','label'=>'學程','type'=>'string'),
+                        array('id'=>'people','label'=>'人數','type'=>'number'),
+                        array('id'=>'annotation','role'=>'annotation','type'=>'number')
+                    ),
+                    'rows' => array());
+        for($i = 0; $i < $rows; $i ++) {
+            $record = $array[$i];
+            array_push($GChartData['rows'], array('c' => array(
+                array('v' => $record['school_or_course'] == null ? '其他' : $record['school_or_course']),
+                array('v' => intval($record['total'])),
+                array('v' => intval($record['total']))
+            )));
+            $total = $total + $record['total'];
+        }
+        $GChartData = json_encode($GChartData);
+
+        return view('backend.statistics.schoolOrCourseStat', compact('GChartData',  'total'));
+    }
+
+    public function admissionStat(){
+        $applicants = Applicant::select(\DB::raw('batchs.name, count(*) as total'))
+        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+        ->where('camps.id', $this->campFullData->id)
+        ->where('is_admitted', 1)
+        ->groupBy('batchs.name')->get();
+        $rows = count($applicants);
+        $array = $applicants->toArray();
+
+        $i = 0 ;
+        $total = 0 ;
+        $GChartData = array('cols'=> array(
+                        array('id'=>'name','label'=>'梯次','type'=>'string'),
+                        array('id'=>'people','label'=>'人數','type'=>'number'),
+                        array('id'=>'annotation','role'=>'annotation','type'=>'number')
+                    ),
+                    'rows' => array());
+        for($i = 0; $i < $rows; $i ++) {
+            $record = $array[$i];
+            array_push($GChartData['rows'], array('c' => array(
+                array('v' => $record['name'] == null ? '其他' : $record['name']),
+                array('v' => intval($record['total'])),
+                array('v' => intval($record['total']))
+            )));
+            $total = $total + $record['total'];
+        }
+        $GChartData = json_encode($GChartData);
+
+        return view('backend.statistics.admission', compact('GChartData',  'total'));
+    }
+
+    public function showAccountingPage() {
+        $accountingTable = config('camps_payments.' . $this->campFullData->table . '.accounting_table');
+        $accountings = Applicant::select('applicants.batch_id', 'applicants.name as aName', 'applicants.fee as shouldPay', $accountingTable.'.*')->with('batch', 'batch.camp')->join($accountingTable, $accountingTable.'.accounting_no', '=', 'applicants.bank_second_barcode')->get();
+        return view('backend.registration.accounting')->with('accountings', $accountings);
+    }
+
+    public function showJobs(){
+        $jobs = \DB::table('jobs')->get();
+        $failedJobs = \DB::table('failed_jobs')->get();
+        $jobs = json_decode($jobs, true);
+        $failedJobs = json_decode($failedJobs, true);
+        return view('backend.jobs', compact('jobs', 'failedJobs'));
+    }
+
+    public function failedJobsClear(){
+        return \DB::table('failed_jobs')->truncate();
     }
 }

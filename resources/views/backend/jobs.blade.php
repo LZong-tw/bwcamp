@@ -1,0 +1,58 @@
+@extends('backend.master')
+@section('content')
+<style>
+    table{
+        word-wrap: break-word;
+        table-layout: fixed;
+    }
+</style>
+<h2>任務佇列</h2>
+<h3>Jobs</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr class="bg-secondary text-white">
+            <th>id</th>
+            <th>payload</th>
+            <th>attempts</th>
+            <th>reserved_at</th>
+            <th>available_at</th>
+            <th>created_at</th>
+        </tr>
+    </thead>
+    @foreach ($jobs as $job)
+        <tr>
+            <td>{{ $job['id'] }}</td>
+            <td>{!! $job['payload'] !!}</td>
+            <td>{{ $job['attempts'] }}</td>
+            <td>{{ \Carbon\Carbon::createFromTimestamp($job['reserved_at'])->format('Y-m-d H:i:s') }}</td>
+            <td>{{ \Carbon\Carbon::createFromTimestamp($job['available_at'])->format('Y-m-d H:i:s') }}</td>
+            <td>{{ \Carbon\Carbon::createFromTimestamp($job['created_at'])->format('Y-m-d H:i:s') }}</td>
+        </tr>
+    @endforeach
+</table>
+<div><h3 class="d-inline-block">Failed Jobs</h3>
+    <a href="{{ route("failedJobsClear") }}" target="blank" class="btn btn-danger d-inline-block" style="margin-bottom: 14px">Clear</a>
+    </div>
+<table class="table table-bordered">
+    <thead>
+        <tr class="bg-secondary text-white">
+            <th>id</th>
+            <th>connection</th>
+            <th>queue</th>
+            <th>payload</th>
+            <th>exception</th>
+            <th>failed_at</th>
+        </tr>
+    </thead>
+    @foreach ($failedJobs as $job)
+        <tr>
+            <td>{{ $job['id'] }}</td>
+            <td>{{ $job['connection'] }}</td>
+            <td>{{ $job['queue'] }}</td>
+            <td>{!! $job['payload'] !!}</td>
+            <td>{{ $job['exception'] }}</td>
+            <td>{{ \Carbon\Carbon::createFromTimestamp($job['failed_at'])->format('Y-m-d H:i:s') }}</td>
+        </tr>
+    @endforeach
+</table>
+@endsection

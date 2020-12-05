@@ -44,7 +44,7 @@
                                 <a href="{{ route("countyStat", $campFullData->id) }}">區域縣市</a>
                             </li>
                             <li>
-                                <a href="#">出生年次</a>
+                                <a href="{{ route("birthyearStat", $campFullData->id) }}">出生年次</a>
                             </li>
                             @if($campFullData->table == "ycamp")
                                 <li>
@@ -60,7 +60,13 @@
                             <li>
                                 <a href="{{ route("batchesStat", $campFullData->id) }}">報名梯次</a>
                             </li>
+                            <li>
+                                <a href="{{ route("admissionStat", $campFullData->id) }}">錄取統計</a>
+                            </li>
                             @if($campFullData->table == "tcamp")
+                                <li>
+                                    <a href="{{ route("schoolOrCourseStat", $campFullData->id) }}">任教學程</a>
+                                </li>
                                 <li>
                                     ---開 發 中---
                                 </li>
@@ -69,9 +75,6 @@
                                 </li>
                                 <li>
                                     <a href="#">職稱</a>
-                                </li>
-                                <li>
-                                    <a href="#">任教學程</a>
                                 </li>
                                 <li>
                                     <a href="#">服務縣市</a>
@@ -85,25 +88,8 @@
                             @endif
                         </ul>
                     </li>
-                    <li class="active">
-                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">錄取作業</a>
-                        <ul class="collapse list-unstyled" id="homeSubmenu">
-                            <li>
-                                <a href="{{ route("admission", $campFullData->id) }}">單一錄取</a>
-                            </li>
-                            <li>
-                                <a href="{{ route("batchAdmission", $campFullData->id) }}">批次錄取</a>
-                            </li>
-                            <li>
-                                <a href="#">查詢及下載</a>
-                            </li>
-                            <li>
-                                <a href="{{ route("showGroupList", $campFullData->id) }}">組別名單</a>
-                            </li>
-                        </ul>
-                    </li>
                     <li>
-                        <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">報名作業</a>
+                        <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">報名相關</a>
                         <ul class="collapse list-unstyled" id="pageSubmenu2">
                             <li>
                                 <a href="{{ route("showRegistration", $campFullData->id) }}">報名</a>
@@ -113,6 +99,20 @@
                             </li>
                             <li>
                                 <a href="{{ route("changeBatchOrRegion", $campFullData->id) }}">修改梯次 / 區域</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="active">
+                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">錄取相關</a>
+                        <ul class="collapse list-unstyled" id="homeSubmenu">
+                            <li>
+                                <a href="{{ route("admission", $campFullData->id) }}">單一錄取<br>查詢報名資料</a>
+                            </li>
+                            <li>
+                                <a href="{{ route("batchAdmission", $campFullData->id) }}">批次錄取</a>
+                            </li>
+                            <li>
+                                <a href="{{ route("showGroupList", $campFullData->id) }}">組別名單查詢/下載<br>寄送錄取通知信</a>
                             </li>
                         </ul>
                     </li>
@@ -133,16 +133,22 @@
                             </li>
                         </ul>
                     </li>
+                    <li>
+                        <a href="{{ route("accounting", $campFullData->id) }}">銷帳資料</a>
+                    </li>
                 @else
                     <li class="active">
                         <a class="" href="">未選擇營隊</a>
                     </li>
                 @endif
+                <li>
+                    <a href="{{ route("jobs", $campFullData->id ?? "") }}">任務佇列</a>
+                </li>
             </ul>
             
             <ul class="list-unstyled CTAs">
                 <li>
-                    <a href="{{ route("home") }}" target="_blank">{{ Auth::user()->name }}</a>
+                    <a href="{{ route("home") }}">{{ Auth::user()->name }}</a>
                 </li>
                 <li>
                     <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
