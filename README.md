@@ -10,6 +10,9 @@
 - 使用 Queue 郵寄所有信件
 - 不同營隊不同郵寄地址
 - 文件編寫
+    1. https://redoc.ly/
+    2. https://readthedocs.org/
+    3. https://github.com/code-lts/doctum
 
 - 未來：
     1. 教師營：按學程顯示名單，勾選人員後進入批次錄取列表
