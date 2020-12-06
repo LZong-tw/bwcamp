@@ -62,8 +62,8 @@
         </div>
     @endif
     @if(auth()->user()->getPermission()->level <= 2)
-        <button type="submit" class="btn btn-success" style="margin-bottom: 15px" onclick="this.innerText = '處理中'; this.disabled = true; document.sendEmailByGroup.action='{{ route("sendAdmittedMail", $camp_data->id) }}'; document.sendEmailByGroup.submit();">寄送錄取通知信</button>
-        <button type="submit" class="btn btn-info" style="margin-bottom: 15px" onclick="this.innerText = '處理中'; this.disabled = true; document.sendEmailByGroup.action='{{ route("sendCheckInMail", $camp_data->id) }}';document.sendEmailByGroup.submit();">寄送報到通知信</button>
+        <button type="submit" class="btn btn-success" style="margin-bottom: 15px" onclick="this.innerText = '處理中'; this.disabled = true; document.sendEmailByGroup.action='{{ route("sendAdmittedMail", $camp_id) }}'; document.sendEmailByGroup.submit();">寄送錄取通知信</button>
+        <button type="submit" class="btn btn-info" style="margin-bottom: 15px" onclick="this.innerText = '處理中'; this.disabled = true; document.sendEmailByGroup.action='{{ route("sendCheckInMail", $camp_id) }}';document.sendEmailByGroup.submit();">寄送報到通知信</button>
     @endif
 </form>
 <script>
