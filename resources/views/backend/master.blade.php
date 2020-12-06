@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>{{ env("APP_NAME") }}</title>
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
@@ -26,7 +26,7 @@
         <!-- Sidebar Holder -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <h3>{{ env("APP_NAME") }}</h3>
+                <h3>{{ config('app.name', 'Laravel') }}</h3>
             </div>
             <ul class="list-unstyled components">
                 <p>功能列表</p>

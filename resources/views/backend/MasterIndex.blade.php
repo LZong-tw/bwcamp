@@ -11,7 +11,7 @@
 
     <div class="line"></div> --}}
 
-    <h2>{{ env("APP_NAME") }}</h2>
+    <h2>{{ config('app.name', 'Laravel') }}</h2>
     <p>請選擇營隊進行管理：</p>
     @foreach ($camps as $camp)
         <a href="{{ route("campIndex", $camp->id) }}">{{ $camp->fullName }}({{ $camp->abbreviation }})</a><br><br>
