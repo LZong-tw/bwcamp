@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    {{ env("APP_NAME") }}
+                    {{ config('app.name', 'Laravel') }}
                 </div>
             </div>
         </div>
