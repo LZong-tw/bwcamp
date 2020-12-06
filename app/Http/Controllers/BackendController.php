@@ -391,22 +391,9 @@ class BackendController extends Controller
     public function showFormalGroupList() {
         $batches = Batch::where('camp_id', $this->camp_id)->get()->all();
         foreach($batches as &$batch){
-            $batch->regions = Applicant::select('region')
-                                ->where('batch_id', $batch->id)
-                                ->where('is_admitted', 1)
-                                ->groupBy('region')
-                                ->get();
+            $batch->regions = Applicant::select('region')->where('batch_id', $batch->id)->where('is_admitted', 1)->groupBy('region')->get();
             foreach($batch->regions as &$region){
-                $region->groups = Applicant::select('group')
-                                    ->where('batch_id', $batch->id)
-                                    ->where('region', $region->region)
-                                    ->where('is_admitted', 1)
-                                    ->groupBy('group')->get();
-                foreach($region->groups as &$applicant){
-                    if($applicant->deposit - $applicant->fee < 0){
-                        unset($applicant);
-                    }
-                }
+                $region->groups = Applicant::select('group', \DB::raw('count(*) as count'))->where('batch_id', $batch->id)->where('region', $region->region)->where('is_admitted', 1)->groupBy('group')->get();
                 $region->region = $region->region ?? "其他";
             }
         }
