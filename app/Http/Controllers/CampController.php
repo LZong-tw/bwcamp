@@ -240,7 +240,7 @@ class CampController extends Controller
         $applicant = Applicant::select('camps.*', 'batchs.name as bName', 'applicants.*')
                         ->join('batchs', 'applicants.batch_id', '=', 'batchs.id')
                         ->join('camps', 'batchs.camp_id', '=', 'camps.id')
-                        ->where("applicants.id", $request->applicant_id)->first();
+                        ->find($request->applicant_id);
         return \PDF::loadView('backend.registration.paymentFormPDF', compact('applicant'))->download(\Carbon\Carbon::now()->format('YmdHis') . $this->camp_data->table . $applicant->id . '繳費聯.pdf');
     }
 }
