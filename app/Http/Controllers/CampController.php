@@ -205,7 +205,7 @@ class CampController extends Controller
         $campTable = $this->camp_data->table;
         $applicant = null;
         if($request->name != null && $request->sn != null) {
-            $applicant = Applicant::select('applicants.*', $campTable . '.*')
+            $applicant = Applicant::select('applicants.*', $campTable . '.*', 'applicants.id as applicant_id')
                 ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
                 ->where('applicants.id', $request->sn)
                 ->where('name', $request->name)->first();
