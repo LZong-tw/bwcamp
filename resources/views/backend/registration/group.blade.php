@@ -24,6 +24,7 @@
                     <th>家中電話</th>           
                 @endif  			
                 <th>分區</th>  
+                <th>已繳費</th>
                 <th>選取<br>全選<input type="checkbox" name="selectAll" onclick="toggler()"></th> 			
             </tr>
         </thead>
@@ -45,6 +46,7 @@
                     <td>{{ $applicant->phone_home }}</td>
                 @endif
                 <td>{{ $applicant->region }}</td>
+                <td>{{ $applicant->fee - $applicant->deposit <= 0 ? "是" : "否" }}</td>
                 <td>
                     <input type="checkbox" name="sns[]" value="{{ $applicant->sn }}" class="selected">
                 </td>
