@@ -141,17 +141,17 @@
                         <a class="" href="">未選擇營隊</a>
                     </li>
                 @endif
-                <li>
-                    <a href="{{ route("jobs", $campFullData->id ?? "") }}">任務佇列</a>
-                </li>
-                <li>
-                    <a href="{{ route("logs", $campFullData->id ?? "0") }}" target="blank">系統日誌</a>
-                </li>
             </ul>
             
             <ul class="list-unstyled CTAs">
                 <li>
                     <a href="{{ route("home") }}">{{ Auth::user()->name }}</a>
+                </li>
+                <li>
+                    <a href="{{ route("jobs", $campFullData->id ?? "") }}">任務佇列</a>
+                </li>
+                <li>
+                    <a href="{{ route("logs", $campFullData->id ?? "0") }}" target="blank">系統日誌</a>
                 </li>
                 <li>
                     <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
