@@ -51,10 +51,10 @@
     <body>
         <div class="flex-center position-ref full-height">
             <div class="code">
-                403            </div>
+                401            </div>
 
             <div class="message" style="padding: 10px;">
-                拒絕存取</div>
+                權限不足</div>
         </div>
     </body>
 </html>
