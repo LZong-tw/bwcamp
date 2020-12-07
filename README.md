@@ -26,7 +26,7 @@
 - 錄取編號首字母設定：各梯次不同字首，格式：1 字母 + 2 組別 + 2 編號
     - 台北(A)、桃園(B)、新竹(C)、台中(D)、雲林(E)、嘉義(F)、台南(G)、高雄(H)
     
-- Queue 指令：php artisan queue:work --daemon --quiet --queue=default --delay=3 --sleep=3 --tries=3
+- Queue 指令：php artisan queue:work --daemon --quiet --queue=default --delay=15 --sleep=3 --tries=3
     - https://learnku.com/articles/3729/use-laravel-queue-to-understand-the-knowledge
 
 - 後台參考：https://youth.blisswisdom.org/camp/wadmin/
