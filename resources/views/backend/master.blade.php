@@ -144,6 +144,9 @@
                 <li>
                     <a href="{{ route("jobs", $campFullData->id ?? "") }}">任務佇列</a>
                 </li>
+                <li>
+                    <a href="{{ route("logs", $campFullData->id ?? "0") }}" target="blank">系統日誌</a>
+                </li>
             </ul>
             
             <ul class="list-unstyled CTAs">

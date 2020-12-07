@@ -58,6 +58,7 @@ Route::get('/failedJobsClear', 'BackendController@failedJobsClear')->name('faile
 
 Route::group(['prefix' => 'backend/{camp_id}', ], function () {
     Route::get('/', 'BackendController@campIndex')->name('campIndex');
+    Route::get('/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('permitted')->name('logs');
     Route::get('/registration/admission', 'BackendController@admission')->name('admission');
     Route::get('/registration/showPaymentForm/{applicant_id}', 'BackendController@showPaymentForm')->name('showPaymentForm');
     Route::get('/registration/batchAdmission', 'BackendController@batchAdmission')->name('batchAdmission');

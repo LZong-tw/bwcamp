@@ -17,7 +17,8 @@
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.1",
-        "milon/barcode": "7.0"
+        "milon/barcode": "7.0",
+        "rap2hpoutre/laravel-log-viewer": "^1.7"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
