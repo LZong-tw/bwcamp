@@ -8,7 +8,10 @@
             color: #33B2FF!important;
         }
     </style>
-    <h2>{{ $campFullData->abbreviation }} 銷帳資料</h2>
+    <div>
+        <h2 class="d-inline-block">{{ $campFullData->abbreviation }} 銷帳資料</h2>
+        <a href="{{ route("accounting", $campFullData->id) }}?download=1" class="btn btn-primary d-inline-block" style="margin-bottom: 14px">下載資料</a>
+    </div>
     <table class="table table-bordered">
         <thead>
             <tr class="bg-secondary text-white">
