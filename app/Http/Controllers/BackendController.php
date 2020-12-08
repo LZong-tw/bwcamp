@@ -348,6 +348,10 @@ class BackendController extends Controller
         ->join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')
         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
         ->where('batch_id', $batch_id)->where('group', $group)->get();
+        foreach($applicants as $applicant){
+            $applicant->is_paid = $applicant->fee - $applicant->deposit <= 0 ? "是" : "否";
+        }
+        $applicants = $applicants->sortByDesc('is_paid');
         if(isset($request->download)){
             $fileName = $this->campFullData->abbreviation . $group . "組名單" . \Carbon\Carbon::now()->format('YmdHis') . '.csv';
             $headers = array(
@@ -370,13 +374,7 @@ class BackendController extends Controller
                 foreach ($applicants as $applicant) {
                     $rows = array();
                     foreach($columns as $key => $v){
-                        if($key == "is_paid"){
-                            $result = $applicant['fee'] - $applicant['deposit'] <= 0 ? '是' : '否';
-                            array_push($rows, '="' . $result . '"');
-                        }
-                        else{
-                            array_push($rows, '="' . $applicant[$key] . '"');
-                        }
+                        array_push($rows, '="' . $applicant[$key] . '"');
                     }
                     fputcsv($file, $rows);
                 }

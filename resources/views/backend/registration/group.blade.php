@@ -46,7 +46,7 @@
                     <td>{{ $applicant->phone_home }}</td>
                 @endif
                 <td>{{ $applicant->region }}</td>
-                <td>{{ $applicant->fee - $applicant->deposit <= 0 ? "是" : "否" }}</td>
+                <td>{!! $applicant->is_paid == "是" ? "<a style='color: green;'>是</a>" : "<a style='color: red;'>否</a>" !!}</td>
                 <td>
                     <input type="checkbox" name="sns[]" value="{{ $applicant->sn }}" class="selected">
                 </td>
