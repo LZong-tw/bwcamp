@@ -259,7 +259,8 @@ class BackendController extends Controller
         foreach($applicants as $applicant){
             $applicant->is_paid = $applicant->fee - $applicant->deposit <= 0 ? "是" : "否";
         }
-        $applicants = $applicants->sortByDesc('is_paid');
+        // 報名名單不以繳費與否排序
+        // $applicants = $applicants->sortByDesc('is_paid');
         if(isset($request->download)){
             $fileName = $this->campFullData->abbreviation . $query . \Carbon\Carbon::now()->format('YmdHis') . '.csv';
             $headers = array(
