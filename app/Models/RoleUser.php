@@ -12,4 +12,9 @@ class RoleUser extends Model
     {
         return $this->belongsTo(Role::class, 'role_id', 'id');
     }
+
+    public function users()
+    {
+        return $this->hasMany('App\User');
+    }
 }

@@ -62,6 +62,10 @@ class BackendController extends Controller
         return view('backend.user.list', ['users' => \App\User::all()]);
     }
 
+    public function rolelist(){
+        return view('backend.user.rolelist', ['roles' => \App\Models\Role::all()]);
+    }
+
     public function admission(Request $request) {
         if ($request->isMethod('POST')) {
             $candidate = Applicant::find($request->id);
