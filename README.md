@@ -1,5 +1,6 @@
 ## 待實作
 
+- home 頁 null object handler
 - 報到系統：
     1. 可以分天報到 -> 使用單一報到表格儲存報到記錄
     2. QR code 報到條碼
