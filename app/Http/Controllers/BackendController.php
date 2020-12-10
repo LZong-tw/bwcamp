@@ -58,6 +58,10 @@ class BackendController extends Controller
         return view('backend.campIndex');
     }
 
+    public function userlist(){
+        return view('backend.user.list', ['users' => \App\User::all()]);
+    }
+
     public function admission(Request $request) {
         if ($request->isMethod('POST')) {
             $candidate = Applicant::find($request->id);

@@ -43,4 +43,8 @@ class User extends Authenticatable
                     ->select("level", "name", "camp_id")
                     ->where("user_id", $this->id)->first();
     }
+
+    public function role_relation(){
+        return $this->hasOne('App\Models\RoleUser');
+    }
 }

@@ -55,6 +55,7 @@ Route::group(['prefix' => 'camp/{batch_id}'], function () {
 Route::get('/backend', 'BackendController@masterIndex')->name('backendIndex');
 Route::get('/jobs/{camp_id?}', 'BackendController@showJobs')->name('jobs');
 Route::get('/failedJobsClear', 'BackendController@failedJobsClear')->name('failedJobsClear');
+Route::get('/userlist', 'BackendController@userlist')->name('userlist');
 
 Route::group(['prefix' => 'backend/{camp_id}', ], function () {
     Route::get('/', 'BackendController@campIndex')->name('campIndex');
