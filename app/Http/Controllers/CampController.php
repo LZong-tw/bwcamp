@@ -51,9 +51,13 @@ class CampController extends Controller
         }
         else{
             $registration_end = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $this->camp_data->registration_end . "23:59:59");
-        }         
+        }  
+        $final_registration_end = $this->camp_data->final_registration_end ? \Carbon\Carbon::createFromFormat("Y-m-d", $this->camp_data->final_registration_end)->endOfDay() : \Carbon\Carbon::now()->addDay();
         if($now > $registration_end && !isset($request->isBackend)){
             return view($this->camp_data->table . '.outdated');
+        }
+        elseif(isset($request->isBackend) && $now > $final_registration_end){
+            return view($this->camp_data->table . '.outdated')->with('isBackend', '超出最終報名日。');
         }
         else{
             return view($this->camp_data->table . '.form')->with('isBackend', $request->isBackend);
