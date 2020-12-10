@@ -15,8 +15,10 @@
                     @endif
 
                     {{ __('You are logged in!') }} <br>
-                    @if(auth()->user()->getPermission())
+                    @if(auth()->user()->getPermission()->level <= 5)
                         <a href="{{ route("backendIndex") }}" class="btn btn-success">後台首頁</a>
+                    @endif
+                    @if(auth()->user()->getPermission())
                         <a href="" class="btn btn-primary">報到系統</a>
                     @endif
                 </div>

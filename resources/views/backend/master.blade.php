@@ -147,6 +147,11 @@
                 <li>
                     <a href="{{ route("home") }}">{{ Auth::user()->name }}</a>
                 </li>
+                @if(auth()->user()->getPermission()->level == 1)
+                    <li>
+                        <a href="{{ route("userlist") }}">使用者/權限列表</a>
+                    </li>
+                @endif
                 <li>
                     <a href="{{ route("jobs", $campFullData->id ?? "") }}">任務佇列</a>
                 </li>
