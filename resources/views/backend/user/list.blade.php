@@ -18,7 +18,7 @@
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->role_relation->role_data->level }}</td>
                 <td>{{ $user->role_relation->role_data->name }}</td>
-                <td>{{ $user->role_relation->role_data->camp_id }}</td>
+                <td><a href="{{ route("campIndex", $user->role_relation->role_data->camp_id ?? "") }}">{{ $user->role_relation->role_data->camp_id }}</a></td>
                 <td><a href="" class="btn btn-success">修改</a></td>
             </tr>
         @endforeach
