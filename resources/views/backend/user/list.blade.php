@@ -1,6 +1,6 @@
 @extends('backend.master')
 @section('content')
-    <h2>使用者/權限列表</h2>
+    <h2>使用者列表</h2>
     <table class="table table-bordered">
         <tr>
             <th>ID</th>
