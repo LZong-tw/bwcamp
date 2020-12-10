@@ -29,11 +29,11 @@
                 <h3>{{ config('app.name', 'Laravel') }}</h3>
             </div>
             <ul class="list-unstyled components">
-                <p>功能列表</p>
+                <p>功能列表 <a href="javascript: toggleAll();"><small>全部收合/展開</small></a></p>
                 @if(isset($campFullData))
                     <li>
                         <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">統計資料</a>
-                        <ul class="collapse list-unstyled" id="pageSubmenu3">
+                        <ul class="collapse list-unstyled show" id="pageSubmenu3">
                             <li>
                                 <a href="{{ route("appliedDateStat", $campFullData->id) }}">報名日期</a>
                             </li>
@@ -90,7 +90,7 @@
                     </li>
                     <li>
                         <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">報名相關</a>
-                        <ul class="collapse list-unstyled" id="pageSubmenu2">
+                        <ul class="collapse list-unstyled show" id="pageSubmenu2">
                             <li>
                                 <a href="{{ route("showRegistration", $campFullData->id) }}">報名</a>
                             </li>
@@ -104,7 +104,7 @@
                     </li>
                     <li class="active">
                         <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">錄取相關</a>
-                        <ul class="collapse list-unstyled" id="homeSubmenu">
+                        <ul class="collapse list-unstyled show" id="homeSubmenu">
                             <li>
                                 <a href="{{ route("admission", $campFullData->id) }}">單一錄取<br>查詢報名資料</a>
                             </li>
@@ -118,7 +118,7 @@
                     </li>
                     <li>
                         <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">正行相關</a>
-                        <ul class="collapse list-unstyled" id="pageSubmenu">
+                        <ul class="collapse list-unstyled show" id="pageSubmenu">
                             {{-- <li>
                                 <a href="{{ route('showFormalGroupList', $campFullData->id) }}">正式錄取組別名單<br>寄送報到通知信</a>
                             </li> --}}
@@ -224,6 +224,15 @@
                 $(this).toggleClass('active');
             });
         });
+        function toggleAll(){
+            if($(".collapse.list-unstyled").hasClass("show")){
+                $(".collapse.list-unstyled").removeClass("show");
+            }
+            else{
+                console.log("YES");
+                $(".collapse.list-unstyled").addClass("show");
+            }
+        }
     </script>
 </body>
 
