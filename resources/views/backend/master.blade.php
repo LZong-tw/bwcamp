@@ -201,7 +201,7 @@
                             </li>
                             @if(isset($campFullData))
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="">{{ $campFullData->fullName }}</a>
+                                    <a class="nav-link" href="{{ route("campIndex", $campFullData->id) }}">{{ $campFullData->fullName }}</a>
                                 </li>
                             @else
                                 <li class="nav-item active">
