@@ -37,14 +37,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     
-    public function getPermission() {
-        return \DB::table("role_user")
-                    ->join("roles", "roles.id", "=", "role_user.role_id")
-                    ->select("level", "name", "camp_id")
-                    ->where("user_id", $this->id)->first();
+    public function getPermission($all = false, $camp_id = null, $function_id = null) {
+        if($all){
+            return $this->role_relations()->get();
+        }
+        if(!$camp_id && !$function_id){
+            return $this->role_relations()->first()->role;
+        }
     }
 
-    public function role_relation(){
-        return $this->hasOne('App\Models\RoleUser');
+    public function role_relations(){
+        return $this->hasMany('App\Models\RoleUser');
     }
 }

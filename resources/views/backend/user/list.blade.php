@@ -6,9 +6,7 @@
             <th>ID</th>
             <th>名稱</th>
             <th>Email</th>
-            <th>等級</th>
-            <th>角色</th>
-            <th>可存取的營隊 ID</th>
+            <th>等級 - 角色 - 可存取的營隊 ID</th>
             <th>修改資料</th>
         </tr>
         @foreach($users as $user)
@@ -16,9 +14,13 @@
                 <td>{{ $user->id }}</td>
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
-                <td>{{ $user->role_relation->role_data->level }}</td>
-                <td>{{ $user->role_relation->role_data->name }}</td>
-                <td><a href="{{ route("campIndex", $user->role_relation->role_data->camp_id ?? "") }}">{{ $user->role_relation->role_data->camp_id }}</a></td>
+                <td>@foreach ($user->role_relations as $role_relation)
+                    @if($loop->last)
+                        {{ $role_relation->role_data->level }} - {{ $role_relation->role_data->name }} - <a href="{{ route("campIndex", $role_relation->role_data->camp_id ?? "") }}">{{ $role_relation->role_data->camp_id }}</a>
+                    @else
+                        {{ $role_relation->role_data->level }} - {{ $role_relation->role_data->name }} - <a href="{{ route("campIndex", $role_relation->role_data->camp_id ?? "") }}">{{ $role_relation->role_data->camp_id }}</a><br>
+                    @endif
+                @endforeach</td>
                 <td><a href="" class="btn btn-success">修改</a></td>
             </tr>
         @endforeach
