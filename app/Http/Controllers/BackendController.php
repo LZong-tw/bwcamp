@@ -256,6 +256,10 @@ class BackendController extends Controller
                             ->where('address', "like", "%" . $request->address . "%")->get();
             $query = $request->address;
         }
+        foreach($applicants as $applicant){
+            $applicant->is_paid = $applicant->fee - $applicant->deposit <= 0 ? "是" : "否";
+        }
+        $applicants = $applicants->sortByDesc('is_paid');
         if(isset($request->download)){
             $fileName = $this->campFullData->abbreviation . $query . \Carbon\Carbon::now()->format('YmdHis') . '.csv';
             $headers = array(
@@ -696,7 +700,55 @@ class BackendController extends Controller
             ->with('batch', 'batch.camp')
             ->join($accountingTable, $accountingTable . '.accounting_no', '=', 'applicants.bank_second_barcode')
             ->orderBy($accountingTable . '.id', 'asc')->get();
-        return view('backend.registration.accounting')->with('accountings', $accountings);
+        $download = $_GET['download'] ?? false;
+        if(!$download){
+            return view('backend.registration.accounting')->with('accountings', $accountings);
+        }
+        else{
+            $fileName = $this->campFullData->abbreviation . "銷帳資料" . \Carbon\Carbon::now()->format('YmdHis') . '.csv';
+            $headers = array(
+                "Content-Encoding"    => "Big5",
+                "Content-type"        => "text/csv; charset=big5",
+                "Content-Disposition" => "attachment; filename=$fileName",
+                "Pragma"              => "no-cache",
+                "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+                "Expires"             => "0"
+            );
+
+            $callback = function() use($accountings) {
+                $file = fopen('php://output', 'w');
+                // 先寫入此三個字元使 Excel 能正確辨認編碼為 UTF-8
+                // http://jeiworld.blogspot.com/2009/09/phpexcelutf-8csv.html
+                fwrite($file, "\xEF\xBB\xBF");
+                $columns = ["id" => "銷帳流水序號", 
+                            "cbname" => "營隊梯次", 
+                            "aName" => "姓名", 
+                            "shouldPay" => "應繳金額", 
+                            "amount" => "實繳金額", 
+                            "accounting_sn" => "銷帳流水號", 
+                            "accounting_no" => "銷帳編號", 
+                            "paid_at" => "繳費日期", 
+                            "creditted_at" => "入帳日期", 
+                            "name" => "繳費管道"];    
+                fputcsv($file, $columns);
+
+                foreach ($accountings as $accounting) {
+                    $rows = array();
+                    foreach($columns as $key => $v){
+                        if($key == "cbname"){
+                            array_push($rows, '="' . $accounting->batch->camp->abbreviation . " - " . $accounting->batch->name . '"');
+                        }
+                        else{
+                            array_push($rows, '="' . $accounting[$key] . '"');
+                        }
+                    }
+                    fputcsv($file, $rows);
+                }
+
+                fclose($file);
+            };
+            return response()->stream($callback, 200, $headers);
+        }
     }
 
     public function showJobs(){
