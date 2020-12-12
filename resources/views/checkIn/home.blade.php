@@ -4,13 +4,39 @@
     .text-center {
         text-align: center;
     }
+
+    #CenterDIV {
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: rgba(255, 255, 255, 0.75);
+        width: 100%;
+        height: 100%;    
+        padding-top: 200px;
+        display: none;
+    }
+
+    .divFloat {
+        margin: 0 auto;
+        background-color: #FFF;
+        color: #000;
+        width: 90%;
+        height: auto;
+        padding: 20px;
+        border: solid 1px #999;
+        -webkit-border-radius: 3px;
+        -webkit-box-orient: vertical;
+        -webkit-transition: 200ms -webkit-transform;
+        box-shadow: 0 4px 23px 5px rgba(0, 0, 0, 0.2), 0 2px 6px rgba(0, 0, 0, 0.15);
+        display: block;
+    }
 </style>
 <div class="container">
     <h3 class="mt-5 text-center">福智營隊報到系統</h3>
     <h5 class="text-center">當前報到營隊：{{ $camp->fullName }}<br>報到日期：{{ \Carbon\Carbon::today()->format('Y-m-d') }}</h5>
     <form action="/checkin/query" id="query">
         <div class="form-group input-group">
-            <input type="text" class="form-control" name="query_str" id="" placeholder="請輸入報名序號、組別、錄取編號、姓名、電話查詢 ..." value="{{ old("query_str") }}">
+            <input type="text" class="form-control" name="query_str" id="" placeholder="請輸入報名序號、組別、錄取編號、姓名、電話查詢 ..." value="{{ old("query_str") }}" required>
             <div class="input-group-append">
                 <button class="btn btn-outline-secondary" type="submit" id="checkinsearch">
                     Go <i class="fa fa-search"></i>
@@ -32,55 +58,69 @@
         </div>
     @endif
     @if(isset($applicants) && $applicants->count() > 0)
-        <table class="table table-bordered text-break">
-            <tr class="table-active">
-                <th style="width: 20%">組別</th>
-                <th style="width: 20%">編號</th>
-                <th style="width: 20%">姓名</th>
-                <th style="width: 20%">手機</th>
-                <th style="width: 15%">本日報到</th>
-            </tr>
-            @foreach ($applicants as $applicant)
-                <tr id="{{ $applicant->id }}">
-                    <td>{{ $applicant->group }}</td>
-                    <td>{{ $applicant->number }}</td>
-                    <td>{{ $applicant->name }}</td>
-                    <td>{{ $applicant->mobile }}</td>
-                    <td>
-                        @php
-                            $yes = 0;   
-                        @endphp
-                        @foreach($applicant->checkInData as $checkInData)
-                            @if($checkInData->check_in_date == \Carbon\Carbon::today()->format('Y-m-d'))
-                                @php
-                                    $yes = 1;   
-                                @endphp
-                            @endif
-                        @endforeach
-                        @if($yes)
-                            <form action="/checkin/un-checkin" method="POST" class="d-inline" name="uncheckIn{{ $applicant->id }}">
-                                @csrf
-                                <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
-                                <input type="hidden" name="check_in_date" value="{{ $checkInData->check_in_date }} ">
-                                <input type="hidden" name="query_str" value="{{ old("query_str") }}">
-                                <input type="submit" value="取消" onclick="this.value = '取消中'; this.disabled = true; document.uncheckIn{{ $applicant->id }}.submit();" class="btn btn-danger">
-                            </form> 
-                        @else
-                            <form action="/checkin/checkin" method="POST" name="checkIn{{ $applicant->id }}">
-                                @csrf
-                                <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
-                                <input type="hidden" name="query_str" value="{{ old("query_str") }}">
-                                <input type="submit" value="報到" onclick="this.value = '報到中'; this.disabled = true; document.checkIn{{ $applicant->id }}.submit();" class="btn btn-success" id="btn{{ $applicant->id }}">
-                            </form>
-                        @endif
-                    </td>
+        @foreach ($batches as $batch_key => $batch_name)
+            <h5>梯次：{{ $batch_name }}</h5>  
+            <table class="table table-bordered text-break">
+                <tr class="table-active">
+                    <th style="width: 20%">組別</th>
+                    <th style="width: 20%">編號</th>
+                    <th style="width: 20%">姓名</th>
+                    <th style="width: 20%">手機</th>
+                    <th style="width: 15%">本日報到</th>
                 </tr>
-            @endforeach
-        </table>
+                @foreach ($applicants as $applicant)
+                    @if($applicant->batch->id == $batch_key)
+                        <tr id="{{ $applicant->id }}">
+                            <td>{{ $applicant->group }}</td>
+                            <td>{{ $applicant->number }}</td>
+                            <td>{{ $applicant->name }}</td>
+                            <td>{{ $applicant->mobile }}</td>
+                            <td>
+                                @php
+                                    $yes = 0;   
+                                @endphp
+                                @foreach($applicant->checkInData as $checkInData)
+                                    @if($checkInData->check_in_date == \Carbon\Carbon::today()->format('Y-m-d'))
+                                        @php
+                                            $yes = 1;   
+                                        @endphp
+                                    @endif
+                                @endforeach
+                                @if($yes)
+                                    <form action="/checkin/un-checkin" method="POST" class="d-inline" name="uncheckIn{{ $applicant->id }}">
+                                        @csrf
+                                        <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
+                                        <input type="hidden" name="check_in_date" value="{{ $checkInData->check_in_date }} ">
+                                        <input type="hidden" name="query_str" value="{{ old("query_str") }}">
+                                        <input type="submit" value="取消" onclick="this.value = '取消中'; this.disabled = true; document.uncheckIn{{ $applicant->id }}.submit();" class="btn btn-danger">
+                                    </form> 
+                                @else
+                                    <form action="/checkin/checkin" method="POST" name="checkIn{{ $applicant->id }}">
+                                        @csrf
+                                        <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
+                                        <input type="hidden" name="query_str" value="{{ old("query_str") }}">
+                                        <input type="submit" value="報到" onclick="this.value = '報到中'; this.disabled = true; document.checkIn{{ $applicant->id }}.submit();" class="btn btn-success" id="btn{{ $applicant->id }}">
+                                    </form>
+                                @endif
+                            </td>
+                        </tr>
+                    @endif
+                @endforeach
+            </table>          
+        @endforeach        
     @elseif(isset($applicants) && $applicants->count() == 0)
         <div class="alert alert-danger">查無資料。</div>
     @endif
 </div>  
+<div id="CenterDIV">
+    <div class="divFloat card-body text-center">
+        <h3>讀取結果</h3>
+        <div id="QRmsg">
+
+        </div>
+        <input type="button" id="btClose" class="btn btn-success" value="繼續報到" onclick="document.getElementById('CenterDIV').style.display = 'none';"/>
+    </div>
+</div>
 <script>
     @if(isset($applicants))
         (function() {
@@ -98,24 +138,13 @@
     let scanner;
 
     function toggleCamera(){
-        let element = '<center><video id="scanner"></video><br><a href="javascript: toggleForm();" id="form-switch" class="btn btn-primary mb-2">傳統表格</a></center>';
+        let element = '<center><video id="scanner" style="width: 90%"></video><br><a href="javascript: window.location.reload();" class="btn btn-primary mb-2">傳統表格</a></center>';
         document.getElementById("query").innerHTML = element;
         setCamera();
-        document.getElementById("form-switch").classList.remove('d-none');
-        document.getElementById("qr-switch").classList.add('d-none');
-    }
-
-    function toggleForm(){
-        scanner.stop()
-        delete Instascan.Scanner;
-        let element = '<div class="form-group input-group"><input type="text" class="form-control" name="query_str" id="" placeholder="請輸入報名序號、組別、錄取編號、姓名、電話查詢 ..." value="{{ old("query_str") }}"><div class="input-group-append"><button class="btn btn-outline-secondary" type="submit" id="checkinsearch"><i class="fa fa-search"></i></button></div><a href="javascript: toggleCamera();" id="qr-switch" class="btn btn-success ml-1">使用 QR Code</a></div>';
-        document.getElementById("query").innerHTML = element;
-        document.getElementById("qr-switch").classList.remove('d-none');
-        document.getElementById("form-switch").classList.add('d-none');
     }
 
     function setCamera(){
-        scanner = new Instascan.Scanner({
+        let scanner = new Instascan.Scanner({
             video: document.getElementById('scanner')
         });
         {{-- 開啟一個新的掃描
@@ -123,35 +152,88 @@
              Notice:這邊注意一定要用<video>的標籤才能使用，詳情請看他的github API的部分解釋。--}}
 
         scanner.addListener('scan', function(content) {
-            console.log(content);
+            let data = JSON.parse(content);
+            console.log(data);
+            postData('{{ url("") }}/checkin/by_QR', { applicant_id: data.applicant_id, _token: "{{ csrf_token() }}" })
+                .then(data => {
+                    document.getElementById("CenterDIV").style.display = "block";
+                    document.getElementById("QRmsg").innerHTML = data.msg;
+                    console.log(data); // JSON data parsed by `response.json()` call
+            });
         });
         {{-- 開始偵聽掃描事件，若有偵聽到印出內容。 --}}
 
-        Instascan.Camera.getCameras().then(function(cameras) {
-        {{-- 取得設備的相機數目 --}}
-            if (cameras.length > 0) {
-                {{-- 若設備相機數目大於0 則先開啟第0個相機(程式的世界是從第零個開始的) --}}
-                scanner.start(cameras[0]);
-            } else {
-                {{-- 若設備沒有相機數量則顯示"No cameras found"; --}}
-                {{-- 這裡自行判斷要寫什麼 --}}
-                console.error('No cameras found.');
-            }
-        }).catch(function(e) {
-            console.error(e);
-        });
+        if(getMobileOperatingSystem() == 'iOS'){
+            Instascan.Camera.getCameras().then(function(cameras) {
+            {{-- 取得設備的相機數目 --}}
+                if (cameras.length > 0) {
+                    {{-- 若設備相機數目大於0 則先開啟第0個相機(程式的世界是從第零個開始的) --}}
+                    scanner.start(cameras[0]);
+                } else {
+                    {{-- 若設備沒有相機數量則顯示"No cameras found"; --}}
+                    {{-- 這裡自行判斷要寫什麼 --}}
+                    console.error('No cameras found.');
+                }
+            }).catch(function(e) {
+                console.error(e);
+            });
+        }
+        
+        if(getMobileOperatingSystem() == 'Android'){
+            Instascan.Camera.getCameras().then(function (cameras) {
+                if (cameras.length > 0) {
+                    var selectedCam = cameras[0];
+                    $.each(cameras, (i, c) => {
+                        if (c.name.indexOf('back') != -1) {
+                            selectedCam = c;
+                            return false;
+                        }
+                    });
+                    scanner.start(selectedCam);
+                }
+                else {
+                    console.error('No cameras found.');
+                }
+            });
+        }
     }    
 
-    function checkInAjax(){
-        // https://hsiangfeng.github.io/javascript/20190627/3176878235/
-        var url = 'https://soweb.kcg.gov.tw/open1999/ServiceRequestsQuery.asmx/ServiceRequestsQuery?startdate=&enddate=';
-        fetch(url).then((respons) => {
-            return respons.json(); //取的資料後將資料傳給下一個 then
-        }).then((data) => {
-            
-        }).catch((error) => { // 當初出現錯誤時跑 catch
-            console.log(error);
-        })
+    async function postData(url = '', data = {}) {
+        // Default options are marked with *
+        const response = await fetch(url, {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(data) // body data type must match "Content-Type" header
+        });
+        return response.json(); // parses JSON response into native JavaScript objects
+    }
+
+    function getMobileOperatingSystem() {
+        var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+        // Windows Phone must come first because its UA also contains "Android"
+        if (/windows phone/i.test(userAgent)) {
+            return "Windows Phone";
+        }
+
+        if (/android/i.test(userAgent)) {
+            return "Android";
+        }
+
+        // iOS detection from: http://stackoverflow.com/a/9039885/177710
+        if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+            return "iOS";
+        }
+
+        return "unknown";
     }
 </script>
 @endsection

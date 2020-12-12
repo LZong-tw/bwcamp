@@ -1,7 +1,5 @@
 ## 待實作
 
-- 報到系統：
-    2. QR code 報到條碼
 - 正行相關：新增群組寄送報到通知單功能
 - 使用 Queue 郵寄報到通知
 - 權限功能完善：各區限制（只能下載自己梯次、可以檢視和改到別梯次）
@@ -31,15 +29,17 @@
 
 - 錄取編號首字母設定：各梯次不同字首，格式：1 字母 + 2 組別 + 2 編號
     - 台北(A)、桃園(B)、新竹(C)、台中(D)、雲林(E)、嘉義(F)、台南(G)、高雄(H)
+
+- 報到 QR code 資料格式：**{"applicant_id":報名人ID}**
     
 - Queue 指令：php artisan queue:work --daemon --quiet --queue=default --delay=15 --sleep=3 --tries=3
     - https://learnku.com/articles/3729/use-laravel-queue-to-understand-the-knowledge
 
-- 後台參考：https://youth.blisswisdom.org/camp/wadmin/
 - 上海銀行條碼格式：Barcode 39
 - 條碼產生器文件：https://github.com/milon/barcode
 - JS QRcode 掃瞄器：https://ithelp.ithome.com.tw/articles/10206308
-    - Mac 系列問題：https://github.com/schmich/instascan/issues/182#issuecomment-443388022
+    - 蘋果系列問題：https://github.com/schmich/instascan/issues/182#issuecomment-443388022
+    - 測試設定：https://stackoverflow.com/questions/34197653/getusermedia-in-chrome-47-without-using-https/34198101#34198101
 - PDF 產生器文件：https://github.com/barryvdh/laravel-dompdf
 
 ## <a href="https://docs.google.com/spreadsheets/d/1UXCVFgP8OXzr2fD_aiCnSbRW_zoQ_0Vu8MakmMOYuYc/">欄位及功能(routing)列表</a>
@@ -48,6 +48,7 @@
 
 - 報到系統：
     1. 可以分天報到 -> 使用單一報到表格儲存報到記錄
+    2. QR code 報到條碼
 - home 頁 null object handler
 - 最終報名截止日：教師營 12/31
 - 展開全部按鈕 

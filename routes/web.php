@@ -63,6 +63,7 @@ Route::group(['prefix' => 'checkin', ], function () {
     Route::get('/query', 'CheckInController@query');
     Route::post('/checkin', 'CheckInController@checkIn');
     Route::post('/un-checkin', 'CheckInController@uncheckIn');
+    Route::post('/by_QR', 'CheckInController@by_QR');
 });
 
 Route::group(['prefix' => 'backend/{camp_id}', ], function () {
