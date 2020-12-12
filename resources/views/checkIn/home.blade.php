@@ -57,19 +57,19 @@
                             @endif
                         @endforeach
                         @if($yes)
-                            <form action="/checkin/un-checkin" method="POST" class="d-inline">
+                            <form action="/checkin/un-checkin" method="POST" class="d-inline" name="uncheckIn{{ $applicant->id }}">
                                 @csrf
                                 <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
                                 <input type="hidden" name="check_in_date" value="{{ $checkInData->check_in_date }} ">
                                 <input type="hidden" name="query_str" value="{{ old("query_str") }}">
-                                <input type="submit" value="取消" class="btn btn-danger">
+                                <input type="submit" value="取消" onclick="this.value = '取消中'; this.disabled = true; document.uncheckIn{{ $applicant->id }}.submit();" class="btn btn-danger">
                             </form> 
                         @else
-                            <form action="/checkin/checkin" method="POST">
+                            <form action="/checkin/checkin" method="POST" name="checkIn{{ $applicant->id }}">
                                 @csrf
                                 <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
                                 <input type="hidden" name="query_str" value="{{ old("query_str") }}">
-                                <input type="submit" value="報到" class="btn btn-success" id="btn{{ $applicant->id }}">
+                                <input type="submit" value="報到" onclick="this.value = '報到中'; this.disabled = true; document.checkIn{{ $applicant->id }}.submit();" class="btn btn-success" id="btn{{ $applicant->id }}">
                             </form>
                         @endif
                     </td>
@@ -86,8 +86,6 @@
             @foreach($applicant->checkInData as $checkInData)
                 @if($checkInData->check_in_date == \Carbon\Carbon::today()->format('Y-m-d'))
                     document.getElementById("{{ $applicant->id }}").classList.add("table-success");
-                    document.getElementById("btn{{ $applicant->id }}").disabled = true;
-                    document.getElementById("btn{{ $applicant->id }}").value = "已報到";
                 @endif
             @endforeach
         @endforeach
