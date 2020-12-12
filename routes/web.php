@@ -60,7 +60,9 @@ Route::get('/rolelist', 'BackendController@rolelist')->name('rolelist');
 
 Route::group(['prefix' => 'checkin', ], function () {
     Route::get('/', 'CheckInController@index');
-    Route::post('/query', 'CheckInController@query');
+    Route::get('/query', 'CheckInController@query');
+    Route::post('/checkin', 'CheckInController@checkIn');
+    Route::post('/un-checkin', 'CheckInController@uncheckIn');
 });
 
 Route::group(['prefix' => 'backend/{camp_id}', ], function () {
