@@ -39,7 +39,7 @@ class User extends Authenticatable
     
     public function getPermission($all = false, $camp_id = null, $function_id = null) {
         if(!$all){
-            $permission = $this->role_relations()->get()->first();
+            $permission = $this->role_relations()->first()->role()->first();
             if(!$permission){
                 $empty = new \App\Models\Role;
                 $empty->level = 999;

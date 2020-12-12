@@ -19,7 +19,7 @@
                         <a href="{{ route("backendIndex") }}" class="btn btn-success">後台首頁</a>
                     @endif
                     @if(auth()->user()->getPermission()->level <= 6)
-                        <a href="" class="btn btn-primary">報到系統</a>
+                        <a href="/checkin" class="btn btn-primary">報到系統</a>
                     @endif
                 </div>
             </div>
