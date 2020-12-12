@@ -40,18 +40,22 @@ class CheckInController extends Controller
             $group = substr($request->query_str, 0, 3);
             $number = substr($request->query_str, 3, 2);
         }
-        $applicants = Applicant::where('is_admitted', 1)
+        $constrain = function($query){ $query->where('camps.id', $this->camp->id); };
+        $applicants = Applicant::with(['batch', 'batch.camp' => $constrain])
+            ->whereHas('batch.camp', $constrain)
+            ->where('is_admitted', 1)
             ->where(function($query) use ($request, $group, $number){
                 $query->where('id', $request->query_str)
                 ->orWhere('group', $request->query_str);
                 if($group && $number){
                     $query->orWhere([['group', $group], ['number', $number]]);
                 }
-                $query->orWhere('name', $request->query_str)
-                ->orWhere('mobile', $request->query_str);
+                $query->orWhere('name', 'like', '%' . $request->query_str . '%')
+                ->orWhere('mobile', 'like', '%' . $request->query_str . '%');
             })->get();
+        $batches = $applicants->pluck('batch.name', 'batch.id')->unique();
         $request->flash();
-        return view('checkIn.home', compact('applicants'));
+        return view('checkIn.home', compact('applicants', 'batches'));
     }
 
     public function checkIn(Request $request) {
@@ -67,6 +71,25 @@ class CheckInController extends Controller
         }
         \Session::flash('message', "報到成功。");
         return back();
+    }
+
+    public function by_QR(Request $request) {
+        $applicant = Applicant::find($request->applicant_id);
+        if(CheckIn::where('applicant_id', $request->applicant_id)->where('check_in_date', \Carbon\Carbon::today()->format('Y-m-d'))->first()){            
+            return response()->json([
+                'msg' => '場次：' . $applicant->batch->name . '<br>錄取序號：' . $applicant->group . $applicant->number . '<br>姓名：' . $applicant->name . '<br>已報到完成，無法重複報到。'
+            ]);  
+        }
+        else{
+            $checkin = new CheckIn;
+            $checkin->applicant_id = $request->applicant_id;
+            $checkin->checker_id = \Auth()->user()->id;
+            $checkin->check_in_date = \Carbon\Carbon::today()->format('Y-m-d');
+            $checkin->save();
+        }
+        return response()->json([
+            'msg' => '場次：' . $applicant->batch->name . '<br>錄取序號：' . $applicant->group . $applicant->number . '<br>姓名：' . $applicant->name . '<br>報到成功。'
+        ]);  
     }
 
     public function uncheckIn(Request $request) {
