@@ -8,6 +8,7 @@ use App\Services\ApplicantService;
 use App\Models\Camp;
 use App\Models\Applicant;
 use App\Models\Batch;
+use App\Models\CheckIn;
 use View;
 
 class CheckInController extends Controller
@@ -49,10 +50,32 @@ class CheckInController extends Controller
                 $query->orWhere('name', $request->query_str)
                 ->orWhere('mobile', $request->query_str);
             })->get();
+        $request->flash();
         return view('checkIn.home', compact('applicants'));
     }
 
     public function checkIn(Request $request) {
-        return view('checkIn.home', compact('applicants'));
+        if(CheckIn::where('applicant_id', $request->applicant_id)->where('check_in_date', \Carbon\Carbon::today()->format('Y-m-d'))->first()){            
+            return back()->withErrors(['無法重複報到。']);  
+        }
+        else{
+            $checkin = new CheckIn;
+            $checkin->applicant_id = $request->applicant_id;
+            $checkin->checker_id = \Auth()->user()->id;
+            $checkin->check_in_date = \Carbon\Carbon::today()->format('Y-m-d');
+            $checkin->save();
+        }
+        \Session::flash('message', "報到成功。");
+        return back();
+    }
+
+    public function uncheckIn(Request $request) {
+        if(CheckIn::where('applicant_id', $request->applicant_id)->where('check_in_date', $request->check_in_date)->first()->delete()){   
+            \Session::flash('message', "報消報到成功。");       
+        }
+        else{
+            return back()->withErrors(['取消報到過程發生未知錯誤。']);  
+        }
+        return back();
     }
 }
