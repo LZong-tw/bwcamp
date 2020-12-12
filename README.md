@@ -39,6 +39,7 @@
 - 上海銀行條碼格式：Barcode 39
 - 條碼產生器文件：https://github.com/milon/barcode
 - JS QRcode 掃瞄器：https://ithelp.ithome.com.tw/articles/10206308
+    - Mac 系列問題：https://github.com/schmich/instascan/issues/182#issuecomment-443388022
 - PDF 產生器文件：https://github.com/barryvdh/laravel-dompdf
 
 ## <a href="https://docs.google.com/spreadsheets/d/1UXCVFgP8OXzr2fD_aiCnSbRW_zoQ_0Vu8MakmMOYuYc/">欄位及功能(routing)列表</a>
