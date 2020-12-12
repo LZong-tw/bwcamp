@@ -118,7 +118,7 @@
         <div id="QRmsg">
 
         </div>
-        <input type="button" id="btClose" class="btn btn-success" value="繼續報到" onclick="document.getElementById('CenterDIV').style.display = 'none';"/>
+        <input type="button" id="btClose" class="btn btn-success" value="繼續報到" onclick="document.getElementById('CenterDIV').style.display = 'none'; setCamera();"/>
     </div>
 </div>
 <script>
@@ -159,6 +159,7 @@
                     document.getElementById("CenterDIV").style.display = "block";
                     document.getElementById("QRmsg").innerHTML = data.msg;
                     console.log(data); // JSON data parsed by `response.json()` call
+                    scanner.stop();
             });
         });
         {{-- 開始偵聽掃描事件，若有偵聽到印出內容。 --}}
