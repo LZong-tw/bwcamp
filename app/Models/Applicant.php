@@ -13,12 +13,15 @@ class Applicant extends Model
 
     protected $guarded = [];
 
-    public function batch()
-    {
+    public function batch() {
         return $this->belongsTo('App\Models\Batch');
     }
 
-    public function getBatch(){
+    public function getBatch() {
         return $this->belongsTo(Batch::class, 'batch_id', 'id');
+    }
+
+    public function checkInData() {
+        return $this->hasMany(CheckIn::class);
     }
 }

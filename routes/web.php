@@ -58,6 +58,11 @@ Route::get('/failedJobsClear', 'BackendController@failedJobsClear')->name('faile
 Route::get('/userlist', 'BackendController@userlist')->name('userlist');
 Route::get('/rolelist', 'BackendController@rolelist')->name('rolelist');
 
+Route::group(['prefix' => 'checkin', ], function () {
+    Route::get('/', 'CheckInController@index');
+    Route::post('/query', 'CheckInController@query');
+});
+
 Route::group(['prefix' => 'backend/{camp_id}', ], function () {
     Route::get('/', 'BackendController@campIndex')->name('campIndex');
     Route::get('/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('permitted')->name('logs');
