@@ -74,22 +74,35 @@ class CheckInController extends Controller
     }
 
     public function by_QR(Request $request) {
-        $applicant = Applicant::find($request->applicant_id);
-        if(CheckIn::where('applicant_id', $request->applicant_id)->where('check_in_date', \Carbon\Carbon::today()->format('Y-m-d'))->first()){            
+        try{
+            $applicant = Applicant::find($request->applicant_id);
+            if(!$applicant){
+                return response()->json([
+                    'msg' => '<h4 class="text-danger">找不到報名資料，請檢查後重試</h4>'
+                ]);
+            }
+            if(CheckIn::where('applicant_id', $request->applicant_id)->where('check_in_date', \Carbon\Carbon::today()->format('Y-m-d'))->first()){            
+                return response()->json([
+                    'msg' => '場次：' . $applicant->batch->name . '<br>錄取序號：' . $applicant->group . $applicant->number . '<br>姓名：' . $applicant->name . '<h4 class="text-warning">已報到完成，無法重複報到</h4>'
+                ]);  
+            }
+            else{
+                $checkin = new CheckIn;
+                $checkin->applicant_id = $request->applicant_id;
+                $checkin->checker_id = \Auth()->user()->id;
+                $checkin->check_in_date = \Carbon\Carbon::today()->format('Y-m-d');
+                $checkin->save();
+                return response()->json([
+                    'msg' => '場次：' . $applicant->batch->name . '<br>錄取序號：' . $applicant->group . $applicant->number . '<br>姓名：' . $applicant->name . '<h4 class="text-success">報到成功</h4>'
+                ]);
+            }  
+        }
+        catch(\Exception $e){
+            logger($e);
             return response()->json([
-                'msg' => '場次：' . $applicant->batch->name . '<br>錄取序號：' . $applicant->group . $applicant->number . '<br>姓名：' . $applicant->name . '<br>已報到完成，無法重複報到。'
-            ]);  
+                'msg' => '<h4 class="text-danger">發生未預期錯誤，無法完成報到程序</h4>'
+            ]);
         }
-        else{
-            $checkin = new CheckIn;
-            $checkin->applicant_id = $request->applicant_id;
-            $checkin->checker_id = \Auth()->user()->id;
-            $checkin->check_in_date = \Carbon\Carbon::today()->format('Y-m-d');
-            $checkin->save();
-        }
-        return response()->json([
-            'msg' => '場次：' . $applicant->batch->name . '<br>錄取序號：' . $applicant->group . $applicant->number . '<br>姓名：' . $applicant->name . '<br>報到成功。'
-        ]);  
     }
 
     public function uncheckIn(Request $request) {
