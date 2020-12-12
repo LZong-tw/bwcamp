@@ -38,12 +38,22 @@ class User extends Authenticatable
     ];
     
     public function getPermission($all = false, $camp_id = null, $function_id = null) {
-        if($all){
+        if(!$all){
+            $permission = $this->role_relations()->get()->first();
+            if(!$permission){
+                $empty = new \App\Models\Role;
+                $empty->level = 999;
+                return $empty;
+            }
+            return $permission;
+        }
+        elseif($all && $camp_id){
+            
+        }
+        else{
             return $this->role_relations()->get();
         }
-        if(!$camp_id && !$function_id){
-            return $this->role_relations()->first()->role;
-        }
+        
     }
 
     public function role_relations(){
