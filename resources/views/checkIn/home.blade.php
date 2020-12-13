@@ -154,31 +154,26 @@
         scanner.addListener('scan', function(content) {
             let data = JSON.parse(content);
             console.log(data);
-            postData('{{ url("") }}/checkin/by_QR', { applicant_id: data.applicant_id, _token: "{{ csrf_token() }}" })
+            postData('{{ url("") }}/checkin/by_QR', { 
+                applicant_id: data.applicant_id, 
+                _token: "{{ csrf_token() }}" })
                 .then(data => {
+                    if (data.status === 401) {
+                        data = {'msg': '<h3 class="text-danger">權限不足，請重新登入</h3>'};
+                    }
+                    if (data.status === 419) {
+                        data = {'msg': '<h3 class="text-danger">頁面資料過期，請重新整理</h3>'};
+                    }
+                    if (data.status === 500) {
+                        data = {'msg': '<h3 class="text-danger">掃瞄器發生不明錯誤，無法完成操作</h3>'};
+                    }
                     document.getElementById("CenterDIV").style.display = "block";
                     document.getElementById("QRmsg").innerHTML = data.msg;
                     console.log(data); // JSON data parsed by `response.json()` call
                     scanner.stop();
             });
         });
-        {{-- 開始偵聽掃描事件，若有偵聽到印出內容。 --}}
-
-        if(getMobileOperatingSystem() == 'iOS'){
-            Instascan.Camera.getCameras().then(function(cameras) {
-            {{-- 取得設備的相機數目 --}}
-                if (cameras.length > 0) {
-                    {{-- 若設備相機數目大於0 則先開啟第0個相機(程式的世界是從第零個開始的) --}}
-                    scanner.start(cameras[0]);
-                } else {
-                    {{-- 若設備沒有相機數量則顯示"No cameras found"; --}}
-                    {{-- 這裡自行判斷要寫什麼 --}}
-                    console.error('No cameras found.');
-                }
-            }).catch(function(e) {
-                console.error(e);
-            });
-        }
+        {{-- 開始監聽掃描事件，若有監聽到印出內容。 --}}
         
         if(getMobileOperatingSystem() == 'Android'){
             Instascan.Camera.getCameras().then(function (cameras) {
@@ -195,6 +190,21 @@
                 else {
                     console.error('No cameras found.');
                 }
+            });
+        }
+        else{
+            Instascan.Camera.getCameras().then(function(cameras) {
+            {{-- 取得設備的相機數目 --}}
+                if (cameras.length > 0) {
+                    {{-- 若設備相機數目大於0 則先開啟第0個相機(程式的世界是從第零個開始的) --}}
+                    scanner.start(cameras[0]);
+                } else {
+                    {{-- 若設備沒有相機數量則顯示"No cameras found"; --}}
+                    {{-- 這裡自行判斷要寫什麼 --}}
+                    console.error('No cameras found.');
+                }
+            }).catch(function(e) {
+                console.error(e);
             });
         }
     }    
@@ -214,6 +224,9 @@
             referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
             body: JSON.stringify(data) // body data type must match "Content-Type" header
         });
+        if (response.status === 401 || response.status === 419 || response.status === 500) {
+            return response;
+        }
         return response.json(); // parses JSON response into native JavaScript objects
     }
 

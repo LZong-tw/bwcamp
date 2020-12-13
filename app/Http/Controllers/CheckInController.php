@@ -93,7 +93,7 @@ class CheckInController extends Controller
                 $checkin->check_in_date = \Carbon\Carbon::today()->format('Y-m-d');
                 $checkin->save();
                 return response()->json([
-                    'msg' => '場次：' . $applicant->batch->name . '<br>錄取序號：' . $applicant->group . $applicant->number . '<br>姓名：' . $applicant->name . '<h4 class="text-success">報到成功</h4>'
+                    'msg' => '場次：' . $applicant->batch->name . '<br>錄取序號：' . $applicant->group . $applicant->number . '<br>姓名：' . $applicant->name . '<h4 class="text-success">報到完成</h4>'
                 ]);
             }  
         }
