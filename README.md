@@ -30,7 +30,7 @@
 - 錄取編號首字母設定：各梯次不同字首，格式：1 字母 + 2 組別 + 2 編號
     - 台北(A)、桃園(B)、新竹(C)、台中(D)、雲林(E)、嘉義(F)、台南(G)、高雄(H)
 
-- 報到 QR code 資料格式：**{"applicant_id":報名人ID}**
+- 報到 QR code 資料格式：` {"applicant_id":報名人ID} ` (JSON, Serialized JS Array)
     
 - Queue 指令：php artisan queue:work --daemon --quiet --queue=default --delay=15 --sleep=3 --tries=3
     - https://learnku.com/articles/3729/use-laravel-queue-to-understand-the-knowledge
