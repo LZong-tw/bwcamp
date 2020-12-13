@@ -200,11 +200,14 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto">
                             <li class="nav-item">
+                                <a class="nav-link" href="/checkin?t={{ time() }}" target="_blank">報到系統</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('backendIndex') }}">選擇營隊</a>
                             </li>
                             @if(isset($campFullData))
                                 <li class="nav-item active">
-                                    <a class="nav-link" href="{{ route("campIndex", $campFullData->id) }}">{{ $campFullData->fullName }}</a>
+                                    <a class="nav-link" href="{{ route("campIndex", $campFullData->id) }}">{{ $campFullData->fullName }}：後台首頁</a>
                                 </li>
                             @else
                                 <li class="nav-item active">
