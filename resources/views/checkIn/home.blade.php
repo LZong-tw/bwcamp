@@ -32,11 +32,11 @@
     }
 </style>
 <div class="container">
-    <h3 class="mt-5 text-center">福智營隊報到系統</h3>
+    <h2 class="mt-4 text-center">福智營隊報到系統</h2>
     <h5 class="text-center">當前報到營隊：{{ $camp->fullName }}<br>報到日期：{{ \Carbon\Carbon::today()->format('Y-m-d') }}</h5>
     <form action="/checkin/query" id="query">
         <div class="form-group input-group">
-            <input type="text" class="form-control" name="query_str" id="" placeholder="請輸入報名序號、組別、錄取編號、姓名、電話查詢 ..." value="{{ old("query_str") }}" required>
+            <input type="text" class="form-control" name="query_str" id="" placeholder="請輸入報名序號、組別、錄取編號、姓名、手機查詢 ..." value="{{ old("query_str") }}" required>
             <div class="input-group-append">
                 <button class="btn btn-outline-secondary" type="submit" id="checkinsearch">
                     Go <i class="fa fa-search"></i>
@@ -65,17 +65,15 @@
                     <th style="width: 20%">組別</th>
                     <th style="width: 20%">編號</th>
                     <th style="width: 20%">姓名</th>
-                    <th style="width: 20%">手機</th>
                     <th style="width: 15%">本日報到</th>
                 </tr>
                 @foreach ($applicants as $applicant)
                     @if($applicant->batch->id == $batch_key)
                         <tr id="{{ $applicant->id }}">
-                            <td>{{ $applicant->group }}</td>
-                            <td>{{ $applicant->number }}</td>
-                            <td>{{ $applicant->name }}</td>
-                            <td>{{ $applicant->mobile }}</td>
-                            <td>
+                            <td class="align-middle">{{ $applicant->group }}</td>
+                            <td class="align-middle">{{ $applicant->number }}</td>
+                            <td class="align-middle">{{ $applicant->name }}</td>
+                            <td class="align-middle">
                                 @php
                                     $yes = 0;   
                                 @endphp
@@ -138,7 +136,7 @@
     let scanner;
 
     function toggleCamera(){
-        let element = '<center><video id="scanner" style="width: 90%"></video><br><a href="javascript: window.location.reload();" class="btn btn-primary mb-2">傳統表格</a></center>';
+        let element = '<center><video id="scanner" style="width: 85%"></video><br><a href="javascript: window.location.reload();" class="btn btn-primary mb-2">傳統表格</a></center>';
         document.getElementById("query").innerHTML = element;
         setCamera();
     }
