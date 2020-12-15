@@ -25,6 +25,7 @@
                 <th>繳費日期</th>
                 <th>入帳日期</th>
                 <th>繳費管道</th>
+                <th>建檔日期</th>
             </tr>
         </thead>
         @foreach ($accountings as $accounting)
@@ -39,6 +40,7 @@
                 <td>{{ $accounting->paid_at }}</td>
                 <td>{{ $accounting->creditted_at }}</td>
                 <td>{{ $accounting->name }}</td>
+                <td>{{ $accounting->created_at }}</td>
             </tr>
         @endforeach
     </table>
