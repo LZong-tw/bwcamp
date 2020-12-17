@@ -149,10 +149,10 @@
                 </li>
                 @if(auth()->user()->getPermission()->level == 1)
                     <li>
-                        <a href="{{ route("userlist") }}">使用者列表</a>
+                        <a href="{{ route("userlist", $campFullData->id ?? "") }}">使用者列表</a>
                     </li>
                     <li>
-                        <a href="{{ route("rolelist") }}">權限列表</a>
+                        <a href="{{ route("rolelist", $campFullData->id ?? "") }}">權限列表</a>
                     </li>
                 @endif
                 <li>
