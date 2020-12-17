@@ -703,6 +703,39 @@ class BackendController extends Controller
         return view('backend.statistics.admission', compact('GChartData',  'total'));
     }
 
+    public function checkinStat(){
+        $applicants = Applicant::select(\DB::raw('check_in.check_in_date, count(*) as total'))
+        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+        ->join('check_in', 'applicants.id', '=', 'check_in.applicant_id')
+        ->where('camps.id', $this->campFullData->id)
+        ->where('is_admitted', 1)
+        ->groupBy('check_in_date')->get();
+        $rows = count($applicants);
+        $array = $applicants->toArray();
+
+        $i = 0 ;
+        $total = 0 ;
+        $GChartData = array('cols'=> array(
+                        array('id'=>'check_in_date','label'=>'日期','type'=>'string'),
+                        array('id'=>'people','label'=>'人數','type'=>'number'),
+                        array('id'=>'annotation','role'=>'annotation','type'=>'number')
+                    ),
+                    'rows' => array());
+        for($i = 0; $i < $rows; $i ++) {
+            $record = $array[$i];
+            array_push($GChartData['rows'], array('c' => array(
+                array('v' => $record['check_in_date'] == null ? '其他' : $record['check_in_date']),
+                array('v' => intval($record['total'])),
+                array('v' => intval($record['total']))
+            )));
+            $total = $total + $record['total'];
+        }
+        $GChartData = json_encode($GChartData);
+
+        return view('backend.statistics.checkin', compact('GChartData',  'total'));
+    }
+
     public function showAccountingPage() {
         $accountingTable = config('camps_payments.' . $this->campFullData->table . '.accounting_table');
         $accountings = Applicant::select('applicants.batch_id', 'applicants.name as aName', 'applicants.fee as shouldPay', $accountingTable . '.*')

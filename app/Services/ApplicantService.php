@@ -67,7 +67,7 @@ class ApplicantService
         $candidate->bank_second_barcode = $paymentFlow->getBankSecondBarcode();
         $candidate->bank_third_barcode = $paymentFlow->getBankThirdBarcode($campFullData['fee'] ?? 0);
         $candidate->fee = $campFullData['fee'];
-        $candidate->deposit = 0;
+        $candidate->deposit = $candidate->deposit == null || $candidate->deposit == 0 ? 0 : $candidate->deposit;
         return $candidate;
     }
 }

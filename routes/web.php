@@ -94,5 +94,6 @@ Route::group(['prefix' => 'backend/{camp_id}', ], function () {
     Route::get('/statistics/batches', 'BackendController@batchesStat')->name('batchesStat');
     Route::get('/statistics/schoolOrCourse', 'BackendController@schoolOrCourseStat')->name('schoolOrCourseStat');
     Route::get('/statistics/admission', 'BackendController@admissionStat')->name('admissionStat');
+    Route::get('/statistics/checkin', 'BackendController@checkinStat')->name('checkinStat');
     Route::get('/accounting', 'BackendController@showAccountingPage')->name('accounting');
 });
