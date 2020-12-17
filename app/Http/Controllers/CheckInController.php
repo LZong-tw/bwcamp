@@ -21,8 +21,9 @@ class CheckInController extends Controller
      */
     public function __construct(CampDataService $campDataService, ApplicantService $applicantService, Request $request) {
         $this->middleware('auth');
-        $this->middleware('permitted');
         $camp = Batch::orderBy('batch_start', 'desc')->first()->camp()->first();
+        $request->camp_id = $camp->id;
+        $this->middleware('permitted');
         $this->camp = $camp;
         $this->campDataService = $campDataService;
         $this->applicantService = $applicantService;

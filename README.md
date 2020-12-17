@@ -2,6 +2,7 @@
 
 - 錄取相關：新增群組寄送報到通知單功能
 - 使用 Queue 郵寄報到通知
+- 後台報到統計
 - 權限功能完善：各區限制（只能下載自己梯次、可以檢視和改到別梯次）
 - 輔導組表格
 - PaymentForm.blade.php, PaymentFormPDF.blade.php 移出 backend

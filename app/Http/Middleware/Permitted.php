@@ -21,6 +21,9 @@ class Permitted
         else if(\Str::contains($userPermission->camp_id, $request->route()->parameter('camp_id'))){
             return $next($request);
         }
+        else if(\Str::contains($userPermission->camp_id, $request->camp_id)){
+            return $next($request);
+        }
         else{
             abort(401, 'Unauthorized.');
         }
