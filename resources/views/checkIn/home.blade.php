@@ -65,7 +65,7 @@
                     <th style="width: 20%">組別</th>
                     <th style="width: 20%">編號</th>
                     <th style="width: 20%">姓名</th>
-                    <th style="width: 15%">本日報到</th>
+                    <th style="width: 15%">動作</th>
                 </tr>
                 @foreach ($applicants as $applicant)
                     @if($applicant->batch->id == $batch_key)
@@ -90,14 +90,14 @@
                                         <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
                                         <input type="hidden" name="check_in_date" value="{{ $checkInData->check_in_date }} ">
                                         <input type="hidden" name="query_str" value="{{ old("query_str") }}">
-                                        <input type="submit" value="取消" onclick="this.value = '取消中'; this.disabled = true; document.uncheckIn{{ $applicant->id }}.submit();" class="btn btn-danger">
+                                        <input type="submit" value="報到取消" onclick="this.value = '取消中'; this.disabled = true; document.uncheckIn{{ $applicant->id }}.submit();" class="btn btn-danger">
                                     </form> 
                                 @else
                                     <form action="/checkin/checkin" method="POST" name="checkIn{{ $applicant->id }}">
                                         @csrf
                                         <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
                                         <input type="hidden" name="query_str" value="{{ old("query_str") }}">
-                                        <input type="submit" value="報到" onclick="this.value = '報到中'; this.disabled = true; document.checkIn{{ $applicant->id }}.submit();" class="btn btn-success" id="btn{{ $applicant->id }}">
+                                        <input type="submit" value="報到登錄" onclick="this.value = '登錄中'; this.disabled = true; document.checkIn{{ $applicant->id }}.submit();" class="btn btn-success" id="btn{{ $applicant->id }}">
                                     </form>
                                 @endif
                             </td>
