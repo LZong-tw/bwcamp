@@ -42,6 +42,7 @@
 - 條碼產生器文件：https://github.com/milon/barcode
 - JS QRcode 掃瞄器：https://ithelp.ithome.com.tw/articles/10206308
     - 蘋果系列問題：https://github.com/schmich/instascan/issues/182#issuecomment-443388022
+    - 蘋果系列問題：https://github.com/JoseCDB/instascan/commit/a016f8b05a6ee18362084184afa0398945fa83aa
     - 測試設定：https://stackoverflow.com/questions/34197653/getusermedia-in-chrome-47-without-using-https/34198101#34198101
     - 備案：https://github.com/nimiq/qr-scanner
 - PDF 產生器文件：https://github.com/barryvdh/laravel-dompdf

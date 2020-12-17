@@ -14,7 +14,7 @@
     <!-- Font Awesome JS -->
     <script defer src="{{ asset('js/solid.js') }}"></script>
     <script defer src="{{ asset('js/fontawesome.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/instascan.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/instascan-ioslized.min.js') }}"></script>
 </head>
 <body>
     @yield('content')
