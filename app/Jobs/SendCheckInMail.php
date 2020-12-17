@@ -36,7 +36,7 @@ class SendCheckInMail implements ShouldQueue
         ini_set('memory_limit', -1);
         ini_set('max_execution_time', 180);
         $applicant = $this->applicant;
-        $barcode = \Milon\Barcode\DNS2D::getBarcodePNG();
-        \Mail::to($applicant->email)->send(new \App\Mail\CheckInMail($applicant, $barcode));
+        $attachement = \DNS2D::getBarcodePNG('{"applicant_id":' . $applicant->id . '}', 'QRCODE');
+        \Mail::to($applicant->email)->send(new \App\Mail\CheckInMail($applicant, $attachement));
     }
 }

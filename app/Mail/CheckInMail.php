@@ -33,10 +33,7 @@ class CheckInMail extends Mailable
      */
     public function build()
     {
-        return $this->subject($this->campFullData->abbreviation . '錄取通知')
-                ->view($this->campFullData->table . ".admittedMail")
-                ->attachData($this->attachment, '繳費暨錄取通知單' . \Carbon\Carbon::now()->format('YmdHis') . $this->campFullData->table . $this->applicant->group . $this->applicant->number . '.pdf', [
-                    'mime' => 'application/pdf',
-                ]);
+        return $this->subject($this->campFullData->abbreviation . '報到通知')
+                ->view($this->campFullData->table . ".checkInMail");
     }
 }
