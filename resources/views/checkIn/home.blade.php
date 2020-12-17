@@ -65,6 +65,7 @@
                     <th style="width: 20%">組別</th>
                     <th style="width: 20%">編號</th>
                     <th style="width: 20%">姓名</th>
+                    <th style="width: 20%">狀態</th>
                     <th style="width: 15%">動作</th>
                 </tr>
                 @foreach ($applicants as $applicant)
@@ -73,6 +74,17 @@
                             <td class="align-middle">{{ $applicant->group }}</td>
                             <td class="align-middle">{{ $applicant->number }}</td>
                             <td class="align-middle">{{ $applicant->name }}</td>
+                            <td class="align-middle">
+                                @php
+                                    $is_check_in = 0;   
+                                @endphp
+                                @foreach($applicant->checkInData as $checkInData)
+                                    @if($checkInData->check_in_date == \Carbon\Carbon::today()->format('Y-m-d'))
+                                        @php $is_check_in = 1; @endphp
+                                    @endif
+                                @endforeach
+                                {!! $is_check_in ? "<a class='text-success'>已報到</a>" : "<a class='text-danger'>未報到</a>" !!}
+                            </td>
                             <td class="align-middle">
                                 @php
                                     $yes = 0;   
@@ -90,14 +102,14 @@
                                         <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
                                         <input type="hidden" name="check_in_date" value="{{ $checkInData->check_in_date }} ">
                                         <input type="hidden" name="query_str" value="{{ old("query_str") }}">
-                                        <input type="submit" value="報到取消" onclick="this.value = '取消中'; this.disabled = true; document.uncheckIn{{ $applicant->id }}.submit();" class="btn btn-danger">
+                                        <input type="submit" value="取消" onclick="this.value = '取消中'; this.disabled = true; document.uncheckIn{{ $applicant->id }}.submit();" class="btn btn-danger">
                                     </form> 
                                 @else
                                     <form action="/checkin/checkin" method="POST" name="checkIn{{ $applicant->id }}">
                                         @csrf
                                         <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
                                         <input type="hidden" name="query_str" value="{{ old("query_str") }}">
-                                        <input type="submit" value="報到登錄" onclick="this.value = '登錄中'; this.disabled = true; document.checkIn{{ $applicant->id }}.submit();" class="btn btn-success" id="btn{{ $applicant->id }}">
+                                        <input type="submit" value="報到" onclick="this.value = '報到中'; this.disabled = true; document.checkIn{{ $applicant->id }}.submit();" class="btn btn-success" id="btn{{ $applicant->id }}">
                                     </form>
                                 @endif
                             </td>
@@ -120,7 +132,7 @@
     </div>
 </div>
 <script>
-    @if(isset($applicants))
+    {{-- @if(isset($applicants))
         (function() {
             @foreach ($applicants as $applicant)
                 @foreach($applicant->checkInData as $checkInData)
@@ -130,7 +142,7 @@
                 @endforeach
             @endforeach
         })();
-    @endif
+    @endif --}}
 </script>
 <script type="text/javascript">
     let scanner;
