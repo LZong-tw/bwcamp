@@ -63,6 +63,9 @@
                             <li>
                                 <a href="{{ route("admissionStat", $campFullData->id) }}">錄取統計</a>
                             </li>
+                            <li>
+                                <a href="{{ route("checkinStat", $campFullData->id) }}">報到統計</a>
+                            </li>
                             @if($campFullData->table == "tcamp")
                                 <li>
                                     <a href="{{ route("schoolOrCourseStat", $campFullData->id) }}">任教學程</a>
