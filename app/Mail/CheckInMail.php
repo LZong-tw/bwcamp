@@ -33,7 +33,10 @@ class CheckInMail extends Mailable
      */
     public function build()
     {
-        return $this->subject($this->campFullData->abbreviation . '報到通知')
-                ->view($this->campFullData->table . ".checkInMail");
+        return $this->subject($this->applicant->batch->camp->abbreviation . '報到通知')
+                ->view($this->applicant->batch->camp->table . ".checkInMail")
+                ->attachData($this->attachment, 'checkin.png', [
+                    'mime' => 'image/png',
+                ]);
     }
 }
