@@ -58,6 +58,9 @@
         </div>
     @endif
     @if(isset($applicants) && $applicants->count() > 0)
+        @if($applicants->count() >= 20)
+            <div class="alert alert-danger">查詢條件過於粗略，符合筆數過多，容易導致系統負荷過大。</div>
+        @endif
         @foreach ($batches as $batch_key => $batch_name)
             <h5>梯次：{{ $batch_name }}</h5>  
             <table class="table table-bordered text-break">
