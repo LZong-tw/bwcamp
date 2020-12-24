@@ -167,9 +167,9 @@ class CampController extends Controller
             // 取得報名者梯次資料
             $camp_data = $this->campDataService->getCampData($applicant->batch_id);
             $applicant_data = $applicant->toJson();
-            $applicant_data = str_replace("\r", "", $applicant_data);
-            $applicant_data = str_replace("\n", "", $applicant_data);
-            $applicant_data = str_replace("\t", "", $applicant_data);
+            $applicant_data = str_replace("\\r", "", $applicant_data);
+            $applicant_data = str_replace("\\n", "", $applicant_data);
+            $applicant_data = str_replace("\\t", "", $applicant_data);
             return view($campTable . '.form')
                 ->with('applicant_id', $applicant->applicant_id)
                 ->with('applicant_batch_id', $applicant->batch_id)
