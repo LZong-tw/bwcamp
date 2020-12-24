@@ -158,7 +158,8 @@
 
     function setCamera(){
         let scanner = new Instascan.Scanner({
-            video: document.getElementById('scanner')
+            video: document.getElementById('scanner'),
+            mirror: false
         });
         {{-- 開啟一個新的掃描
              宣告變數scanner，在html<video>標籤id為scanner的地方開啟相機預覽。
