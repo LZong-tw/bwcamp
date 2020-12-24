@@ -36,8 +36,10 @@ class SendCheckInMail implements ShouldQueue
         ini_set('memory_limit', -1);
         ini_set('max_execution_time', 180);
         $applicant = $this->applicant;
-        $attachment = \DNS2D::getBarcodePNG('{"applicant_id":' . $applicant->id . '}', 'QRCODE');
-        $attachment = base64_decode($attachment);
+        $qr_code = \DNS2D::getBarcodePNG('{"applicant_id":' . $applicant->id . '}', 'QRCODE');
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML('<img src="data:image/png;base64,' . $qr_code . '" alt="barcode" height="200px"/>')->setPaper('a6', 'landscape');
+        $attachment =  $pdf->stream();
         \Mail::to($applicant->email)->send(new \App\Mail\CheckInMail($applicant, $attachment));
     }
 }
