@@ -86,6 +86,11 @@ class CheckInController extends Controller
                     'msg' => '<h4 class="text-danger">找不到報名資料，請檢查後重試</h4>'
                 ]);
             }
+            if($applicant->deposit - $applicant->fee < 0){   
+                return response()->json([
+                    'msg' => '場次：' . $applicant->batch->name . '<br>錄取序號：' . $applicant->group . $applicant->number . '<br>姓名：' . $applicant->name . '<h4 class="text-danger">未繳費，無法報到。</h4>'
+                ]);  
+            }     
             if(CheckIn::where('applicant_id', $request->applicant_id)->where('check_in_date', \Carbon\Carbon::today()->format('Y-m-d'))->first()){            
                 return response()->json([
                     'msg' => '場次：' . $applicant->batch->name . '<br>錄取序號：' . $applicant->group . $applicant->number . '<br>姓名：' . $applicant->name . '<h4 class="text-warning">已報到完成，無法重複報到</h4>'
