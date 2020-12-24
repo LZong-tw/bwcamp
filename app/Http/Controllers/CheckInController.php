@@ -64,6 +64,10 @@ class CheckInController extends Controller
             return back()->withErrors(['無法重複報到。']);  
         }
         else{
+            $applicant = Applicant::find($request->applicant_id);
+            if($applicant->deposit - $applicant->fee < 0){
+                return back()->withErrors([$applicant->name . '未繳費，無法報到。']);      
+            }     
             $checkin = new CheckIn;
             $checkin->applicant_id = $request->applicant_id;
             $checkin->checker_id = \Auth()->user()->id;
