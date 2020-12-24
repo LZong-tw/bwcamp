@@ -29,7 +29,7 @@
                 <input type="hidden" name="isBackend" value="目前為後台檢視狀態。">
                 <button class="btn btn-info" style="margin-top: 10px">檢視報名資料</button>
             </form>
-            <a href="{{ route('showPaymentForm', [$candidate->batch_id, $candidate->id]) }}" class="btn btn-primary" target="blank" style="margin-top: 10px">顯示繳費單</a>
+            <a href="{{ route('showPaymentForm', [$campFullData->id, $candidate->id]) }}" class="btn btn-primary" target="blank" style="margin-top: 10px">顯示繳費單</a>
         </p>
         <form action="{{ route("admission", $campFullData->id) }}" method="post" class="form-horizontal">
             @csrf
