@@ -29,6 +29,11 @@
 
 ## 資料設定及參考文件
 
+- 每次更新後需執行的指令：
+    - php artisan migrate
+    - php artisan config:cache
+    - php artisan queue:restart (本指令要以 su 執行)
+
 - 權限分級：以功能區分
     - 總部（所有功能，1）
     - 主辦區（當屆所有功能，2）
