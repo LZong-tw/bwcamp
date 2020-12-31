@@ -11,4 +11,8 @@ class Role extends Model
     public function role_users(){
         return $this->hasMany(RoleUser::class);
     }
+
+    public function camp(){
+        return $this->belongsTo(Camp::class);
+    }
 }
