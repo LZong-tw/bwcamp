@@ -124,6 +124,9 @@
     @elseif(isset($applicants) && $applicants->count() == 0)
         <div class="alert alert-danger">查無資料。</div>
     @endif
+    <div class="mb-4 text-center fixed-bottom">
+        今日全區累積報到人數： 
+    </div>
 </div>  
 <div id="CenterDIV">
     <div class="divFloat card-body text-center">
