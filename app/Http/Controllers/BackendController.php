@@ -409,13 +409,22 @@ class BackendController extends Controller
                 "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
                 "Expires"             => "0"
             );
+            
+            $template = $request->template ?? 0;
 
-            $callback = function() use($applicants) {
+            $callback = function() use($applicants, $template) {
                 $file = fopen('php://output', 'w');
                 // 先寫入此三個字元使 Excel 能正確辨認編碼為 UTF-8
                 // http://jeiworld.blogspot.com/2009/09/phpexcelutf-8csv.html
                 fwrite($file, "\xEF\xBB\xBF");
-                $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table));    
+                if($template){
+                    if($this->campFullData->table == 'tcamp'){
+                        $columns = ["name" => "姓名", "idno" => "身分證字號", "unit_county" => "服務單位所在縣市", "unit" => "服務單位"];
+                    }
+                }
+                else{
+                    $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table));  
+                }  
                 fputcsv($file, $columns);
 
                 foreach ($applicants as $applicant) {
