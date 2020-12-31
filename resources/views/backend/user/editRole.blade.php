@@ -1,5 +1,13 @@
 @extends('backend.master')
 @section('content')
+    <style>
+        .card-link{
+            color: #3F86FB!important;
+        }
+        .card-link:hover{
+            color: #33B2FF!important;
+        }
+    </style>
     <h2>{{ $user->name }} 權限設定</h2>
     @if(Session::has("message"))
         <div class="alert alert-success" role="alert">
@@ -26,7 +34,7 @@
                 <td>{{ $role_relation->role_data->name }}</td>
                 <td>{{ $role_relation->role_data->level }}</td>
                 <td>
-                        <a href="{{ route("campIndex", $role_relation->role_data->camp_id ?? "") }}">{{ $role_relation->role_data->camp->abbreviation ?? "" }}</a>
+                    <a href="{{ route("campIndex", $role_relation->role_data->camp_id ?? "") }}" class="card-link">{{ $role_relation->role_data->camp->abbreviation ?? "" }}</a>
                 </td>
                 <td>
                     <form action="{{ route("removeRole") }}" method="post">
@@ -54,7 +62,7 @@
                 <td>{{ $role->name }}</td>
                 <td>{{ $role->level }}</td>
                 <td>
-                        <a href="{{ route("campIndex", $role->camp_id ?? "") }}">{{ $role->camp->abbreviation ?? "" }}</a>
+                    <a href="{{ route("campIndex", $role->camp_id ?? "") }}" class="card-link">{{ $role->camp->abbreviation ?? "" }}</a>
                 </td>
                 <td>
                     <form action="{{ route("addRole") }}" method="post">

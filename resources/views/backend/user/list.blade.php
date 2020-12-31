@@ -1,5 +1,13 @@
 @extends('backend.master')
 @section('content')
+    <style>
+        .card-link{
+            color: #3F86FB!important;
+        }
+        .card-link:hover{
+            color: #33B2FF!important;
+        }
+    </style>
     <h2>使用者列表</h2>
     <table class="table table-bordered">
         <tr>
@@ -17,9 +25,9 @@
                 <td>{{ $user->email }}</td>
                 <td>@foreach ($user->role_relations as $role_relation)
                     @if($loop->last)
-                        {{ $role_relation->role_data->level }} - {{ $role_relation->role_data->name }} - <a href="{{ route("campIndex", $role_relation->role_data->camp_id ?? "") }}">{{ $role_relation->role_data->camp->abbreviation ?? "" }}</a>
+                        {{ $role_relation->role_data->level }} - {{ $role_relation->role_data->name }} - <a href="{{ route("campIndex", $role_relation->role_data->camp_id ?? "") }}" class="card-link">{{ $role_relation->role_data->camp->abbreviation ?? "" }}</a>
                     @else
-                        {{ $role_relation->role_data->level }} - {{ $role_relation->role_data->name }} - <a href="{{ route("campIndex", $role_relation->role_data->camp_id ?? "") }}" title="">{{ $role_relation->role_data->camp->abbreviation ?? "" }}</a><br>
+                        {{ $role_relation->role_data->level }} - {{ $role_relation->role_data->name }} - <a href="{{ route("campIndex", $role_relation->role_data->camp_id ?? "") }}" class="card-link">{{ $role_relation->role_data->camp->abbreviation ?? "" }}</a><br>
                     @endif
                 @endforeach</td>
                 <td><a href="" class="btn btn-success">修改</a></td>
