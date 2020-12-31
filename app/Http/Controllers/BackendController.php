@@ -62,6 +62,40 @@ class BackendController extends Controller
         return view('backend.user.list', ['users' => \App\User::all()]);
     }
 
+    public function editRole($user_id){
+        $user = \App\User::find($user_id);
+        return view('backend.user.editRole', 
+        ['user' => $user, 
+        'roles_available' => \App\Models\Role::whereNotIn('id', $user->role_relations->pluck('role_id'))->get()]);
+    }
+
+    public function removeRole(Request $request){
+        $result = \App\Models\RoleUser::where('user_id', $request->user_id)->where('role_id', $request->role_id)->delete();
+        if($result){
+            \Session::flash('message', "權限刪除成功。");
+            return back();
+        }
+        else{
+            \Session::flash('error', "權限刪除失敗。");
+            return back();
+        }
+    }
+
+    public function addRole(Request $request){
+        $result = new \App\Models\RoleUser;
+        $result->user_id = $request->user_id;
+        $result->role_id = $request->role_id;
+        $result->save();
+        if($result){
+            \Session::flash('message', "權限新增成功。");
+            return back();
+        }
+        else{
+            \Session::flash('error', "權限新增失敗。");
+            return back();
+        }
+    }
+
     public function rolelist(){
         return view('backend.user.rolelist', ['roles' => \App\Models\Role::all()]);
     }
