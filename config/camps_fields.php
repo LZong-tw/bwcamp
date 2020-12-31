@@ -59,9 +59,9 @@ return [
         "school_or_course" => "任職機關/學程", 
         "subject_teaches" => "任教科系/科目", 
         "title" => "職稱", 
-        "unit" => "服務單位", 
         "unit_county" => "服務單位所在縣市", 
         // "unit_district" => "服務單位所在行政區",
+        "unit" => "服務單位", 
         // "is_blisswisdom" => "參加過福智的活動",
         "blisswisdom_type" => "參加過的福智活動",
         "blisswisdom_type_complement" => "參加過的福智活動註記"
