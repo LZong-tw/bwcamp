@@ -23,7 +23,7 @@
                     @endif
                 @endforeach</td>
                 <td><a href="" class="btn btn-success">修改</a></td>
-                <td><a href="{{ route("editRole", [$user->id, $role_relation->role_data->camp_id ?? ""]) }}" class="btn btn-primary">設定</a></td>
+                <td><a href="{{ route("editRole", [$user->id]) }}" class="btn btn-primary">設定</a></td>
             </tr>
         @endforeach
     </table>
