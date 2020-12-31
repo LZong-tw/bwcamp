@@ -64,7 +64,7 @@ class BackendController extends Controller
 
     public function editRole($user_id){
         $user = \App\User::find($user_id);
-        return view('backend.user.editRole', 
+        return view('backend.user.editUserRole', 
         ['user' => $user, 
         'roles_available' => \App\Models\Role::whereNotIn('id', $user->role_relations->pluck('role_id'))->get()]);
     }
