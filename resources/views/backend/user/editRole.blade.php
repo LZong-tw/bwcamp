@@ -16,6 +16,7 @@
         <tr>
             <th>序號</th>
             <th>名稱</th>
+            <th>等級</th>
             <th>可存取的營隊</th>
             <th>刪除</th>
         </tr>
@@ -23,6 +24,7 @@
             <tr>
                 <td>{{ $role_relation->role_data->id }}</td>
                 <td>{{ $role_relation->role_data->name }}</td>
+                <td>{{ $role_relation->role_data->level }}</td>
                 <td>
                         <a href="{{ route("campIndex", $role_relation->role_data->camp_id ?? "") }}">{{ $role_relation->role_data->camp->abbreviation ?? "" }}</a>
                 </td>
@@ -42,6 +44,7 @@
         <tr>
             <th>序號</th>
             <th>名稱</th>
+            <th>等級</th>
             <th>可存取的營隊</th>
             <th>新增</th>
         </tr>
@@ -49,6 +52,7 @@
             <tr>
                 <td>{{ $role->id }}</td>
                 <td>{{ $role->name }}</td>
+                <td>{{ $role->level }}</td>
                 <td>
                         <a href="{{ route("campIndex", $role->camp_id ?? "") }}">{{ $role->camp->abbreviation ?? "" }}</a>
                 </td>
