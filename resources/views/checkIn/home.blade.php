@@ -30,6 +30,11 @@
         box-shadow: 0 4px 23px 5px rgba(0, 0, 0, 0.2), 0 2px 6px rgba(0, 0, 0, 0.15);
         display: block;
     }
+
+    .footer {
+        background-color: rgb(255, 255, 255);
+        height: ;
+    }
 </style>
 <div class="container">
     <h2 class="mt-4 text-center">福智營隊報到系統</h2>
@@ -124,9 +129,9 @@
     @elseif(isset($applicants) && $applicants->count() == 0)
         <div class="alert alert-danger">查無資料。</div>
     @endif
-    <div class="mb-4 text-center fixed-bottom">
-        今日全區累積報到人數： 
-    </div>
+    <footer class="fixed-bottom footer pb-2 pt-2 text-center">
+        <a href="/checkin/detailedStat" target="blank">今日全區累積報到人數 / 未報到人數： <span id="stat">查詢中</span></a>
+    </footer>
 </div>  
 <div id="CenterDIV">
     <div class="divFloat card-body text-center">
@@ -149,6 +154,42 @@
             @endforeach
         })();
     @endif --}}
+
+    getData('{{ url("") }}/checkin/realtimeStat');
+
+    async function getData(url = '', data = {}) {
+        let first = 1;
+        while (true) {
+            // Default options are marked with *
+            if(first != 1){
+                await new Promise(resolve => setTimeout(resolve, 3000));
+            }
+            first++;            
+            const response = await fetch(url, {
+                method: 'GET', // *GET, POST, PUT, DELETE, etc.
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                redirect: 'follow', // manual, *follow, error
+                referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            }).then((data) => data.json());
+            
+            let data = response;
+
+            if (data.status === 401) {
+                data = {'msg': '<h3 class="text-danger">權限不足，請重新登入</h3>'};
+            }
+            if (data.status === 500) {
+                data = {'msg': '<h3 class="text-danger">發生不明錯誤，無法顯示資料</h3>'};
+            }
+            document.getElementById("stat").innerHTML = data.msg;
+            console.log(data); // JSON data parsed by `response.json()` call
+        }
+    }
 </script>
 <script type="text/javascript">
     let scanner;
