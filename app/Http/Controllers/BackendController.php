@@ -100,6 +100,39 @@ class BackendController extends Controller
         return view('backend.user.rolelist', ['roles' => \App\Models\Role::all()]);
     }
 
+    public function listRemoveRole(Request $request){
+        $result = \App\Models\Role::find($request->role_id)->delete();
+        if($result){
+            \Session::flash('message', "角色刪除成功。");
+            return back();
+        }
+        else{
+            \Session::flash('error', "角色刪除失敗。");
+            return back();
+        }
+    }
+
+    public function listAddRole(Request $request){
+        if ($request->isMethod('GET')) {
+            return view('backend.user.addListRole', ['camps' => Camp::all()]);
+        }
+        if ($request->isMethod('POST')) {
+            $result = new \App\Models\Role;
+            $result->name = $request->name;
+            $result->level = $request->level;
+            $result->camp_id = $request->camp_id;
+            $result->save();
+            if($result){
+                \Session::flash('message', "角色新增成功。");
+                return redirect()->route('rolelist');
+            }
+            else{
+                \Session::flash('error', "角色新增失敗。");
+                return redirect()->route('rolelist');
+            }
+        }
+    }
+
     public function admission(Request $request) {
         if ($request->isMethod('POST')) {
             $candidate = Applicant::find($request->id);
