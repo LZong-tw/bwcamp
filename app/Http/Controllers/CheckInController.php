@@ -116,6 +116,58 @@ class CheckInController extends Controller
         }
     }
 
+    public function realtimeStat() {
+        try{
+            $checkedInCount = CheckIn::where('check_in_date', \Carbon\Carbon::today()->format('Y-m-d'))->count();
+            $applicants = Applicant::join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+                        ->where('batchs.camp_id', $this->camp->id)
+                        ->get();
+            $total = 0;
+            foreach($applicants as $key => $applicant){
+                if($applicant->fee - $applicant->deposit <= 0){
+                    $total++;
+                }
+            }
+            return response()->json([
+                'msg' => $checkedInCount . ' / ' . ($total - $checkedInCount)
+            ]);  
+        }
+        catch(\Exception $e){
+            return response()->json([
+                'msg' => '<h4 class="text-danger">發生未預期錯誤，無法顯示報到人數</h4>'
+            ]);
+        }
+    }
+
+    public function detailedStat(Request $request) {
+        $checkedInData = CheckIn::where('check_in_date', \Carbon\Carbon::today()->format('Y-m-d'))->get();
+        $allApplicants = Applicant::join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+                    ->where('batchs.camp_id', $this->camp->id)
+                    ->get();
+        foreach($allApplicants as $key => $applicant){
+            if($applicant->fee - $applicant->deposit > 0){
+                $allApplicants->forget($key);
+            }
+        }
+        $checkedInApplicants = Applicant::select('batchs.name', \DB::raw('count(*) as count'))
+                    ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+                    ->where('batchs.camp_id', $this->camp->id)
+                    ->whereIn('applicants.id', $checkedInData->pluck('applicant_id'))
+                    ->groupBy('batchs.name')
+                    ->get();
+        $batches = $allApplicants->pluck('batch.name')->unique();
+        $batchArray = array();
+        foreach ($batches as $key => $batch){
+            $tmp = $allApplicants->where('batch.name', $batch);
+            $batchName = $batch;
+            $batchArray[$key]['name'] = $batchName;
+            $batchArray[$key]['checkedInApplicants'] = $checkedInApplicants->where('name', $batch)->first();
+            $batchArray[$key]['checkedInApplicants'] = $batchArray[$key]['checkedInApplicants']->count;
+            $batchArray[$key]['allApplicants'] = $tmp->count();
+        }
+        return view('checkin.detailedStat', compact('checkInData', 'allApplicants', 'checkedInApplicants', 'batchArray'));  
+    }
+
     public function uncheckIn(Request $request) {
         if(CheckIn::where('applicant_id', $request->applicant_id)->where('check_in_date', $request->check_in_date)->first()->delete()){   
             \Session::flash('message', "報消報到成功。");       
