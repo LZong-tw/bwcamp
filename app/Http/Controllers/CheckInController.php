@@ -121,15 +121,10 @@ class CheckInController extends Controller
             $checkedInCount = CheckIn::where('check_in_date', \Carbon\Carbon::today()->format('Y-m-d'))->count();
             $applicants = Applicant::join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                         ->where('batchs.camp_id', $this->camp->id)
-                        ->get();
-            $total = 0;
-            foreach($applicants as $key => $applicant){
-                if($applicant->fee - $applicant->deposit <= 0){
-                    $total++;
-                }
-            }
+                        ->where(\DB::raw('fee - deposit'), '<=', 0)
+                        ->count();
             return response()->json([
-                'msg' => $checkedInCount . ' / ' . ($total - $checkedInCount)
+                'msg' => $checkedInCount . ' / ' . ($applicants - $checkedInCount)
             ]);  
         }
         catch(\Exception $e){
@@ -143,12 +138,8 @@ class CheckInController extends Controller
         $checkedInData = CheckIn::where('check_in_date', \Carbon\Carbon::today()->format('Y-m-d'))->get();
         $allApplicants = Applicant::join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                     ->where('batchs.camp_id', $this->camp->id)
+                    ->where(\DB::raw('fee - deposit'), '<=', 0)
                     ->get();
-        foreach($allApplicants as $key => $applicant){
-            if($applicant->fee - $applicant->deposit > 0){
-                $allApplicants->forget($key);
-            }
-        }
         $checkedInApplicants = Applicant::select('batchs.name', \DB::raw('count(*) as count'))
                     ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                     ->where('batchs.camp_id', $this->camp->id)
