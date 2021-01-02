@@ -60,6 +60,9 @@ Route::get('/user/editRole/{user_id}', 'BackendController@editRole')->name('edit
 Route::post('/user/removeRole', 'BackendController@removeRole')->name('removeRole');
 Route::post('/user/addRole', 'BackendController@addRole')->name('addRole');
 Route::get('/rolelist/{camp_id?}', 'BackendController@rolelist')->name('rolelist');
+Route::post('/listrole/removeRole', 'BackendController@listRemoveRole')->name('listRemoveRole');
+Route::get('/listrole/addRole/{camp_id?}', 'BackendController@listAddRole')->name('listAddRole');
+Route::post('/listrole/addRole/{camp_id?}', 'BackendController@listAddRole')->name('listAddRole');
 
 Route::group(['prefix' => 'checkin', ], function () {
     Route::get('/', 'CheckInController@index');

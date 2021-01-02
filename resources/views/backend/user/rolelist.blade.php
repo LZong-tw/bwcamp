@@ -9,7 +9,17 @@
         }
     </style>
     <h2 class="d-inline-block">權限列表</h2>
-    <a href="" class="btn btn-success d-inline-block" style="margin-bottom: 10px">新增角色</a>
+    @if(Session::has("message"))
+        <div class="alert alert-success" role="alert">
+            {{ Session::get("message") }}
+        </div>
+    @endif
+    @if(Session::has("error"))
+        <div class="alert alert-danger" role="alert">
+            {{ Session::get("error") }}
+        </div>
+    @endif
+    <a href="{{ route('listAddRole', \Request::route('camp_id') ?? "") }}" class="btn btn-success d-inline-block" style="margin-bottom: 10px">新增角色</a>
     <table class="table table-bordered">
         <tr>
             <th>ID</th>
@@ -26,7 +36,17 @@
                 <td>{{ $role->level }}</td>
                 <td><a href="{{ route("campIndex", $role->camp_id ?? "") }}" class="card-link" target="_blank">{{ $role->camp->abbreviation ?? "" }}</a></td>
                 <td><a href="" class="btn btn-primary">修改</a></td>
-                <td><a href="" class="btn btn-danger">刪除</a></td>
+                <td>
+                    @if($role->level > 1)
+                        <form action="{{ route("listRemoveRole") }}" method="post">
+                            @csrf
+                            <input type="hidden" name="role_id" value="{{ $role->id }}">
+                            <input type="submit" class="btn btn-danger" value="刪除">
+                        </form>
+                    @else
+                        無法刪除
+                    @endif
+                </td>
             </tr>
         @endforeach
     </table>
