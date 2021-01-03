@@ -7,6 +7,7 @@
     - 各區：3 以下
 - 報到統計需加上各場次統計圖
 - 後台追加報到功能（for 現場繳費）
+- 營隊管理功能
 - 權限功能完善：各區限制（只能下載自己梯次、可以檢視和改到別梯次）
 - 輔導組表格
 - PaymentForm.blade.php, PaymentFormPDF.blade.php 移出 backend
