@@ -41,6 +41,9 @@ class CampController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function campIndex() {
+        if($this->camp_data->site_url){
+            return redirect()->to($this->camp_data->site_url);
+        }
         return "";
     }
 
