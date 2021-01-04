@@ -35,7 +35,13 @@
                 <td>{{ $role->name }}</td>
                 <td>{{ $role->level }}</td>
                 <td><a href="{{ route("campIndex", $role->camp_id ?? "") }}" class="card-link" target="_blank">{{ $role->camp->abbreviation ?? "" }}</a></td>
-                <td><a href="" class="btn btn-primary">修改</a></td>
+                <td>
+                    @if($role->level > 1)
+                        <a href="" class="btn btn-primary">修改</a>
+                    @else
+                        無法修改
+                    @endif
+                </td>
                 <td>
                     @if($role->level > 1)
                         <form action="{{ route("listRemoveRole") }}" method="post">
