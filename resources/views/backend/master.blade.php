@@ -205,6 +205,11 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="/checkin?t={{ time() }}" target="_blank">報到系統</a>
                             </li>
+                            @if(auth()->user()->getPermission()->level == 1)
+                                <li class="nav-item">
+                                    <a class="nav-link" href="" target="">營隊管理</a>
+                                </li>
+                            @endif
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('backendIndex') }}">選擇營隊</a>
                             </li>
