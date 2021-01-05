@@ -20,6 +20,14 @@
     <script type='text/javascript'>
         google.charts.load('current', {'packages':['corechart','table'], 'language':'zh_TW'});
     </script>
+    <style>
+        .card-link{
+            color: #3F86FB!important;
+        }
+        .card-link:hover{
+            color: #33B2FF!important;
+        }
+    </style>
 </head>
 <body>
     <div class="wrapper">
@@ -203,7 +211,7 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="/checkin?t={{ time() }}" target="_blank">報到系統</a>
+                                <a class="nav-link card-link" href="/checkin?t={{ time() }}" target="_blank">報到系統</a>
                             </li>
                             @if(auth()->user()->getPermission()->level == 1)
                                 <li class="nav-item">

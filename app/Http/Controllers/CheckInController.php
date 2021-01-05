@@ -153,10 +153,10 @@ class CheckInController extends Controller
             $batchName = $batch;
             $batchArray[$key]['name'] = $batchName;
             $batchArray[$key]['checkedInApplicants'] = $checkedInApplicants->where('name', $batch)->first();
-            $batchArray[$key]['checkedInApplicants'] = $batchArray[$key]['checkedInApplicants']->count;
+            $batchArray[$key]['checkedInApplicants'] = $batchArray[$key]['checkedInApplicants']->count ?? 0;
             $batchArray[$key]['allApplicants'] = $tmp->count();
         }
-        return view('checkin.detailedStat', compact('checkInData', 'allApplicants', 'checkedInApplicants', 'batchArray'));  
+        return view('checkin.detailedStat', compact('allApplicants', 'checkedInApplicants', 'batchArray'));  
     }
 
     public function uncheckIn(Request $request) {
