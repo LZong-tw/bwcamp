@@ -18,6 +18,7 @@
 - 文件編寫
     1. https://redoc.ly/
     2. https://readthedocs.org/
+        - 實際為 Sphinx 的託管服務
     3. https://github.com/code-lts/doctum
 
 - 未來：
