@@ -10,6 +10,7 @@ use App\Models\Applicant;
 use App\Models\Batch;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\AdmittedMail;
+use App\Models\CheckIn;
 use View;
 
 class BackendController extends Controller
@@ -807,6 +808,7 @@ class BackendController extends Controller
         ->where('camps.id', $this->campFullData->id)
         ->where('is_admitted', 1)
         ->groupBy('check_in_date')->get();
+        $applicantsCollectionn = clone $applicants;
         $rows = count($applicants);
         $array = $applicants->toArray();
 
@@ -828,8 +830,10 @@ class BackendController extends Controller
             $total = $total + $record['total'];
         }
         $GChartData = json_encode($GChartData);
+        $batches = Batch::where('camp_id', $this->campFullData->id)->get();
+        $checkInDates = $applicantsCollectionn->pluck('check_in_date');
 
-        return view('backend.statistics.checkin', compact('GChartData',  'total'));
+        return view('backend.statistics.checkin', compact('GChartData',  'total', 'applicantsCollectionn', 'batches', 'checkInDates'));
     }
 
     public function showAccountingPage() {
