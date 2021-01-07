@@ -332,7 +332,17 @@ class BackendController extends Controller
             $query = $request->address;
         }
         foreach($applicants as $applicant){
-            $applicant->is_paid = $applicant->fee - $applicant->deposit <= 0 ? "是" : "否";
+            if($applicant->fee > 0){
+                if($applicant->fee - $applicant->deposit <= 0){
+                    $applicant->is_paid = "是";
+                }
+                else{
+                    $applicant->is_paid = "否";
+                }
+            }
+            else{
+                $applicant->is_paid = "無費用";
+            }
         }
         // 報名名單不以繳費與否排序
         // $applicants = $applicants->sortByDesc('is_paid');
@@ -429,7 +439,17 @@ class BackendController extends Controller
         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
         ->where('batch_id', $batch_id)->where('group', $group)->get();
         foreach($applicants as $applicant){
-            $applicant->is_paid = $applicant->fee - $applicant->deposit <= 0 ? "是" : "否";
+            if($applicant->fee > 0){
+                if($applicant->fee - $applicant->deposit <= 0){
+                    $applicant->is_paid = "是";
+                }
+                else{
+                    $applicant->is_paid = "否";
+                }
+            }
+            else{
+                $applicant->is_paid = "無費用";
+            }
         }
         $applicants = $applicants->sortByDesc('is_paid');
         if(isset($request->download)){
