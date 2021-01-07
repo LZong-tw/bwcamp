@@ -814,7 +814,7 @@ class BackendController extends Controller
 
     public function showAccountingPage() {
         $accountingTable = config('camps_payments.' . $this->campFullData->table . '.accounting_table');
-        $accountings = Applicant::select('applicants.batch_id', 'applicants.name as aName', 'applicants.fee as shouldPay', $accountingTable . '.*')
+        $accountings = Applicant::select('applicants.batch_id', 'applicants.name as aName', 'applicants.fee as shouldPay', $accountingTable . '.*', 'applicants.mobile')
             ->with('batch', 'batch.camp')
             ->join($accountingTable, $accountingTable . '.accounting_no', '=', 'applicants.bank_second_barcode')
             ->orderBy($accountingTable . '.id', 'asc')->get();
@@ -847,7 +847,8 @@ class BackendController extends Controller
                             "accounting_no" => "銷帳編號", 
                             "paid_at" => "繳費日期", 
                             "creditted_at" => "入帳日期", 
-                            "name" => "繳費管道"];    
+                            "name" => "繳費管道",
+                            "mobile" => "手機號碼"];    
                 fputcsv($file, $columns);
 
                 foreach ($accountings as $accounting) {
