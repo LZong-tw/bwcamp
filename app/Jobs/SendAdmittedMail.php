@@ -33,6 +33,7 @@ class SendAdmittedMail implements ShouldQueue
     public function handle()
     {
         //
+        sleep(10);
         ini_set('memory_limit', -1);
         ini_set('max_execution_time', 180);
         $applicant = $this->applicant;
