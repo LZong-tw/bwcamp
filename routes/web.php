@@ -48,6 +48,8 @@ Route::group(['prefix' => 'camp/{batch_id}'], function () {
     Route::get('/queryadmit', 'CampController@campViewAdmission')->name('queryadmit');
     Route::post('/queryadmit', 'CampController@campQueryAdmission')->name('queryadmit');
     Route::post('/downloadPaymentForm', 'CampController@downloadPaymentForm')->name('downloadPaymentForm');
+    Route::post('/downloadCheckInNotification', 'CampController@downloadCheckInNotification')->name('downloadCheckInNotification');
+    Route::post('/downloadCheckInQRcode', 'CampController@downloadCheckInQRcode')->name('downloadCheckInQRcode');
     Route::post('/submit', 'CampController@campRegistrationFormSubmitted')->name('formSubmit');
     Route::get('/downloads', 'CampController@showDownloads')->name('showDownloads');
 });
@@ -104,4 +106,6 @@ Route::group(['prefix' => 'backend/{camp_id}', ], function () {
     Route::get('/statistics/admission', 'BackendController@admissionStat')->name('admissionStat');
     Route::get('/statistics/checkin', 'BackendController@checkinStat')->name('checkinStat');
     Route::get('/accounting', 'BackendController@showAccountingPage')->name('accounting');
+    Route::get('/accounting/modify', 'BackendController@modifyAccounting')->name('modifyAccounting');
+    Route::post('/accounting/modify', 'BackendController@modifyAccounting')->name('modifyAccounting');
 });

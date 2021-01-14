@@ -222,17 +222,21 @@ class CampController extends Controller
                 ->where('name', $request->name)->first();
         }
         if($applicant) {
+            $applicant->showCheckInInfo = 0;     
             if($applicant->deposit == 0){
-                $status = "未繳費";
+                $status = "未繳費";            
             }
             elseif($applicant->fee - $applicant->deposit > 0){
                 $status = "已繳部分金額，尚餘" . ($applicant->fee - $applicant->deposit) . "元";
+                $applicant->showCheckInInfo = 1;     
             }
             elseif($applicant->fee - $applicant->deposit < 0){
                 $status = "已繳費，溢繳" . ($applicant->deposit - $applicant->fee) . "元";
+                $applicant->showCheckInInfo = 1;
             }
             else{
                 $status = "已繳費";
+                $applicant->showCheckInInfo = 1;
             }
             $applicant->payment_status = $status;
             return view($campTable . ".admissionResult")->with('applicant', $applicant);
@@ -253,5 +257,18 @@ class CampController extends Controller
                         ->join('camps', 'batchs.camp_id', '=', 'camps.id')
                         ->find($request->applicant_id);
         return \PDF::loadView('backend.registration.paymentFormPDF', compact('applicant'))->download(\Carbon\Carbon::now()->format('YmdHis') . $this->camp_data->table . $applicant->id . '繳費聯.pdf');
+    }
+
+    public function downloadCheckInNotification(Request $request) {
+        $applicant = Applicant::find($request->applicant_id);
+        return \PDF::loadView($this->camp_data->table . '.checkInMail', compact('applicant'))->download(\Carbon\Carbon::now()->format('YmdHis') . $this->camp_data->table . $applicant->id . '報到通知單.pdf');
+    }
+
+    public function downloadCheckInQRcode(Request $request) {
+        $applicant = Applicant::find($request->applicant_id);
+        $qr_code = \DNS2D::getBarcodePNG('{"applicant_id":' . $applicant->id . '}', 'QRCODE');
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($applicant->batch->camp->fullName . ' QR code 報到單<br>場次：' . $applicant->batch->name . '<br>錄取序號：' . $applicant->group . $applicant->number . '<br>姓名：' . $applicant->name . '<br><img src="data:image/png;base64,' . $qr_code . '" alt="barcode" height="200px"/>')->setPaper('a6');
+        return $pdf->download(\Carbon\Carbon::now()->format('YmdHis') . $this->camp_data->table . $applicant->id . 'QR Code 報到單.pdf');
     }
 }

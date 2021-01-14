@@ -9,6 +9,6 @@
         @csrf
         請輸入報名序號或錄取序號：<input type="text" name="snORadmittedSN" class="form-control" placeholder="">
         <br>
-        <input type="submit" class="btn btn-success"" value="送出">
+        <input type="submit" class="btn btn-success" value="送出">
     </form>
 @endsection

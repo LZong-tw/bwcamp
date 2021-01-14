@@ -897,6 +897,10 @@ class BackendController extends Controller
         }
     }
 
+    public function modifyAccounting(){
+        return view("backend.findAccounting");
+    }
+
     public function showJobs(){
         $jobs = \DB::table('jobs')->get();
         $failedJobs = \DB::table('failed_jobs')->get();
