@@ -13,6 +13,8 @@
         <td>組別：{{ $applicant->group }}</td>
     </tr>
 </table>
+<table width="100%" style="table-layout:fixed; border: 0; word-wrap: break-word;">
+<tr><td>        
 @if($applicant->batch->name == "台北")
     <ol>
         <li>報到時間：</li>
@@ -252,6 +254,8 @@
         <li>諮詢窗口：高雄場 胡小姐 (07)9769341#417</li>
     </ol>
 @endif
+</td></tr>
+</table>
 <a class="right">財團法人福智文教基金會　謹此</a><br> 
 <a class="right">{{ \Carbon\Carbon::now()->year }}  年　{{ \Carbon\Carbon::now()->month }}  月 　 {{ \Carbon\Carbon::now()->day }}  日</a>
 </body>
