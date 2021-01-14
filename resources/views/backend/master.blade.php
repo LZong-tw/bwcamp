@@ -125,14 +125,14 @@
                             <li>
                                 <a href="{{ route("showGroupList", $campFullData->id) }}">組別名單查詢/下載<br>寄送錄取通知信<br>寄送報到通知信</a>
                             </li>
+                            <li>
+                                <a href="{{ route("modifyAccounting", $campFullData->id) }}">修改繳費資料</a>
+                            </li>
                         </ul>
                     </li>
                     <li>
                         <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">正行相關</a>
                         <ul class="collapse list-unstyled show" id="pageSubmenu">
-                            {{-- <li>
-                                <a href="{{ route('showFormalGroupList', $campFullData->id) }}">正式錄取組別名單<br>寄送報到通知信</a>
-                            </li> --}}
                             <li>
                                 <a href="#">回覆參加名單</a>
                             </li>
@@ -141,6 +141,9 @@
                             </li>
                             <li>
                                 <a href="#">輔導組表格</a>
+                            </li>
+                            <li>
+                                <a href="{{ route("modifyAccounting", $campFullData->id) }}">現場手動繳費<br>修改繳費資料</a>
                             </li>
                         </ul>
                     </li>
