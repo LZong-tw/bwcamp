@@ -222,17 +222,21 @@ class CampController extends Controller
                 ->where('name', $request->name)->first();
         }
         if($applicant) {
+            $applicant->showCheckInInfo = 0;     
             if($applicant->deposit == 0){
-                $status = "未繳費";
+                $status = "未繳費";            
             }
             elseif($applicant->fee - $applicant->deposit > 0){
                 $status = "已繳部分金額，尚餘" . ($applicant->fee - $applicant->deposit) . "元";
+                $applicant->showCheckInInfo = 1;     
             }
             elseif($applicant->fee - $applicant->deposit < 0){
                 $status = "已繳費，溢繳" . ($applicant->deposit - $applicant->fee) . "元";
+                $applicant->showCheckInInfo = 1;
             }
             else{
                 $status = "已繳費";
+                $applicant->showCheckInInfo = 1;
             }
             $applicant->payment_status = $status;
             return view($campTable . ".admissionResult")->with('applicant', $applicant);
