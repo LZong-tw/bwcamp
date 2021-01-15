@@ -922,6 +922,10 @@ class BackendController extends Controller
         return view("backend.findAccounting");
     }
 
+    public function customMail(Request $request){
+        return view("backend.other.customMail");
+    }
+
     public function showJobs(){
         $jobs = \DB::table('jobs')->get();
         $failedJobs = \DB::table('failed_jobs')->get();
