@@ -70,4 +70,29 @@ class ApplicantService
         $candidate->deposit = $candidate->deposit == null || $candidate->deposit == 0 ? 0 : $candidate->deposit;
         return $candidate;
     }
+
+    public function checkPaymentStatus($applicant){
+        $applicant->showCheckInInfo = 0;     
+        if($applicant->deposit == 0){
+            $status = "未繳費";         
+            if($applicant->fee == 0){
+                $status = "無費用";
+                $applicant->showCheckInInfo = 1;     
+            }   
+        }
+        elseif($applicant->fee - $applicant->deposit > 0){
+            $status = "已繳部分金額，尚餘" . ($applicant->fee - $applicant->deposit) . "元";
+            $applicant->showCheckInInfo = 1;     
+        }
+        elseif($applicant->fee - $applicant->deposit < 0){
+            $status = "已繳費，溢繳" . ($applicant->deposit - $applicant->fee) . "元";
+            $applicant->showCheckInInfo = 1;
+        }
+        else{
+            $status = "已繳費";
+            $applicant->showCheckInInfo = 1;
+        }
+        $applicant->payment_status = $status;
+        return $applicant;
+    }
 }
