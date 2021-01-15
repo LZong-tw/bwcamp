@@ -276,6 +276,11 @@ class BackendController extends Controller
             $batches = Batch::where('camp_id', $this->campFullData->id)->get();
             return view('backend.registration.changeBatchOrRegionForm', compact('candidate', 'batches'));
         }
+        
+        if(\Str::contains(request()->headers->get('referer'), 'accounting')){
+            $candidate = $this->applicantService->checkPaymentStatus($candidate);
+            return view('backend.modifyAccounting', ['applicant' => $candidate]);
+        }
         return view('backend.registration.showCandidate', compact('candidate'));
     }
 
@@ -897,7 +902,23 @@ class BackendController extends Controller
         }
     }
 
-    public function modifyAccounting(){
+    public function modifyAccounting(Request $request){
+        if ($request->isMethod('POST')) {
+            $applicant = Applicant::find($request->id);
+            $admitted_sn = $applicant->group.$applicant->number;
+            if($admitted_sn == $request->double_check){
+                $applicant->deposit = $applicant->fee;
+                $applicant->save();
+                $applicant = $this->applicantService->checkPaymentStatus($applicant);
+                $message = "繳費完成 / 已繳金額設定完成。";
+                return view("backend.modifyAccounting", compact("applicant", "message"));
+            }
+            else{
+                $error = "報名序號錯誤。";
+                $applicant = $this->applicantService->checkPaymentStatus($applicant);
+                return view("backend.modifyAccounting", compact("applicant", "error"));
+            }
+        }
         return view("backend.findAccounting");
     }
 
