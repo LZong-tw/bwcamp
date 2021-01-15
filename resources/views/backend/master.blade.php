@@ -148,7 +148,15 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="{{ route("accounting", $campFullData->id) }}">銷帳資料</a>
+                        <a href="#other" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">其℔℔他</a>
+                        <ul class="collapse list-unstyled show" id="other">
+                            <li>
+                                <a href="{{ route("accounting", $campFullData->id) }}">銷帳資料</a>
+                            </li>
+                            <li>
+                                <a href="{{ route("customMail", $campFullData->id) }}">寄送自定郵件</a>
+                            </li>
+                        </ul>
                     </li>
                 @else
                     <li class="active">

@@ -108,4 +108,5 @@ Route::group(['prefix' => 'backend/{camp_id}', ], function () {
     Route::get('/accounting', 'BackendController@showAccountingPage')->name('accounting');
     Route::get('/accounting/modify', 'BackendController@modifyAccounting')->name('modifyAccounting');
     Route::post('/accounting/modify', 'BackendController@modifyAccounting')->name('modifyAccounting');
+    Route::get('/customMail', 'BackendController@customMail')->name('customMail');
 });
