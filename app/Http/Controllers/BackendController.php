@@ -933,7 +933,7 @@ class BackendController extends Controller
     public function sendCustomMail(Request $request){
         $camp = Camp::find($request->camp_id);
         $batch_ids = $camp->batchs()->pluck('id')->toArray();
-        $receivers = Applicant::select('email')->where('is_admitted', 1)->whereIn('batch_id', $batch_ids)->get();
+        $receivers = Applicant::select('email')->where('is_admitted', 1)->whereNotNull(['group', 'number'])->where([['group', '<>', ''], ['number', '<>', '']])->whereIn('batch_id', $batch_ids)->get();
         $files = array();
         for($i  = 0; $i < 3; $i++){
             if ($request->hasFile('attachment' . $i) && $request->file('attachment' . $i)->isValid()) {

@@ -1,7 +1,7 @@
 @extends('backend.master')
 @section('content')
     <h2>{{ $campFullData->abbreviation }} 寄送自定郵件</h2>
-    <h5>寄送目標：全體錄取人士、檢視/修改寄送目標</h5>
+    <h5>寄送目標：全體錄取人士</h5>
     <form action="{{ route("sendMail", $campFullData->id) }}" method="post" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="target" value="{{ request()->target }}">
