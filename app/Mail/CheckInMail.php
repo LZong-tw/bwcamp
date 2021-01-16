@@ -19,8 +19,7 @@ class CheckInMail extends Mailable
      *
      * @return void
      */
-    public function __construct($applicant, $attachment = null)
-    {
+    public function __construct($applicant, $attachment = null) {
         //
         $this->applicant = $applicant;
         $this->attachment = $attachment;

@@ -926,6 +926,30 @@ class BackendController extends Controller
         return view("backend.other.customMail");
     }
 
+    public function writeCustomMail(Request $request){
+        return view("backend.other.writeMail");
+    }
+
+    public function sendCustomMail(Request $request){
+        $camp = Camp::find($request->camp_id);
+        $batch_ids = $camp->batchs()->pluck('id')->toArray();
+        $receivers = Applicant::select('email')->where('is_admitted', 1)->whereIn('batch_id', $batch_ids)->get();
+        $files = array();
+        for($i  = 0; $i < 3; $i++){
+            if ($request->hasFile('attachment' . $i) && $request->file('attachment' . $i)->isValid()) {
+                $file = $request->file('attachment' . $i);
+                $originalname = $file->getClientOriginalName();
+                $fileName = time().$originalname;
+                $file->storeAs('attachment', $fileName);
+                $files[$i] = $fileName;
+            }
+        }
+        foreach($receivers as $receiver){
+            \Mail::to($receiver)->queue(new \App\Mail\CustomMail($request->subject, $request->content, $files));
+        }
+        return view("backend.other.writeMail");
+    }
+
     public function showJobs(){
         $jobs = \DB::table('jobs')->get();
         $failedJobs = \DB::table('failed_jobs')->get();

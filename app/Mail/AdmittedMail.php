@@ -19,8 +19,7 @@ class AdmittedMail extends Mailable
      *
      * @return void
      */
-    public function __construct($applicant, $campFullData, $attachment = null)
-    {
+    public function __construct($applicant, $campFullData, $attachment = null) {
         //
         $this->applicant = $applicant;
         $this->campFullData = $campFullData;
@@ -32,8 +31,7 @@ class AdmittedMail extends Mailable
      *
      * @return $this
      */
-    public function build()
-    {
+    public function build() {
         return $this->subject($this->campFullData->abbreviation . '錄取通知')
                 ->view($this->campFullData->table . ".admittedMail")
                 ->attachData($this->attachment, '繳費暨錄取通知單' . \Carbon\Carbon::now()->format('YmdHis') . $this->campFullData->table . $this->applicant->group . $this->applicant->number . '.pdf', [
