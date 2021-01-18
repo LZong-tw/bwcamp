@@ -148,7 +148,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#other" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">其℔℔他</a>
+                        <a href="#other" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">其　　他</a>
                         <ul class="collapse list-unstyled show" id="other">
                             <li>
                                 <a href="{{ route("accounting", $campFullData->id) }}">銷帳資料</a>
