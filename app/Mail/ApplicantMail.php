@@ -19,8 +19,7 @@ class ApplicantMail extends Mailable
      *
      * @return void
      */
-    public function __construct($applicant, $campData, $isGetSN = false)
-    {
+    public function __construct($applicant, $campData, $isGetSN = false) {
         //
         $this->applicant = $applicant;
         $this->campData = $campData;
@@ -32,8 +31,7 @@ class ApplicantMail extends Mailable
      *
      * @return $this
      */
-    public function build()
-    {
+    public function build() {
         if(!$this->isGetSN){
             return $this->subject($this->campData->abbreviation . '報名完成')
                     ->view($this->campData->table . ".applicantMail");

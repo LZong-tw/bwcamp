@@ -11,7 +11,7 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 .vscode/launch.json
-
+/storage/attachment
 # Payment reconciliation secrets / samples
 /storage/payment_data/
 /payment flow/上海銀行轉檔程式/bank/Properties_正式.txt
