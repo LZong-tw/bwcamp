@@ -14,7 +14,7 @@ use App\Models\CheckIn;
 use Carbon\Carbon;
 use View;
 
-class BackendController extends Controller
+class AdminController extends Controller
 {
     protected $campDataService, $applicantService, $batch_id, $camp_data, $batch;
     /**
@@ -41,9 +41,6 @@ class BackendController extends Controller
             $this->campFullData = Camp::find($this->camp_id);
             View::share('camp_id', $this->camp_id);
             View::share('campFullData', $this->campFullData);
-        }
-        if(\Str::contains(url()->current(), "campManage")){
-            $this->middleware('admin');
         }
     }
 
@@ -963,13 +960,6 @@ class BackendController extends Controller
     }
 
     public function campManagement(){
-        $camps = Camp::all();
-        return view('backend.camp.list', compact('camps'));
-    }
-
-    public function showBatch($camp_id){
-        $camp = Camp::find($camp_id);
-        $batches = $camp->batchs;
-        return view('backend.camp.batchList', compact('camp', 'batches'));
+        return view('backend.jobs', compact('jobs', 'failedJobs'));
     }
 }

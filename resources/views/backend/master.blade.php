@@ -226,11 +226,11 @@
                             </li>
                             @if(auth()->user()->getPermission()->level == 1)
                                 <li class="nav-item">
-                                    <a class="nav-link" href="" target="">營隊管理</a>
+                                    <a class="nav-link" href="{{ route("campManagement") }}" target="blank">營隊管理</a>
                                 </li>
                             @endif
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('backendIndex') }}">選擇營隊</a>
+                                <a class="nav-link" href="{{ route("backendIndex") }}">選擇營隊</a>
                             </li>
                             @if(isset($campFullData))
                                 <li class="nav-item active">
