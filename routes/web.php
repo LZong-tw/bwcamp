@@ -76,6 +76,11 @@ Route::group(['prefix' => 'checkin', ], function () {
     Route::get('/detailedStat', 'CheckInController@detailedStat');
 });
 
+Route::group(['prefix' => 'backend/campManage'], function(){
+    Route::get('/list', 'BackendController@campManagement')->name("campManagement");
+    Route::get('/batchList/{camp_id}', 'BackendController@showBatch')->name("showBatch");
+});
+
 Route::group(['prefix' => 'backend/{camp_id}', ], function () {
     Route::get('/', 'BackendController@campIndex')->name('campIndex');
     Route::get('/logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('permitted')->name('logs');
@@ -95,8 +100,6 @@ Route::group(['prefix' => 'backend/{camp_id}', ], function () {
     Route::post('/registration/sendCheckInMail', 'BackendController@sendCheckInMail')->name('sendCheckInMail');
     Route::get('/registration/groupList', 'BackendController@showGroupList')->name('showGroupList');
     Route::get('/registration/group/{batch_id}/{group}', 'BackendController@showGroup')->name('showGroup');
-    // Route::get('/formal/groupList', 'BackendController@showFormalGroupList')->name('showFormalGroupList');
-    // Route::get('/formal/group/{batch_id}/{group}', 'BackendController@showFormalGroup')->name('showFormalGroup');
     Route::get('/statistics/appliedDate', 'BackendController@appliedDateStat')->name('appliedDateStat');
     Route::get('/statistics/gender', 'BackendController@genderStat')->name('genderStat');
     Route::get('/statistics/county', 'BackendController@countyStat')->name('countyStat');
