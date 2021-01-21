@@ -9,7 +9,7 @@
         }
     </style>
     <h2 class="d-inline-block">營隊列表</h2>
-    <a href="" class="btn btn-success d-inline-block" style="margin-bottom: 10px">建立營隊</a>
+    <a href="{{ route("showAddCamp") }}" class="btn btn-success d-inline-block" style="margin-bottom: 10px">建立營隊</a>
     <table class="table table-bordered">
         <tr>
             <th>ID</th>
@@ -35,7 +35,7 @@
                 <td>{{ $camp->id }}</td>
                 <td>{{ $camp->fullName }}</td>
                 <td>{{ $camp->abbreviation }}</td>
-                <td><a href="{{ $camp->site_url }}" target="blank">{{ $camp->site_url }}</a></td>
+                <td><a href="{{ $camp->site_url }}" target="_blank">{{ $camp->site_url }}</a></td>
                 <td>{{ $camp->icon }}</td>
                 <td>{{ $camp->table }}</td>
                 <td>{{ $camp->registration_start }}</td>

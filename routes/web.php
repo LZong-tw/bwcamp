@@ -79,6 +79,7 @@ Route::group(['prefix' => 'checkin', ], function () {
 Route::group(['prefix' => 'backend/campManage'], function(){
     Route::get('/list', 'BackendController@campManagement')->name("campManagement");
     Route::get('/batchList/{camp_id}', 'BackendController@showBatch')->name("showBatch");
+    Route::get('/list/add', 'BackendController@showAddCamp')->name("showAddCamp");
 });
 
 Route::group(['prefix' => 'backend/{camp_id}', ], function () {
