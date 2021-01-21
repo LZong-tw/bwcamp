@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Camp;
 use App\Models\Applicant;
 use App\Services\CampDataService;
+use App\Services\ApplicantService;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Mail;
@@ -15,13 +16,14 @@ use View;
 
 class CampController extends Controller
 {
-    protected $campDataService, $batch_id, $camp_data, $admission_announcing_date_Weekday, $admission_confirming_end_Weekday;
+    protected $campDataService, $applicantService, $batch_id, $camp_data, $admission_announcing_date_Weekday, $admission_confirming_end_Weekday;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(CampDataService $campDataService,  Request $request) {
+    public function __construct(CampDataService $campDataService, ApplicantService $applicantService,  Request $request) {
+        $this->applicantService = $applicantService;
         $this->campDataService = $campDataService;
         // 營隊資料，存入 view 全域
         $this->batch_id = $request->route()->parameter('batch_id');

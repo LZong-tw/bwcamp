@@ -11,6 +11,7 @@ use App\Models\Batch;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\AdmittedMail;
 use App\Models\CheckIn;
+use Carbon\Carbon;
 use View;
 
 class BackendController extends Controller
@@ -188,7 +189,7 @@ class BackendController extends Controller
             return view('backend.registration.paymentForm', compact('applicant','download'));
         }
         else{
-            return \PDF::loadView('backend.registration.paymentFormPDF', compact('applicant'))->download(\Carbon\Carbon::now()->format('YmdHis') . $applicant->batch->camp->table . $applicant->id . '.pdf');
+            return \PDF::loadView('backend.registration.paymentFormPDF', compact('applicant'))->download(Carbon::now()->format('YmdHis') . $applicant->batch->camp->table . $applicant->id . '.pdf');
         }
     }
 
@@ -353,7 +354,29 @@ class BackendController extends Controller
         // 報名名單不以繳費與否排序
         // $applicants = $applicants->sortByDesc('is_paid');
         if(isset($request->download)){
-            $fileName = $this->campFullData->abbreviation . $query . \Carbon\Carbon::now()->format('YmdHis') . '.csv';
+            if($applicants){
+                // 各梯次日期填充
+                $checkInDates = array();
+                $batches = Batch::whereIn('id', $applicants->pluck('batch_id'))->get();
+                foreach($batches as $batch){
+                    $date = Carbon::createFromFormat('Y-m-d', $batch->batch_start);
+                    $endDate = Carbon::createFromFormat('Y-m-d', $batch->batch_end);
+                    while(1){
+                        if($date > $endDate){
+                            break;
+                        }
+                        $str = $date->format('Y-m-d');                        
+                        if(!in_array($str, $checkInDates)){
+                            $checkInDates = array_merge($checkInDates, [$str => $str]);
+                        }
+                        $date->addDay();
+                    }
+                }
+                // 報到資料
+                $checkInData = CheckIn::whereIn('applicant_id', $applicants->pluck('sn'))->get();
+            }           
+
+            $fileName = $this->campFullData->abbreviation . $query . Carbon::now()->format('YmdHis') . '.csv';
             $headers = array(
                 "Content-Encoding"    => "Big5",
                 "Content-type"        => "text/csv; charset=big5",
@@ -363,18 +386,38 @@ class BackendController extends Controller
                 "Expires"             => "0"
             );
 
-            $callback = function() use($applicants) {
+            $callback = function() use($applicants, $checkInDates, $checkInData) {
                 $file = fopen('php://output', 'w');
                 // 先寫入此三個字元使 Excel 能正確辨認編碼為 UTF-8
                 // http://jeiworld.blogspot.com/2009/09/phpexcelutf-8csv.html
                 fwrite($file, "\xEF\xBB\xBF");
-                $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table));    
+                if(!isset($checkInDates)){
+                    $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table));  
+                }
+                else{                    
+                    $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $checkInDates);  
+                }  
+                
                 fputcsv($file, $columns);
 
                 foreach ($applicants as $applicant) {
                     $rows = array();
                     foreach($columns as $key => $v){
-                        array_push($rows, '="' . $applicant[$key] . '"');
+                        // 使用正規表示式抓出日期欄
+                        if(preg_match('/\d\d\d\d-\d\d-\d\d/', $key)){
+                            if(isset($checkInData)){
+                                // 填充報到資料
+                                if($checkInData->where('applicant_id', $applicant->sn)->where('check_in_date', '=', $key)->first()){
+                                    array_push($rows, '="Ｏ"');
+                                }
+                                else{
+                                    array_push($rows, '="-"');
+                                }
+                            }
+                        }
+                        else{       
+                            array_push($rows, '="' . $applicant[$key] . '"');
+                        }
                     }
                     fputcsv($file, $rows);
                 }
@@ -459,7 +502,7 @@ class BackendController extends Controller
         }
         $applicants = $applicants->sortByDesc('is_paid');
         if(isset($request->download)){
-            $fileName = $this->campFullData->abbreviation . $group . "組名單" . \Carbon\Carbon::now()->format('YmdHis') . '.csv';
+            $fileName = $this->campFullData->abbreviation . $group . "組名單" . Carbon::now()->format('YmdHis') . '.csv';
             $headers = array(
                 "Content-Encoding"    => "Big5",
                 "Content-type"        => "text/csv; charset=big5",
@@ -540,7 +583,7 @@ class BackendController extends Controller
     //         }
     //     }
     //     if(isset($request->download)){
-    //         $fileName = $this->campFullData->abbreviation . $group . "組名單" . \Carbon\Carbon::now()->format('YmdHis') . '.csv';
+    //         $fileName = $this->campFullData->abbreviation . $group . "組名單" . Carbon::now()->format('YmdHis') . '.csv';
     //         $headers = array(
     //             "Content-Encoding"    => "Big5",
     //             "Content-type"        => "text/csv; charset=big5",
@@ -852,7 +895,7 @@ class BackendController extends Controller
             return view('backend.registration.accounting')->with('accountings', $accountings);
         }
         else{
-            $fileName = $this->campFullData->abbreviation . "銷帳資料" . \Carbon\Carbon::now()->format('YmdHis') . '.csv';
+            $fileName = $this->campFullData->abbreviation . "銷帳資料" . Carbon::now()->format('YmdHis') . '.csv';
             $headers = array(
                 "Content-Encoding"    => "Big5",
                 "Content-type"        => "text/csv; charset=big5",
