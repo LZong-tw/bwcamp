@@ -969,14 +969,34 @@ class BackendController extends Controller
         return view("backend.other.customMail");
     }
 
+    public function selectMailTarget(){
+        $batches = Batch::where('camp_id', $this->camp_id)->get()->all();
+        foreach($batches as &$batch){
+            $batch->regions = Applicant::select('region')->where('batch_id', $batch->id)->where('is_admitted', 1)->groupBy('region')->get();
+            foreach($batch->regions as &$region){
+                $region->groups = Applicant::select('group', \DB::raw('count(*) as count'))->where('batch_id', $batch->id)->where('region', $region->region)->where('is_admitted', 1)->groupBy('group')->get();
+                $region->region = $region->region ?? "其他";
+            }
+        }
+        return view('backend.other.groupList')->with('batches', $batches);
+    }
+
     public function writeCustomMail(Request $request){
         return view("backend.other.writeMail");
     }
 
     public function sendCustomMail(Request $request){
         $camp = Camp::find($request->camp_id);
-        $batch_ids = $camp->batchs()->pluck('id')->toArray();
-        $receivers = Applicant::select('email')->where('is_admitted', 1)->whereNotNull(['group', 'number'])->where([['group', '<>', ''], ['number', '<>', '']])->whereIn('batch_id', $batch_ids)->get();
+        if($request->target == 'all'){ // 全體錄取人士
+            $batch_ids = $camp->batchs()->pluck('id')->toArray();
+            $receivers = Applicant::select('email')->where('is_admitted', 1)->whereNotNull(['group', 'number'])->where([['group', '<>', ''], ['number', '<>', '']])->whereIn('batch_id', $batch_ids)->get();
+        }
+        else if($request->target == 'batch') { // 場次錄取人士
+            $receivers = Applicant::select('email')->where('is_admitted', 1)->whereNotNull(['group', 'number'])->where([['group', '<>', ''], ['number', '<>', '']])->where('batch_id', $request->batch_id)->get();
+        }
+        else if($request->target == 'group') { // 場次組別錄取人士
+            $receivers = Applicant::select('email')->where('is_admitted', 1)->where('group', '=', $request->group_no)->where('batch_id', $request->batch_id)->get();
+        }        
         $files = array();
         for($i  = 0; $i < 3; $i++){
             if ($request->hasFile('attachment' . $i) && $request->file('attachment' . $i)->isValid()) {
@@ -990,7 +1010,7 @@ class BackendController extends Controller
         foreach($receivers as $receiver){
             \Mail::to($receiver)->queue(new \App\Mail\CustomMail($request->subject, $request->content, $files));
         }
-        return view("backend.other.writeMail");
+        return view("backend.other.mailSent", ['message' => '已成功將自定郵件送入任務佇列。']);
     }
 
     public function showJobs(){

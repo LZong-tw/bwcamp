@@ -111,4 +111,5 @@ Route::group(['prefix' => 'backend/{camp_id}', ], function () {
     Route::get('/customMail', 'BackendController@customMail')->name('customMail');
     Route::get('/writeMail', 'BackendController@writeCustomMail')->name('writeMail');
     Route::post('/customMail/send', 'BackendController@sendCustomMail')->name('sendMail');
+    Route::get('/customMail/selectMailTarget', 'BackendController@selectMailTarget')->name('selectMailTarget');
 });
