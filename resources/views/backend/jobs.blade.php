@@ -33,7 +33,7 @@
 <div>
     <h3 class="d-inline-block">Failed Jobs</h3>
     @if(auth()->user()->getPermission()->level == 1)
-        <a href="{{ route("failedJobsClear") }}" target="blank" class="btn btn-danger d-inline-block" style="margin-bottom: 14px">Clear</a>
+        <a href="{{ route("failedJobsClear") }}" target="_blank" class="btn btn-danger d-inline-block" style="margin-bottom: 14px">Clear</a>
     @endif
 </div>
 <table class="table table-bordered">

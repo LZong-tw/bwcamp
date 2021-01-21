@@ -967,6 +967,10 @@ class BackendController extends Controller
         return view('backend.camp.list', compact('camps'));
     }
 
+    public function showAddCamp(){
+        return view('backend.camp.addCamp');
+    }
+
     public function showBatch($camp_id){
         $camp = Camp::find($camp_id);
         $batches = $camp->batchs;
