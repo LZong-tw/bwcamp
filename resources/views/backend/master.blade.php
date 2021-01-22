@@ -226,7 +226,7 @@
                             </li>
                             @if(auth()->user()->getPermission()->level == 1)
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route("campManagement") }}" target="blank">營隊管理</a>
+                                    <a class="nav-link" href="{{ route("campManagement") }}" target="_blank">營隊管理</a>
                                 </li>
                             @endif
                             <li class="nav-item">
