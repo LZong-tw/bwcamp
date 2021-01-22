@@ -12,7 +12,7 @@ class Camp extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'table', 'registration_start', 'registration_end', 'admission_announcing_date', 'admission_confirming_end', 
+        'fullName', 'abbreviation', 'site_url', 'icon', 'table', 'registration_start', 'registration_end', 'admission_announcing_date', 'admission_confirming_end', 'final_registration_end', 'payment_startdate', 'payment_deadline', 'fee'
     ];
 
     protected $guarded = [];

@@ -968,7 +968,28 @@ class BackendController extends Controller
     }
 
     public function showAddCamp(){
-        return view('backend.camp.addCamp');
+        return view('backend.camp.campForm', ["action" => "建立", "actionURL" => route("addCamp")]);
+    }
+
+    public function showModifyCamp($camp_id){
+        $camp = Camp::find($camp_id);
+        return view('backend.camp.campForm', ["action" => "修改", "actionURL" => null, "camp" => $camp]);
+    }
+
+    public function addCamp(Request $request){
+        $formData = $request->toArray();
+        $camp = Camp::create($formData);
+        \Session::flsh('message', $camp->name . " 新增成功。");
+        return redirect()->route("campManagement");
+    }
+
+    public function modifyCamp(Request $request, $camp_id){
+        $formData = $request->toArray();
+        $camp = Camp::find($camp_id);
+        $camp->update($formData);
+        $campName = $formData["abbreviation"];
+        \Session::flash('message', $campName . " 修改成功。");
+        return redirect()->route("campManagement");
     }
 
     public function showBatch($camp_id){

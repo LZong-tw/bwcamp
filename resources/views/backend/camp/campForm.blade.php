@@ -13,31 +13,31 @@
             color: red;
         }
     </style>
-    <h2>建立營隊</h2>
-    <form action="" method="POST">
+    <h2>{{ $action }}營隊</h2>
+    <form action="{{ $actionURL }}" method="POST">
         @csrf
         <div class='row form-group required'>
             <label for='inputName' class='col-md-1 control-label'>全名</label>
             <div class='col-md-6'>
-                <input type="text" name="fullName" id="" class='form-control' required>
+                <input type="text" name="fullName" id="" class='form-control' required value="{{ $camp->fullName ?? "" }}">
             </div>
         </div>
         <div class='row form-group required'>
             <label for='inputName' class='col-md-1 control-label'>簡稱</label>
             <div class='col-md-6'>
-                <input type="text" name="abbreviation" id="" class='form-control' required>
+                <input type="text" name="abbreviation" id="" class='form-control' required value="{{ $camp->abbreviation ?? "" }}">
             </div>
         </div>
         <div class='row form-group'>
             <label for='inputName' class='col-md-1 control-label'>網站網址</label>
             <div class='col-md-6'>
-                <input type="text" name="site_url" id="" class='form-control'>
+                <input type="text" name="site_url" id="" class='form-control' value="{{ $camp->site_url ?? "" }}">
             </div>
         </div>
         <div class='row form-group'>
             <label for='inputName' class='col-md-1 control-label'>圖示</label>
             <div class='col-md-6'>
-                <input type="text" name="icon" id="" class='form-control'>
+                <input type="text" name="icon" id="" class='form-control' value="{{ $camp->icon ?? "" }}">
             </div>
         </div>
         <div class='row form-group required'>
@@ -45,61 +45,64 @@
             <div class='col-md-6'>
                 <select name="table" id="" class='form-control' required>
                     <option value="">請選擇</option>
-                    <option value="tcamp">教師營</option>
-                    <option value="ycamp">大專營</option>
-                    <option value="ecamp">企業營</option>
+                    <option value="tcamp" @if($camp->table == "tcamp") selected @endif>教師營</option>
+                    <option value="ycamp" @if($camp->table == "ycamp") selected @endif>大專營</option>
+                    <option value="ecamp" @if($camp->table == "ecamp") selected @endif>企業營</option>
                 </select>
             </div>
         </div>
         <div class='row form-group required'>
             <label for='inputName' class='col-md-1 control-label'>報名開始日</label>
             <div class='col-md-6'>
-                <input type="date" name="registration_start" id="" class='form-control' required>
+                <input type="date" name="registration_start" id="" class='form-control' required value="{{ $camp->registration_start ?? "" }}">
             </div>
         </div>
         <div class='row form-group required'>
             <label for='inputName' class='col-md-1 control-label'>報名結束日</label>
             <div class='col-md-6'>
-                <input type="date" name="registration_end" id="" class='form-control' required>
+                <input type="date" name="registration_end" id="" class='form-control' required value="{{ $camp->registration_end ?? "" }}">
             </div>
         </div>
         <div class='row form-group required'>
             <label for='inputName' class='col-md-1 control-label'>錄取公佈日</label>
             <div class='col-md-6'>
-                <input type="date" name="admission_announcing_date" id="" class='form-control' required>
+                <input type="date" name="admission_announcing_date" id="" class='form-control' required value="{{ $camp->admission_announcing_date ?? "" }}">
             </div>
         </div>
         <div class='row form-group'>
             <label for='inputName' class='col-md-1 control-label'>回覆參加截止日</label>
             <div class='col-md-6'>
-                <input type="date" name="admission_confirming_end" id="" class='form-control'>
+                <input type="date" name="admission_confirming_end" id="" class='form-control' value="{{ $camp->admission_confirming_end ?? "" }}">
             </div>
         </div>
         <div class='row form-group'>
             <label for='inputName' class='col-md-1 control-label'>後台報名結束日</label>
             <div class='col-md-6'>
-                <input type="date" name="final_registration_end" id="" class='form-control'>
+                <input type="date" name="final_registration_end" id="" class='form-control' value="{{ $camp->final_registration_end ?? "" }}">
             </div>
         </div>
         <div class='row form-group'>
             <label for='inputName' class='col-md-1 control-label'>繳費開始日</label>
             <div class='col-md-6'>
-                <input type="date" name="payment_startdate" id="" class='form-control'>
+                <input type="date" name="payment_startdate" id="" class='form-control' value="{{ $camp->payment_startdate ?? "" }}">
             </div>
         </div>
         <div class='row form-group'>
             <label for='inputName' class='col-md-1 control-label'>繳費截止日</label>
             <div class='col-md-6'>
-                <input type="date" name="payment_deadline" id="" class='form-control'>
+                <input type="date" name="payment_deadline" id="" class='form-control' value="{{ $camp->payment_deadline ?? "" }}">
             </div>
         </div>
         <div class='row form-group'>
             <label for='inputName' class='col-md-1 control-label'>營隊費用</label>
             <div class='col-md-6'>
-                <input type="number" name="fee" id="" class='form-control'>
+                <input type="number" name="fee" id="" class='form-control' value="{{ $camp->fee ?? "" }}">
             </div>
         </div>
-
-        <input type="submit" class="btn btn-success" value="新增">
+        @if($action == "建立")
+            <input type="submit" class="btn btn-success" value="建立營隊">
+        @else
+            <input type="submit" class="btn btn-success" value="修改營隊">
+        @endif
     </form>
 @endsection

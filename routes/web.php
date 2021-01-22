@@ -80,6 +80,9 @@ Route::group(['prefix' => 'backend/campManage'], function(){
     Route::get('/list', 'BackendController@campManagement')->name("campManagement");
     Route::get('/batchList/{camp_id}', 'BackendController@showBatch')->name("showBatch");
     Route::get('/list/add', 'BackendController@showAddCamp')->name("showAddCamp");
+    Route::post('/list/add', 'BackendController@addCamp')->name("addCamp");
+    Route::get('/list/modify/{camp_id}', 'BackendController@showModifyCamp')->name("showModifyCamp");
+    Route::post('/list/modify/{camp_id}', 'BackendController@modifyCamp')->name("modifyCamp");
 });
 
 Route::group(['prefix' => 'backend/{camp_id}', ], function () {

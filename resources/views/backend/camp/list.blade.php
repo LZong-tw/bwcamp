@@ -10,6 +10,11 @@
     </style>
     <h2 class="d-inline-block">營隊列表</h2>
     <a href="{{ route("showAddCamp") }}" class="btn btn-success d-inline-block" style="margin-bottom: 10px">建立營隊</a>
+    @if(\Session::has('message'))
+        <div class='alert alert-success' role='alert'>
+            {{ \Session::get('message') }}
+        </div>
+    @endif
     <table class="table table-bordered">
         <tr>
             <th>ID</th>
@@ -50,7 +55,7 @@
                 <td>{{ $camp->updated_at }}</td>
                 <td>
                     <a href="{{ route("showBatch", $camp->id) }}" class="btn btn-success" target="_blank">場次列表</a>
-                    <a href="" class="btn btn-primary">修改</a></td>
+                    <a href="{{ route("showModifyCamp", $camp->id) }}" class="btn btn-primary">修改</a></td>
             </tr>
         @endforeach
     </table>
