@@ -25,7 +25,7 @@
         <div class='row form-group'>
             <label for='inputName' class='col-md-1 control-label'>錄取編號前綴</label>
             <div class='col-md-6'>
-                <input type="text" name="admission_suffix" length="1" class='form-control' value="{{ $batch->admission_suffix ?? "" }}">
+                <input type="text" name="admission_suffix" maxlength="1" class='form-control' value="{{ $batch->admission_suffix ?? "" }}">
             </div>
         </div>
         <div class='row form-group'>
@@ -71,7 +71,7 @@
         <div class='row form-group'>
             <label for='inputName' class='col-md-1 control-label'>報到日</label>
             <div class='col-md-6'>
-                <input type="text" name="check_in_day" id="" class='form-control' value="{{ $batch->check_in_day ?? "" }}">
+                <input type="date" name="check_in_day" id="" class='form-control' value="{{ $batch->check_in_day ?? "" }}">
             </div>
         </div>
         <div class='row form-group'>
