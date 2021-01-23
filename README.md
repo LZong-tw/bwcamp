@@ -6,7 +6,7 @@
 - PaymentForm.blade.php, PaymentFormPDF.blade.php 移出 backend
 - 使用 Queue 郵寄所有信件
 - 後台可修改 Email、姓名、身份證字號
-- 營隊管理：刪除功能？
+- 營隊管理：刪除營隊、場次功能？
 - 權限功能完善：各區限制（只能下載自己梯次、可以檢視和改到別梯次）
 - 查詢功能下載全區資料，依日期顯示是否已報到
     (Optional)
@@ -14,6 +14,7 @@
     - 各區：3 以下
 - 輔導組表格
 - 不同營隊不同郵寄地址
+- 營隊資料跨年度統計
 - 文件編寫
     1. https://redoc.ly/
     2. https://readthedocs.org/

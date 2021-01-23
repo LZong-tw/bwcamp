@@ -28,6 +28,7 @@
                 <th>地點</th>
                 <th>報到日</th>
                 <th>電話</th>
+                <th>刪除</th>
             </tr>
             <tr>
                 <td>
@@ -63,10 +64,12 @@
                 <td>
                     <input type="text" name="tel[]" id="" class="form-control">
                 </td>
+                <td>
+                    －
+                </td>
             </tr>
         </table>
-        <a href="#" class="btn btn-primary" onclick="addRow()">新增場次</a>
-        <br><br>
+        <a href="#" class="btn btn-primary float-right" onclick="addRow()">新增場次</a>
         <input type="submit" class="btn btn-success" value="送出">
     </form>
     <script>
@@ -104,6 +107,9 @@
                 '<td>' + 
                     '<input type="text" name="tel[]" id="" class="form-control">' + 
                 '</td>' + 
+                '<td>' +
+                    '<a href="#" class="btn btn-danger" onclick="this.parentNode.parentNode.remove()">Ｘ</a>'
+                '</td>' +
             '</tr>';
             function addRow(){
                 var tbl = document.getElementById("form"); 
