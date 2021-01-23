@@ -9,7 +9,12 @@
         }
     </style>
     <h2 class="d-inline-block">{{ $camp->abbreviation }} 場次列表</h2>
-    <a href="" class="btn btn-success d-inline-block" style="margin-bottom: 10px">建立場次</a>
+    <a href="{{ route("showAddBatch", $camp->id) }}" class="btn btn-success d-inline-block" style="margin-bottom: 10px">建立場次</a>
+    @if(\Session::has('message'))
+        <div class='alert alert-success' role='alert'>
+            {{ \Session::get('message') }}
+        </div>
+    @endif
     <table class="table table-bordered">
         <tr>
             <th>ID</th>
@@ -42,9 +47,7 @@
                 <td>{{ $batch->tel }}</td>
                 <td>{{ $batch->created_at }}</td>
                 <td>{{ $batch->updated_at }}</td>
-                <td>
-                    <a href="{{ route("showBatch", $batch->id) }}" class="btn btn-success">場次列表</a>
-                    <a href="" class="btn btn-primary">修改</a></td>
+                <td><a href="{{ route("showModifyBatch", [$camp->id, $batch->id]) }}" class="btn btn-primary">修改</a></td>
             </tr>
         @endforeach
     </table>

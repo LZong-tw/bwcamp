@@ -83,6 +83,10 @@ Route::group(['prefix' => 'backend/campManage'], function(){
     Route::post('/list/add', 'BackendController@addCamp')->name("addCamp");
     Route::get('/list/modify/{camp_id}', 'BackendController@showModifyCamp')->name("showModifyCamp");
     Route::post('/list/modify/{camp_id}', 'BackendController@modifyCamp')->name("modifyCamp");
+    Route::get('/batchList/{camp_id}/add', 'BackendController@showAddBatch')->name("showAddBatch");
+    Route::post('/batchList/{camp_id}/add', 'BackendController@addBatches')->name("addBatch");
+    Route::get('/batchList/{camp_id}/{batch_id}/modify', 'BackendController@showModifyBatch')->name("showModifyBatch");
+    Route::post('/batchList/{camp_id}/{batch_id}/modify', 'BackendController@modifyBatch')->name("modifyBatches");
 });
 
 Route::group(['prefix' => 'backend/{camp_id}', ], function () {

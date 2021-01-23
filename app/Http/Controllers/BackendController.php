@@ -997,4 +997,45 @@ class BackendController extends Controller
         $batches = $camp->batchs;
         return view('backend.camp.batchList', compact('camp', 'batches'));
     }
+
+    public function showAddBatch($camp_id){
+        $camp = Camp::find($camp_id);
+        return view('backend.camp.addBatch', ["camp" => $camp]);
+    }
+
+    public function addBatches(Request $request, $camp_id){
+        $formData = $request->toArray();
+        $newSet = array();
+        $batches = count($formData['name']);
+        for($i = 0; $i < $batches; $i++){
+            foreach($formData as $key => $field){
+                if($key == 'is_late_registration_end' && $field[$i] == ''){
+                    continue;
+                }
+                if($key != '_token'){
+                    $newSet[$i][$key] = $field[$i];
+                }
+            }
+            $newSet[$i]['camp_id'] = $camp_id;
+            Batch::create($newSet[$i]);
+        }
+        // dd($newSet);
+        \Session::flash('message', " 場次新增成功。");
+        return redirect()->route("showBatch", $camp_id);
+    }
+
+    public function showModifyBatch($camp_id, $batch_id){
+        $camp = Camp::find($camp_id);
+        $batch = Batch::find($batch_id);
+        return view('backend.camp.modifyBatch', compact("camp", "batch"));
+    }
+
+    public function modifyBatch(Request $request, $camp_id, $batch_id){
+        $formData = $request->toArray();
+        $batch = Batch::find($batch_id);
+        $batch->update($formData);
+        $campName = Camp::find($camp_id)->abbreviation;
+        \Session::flash('message', $campName . " " . $batch->name . " 修改成功。");
+        return redirect()->route("showBatch", $camp_id);
+    }
 }
