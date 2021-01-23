@@ -18,11 +18,11 @@
         @csrf
         <table class="table table-bordered table-hover" id="form">
             <tr>
-                <th>名稱</th>
-                <th>錄取編號前綴</th>
+                <th width="82px">名稱</th>
+                <th width="65px">錄取編號前綴</th>
                 <th>場次開始日</th>
                 <th>場次結束日</th>
-                <th>是否延後截止報名</th>
+                <th width="90px">是否延後截止報名</th>
                 <th>報名延後截止日</th>
                 <th>地點名</th>
                 <th>地點</th>
@@ -32,16 +32,16 @@
             </tr>
             <tr>
                 <td>
-                    <input type="text" name="name[]" id="" class="form-control">
+                    <input type="text" name="name[]" id="" class="form-control" required>
                 </td>
                 <td>
-                    <input type="text" name="admission_suffix[]" length="1" class="form-control">
+                    <input type="text" name="admission_suffix[]" maxlength="1" class="form-control" required>
                 </td>
                 <td>
-                    <input type="date" name="batch_start[]" id="" class="form-control">
+                    <input type="date" name="batch_start[]" id="" class="form-control" required>
                 </td>
                 <td>
-                    <input type="date" name="batch_end[]" id="" class="form-control">
+                    <input type="date" name="batch_end[]" id="" class="form-control" required>
                 </td>
                 <td>
                     <select name="is_late_registration_end[]" id="" class="form-control">
@@ -59,7 +59,7 @@
                     <input type="text" name="location[]" id="" class="form-control">
                 </td>
                 <td>
-                    <input type="text" name="check_in_day[]" id="" class="form-control">
+                    <input type="date" name="check_in_day[]" id="" class="form-control">
                 </td>
                 <td>
                     <input type="text" name="tel[]" id="" class="form-control">
@@ -75,16 +75,16 @@
     <script>
         let ele = '<tr>' + 
                 '<td>' + 
-                    '<input type="text" name="name[]" id="" class="form-control">' + 
+                    '<input type="text" name="name[]" id="" class="form-control" required>' + 
                 '</td>' + 
                 '<td>' + 
-                    '<input type="text" name="admission_suffix[]" length="1" class="form-control">' + 
+                    '<input type="text" name="admission_suffix[]" length="1" class="form-control" required>' + 
                 '</td>' + 
                 '<td>' + 
-                    '<input type="date" name="batch_start[]" id="" class="form-control">' + 
+                    '<input type="date" name="batch_start[]" id="" class="form-control" required>' + 
                 '</td>' + 
                 '<td>' + 
-                    '<input type="date" name="batch_end[]" id="" class="form-control">' + 
+                    '<input type="date" name="batch_end[]" id="" class="form-control" required>' + 
                 '</td>' + 
                 '<td>' + 
                     '<select name="is_late_registration_end[]" id="" class="form-control">' + 
@@ -102,7 +102,7 @@
                     '<input type="text" name="location[]" id="" class="form-control">' + 
                 '</td>' + 
                 '<td>' + 
-                    '<input type="text" name="check_in_day[]" id="" class="form-control">' + 
+                    '<input type="date" name="check_in_day[]" id="" class="form-control">' + 
                 '</td>' + 
                 '<td>' + 
                     '<input type="text" name="tel[]" id="" class="form-control">' + 
