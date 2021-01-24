@@ -39,7 +39,7 @@ class SendCheckInMail implements ShouldQueue
         $applicant = $this->applicant;
         $qr_code = \DNS2D::getBarcodePNG('{"applicant_id":' . $applicant->id . '}', 'QRCODE');
         $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadHTML($this->applicant->batch->camp->fullName . ' QR code 報到單<br>場次：' . $applicant->batch->name . '<br>錄取序號：' . $applicant->group . $applicant->number . '<br>姓名：' . $applicant->name . '<br><img src="data:image/png;base64,' . $qr_code . '" alt="barcode" height="200px"/>')->setPaper('a6');
+        $pdf->loadHTML($this->applicant->batch->camp->fullName . ' QR code 報到單<br>梯次：' . $applicant->batch->name . '<br>錄取序號：' . $applicant->group . $applicant->number . '<br>姓名：' . $applicant->name . '<br><img src="data:image/png;base64,' . $qr_code . '" alt="barcode" height="200px"/>')->setPaper('a6');
         $attachment =  $pdf->stream();
         \Mail::to($applicant->email)->send(new \App\Mail\CheckInMail($applicant, $attachment));
     }

@@ -6,7 +6,7 @@
 <h2 class="center">{{ $applicant->batch->camp->fullName }} 錄取繳費通知單</h2>
 <table width="100%" style="table-layout:fixed; border: 0;">
     <tr>
-        <td>場次：{{ $applicant->batch->name }}</td>
+        <td>梯次：{{ $applicant->batch->name }}</td>
         <td>姓名：{{ $applicant->name }}</td>
         <td>錄取編號：{{ $applicant->group }}{{ $applicant->number }}</td>
         <td>組別：{{ $applicant->group }}</td>

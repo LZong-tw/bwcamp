@@ -13,15 +13,15 @@
             color: red;
         }
     </style>
-    <h2>{{ $camp->abbreviation }} 建立場次</h2>
+    <h2>{{ $camp->abbreviation }} 建立梯次</h2>
     <form action="{{ route("addBatch", $camp->id) }}" method="POST">
         @csrf
         <table class="table table-bordered table-hover" id="form">
             <tr>
                 <th width="82px">名稱</th>
                 <th width="65px">錄取編號前綴</th>
-                <th>場次開始日</th>
-                <th>場次結束日</th>
+                <th>梯次開始日</th>
+                <th>梯次結束日</th>
                 <th width="90px">是否延後截止報名</th>
                 <th>報名延後截止日</th>
                 <th>地點名</th>
@@ -69,7 +69,7 @@
                 </td>
             </tr>
         </table>
-        <a href="#" class="btn btn-primary float-right" onclick="addRow()">新增場次</a>
+        <a href="#" class="btn btn-primary float-right" onclick="addRow()">新增梯次</a>
         <input type="submit" class="btn btn-success" value="送出">
     </form>
     <script>

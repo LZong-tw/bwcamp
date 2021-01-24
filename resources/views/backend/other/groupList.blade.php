@@ -8,7 +8,7 @@
             color: #33B2FF!important;
         }
     </style>
-    <h2>{{ $campFullData->abbreviation }} 自定郵件指定場次/組別名單</h2>
+    <h2>{{ $campFullData->abbreviation }} 自定郵件指定梯次/組別名單</h2>
     @foreach ($batches as $batch)
         <h4 class="card-link"><a href="{{ route("writeMail", $campFullData->id) }}?target=batch&batch_id={{ $batch->id }}">梯次：{{ $batch->name }}</a></h4>
         <table>

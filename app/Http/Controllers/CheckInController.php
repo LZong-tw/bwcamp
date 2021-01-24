@@ -86,7 +86,7 @@ class CheckInController extends Controller
                     'msg' => '<h4 class="text-danger">找不到報名資料，請檢查後重試</h4>'
                 ]);
             }
-            $str = '場次：' . $applicant->batch->name . '<br>錄取序號：' . $applicant->group . $applicant->number . '<br>姓名：' . $applicant->name;
+            $str = '梯次：' . $applicant->batch->name . '<br>錄取序號：' . $applicant->group . $applicant->number . '<br>姓名：' . $applicant->name;
             if($applicant->deposit - $applicant->fee < 0){   
                 return response()->json([
                     'msg' => $str . '<h4 class="text-danger">未繳費，無法報到</h4>'
