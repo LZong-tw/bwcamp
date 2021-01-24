@@ -57,14 +57,16 @@ Route::group(['prefix' => 'camp/{batch_id}'], function () {
 Route::get('/backend', 'BackendController@masterIndex')->name('backendIndex');
 Route::get('/jobs/{camp_id?}', 'BackendController@showJobs')->name('jobs');
 Route::get('/failedJobsClear', 'BackendController@failedJobsClear')->name('failedJobsClear');
-Route::get('/userlist/{camp_id?}', 'BackendController@userlist')->name('userlist');
-Route::get('/user/editRole/{user_id}', 'BackendController@editRole')->name('editRole');
-Route::post('/user/removeRole', 'BackendController@removeRole')->name('removeRole');
-Route::post('/user/addRole', 'BackendController@addRole')->name('addRole');
-Route::get('/rolelist/{camp_id?}', 'BackendController@rolelist')->name('rolelist');
-Route::post('/listrole/removeRole', 'BackendController@listRemoveRole')->name('listRemoveRole');
-Route::get('/listrole/addRole/{camp_id?}', 'BackendController@listAddRole')->name('listAddRole');
-Route::post('/listrole/addRole/{camp_id?}', 'BackendController@listAddRole')->name('listAddRole');
+Route::middleware(['admin'])->group(function () {
+    Route::get('/userlist/{camp_id?}', 'BackendController@userlist')->name('userlist');
+    Route::get('/user/editRole/{user_id}', 'BackendController@editRole')->name('editRole');
+    Route::post('/user/removeRole', 'BackendController@removeRole')->name('removeRole');
+    Route::post('/user/addRole', 'BackendController@addRole')->name('addRole');
+    Route::get('/rolelist/{camp_id?}', 'BackendController@rolelist')->name('rolelist');
+    Route::post('/listrole/removeRole', 'BackendController@listRemoveRole')->name('listRemoveRole');
+    Route::get('/listrole/addRole/{camp_id?}', 'BackendController@listAddRole')->name('listAddRole');
+    Route::post('/listrole/addRole/{camp_id?}', 'BackendController@listAddRole')->name('listAddRole');
+});
 
 Route::group(['prefix' => 'checkin', ], function () {
     Route::get('/', 'CheckInController@index');

@@ -46,20 +46,16 @@ class CampDataService
      * @return \App\Models\Camp
      */
     public function getAvailableCamps($permission) {
-        $camps = null;
-        if($permission->level == 1) {
-            $camps = Camp::all();
+        $camps = array();
+        foreach($permission as $p){
+            if($p->role->level == 1) {
+                $camps = Camp::all();
+                break;
+            }
+            else if($p->role->level >= 2 && $p->role->level <= 4) {
+                array_push($camps, Camp::where('id', $p->role->camp_id)->first());
+            }
         }
-        else if($permission->level == 2) {
-            $camps = Camp::whereIn('id', [$permission->camp_id])->get()->all();
-        }
-        else if($permission->level == 3) {
-            $camps = Camp::whereIn('id', [$permission->camp_id])->get()->all();
-        }
-        else if($permission->level == 4) {
-            $camps = Camp::whereIn('id', [$permission->camp_id])->get()->all();
-        }
-
         return $camps;
     }
 

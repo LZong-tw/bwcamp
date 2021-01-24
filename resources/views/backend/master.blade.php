@@ -180,9 +180,11 @@
                 <li>
                     <a href="{{ route("jobs", $campFullData->id ?? "") }}">任務佇列</a>
                 </li>
-                <li>
-                    <a href="{{ route("logs", $campFullData->id ?? "0") }}" target="_blank">系統日誌</a>
-                </li>
+                @if(auth()->user()->getPermission()->level == 1)
+                    <li>
+                        <a href="{{ route("logs", $campFullData->id ?? "0") }}" target="_blank">系統日誌</a>
+                    </li>
+                @endif
                 <li>
                     <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         {{-- {{ __('Logout') }} --}}

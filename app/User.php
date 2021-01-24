@@ -39,13 +39,13 @@ class User extends Authenticatable
     
     public function getPermission($all = false, $camp_id = null, $function_id = null) {
         if(!$all){
-            $hasRole = $this->role_relations()->first();
+            $hasRole = \App\Models\RoleUser::join('roles', 'roles.id', '=', 'role_user.role_id')->where('user_id', $this->id)->orderBy('level', 'asc')->get();
             if(!$hasRole){
                 $empty = new \App\Models\Role;
                 $empty->level = 999;
                 return $empty;
             }
-            return $hasRole->role()->first();
+            return $hasRole->first();
         }
         elseif($all && $camp_id){
             
