@@ -14,7 +14,7 @@
         @endif
         <p>
             <h5>{{ $candidate->name }}({{ $candidate->gender }})</h5>
-            場次：{{ $candidate->batch->name }} <br>
+            梯次：{{ $candidate->batch->name }} <br>
             報名序號：{{ $candidate->id }} <br>
             報名日期：{{ $candidate->created_at }} <br>
             @if($candidate->region)

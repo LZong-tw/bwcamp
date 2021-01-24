@@ -931,10 +931,10 @@ class BackendController extends Controller
             $batch_ids = $camp->batchs()->pluck('id')->toArray();
             $receivers = Applicant::select('email')->where('is_admitted', 1)->whereNotNull(['group', 'number'])->where([['group', '<>', ''], ['number', '<>', '']])->whereIn('batch_id', $batch_ids)->get();
         }
-        else if($request->target == 'batch') { // 場次錄取人士
+        else if($request->target == 'batch') { // 梯次錄取人士
             $receivers = Applicant::select('email')->where('is_admitted', 1)->whereNotNull(['group', 'number'])->where([['group', '<>', ''], ['number', '<>', '']])->where('batch_id', $request->batch_id)->get();
         }
-        else if($request->target == 'group') { // 場次組別錄取人士
+        else if($request->target == 'group') { // 梯次組別錄取人士
             $receivers = Applicant::select('email')->where('is_admitted', 1)->where('group', '=', $request->group_no)->where('batch_id', $request->batch_id)->get();
         }        
         $files = array();
@@ -1020,7 +1020,7 @@ class BackendController extends Controller
             $newSet[$i]['camp_id'] = $camp_id;
             Batch::create($newSet[$i]);
         }
-        \Session::flash('message', " 場次新增成功。");
+        \Session::flash('message', " 梯次新增成功。");
         return redirect()->route("showBatch", $camp_id);
     }
 

@@ -8,8 +8,8 @@
             color: #33B2FF!important;
         }
     </style>
-    <h2 class="d-inline-block">{{ $camp->abbreviation }} 場次列表</h2>
-    <a href="{{ route("showAddBatch", $camp->id) }}" class="btn btn-success d-inline-block" style="margin-bottom: 10px">建立場次</a>
+    <h2 class="d-inline-block">{{ $camp->abbreviation }} 梯次列表</h2>
+    <a href="{{ route("showAddBatch", $camp->id) }}" class="btn btn-success d-inline-block" style="margin-bottom: 10px">建立梯次</a>
     @if(\Session::has('message'))
         <div class='alert alert-success' role='alert'>
             {{ \Session::get('message') }}
@@ -18,10 +18,10 @@
     <table class="table table-bordered">
         <tr>
             <th>ID</th>
-            <th>場次名</th>
+            <th>梯次名</th>
             <th>錄取編號前綴</th>
-            <th>場次開始日</th>
-            <th>場次結束日</th>
+            <th>梯次開始日</th>
+            <th>梯次結束日</th>
             <th>是否延後截止報名</th>
             <th>報名延後截止日 </th>
             <th>地點名</th>

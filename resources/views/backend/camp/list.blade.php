@@ -54,7 +54,7 @@
                 <td>{{ $camp->created_at }}</td>
                 <td>{{ $camp->updated_at }}</td>
                 <td>
-                    <a href="{{ route("showBatch", $camp->id) }}" class="btn btn-success" target="_blank">場次列表</a>
+                    <a href="{{ route("showBatch", $camp->id) }}" class="btn btn-success" target="_blank">梯次列表</a>
                     <a href="{{ route("showModifyCamp", $camp->id) }}" class="btn btn-primary">修改</a></td>
             </tr>
         @endforeach

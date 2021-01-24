@@ -129,7 +129,7 @@
         <div class="alert alert-danger">查無資料。</div>
     @endif
     <footer class="fixed-bottom footer pb-2 pt-2 text-center">
-        <a href="/checkin/detailedStat" target="_blank">今日全場次累積報到人數 / 未報到人數： <span id="stat">查詢中</span></a>
+        <a href="/checkin/detailedStat" target="_blank">今日全梯次累積報到人數 / 未報到人數： <span id="stat">查詢中</span></a>
     </footer>
 </div>  
 <div id="CenterDIV">

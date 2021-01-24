@@ -14,7 +14,7 @@
         @endif
         <p>
             <h5>{{ $applicant->name }}({{ $applicant->gender }})</h5>
-            場次：{{ $applicant->batch->name }} <br>
+            梯次：{{ $applicant->batch->name }} <br>
             報名序號：{{ $applicant->id }} <br>
             分區：{{ $applicant->region }} <br>
             錄取序號：{{ $applicant->group.$applicant->number }} <br>
