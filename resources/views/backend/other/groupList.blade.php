@@ -15,13 +15,14 @@
             <tr>
                 @php
                     $batch_count = 0;    
+                    $count = 0;    
                 @endphp
                 @foreach ($batch->regions as $region)
                 <td style="vertical-align: top;">
                     <table class="table table-bordered">
                         <thead><tr class="bg-primary text-white"><th colspan="2">{{ $region->region }}</th></tr></thead>
                         @php
-                            $count = 0;    
+                            $count = 0;
                         @endphp
                         @foreach ($region->groups as $group)
                             <tr>
@@ -40,7 +41,7 @@
                 </td>
                 @endforeach
                 @php
-                    $batch_count = $batch_count + ($count ?? 0);
+                    $batch_count = $batch_count + $count;
                 @endphp
             </tr>
         </table>
