@@ -14,18 +14,20 @@ class Permitted
      * @return mixed
      */
     public function handle($request, Closure $next) {
-        $userPermission = auth()->user()->getPermission();
-        if($userPermission->level == 1) {
-            return $next($request);
+        $userPermission = auth()->user()->getPermission(true);
+        foreach($userPermission as $p){
+            if($p->role->level == 1) {
+                return $next($request);
+            }
+            else if($p->role->level >= 2 && $p->role->level <= 4) {
+                if(\Str::contains($p->role->camp_id, $request->route()->parameter('camp_id'))){
+                    return $next($request);
+                }
+                else if(\Str::contains($p->role->camp_id, $request->camp_id)){
+                    return $next($request);
+                }
+            }
         }
-        else if(\Str::contains($userPermission->camp_id, $request->route()->parameter('camp_id'))){
-            return $next($request);
-        }
-        else if(\Str::contains($userPermission->camp_id, $request->camp_id)){
-            return $next($request);
-        }
-        else{
-            abort(401, 'Unauthorized.');
-        }
+        abort(401, 'Unauthorized.');
     }
 }

@@ -54,7 +54,7 @@ class BackendController extends Controller
      */
     public function masterIndex() {
         // 檢查權限
-        $permission = auth()->user()->getPermission();
+        $permission = auth()->user()->getPermission(true);
         $camps = $this->campDataService->getAvailableCamps($permission);
         return view('backend.MasterIndex')->with("camps", $camps);
     }

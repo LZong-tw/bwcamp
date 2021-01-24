@@ -14,8 +14,14 @@ class Admin
      * @return mixed
      */
     public function handle($request, Closure $next) {
-        $userPermission = auth()->user()->getPermission();
-        if($userPermission->level == 1) {
+        $userPermission = auth()->user()->getPermission(true);
+        $isAdmin = 0;
+        foreach($userPermission as $p){
+            if($p->role->level == 1) {
+                $isAdmin = 1;
+            }
+        }
+        if($isAdmin) {
             return $next($request);
         }
         else{
