@@ -1012,14 +1012,11 @@ class BackendController extends Controller
                 if($key == 'is_late_registration_end' && $field[$i] == ''){
                     continue;
                 }
-                if($key != '_token'){
-                    $newSet[$i][$key] = $field[$i];
-                }
+                $newSet[$i][$key] = $field[$i];
             }
             $newSet[$i]['camp_id'] = $camp_id;
             Batch::create($newSet[$i]);
         }
-        // dd($newSet);
         \Session::flash('message', " 場次新增成功。");
         return redirect()->route("showBatch", $camp_id);
     }
