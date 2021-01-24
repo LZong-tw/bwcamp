@@ -13,9 +13,8 @@
         <h4 class="card-link"><a href="{{ route("writeMail", $campFullData->id) }}?target=batch&batch_id={{ $batch->id }}">梯次：{{ $batch->name }}</a></h4>
         <table>
             <tr>
-                @php
-                    $batch_count = 0;    
-                    $count = 0;    
+                @php  
+                    $batchCount = 0;    
                 @endphp
                 @foreach ($batch->regions as $region)
                 <td style="vertical-align: top;">
@@ -36,16 +35,16 @@
                         <tr class="bg-success text-white">
                             <td>合計</td>
                             <td>{{ $count }}</td>
+                            @php 
+                                $batchCount = $count + $batchCount;
+                            @endphp
                         </tr>
                     </table>
                 </td>
                 @endforeach
-                @php
-                    $batch_count = $batch_count + $count;
-                @endphp
             </tr>
         </table>
-        <h4>總人數：{{ $batch_count }}</h4>
+        <h4>總人數：{{ $batchCount }}</h4>
         <hr>
     @endforeach
 @endsection
