@@ -154,7 +154,10 @@ class BackendController extends Controller
                 $number = $groupAndNumber['number'];
                 $check = Applicant::select('applicants.*')
                 ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
-                ->where('group', 'like', $group)->where('number', 'like', $number)->first();
+                ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+                ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+                ->where('group', 'like', $group)->where('number', 'like', $number)
+                ->where('camps.id', $this->campFullData->id)->first();
                 if($check){
                     $candidate = $this->applicantService->Mandarization($candidate);
                     $error = "報名序號重複。";
