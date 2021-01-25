@@ -107,7 +107,14 @@ class CampController extends Controller
         }
         // 營隊報名
         else{
-            $applicant = Applicant::select('applicants.*')->join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')->where('name', $request->name)->where('email', $request->email)->first();
+            $applicant = Applicant::select('applicants.*')
+                ->join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')
+                ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+                ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+                ->where('camps.id', $this->camp_data->id)
+                ->where('batch_id', $this->batch_id)
+                ->where('name', $request->name)
+                ->where('email', $request->email)->first();
             if($applicant){
                 return view($this->camp_data->table . '.success',
                     ['isRepeat' => "已成功報名，請勿重複送出報名資料。",
