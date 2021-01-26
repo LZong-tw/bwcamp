@@ -113,7 +113,7 @@ class CampController extends Controller
                 ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                 ->where('camps.id', $this->camp_data->id)
                 ->where('batch_id', $this->batch_id)
-                ->where('name', $request->name)
+                ->where('applicants.name', $request->name)
                 ->where('email', $request->email)->first();
             if($applicant){
                 return view($this->camp_data->table . '.success',
