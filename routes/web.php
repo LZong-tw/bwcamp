@@ -75,7 +75,7 @@ Route::group(['prefix' => 'checkin', ], function () {
     Route::post('/un-checkin', 'CheckInController@uncheckIn');
     Route::post('/by_QR', 'CheckInController@by_QR');
     Route::get('/realtimeStat', 'CheckInController@realtimeStat');
-    Route::get('/detailedStat', 'CheckInController@detailedStat');
+    Route::get('/detailedStat', 'CheckInController@detailedStatOptimized');
 });
 
 Route::group(['prefix' => 'backend/campManage'], function(){
