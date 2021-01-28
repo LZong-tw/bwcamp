@@ -361,8 +361,22 @@ class BackendController extends Controller
         // $applicants = $applicants->sortByDesc('is_paid');
         if(isset($request->download)){
             if($applicants){
-                // 各梯次日期填充
-                $checkInDates = array();
+                // 報到資料
+                $checkInData = CheckIn::whereIn('applicant_id', $applicants->pluck('sn'))->get();
+                // 參加者報到日期
+                $checkInDates = CheckIn::select('check_in_date')->whereIn('applicant_id', $applicants->pluck('sn'))->groupBy('check_in_date')->get();
+                if($checkInDates){
+                    $checkInDates = $checkInDates->toArray();
+                }
+                else{
+                    $checkInDates = array();
+                }
+                $checkInDates = \Arr::flatten($checkInDates);
+                foreach($checkInDates as $key => $checkInDate){
+                    unset($checkInDates[$key]);
+                    $checkInDates[(string)$checkInDate] = $checkInDate;
+                }
+                // 各梯次報到日期填充
                 $batches = Batch::whereIn('id', $applicants->pluck('batch_id'))->get();
                 foreach($batches as $batch){
                     $date = Carbon::createFromFormat('Y-m-d', $batch->batch_start);
@@ -378,9 +392,8 @@ class BackendController extends Controller
                         $date->addDay();
                     }
                 }
-                // 報到資料
-                $checkInData = CheckIn::whereIn('applicant_id', $applicants->pluck('sn'))->get();
             }           
+            ksort($checkInDates);
 
             $fileName = $this->campFullData->abbreviation . $query . Carbon::now()->format('YmdHis') . '.csv';
             $headers = array(
