@@ -37,8 +37,8 @@ class CustomMail extends Mailable
         $attachments = null;
         if($attachmentCount > 0){
             foreach($this->attachment as $attachment){
-                $attachments['storage/attachment/' . $attachment]['as'] = \Str::substr($attachment, 10);
-                $attachments['storage/attachment/' . $attachment]['mime'] = \Storage::mimeType('attachment/' . $attachment);
+                $attachments[storage_path('attachment/' . $attachment)]['as'] = \Str::substr($attachment, 10);
+                $attachments[storage_path('attachment/' . $attachment)]['mime'] = \Storage::mimeType('attachment/' . $attachment);
             }
             foreach($attachments as $filePath => $fileParameters){
                 $email->attach($filePath, $fileParameters);
