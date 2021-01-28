@@ -161,6 +161,30 @@ class CheckInController extends Controller
         return view('checkIn.detailedStat', compact('allApplicants', 'checkedInApplicants', 'batchArray', 'checkedInCount', 'applicantsCount'));  
     }
 
+    public function detailedStatOptimized(Request $request) {
+        // 取得報到資料
+        $checkedInData = CheckIn::where('check_in_date', \Carbon\Carbon::today()->format('Y-m-d'))->get();
+        // 取得梯次
+        $batches = Batch::where("camp_id", $this->camp->id)->get();
+        $batchArray = array();
+        // 照梯次取報名人 
+        $applicantsCount = 0;
+        foreach($batches as $key => $batch){
+            $allApplicants = Applicant::where(\DB::raw("fee - deposit"), "<=", 0)
+                                ->where("batch_id", $batch->pluck("id"))
+                                ->count();
+            $checkedInApplicants = Applicant::where("batch_id", $batch->pluck("id"))
+                                ->whereIn('applicants.id', $checkedInData->pluck('applicant_id'))
+                                ->count();
+            $batchArray[$key]['name'] = $batch->name;
+            $batchArray[$key]['allApplicants'] = $allApplicants;
+            $batchArray[$key]['checkedInApplicants'] = $checkedInApplicants;
+            $applicantsCount += $allApplicants;
+        }
+        $checkedInCount = $checkedInData->count();
+        return view('checkIn.detailedStat', compact('allApplicants', 'checkedInApplicants', 'batchArray', 'checkedInCount', 'applicantsCount'));  
+    }
+
     public function uncheckIn(Request $request) {
         if(CheckIn::where('applicant_id', $request->applicant_id)->where('check_in_date', $request->check_in_date)->first()->delete()){   
             \Session::flash('message', "報消報到成功。");       
