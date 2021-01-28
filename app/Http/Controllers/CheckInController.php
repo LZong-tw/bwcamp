@@ -171,9 +171,9 @@ class CheckInController extends Controller
         $applicantsCount = 0;
         foreach($batches as $key => $batch){
             $allApplicants = Applicant::where(\DB::raw("fee - deposit"), "<=", 0)
-                                ->where("batch_id", $batch->pluck("id"))
+                                ->where("batch_id", $batch->id)
                                 ->count();
-            $checkedInApplicants = Applicant::where("batch_id", $batch->pluck("id"))
+            $checkedInApplicants = Applicant::where("batch_id", $batch->id)
                                 ->whereIn('applicants.id', $checkedInData->pluck('applicant_id'))
                                 ->count();
             $batchArray[$key]['name'] = $batch->name;
