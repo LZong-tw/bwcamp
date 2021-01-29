@@ -19,7 +19,7 @@ class Permitted
             if($p->role->level == 1) {
                 return $next($request);
             }
-            else if($p->role->level >= 2 && $p->role->level <= 4) {
+            else if($p->role->level >= 2 && $p->role->level <= 6) {
                 if(\Str::contains($p->role->camp_id, $request->route()->parameter('camp_id'))){
                     return $next($request);
                 }
