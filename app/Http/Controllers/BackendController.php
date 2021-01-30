@@ -301,6 +301,7 @@ class BackendController extends Controller
     }
 
     public function getRegistrationList(Request $request){
+        ini_set('max_execution_time', 1200);
         $batches = Batch::where("camp_id", $this->campFullData->id)->get();
         if(isset($request->region)){
             $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
