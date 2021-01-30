@@ -67,8 +67,8 @@
 
 1. Line 瀏覽器無法使用 QR code，必須直接使用 Chrome 或 Safari 開啟網頁
 2. iOS 建議使用 Safari，因   
-    1. 部分 iOS 使用 Safari 會無法登入顯示 419，且使用 Chrome 會無法觸發詢問相機使用需求視窗，此狀況只能使用 Safari，並在手機設定中將 Safari 的「阻擋 cookie」功能關閉
-    2. 部分 iOS 需調整相機權限，否則無法使用 QR code
+    A. 部分 iOS 使用 Safari 會無法登入顯示 419，且使用 Chrome 會無法觸發詢問相機使用需求視窗，此狀況只能使用 Safari，並在手機設定中將 Safari 的「阻擋 cookie」功能關閉
+    B. 部分 iOS 需調整相機權限，否則無法使用 QR code
 3. 相機曾開啟，後來又打不開的情況，進入多工選單將瀏覽器強制關閉後，再重啟瀏覽器即可排除
 
 ## 已完成功能
