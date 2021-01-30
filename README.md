@@ -1,5 +1,6 @@
 ## 待實作
 
+- 報名資料下載效能檢查
 - 退款功能
 - 報到統計需加上各梯次統計圖
 - PaymentForm.blade.php, PaymentFormPDF.blade.php 移出 backend
