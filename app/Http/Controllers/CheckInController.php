@@ -52,7 +52,11 @@ class CheckInController extends Controller
                     $query->orWhere([['group', $group], ['number', $number]]);
                 }
                 $query->orWhere('name', 'like', '%' . $request->query_str . '%')
-                ->orWhere('mobile', 'like', '%' . $request->query_str . '%');
+                ->orWhere(\DB::raw("replace(mobile, '-', '')"), 'like', '%' . $request->query_str . '%')
+                ->orWhere(\DB::raw("replace(mobile, '(', '')"), 'like', '%' . $request->query_str . '%')
+                ->orWhere(\DB::raw("replace(mobile, ')', '')"), 'like', '%' . $request->query_str . '%')
+                ->orWhere(\DB::raw("replace(mobile, '（', '')"), 'like', '%' . $request->query_str . '%')
+                ->orWhere(\DB::raw("replace(mobile, '）', '')"), 'like', '%' . $request->query_str . '%');
             })->get();
         $batches = $applicants->pluck('batch.name', 'batch.id')->unique();
         $request->flash();
