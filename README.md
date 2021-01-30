@@ -1,5 +1,6 @@
 ## 待實作
 
+- 退款功能
 - 報到統計需加上各梯次統計圖
 - PaymentForm.blade.php, PaymentFormPDF.blade.php 移出 backend
 - 使用 Queue 郵寄所有信件
