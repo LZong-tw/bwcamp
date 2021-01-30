@@ -128,6 +128,9 @@
                             <li>
                                 <a href="{{ route("modifyAccounting", $campFullData->id) }}">修改繳費資料</a>
                             </li>
+                            <li>
+                                <a href="{{ route("modifyAccounting", $campFullData->id) }}">設定退款資料</a>
+                            </li>
                         </ul>
                     </li>
                     <li>
