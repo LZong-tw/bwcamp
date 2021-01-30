@@ -62,7 +62,11 @@
     - 備案：https://github.com/nimiq/qr-scanner
 - PDF 產生器文件：https://github.com/barryvdh/laravel-dompdf
 
-## <a href="https://docs.google.com/spreadsheets/d/1UXCVFgP8OXzr2fD_aiCnSbRW_zoQ_0Vu8MakmMOYuYc/">欄位及功能(routing)列表</a>
+## 報到系統使用教學注意事項
+
+1. Line 瀏覽器無法使用 QR code
+2. 部分 iOS 需調整相機權限，否則無法使用 QR code
+3. 相機曾開啟，後來又打不開的情況，重啟瀏覽器即可排除
 
 ## 已完成功能
 
