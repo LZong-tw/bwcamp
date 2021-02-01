@@ -1,7 +1,7 @@
 <script>
     (function() {
         if(!window.location.href.includes("?")){
-            window.location.href = "{{ route('login') }}?{{ \Str::random() }}={{ \Str::random() }}";
+            window.location.href = "{{ route('login') }}?rstr{{ \Str::random() }}={{ \Str::random() }}";
         }
     })();
 </script>
@@ -14,9 +14,9 @@
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}?{{ \Str::random() }}={{ \Str::random() }}">
+                    <form method="POST" action="{{ route('login') }}?rstr{{ \Str::random() }}={{ \Str::random() }}">
                         @csrf
-                        <input type="hidden" name="{{ \Str::random() }}" value="{{ \Str::random() }}">
+                        <input type="hidden" name="rstr{{ \Str::random() }}" value="{{ \Str::random() }}">
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
