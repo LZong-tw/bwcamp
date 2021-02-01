@@ -193,9 +193,9 @@
                         {{-- {{ __('Logout') }} --}}
                         登出
                     </a>
-                    <form id="logout-form" action="{{ route('logout') }}?{{ \Str::random() }}={{ \Str::random() }}" method="POST" style="display: none;">
+                    <form id="logout-form" action="{{ route('logout') }}?rstr{{ \Str::random() }}={{ \Str::random() }}" method="POST" style="display: none;">
                         @csrf
-                        <input type="hidden" name="{{ \Str::random() }}" value="{{ \Str::random() }}">
+                        <input type="hidden" name="rstr{{ \Str::random() }}" value="{{ \Str::random() }}">
                     </form>
                 </li>
             </ul>

@@ -41,7 +41,7 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}?{{ \Str::random() }}={{ \Str::random() }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}?rstr{{ \Str::random() }}={{ \Str::random() }}">{{ __('Login') }}</a>
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
@@ -61,9 +61,9 @@
                                         {{ __('Logout') }}
                                     </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}?{{ \Str::random() }}={{ \Str::random() }}" method="POST" style="display: none;">
+                                    <form id="logout-form" action="{{ route('logout') }}?rstr{{ \Str::random() }}={{ \Str::random() }}" method="POST" style="display: none;">
                                         @csrf
-                                        <input type="hidden" name="{{ \Str::random() }}" value="{{ \Str::random() }}">
+                                        <input type="hidden" name="rstr{{ \Str::random() }}" value="{{ \Str::random() }}">
                                     </form>
                                 </div>
                             </li>
