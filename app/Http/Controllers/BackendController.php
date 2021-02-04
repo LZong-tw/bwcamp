@@ -810,7 +810,6 @@ class BackendController extends Controller
         ->where('camps.id', $this->campFullData->id)
         ->where('is_admitted', 1)
         ->groupBy('check_in_date')->get();
-        $applicantsCollectionn = clone $applicants;
         $rows = count($applicants);
         $array = $applicants->toArray();
 
@@ -833,9 +832,36 @@ class BackendController extends Controller
         }
         $GChartData = json_encode($GChartData);
         $batches = Batch::where('camp_id', $this->campFullData->id)->get();
-        $checkInDates = $applicantsCollectionn->pluck('check_in_date');
+        foreach($batches as $batch){
+            $batch_applicants = Applicant::select(\DB::raw('check_in.check_in_date, count(*) as total'))
+            ->join('check_in', 'applicants.id', '=', 'check_in.applicant_id')
+            ->where('batch_id', $batch->id)
+            ->where('is_admitted', 1)
+            ->groupBy('check_in_date')->get();
+            $rows = count($applicants);
+            $array = $batch_applicants->toArray();
 
-        return view('backend.statistics.checkin', compact('GChartData',  'total', 'applicantsCollectionn', 'batches', 'checkInDates'));
+            $i = 0 ;
+            $batch->total = 0 ;
+            $batch_GChartData = array('cols'=> array(
+                            array('id'=>'check_in_date','label'=>'日期','type'=>'string'),
+                            array('id'=>'people','label'=>'人數','type'=>'number'),
+                            array('id'=>'annotation','role'=>'annotation','type'=>'number')
+                        ),
+                        'rows' => array());
+            for($i = 0; $i < $rows; $i ++) {
+                $record = $array[$i];
+                array_push($batch_GChartData['rows'], array('c' => array(
+                    array('v' => $record['check_in_date'] == null ? '其他' : $record['check_in_date']),
+                    array('v' => intval($record['total'])),
+                    array('v' => intval($record['total']))
+                )));
+                $batch->total = $batch->total + $record['total'];
+            }
+            $batch->GChartData = json_encode($batch_GChartData);
+        }
+
+        return view('backend.statistics.checkin', compact('GChartData',  'total', 'batches'));
     }
 
     public function showAccountingPage() {
