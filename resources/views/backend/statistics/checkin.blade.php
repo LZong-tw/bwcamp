@@ -40,7 +40,7 @@
             var data = new google.visualization.DataTable({!! $GChartData !!});
     
             // Set chart options
-            var piechart_options = {'title':'報到統計，共 {{ $total }} 人',
+            var piechart_options = {'title':'報到統計',
                             'hAxis': {
                             'title':'報名人數',
                             'titleTextStyle': {'bold':true,'ilatic':false},
@@ -74,7 +74,7 @@
                 var data = new google.visualization.DataTable({!! $batch->GChartData !!});
 
                 // Set chart options
-                var piechart_options = {'title':'報到統計，共 {{ $batch->total }} 人',
+                var piechart_options = {'title':'報到統計',
                                 'hAxis': {
                                 'title':'報名人數',
                                 'titleTextStyle': {'bold':true,'ilatic':false},
