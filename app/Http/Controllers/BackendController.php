@@ -838,7 +838,7 @@ class BackendController extends Controller
             ->where('batch_id', $batch->id)
             ->where('is_admitted', 1)
             ->groupBy('check_in_date')->get();
-            $rows = count($applicants);
+            $rows = count($batch_applicants);
             $array = $batch_applicants->toArray();
 
             $i = 0 ;
