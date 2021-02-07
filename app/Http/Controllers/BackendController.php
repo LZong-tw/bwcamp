@@ -362,8 +362,6 @@ class BackendController extends Controller
         // $applicants = $applicants->sortByDesc('is_paid');
         if(isset($request->download)){
             if($applicants){
-                // 報到資料
-                $checkInData = CheckIn::whereIn('applicant_id', $applicants->pluck('sn'))->get();
                 // 參加者報到日期
                 $checkInDates = CheckIn::select('check_in_date')->whereIn('applicant_id', $applicants->pluck('sn'))->groupBy('check_in_date')->get();
                 if($checkInDates){
@@ -393,9 +391,19 @@ class BackendController extends Controller
                         $date->addDay();
                     }
                 }
-            }           
-            ksort($checkInDates);
+                // 按陣列鍵值升冪排列           
+                ksort($checkInDates);
 
+                // 將每人每日的報到資料按報到日期組合成一個陣列
+                foreach($checkInDates as $checkInDate => $v) {
+                    $checkInData[(string)$checkInDate] = array();
+                    $rawCheckInData = CheckIn::select('applicant_id')->where('check_in_date', $checkInDate)->whereIn('applicant_id', $applicants->pluck('sn'))->get();
+                    if($rawCheckInData){
+                        $checkInData[(string)$checkInDate] = $rawCheckInData->pluck('applicant_id')->toArray();
+                    }
+                }
+            }
+            
             $fileName = $this->campFullData->abbreviation . $query . Carbon::now()->format('YmdHis') . '.csv';
             $headers = array(
                 "Content-Encoding"    => "Big5",
@@ -417,7 +425,6 @@ class BackendController extends Controller
                 else{                    
                     $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $checkInDates);  
                 }  
-                
                 fputcsv($file, $columns);
 
                 foreach ($applicants as $applicant) {
@@ -427,7 +434,7 @@ class BackendController extends Controller
                         if(preg_match('/\d\d\d\d-\d\d-\d\d/', $key)){
                             if(isset($checkInData)){
                                 // 填充報到資料
-                                if($checkInData->where('applicant_id', $applicant->sn)->where('check_in_date', '=', $key)->first()){
+                                if(in_array($applicant->sn, $checkInData[$key])){
                                     array_push($rows, '="Ｏ"');
                                 }
                                 else{
