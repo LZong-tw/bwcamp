@@ -14,6 +14,7 @@
     <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="checkPayment" href="app/Console/Commands/checkPayment.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -33,6 +34,45 @@
   <div class="section" id="welcome-to-bwcamp-s-documentation">
 <h1>Welcome to bwcamp’s documentation!<a class="headerlink" href="#welcome-to-bwcamp-s-documentation" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="app/Console/Commands/checkPayment.html">app/Console/Commands/checkPayment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="app/Console/Commands/checkPayment.html#properties">Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app/Console/Commands/checkPayment.html#methods">Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app/Console/Commands/checkPayment.html#functions">Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="app/Console/Kernel.html">app/Console/Kernel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="app/Console/Kernel.html#properties">Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app/Console/Kernel.html#methods">Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app/Console/Kernel.html#functions">Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="app/Http/ControllersMain.html">app/Http/Controllers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="app/Http/Controllers/AdminController.html">Controllers/AdminController</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app/Http/Controllers/AdminController.html">Controllers/BackendController</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app/Http/Controllers/AdminController.html">Controllers/CampController</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app/Http/Controllers/AdminController.html">Controllers/CheckInController</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app/Http/Controllers/AdminController.html">Controllers/Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="app/Http/Controllers/AdminController.html">Controllers/HomeController</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="app/Http/Controllers/Auth.html">app/Http/Controllers/Auth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app/Http/Middleware/Permitted.html">app/Http/Middleware/Permitted</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app/Http/Middleware/Admin.html">app/Http/Middleware/Admin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app/Jobs.html">app/Jobs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app/Mail.html">app/Mail</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app/Models.html">app/Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app/Services.html">app/Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app/User.html">app/User</a></li>
+<li class="toctree-l1"><a class="reference internal" href="paymentflow/shanghai.html">paymentflow/上海銀行轉檔程式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="paymentflow/virtualbank.html">paymentflow/銀行虛擬帳號程式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="public/css.html">public/css</a></li>
+<li class="toctree-l1"><a class="reference internal" href="public/downloads.html">public/downloads</a></li>
+<li class="toctree-l1"><a class="reference internal" href="public/js.html">public/js</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resources/views.html">resources/views</a></li>
+<li class="toctree-l1"><a class="reference internal" href="routes/web.html">routes/web</a></li>
+</ul>
 </div>
 </div>
 <div class="section" id="indices-and-tables">
@@ -61,11 +101,33 @@
 
 
 <h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="app/Console/Commands/checkPayment.html">app/Console/Commands/checkPayment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app/Console/Kernel.html">app/Console/Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app/Http/ControllersMain.html">app/Http/Controllers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app/Http/Controllers/Auth.html">app/Http/Controllers/Auth</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app/Http/Middleware/Permitted.html">app/Http/Middleware/Permitted</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app/Http/Middleware/Admin.html">app/Http/Middleware/Admin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app/Jobs.html">app/Jobs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app/Mail.html">app/Mail</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app/Models.html">app/Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app/Services.html">app/Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app/User.html">app/User</a></li>
+<li class="toctree-l1"><a class="reference internal" href="paymentflow/shanghai.html">paymentflow/上海銀行轉檔程式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="paymentflow/virtualbank.html">paymentflow/銀行虛擬帳號程式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="public/css.html">public/css</a></li>
+<li class="toctree-l1"><a class="reference internal" href="public/downloads.html">public/downloads</a></li>
+<li class="toctree-l1"><a class="reference internal" href="public/js.html">public/js</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resources/views.html">resources/views</a></li>
+<li class="toctree-l1"><a class="reference internal" href="routes/web.html">routes/web</a></li>
+</ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="#">Documentation overview</a><ul>
+      <li>Next: <a href="app/Console/Commands/checkPayment.html" title="next chapter">checkPayment</a></li>
   </ul></li>
 </ul>
 </div>
@@ -95,7 +157,7 @@
       &copy;2021, LZong, Minuet.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.0+</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
