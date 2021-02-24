@@ -1,5 +1,7 @@
 ## 待實作
 
+- 文件範例
+- 快樂營，報名表單：https://docs.google.com/forms/d/1c_QhNl8QplunsWnoHU9jMPf0-DVojo161wMtYPAjDWw/edit
 - 報到統計（即時及詳細）排除無錄取編號的人
 - 退款功能：使用 **is_attend**
     - 繳費後需標記為 1

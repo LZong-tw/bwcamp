@@ -1029,7 +1029,7 @@ class BackendController extends Controller
     public function addCamp(Request $request){
         $formData = $request->toArray();
         $camp = Camp::create($formData);
-        \Session::flsh('message', $camp->name . " 新增成功。");
+        \Session::flash('message', $camp->name . " 新增成功。");
         return redirect()->route("campManagement");
     }
 
