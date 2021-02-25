@@ -1,4 +1,4 @@
-@extends('layouts.tcamp')
+@extends('layouts.hcamp')
 @section('content')
     <style>
         .indent{
