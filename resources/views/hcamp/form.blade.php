@@ -12,7 +12,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     @include('partials.schools_script')
     @include('partials.counties_areas_script')
     <div class='alert alert-info' role='alert'>
-        您在本網站所填寫的個人資料，僅用於此次教師營的報名及活動聯絡之用。
+        您在本網站所填寫的個人資料，僅用於此次快樂營的報名及活動聯絡之用。
     </div>
 
     <div class='page-header form-group'>
@@ -256,13 +256,11 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 </div>
             </label> 
             <label class='radio-inline d-inline'>
-                <span>
-                    <input type=radio required name='sc' value=1 id="has_special_condition"> 有
-                    <input type="text" name="special_condition" class="form-control d-inline" placeholder="如：特殊疾病.飲食注意...等，以便帶隊老師留意及關照" id="special_condition">
-                    <div class="invalid-feedback">
-                        &nbsp;
-                    </div>
-                </span>
+                <input type=radio required name='sc' value=1 id="has_special_condition"> 有
+                <input type="text" name="special_condition" class="form-control d-inline" placeholder="如：特殊疾病.飲食注意...等，以便帶隊老師留意及關照" id="special_condition">
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
             </label> 
         </div>
     </div>
