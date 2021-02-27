@@ -256,11 +256,13 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 </div>
             </label> 
             <label class='radio-inline d-inline'>
-                <input type=radio required name='sc' value=1 id="has_special_condition"> 有
-                <input type="text" name="special_condition" class="form-control d-inline" placeholder="如：特殊疾病.飲食注意...等，以便帶隊老師留意及關照" id="special_condition">
-                <div class="invalid-feedback">
-                    &nbsp;
-                </div>
+                <span>
+                    <input type=radio required name='sc' value=1 id="has_special_condition"> 有
+                    <input type="text" name="special_condition" class="form-control d-inline" placeholder="如：特殊疾病.飲食注意...等，以便帶隊老師留意及關照" id="special_condition">
+                    <div class="invalid-feedback">
+                        &nbsp;
+                    </div>
+                </span>
             </label> 
         </div>
     </div>
@@ -523,7 +525,8 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 });
                 document.getElementById("has_special_condition").addEventListener("click", function() { 
                     if (this.checked) {
-                        no_special_condition.parentNode.append(special_conditionHTML)
+                        let parentElement = has_special_condition.parentNode;
+                        parentElement.insertBefore(special_conditionHTML, parentElement.children[1]);
                     } 
                 });
                 if(!document.getElementById("lamrim_descendant").checked){
