@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Tcamp extends Model
+class Hcamp extends Model
 {
     //
     protected $table = 'hcamp';
