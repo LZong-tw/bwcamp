@@ -6,8 +6,8 @@ Controllers
    :caption: List of Controllers:
 
    Controllers/AdminController <Controllers/AdminController>
-   Controllers/BackendController <Controllers/AdminController>
-   Controllers/CampController <Controllers/AdminController>
-   Controllers/CheckInController <Controllers/AdminController>
-   Controllers/Controller <Controllers/AdminController>
-   Controllers/HomeController <Controllers/AdminController>
+   Controllers/BackendController <Controllers/BackendController>
+   Controllers/CampController <Controllers/CampController>
+   Controllers/CheckInController <Controllers/CheckInController>
+   Controllers/Controller <Controllers/Controller>
+   Controllers/HomeController <Controllers/HomeController>
