@@ -46,7 +46,12 @@ class CampController extends Controller
         if($this->camp_data->site_url){
             return redirect()->to($this->camp_data->site_url);
         }
-        return "";
+        $now = Carbon::now();
+        $registration_start = Carbon::createFromFormat('Y-m-d', $this->camp_data->registration_start);
+        if($now->lt($registration_start)){
+            return '<div style="margin: atuo;">距離開始報名日，還有 <br><img src="http://s.mmgo.io/t/B7Aj" alt="motionmailapp.com" /></div>';
+        }
+        
     }
 
     public function campRegistration(Request $request) {        
