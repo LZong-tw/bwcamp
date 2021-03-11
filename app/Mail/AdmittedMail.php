@@ -33,7 +33,7 @@ class AdmittedMail extends Mailable
      */
     public function build() {
         return $this->subject($this->campFullData->abbreviation . '錄取通知')
-                ->view($this->campFullData->table . ".admittedMail")
+                ->view('camps.' . $this->campFullData->table . ".admittedMail")
                 ->attachData($this->attachment, '繳費暨錄取通知單' . \Carbon\Carbon::now()->format('YmdHis') . $this->campFullData->table . $this->applicant->group . $this->applicant->number . '.pdf', [
                     'mime' => 'application/pdf',
                 ]);

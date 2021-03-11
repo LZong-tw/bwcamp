@@ -34,11 +34,11 @@ class ApplicantMail extends Mailable
     public function build() {
         if(!$this->isGetSN){
             return $this->subject($this->campData->abbreviation . '報名完成')
-                    ->view($this->campData->table . ".applicantMail");
+                    ->view('camps.' . $this->campData->table . ".applicantMail");
         }
         else{
             return $this->subject($this->campData->abbreviation . '序號查詢')
-                    ->view($this->campData->table . ".SNMail");
+                    ->view('camps.' . $this->campData->table . ".SNMail");
         }
     }
 }

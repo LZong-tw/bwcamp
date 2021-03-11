@@ -3,15 +3,14 @@
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }}</h4>
     </div>
-    @if(isset($isRepeat))<div class="alert alert-warning">{{ $isRepeat }}</div>@endif
     <div class="card">
         <div class="card-header">
-            報名成功
+            修改成功
         </div>
         <div class="card-body">
             <p class="card-text">
-                恭喜您已完成{{ $camp_data->fullName }}網路報名程序。
-                @include('tcamp.successMessages')
+                您成功修改報名 {{ $camp_data->fullName }}（簡稱本營隊）的個人資料。<br>
+                @include('camps.tcamp.successMessages')
             </p>
             <form action="{{ route("queryview", $applicant->batch_id) }}" method="post" class="d-inline">
                 @csrf
