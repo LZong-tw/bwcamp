@@ -231,7 +231,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputEducation' class='col-md-2 control-label text-md-right'>報名者學程</label>
         <div class='col-md-10'>
-            現為國小五年級 ~ 高中三年級(即 109 年 6 月前之年段)
+            現為國小五年級 ~ 高中三年級(即 110 年 6 月前之年段)
             <select name="education" class="form-control" required> 
                 <option value=''>- 請選擇 -</option>
                 <option value='國小五年級'>國小五年級</option>
@@ -322,27 +322,32 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label class='col-md-2 control-label text-md-right'>福智相關資訊調查</label>
         <div class='col-md-10'>
-            <div class='row form-group'>
-                <div class='col-md-2'>
-                    所屬區域
-                </div>
+            <div class="row form-group required">
+                <label for='inputGender' class='col-md-2 control-label text-md-right'>請問您有參加福智廣論研討班嗎？</label>
                 <div class='col-md-10'>
-                    <select name="region" class="form-control" required> 
-                        <option value=''>- 請選擇 -</option>
-                        <option value='北區'>北區</option>
-                        <option value='桃區'>桃區</option>
-                        <option value='竹區'>竹區</option>
-                        <option value='中區'>中區</option>
-                        <option value='雲嘉區'>雲嘉區</option>
-                        <option value='台南區'>台南區</option>
-                        <option value='高區'>高區</option>
-                        <option value='海外'>海外</option>
-                    </select>
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label" for="M">
+                            <input class="form-check-input" type="radio" name="is_recommended_by_reading_class" value="1" required>
+                            是
+                            <div class="invalid-feedback">
+                                請選擇是否為福智廣論研討班學員
+                            </div>
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label" for="F">
+                            <input class="form-check-input" type="radio" name="is_recommended_by_reading_class" value="0" required>
+                            否
+                            <div class="invalid-feedback">
+                                &nbsp;
+                            </div>
+                        </label>
+                    </div>
                 </div>
-            </div> 
+            </div>
             <div class='row form-group'>
                 <div class='col-md-2'>
-                    所屬學支苑/教室
+                    您的孩子曾在福智文教系統的哪個班次學習？
                 </div>
                 <div class='col-md-10'>
                     <input type="text" class="form-control" name="branch_or_classroom_belongs_to" placeholder="範例：台北學苑/士林教室" required>
@@ -354,7 +359,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-    <div class='row form-group required'>
+    {{-- <div class='row form-group required'>
         <label for='inputHasLicense' class='col-md-2 control-label text-md-right'>學生參加班次</label>
         <div class='col-md-10'>
             <label class=radio-inline>
@@ -412,7 +417,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 </div>
             </div>
         </div>
-    </span>
+    </span> --}}
 
     <div class="row form-group text-danger tips d-none">
         <div class='col-md-2'></div>
