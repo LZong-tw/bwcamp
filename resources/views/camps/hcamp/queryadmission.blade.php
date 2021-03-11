@@ -1,4 +1,4 @@
-@extends('layouts.hcamp')
+@extends('camps.hcamp.layout')
 @section('content')
 @if($errors->any())
     @foreach ($errors->all() as $message)
