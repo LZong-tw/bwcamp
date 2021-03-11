@@ -1,4 +1,4 @@
-@extends('layouts.hcamp')
+@extends('layouts.tcamp')
 @section('content')
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }}</h4>
@@ -11,7 +11,7 @@
         <div class="card-body">
             <p class="card-text">
                 恭喜您已完成{{ $camp_data->fullName }}網路報名程序。
-                @include('hcamp.successMessages')
+                @include('camps.tcamp.successMessages')
             </p>
             <form action="{{ route("queryview", $applicant->batch_id) }}" method="post" class="d-inline">
                 @csrf
