@@ -33,9 +33,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
     <div class='row form-group'>
-        <label for='inputBatch' class='col-md-2 control-label text-md-right'>營隊梯次</label>
+        <label for='inputBatch' class='col-md-2 control-label text-md-right'>營隊時間</label>
         <div class='col-md-10'>
-            <h3>{{ $camp_data->name . '梯' }} ({{ $camp_data->batch_start }} ~ {{ $camp_data->batch_end }})</h3>
+            <h3>{{ $camp_data->batch_start }} ~ {{ $camp_data->batch_end }}</h3>
             @if(isset($applicant_data))
             <input type='hidden' name='applicant_id' value='{{ $applicant_id }}'>
             @endif
@@ -229,6 +229,53 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class='row form-group required'>
+        <label for='inputAddress' class='col-md-2 control-label text-md-right'>通訊地址</label>
+        <div class='col-md-2'>
+            <select name="county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value);"> 
+                <option value=''>- 請先選縣市 -</option>
+                <option value='臺北市'>臺北市</option>
+                <option value='新北市'>新北市</option>
+                <option value='基隆市'>基隆市</option>
+                <option value='宜蘭縣'>宜蘭縣</option>
+                <option value='花蓮縣'>花蓮縣</option>
+                <option value='桃園市'>桃園市</option>
+                <option value='新竹市'>新竹市</option>
+                <option value='新竹縣'>新竹縣</option>
+                <option value='苗栗縣'>苗栗縣</option>
+                <option value='臺中市'>臺中市</option>
+                <option value='彰化縣'>彰化縣</option>
+                <option value='南投縣'>南投縣</option>
+                <option value='雲林縣'>雲林縣</option>
+                <option value='嘉義市'>嘉義市</option>
+                <option value='嘉義縣'>嘉義縣</option>
+                <option value='臺南市'>臺南市</option>
+                <option value='高雄市'>高雄市</option>
+                <option value='屏東縣'>屏東縣</option>
+                <option value='臺東縣'>臺東縣</option>
+                <option value='澎湖縣'>澎湖縣</option>
+                <option value='金門縣'>金門縣</option>
+                <option value='連江縣'>連江縣</option>
+                <option value='南海諸島'>南海諸島</option>
+                <option value='海外'>海外</option>
+            </select>
+        </div>
+        <div class='col-md-2'>
+            <select name=subarea class='form-control' onChange='document.Camp.zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.address.value=MyAddress(document.Camp.county.value, this.options[this.options.selectedIndex].text);'>
+                <option value=''>- 再選區鄉鎮 -</option>
+            </select>
+        </div>
+        <div class='col-md-1'>
+            <input readonly type=text name=zipcode value='' class='form-control'>
+        </div>
+        <div class='col-md-3'>
+            <input type=text required name='address' value='' maxlength=80 class='form-control' placeholder='請填寫通訊地址'>
+            <div class="invalid-feedback">
+                請填寫通訊地址
+            </div>
+        </div>
+    </div>
+
+    <div class='row form-group required'>
         <label for='inputEducation' class='col-md-2 control-label text-md-right'>報名者學程</label>
         <div class='col-md-10'>
             現為國小五年級 ~ 高中三年級(即 110 年 6 月前之年段)
@@ -297,25 +344,54 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <label for='traffic' class='col-md-2 control-label text-md-right'>交通調查</label>
         <div class='col-md-10'>
             本會代訂遊覽車，遊覽車車資請於車上繳交；遊覽車費用會於行前通知時告知
-            <select name="traffic" class="form-control" required> 
-                <option value=''>- 請選擇 -</option>
-                <option value='北苑站'>北苑站 (台北學苑對面彰化銀行)</option>
-                <option value='板橋站'>板橋站 (民生路2段221號)</option>
-                <option value='林口站'>林口站 (文化二路與復興一路交接口--中油對面彩虹魚門口)</option>
-                <option value='南崁站'>南崁站 (桃園市蘆竹區新南路一段368號)</option>
-                <option value='新屋站'>新屋站 (新屋交流道錡鎂修車廠：桃園市中壢區民族路三段22號)</option>
-                <option value='竹北站'>竹北站 (竹北稅捐處)</option>
-                <option value='頭份站'>頭份站 (頭份麥當勞)</option>
-                <option value='台中站'>台中站 (忠明國小側門)</option>
-                <option value='彰化站'>彰化站 (向陽停車場)</option>
-                <option value='麻豆站'>麻豆站 (麻豆交流道-)</option>
-                <option value='永康站'>永康站 (永康交流道-情定大飯店)</option>
-                <option value='仁德站'>仁德站 (仁德交流道-隆美窗簾)</option>
-                <option value='高雄岡山站'>高雄岡山站 (岡山阿囉哈)</option>
-                <option value='高雄楠梓站'>高雄楠梓站 (楠梓阿囉哈)</option>
-                <option value='高雄建工站'>高雄建工站 (大順建工路口-高雄銀行處)</option>
-                <option value='自往'>自往</option>
-            </select>
+            <div class='row form-group required'>
+                <label for='traffic' class='col-md-2 control-label text-md-left'>去程</label>
+                <div class='col-md-10'>
+                    <select name="traffic" class="form-control" required> 
+                        <option value=''>- 請選擇 -</option>
+                        <option value='北苑站'>北苑站 (台北學苑對面彰化銀行)</option>
+                        <option value='板橋站'>板橋站 (民生路2段221號)</option>
+                        <option value='林口站'>林口站 (文化二路與復興一路交接口--中油對面彩虹魚門口)</option>
+                        <option value='南崁站'>南崁站 (桃園市蘆竹區新南路一段368號)</option>
+                        <option value='新屋站'>新屋站 (新屋交流道錡鎂修車廠：桃園市中壢區民族路三段22號)</option>
+                        <option value='竹北站'>竹北站 (竹北稅捐處)</option>
+                        <option value='頭份站'>頭份站 (頭份麥當勞)</option>
+                        <option value='台中站'>台中站 (忠明國小側門)</option>
+                        <option value='彰化站'>彰化站 (向陽停車場)</option>
+                        <option value='麻豆站'>麻豆站 (麻豆交流道-)</option>
+                        <option value='永康站'>永康站 (永康交流道-情定大飯店)</option>
+                        <option value='仁德站'>仁德站 (仁德交流道-隆美窗簾)</option>
+                        <option value='高雄岡山站'>高雄岡山站 (岡山阿囉哈)</option>
+                        <option value='高雄楠梓站'>高雄楠梓站 (楠梓阿囉哈)</option>
+                        <option value='高雄建工站'>高雄建工站 (大順建工路口-高雄銀行處)</option>
+                        <option value='自往'>自往</option>
+                    </select>
+                </div>
+            </div>
+            <div class='row form-group required'>
+                <label for='traffic' class='col-md-2 control-label text-md-left'>回程</label>
+                <div class='col-md-10'>
+                    <select name="traffic" class="form-control" required> 
+                        <option value=''>- 請選擇 -</option>
+                        <option value='北苑站'>北苑站 (台北學苑對面彰化銀行)</option>
+                        <option value='板橋站'>板橋站 (民生路2段221號)</option>
+                        <option value='林口站'>林口站 (文化二路與復興一路交接口--中油對面彩虹魚門口)</option>
+                        <option value='南崁站'>南崁站 (桃園市蘆竹區新南路一段368號)</option>
+                        <option value='新屋站'>新屋站 (新屋交流道錡鎂修車廠：桃園市中壢區民族路三段22號)</option>
+                        <option value='竹北站'>竹北站 (竹北稅捐處)</option>
+                        <option value='頭份站'>頭份站 (頭份麥當勞)</option>
+                        <option value='台中站'>台中站 (忠明國小側門)</option>
+                        <option value='彰化站'>彰化站 (向陽停車場)</option>
+                        <option value='麻豆站'>麻豆站 (麻豆交流道-)</option>
+                        <option value='永康站'>永康站 (永康交流道-情定大飯店)</option>
+                        <option value='仁德站'>仁德站 (仁德交流道-隆美窗簾)</option>
+                        <option value='高雄岡山站'>高雄岡山站 (岡山阿囉哈)</option>
+                        <option value='高雄楠梓站'>高雄楠梓站 (楠梓阿囉哈)</option>
+                        <option value='高雄建工站'>高雄建工站 (大順建工路口-高雄銀行處)</option>
+                        <option value='自往'>自往</option>
+                    </select>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -323,11 +399,11 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <label class='col-md-2 control-label text-md-right'>福智相關資訊調查</label>
         <div class='col-md-10'>
             <div class="row form-group required">
-                <label for='inputGender' class='col-md-2 control-label text-md-right'>請問您有參加福智廣論研討班嗎？</label>
+                <div class='col-md-2 control-label text-md-right'>請問您有參加福智廣論研討班嗎？</div>
                 <div class='col-md-10'>
                     <div class="form-check form-check-inline">
                         <label class="form-check-label" for="M">
-                            <input class="form-check-input" type="radio" name="is_recommended_by_reading_class" value="1" required>
+                            <input class="form-check-input" type="radio" name="is_lamrim" value="1" required>
                             是
                             <div class="invalid-feedback">
                                 請選擇是否為福智廣論研討班學員
@@ -336,7 +412,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     </div>
                     <div class="form-check form-check-inline">
                         <label class="form-check-label" for="F">
-                            <input class="form-check-input" type="radio" name="is_recommended_by_reading_class" value="0" required>
+                            <input class="form-check-input" type="radio" name="is_lamrim" value="0" required>
                             否
                             <div class="invalid-feedback">
                                 &nbsp;
@@ -345,79 +421,35 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     </div>
                 </div>
             </div>
-            <div class='row form-group'>
-                <div class='col-md-2'>
+            <div class='row form-group required'>
+                <div class='col-md-2  control-label'>
                     您的孩子曾在福智文教系統的哪個班次學習？
                 </div>
                 <div class='col-md-10'>
-                    <input type="text" class="form-control" name="branch_or_classroom_belongs_to" placeholder="範例：台北學苑/士林教室" required>
+                    <input type="checkbox" name="is_child_blisswisdommed[]" id="" value="孩子沒有在福智系統學習過">
+                    孩子沒有在福智系統學習過 <br>
+                    <input type="checkbox" name="is_child_blisswisdommed[]" id="" value="福幼班">
+                    福幼班 <br>
+                    <input type="checkbox" name="is_child_blisswisdommed[]" id="" value="妙慧幼兒園系列">
+                    妙慧幼兒園系列 <br>
+                    <input type="checkbox" name="is_child_blisswisdommed[]" id="" value="福智學校（國小、國中、高中）">
+                    福智學校（國小、國中、高中） <br>
+                    <input type="checkbox" name="is_child_blisswisdommed[]" id="" value="福智青少年班">
+                    福智青少年班 <br>
+                    <input type="checkbox" name="is_child_blisswisdommed[]" id="" value="福智讀經班">
+                    福智讀經班 <br>
+                    <input type="checkbox" name="is_child_blisswisdommed[]" id="" value="福智大專班">
+                    福智大專班 <br>
+                    <input type="checkbox" name="is_child_blisswisdommed[]" id="" value="其他">
+                    其他 <br>
+                    <input type="text" class="form-control" name="is_child_blisswisdommed[]">
                     <div class="invalid-feedback">
-                        請輸入所屬學支苑/教室
+                        請勾選項目
                     </div>
                 </div>
             </div>   
         </div>
     </div>
-
-    {{-- <div class='row form-group required'>
-        <label for='inputHasLicense' class='col-md-2 control-label text-md-right'>學生參加班次</label>
-        <div class='col-md-10'>
-            <label class=radio-inline>
-                <input type=radio required name='class_type' value='青少年班' id="1"> 青少年班
-                <div class="invalid-feedback">
-                    請選擇班次
-                </div>
-            </label> 
-            <label class='radio-inline d-inline'>
-                <input type=radio required name='class_type' value='培德班/悅意系列' id="2"> 培德班/悅意系列
-                <div class="invalid-feedback">
-                    &nbsp;
-                </div>
-            </label> 
-            <label class='radio-inline d-inline'>
-                <input type=radio required name='class_type' value='廣論子弟' id="lamrim_descendant"> 廣論子弟
-                <div class="invalid-feedback">
-                    &nbsp;
-                </div>
-            </label> 
-        </div>
-    </div>
-
-    <span id="rowParentLamrim">
-        <div class='row form-group required'>
-            <label for='inputSchoolOrCourse' class='col-md-2 control-label text-md-right'>廣論子弟父母之研討班</label>
-            <div class='col-md-10'>
-                <input type=text required name='parent_lamrim_class' class="form-control" placeholder="請填寫父親或母親的廣論研討班別">
-            </div>
-            <div class="invalid-feedback crumb">
-                請填寫父母的廣論班別
-            </div>
-        </div>
-
-        <div class="row form-group required">
-            <label for='inputGender' class='col-md-2 control-label text-md-right'>讀經班推薦</label>
-            <div class='col-md-10'>
-                <div class="form-check form-check-inline">
-                    <label class="form-check-label" for="M">
-                        <input class="form-check-input" type="radio" name="is_recommended_by_reading_class" value="1" required>
-                        是 (讀經班成員)
-                        <div class="invalid-feedback">
-                            請選擇是否是讀經班推薦
-                        </div>
-                    </label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <label class="form-check-label" for="F">
-                        <input class="form-check-input" type="radio" name="is_recommended_by_reading_class" value="0" required>
-                        否 (非讀經班成員)
-                        <div class="invalid-feedback">
-                            &nbsp;
-                        </div>
-                    </label>
-                </div>
-            </div>
-        </div>
-    </span> --}}
 
     <div class="row form-group text-danger tips d-none">
         <div class='col-md-2'></div>
@@ -484,8 +516,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         })();     
         
         let categories = null;
-        let rowParentLamrim = null;
-        let rowParentLamrimInnerHTML = null;
         let no_special_condition = null;
         let has_special_condition = null;
         let special_condition = null;
@@ -497,30 +527,10 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         */
         document.onreadystatechange = () => {
             if (document.readyState === 'complete') {
-                /**
-                * 廣論子弟，勾選後顯示/隱藏父母欄。
-                */
-                rowParentLamrim = document.getElementById("rowParentLamrim");
-                rowParentLamrimInnerHTML = rowParentLamrim.innerHTML;
                 no_special_condition = document.getElementById("no_special_condition");
                 has_special_condition = document.getElementById("has_special_condition");
                 special_condition = document.getElementById("special_condition");
                 special_conditionHTML = special_condition;
-                document.getElementById("lamrim_descendant").addEventListener("click", function() { 
-                    if (this.checked) {
-                        showFields();
-                    } 
-                });
-                document.getElementById("1").addEventListener("click", function() { 
-                    if (this.checked) {
-                        hideFields();
-                    } 
-                });
-                document.getElementById("2").addEventListener("click", function() { 
-                    if (this.checked) {
-                        hideFields();
-                    } 
-                });
                 document.getElementById("no_special_condition").addEventListener("click", function() { 
                     if (this.checked) {
                         special_condition.remove();
@@ -532,9 +542,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         parentElement.insertBefore(special_conditionHTML, parentElement.children[1]);
                     } 
                 });
-                if(!document.getElementById("lamrim_descendant").checked){
-                    hideFields();
-                }
                 if(!document.getElementById("has_special_condition").checked){
                     special_condition.remove();
                 }
