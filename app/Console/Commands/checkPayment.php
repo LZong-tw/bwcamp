@@ -39,8 +39,7 @@ class checkPayment extends Command
     {
         // 1. FTP 初始化
         $ftp = \Storage::createFtpDriver([
-            'host'     => config('camps_payments.scsb_ftp.host'), // 教師營
-            // 快樂營：54.69.93.206
+            'host'     => config('camps_payments.scsb_ftp.host'),
             'username' => config('camps_payments.scsb_ftp.username'),
             'password' => config('camps_payments.scsb_ftp.password'),
             'port'     => '21',
