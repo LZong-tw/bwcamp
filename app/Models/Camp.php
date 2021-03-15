@@ -12,7 +12,7 @@ class Camp extends Model
      * @var array
      */
     protected $fillable = [
-        'fullName', 'abbreviation', 'site_url', 'icon', 'table', 'registration_start', 'registration_end', 'admission_announcing_date', 'admission_confirming_end', 'final_registration_end', 'payment_startdate', 'payment_deadline', 'fee'
+        'fullName', 'abbreviation', 'site_url', 'icon', 'table', 'registration_start', 'registration_end', 'admission_announcing_date', 'admission_confirming_end', 'final_registration_end', 'payment_startdate', 'payment_deadline', 'fee', 'has_early_bird', 'early_bird_fee', 'early_bird_last_day'
     ];
 
     protected $guarded = [];
@@ -33,15 +33,11 @@ class Camp extends Model
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'early_bird_last_day' => 'date'
     ];
 
     public function batchs(){
         return $this->hasMany('App\Models\Batch');
-    }
-
-    public static function getCampWithBatch($batch_id)
-    {
-        return Camp::join('batchs', 'batchs.camp_id', '=', 'camps.id')->where('batchs.id', $batch_id)->first();
     }
 
     public static function getCampTable($batch_id)

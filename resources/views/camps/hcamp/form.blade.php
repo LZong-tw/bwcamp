@@ -35,7 +35,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group'>
         <label for='inputBatch' class='col-md-2 control-label text-md-right'>營隊時間</label>
         <div class='col-md-10'>
-            <h3>{{ $camp_data->batch_start }} ~ {{ $camp_data->batch_end }}</h3>
+            <h3>{{ $batch->batch_start }} ~ {{ $batch->batch_end }}</h3>
             @if(isset($applicant_data))
             <input type='hidden' name='applicant_id' value='{{ $applicant_id }}'>
             @endif
@@ -171,7 +171,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     西元
                 </div>
                 <div class="col-md-3">
-                    <input type='number' required class='form-control' name='birthyear' min=1900 max='{{ \Carbon\Carbon::now()->subYears(16)->year }}' value='' placeholder='辦理保險用，'>
+                    <input type='number' required class='form-control' name='birthyear' min=1900 max='{{ \Carbon\Carbon::now()->subYears(4)->year }}' value='' placeholder='辦理保險用，'>
                     <div class="invalid-feedback">
                         未填寫或日期不正確
                     </div>

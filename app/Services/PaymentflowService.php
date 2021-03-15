@@ -85,7 +85,7 @@ class PaymentflowService
 						$value = $this->numbers[$j];
 					}
 				}
-				$oddSum += $value;
+				$oddSum += (int)$value;
 			} 
         }
         for($i = 1; $i <= count($storeSecondBarcodeArray); $i++) {
@@ -96,7 +96,7 @@ class PaymentflowService
 						$value = $this->numbers[$j];
 					}
 				}
-				$oddSum += $value;
+				$oddSum += (int)$value;
 			} 
         }
         for($i = 1; $i <= count($storeThirdBarcodeArray); $i++) {
@@ -107,7 +107,7 @@ class PaymentflowService
 						$value = $this->numbers[$j];
 					}
 				}
-				$oddSum += $value;
+				$oddSum += (int)$value;
 			} 
         }
 		
@@ -129,7 +129,7 @@ class PaymentflowService
 						$value = $this->numbers[$j];
 					}
 				}
-				$evenSum += $value;
+				$evenSum += (int)$value;
 			}
         }
         for($i = 1; $i <= count($storeSecondBarcodeArray); $i++) {
@@ -140,7 +140,7 @@ class PaymentflowService
 						$value = $this->numbers[$j];
 					}
 				}
-				$evenSum += $value;
+				$evenSum += (int)$value;
 			}
         }
         for($i = 1; $i <= count($storeThirdBarcodeArray); $i++) {
@@ -151,7 +151,7 @@ class PaymentflowService
 						$value = $this->numbers[$j];
 					}
 				}
-				$evenSum += $value;
+				$evenSum += (int)$value;
 			}
 		}
 

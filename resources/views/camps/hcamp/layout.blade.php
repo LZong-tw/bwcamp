@@ -54,11 +54,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('query', $batch_id) }}">報名查詢/修改</a>
                     </li>
-                    @if(\Carbon\Carbon::now() >= \Carbon\Carbon::createFromFormat("Y-m-d", $camp_data->admission_announcing_date))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('queryadmit', $batch_id) }}">錄取查詢</a>
-                        </li>
-                    @endif
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('queryadmit', $batch_id) }}">繳費查詢</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url("downloads/tcamp2021/2021教師生命成長營課程表.pdf") }}">課程表</a>
                     </li>

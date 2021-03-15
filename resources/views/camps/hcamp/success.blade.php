@@ -11,7 +11,7 @@
         <div class="card-body">
             <p class="card-text">
                 恭喜您已完成{{ $camp_data->fullName }}網路報名程序。
-                @include('camps.hcamp.successMessages')
+                @include('camps.hcamp.successMessages', compact('applicant'))
             </p>
             <form action="{{ route("queryview", $applicant->batch_id) }}" method="post" class="d-inline">
                 @csrf
