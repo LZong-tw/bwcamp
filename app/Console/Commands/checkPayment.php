@@ -156,6 +156,9 @@ class checkPayment extends Command
                     $applicant = \App\Models\Applicant::where('bank_second_barcode', $item["銷帳帳號"])->orderBy("id", "desc")->first();
                     if($applicant){
                         $applicant->deposit = $applicant->deposit + $item["繳款金額"];
+                        if($this->argument('camp') == 'hcamp'){
+                            $applicant->is_admitted = 1;
+                        }
                         $applicant->save();
                     }                    
                 }

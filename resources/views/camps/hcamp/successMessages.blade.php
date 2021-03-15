@@ -1,4 +1,8 @@
 請記下您的<span class="text-danger font-weight-bold">《 報名序號：{{ $applicant->id }} 》</span>作為日後查詢使用。
 並請於 <u>12 / 08(星期二) ~ 12 / 14(星期一)</u> 期間內完成繳費，繳費後始完成報名手續，倘未繳費，視同放棄。
 <br>
-請下載「錄取繳費通知單」(或可於網站錄取頁面查詢)後，至銀行或超商繳費。 
+<form action="{{ route("downloadPaymentForm", $applicant->batch_id) }}" method="post" name="downloadPaymentForm" class="d-inline">
+    @csrf
+    <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
+    請下載「<button class="btn btn-success" onclick="this.innerText = '正在產生繳費單'; this.disabled = true; document.downloadPaymentForm.submit();">錄取繳費通知單</button>
+</form>」(或可於網站錄取頁面查詢)後，至銀行或超商繳費。 

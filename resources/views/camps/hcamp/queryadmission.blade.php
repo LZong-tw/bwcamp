@@ -10,7 +10,7 @@
 <form method="post" action="{{ route("queryadmit", $batch_id) }}" name="QueryRegis" class="form-horizontal">
     @csrf
     <div class="page-header form-group">
-        <h4>錄取查詢</h4>
+        <h4>繳費查詢</h4>
     </div>
     <div class='row form-group'>
         <label for='inputName' class='col-md-2'>姓名</label>
@@ -39,7 +39,7 @@
     <div class=row>
         <div class='col-md-4'></div>
         <div class='col-md-8'>
-            <INPUT type=submit name=sub class='btn btn-success' value='錄取查詢'>
+            <INPUT type=submit name=sub class='btn btn-success' value='繳費查詢'>
             <INPUT type=reset  class='btn btn-danger' value='清除重來'>
         </div>
     </div>
