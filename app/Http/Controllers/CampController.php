@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Camp;
+use App\Models\Batch;
 use App\Models\Applicant;
 use App\Services\CampDataService;
 use App\Services\ApplicantService;
@@ -70,7 +71,9 @@ class CampController extends Controller
             return view('camps.' . $this->camp_data->table . '.outdated')->with('isBackend', '超出最終報名日。');
         }
         else{
-            return view('camps.' . $this->camp_data->table . '.form')->with('isBackend', $request->isBackend);
+            return view('camps.' . $this->camp_data->table . '.form')
+                    ->with('isBackend', $request->isBackend)
+                    ->with('batch', Batch::find($request->batch_id));
         }
     }
 
@@ -138,7 +141,11 @@ class CampController extends Controller
                 $model = '\\App\\Models\\' . ucfirst($this->camp_data->table);
                 $model::create($formData);
                 return $applicant;
-            });
+            });            
+            if($this->camp_data->table == 'hcamp'){
+                $applicant = $this->applicantService->fillPaymentData($applicant, $this->camp_data);
+                $applicant->save();
+            }
             // 寄送報名資料
             Mail::to($applicant)->send(new ApplicantMail($applicant, $this->camp_data));
         }
@@ -194,6 +201,7 @@ class CampController extends Controller
                 ->with('applicant_raw_data', $applicant)
                 ->with('isModify', $isModify)
                 ->with('isBackend', $request->isBackend)
+                ->with('batch', Batch::find($request->batch_id))
                 ->with('camp_data', $camp_data['camp_data']);
         }
         else{
@@ -254,7 +262,7 @@ class CampController extends Controller
                         ->join('batchs', 'applicants.batch_id', '=', 'batchs.id')
                         ->join('camps', 'batchs.camp_id', '=', 'camps.id')
                         ->find($request->applicant_id);
-        return \PDF::loadView('backend.registration.paymentFormPDF', compact('applicant'))->download(\Carbon\Carbon::now()->format('YmdHis') . $this->camp_data->table . $applicant->id . '繳費聯.pdf');
+        return \PDF::loadView('camps.' . $this->camp_data->table . '.paymentFormPDF', compact('applicant'))->download(\Carbon\Carbon::now()->format('YmdHis') . $this->camp_data->table . $applicant->id . '繳費聯.pdf');
     }
 
     public function downloadCheckInNotification(Request $request) {

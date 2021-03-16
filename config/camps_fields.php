@@ -71,4 +71,17 @@ return [
         "is_attend" => "回覆參加", 
         "nationality" => "國籍", 
     ],
+
+    'hcamp' => [
+        "education" => "報名者學程", 
+        "special_condition" => "特殊狀況", 
+        "traffic_depart" => "去程交通", 
+        " traffic_return" => "回程交通", 
+        // "branch_or_classroom_belongs_to" => "", 
+        // "class_type" => "", 
+        // "parent_lamrim_class" => "", 
+        // "is_recommended_by_reading_class" => "", 
+        "is_lamrim" => "父母是否參加廣論班", 
+        "is_child_blisswisdommed" => "孩子曾在的福智文教系統", 
+    ],
 ];

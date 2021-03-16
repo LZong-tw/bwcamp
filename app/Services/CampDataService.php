@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use App\Models\Camp;
+use App\Models\Batch;
 use Carbon\Carbon;
 use App;
 
@@ -9,7 +10,7 @@ class CampDataService
 {
     public function getCampData($batch_id) {
         //營隊基本資料
-        $camp_data = Camp::getCampWithBatch($batch_id);
+        $camp_data = Batch::find($batch_id)->camp;
         // 錄取日期、確認參加日期資料轉換 (取得星期字串)
         $admission_announcing_date = Carbon::createFromFormat('Y-m-d', $camp_data->admission_announcing_date);
         $admission_announcing_date_Weekday = Carbon::create($admission_announcing_date->format('N'))->locale(App::getLocale())->dayName;
@@ -34,6 +35,11 @@ class CampDataService
         if(isset($request->blisswisdom_type_complement)) {
             $request->merge([
                 'blisswisdom_type_complement' => implode("||/", $request->blisswisdom_type_complement)
+            ]);
+        }
+        if(isset($request->is_child_blisswisdommed)) {
+            $request->merge([
+                'is_child_blisswisdommed' => implode("||/", $request->is_child_blisswisdommed)
             ]);
         }
 
