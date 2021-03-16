@@ -35,7 +35,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group'>
         <label for='inputBatch' class='col-md-2 control-label text-md-right'>營隊時間</label>
         <div class='col-md-10'>
-            <h3>{{ $batch->batch_start }} ~ {{ $batch->batch_end }}</h3>
+            <h3>{{ $batch->batch_start }} ~ {{ $batch->batch_end }} (需全程住宿)</h3>
             @if(isset($applicant_data))
             <input type='hidden' name='applicant_id' value='{{ $applicant_id }}'>
             @endif
