@@ -31,6 +31,9 @@
             <th>繳費開始日</th>
             <th>繳費截止日</th>
             <th>營隊費用</th>
+            <th>是否有早鳥優惠</th>
+            <th>營隊早鳥費用</th>
+            <th>早鳥最後一日</th>
             <th>建立日期</th>
             <th>更新日期</th>
             <th>動作</th>
@@ -51,6 +54,9 @@
                 <td>{{ $camp->payment_startdate }}</td>
                 <td>{{ $camp->payment_deadline }}</td>
                 <td>{{ $camp->fee }}</td>
+                <td>{{ $camp->has_early_bird }}</td>
+                <td>{{ $camp->early_bird_fee }}</td>
+                <td>{{ $camp->early_bird_last_day }}</td>
                 <td>{{ $camp->created_at }}</td>
                 <td>{{ $camp->updated_at }}</td>
                 <td>

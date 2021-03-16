@@ -39,8 +39,7 @@ class checkPayment extends Command
     {
         // 1. FTP 初始化
         $ftp = \Storage::createFtpDriver([
-            'host'     => '203.67.41.68', // 教師營
-            // 快樂營：54.69.93.206
+            'host'     => '203.67.41.68',
             'username' => 'user040',
             'password' => '01120085',
             'port'     => '21',
@@ -157,6 +156,9 @@ class checkPayment extends Command
                     $applicant = \App\Models\Applicant::where('bank_second_barcode', $item["銷帳帳號"])->orderBy("id", "desc")->first();
                     if($applicant){
                         $applicant->deposit = $applicant->deposit + $item["繳款金額"];
+                        if($this->argument('camp') == 'hcamp'){
+                            $applicant->is_admitted = 1;
+                        }
                         $applicant->save();
                     }                    
                 }

@@ -37,7 +37,7 @@ class SendAdmittedMail implements ShouldQueue
         ini_set('memory_limit', -1);
         ini_set('max_execution_time', 180);
         $applicant = $this->applicant;
-        $paymentFile = \PDF::loadView('backend.registration.paymentFormPDF', compact('applicant'))->download();
+        $paymentFile = \PDF::loadView('camps.' . $applicant->batch->camp->table . '.paymentFormPDF', compact('applicant'))->download();
         \Mail::to($applicant->email)->send(new \App\Mail\AdmittedMail($applicant, $applicant->batch->camp, $paymentFile));
     }
 }

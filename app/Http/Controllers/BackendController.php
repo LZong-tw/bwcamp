@@ -192,10 +192,10 @@ class BackendController extends Controller
                         ->find($applicant_id);
         $download = $_GET['download'] ?? false;
         if(!$download){
-            return view('backend.registration.paymentForm', compact('applicant','download'));
+            return view('camps.' . $applicant->batch->camp->table . '.paymentForm', compact('applicant','download'));
         }
         else{
-            return \PDF::loadView('backend.registration.paymentFormPDF', compact('applicant'))->download(Carbon::now()->format('YmdHis') . $applicant->batch->camp->table . $applicant->id . '.pdf');
+            return \PDF::loadView('camps.' . $applicant->batch->camp->table . '.paymentFormPDF', compact('applicant'))->download(Carbon::now()->format('YmdHis') . $applicant->batch->camp->table . $applicant->id . '.pdf');
         }
     }
 

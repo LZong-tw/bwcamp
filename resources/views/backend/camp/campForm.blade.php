@@ -85,19 +85,40 @@
         <div class='row form-group'>
             <label for='inputName' class='col-md-1 control-label'>繳費開始日</label>
             <div class='col-md-6'>
-                <input type="date" name="payment_startdate" id="" class='form-control' value="{{ $camp->payment_startdate ?? "" }}">
+                <input type="text" name="payment_startdate" id="" class='form-control' value="{{ $camp->payment_startdate ?? "" }}">
             </div>
         </div>
         <div class='row form-group'>
             <label for='inputName' class='col-md-1 control-label'>繳費截止日</label>
             <div class='col-md-6'>
-                <input type="date" name="payment_deadline" id="" class='form-control' value="{{ $camp->payment_deadline ?? "" }}">
+                <input type="text" name="payment_deadline" id="" class='form-control' value="{{ $camp->payment_deadline ?? "" }}">
             </div>
         </div>
         <div class='row form-group'>
             <label for='inputName' class='col-md-1 control-label'>營隊費用</label>
             <div class='col-md-6'>
                 <input type="number" name="fee" id="" class='form-control' value="{{ $camp->fee ?? "" }}">
+            </div>
+        </div>
+        <div class='row form-group'>
+            <label for='inputName' class='col-md-1 control-label'>是否有早鳥優惠</label>
+            <div class='col-md-6'>
+                <select name="has_early_bird" id="" class='form-control' required>
+                    <option value="0" @if(isset($camp) && !$camp->has_early_bird) selected @endif>否</option>
+                    <option value="1" @if(isset($camp) && $camp->has_early_bird) selected @endif>是</option>
+                </select>
+            </div>
+        </div>
+        <div class='row form-group'>
+            <label for='inputName' class='col-md-1 control-label'>營隊早鳥費用</label>
+            <div class='col-md-6'>
+                <input type="number" name="early_bird_fee" id="" class='form-control' value="{{ $camp->early_bird_fee ?? "" }}">
+            </div>
+        </div>
+        <div class='row form-group'>
+            <label for='inputName' class='col-md-1 control-label'>早鳥最後一日</label>
+            <div class='col-md-6'>
+                <input type="date" name="early_bird_last_day" id="" class='form-control' value="{{ $camp->early_bird_last_day ?? "" }}">
             </div>
         </div>
         @if($action == "建立")
