@@ -603,6 +603,10 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         inputs[i].value = complementData ? complementData[complementPivot] : null;
                         complementPivot++;
                     }
+                    else if(inputs[i].type == "text" && inputs[i].name == 'is_child_blisswisdommed[]'){
+                        inputs[i].value = complementData ? complementData[complementPivot] : null;
+                        complementPivot++;
+                    }
                     else if(inputs[i].type == "text"){
                         inputs[i].value = applicant_data[inputs[i].name]; 
                     }
