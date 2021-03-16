@@ -14,6 +14,8 @@
 - 快樂營開發
     - 首頁：倒數報名，於報名期間內自動轉址: 處理中
     - 報名完成即前往繳費，繳費後即完成錄取: 待測試
+    - 電子郵件寄件地址
+    - 對帳資料收件者
     - 繳費通知信內容、繳費查詢頁面內容、報到通知信內容
 
     - 報名表單：https://docs.google.com/forms/d/1c_QhNl8QplunsWnoHU9jMPf0-DVojo161wMtYPAjDWw/edit
