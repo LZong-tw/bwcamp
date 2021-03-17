@@ -49,8 +49,9 @@ class ApplicantService
     }
 
     public function checkEarlyBirdOver($applicant) {
+        // 須為已錄取
         // 如果營隊有早鳥，且當下已超過早鳥最後一日，則重新產生繳費單
-        if($applicant->batch->camp->has_early_bird && \Carbon\Carbon::now()->gt($applicant->batch->camp->early_bird_last_day)){
+        if($applicant->is_admitted && $applicant->batch->camp->has_early_bird && \Carbon\Carbon::now()->gt($applicant->batch->camp->early_bird_last_day)){
             $applicant = $this->fillPaymentData($applicant);
             $applicant->save();
         }
