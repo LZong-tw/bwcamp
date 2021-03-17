@@ -207,6 +207,38 @@ class CampDataService
 
             $formData["region"] = $region;
         }
+        else if($camp == "hcamp" && isset($formData["county"])){
+            $region = "";
+            $north = ["臺北市", "基隆市", "新北市", "宜蘭縣", "桃園縣", "新竹縣", "新竹市"];
+            $central = ["臺中市", "苗栗縣", "彰化縣", "南投縣", "雲林縣"];
+            $east = ["花蓮縣", "臺東縣"];
+            $south = ["高雄市", "屏東縣", "臺南市", "澎湖縣", "嘉義縣", "嘉義市", "南海諸島"];
+            $kimma = ["連江縣", "金門縣"];
+
+            foreach($north as $ele){
+                if(strpos($formData["county"], $ele) !== false) { $region = "北部"; }
+            }
+
+            foreach($central as $ele){
+                if(strpos($formData["county"], $ele) !== false) { $region = "中部"; }
+            }
+
+            foreach($east as $ele){
+                if(strpos($formData["county"], $ele) !== false) { $region = "東部"; }
+            }
+
+            foreach($south as $ele){
+                if(strpos($formData["county"], $ele) !== false) { $region = "南部"; }
+            }
+
+            foreach($kimma as $ele){
+                if(strpos($formData["county"], $ele) !== false) { $region = "金馬"; }
+            }
+
+            if($region == "") { $region = "其他"; }
+
+            $formData["region"] = $region;
+        }
         // else if($camp == "ecamp"){
 
         // }

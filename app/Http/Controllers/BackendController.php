@@ -186,6 +186,8 @@ class BackendController extends Controller
     }
 
     public function showPaymentForm($camp_id, $applicant_id) {
+        $applicant = Applicant::find($applicant_id);
+        $this->applicantService->checkEarlyBirdOver($applicant, $this->campFullData);
         $applicant = Applicant::select('camps.*', 'batchs.name as bName', 'applicants.*')
                         ->join('batchs', 'applicants.batch_id', '=', 'batchs.id')
                         ->join('camps', 'batchs.camp_id', '=', 'camps.id')
@@ -872,9 +874,13 @@ class BackendController extends Controller
     }
 
     public function showAccountingPage() {
+        $constraints = function ($query) {
+            $query->where('id', $this->camp_id);
+        };
         $accountingTable = config('camps_payments.' . $this->campFullData->table . '.accounting_table');
         $accountings = Applicant::select('applicants.batch_id', 'applicants.name as aName', 'applicants.fee as shouldPay', $accountingTable . '.*', 'applicants.mobile')
-            ->with('batch', 'batch.camp')
+            ->with(['batch', 'batch.camp' => $constraints])
+            ->whereHas('batch.camp', $constraints)
             ->join($accountingTable, $accountingTable . '.accounting_no', '=', 'applicants.bank_second_barcode')
             ->orderBy($accountingTable . '.id', 'asc')->get();
         $download = $_GET['download'] ?? false;

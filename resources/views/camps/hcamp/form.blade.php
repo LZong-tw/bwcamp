@@ -135,36 +135,8 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-{{--
     <div class='row form-group required'>
-        <label for='inputNationName' class='col-md-2 control-label text-md-right'>國籍</label>
-        <div class='col-md-2'>
-        <select class='form-control' name='nationality' id='inputNationName'>
-            <option value='美國' >美國</option>
-            <option value='加拿大' >加拿大</option>
-            <option value='澳大利亞' >澳大利亞</option>
-            <option value='紐西蘭' >紐西蘭</option>
-            <option value='中國' >中國</option>
-            <option value='香港' >香港</option>
-            <option value='澳門' >澳門</option>
-            <option value='台灣' selected>台灣</option>
-            <option value='韓國' >韓國</option>
-            <option value='日本' >日本</option>
-            <option value='蒙古' >蒙古</option>
-            <option value='新加坡' >新加坡</option>
-            <option value='馬來西亞' >馬來西亞</option>
-            <option value='菲律賓' >菲律賓</option>
-            <option value='印尼' >印尼</option>
-            <option value='泰國' >泰國</option>
-            <option value='越南' >越南</option>
-            <option value='其它' >其它</option>
-        </select>
-    </div>
-</div>
---}}
-
-<div class='row form-group required'>
-    <label for='inputBirth' class='col-md-2 control-label text-md-right'>生日</label>
+        <label for='inputBirth' class='col-md-2 control-label text-md-right'>生日</label>
         <div class='date col-md-10' id='inputBirth'>
             <div class='row form-group required'>
                 <div class="col-md-1">
