@@ -166,7 +166,7 @@ class BackendController extends Controller
                 $candidate->is_admitted = 1;
                 $candidate->group = $group;
                 $candidate->number = $number;
-                $candidate = $this->applicantService->fillPaymentData($candidate, $this->campFullData);
+                $candidate = $this->applicantService->fillPaymentData($candidate);
                 $candidate->save();
                 $message = "錄取完成。";
             }
@@ -187,11 +187,7 @@ class BackendController extends Controller
 
     public function showPaymentForm($camp_id, $applicant_id) {
         $applicant = Applicant::find($applicant_id);
-        $this->applicantService->checkEarlyBirdOver($applicant, $this->campFullData);
-        $applicant = Applicant::select('camps.*', 'batchs.name as bName', 'applicants.*')
-                        ->join('batchs', 'applicants.batch_id', '=', 'batchs.id')
-                        ->join('camps', 'batchs.camp_id', '=', 'camps.id')
-                        ->find($applicant_id);
+        $this->applicantService->checkEarlyBirdOver($applicant);
         $download = $_GET['download'] ?? false;
         if(!$download){
             return view('camps.' . $applicant->batch->camp->table . '.paymentForm', compact('applicant','download'));
@@ -226,7 +222,7 @@ class BackendController extends Controller
                     $candidate->is_admitted = 1;
                     $candidate->group = $group;
                     $candidate->number = $number;
-                    $candidate = $this->applicantService->fillPaymentData($candidate, $this->campFullData);
+                    $candidate = $this->applicantService->fillPaymentData($candidate);
                     $applicant = $candidate->save();
                     array_push($message, $candidate->name . "，錄取序號" . $request->admittedSN[$key] . "錄取完成。");
                 }
