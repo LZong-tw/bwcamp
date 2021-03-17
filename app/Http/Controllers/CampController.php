@@ -257,7 +257,9 @@ class CampController extends Controller
     }
 
     public function downloadPaymentForm(Request $request) {
-        ini_set('memory_limit', -1);
+        ini_set('memory_limit', -1);        
+        $applicant = Applicant::find($request->applicant_id);
+        $this->applicantService->checkEarlyBirdOver($applicant, $this->camp_data);
         $applicant = Applicant::select('camps.*', 'batchs.name as bName', 'applicants.*')
                         ->join('batchs', 'applicants.batch_id', '=', 'batchs.id')
                         ->join('camps', 'batchs.camp_id', '=', 'camps.id')

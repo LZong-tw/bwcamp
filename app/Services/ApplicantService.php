@@ -48,6 +48,14 @@ class ApplicantService
             })->first();
     }
 
+    public function checkEarlyBirdOver($applicant, $camp_data) {
+        // 如果營隊有早鳥，且當下已超過早鳥最後一日，則重新產生繳費單
+        if($camp_data->has_early_bird && \Carbon\Carbon::now()->gt($camp_data->early_bird_last_day)){
+            $applicant = $this->fillPaymentData($applicant, $camp_data);
+            $applicant->save();
+        }
+    }
+
     /**
      * 錄取後，自動生成轉帳資料
      * 
@@ -58,19 +66,9 @@ class ApplicantService
     public static function fillPaymentData($candidate, $campFullData){
         $data = array_merge(config('camps_payments.general'), config('camps_payments.' . $campFullData->table));
         $data["應繳日期"] = $campFullData['payment_startdate'] ?? "0000";
-        $data["繳費期限"] = $campFullData['payment_deadline'] ?? "000000";
+        $data["繳費期限"] = $campFullData['set_payment_deadline'] ?? "000000";
         $data["銷帳編號"] = $data["銷帳流水號前1碼"] . str_pad($candidate->id, 5, '0', STR_PAD_LEFT);
-        if($campFullData['has_early_bird']){
-            if($candidate->created_at->lte($campFullData['early_bird_last_day'])){
-                $candidate->fee = $campFullData['early_bird_fee'];
-            }
-            else{
-                $candidate->fee = $campFullData['fee'];
-            }        
-        }
-        else{
-            $candidate->fee = $campFullData['fee'];
-        }  
+        $candidate->fee = $campFullData['set_fee'];
         $paymentFlow = new PaymentflowService($data);        
         $candidate->store_first_barcode = $paymentFlow->getStoreFirstBarcode();
         $candidate->store_second_barcode = $paymentFlow->getStoreSecondBarcode();
