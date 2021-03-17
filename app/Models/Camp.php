@@ -54,7 +54,7 @@ class Camp extends Model
     // 決定當下的繳費期限是最終繳費期限或早鳥繳費期限
     public function getSetPaymentDeadlineAttribute(){
         if($this->has_early_bird && Carbon::now()->lte($this->early_bird_last_day)){
-            if($this->table == 'tcamp' || $this->table == 'hcamp'){
+            if($this->attributes['table'] == 'tcamp' || $this->attributes['table'] == 'hcamp'){
                 return $this->early_bird_last_day->subYears(1911)->format('ymd');
             }
         }  
