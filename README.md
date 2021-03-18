@@ -47,7 +47,6 @@
     - 報到統計詳細資料需排除 0
 - 錄取資料操作方式調整：因需統計總錄取人數，故現行方式需做修改
 - 即時報到統計：只顯示當日該營隊所有場次的報到/未報到人數
-- PaymentForm.blade.php, PaymentFormPDF.blade.php 移出 backend
 - 使用 Queue 郵寄所有信件
 - 後台可修改 Email、姓名、身份證字號
 - 營隊管理：
@@ -117,6 +116,7 @@
 
 ## 已完成功能
 
+- PaymentForm.blade.php, PaymentFormPDF.blade.php 移出 backend
 - 快樂營開發
     - 報名資料回填功能檢查: 已完成
     - 錄取功能 bug 修正、調整: 已完成
