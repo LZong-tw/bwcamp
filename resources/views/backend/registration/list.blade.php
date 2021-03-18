@@ -9,7 +9,7 @@
         color: #33B2FF!important;
     }
 </style>
-<h2>報名查詢及下載</h2>
+<h2>報名檢視及下載</h2>
 <form method=post action="{{ route('getRegistrationList', $campFullData->id) }}" class="form-inline" name="Camp">
     @csrf
     <table class="table table-responsive">

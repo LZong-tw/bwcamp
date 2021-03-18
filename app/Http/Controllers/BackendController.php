@@ -166,7 +166,7 @@ class BackendController extends Controller
                 $candidate->is_admitted = 1;
                 $candidate->group = $group;
                 $candidate->number = $number;
-                $candidate = $this->applicantService->fillPaymentData($candidate, $this->campFullData);
+                $candidate = $this->applicantService->fillPaymentData($candidate);
                 $candidate->save();
                 $message = "錄取完成。";
             }
@@ -186,10 +186,8 @@ class BackendController extends Controller
     }
 
     public function showPaymentForm($camp_id, $applicant_id) {
-        $applicant = Applicant::select('camps.*', 'batchs.name as bName', 'applicants.*')
-                        ->join('batchs', 'applicants.batch_id', '=', 'batchs.id')
-                        ->join('camps', 'batchs.camp_id', '=', 'camps.id')
-                        ->find($applicant_id);
+        $applicant = Applicant::find($applicant_id);
+        $this->applicantService->checkEarlyBirdOver($applicant);
         $download = $_GET['download'] ?? false;
         if(!$download){
             return view('camps.' . $applicant->batch->camp->table . '.paymentForm', compact('applicant','download'));
@@ -224,7 +222,7 @@ class BackendController extends Controller
                     $candidate->is_admitted = 1;
                     $candidate->group = $group;
                     $candidate->number = $number;
-                    $candidate = $this->applicantService->fillPaymentData($candidate, $this->campFullData);
+                    $candidate = $this->applicantService->fillPaymentData($candidate);
                     $applicant = $candidate->save();
                     array_push($message, $candidate->name . "，錄取序號" . $request->admittedSN[$key] . "錄取完成。");
                 }
@@ -872,9 +870,13 @@ class BackendController extends Controller
     }
 
     public function showAccountingPage() {
+        $constraints = function ($query) {
+            $query->where('id', $this->camp_id);
+        };
         $accountingTable = config('camps_payments.' . $this->campFullData->table . '.accounting_table');
         $accountings = Applicant::select('applicants.batch_id', 'applicants.name as aName', 'applicants.fee as shouldPay', $accountingTable . '.*', 'applicants.mobile')
-            ->with('batch', 'batch.camp')
+            ->with(['batch', 'batch.camp' => $constraints])
+            ->whereHas('batch.camp', $constraints)
             ->join($accountingTable, $accountingTable . '.accounting_no', '=', 'applicants.bank_second_barcode')
             ->orderBy($accountingTable . '.id', 'asc')->get();
         $download = $_GET['download'] ?? false;

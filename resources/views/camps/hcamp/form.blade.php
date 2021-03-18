@@ -35,7 +35,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group'>
         <label for='inputBatch' class='col-md-2 control-label text-md-right'>營隊時間</label>
         <div class='col-md-10'>
-            <h3>{{ $batch->batch_start }} ~ {{ $batch->batch_end }}</h3>
+            <h3>{{ $batch->batch_start }} ~ {{ $batch->batch_end }} (需全程住宿)</h3>
             @if(isset($applicant_data))
             <input type='hidden' name='applicant_id' value='{{ $applicant_id }}'>
             @endif
@@ -135,36 +135,8 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-{{--
     <div class='row form-group required'>
-        <label for='inputNationName' class='col-md-2 control-label text-md-right'>國籍</label>
-        <div class='col-md-2'>
-        <select class='form-control' name='nationality' id='inputNationName'>
-            <option value='美國' >美國</option>
-            <option value='加拿大' >加拿大</option>
-            <option value='澳大利亞' >澳大利亞</option>
-            <option value='紐西蘭' >紐西蘭</option>
-            <option value='中國' >中國</option>
-            <option value='香港' >香港</option>
-            <option value='澳門' >澳門</option>
-            <option value='台灣' selected>台灣</option>
-            <option value='韓國' >韓國</option>
-            <option value='日本' >日本</option>
-            <option value='蒙古' >蒙古</option>
-            <option value='新加坡' >新加坡</option>
-            <option value='馬來西亞' >馬來西亞</option>
-            <option value='菲律賓' >菲律賓</option>
-            <option value='印尼' >印尼</option>
-            <option value='泰國' >泰國</option>
-            <option value='越南' >越南</option>
-            <option value='其它' >其它</option>
-        </select>
-    </div>
-</div>
---}}
-
-<div class='row form-group required'>
-    <label for='inputBirth' class='col-md-2 control-label text-md-right'>生日</label>
+        <label for='inputBirth' class='col-md-2 control-label text-md-right'>生日</label>
         <div class='date col-md-10' id='inputBirth'>
             <div class='row form-group required'>
                 <div class="col-md-1">
@@ -349,6 +321,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <div class='col-md-10'>
                     <select name="traffic" class="form-control" required> 
                         <option value=''>- 請選擇 -</option>
+                        <option value='自往'>自往</option>
                         <option value='北苑站'>北苑站 (台北學苑對面彰化銀行)</option>
                         <option value='板橋站'>板橋站 (民生路2段221號)</option>
                         <option value='林口站'>林口站 (文化二路與復興一路交接口--中油對面彩虹魚門口)</option>
@@ -364,7 +337,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         <option value='高雄岡山站'>高雄岡山站 (岡山阿囉哈)</option>
                         <option value='高雄楠梓站'>高雄楠梓站 (楠梓阿囉哈)</option>
                         <option value='高雄建工站'>高雄建工站 (大順建工路口-高雄銀行處)</option>
-                        <option value='自往'>自往</option>
                     </select>
                 </div>
             </div>
@@ -373,6 +345,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <div class='col-md-10'>
                     <select name="traffic" class="form-control" required> 
                         <option value=''>- 請選擇 -</option>
+                        <option value='自往'>自往</option>
                         <option value='北苑站'>北苑站 (台北學苑對面彰化銀行)</option>
                         <option value='板橋站'>板橋站 (民生路2段221號)</option>
                         <option value='林口站'>林口站 (文化二路與復興一路交接口--中油對面彩虹魚門口)</option>
@@ -388,15 +361,14 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         <option value='高雄岡山站'>高雄岡山站 (岡山阿囉哈)</option>
                         <option value='高雄楠梓站'>高雄楠梓站 (楠梓阿囉哈)</option>
                         <option value='高雄建工站'>高雄建工站 (大順建工路口-高雄銀行處)</option>
-                        <option value='自往'>自往</option>
                     </select>
                 </div>
             </div>
         </div>
     </div>
-
+    <hr>
     <div class='row form-group required'>
-        <label class='col-md-2 control-label text-md-right'>福智相關資訊調查</label>
+        <label class='col-md-2 control-label text-md-right'>福智相關資訊調查<br>（家長資訊）</label>
         <div class='col-md-10'>
             <div class="row form-group required">
                 <div class='col-md-2 control-label text-md-right'>請問您有參加福智廣論研討班嗎？</div>

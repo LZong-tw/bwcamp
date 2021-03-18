@@ -63,8 +63,8 @@
             <table class="table" style="margin: -12px">
                 <tr>
                     <td>
-                        繳費期限：{{ \Carbon\Carbon::now()->year }}/{{ substr($applicant->batch->camp->payment_deadline, 2, 2) }}/{{ substr($applicant->batch->camp->payment_deadline, 4, 2) }}<br>
-                        應繳金額：{{ $applicant->batch->camp->fee }}
+                        繳費期限：{{ \Carbon\Carbon::now()->year }}/{{ substr($applicant->batch->camp->set_payment_deadline, 2, 2) }}/{{ substr($applicant->batch->camp->set_payment_deadline, 4, 2) }}<br>
+                        應繳金額：{{ $applicant->batch->camp->set_fee }}
                     </td>
                 </tr>
                 <tr>
@@ -107,9 +107,9 @@
         <td>組別：{{ $applicant->group }}</td>
     </tr>
 </table>
-恭喜您錄取「{{ $applicant->batch->camp->fullName }}」！竭誠歡迎您的到來，期待與您共享這場心靈饗宴，希望您能獲得豐盛的收穫。請於{{ \Carbon\Carbon::now()->year }}年{{ substr($applicant->batch->camp->payment_deadline, 2, 2) }}月{{ substr($applicant->batch->camp->payment_deadline, 4, 2) }}日前完成繳費，<u>逾時將視同放棄錄取資格！</u>
+恭喜您錄取「{{ $applicant->batch->camp->fullName }}」！竭誠歡迎您的到來，期待與您共享這場心靈饗宴，希望您能獲得豐盛的收穫。請於{{ \Carbon\Carbon::now()->year }}年{{ substr($applicant->batch->camp->set_payment_deadline, 2, 2) }}月{{ substr($applicant->batch->camp->set_payment_deadline, 4, 2) }}日前完成繳費，<u>逾時將視同放棄錄取資格！</u>
 <ul>
-    <li>活動費用：{{ $applicant->fee }}元</li>
+    <li>活動費用：{{ $applicant->set_fee }}元</li>
     <li>繳費地點：可至超商、上海銀行繳費，或使用ATM轉帳、臨櫃匯款。</li>
     <li>若完成繳費，請於至少一個工作天後，上網查詢是否已繳費完畢。<br>
         （<a href="http://bwcamp.bwfoce.org/camp/2/queryadmit" target="_blank" rel="noopener noreferrer">http://bwcamp.bwfoce.org/camp/2/queryadmit</a> ）</li>
