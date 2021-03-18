@@ -112,7 +112,7 @@
         <div class='row form-group'>
             <label for='inputName' class='col-md-1 control-label'>營隊早鳥費用</label>
             <div class='col-md-6'>
-                <input type="number" name="early_bird_fee" id="" class='form-control' value="{{ $camp->early_bird_fee ?? "" }}">
+                <input type="number" name="early_bird_fee" id="" class='form-control' value="{{ $camp->early_bird_fee ?? "0" }}">
             </div>
         </div>
         <div class='row form-group'>

@@ -135,17 +135,18 @@ class CampController extends Controller
             // 報名資料開始寫入資料庫，使用 transaction 確保可以同時將資料寫入不同的表，
             // 或確保若其中一個步驟失敗，不會留下任何殘餘、未完整的資料（屍體）
             // $applicant 為最終報名資料
-            $applicant = \DB::transaction(function () use ($formData) {
+            $controller = $this;
+            $applicant = \DB::transaction(function () use ($formData, $controller) {
                 $applicant = Applicant::create($formData);
                 $formData['applicant_id'] = $applicant->id;
                 $model = '\\App\\Models\\' . ucfirst($this->camp_data->table);
-                $model::create($formData);
+                $model::create($formData);       
+                if($controller->camp_data->table == 'hcamp'){
+                    $applicant = $controller->applicantService->fillPaymentData($applicant);
+                    $applicant->save();
+                }
                 return $applicant;
-            });            
-            if($this->camp_data->table == 'hcamp'){
-                $applicant = $this->applicantService->fillPaymentData($applicant);
-                $applicant->save();
-            }
+            });     
             // 寄送報名資料
             Mail::to($applicant)->send(new ApplicantMail($applicant, $this->camp_data));
         }
