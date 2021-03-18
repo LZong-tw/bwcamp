@@ -321,6 +321,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <div class='col-md-10'>
                     <select name="traffic" class="form-control" required> 
                         <option value=''>- 請選擇 -</option>
+                        <option value='自往'>自往</option>
                         <option value='北苑站'>北苑站 (台北學苑對面彰化銀行)</option>
                         <option value='板橋站'>板橋站 (民生路2段221號)</option>
                         <option value='林口站'>林口站 (文化二路與復興一路交接口--中油對面彩虹魚門口)</option>
@@ -336,7 +337,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         <option value='高雄岡山站'>高雄岡山站 (岡山阿囉哈)</option>
                         <option value='高雄楠梓站'>高雄楠梓站 (楠梓阿囉哈)</option>
                         <option value='高雄建工站'>高雄建工站 (大順建工路口-高雄銀行處)</option>
-                        <option value='自往'>自往</option>
                     </select>
                 </div>
             </div>
@@ -345,6 +345,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <div class='col-md-10'>
                     <select name="traffic" class="form-control" required> 
                         <option value=''>- 請選擇 -</option>
+                        <option value='自往'>自往</option>
                         <option value='北苑站'>北苑站 (台北學苑對面彰化銀行)</option>
                         <option value='板橋站'>板橋站 (民生路2段221號)</option>
                         <option value='林口站'>林口站 (文化二路與復興一路交接口--中油對面彩虹魚門口)</option>
@@ -360,15 +361,14 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         <option value='高雄岡山站'>高雄岡山站 (岡山阿囉哈)</option>
                         <option value='高雄楠梓站'>高雄楠梓站 (楠梓阿囉哈)</option>
                         <option value='高雄建工站'>高雄建工站 (大順建工路口-高雄銀行處)</option>
-                        <option value='自往'>自往</option>
                     </select>
                 </div>
             </div>
         </div>
     </div>
-
+    <hr>
     <div class='row form-group required'>
-        <label class='col-md-2 control-label text-md-right'>福智相關資訊調查</label>
+        <label class='col-md-2 control-label text-md-right'>福智相關資訊調查<br>（家長資訊）</label>
         <div class='col-md-10'>
             <div class="row form-group required">
                 <div class='col-md-2 control-label text-md-right'>請問您有參加福智廣論研討班嗎？</div>

@@ -59,6 +59,7 @@ return [
         ],
         'email' => [
             "lzong.tw@gmail.com",
+            "worldofethics@gmail.com"
         ]
     ],
 ];
