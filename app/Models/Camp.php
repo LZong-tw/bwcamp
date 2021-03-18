@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Camp extends Model
 {
@@ -38,6 +39,28 @@ class Camp extends Model
 
     public function batchs(){
         return $this->hasMany('App\Models\Batch');
+    }
+
+    // 決定當下的費用是原價或早鳥價
+    public function getSetFeeAttribute(){
+        if($this->has_early_bird && Carbon::now()->lte($this->early_bird_last_day)){
+            return $this->early_bird_fee;
+        }        
+        else{
+            return $this->fee;
+        }
+    }
+
+    // 決定當下的繳費期限是最終繳費期限或早鳥繳費期限
+    public function getSetPaymentDeadlineAttribute(){
+        if($this->has_early_bird && Carbon::now()->lte($this->early_bird_last_day)){
+            if($this->attributes['table'] == 'tcamp' || $this->attributes['table'] == 'hcamp'){
+                return $this->early_bird_last_day->subYears(1911)->format('ymd');
+            }
+        }  
+        else{
+            return $this->payment_deadline; 
+        }
     }
 
     public static function getCampTable($batch_id)

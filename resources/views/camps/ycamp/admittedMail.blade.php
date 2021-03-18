@@ -3,16 +3,16 @@
         color: red;
     }
 </style>
-<h2 class="center">{{ $applicant->fullName }} 錄取繳費通知單</h2>
+<h2 class="center">{{ $applicant->batch->camp->fullName }} 錄取繳費通知單</h2>
 <table width="100%" style="table-layout:fixed; border: 0;">
     <tr>
-        <td>梯次：{{ $applicant->bName }}</td>
+        <td>梯次：{{ $applicant->batch->name }}</td>
         <td>姓名：{{ $applicant->name }}</td>
         <td>錄取編號：{{ $applicant->group }}{{ $applicant->number }}</td>
         <td>組別：{{ $applicant->group }}</td>
     </tr>
 </table><br>
-恭喜您錄取「{{ $applicant->fullName }}」！竭誠歡迎您的到來，期待與您共享這場心靈饗宴，希望您能獲得豐盛的收穫。請於{{ \Carbon\Carbon::now()->year }}年{{ substr($campFullData->payment_deadline, 2, 2) }}月{{ substr($campFullData->payment_deadline, 4, 2) }}日前完成繳費，<u>逾時將視同放棄錄取資格！</u>
+恭喜您錄取「{{ $applicant->fullName }}」！竭誠歡迎您的到來，期待與您共享這場心靈饗宴，希望您能獲得豐盛的收穫。請於{{ \Carbon\Carbon::now()->year }}年{{ substr($applicant->batch->camp->payment_deadline, 2, 2) }}月{{ substr($applicant->batch->camp->payment_deadline, 4, 2) }}日前完成繳費，<u>逾時將視同放棄錄取資格！</u>
 <br>
 <ul>
     <li>費用：1200元</li>

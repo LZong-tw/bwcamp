@@ -143,7 +143,7 @@ class CampController extends Controller
                 return $applicant;
             });            
             if($this->camp_data->table == 'hcamp'){
-                $applicant = $this->applicantService->fillPaymentData($applicant, $this->camp_data);
+                $applicant = $this->applicantService->fillPaymentData($applicant);
                 $applicant->save();
             }
             // 寄送報名資料
@@ -257,11 +257,9 @@ class CampController extends Controller
     }
 
     public function downloadPaymentForm(Request $request) {
-        ini_set('memory_limit', -1);
-        $applicant = Applicant::select('camps.*', 'batchs.name as bName', 'applicants.*')
-                        ->join('batchs', 'applicants.batch_id', '=', 'batchs.id')
-                        ->join('camps', 'batchs.camp_id', '=', 'camps.id')
-                        ->find($request->applicant_id);
+        ini_set('memory_limit', -1);        
+        $applicant = Applicant::find($request->applicant_id);
+        $this->applicantService->checkEarlyBirdOver($applicant);
         return \PDF::loadView('camps.' . $this->camp_data->table . '.paymentFormPDF', compact('applicant'))->download(\Carbon\Carbon::now()->format('YmdHis') . $this->camp_data->table . $applicant->id . '繳費聯.pdf');
     }
 
