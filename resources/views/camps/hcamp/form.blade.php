@@ -319,7 +319,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <div class='row form-group required'>
                 <label for='traffic' class='col-md-2 control-label text-md-left'>去程</label>
                 <div class='col-md-10'>
-                    <select name="traffic" class="form-control" required> 
+                    <select name="traffic_depart" class="form-control" required> 
                         <option value=''>- 請選擇 -</option>
                         <option value='自往'>自往</option>
                         <option value='北苑站'>北苑站 (台北學苑對面彰化銀行)</option>
@@ -343,7 +343,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <div class='row form-group required'>
                 <label for='traffic' class='col-md-2 control-label text-md-left'>回程</label>
                 <div class='col-md-10'>
-                    <select name="traffic" class="form-control" required> 
+                    <select name="traffic_return" class="form-control" required> 
                         <option value=''>- 請選擇 -</option>
                         <option value='自往'>自往</option>
                         <option value='北苑站'>北苑站 (台北學苑對面彰化銀行)</option>
@@ -549,8 +549,22 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 let textareas = document.getElementsByTagName('textarea');
                 let complementPivot = 0;                
                 let complementData = applicant_data["blisswisdom_type_complement"] ? applicant_data["blisswisdom_type_complement"].split("||/") : null; 
-                // console.log(inputs); 
+                if(applicant_data['special_condition']){
+                    document.getElementById("has_special_condition").checked = true;
+                    document.getElementById("has_special_condition").disabled = true;
+                    document.getElementById("no_special_condition").disabled = true;
+                    document.getElementById("special_condition").value = applicant_data['special_condition']; 
+                }
+                else{
+                    document.getElementById("no_special_condition").checked = true;
+                    document.getElementById("no_special_condition").disabled = true;
+                    document.getElementById("has_special_condition").disabled = true;
+                }
                 for (var i = 0; i < inputs.length; i++){
+                    if(inputs[i].name == "sc") {
+                        //inputs[i].type == "checkbox" && inputs[i].id == 'blisswisdom_type_complement[]'){
+                        console.log();
+                    }
                     if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox"){
                         if(inputs[i].type == "radio"){
                             let radios = document.getElementsByName(inputs[i].name);
