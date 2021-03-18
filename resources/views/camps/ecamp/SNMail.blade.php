@@ -1,0 +1,1 @@
+{{ $applicant->name }}您好，您的報名序號為<span class="text-danger font-weight-bold">《 {{ $applicant->applicant_id }} 》</span>。
