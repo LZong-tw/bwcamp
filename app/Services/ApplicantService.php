@@ -48,17 +48,25 @@ class ApplicantService
             })->first();
     }
 
-    public function checkEarlyBirdOver($applicant) {
+    public function checkIfPaidEarlyBird($applicant) {
         // 須為已錄取
-        // 如果營隊有早鳥，且當下已超過早鳥最後一日，則重新產生繳費單
-        if($applicant->is_admitted && $applicant->batch->camp->has_early_bird && \Carbon\Carbon::now()->gt($applicant->batch->camp->early_bird_last_day)){
+        // 如果已錄取，且營隊有早鳥，且報名者已付清款項，則跳過
+        if($applicant->is_admitted && $applicant->batch->camp->has_early_bird && ($applicant->fee - $applicant->deposit <= 0)){
+            return 0;
+        }
+        // 其他(無論有無早鳥)，僅檢查報名者是否錄取，已錄取則填入繳費資料
+        else if($applicant->is_admitted){
             $applicant = $this->fillPaymentData($applicant);
             $applicant->save();
         }
+        return 0;
     }
 
     /**
      * 錄取後，自動生成轉帳資料
+     * 
+     * 使用 Camp 的 set_fee 和 set_payment_deadline，
+     * 由 Camp model 本身判斷該提取早鳥價或原價
      * 
      * @param 一個報名者 model
      * @param 營隊完整資料
