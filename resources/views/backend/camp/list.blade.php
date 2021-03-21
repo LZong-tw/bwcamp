@@ -34,6 +34,7 @@
             <th>是否有早鳥優惠</th>
             <th>營隊早鳥費用</th>
             <th>早鳥最後一日</th>
+            <th>報名資料修改截止日</th>
             <th>建立日期</th>
             <th>更新日期</th>
             <th>動作</th>
@@ -57,6 +58,7 @@
                 <td>{{ $camp->has_early_bird }}</td>
                 <td>{{ $camp->early_bird_fee }}</td>
                 <td>{{ $camp->early_bird_last_day }}</td>
+                <td>{{ $camp->modifying_deadline }}</td>
                 <td>{{ $camp->created_at }}</td>
                 <td>{{ $camp->updated_at }}</td>
                 <td>

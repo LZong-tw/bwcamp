@@ -190,11 +190,28 @@ class CampController extends Controller
         }
         if($applicant) {
             // 取得報名者梯次資料
-            $camp_data = $this->campDataService->getCampData($applicant->batch_id);
+            $camp = $applicant->batch->camp;
             $applicant_data = $applicant->toJson();
             $applicant_data = str_replace("\\r", "", $applicant_data);
             $applicant_data = str_replace("\\n", "", $applicant_data);
             $applicant_data = str_replace("\\t", "", $applicant_data);
+            if($isModify && $camp->modifying_deadline && $camp->modifying_deadline->lt(Carbon::now())){
+                if(!Str::contains(request()->headers->get('referer'), 'queryview')){
+                    return back()->withInput()->withErrors(['很抱歉，報名資料修改期限已過。']);
+                }
+                else{
+                    return view('camps.' . $campTable . '.form')
+                            ->with('applicant_id', $applicant->applicant_id)
+                            ->with('applicant_batch_id', $applicant->batch_id)
+                            ->with('applicant_data', $applicant_data)
+                            ->with('applicant_raw_data', $applicant)
+                            ->with('isModify', false)
+                            ->with('isBackend', $request->isBackend)
+                            ->with('batch', Batch::find($request->batch_id))
+                            ->with('camp_data', $camp)
+                            ->withErrors(['很抱歉，報名資料修改期限已過。']);
+                }
+            }
             return view('camps.' . $campTable . '.form')
                 ->with('applicant_id', $applicant->applicant_id)
                 ->with('applicant_batch_id', $applicant->batch_id)
@@ -203,7 +220,7 @@ class CampController extends Controller
                 ->with('isModify', $isModify)
                 ->with('isBackend', $request->isBackend)
                 ->with('batch', Batch::find($request->batch_id))
-                ->with('camp_data', $camp_data['camp_data']);
+                ->with('camp_data', $camp);
         }
         else{
             return back()->withInput()->withErrors(['找不到報名資料，請再次確認是否填寫錯誤。']);

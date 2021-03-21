@@ -121,6 +121,14 @@
                 <input type="date" name="early_bird_last_day" id="" class='form-control' value="{{ $camp->early_bird_last_day ?? "" }}">
             </div>
         </div>
+
+        <div class='row form-group'>
+            <label for='inputName' class='col-md-1 control-label'>報名資料修改截止日</label>
+            <div class='col-md-6'>
+                <input type="date" name="modifying_deadline" id="" class='form-control' value="{{ $camp->modifying_deadline ?? "" }}">
+            </div>
+        </div>
+        
         @if($action == "建立")
             <input type="submit" class="btn btn-success" value="建立營隊">
         @else

@@ -19,27 +19,47 @@
         <tr>
             <td align=left valign=middle nowrap>
                 <1> 區域：
-                <input class="btn btn-primary" type=submit name=region value='全區'>&nbsp;
-                <input class="btn btn-primary" type=submit name=region value='台北'>&nbsp;
-                <input class="btn btn-primary" type=submit name=region value='桃園'>&nbsp;
-                <input class="btn btn-primary" type=submit name=region value='新竹'>&nbsp;
-                <input class="btn btn-primary" type=submit name=region value='台中'>&nbsp;
-                <input class="btn btn-primary" type=submit name=region value='嘉義'>&nbsp;
-                <input class="btn btn-primary" type=submit name=region value='台南'>&nbsp;
-                <input class="btn btn-primary" type=submit name=region value='高雄'>&nbsp;
-                <input class="btn btn-primary" type=submit name=region value='其他'>&nbsp;
+                @if($campFullData->table == "hcamp")
+                    <input class="btn btn-primary" type=submit name=region value='全區'>&nbsp;
+                    <input class="btn btn-primary" type=submit name=region value='北部'>&nbsp;
+                    <input class="btn btn-primary" type=submit name=region value='東部'>&nbsp;
+                    <input class="btn btn-primary" type=submit name=region value='中部'>&nbsp;
+                    <input class="btn btn-primary" type=submit name=region value='南部'>&nbsp;
+                    <input class="btn btn-primary" type=submit name=region value='金馬'>&nbsp;
+                @else
+                    <input class="btn btn-primary" type=submit name=region value='全區'>&nbsp;
+                    <input class="btn btn-primary" type=submit name=region value='台北'>&nbsp;
+                    <input class="btn btn-primary" type=submit name=region value='桃園'>&nbsp;
+                    <input class="btn btn-primary" type=submit name=region value='新竹'>&nbsp;
+                    <input class="btn btn-primary" type=submit name=region value='台中'>&nbsp;
+                    <input class="btn btn-primary" type=submit name=region value='嘉義'>&nbsp;
+                    <input class="btn btn-primary" type=submit name=region value='台南'>&nbsp;
+                    <input class="btn btn-primary" type=submit name=region value='高雄'>&nbsp;
+                    <input class="btn btn-primary" type=submit name=region value='其他'>&nbsp;
+                @endif
             </td>
         </tr>
         <tr>
             <td align=left valign=middle nowrap>
-                <2> 學程：    
-                <input class="btn btn-warning" type=submit name=school_or_course value='教育部'>&nbsp;
-                <input class="btn btn-warning" type=submit name=school_or_course value='教育局/處'>&nbsp;
-                <input class="btn btn-warning" type=submit name=school_or_course value='大專校院'>&nbsp;
-                <input class="btn btn-warning" type=submit name=school_or_course value='高中職'>&nbsp;
-                <input class="btn btn-warning" type=submit name=school_or_course value='國中'>&nbsp;
-                <input class="btn btn-warning" type=submit name=school_or_course value='國小'>&nbsp;
-                <input class="btn btn-warning" type=submit name=school_or_course value='幼教'>&nbsp;
+                <2> 學程：  
+                @if($campFullData->table == "tcamp")
+                    <input class="btn btn-warning" type=submit name=school_or_course value='教育部'>&nbsp;
+                    <input class="btn btn-warning" type=submit name=school_or_course value='教育局/處'>&nbsp;
+                    <input class="btn btn-warning" type=submit name=school_or_course value='大專校院'>&nbsp;
+                    <input class="btn btn-warning" type=submit name=school_or_course value='高中職'>&nbsp;
+                    <input class="btn btn-warning" type=submit name=school_or_course value='國中'>&nbsp;
+                    <input class="btn btn-warning" type=submit name=school_or_course value='國小'>&nbsp;
+                    <input class="btn btn-warning" type=submit name=school_or_course value='幼教'>&nbsp;
+                @elseif($campFullData->table == "hcamp")
+                    <input class="btn btn-warning" type=submit name=education value='國小五年級'>&nbsp;
+                    <input class="btn btn-warning" type=submit name=education value='國小六年級'>&nbsp;
+                    <input class="btn btn-warning" type=submit name=education value='國中一年級'>&nbsp;
+                    <input class="btn btn-warning" type=submit name=education value='國中二年級'>&nbsp;
+                    <input class="btn btn-warning" type=submit name=education value='國中三年級'>&nbsp;
+                    <input class="btn btn-warning" type=submit name=education value='高中一年級'>&nbsp;
+                    <input class="btn btn-warning" type=submit name=education value='高中二年級'>&nbsp;
+                    <input class="btn btn-warning" type=submit name=education value='高中三年級'>&nbsp;
+                @endif
             </td>
         </tr>
         <tr>

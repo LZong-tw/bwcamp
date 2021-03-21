@@ -325,8 +325,18 @@ class BackendController extends Controller
                             ->where('school_or_course', $request->school_or_course)->get();
             $query = $request->school_or_course;
         }
+        elseif(isset($request->education)){
+            //快樂營使用 education 欄位
+            $applicants = Applicant::select("applicants.*", "hcamp.*", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
+                            ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+                            ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+                            ->join('hcamp', 'applicants.id', '=', 'hcamp.applicant_id')
+                            ->where('camps.id', $this->campFullData->id)
+                            ->where('education', $request->education)->get();
+            $query = $request->education;
+        }
         elseif(isset($request->batch)){
-            $applicants = Applicant::select("applicants.*", "tcamp.*", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
+            $applicants = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
                         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                         ->join('camps', 'camps.id', '=', 'batchs.camp_id')                        
                         ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
@@ -579,6 +589,11 @@ class BackendController extends Controller
         }
         \Session::flash('message', "已將產生之信件排入任務佇列。");
         return back();
+    }
+
+    public function showTrafficList() {
+        
+        return view('backend.in_camp.traffic_list');
     }
     
     public function appliedDateStat() {
@@ -878,7 +893,7 @@ class BackendController extends Controller
             ->with(['batch', 'batch.camp' => $constraints])
             ->whereHas('batch.camp', $constraints)
             ->join($accountingTable, $accountingTable . '.accounting_no', '=', 'applicants.bank_second_barcode')
-            ->orderBy($accountingTable . '.id', 'asc')->get();
+            ->orderBy($accountingTable . '.id', 'desc')->get();
         $download = $_GET['download'] ?? false;
         if(!$download){
             return view('backend.registration.accounting')->with('accountings', $accountings);
