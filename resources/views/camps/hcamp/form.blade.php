@@ -9,8 +9,14 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 ?>
 @extends('camps.hcamp.layout')
 @section('content')
-    @include('partials.schools_script')
     @include('partials.counties_areas_script')
+    @if($errors->any())
+        @foreach ($errors->all() as $message)
+            <div class='alert alert-danger' role='alert'>
+                {{ $message }}
+            </div>
+        @endforeach
+    @endif
     <div class='alert alert-info' role='alert'>
         您在本網站所填寫的個人資料，僅用於此次快樂營的報名及活動聯絡之用。
     </div>
@@ -443,7 +449,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             @else
                 <input type="hidden" name="sn" value="{{ $applicant_id }}">
                 <input type="hidden" name="isModify" value="1">
-                <button class="btn btn-primary">修改報名資料</button>
+                <button class="btn btn-primary">點此前往修改報名資料</button>
             @endif
         </div>
     </div>

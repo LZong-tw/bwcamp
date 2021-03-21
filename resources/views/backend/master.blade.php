@@ -140,7 +140,7 @@
                                 <a href="#">回覆參加名單</a>
                             </li>
                             <li>
-                                <a href="#">交通名單</a>
+                                <a href="{{ route('showTrafficList', $campFullData->id) }}">交通名單</a>
                             </li>
                             <li>
                                 <a href="#">輔導組表格</a>
