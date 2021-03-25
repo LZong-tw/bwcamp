@@ -122,8 +122,12 @@ class CampController extends Controller
                 ->where('camps.id', $this->camp_data->id)
                 ->where('batch_id', $this->batch_id)
                 ->where('applicants.name', $request->name)
-                ->where('email', $request->email)->first();
+                ->where('email', $request->email)
+                ->withTrashed()->first();
             if($applicant){
+                if($applicant->trashed()){
+                    $applicant->restore();
+                }
                 return view('camps.' . $this->camp_data->table . '.success',
                     ['isRepeat' => "已成功報名，請勿重複送出報名資料。",
                     'applicant' => $applicant]);
@@ -195,7 +199,13 @@ class CampController extends Controller
             $applicant_data = str_replace("\\r", "", $applicant_data);
             $applicant_data = str_replace("\\n", "", $applicant_data);
             $applicant_data = str_replace("\\t", "", $applicant_data);
-            if($isModify && $camp->modifying_deadline && $camp->modifying_deadline->lt(Carbon::now())){
+            if($camp->modifying_deadline){
+                $modifying_deadline = Carbon::createFromFormat('Y-m-d', $camp->modifying_deadline);
+            }
+            else{
+                $modifying_deadline = Carbon::now()->addDay();
+            }
+            if($isModify && $modifying_deadline->lt(Carbon::now())){
                 if(!Str::contains(request()->headers->get('referer'), 'queryview')){
                     return back()->withInput()->withErrors(['很抱歉，報名資料修改期限已過。']);
                 }
@@ -250,6 +260,26 @@ class CampController extends Controller
 
     public function campViewAdmission() {
         return view('camps.' . $this->camp_data->table . ".queryadmission");
+    }
+
+    public function campConfirmCancel(Request $request) {
+        $applicant = Applicant::where('id', $request->sn)
+                        ->where('name', $request->name)
+                        ->where('idno', $request->idno)
+                        ->first();
+        if($applicant) {
+            return view('camps.' . $this->camp_data->table . '.confirm_cancel', compact('applicant'));
+        }
+        else{
+            return back()->withInput()->withErrors(["找不到報名資料，請確認是否已成功報名，或是輸入了錯誤的查詢資料。"]);
+        }
+    }
+
+    public function campCancellation(Request $request) {
+        if(Applicant::find($request->sn)->delete()){
+            return view('camps.' . $this->camp_data->table . '.cancel_successful');
+        }
+        return "<h2>取消時發生未預期錯誤，請向主辦方回報。</h2>";
     }
 
     public function campQueryAdmission(Request $request) {
