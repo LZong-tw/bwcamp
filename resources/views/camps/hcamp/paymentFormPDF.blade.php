@@ -38,12 +38,12 @@
 </head>
 <body>
 財團法人福智文教基金會
-<p style="float:right; clear: both; margin-top:180px; margin-right: -6px">代</p>
-<p style="float:right; clear: both; margin-top:210px; margin-right: -6px">收</p>
-<p style="float:right; clear: both; margin-top:240px; margin-right: -6px">行</p>
-<p style="float:right; clear: both; margin-top:270px; margin-right: -6px">存</p>
-<p style="float:right; clear: both; margin-top:300px; margin-right: -6px">查</p>
-<p style="float:right; clear: both; margin-top:330px; margin-right: -6px">聯</p>
+<p style="float:right; clear: both; margin-top:90px; margin-right: -6px">代</p>
+<p style="float:right; clear: both; margin-top:120px; margin-right: -6px">收</p>
+<p style="float:right; clear: both; margin-top:150px; margin-right: -6px">行</p>
+<p style="float:right; clear: both; margin-top:180px; margin-right: -6px">存</p>
+<p style="float:right; clear: both; margin-top:210px; margin-right: -6px">查</p>
+<p style="float:right; clear: both; margin-top:240px; margin-right: -6px">聯</p>
 <table class="table">
     <tr>
         <td>
@@ -80,7 +80,7 @@
                         <a class="small">{{ $applicant->store_third_barcode }}</a>
                     </td>
                 </tr>
-                <tr>
+                {{-- <tr>
                     <td class="center">銀行條碼區</td>
                 </tr>
                 <tr>
@@ -92,7 +92,7 @@
                         <a class="small">應繳金額：{{ $applicant->bank_third_barcode }}</a>
                         <a style="float: right; right:10px">銀行代號：011</a>
                     </td>
-                </tr>
+                </tr> --}}
             </table>
         </td>
     </tr>

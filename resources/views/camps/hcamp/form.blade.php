@@ -429,6 +429,16 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
+    
+    <div class='row form-group'>
+        <div class='col-md-2 control-label'>
+            統一編號（活動費用發票開立用，若無則留空即可）
+        </div>
+        <div class='col-md-10'>
+            <input type="number" min="0" class="form-control" name="tax_id_no">
+        </div>
+    </div>   
+
     <div class="row form-group text-danger tips d-none">
         <div class='col-md-2'></div>
         <div class='col-md-10'>
