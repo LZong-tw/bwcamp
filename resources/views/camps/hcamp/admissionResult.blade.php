@@ -73,7 +73,7 @@
                         <input type="hidden" name="applicant_id" value="{{ $applicant->applicant_id }}">
                         <button class="btn btn-success" onclick="this.innerText = '正在產生繳費聯'; this.disabled = true; document.downloadPaymentForm.submit();">下載繳費聯</button>
                     </form>
-                    <h5>請注意，若您使用 Line 開啟網頁，將會無法下載繳費單，請在普通瀏覽器開啟本站後再下載。</h5>
+                    <h6>請注意，若您使用 Line 開啟網頁，將會無法下載繳費單，請在普通瀏覽器開啟本站後再下載。</h6>
                 </div>
             </div>
             @if($applicant->showCheckInInfo)

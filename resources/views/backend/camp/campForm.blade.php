@@ -115,6 +115,7 @@
                 <input type="number" name="early_bird_fee" id="" class='form-control' value="{{ $camp->early_bird_fee ?? "0" }}">
             </div>
         </div>
+        
         <div class='row form-group'>
             <label for='inputName' class='col-md-1 control-label'>早鳥最後一日</label>
             <div class='col-md-6'>

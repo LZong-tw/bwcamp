@@ -34,8 +34,6 @@ class Camp extends Model
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'early_bird_last_day' => 'date',
-        'modifying_deadline' => 'date'
     ];
 
     public function batchs(){
@@ -44,7 +42,8 @@ class Camp extends Model
 
     // 決定當下的費用是原價或早鳥價
     public function getSetFeeAttribute(){
-        if($this->has_early_bird && Carbon::now()->lte($this->early_bird_last_day)){
+        $early_bird_last_day = Carbon::createFromFormat('Y-m-d', $this->early_bird_last_day);
+        if($this->has_early_bird && Carbon::now()->lte($early_bird_last_day->addDay())){
             return $this->early_bird_fee;
         }        
         else{
@@ -54,9 +53,10 @@ class Camp extends Model
 
     // 決定當下的繳費期限是最終繳費期限或早鳥繳費期限
     public function getSetPaymentDeadlineAttribute(){
-        if($this->has_early_bird && Carbon::now()->lte($this->early_bird_last_day)){
+        $early_bird_last_day = Carbon::createFromFormat('Y-m-d', $this->early_bird_last_day);
+        if($this->has_early_bird && Carbon::now()->lte($early_bird_last_day->addDay())){
             if($this->attributes['table'] == 'tcamp' || $this->attributes['table'] == 'hcamp'){
-                return $this->early_bird_last_day->subYears(1911)->format('ymd');
+                return $early_bird_last_day->subYears(1911)->format('ymd');
             }
         }  
         else{

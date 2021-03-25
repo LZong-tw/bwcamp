@@ -306,7 +306,7 @@ class BackendController extends Controller
                         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                         ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
-                        ->where('camps.id', $this->campFullData->id);
+                        ->where('camps.id', $this->campFullData->id)->withTrashed();
             if($request->region == '全區'){
                 $applicants = $query->get();
             }
@@ -322,7 +322,8 @@ class BackendController extends Controller
                             ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                             ->join('tcamp', 'applicants.id', '=', 'tcamp.applicant_id')
                             ->where('camps.id', $this->campFullData->id)
-                            ->where('school_or_course', $request->school_or_course)->get();
+                            ->where('school_or_course', $request->school_or_course)
+                            ->withTrashed()->get();
             $query = $request->school_or_course;
         }
         elseif(isset($request->education)){
@@ -332,7 +333,8 @@ class BackendController extends Controller
                             ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                             ->join('hcamp', 'applicants.id', '=', 'hcamp.applicant_id')
                             ->where('camps.id', $this->campFullData->id)
-                            ->where('education', $request->education)->get();
+                            ->where('education', $request->education)
+                            ->withTrashed()->get();
             $query = $request->education;
         }
         elseif(isset($request->batch)){
@@ -341,7 +343,8 @@ class BackendController extends Controller
                         ->join('camps', 'camps.id', '=', 'batchs.camp_id')                        
                         ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
                         ->where('camps.id', $this->campFullData->id)
-                        ->where('batchs.name', $request->batch)->get();
+                        ->where('batchs.name', $request->batch)
+                        ->withTrashed()->get();
             $query = $request->batch . '梯';
         }
         else{
@@ -350,8 +353,13 @@ class BackendController extends Controller
                             ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                             ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
                             ->where('camps.id', $this->campFullData->id)
-                            ->where('address', "like", "%" . $request->address . "%")->get();
+                            ->where('address', "like", "%" . $request->address . "%")
+                            ->withTrashed()->get();
             $query = $request->address;
+        }
+        if($request->show_cancelled){
+            $query .= "(已取消)";
+            $applicants = $applicants->whereNotNull('deleted_at');
         }
         foreach($applicants as $applicant){
             if($applicant->fee > 0){
@@ -364,6 +372,12 @@ class BackendController extends Controller
             }
             else{
                 $applicant->is_paid = "無費用";
+            }
+            if($applicant->trashed()){
+                $applicant->is_cancelled = "是";
+            }
+            else{
+                $applicant->is_cancelled = "否";
             }
         }
         // 報名名單不以繳費與否排序
@@ -461,7 +475,10 @@ class BackendController extends Controller
             };
             return response()->stream($callback, 200, $headers);
         }
-        return view('backend.registration.list', compact('applicants', 'query', 'batches'));
+        return view('backend.registration.list')
+                ->with('applicants', $applicants)
+                ->with('query', $query)
+                ->with('batches', $batches);
     }
 
     public function changeBatchOrRegion(Request $request){
