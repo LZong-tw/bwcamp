@@ -26,7 +26,7 @@
 </style>
 <a href="{{ route('showPaymentForm', [$applicant->batch_id, $applicant->id]) }}?download=1" target="_blank">下載繳費單</a>
 財團法人福智文教基金會
-<a style="float:right; writing-mode: vertical-lr;text-orientation: mixed; margin-top: 200px">代收行存查聯</a>
+<a style="float:right; writing-mode: vertical-lr;text-orientation: mixed; margin-top: 125px">代收行存查聯</a>
 <table class="table">
     <tr>
         <td rowspan="6" class="indent">
@@ -56,7 +56,7 @@
             {!! \DNS1D::getBarcodeSVG($applicant->store_third_barcode, 'C39', 1, 50) !!} <br>
         </td>
     </tr>
-    <tr>
+    {{-- <tr>
         <td class="center">銀行條碼區</td>
     </tr>
     <tr>
@@ -68,7 +68,7 @@
             <a style="float:left; margin-left: -35px; font-size: 4px">{!! \DNS1D::getBarcodeSVG($applicant->bank_third_barcode, 'C39', 1, 50) !!} </a>
             <a style="float:right; margin-top: 15px; margin-right: 35px;">銀行代號：011</a>
         </td>
-    </tr>
+    </tr> --}}
 </table>
 <hr>
 <h2 class="center">{{ $applicant->batch->camp->fullName }} 錄取繳費通知單</h2>
