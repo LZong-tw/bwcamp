@@ -15,7 +15,8 @@
     <table class="table table-responsive">
         <tr>
             <td>
-                <0> 設定下載 <input type="checkbox" name="download" id=""> &nbsp; 或 &nbsp; 檢視已取消名單 <input type="checkbox" name="show_cancelled" id="" value="1" @if(old('show_cancelled')) checked @endif>
+                <0> 設定下載 <input type="checkbox" name="download" id=""><br>
+                檢視已取消名單 <input type="checkbox" name="show_cancelled" id="" value="1" @if(old('show_cancelled')) checked @endif>
             </td>
         </tr>
         <tr>
