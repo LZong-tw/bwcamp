@@ -135,7 +135,10 @@
         </div>
     </div>
 </form>
+@if($camp_data['cancellation_deadline'] && \Carbon\Carbon::now()->lt($camp_data['cancellation_deadline']->addDay()))
+<br>
 <hr>
+<br>
 <form method="post" action="{{ route("querycancel", $batch_id) }}" name="cancel" class="form-horizontal alert alert-danger">
     @csrf
     <input type="hidden" name="isModify" value="1">
@@ -180,4 +183,5 @@
         </div>
     </div>
 </form>
+@endif
 @stop
