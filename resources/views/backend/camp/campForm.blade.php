@@ -129,6 +129,13 @@
                 <input type="date" name="modifying_deadline" id="" class='form-control' value="{{ $camp->modifying_deadline ?? "" }}">
             </div>
         </div>
+
+        <div class='row form-group'>
+            <label for='inputName' class='col-md-1 control-label'>取消截止日</label>
+            <div class='col-md-6'>
+                <input type="date" name="cancellation_deadline" id="" class='form-control' value="{{ $camp->cancellation_deadline ? $camp->cancellation_deadline->format('Y-m-d') : "" }}">
+            </div>
+        </div>
         
         @if($action == "建立")
             <input type="submit" class="btn btn-success" value="建立營隊">

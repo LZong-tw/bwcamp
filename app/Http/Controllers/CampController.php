@@ -176,7 +176,7 @@ class CampController extends Controller
             $applicant = Applicant::select('applicants.*', $campTable . '.*')
                 ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
                 ->where('applicants.id', $request->sn)
-                ->where('name', $request->name)->first();
+                ->where('name', $request->name)->withTrashed()->first();
         }
         // 只使用報名 ID（報名序號）查詢資料，儘開放有限的存取
         //（因會有個資洩漏的疑慮，故只在檢視報名資料及報名資料送出後的畫面允許使用）
@@ -187,7 +187,7 @@ class CampController extends Controller
                 Str::contains(request()->headers->get('referer'), 'queryview')){
             $applicant = Applicant::select('applicants.*', $campTable . '.*')
                 ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
-                ->where('applicants.id', $request->sn)->first();
+                ->where('applicants.id', $request->sn)->withTrashed()->first();
         }
         if($request->isModify) {
             $isModify = true;
@@ -245,6 +245,7 @@ class CampController extends Controller
                 ->where('birthyear', $request->birthyear)
                 ->where('birthmonth', $request->birthmonth)
                 ->where('birthday', $request->birthday)
+                ->withTrashed()
                 ->first();
         if($applicant) {
             // 寄送報名序號
@@ -266,6 +267,7 @@ class CampController extends Controller
         $applicant = Applicant::where('id', $request->sn)
                         ->where('name', $request->name)
                         ->where('idno', $request->idno)
+                        ->withTrashed()
                         ->first();
         if($applicant) {
             return view('camps.' . $this->camp_data->table . '.confirm_cancel', compact('applicant'));
@@ -282,6 +284,14 @@ class CampController extends Controller
         return "<h2>取消時發生未預期錯誤，請向主辦方回報。</h2>";
     }
 
+    public function restoreCancellation(Request $request) {
+        if(Applicant::withTrashed()->find($request->sn)->restore()){
+            $applicant = Applicant::find($request->sn);
+            return view('camps.' . $this->camp_data->table . '.restore_successful', compact('applicant'));
+        }
+        return "<h2>回復時發生未預期錯誤，請向主辦方回報。</h2>";
+    }
+
     public function campQueryAdmission(Request $request) {
         $campTable = $this->camp_data->table;
         $applicant = null;
@@ -289,7 +299,8 @@ class CampController extends Controller
             $applicant = Applicant::select('applicants.*', $campTable . '.*', 'applicants.id as applicant_id')
                 ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
                 ->where('applicants.id', $request->sn)
-                ->where('name', $request->name)->first();
+                ->where('name', $request->name)
+                ->withTrashed()->first();
         }
         if($applicant) {
             $applicant = $this->applicantService->checkPaymentStatus($applicant);

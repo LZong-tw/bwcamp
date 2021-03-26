@@ -17,10 +17,22 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         @endforeach
     @endif
-    <div class='alert alert-info' role='alert'>
-        您在本網站所填寫的個人資料，僅用於此次快樂營的報名及活動聯絡之用。
-    </div>
-
+    @if($applicant_raw_data->trashed())
+        <div class='alert alert-danger' role='alert'>
+            您已於 {{ $applicant_raw_data->deleted_at }} 取消報名 / 取消參加。
+            @if($camp_data->cancellation_deadline && \Carbon\Carbon::now()->lt($camp_data->cancellation_deadline->addDay()))
+                <form action="{{ route('restoreCancellation', $batch_id) }}" method="POST" style="margin-top:10px; margin-bottom: 0">
+                    @csrf
+                    <input type="hidden" name="sn" value="{{ $applicant_id }}">
+                    <input type="submit" class="btn btn-success" value="回復報名">
+                </form>
+            @endif
+        </div>
+    @else
+        <div class='alert alert-info' role='alert'>
+            您在本網站所填寫的個人資料，僅用於此次快樂營的報名及活動聯絡之用。
+        </div>
+    @endif
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }}線上報名表</h4>
     </div>
