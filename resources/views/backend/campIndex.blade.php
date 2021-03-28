@@ -13,6 +13,10 @@
         <li><p>營隊早鳥費用：{{ $campFullData->early_bird_fee }}</p></li>
         <li><p>早鳥最後一日：{{ $campFullData->early_bird_last_day }}</p></li>
         <li><p>報名資料修改期限：{{ $campFullData->modifying_deadline }}</p></li>
+<<<<<<< HEAD
+=======
+        <li><p>取消截止日：{{ $campFullData->cancellation_deadline ? $campFullData->cancellation_deadline->format('Y-m-d') : "" }}</p></li>
+>>>>>>> 080bf4a4b89fccfa4510ff543b64fd0fea9ba80f
         <li><p>建立日期：{{ $campFullData->created_at }}</p></li>
         <li><p>更新日期：{{ $campFullData->updated_at }}</p></li>
     </ul>

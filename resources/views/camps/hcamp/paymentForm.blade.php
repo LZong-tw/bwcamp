@@ -25,19 +25,13 @@
     }
 </style>
 <a href="{{ route('showPaymentForm', [$applicant->batch_id, $applicant->id]) }}?download=1" target="_blank">下載繳費單</a>
-財團法人福智文教基金會
-<a style="float:right; writing-mode: vertical-lr;text-orientation: mixed; margin-top: 200px">代收行存查聯</a>
+財團法人福智文教基金會 <br>
+謙德管理顧問股份有限公司
+<a style="float:right; writing-mode: vertical-lr;text-orientation: mixed; margin-top: 125px">代收行存查聯</a>
 <table class="table">
     <tr>
         <td rowspan="6" class="indent">
-            親愛的客戶您好，請使用下列繳款方式繳納: <br>
-            *上海銀行繳納：請持本繳款單至全省上海商業儲蓄銀行臨櫃繳納，免手續費。<br>
-            *ATM 轉帳：選擇「轉帳」或「繳費」→ 輸入上海銀行<br>
-            &nbsp;&nbsp;代號011 → 輸入銷帳編號輸入應繳金額，跨行轉帳須支付手續費。 <br>
-            *超商繳納：請持本繳款單至7-11、全家、萊爾富、OK 繳費，免付手續費。<br> 
-            *臨櫃匯款：收款行 = 上海商業儲蓄銀行南京東路分行，<br>
-            &nbsp;&nbsp;銀行代碼 = 0110406，戶名 = 財團法人福智文教基金會<br>
-            &nbsp;&nbsp;帳號 = 銷帳編號(14碼)，須自付手續費。
+            親愛的客戶您好，請持本繳款單於繳費期限內至 7-11、全家、萊爾富、OK 繳費，免付手續費。
         </td>
     </tr>
     <tr>
@@ -56,7 +50,7 @@
             {!! \DNS1D::getBarcodeSVG($applicant->store_third_barcode, 'C39', 1, 50) !!} <br>
         </td>
     </tr>
-    <tr>
+    {{-- <tr>
         <td class="center">銀行條碼區</td>
     </tr>
     <tr>
@@ -68,7 +62,7 @@
             <a style="float:left; margin-left: -35px; font-size: 4px">{!! \DNS1D::getBarcodeSVG($applicant->bank_third_barcode, 'C39', 1, 50) !!} </a>
             <a style="float:right; margin-top: 15px; margin-right: 35px;">銀行代號：011</a>
         </td>
-    </tr>
+    </tr> --}}
 </table>
 <hr>
 <h2 class="center">{{ $applicant->batch->camp->fullName }} 錄取繳費通知單</h2>
@@ -83,7 +77,7 @@
 恭喜您錄取「{{ $applicant->batch->camp->fullName }}」！竭誠歡迎您的到來，期待與您共享這場心靈饗宴，希望您能獲得豐盛的收穫。請於{{ \Carbon\Carbon::now()->year }}年{{ substr($applicant->batch->camp->set_payment_deadline, 2, 2) }}月{{ substr($applicant->batch->camp->set_payment_deadline, 4, 2) }}日前完成繳費，<u>逾時將視同放棄錄取資格！</u>
 <br>
 <ul>
-    <li>活動費用：{{ $applicant->batch->camp->set_fee }}元</li>
+    <li>活動費用：{{ $applicant->bank_third_barcode }}元</li>
     <li>繳費地點：可至超商、上海銀行繳費，或使用ATM轉帳、臨櫃匯款。</li>
     <li>若完成繳費，請於至少一個工作天後，上網查詢是否已繳費完畢。<br>
         （<a href="http://bwcamp.bwfoce.org/camp/2/queryadmit" target="_blank" rel="noopener noreferrer">http://bwcamp.bwfoce.org/camp/2/queryadmit</a> ）</li>

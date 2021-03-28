@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CampController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,11 +42,14 @@ Route::group(['prefix' => 'camp/{batch_id}'], function () {
     Route::get('/', 'CampController@campIndex');
     Route::get('/registration', 'CampController@campRegistration')->name('registration');
     Route::post('/registration', 'CampController@campRegistration')->name('registration');
+    Route::post('/restoreCancellation', [CampController::class, 'restoreCancellation'])->name('restoreCancellation');
     Route::get('/query', 'CampController@campQueryRegistrationDataPage')->name('query');
     Route::post('/queryview', 'CampController@campViewRegistrationData')->name('queryview');
     Route::post('/queryupdate', 'CampController@campViewRegistrationData')->name('queryupdate');
     Route::post('/querysn', 'CampController@campGetApplicantSN')->name('querysn');
     Route::get('/queryadmit', 'CampController@campViewAdmission')->name('queryadmit');
+    Route::post('/querycancel', [CampController::class, 'campConfirmCancel'])->name('querycancel');
+    Route::post('/cancel', [CampController::class, 'campCancellation'])->name('cancel');
     Route::post('/queryadmit', 'CampController@campQueryAdmission')->name('queryadmit');
     Route::post('/downloadPaymentForm', 'CampController@downloadPaymentForm')->name('downloadPaymentForm');
     Route::post('/downloadCheckInNotification', 'CampController@downloadCheckInNotification')->name('downloadCheckInNotification');

@@ -135,4 +135,53 @@
         </div>
     </div>
 </form>
+@if($camp_data['cancellation_deadline'] && \Carbon\Carbon::now()->lt($camp_data['cancellation_deadline']->addDay()))
+<br>
+<hr>
+<br>
+<form method="post" action="{{ route("querycancel", $batch_id) }}" name="cancel" class="form-horizontal alert alert-danger">
+    @csrf
+    <input type="hidden" name="isModify" value="1">
+    <div class="page-header form-group">
+        <h4>取消報名 / 取消參加</h4>
+    </div>
+    <div class='row form-group'>
+        <label for='inputName' class='col-md-2'>姓名</label>
+        <div class='col-md-10'>
+            <input type='text' name='name' class='form-control' id='inputName' placeholder='' value='{{ old('name') }}' required>
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <label for='inputSN' class='col-md-2'>報名序號</label>
+        <div class='col-md-10'>
+            <input type='text' name='sn' class='form-control' id='inputSN' maxlength=5 placeholder='' value='{{ old('sn') }}' required>
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <label for='inputSN' class='col-md-2'>身分證字號</label>
+        <div class='col-md-10'>
+            <input type='text' name='idno' class='form-control' id='inputSN' value='{{ old('idno') }}' required>
+        </div>
+    </div>
+
+    {{-- <div class="row form-group">
+        <label for='inputRecap' class='col-md-2 control-label'></label>
+        <div class='col-md-8'>
+        <div class='g-recaptcha' data-sitekey='6Lc6sdASAAAAACovaErznXN6DikqaOlqoVw2SEUK'></div>
+        <script type='text/javascript' src='https://www.google.com/recaptcha/api.js?hl=zh-TW'>
+        </script>
+        </div>
+    </div> --}}
+
+    <!--- 確認送出 -->
+    <div class=row>
+        <div class='col-md-4'></div>
+        <div class='col-md-8'>
+            <INPUT type=submit name=sub class='btn btn-warning' value='送出'>
+        </div>
+    </div>
+</form>
+@endif
 @stop

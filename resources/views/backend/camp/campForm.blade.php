@@ -115,6 +115,7 @@
                 <input type="number" name="early_bird_fee" id="" class='form-control' value="{{ $camp->early_bird_fee ?? "0" }}">
             </div>
         </div>
+        
         <div class='row form-group'>
             <label for='inputName' class='col-md-1 control-label'>早鳥最後一日</label>
             <div class='col-md-6'>
@@ -126,6 +127,13 @@
             <label for='inputName' class='col-md-1 control-label'>報名資料修改截止日</label>
             <div class='col-md-6'>
                 <input type="date" name="modifying_deadline" id="" class='form-control' value="{{ $camp->modifying_deadline ?? "" }}">
+            </div>
+        </div>
+
+        <div class='row form-group'>
+            <label for='inputName' class='col-md-1 control-label'>取消截止日</label>
+            <div class='col-md-6'>
+                <input type="date" name="cancellation_deadline" id="" class='form-control' value="{{ $camp->cancellation_deadline ? $camp->cancellation_deadline->format('Y-m-d') : "" }}">
             </div>
         </div>
         
