@@ -17,10 +17,22 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         @endforeach
     @endif
-    <div class='alert alert-info' role='alert'>
-        您在本網站所填寫的個人資料，僅用於此次快樂營的報名及活動聯絡之用。
-    </div>
-
+    @if($applicant_raw_data->trashed())
+        <div class='alert alert-danger' role='alert'>
+            您已於 {{ $applicant_raw_data->deleted_at }} 取消報名 / 取消參加。
+            @if($camp_data->cancellation_deadline && \Carbon\Carbon::now()->lt($camp_data->cancellation_deadline->addDay()))
+                <form action="{{ route('restoreCancellation', $batch_id) }}" method="POST" style="margin-top:10px; margin-bottom: 0">
+                    @csrf
+                    <input type="hidden" name="sn" value="{{ $applicant_id }}">
+                    <input type="submit" class="btn btn-success" value="回復報名">
+                </form>
+            @endif
+        </div>
+    @else
+        <div class='alert alert-info' role='alert'>
+            您在本網站所填寫的個人資料，僅用於此次快樂營的報名及活動聯絡之用。
+        </div>
+    @endif
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }}線上報名表</h4>
     </div>
@@ -328,21 +340,18 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     <select name="traffic_depart" class="form-control" required> 
                         <option value=''>- 請選擇 -</option>
                         <option value='自往'>自往</option>
-                        <option value='北苑站'>北苑站 (台北學苑對面彰化銀行)</option>
-                        <option value='板橋站'>板橋站 (民生路2段221號)</option>
-                        <option value='林口站'>林口站 (文化二路與復興一路交接口--中油對面彩虹魚門口)</option>
-                        <option value='南崁站'>南崁站 (桃園市蘆竹區新南路一段368號)</option>
-                        <option value='新屋站'>新屋站 (新屋交流道錡鎂修車廠：桃園市中壢區民族路三段22號)</option>
-                        <option value='竹北站'>竹北站 (竹北稅捐處)</option>
-                        <option value='頭份站'>頭份站 (頭份麥當勞)</option>
-                        <option value='台中站'>台中站 (忠明國小側門)</option>
-                        <option value='彰化站'>彰化站 (向陽停車場)</option>
-                        <option value='麻豆站'>麻豆站 (麻豆交流道-)</option>
-                        <option value='永康站'>永康站 (永康交流道-情定大飯店)</option>
-                        <option value='仁德站'>仁德站 (仁德交流道-隆美窗簾)</option>
-                        <option value='高雄岡山站'>高雄岡山站 (岡山阿囉哈)</option>
-                        <option value='高雄楠梓站'>高雄楠梓站 (楠梓阿囉哈)</option>
-                        <option value='高雄建工站'>高雄建工站 (大順建工路口-高雄銀行處)</option>
+                        <option value='台北站'>台北站 (台北市松山區南京東路四段126號，台北學苑對面彰化銀行)</option>
+                        <option value='板橋站'>板橋站 (民生路二段221號，凱盟運動用品店門口)</option>
+                        <option value='桃園站'>桃園站 (中壢區中園路二段501號，大江購物中心公車站)</option>
+                        <option value='新竹站'>新竹站 (竹北市光明六路6號，稅務局)</option>
+                        <option value='苗栗站'>苗栗站 (頭份市中華路1335號，麥當勞)</option>
+                        <option value='台中站'>台中站 (台灣大道二段556號，忠明國小側門)</option>
+                        <option value='彰化站'>彰化站 (彰化市崙平南路112號，向陽停車場)</option>
+                        <option value='麻豆站'>麻豆站 (麻豆區苓子林1-2號，台亞加油站北站)</option>
+                        <option value='台南站'>台南站 (仁德區中山路711號，家樂福仁德店靠近寵物店的機車停車篷前)</option>
+                        <option value='楠梓站'>楠梓站 (高雄市楠梓區興楠路，阿羅哈客運站)</option>
+                        <option value='高雄站'>高雄站 (高雄市苓雅區五福一路67號，高雄文化中心正門口)</option>
+                        <option value='屏東站'>屏東站 (屏東縣屏東市忠孝路223號，縣議會)</option>
                     </select>
                 </div>
             </div>
@@ -352,21 +361,18 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     <select name="traffic_return" class="form-control" required> 
                         <option value=''>- 請選擇 -</option>
                         <option value='自往'>自往</option>
-                        <option value='北苑站'>北苑站 (台北學苑對面彰化銀行)</option>
-                        <option value='板橋站'>板橋站 (民生路2段221號)</option>
-                        <option value='林口站'>林口站 (文化二路與復興一路交接口--中油對面彩虹魚門口)</option>
-                        <option value='南崁站'>南崁站 (桃園市蘆竹區新南路一段368號)</option>
-                        <option value='新屋站'>新屋站 (新屋交流道錡鎂修車廠：桃園市中壢區民族路三段22號)</option>
-                        <option value='竹北站'>竹北站 (竹北稅捐處)</option>
-                        <option value='頭份站'>頭份站 (頭份麥當勞)</option>
-                        <option value='台中站'>台中站 (忠明國小側門)</option>
-                        <option value='彰化站'>彰化站 (向陽停車場)</option>
-                        <option value='麻豆站'>麻豆站 (麻豆交流道-)</option>
-                        <option value='永康站'>永康站 (永康交流道-情定大飯店)</option>
-                        <option value='仁德站'>仁德站 (仁德交流道-隆美窗簾)</option>
-                        <option value='高雄岡山站'>高雄岡山站 (岡山阿囉哈)</option>
-                        <option value='高雄楠梓站'>高雄楠梓站 (楠梓阿囉哈)</option>
-                        <option value='高雄建工站'>高雄建工站 (大順建工路口-高雄銀行處)</option>
+                        <option value='台北站'>台北站 (台北市松山區南京東路四段126號，台北學苑對面彰化銀行)</option>
+                        <option value='板橋站'>板橋站 (民生路二段221號，凱盟運動用品店門口)</option>
+                        <option value='桃園站'>桃園站 (中壢區中園路二段501號，大江購物中心公車站)</option>
+                        <option value='新竹站'>新竹站 (竹北市光明六路6號，稅務局)</option>
+                        <option value='苗栗站'>苗栗站 (頭份市中華路1335號，麥當勞)</option>
+                        <option value='台中站'>台中站 (台灣大道二段556號，忠明國小側門)</option>
+                        <option value='彰化站'>彰化站 (彰化市崙平南路112號，向陽停車場)</option>
+                        <option value='麻豆站'>麻豆站 (麻豆區苓子林1-2號，台亞加油站北站)</option>
+                        <option value='台南站'>台南站 (仁德區中山路711號，家樂福仁德店靠近寵物店的機車停車篷前)</option>
+                        <option value='楠梓站'>楠梓站 (高雄市楠梓區興楠路，阿羅哈客運站)</option>
+                        <option value='高雄站'>高雄站 (高雄市苓雅區五福一路67號，高雄文化中心正門口)</option>
+                        <option value='屏東站'>屏東站 (屏東縣屏東市忠孝路223號，縣議會)</option>
                     </select>
                 </div>
             </div>
@@ -428,6 +434,16 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>   
         </div>
     </div>
+
+    
+    <div class='row form-group'>
+        <div class='col-md-2 control-label'>
+            統一編號（活動費用發票開立用，若無則留空即可）
+        </div>
+        <div class='col-md-10'>
+            <input type="number" min="0" class="form-control" name="tax_id_no">
+        </div>
+    </div>   
 
     <div class="row form-group text-danger tips d-none">
         <div class='col-md-2'></div>

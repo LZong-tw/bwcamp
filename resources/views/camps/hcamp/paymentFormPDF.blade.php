@@ -37,27 +37,18 @@
     </style>
 </head>
 <body>
-財團法人福智文教基金會
-<p style="float:right; clear: both; margin-top:180px; margin-right: -6px">代</p>
-<p style="float:right; clear: both; margin-top:210px; margin-right: -6px">收</p>
-<p style="float:right; clear: both; margin-top:240px; margin-right: -6px">行</p>
-<p style="float:right; clear: both; margin-top:270px; margin-right: -6px">存</p>
-<p style="float:right; clear: both; margin-top:300px; margin-right: -6px">查</p>
-<p style="float:right; clear: both; margin-top:330px; margin-right: -6px">聯</p>
+財團法人福智文教基金會<br>
+謙德管理顧問股份有限公司
+<p style="float:right; clear: both; margin-top:90px; margin-right: -6px">代</p>
+<p style="float:right; clear: both; margin-top:120px; margin-right: -6px">收</p>
+<p style="float:right; clear: both; margin-top:150px; margin-right: -6px">行</p>
+<p style="float:right; clear: both; margin-top:180px; margin-right: -6px">存</p>
+<p style="float:right; clear: both; margin-top:210px; margin-right: -6px">查</p>
+<p style="float:right; clear: both; margin-top:240px; margin-right: -6px">聯</p>
 <table class="table">
     <tr>
-        <td>
-            親愛的客戶您好，請使用下列繳款方式繳納: <br>
-            ＊上海銀行繳納：請持本繳款單至全台上海商業儲蓄銀行<br>
-            &nbsp;&nbsp;臨櫃繳納，免手續費。<br>
-            ＊ATM 轉帳：選擇「轉帳」或「繳費」→ 輸入上海銀行<br>
-            &nbsp;&nbsp;代號011 → 輸入銷帳編號輸入應繳金額，<br>
-            &nbsp;&nbsp;跨行轉帳須支付手續費。 <br>
-            ＊超商繳納：請持本繳款單至7-11、全家、萊爾富、OK<br>
-            &nbsp;&nbsp;繳費，免付手續費。<br> 
-            ＊臨櫃匯款：收款行=上海商業儲蓄銀行南京東路分行，<br>
-            &nbsp;&nbsp;銀行代碼=0110406、戶名=財團法人福智文教基金會，<br>
-            &nbsp;&nbsp;帳號=銷帳編號(14碼)，須自付手續費。
+        <td width="350px">
+            親愛的客戶您好，請持本繳款單於繳費期限內至 7-11、<br>全家、萊爾富、OK 繳費，免付手續費。
         </td>
         <td style="padding: 0!important" width="200px">
             <table class="table" style="margin: -12px">
@@ -80,7 +71,7 @@
                         <a class="small">{{ $applicant->store_third_barcode }}</a>
                     </td>
                 </tr>
-                <tr>
+                {{-- <tr>
                     <td class="center">銀行條碼區</td>
                 </tr>
                 <tr>
@@ -92,7 +83,7 @@
                         <a class="small">應繳金額：{{ $applicant->bank_third_barcode }}</a>
                         <a style="float: right; right:10px">銀行代號：011</a>
                     </td>
-                </tr>
+                </tr> --}}
             </table>
         </td>
     </tr>
@@ -109,7 +100,7 @@
 </table>
 恭喜您錄取「{{ $applicant->batch->camp->fullName }}」！竭誠歡迎您的到來，期待與您共享這場心靈饗宴，希望您能獲得豐盛的收穫。請於{{ \Carbon\Carbon::now()->year }}年{{ substr($applicant->batch->camp->set_payment_deadline, 2, 2) }}月{{ substr($applicant->batch->camp->set_payment_deadline, 4, 2) }}日前完成繳費，<u>逾時將視同放棄錄取資格！</u>
 <ul>
-    <li>活動費用：{{ $applicant->set_fee }}元</li>
+    <li>活動費用：{{ $applicant->bank_third_barcode }}元</li>
     <li>繳費地點：可至超商、上海銀行繳費，或使用ATM轉帳、臨櫃匯款。</li>
     <li>若完成繳費，請於至少一個工作天後，上網查詢是否已繳費完畢。<br>
         （<a href="http://bwcamp.bwfoce.org/camp/2/queryadmit" target="_blank" rel="noopener noreferrer">http://bwcamp.bwfoce.org/camp/2/queryadmit</a> ）</li>
