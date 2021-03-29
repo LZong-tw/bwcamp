@@ -1,5 +1,5 @@
 {{-- 
-    參考頁面：https://youth.blisswisdom.org/camp/winter/form/index_addto.php
+    參考頁面：https://bwfoce.org/ecamp/form/2020ep01.php
     --}}
 <?
 header("Cache-Control: no-cache, no-store, must-revalidate, post-check=0, pre-check=0", false);
@@ -12,7 +12,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     @include('partials.schools_script')
     @include('partials.counties_areas_script')
     <div class='alert alert-info' role='alert'>
-        您在本網站所填寫的個人資料，僅用於此次教師營的報名及活動聯絡之用。
+        您在本網站所填寫的個人資料，僅用於此次企業營的報名及活動聯絡之用。
     </div>
 
     <div class='page-header form-group'>
@@ -161,7 +161,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         <option value='一貫道'>一貫道</option>
                         <option value='民間信仰'>民間信仰</option>
                         <option value='佛道'>佛道</option>
-                        <option value='其他'>其他</option>
+                        <option value='其它'>其它</option>
                         <option value='無'>無</option>
                 </select>
         </div>
@@ -177,7 +177,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         <option value='大學'>大學</option>
                         <option value='碩士'>碩士</option>
                         <option value='博士'>博士</option>
-                        <option value='其他'>其他</option>
+                        <option value='其它'>其它</option>
                 </select>
         </div>
     </div>
@@ -222,12 +222,12 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <option value='澎湖縣' >澎湖縣</option>
                 <option value='金門縣' >金門縣</option>
                 <option value='連江縣' >連江縣</option>
-                <option value='' disabled>- 其他 -</option>
+                <option value='' disabled>- 其它 -</option>
                 <option value='上海地區' >上海地區</option>
                 <option value='港澳深圳' >港澳深圳</option>
-                <option value='大陸其他區' >南海諸島</option>
-                <option value='星馬地區' >大陸其他區</option>
-                <option value='其他海外' >其他海外</option>
+                <option value='大陸其它區' >南海諸島</option>
+                <option value='星馬地區' >大陸其它區</option>
+                <option value='其它海外' >其它海外</option>
             </select>
         </div>  
     </div>    
@@ -261,10 +261,10 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <select required class='form-control' name='job_property' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
                 <option value='經營／管理' >經營／管理</option>
-                <option value='一般行政' >高階管理幹部</option>
-                <option value='企劃' >一般行政</option>
+                <option value='一般行政' >一般行政</option>
+                <option value='企劃' >企劃</option>
                 <option value='業務行銷' >業務行銷</option>
-                <option value='其他' >其他</option>
+                <option value='其它' >其它</option>
             </select>
         </div>  
     </div>    
@@ -315,7 +315,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <option value='運輸流通業' >運輸流通業</option>
                 <option value='觀光餐旅業' >觀光餐旅業</option>
                 <option value='自由業' >自由業</option>
-                <option value='其他' >其他</option>
+                <option value='其它' >其它</option>
             </select>
         </div>  
     </div>    
@@ -351,7 +351,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group'> 
     <label for='inputLineID' class='col-md-2 control-label text-md-right'>LINE ID</label>
         <div class='col-md-10'>
-            <input type=text name='employees' value='' class='form-control' id='inputLineID'>
+            <input type=text name='line' value='' class='form-control' id='inputLineID'>
             <div class="invalid-feedback crumb">
                 請填寫LINE ID
             </div>
@@ -359,9 +359,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class='row form-group'> 
-    <label for='inputEmployees' class='col-md-2 control-label text-md-right'>微信 ID</label>
+    <label for='inputWeChatID' class='col-md-2 control-label text-md-right'>微信 ID</label>
         <div class='col-md-10'>
-            <input type=text name='employees' value='' class='form-control' id='inputEmployees'>
+            <input type=text name='wechat' value='' class='form-control' id='inputWeChatID'>
             <div class="invalid-feedback crumb">
                 請填寫微信 ID
             </div>
@@ -420,7 +420,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <option value='金門縣'>金門縣</option>
                 <option value='連江縣'>連江縣</option>
                 <option value='南海諸島'>南海諸島</option>
-                <option value='海外'>海外</option>
+                <option value='其它'>其它</option>
             </select>
         </div>
         <div class='col-md-2'>
@@ -463,8 +463,10 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     <select name="emergency_relationship" class="form-control"> 
                         <option value=''>- 請選擇 -</option>
                         <option value='配偶'>配偶</option>
-                        <option value='父母'>父母</option>
-                        <option value='兄弟姊妹'>兄弟姊妹</option>
+                        <option value='父親'>父親</option>
+                        <option value='母親'>母親</option>
+                        <option value='兄弟'>兄弟</option>
+                        <option value='姊妹'>姊妹</option>
                         <option value='朋友'>朋友</option>
                         <option value='同事'>同事</option>
                         <option value='子女'>子女</option>
@@ -487,14 +489,14 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class='row form-group'>
-        <label class='col-md-2 control-label text-md-right'>介紹人(若無免填)</label>
+        <label class='col-md-2 control-label text-md-right'>介紹人<br>(若無免填)</label>
         <div class='col-md-10'>
             <div class='row form-group'>
                 <div class='col-md-2'>
                     姓名：
                 </div>
                 <div class='col-md-10'>
-                    <input type='text'class='form-control' name="introducer_name" value=''>
+                    <input type='text' class='form-control' name="introducer_name" value=''>
                 </div>
                 <div class="invalid-feedback">
                     請填寫本欄位
@@ -509,9 +511,10 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     <select name="introducer_relationship" class="form-control"> 
                         <option value=''>- 請選擇 -</option>
                         <option value='配偶'>配偶</option>
-                        <option value='學生'>學生</option>
-                        <option value='父母'>父母</option>
-                        <option value='兄弟姊妹'>兄弟姊妹</option>
+                        <option value='父親'>父親</option>
+                        <option value='母親'>母親</option>
+                        <option value='兄弟'>兄弟</option>
+                        <option value='姊妹'>姊妹</option>
                         <option value='朋友'>朋友</option>
                         <option value='同事'>同事</option>
                         <option value='子女'>子女</option>
@@ -535,7 +538,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     福智班別：
                 </div>
                 <div class='col-md-10'>
-                    <input type='text'class='form-control' name="introducer_name" value=''>
+                    <input type='text'class='form-control' name="introducer_participated" value=''>
                 </div>
                 <div class="invalid-feedback">
                     請填寫本欄位
@@ -898,5 +901,5 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </style>
 @stop
 {{-- 
-    參考頁面：https://youth.blisswisdom.org/camp/winter/form/index_addto.php
+    參考頁面：https://bwfoce.org/ecamp/form/2020ep01.php
     --}}
