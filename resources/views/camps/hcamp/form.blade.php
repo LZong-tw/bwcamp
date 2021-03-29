@@ -17,7 +17,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         @endforeach
     @endif
-    @if($applicant_raw_data->trashed())
+    @if(isset($applicant_raw_data) && $applicant_raw_data->trashed())
         <div class='alert alert-danger' role='alert'>
             您已於 {{ $applicant_raw_data->deleted_at }} 取消報名 / 取消參加。
             @if($camp_data->cancellation_deadline && \Carbon\Carbon::now()->lt($camp_data->cancellation_deadline->addDay()))
@@ -422,8 +422,8 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     福智青少年班 <br>
                     <input type="checkbox" name="is_child_blisswisdommed[]" id="" value="福智讀經班">
                     福智讀經班 <br>
-                    <input type="checkbox" name="is_child_blisswisdommed[]" id="" value="福智大專班">
-                    福智大專班 <br>
+                    <input type="checkbox" name="is_child_blisswisdommed[]" id="" value="2019 無限快樂營">
+                    2019 無限快樂營 <br>
                     <input type="checkbox" name="is_child_blisswisdommed[]" id="" value="其他">
                     其他 <br>
                     <input type="text" class="form-control" name="is_child_blisswisdommed[]">
