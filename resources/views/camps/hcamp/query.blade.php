@@ -162,18 +162,9 @@
     <div class="row form-group">
         <label for='inputSN' class='col-md-2'>身分證字號</label>
         <div class='col-md-10'>
-            <input type='text' name='idno' class='form-control' id='inputSN' value='{{ old('idno') }}' required>
+            <input type='text' name='idno' class='form-control' id='inputSN' value='{{ old('idno') }}' autocomplete="off" required>
         </div>
     </div>
-
-    {{-- <div class="row form-group">
-        <label for='inputRecap' class='col-md-2 control-label'></label>
-        <div class='col-md-8'>
-        <div class='g-recaptcha' data-sitekey='6Lc6sdASAAAAACovaErznXN6DikqaOlqoVw2SEUK'></div>
-        <script type='text/javascript' src='https://www.google.com/recaptcha/api.js?hl=zh-TW'>
-        </script>
-        </div>
-    </div> --}}
 
     <!--- 確認送出 -->
     <div class=row>

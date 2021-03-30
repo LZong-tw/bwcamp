@@ -58,10 +58,13 @@
                         <a class="nav-link" href="{{ route('queryadmit', $batch_id) }}">繳費查詢</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url("downloads/tcamp2021/2021教師生命成長營課程表.pdf") }}">課程表</a>
+                        <a class="nav-link" href="https://seguchi326.wixsite.com/2021happycamp" target="blank">營隊資訊</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url("downloads/tcamp2021/2021教師生命成長營簡章.docx") }}">報名簡章下載</a>
+                        <a class="nav-link" href="https://seguchi326.wixsite.com/2021happycamp/%E5%A0%B1%E5%90%8D%E9%A0%88%E7%9F%A5" target="blank">報名須知</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://seguchi326.wixsite.com/2021happycamp/%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C" target="blank">常見問題</a>
                     </li>
                 </ul>
             </div>
