@@ -35,11 +35,13 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
     <div class='row form-group'>
-        <label for='inputDate' class='col-md-2 control-label text-md-right'>營隊梯次</label>
+        <label for='inputBatch' class='col-md-2 control-label text-md-right'>營隊梯次</label>
         <div class='col-md-10'>
-            {{ $camp_data->fullName . $camp_data->name . '梯' }} ({{ $camp_data->batch_start }} ~ {{ $camp_data->batch_end }})
             @if(isset($applicant_data))
+                <h3>{{ $applicant_raw_data->batch->name . '梯' }} {{ $applicant_raw_data->batch->batch_start }} ~ {{ $applicant_raw_data->batch->batch_end }} </h3>
                 <input type='hidden' name='applicant_id' value='{{ $applicant_id }}'>
+            @else
+                <h3>{{ $batch->name . '梯' }} {{ $batch->batch_start }} ~ {{ $batch->batch_end }} </h3>
             @endif
         </div>
     </div>
