@@ -5,5 +5,5 @@
     @csrf
     <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
     請下載「<button class="btn btn-success" onclick="this.innerText = '正在產生繳費單'; this.disabled = true; document.downloadPaymentForm.submit();">錄取繳費通知單</button>
-</form>」(或可於網站錄取頁面查詢)後，至銀行或超商繳費。 
+</form>」(或可於網站錄取頁面查詢)後，至超商繳費。 
 <h6>註：若您使用 Line 開啟網頁，將會無法下載繳費單，請重新自電腦或至手機瀏覽器 / Google Chrome 登入報名網頁後再下載即可開啟。</h6>
