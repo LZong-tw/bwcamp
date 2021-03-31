@@ -7,10 +7,11 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use App\Traits\EmailConfiguration;
 
 class ApplicantMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable, SerializesModels, EmailConfiguration;
 
     public $applicant, $campData;
 
@@ -24,6 +25,7 @@ class ApplicantMail extends Mailable
         $this->applicant = $applicant;
         $this->campData = $campData;
         $this->isGetSN = $isGetSN;
+        $this->setEmail();
     }
 
     /**

@@ -88,6 +88,12 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    'hcamp' => [
+        'address' => env('HCAMP_MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'username' => env('HCAMP_MAIL_USERNAME'),
+        'password' => env('HCAMP_MAIL_PASSWORD'),
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Markdown Mail Settings
