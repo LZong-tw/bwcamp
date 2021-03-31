@@ -11,7 +11,7 @@
 營隊問題諮詢方式如下：<br>
 一、可掃描 QR-Code 或點選連結 https://line.me/R/ti/g/HbQvGwJyng <br>
 加入2021年∞快樂營諮詢line群組。<br>
-<img src="{{ $message->embed(public_path('storage/hcamp_line.png')) }}" alt=""><br>
+<img src="{{ $message->embed(public_path('img/hcamp_line.png')) }}" alt=""><br>
 <br>
 二、電話洽詢(限周一~周五 上午10時- 下午6時)<br>
 1.符小姐 TEL:0921-093-420<br>

@@ -41,7 +41,7 @@
                             <ol type="i">
                                 <li>可掃描 QR-Code 或點選連結 <a href="https://line.me/R/ti/g/HbQvGwJyng" target="_blank" rel="noopener noreferrer">https://line.me/R/ti/g/HbQvGwJyng</a><br>
                                 加入2021年∞快樂營諮詢line群組。<br>
-                                <img src="{{ url('storage/hcamp_line.png') }}" alt=""></li>
+                                <img src="{{ url('img/hcamp_line.png') }}" alt=""></li>
                                 <li>電話洽詢窗口(限周一~周五 上午10時- 下午6時來電) <br>
                                 ● 符小姐 TEL:0921-093-420 <br>
                                 ● 小華老師 TEL:02-7751-6799#520031</li>
