@@ -213,15 +213,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <option value=''>- 再選區鄉鎮 -</option>
             </select>
         </div>
-        <div class='col-md-1'>
-            <input readonly type=text name=zipcode value='' class='form-control'>
-        </div>
-        <div class='col-md-3'>
-            <input type=text required name='address' value='' maxlength=80 class='form-control' placeholder='請填寫通訊地址'>
-            <div class="invalid-feedback">
-                請填寫通訊地址
-            </div>
-        </div>
     </div>
 
     <div class='row form-group required'>
@@ -661,16 +652,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-    <div class='row form-group'>
-        <label for='inputExpect' class='col-md-2 control-label text-md-right'>期望成長營帶給我什麼幫助</label>
-        <div class='col-md-10'>
-            <textarea class='form-control' rows=2 name='expectation' id=inputExpect></textarea>
-            {{-- <div class="invalid-feedback">
-                請填寫本欄位
-            </div> --}}
-        </div>
-    </div>
-
     <!--- 同意書 -->
     <div class='row form-group required'>
         <label for='inputTerm' class='col-md-2 control-label text-md-right'>肖像權</label>
@@ -702,7 +683,37 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-
+    <!--- 填寫表單之人 -->
+    <div class='row form-group required'>
+        <label class='col-md-2 control-label text-md-right'>填寫人</label>
+        <div class='col-md-10'>
+            <label class=radio-inline>
+                <input type=radio required name="is_inperson" value="1" > 本表係本人填寫 <br/>
+            </label> <br/>
+            <label class=radio-inline>
+                <input type=radio required name="is_inperson" value="0" > 本表由他人代填
+                <div class="invalid-feedback">
+                    請選擇其中一項
+                </div>
+            </label>
+            <div class='row form-group'>
+                <div class='col-md-2'>
+                    代填人姓名： 
+                </div>
+                <div class='col-md-10'>
+                    <input type=text class='form-control' name="agent_name" value=''>
+                </div>
+            </div>
+            <div class='row form-group'>
+                <div class='col-md-2'>
+                    代填人聯絡電話：
+                </div>
+                <div class='col-md-10'>
+                    <input type=tel class='form-control' name="agent_phone" value=''>
+                </div>
+            </div>     
+        </div>
+    </div>
 
     <div class="row form-group text-danger tips d-none">
         <div class='col-md-2'></div>
