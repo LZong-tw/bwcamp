@@ -43,6 +43,8 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             @else
                 <h3>{{ $batch->name . '梯' }} {{ $batch->batch_start }} ~ {{ $batch->batch_end }} </h3>
             @endif
+            <br>
+            報名別梯請回上頁
         </div>
     </div>
     @if(isset($isModify))
