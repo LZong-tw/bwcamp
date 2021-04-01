@@ -384,24 +384,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>  
     </div>    
 
-    <div class='row form-group'>
-        <label for='inputBelief' class='col-md-2 control-label text-md-right'>宗教信仰</label>
-        <div class='col-md-10'>
-                <select name="belief" class="form-control"> 
-                        <option value=''>- 請選擇 -</option>
-                        <option value='佛教'>佛教</option>
-                        <option value='道教'>道教</option>
-                        <option value='天主教'>天主教</option>
-                        <option value='基督教'>基督教</option>
-                        <option value='一貫道'>一貫道</option>
-                        <option value='民間信仰'>民間信仰</option>
-                        <option value='佛道'>佛道</option>
-                        <option value='其它'>其它</option>
-                        <option value='無'>無</option>
-                </select>
-        </div>
-    </div>
-
     <div class='row form-group required'>
         <label for='inputStuType' class='col-md-2 control-label text-md-right'>是否為主管</label>
         <div class='col-md-10'>
@@ -553,6 +535,25 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
+    <div class='row form-group'>
+        <label for='inputBelief' class='col-md-2 control-label text-md-right'>宗教信仰</label>
+        <div class='col-md-10'>
+                <select name="belief" class="form-control"> 
+                        <option value=''>- 請選擇 -</option>
+                        <option value='佛教'>佛教</option>
+                        <option value='道教'>道教</option>
+                        <option value='天主教'>天主教</option>
+                        <option value='基督教'>基督教</option>
+                        <option value='一貫道'>一貫道</option>
+                        <option value='民間信仰'>民間信仰</option>
+                        <option value='佛道'>佛道</option>
+                        <option value='其它'>其它</option>
+                        <option value='無'>無</option>
+                </select>
+        </div>
+    </div>
+{{-- 動機 --}}
+{{-- 曾參與 --}}
     <div class='row form-group required'>
         <label class='col-md-2 control-label text-md-right'>緊急聯絡人</label>
         <div class='col-md-10'>
