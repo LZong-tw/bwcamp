@@ -76,7 +76,7 @@
         <tr>
             <td align=left valign=middle nowrap>
                 <4> 縣市：    
-                <select class="form-control" name=county size=1 onChange='Address(this.options[this.options.selectedIndex].value);'>
+                <select class="form-control" name=county size=1 onChange='Address(this.options[this.options.selectedIndex].value); document.Camp.address.value=this.options[this.options.selectedIndex].value;'>
                     <option value=''>- 請選縣市 -</option>
                     <option value='臺北市'>臺北市</option>
                     <option value='新北市'>新北市</option>
