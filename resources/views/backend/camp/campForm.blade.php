@@ -133,7 +133,7 @@
         <div class='row form-group'>
             <label for='inputName' class='col-md-1 control-label'>取消截止日</label>
             <div class='col-md-6'>
-                <input type="date" name="cancellation_deadline" id="" class='form-control' value="{{ $camp->cancellation_deadline ? $camp->cancellation_deadline->format('Y-m-d') : "" }}">
+                <input type="date" name="cancellation_deadline" id="" class='form-control' value="{{ isset($camp->cancellation_deadline) ? $camp->cancellation_deadline->format('Y-m-d') : "" }}">
             </div>
         </div>
         

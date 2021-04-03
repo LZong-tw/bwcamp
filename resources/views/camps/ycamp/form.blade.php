@@ -41,7 +41,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <h3>{{ $applicant_raw_data->batch->name . '梯' }} {{ $applicant_raw_data->batch->batch_start }} ~ {{ $applicant_raw_data->batch->batch_end }} </h3>
                 <input type='hidden' name='applicant_id' value='{{ $applicant_id }}'>
             @else
-                <h3>{{ $batch->name . '梯' }} {{ $batch->batch_start }} ~ {{ $batch->batch_end }} </h3>
+                <h3>{{ $batch->name . '梯' }} {{ $batch->batch_start }} ~ {{ $batch->batch_end }}
+                <a href='https://bwyouth.wixsite.com/camp2021'><span class='text-danger'>點此報名別梯</span></a>
+                </h3>                
             @endif
         </div>
     </div>
