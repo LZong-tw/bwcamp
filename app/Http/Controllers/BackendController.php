@@ -13,9 +13,12 @@ use App\Mail\AdmittedMail;
 use App\Models\CheckIn;
 use Carbon\Carbon;
 use View;
+use App\Traits\EmailConfiguration;
 
 class BackendController extends Controller
 {
+    use EmailConfiguration;
+
     protected $campDataService, $applicantService, $batch_id, $camp_data, $batch;
     /**
      * Create a new controller instance.
@@ -34,6 +37,8 @@ class BackendController extends Controller
             View::share('batch', $this->batch);
             View::share('batch_id', $this->batch_id);
             View::share('camp_data', $this->camp_data);
+            // 動態載入電子郵件設定
+            $this->setEmail($this->camp_data->table);
         }
         if($request->route()->parameter('camp_id')){
             $this->middleware('permitted');
@@ -41,10 +46,12 @@ class BackendController extends Controller
             $this->campFullData = Camp::find($this->camp_id);
             View::share('camp_id', $this->camp_id);
             View::share('campFullData', $this->campFullData);
+            // 動態載入電子郵件設定
+            $this->setEmail($this->campFullData->table);
         }
         if(\Str::contains(url()->current(), "campManage")){
             $this->middleware('admin');
-        }
+        }        
     }
 
     /**
@@ -1010,13 +1017,13 @@ class BackendController extends Controller
         $camp = Camp::find($request->camp_id);
         if($request->target == 'all'){ // 全體錄取人士
             $batch_ids = $camp->batchs()->pluck('id')->toArray();
-            $receivers = Applicant::select('email')->where('is_admitted', 1)->whereNotNull(['group', 'number'])->where([['group', '<>', ''], ['number', '<>', '']])->whereIn('batch_id', $batch_ids)->get();
+            $receivers = Applicant::select('batch_id', 'email')->where('is_admitted', 1)->whereNotNull(['group', 'number'])->where([['group', '<>', ''], ['number', '<>', '']])->whereIn('batch_id', $batch_ids)->get();
         }
         else if($request->target == 'batch') { // 梯次錄取人士
-            $receivers = Applicant::select('email')->where('is_admitted', 1)->whereNotNull(['group', 'number'])->where([['group', '<>', ''], ['number', '<>', '']])->where('batch_id', $request->batch_id)->get();
+            $receivers = Applicant::select('batch_id', 'email')->where('is_admitted', 1)->whereNotNull(['group', 'number'])->where([['group', '<>', ''], ['number', '<>', '']])->where('batch_id', $request->batch_id)->get();
         }
         else if($request->target == 'group') { // 梯次組別錄取人士
-            $receivers = Applicant::select('email')->where('is_admitted', 1)->where('group', '=', $request->group_no)->where('batch_id', $request->batch_id)->get();
+            $receivers = Applicant::select('batch_id', 'email')->where('is_admitted', 1)->where('group', '=', $request->group_no)->where('batch_id', $request->batch_id)->get();
         }        
         $files = array();
         for($i  = 0; $i < 3; $i++){
@@ -1029,7 +1036,7 @@ class BackendController extends Controller
             }
         }
         foreach($receivers as $receiver){
-            \Mail::to($receiver)->queue(new \App\Mail\CustomMail($request->subject, $request->content, $files));
+            \App\Facades\Mail::to($receiver)->registerServiceProvider($receiver->batch->camp->table)->queue(new \App\Mail\CustomMail($request->subject, $request->content, $files));
         }
         return view("backend.other.mailSent", ['message' => '已成功將自定郵件送入任務佇列。']);
     }

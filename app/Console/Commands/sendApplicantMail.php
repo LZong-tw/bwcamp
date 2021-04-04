@@ -7,9 +7,12 @@ use Illuminate\Support\Facades\Mail;
 use App\Models\Camp;
 use App\Models\Applicant;
 use App\Mail\ApplicantMail;
+use App\Traits\EmailConfiguration;
 
 class sendApplicantMail extends Command
 {
+    use EmailConfiguration;
+
     /**
      * The name and signature of the console command.
      *
@@ -40,6 +43,8 @@ class sendApplicantMail extends Command
      * @return int
      */
     public function handle() {
+        // 動態載入電子郵件設定
+        $this->setEmail($this->argument('camp'));
         switch($this->argument('mailType')){
             case "applicantMail":
                 if(is_numeric($this->argument('camp'))){
