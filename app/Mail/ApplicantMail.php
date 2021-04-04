@@ -7,11 +7,10 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use App\Traits\EmailConfiguration;
 
 class ApplicantMail extends Mailable
 {
-    use Queueable, SerializesModels, EmailConfiguration;
+    use Queueable, SerializesModels;
 
     public $applicant, $campData;
 
