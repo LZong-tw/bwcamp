@@ -36,6 +36,8 @@ class CampController extends Controller
         View::share('camp_data', $this->camp_data);
         View::share('admission_announcing_date_Weekday', $admission_announcing_date_Weekday);
         View::share('admission_confirming_end_Weekday', $admission_confirming_end_Weekday);
+        // 動態載入電子郵件設定
+        $this->setEmail($this->camp_data->table);
     }
 
     /**

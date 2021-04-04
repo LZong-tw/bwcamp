@@ -84,14 +84,33 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+        // 'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'address' => env('MAIL_USERNAME', 'hello@example.com'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
     'hcamp' => [
-        'address' => env('HCAMP_MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'address' => env('HCAMP_MAIL_USERNAME', 'hello@example.com'),
         'username' => env('HCAMP_MAIL_USERNAME'),
         'password' => env('HCAMP_MAIL_PASSWORD'),
+    ],
+
+    'ecamp' => [
+        'address' => env('ECAMP_MAIL_USERNAME', 'hello@example.com'),
+        'username' => env('ECAMP_MAIL_USERNAME'),
+        'password' => env('ECAMP_MAIL_PASSWORD'),
+    ],
+
+    'ycamp' => [
+        'address' => env('YCAMP_MAIL_USERNAME', 'hello@example.com'),
+        'username' => env('YCAMP_MAIL_USERNAME'),
+        'password' => env('YCAMP_MAIL_PASSWORD'),
+    ],
+
+    'acamp' => [
+        'address' => env('ACAMP_MAIL_USERNAME', 'hello@example.com'),
+        'username' => env('ACAMP_MAIL_USERNAME'),
+        'password' => env('ACAMP_MAIL_PASSWORD'),
     ],
 
     /*
