@@ -3,9 +3,12 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Traits\EmailConfiguration;
 
 class checkPayment extends Command
 {
+    use EmailConfiguration;
+    
     /**
      * The name and signature of the console command.
      *
@@ -179,6 +182,8 @@ class checkPayment extends Command
         \Storage::move('payment_data/' . $filename, 'payment_data/history/' . $filename);
         // 7. 寄出通知信
         $emails = config('camps_payments.' . $this->argument('camp') . '.email');
+        // 動態載入電子郵件設定
+        $this->setEmail($this->argument('camp'));
         foreach($emails as $email){
             \Mail::send([], [], function ($message) use ($email, $fileData, $mailContent){
                 $message->to($email)
