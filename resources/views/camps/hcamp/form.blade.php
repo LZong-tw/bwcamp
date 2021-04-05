@@ -573,14 +573,18 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 let complementData = applicant_data["blisswisdom_type_complement"] ? applicant_data["blisswisdom_type_complement"].split("||/") : null; 
                 if(applicant_data['special_condition']){
                     document.getElementById("has_special_condition").checked = true;
-                    document.getElementById("has_special_condition").disabled = true;
-                    document.getElementById("no_special_condition").disabled = true;
                     document.getElementById("special_condition").value = applicant_data['special_condition']; 
+                    @if(!$isModify)
+                        document.getElementById("has_special_condition").disabled = true;
+                        document.getElementById("no_special_condition").disabled = true;
+                    @endif
                 }
                 else{
                     document.getElementById("no_special_condition").checked = true;
-                    document.getElementById("no_special_condition").disabled = true;
-                    document.getElementById("has_special_condition").disabled = true;
+                    @if(!$isModify)
+                        document.getElementById("no_special_condition").disabled = true;
+                        document.getElementById("has_special_condition").disabled = true;
+                    @endif
                 }
                 for (var i = 0; i < inputs.length; i++){
                     if(inputs[i].name == "sc") {
@@ -642,7 +646,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 
                 @if(!$isModify)
                     for (var i = 0; i < inputs.length; i++){
-                        if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox" || inputs[i].name == 'emailConfirm' || inputs[i].name == "blisswisdom_type[]" || inputs[i].name == "blisswisdom_type_complement[]"){
+                        if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox" || inputs[i].name == 'emailConfirm' || inputs[i].name == "blisswisdom_type[]" || inputs[i].name == "blisswisdom_type_complement[]" || inputs[i].name == "is_child_blisswisdommed[]"){
                             inputs[i].disabled = true;
                         }
                     }
