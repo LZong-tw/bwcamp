@@ -14,9 +14,12 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Mail\ApplicantMail;
 use View;
+use App\Traits\EmailConfiguration;
 
 class CampController extends Controller
 {
+    use EmailConfiguration;
+
     protected $campDataService, $applicantService, $batch_id, $camp_data, $admission_announcing_date_Weekday, $admission_confirming_end_Weekday;
     /**
      * Create a new controller instance.
