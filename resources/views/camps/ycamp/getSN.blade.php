@@ -10,7 +10,7 @@
         <div class="card-body">
             @if(isset($applicant))
                 <p class="card-text">
-                    您的報名序號已寄至 <span class="text-danger font-weight-bold">{{ $applicant->email }}</span>，請查收。
+                    您的報名序號已寄至 <span class="text-danger font-weight-bold">{{ $applicant->email }}</span>，請查照。
                 </p>
             @endif
             @if(isset($error))
