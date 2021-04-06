@@ -13,7 +13,6 @@ trait EmailConfiguration {
             ]);
         }
         $app = \App::getInstance();
-        // $app->register('App\Providers\MailServiceProvider');
         $app->register('Illuminate\Mail\MailServiceProvider');
     }
 }
