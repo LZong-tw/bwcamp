@@ -41,7 +41,7 @@
         "psr-4": {
             "App\\": "app/"
         },
-        "files": ["app/Jobs/JobOverrides.php"],
+        "files": ["app/Overrides/Job.php"],
         "classmap": [
             "database/seeds",
             "database/factories"
