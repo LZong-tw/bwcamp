@@ -1036,7 +1036,7 @@ class BackendController extends Controller
             }
         }
         foreach($receivers as $receiver){
-            \App\Facades\Mail::to($receiver)->registerServiceProvider($receiver->batch->camp->table)->queue(new \App\Mail\CustomMail($request->subject, $request->content, $files));
+            \Mail::to($receiver)->queue(new \App\Mail\CustomMail($request->subject, $request->content, $files, $receiver->batch->camp->table));
         }
         return view("backend.other.mailSent", ['message' => '已成功將自定郵件送入任務佇列。']);
     }
