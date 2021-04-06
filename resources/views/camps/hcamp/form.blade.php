@@ -161,7 +161,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     西元
                 </div>
                 <div class="col-md-3">
-                    <input type='number' required class='form-control' name='birthyear' min=1900 max='{{ \Carbon\Carbon::now()->subYears(4)->year }}' value='' placeholder='辦理保險用，'>
+                    <input type='number' required class='form-control' name='birthyear' min='2002' max='2010' value='' placeholder='辦理保險用，'>
                     <div class="invalid-feedback">
                         未填寫或日期不正確
                     </div>
