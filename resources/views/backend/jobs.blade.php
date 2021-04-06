@@ -21,8 +21,12 @@
     </thead>
     @foreach ($jobs as $job)
         <tr>
-            <td>{{ $job['id'] }}</td>
-            <td>{!! var_dump(json_decode($job['payload'])) !!}</td>
+            <td>{{ $job['id'] }}</td>            
+            @php 
+                $payload = json_decode($job['payload']);
+                $payload->data->command = unserialize($payload->data->command);
+            @endphp
+            <td>{!! var_dump($payload) !!}</td>
             <td>{{ $job['attempts'] }}</td>
             <td>{{ \Carbon\Carbon::createFromTimestamp($job['reserved_at'])->format('Y-m-d H:i:s') }}</td>
             <td>{{ \Carbon\Carbon::createFromTimestamp($job['available_at'])->format('Y-m-d H:i:s') }}</td>
@@ -52,7 +56,11 @@
             <td>{{ $job['id'] }}</td>
             <td>{{ $job['connection'] }}</td>
             <td>{{ $job['queue'] }}</td>
-            <td>{!! var_dump(json_decode($job['payload'])) !!}</td>
+            @php 
+                $payload = json_decode($job['payload']);
+                $payload->data->command = unserialize($payload->data->command);
+            @endphp
+            <td>{!! var_dump($payload) !!}</td>
             <td>{{ $job['exception'] }}</td>
             <td>{{ \Carbon\Carbon::createFromTimestamp($job['failed_at'])->format('Y-m-d H:i:s') }}</td>
         </tr>
