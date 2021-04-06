@@ -11,18 +11,19 @@ class CustomMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $subject, $content, $attachment;
+    public $subject, $content, $attachment, $camp;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($subject, $content, $attachment) {
+    public function __construct($subject, $content, $attachment, $camp) {
         //
         $this->subject = $subject;
         $this->content = $content;
         $this->attachment = $attachment;
+        $this->camp = $camp;
     }
 
     /**
