@@ -11,12 +11,13 @@
 <table class="table table-bordered">
     <thead>
         <tr class="bg-secondary text-white">
-            <th>id</th>
+            <th width="50">id</th>
             <th>payload</th>
-            <th>attempts</th>
-            <th>reserved_at</th>
-            <th>available_at</th>
-            <th>created_at</th>
+            <th>payload->data->command</th>
+            <th width="60">atts</th>
+            <th width="190">reserved_at</th>
+            {{-- <th width="190">available_at</th> --}}
+            <th width="190">created_at</th>
         </tr>
     </thead>
     @foreach ($jobs as $key => $job)
@@ -27,17 +28,21 @@
                 $payload->data->command = unserialize($payload->data->command);
             @endphp
             <td>
-                <a href="#" class="" type="button" data-toggle="collapse" data-target="#collapse{{ $key }}" aria-expanded="false" aria-controls="collapse{{ $key }}">
+                <a href="#" class="" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="collapse{{ $key }} collapse_command{{ $key }}">
                     展開 / 收合
                 </a>
-                <div class="collapse" id="collapse{{ $key }}">                      
-                    {!! var_dump($payload) !!} <br> 
+                <div class="collapse multi-collapse" id="collapse{{ $key }}">                      
+                    {!! var_dump($payload) !!}
+                </div>
+            </td>
+            <td>                
+                <div class="collapse multi-collapse" id="collapse_command{{ $key }}">
                     {!! var_dump($payload->data->command) !!}
                 </div>
             </td>
             <td>{{ $job['attempts'] }}</td>
             <td>{{ \Carbon\Carbon::createFromTimestamp($job['reserved_at'])->format('Y-m-d H:i:s') }}</td>
-            <td>{{ \Carbon\Carbon::createFromTimestamp($job['available_at'])->format('Y-m-d H:i:s') }}</td>
+            {{-- <td>{{ \Carbon\Carbon::createFromTimestamp($job['available_at'])->format('Y-m-d H:i:s') }}</td> --}}
             <td>{{ \Carbon\Carbon::createFromTimestamp($job['created_at'])->format('Y-m-d H:i:s') }}</td>
         </tr>
     @endforeach
@@ -51,33 +56,42 @@
 <table class="table table-bordered">
     <thead>
         <tr class="bg-secondary text-white">
-            <th>id</th>
-            <th>connection</th>
-            <th>queue</th>
+            <th width="50">id</th>
+            {{-- <th>connection</th>
+            <th>queue</th> --}}
             <th>payload</th>
+            <th>payload->data->command</th>
             <th>exception</th>
-            <th>failed_at</th>
+            <th width="190">failed_at</th>
         </tr>
     </thead>
     @foreach ($failedJobs as $key => $job)
         <tr>
             <td>{{ $job['id'] }}</td>
-            <td>{{ $job['connection'] }}</td>
-            <td>{{ $job['queue'] }}</td>
+            {{-- <td>{{ $job['connection'] }}</td>
+            <td>{{ $job['queue'] }}</td> --}}
             @php 
                 $payload = json_decode($job['payload']);
                 $payload->data->command = unserialize($payload->data->command);
             @endphp
             <td>           
-                <a href="#" class="" type="button" data-toggle="collapse_failed" data-target="#collapse_failed{{ $key }}" aria-expanded="false" aria-controls="collapse_failed{{ $key }}">
+                <a href="#" data-toggle="collapse" data-target=".multi-collapse_failed" aria-expanded="false" aria-controls="collapse_failed{{ $key }} collapse_command_failed{{ $key }} collapse_failed_exception{{ $key }}">
                     展開 / 收合
                 </a>
-                <div class="collapse_failed" id="collapse_failed{{ $key }}">                      
-                    {!! var_dump($payload) !!} <br> 
+                <div class="collapse multi-collapse_failed" id="collapse_failed{{ $key }}">                      
+                    {!! var_dump($payload) !!}
+                </div>            
+            </td>
+            <td>                
+                <div class="collapse multi-collapse_failed" id="collapse_command_failed{{ $key }}">      
                     {!! var_dump($payload->data->command) !!}
                 </div>            
             </td>
-            <td>{{ $job['exception'] }}</td>
+            <td>
+                <div class="collapse multi-collapse_failed" id="collapse_failed_exception{{ $key }}"> 
+                    {{ $job['exception'] }}
+                </div>
+            </td>
             <td>{{ \Carbon\Carbon::createFromTimestamp($job['failed_at'])->format('Y-m-d H:i:s') }}</td>
         </tr>
     @endforeach
