@@ -62,14 +62,14 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class="row form-group required">
-        <label for='inputGender' class='col-md-2 control-label text-md-right'>生理性別</label>
+        <label for='inputGender' class='col-md-2 control-label text-md-right'>性別</label>
         <div class='col-md-10'>
             <div class="form-check form-check-inline">
                 <label class="form-check-label" for="M">
                     <input class="form-check-input" type="radio" name="gender" value="M" required @if(isset($isModify) && $isModify) disabled @endif>
                     男
                     <div class="invalid-feedback">
-                        未選擇生理性別
+                        未選擇性別
                     </div>
                 </label>
             </div>
@@ -170,7 +170,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class='row form-group'>
-        <label for='inputEducation' class='col-md-2 control-label text-md-right'>學歷</label>
+        <label for='inputEducation' class='col-md-2 control-label text-md-right'>最高學歷</label>
         <div class='col-md-10'>
                 <select name="education" class="form-control"> 
                         <option value=''>- 請選擇 -</option>
@@ -243,7 +243,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     </div>
-
+{{--
     <div class='row form-group required'>
         <label for='inputLevel' class='col-md-2 control-label text-md-right'>位階</label>
         <div class='col-md-10'>
@@ -256,7 +256,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </select>
         </div>  
     </div>
-
+--}}
     <div class='row form-group required'>
         <label for='inputJobProperty' class='col-md-2 control-label text-md-right'>工作屬性</label>
         <div class='col-md-10'>
@@ -266,6 +266,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <option value='一般行政' >一般行政</option>
                 <option value='企劃' >企劃</option>
                 <option value='業務行銷' >業務行銷</option>
+                <option value='技術職' >技術職</option>
                 <option value='其它' >其它</option>
             </select>
         </div>  
