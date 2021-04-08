@@ -591,7 +591,33 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-
+    <hr>
+    
+    <div class='row form-group'>
+        <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>營隊結束後，若有後續課程開課，請問您比較方便參加的時段？（可複選）</label>
+        <div class='col-md-10'>
+            <label><input type="checkbox" name=after_camp_available_day[] value='週一' > 週一</label> <br/>
+            <label><input type="checkbox" name=after_camp_available_day[] value='週二' > 週二</label> <br/>
+            <label><input type="checkbox" name=after_camp_available_day[] value='週三' > 週三</label> <br/>
+            <label><input type="checkbox" name=after_camp_available_day[] value='週四' > 週四</label> <br/>
+            <label><input type="checkbox" name=after_camp_available_day[] value='週五' > 週五</label> <br/>
+            <label><input type="checkbox" name=after_camp_available_day[] value='週六' > 週六</label> <br/>
+            <label><input type="checkbox" name=after_camp_available_day[] value='週日' > 週日</label> <br/>
+        </div>
+    </div>
+    
+    <div class='row form-group'>
+        <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>請問您有興趣參加活動的類別？（可複選）</label>
+        <div class='col-md-10'>
+            <label><input type="checkbox" name=favored_event[] value='企業參訪' > 企業參訪</label> <br/>
+            <label><input type="checkbox" name=favored_event[] value='種樹活動' > 種樹活動</label> <br/>
+            <label><input type="checkbox" name=favored_event[] value='環保淨灘' > 環保淨灘</label> <br/>
+            <label><input type="checkbox" name=favored_event[] value='農場耕作' > 農場耕作</label> <br/>
+            <label><input type="checkbox" name=favored_event[] value='宗教活動' > 宗教活動</label> <br/>
+            <label><input type="checkbox" name=favored_event[] value='文藝創作' > 文藝創作</label> <br/>
+            <label><input type="checkbox" name=favored_event[] value='生活講座' > 生活講座</label> <br/>
+        </div>
+    </div>
 
     <div class="row form-group text-danger tips d-none">
         <div class='col-md-2'></div>
