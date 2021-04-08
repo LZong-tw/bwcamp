@@ -543,8 +543,33 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 </select>
         </div>
     </div>
-{{-- 動機 --}}
-{{-- 曾參與 --}}
+    {{-- 動機 --}}
+    <div class='row form-group'>
+        <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>報名探索營的動機</label>
+        <div class='col-md-10'>
+            <label><input type="checkbox" name=motivation[] value='自我提升' > 自我提升</label> <br/>
+            <label><input type="checkbox" name=motivation[] value='紓壓釋放' > 紓壓釋放</label> <br/>
+            <label><input type="checkbox" name=motivation[] value='交朋友' > 交朋友</label> <br/>
+            <label><input type="checkbox" name=motivation[] value='認識福智' > 認識福智</label> <br/>
+            <label><input type="checkbox" name=motivation[] value='其他' > 其他</label> 
+            {{-- 其他 --}}
+        </div>
+    </div>
+    {{-- 曾參與 --}}
+    <div class='row form-group'>
+        <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>請問您有興趣參加活動的類別？（可複選）</label>
+        <div class='col-md-10'>
+            <label><input type="checkbox" name=blisswisdom_type[] value='無' > 無</label> <br/>
+            <label><input type="checkbox" name=blisswisdom_type[] value='大專營' > 大專營</label> <br/>
+            <label><input type="checkbox" name=blisswisdom_type[] value='教師營' > 教師營</label> <br/>
+            <label><input type="checkbox" name=blisswisdom_type[] value='企業營' > 企業營</label> <br/>
+            <label><input type="checkbox" name=blisswisdom_type[] value='卓越青年營' > 卓越青年營</label> <br/>
+            <label><input type="checkbox" name=blisswisdom_type[] value='廣論研討班' > 廣論研討班</label> <br/>
+            <label><input type="checkbox" name=blisswisdom_type[] value='其他' > 其他</label>
+            {{-- 其他 --}}
+        </div>
+    </div>
+
     <div class='row form-group required'>
         <label class='col-md-2 control-label text-md-right'>緊急聯絡人</label>
         <div class='col-md-10'>
