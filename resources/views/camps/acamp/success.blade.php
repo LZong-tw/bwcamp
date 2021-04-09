@@ -1,4 +1,4 @@
-@extends('camps.tcamp.layout')
+@extends('camps.acamp.layout')
 @section('content')
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }}</h4>
