@@ -4,12 +4,12 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name='description' content='「教育是人類升沈的樞紐」邀請您報名參加教師生命成長營。' />
+    <meta name='description' content='「光點無距愛無懼」邀請您報名參加卓越青年生命探索營。' />
     <meta name='author' content='福智文教基金會'>
-    <meta property='og:url' content='http://youth.blisswisdom.org/camp/winter/'/>
+    <meta property='og:url' content='http://www.youngone.org.tw/camp/'/>
     <meta property='og:title' content='{{ $camp_data->abbreviation }}'/>
-    <meta property='og:description' content='「教育是人類升沈的樞紐」邀請您報名參加教師生命成長營。' />
-    <meta property='og:image' content='http://youth.blisswisdom.org/camp/media/2016Wbanner.png'/>
+    <meta property='og:description' content='「光點無距愛無懼」邀請您報名參加卓越青年生命探索營。' />
+    <meta property='og:image' content='http://www.youngone.org.tw/camp/img/header/slide1.png'/>
     {{-- <link rel='icon' href='/camp/favicon.ico'> --}}
     <title> {{ $camp_data->fullName }} </title>
     <!-- Bootstrap core CSS -->
@@ -46,7 +46,7 @@
                     {{-- <li class="nav-item active"> --}}
                     {{-- <span class="sr-only">(current)</span> --}}
                     <li class="nav-item">
-                        <a class="nav-link" href="https://bwfoce.org/tcamp">營隊資訊</a>
+                        <a class="nav-link" href="http://www.youngone.org.tw/camp/">營隊資訊</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('registration', $batch_id) }}">報名表單</a>
@@ -60,10 +60,10 @@
                         </li>
                     @endif
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url("downloads/tcamp2021/2021教師生命成長營課程表.pdf") }}">課程表</a>
+                        <a class="nav-link" href="{{ url("downloads/acamp2021/2021教師生命成長營課程表.pdf") }}">課程表</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url("downloads/tcamp2021/2021教師生命成長營簡章.docx") }}">報名簡章下載</a>
+                        <a class="nav-link" href="{{ url("downloads/acamp2021/2021教師生命成長營簡章.docx") }}">報名簡章下載</a>
                     </li>
                 </ul>
             </div>
