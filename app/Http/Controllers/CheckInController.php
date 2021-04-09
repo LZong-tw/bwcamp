@@ -10,6 +10,7 @@ use App\Models\Applicant;
 use App\Models\Batch;
 use App\Models\CheckIn;
 use View;
+use Carbon\Carbon;
 
 class CheckInController extends Controller
 {
@@ -21,7 +22,7 @@ class CheckInController extends Controller
      */
     public function __construct(CampDataService $campDataService, ApplicantService $applicantService, Request $request) {
         $this->middleware('auth');
-        $camp = Batch::orderBy('batch_start', 'desc')->first()->camp()->first();
+        $camp = Batch::orderBy(\DB::raw('ABS(DATEDIFF(`batch_start`, NOW()))'))->first()->camp;
         $request->camp_id = $camp->id;
         $this->middleware('permitted');
         $this->camp = $camp;
@@ -64,7 +65,7 @@ class CheckInController extends Controller
     }
 
     public function checkIn(Request $request) {
-        if(CheckIn::where('applicant_id', $request->applicant_id)->where('check_in_date', \Carbon\Carbon::today()->format('Y-m-d'))->first()){            
+        if(CheckIn::where('applicant_id', $request->applicant_id)->where('check_in_date', Carbon::today()->format('Y-m-d'))->first()){            
             return back()->withErrors(['無法重複報到。']);  
         }
         else{
@@ -75,7 +76,7 @@ class CheckInController extends Controller
             $checkin = new CheckIn;
             $checkin->applicant_id = $request->applicant_id;
             $checkin->checker_id = \Auth()->user()->id;
-            $checkin->check_in_date = \Carbon\Carbon::today()->format('Y-m-d');
+            $checkin->check_in_date = Carbon::today()->format('Y-m-d');
             $checkin->save();
         }
         \Session::flash('message', "報到成功。");
@@ -96,7 +97,7 @@ class CheckInController extends Controller
                     'msg' => $str . '<h4 class="text-danger">未繳費，無法報到</h4>'
                 ]);  
             }     
-            if(CheckIn::where('applicant_id', $request->applicant_id)->where('check_in_date', \Carbon\Carbon::today()->format('Y-m-d'))->first()){            
+            if(CheckIn::where('applicant_id', $request->applicant_id)->where('check_in_date', Carbon::today()->format('Y-m-d'))->first()){            
                 return response()->json([
                     'msg' => $str . '<h4 class="text-warning">已報到完成，無法重複報到</h4>'
                 ]);  
@@ -105,7 +106,7 @@ class CheckInController extends Controller
                 $checkin = new CheckIn;
                 $checkin->applicant_id = $request->applicant_id;
                 $checkin->checker_id = \Auth()->user()->id;
-                $checkin->check_in_date = \Carbon\Carbon::today()->format('Y-m-d');
+                $checkin->check_in_date = Carbon::today()->format('Y-m-d');
                 $checkin->save();
                 return response()->json([
                     'msg' => $str . '<h4 class="text-success">報到完成</h4>'
@@ -122,10 +123,13 @@ class CheckInController extends Controller
 
     public function realtimeStat() {
         try{
-            $checkedInCount = CheckIn::where('check_in_date', \Carbon\Carbon::today()->format('Y-m-d'))->count();
+            $checkedInCount = CheckIn::where('check_in_date', Carbon::today()->format('Y-m-d'))->count();
             $applicants = Applicant::join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                         ->where('batchs.camp_id', $this->camp->id)
                         ->where(\DB::raw('fee - deposit'), '<=', 0)
+                        ->whereNotNull('group')
+                        ->where('group', '<>', '')
+                        ->where([['batch_start', '<=', Carbon::today()], ['batch_end', '>=', Carbon::today()]])
                         ->count();
             return response()->json([
                 'msg' => $checkedInCount . ' / ' . ($applicants - $checkedInCount)
@@ -133,13 +137,13 @@ class CheckInController extends Controller
         }
         catch(\Exception $e){
             return response()->json([
-                'msg' => '<h4 class="text-danger">發生未預期錯誤，無法顯示報到人數</h4>'
+                'msg' => '<h6 class="text-danger">發生未預期錯誤，無法顯示報到人數</h6>'
             ]);
         }
     }
 
     public function detailedStat(Request $request) {
-        $checkedInData = CheckIn::where('check_in_date', \Carbon\Carbon::today()->format('Y-m-d'))->get();
+        $checkedInData = CheckIn::where('check_in_date', Carbon::today()->format('Y-m-d'))->get();
         $allApplicants = Applicant::join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                     ->where('batchs.camp_id', $this->camp->id)
                     ->where(\DB::raw('fee - deposit'), '<=', 0)
@@ -167,15 +171,17 @@ class CheckInController extends Controller
 
     public function detailedStatOptimized(Request $request) {
         // 取得報到資料
-        $checkedInData = CheckIn::where('check_in_date', \Carbon\Carbon::today()->format('Y-m-d'))->get();
+        $checkedInData = CheckIn::where('check_in_date', Carbon::today()->format('Y-m-d'))->get();
         // 取得梯次
-        $batches = Batch::where("camp_id", $this->camp->id)->get();
+        $batches = Batch::where("camp_id", $this->camp->id)->where([['batch_start', '<=', Carbon::today()], ['batch_end', '>=', Carbon::today()]])->get();
         $batchArray = array();
         // 照梯次取報名人 
         $applicantsCount = 0;
         foreach($batches as $key => $batch){
             $allApplicants = Applicant::where(\DB::raw("fee - deposit"), "<=", 0)
                                 ->where("batch_id", $batch->id)
+                                ->whereNotNull('group')
+                                ->where('group', '<>', '')
                                 ->count();
             $checkedInApplicants = Applicant::where("batch_id", $batch->id)
                                 ->whereIn('applicants.id', $checkedInData->pluck('applicant_id'))
