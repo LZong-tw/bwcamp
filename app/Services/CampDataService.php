@@ -42,6 +42,16 @@ class CampDataService
                 'is_child_blisswisdommed' => implode("||/", $request->is_child_blisswisdommed)
             ]);
         }
+        if(isset($request->favored_event)) {
+            $request->merge([
+                'favored_event' => implode("||/", $request->favored_event)
+            ]);
+        }
+        if(isset($request->after_camp_available_day)) {
+            $request->merge([
+                'after_camp_available_day' => implode("||/", $request->after_camp_available_day)
+            ]);
+        }
 
         return $request;
     }
