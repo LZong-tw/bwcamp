@@ -61,18 +61,18 @@ class CampController extends Controller
     }
 
     public function campRegistration(Request $request) {        
-        $now = \Carbon\Carbon::now();
+        $today = \Carbon\Carbon::today();
         if($this->camp_data->is_late_registration_end){
             $registration_end = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $this->camp_data->late_registration_end . "23:59:59");
         }
         else{
             $registration_end = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $this->camp_data->registration_end . "23:59:59");
         }  
-        $final_registration_end = $this->camp_data->final_registration_end ? \Carbon\Carbon::createFromFormat("Y-m-d", $this->camp_data->final_registration_end)->endOfDay() : \Carbon\Carbon::now()->addDay();
-        if($now > $registration_end && !isset($request->isBackend)){
+        $final_registration_end = $this->camp_data->final_registration_end ? \Carbon\Carbon::createFromFormat("Y-m-d", $this->camp_data->final_registration_end)->endOfDay() : \Carbon\Carbon::today();
+        if($today > $registration_end && !isset($request->isBackend)){
             return view('camps.' . $this->camp_data->table . '.outdated');
         }
-        elseif(isset($request->isBackend) && $now > $final_registration_end){
+        elseif(isset($request->isBackend) && $today > $final_registration_end){
             return view('camps.' . $this->camp_data->table . '.outdated')->with('isBackend', '超出最終報名日。');
         }
         else{
@@ -208,9 +208,9 @@ class CampController extends Controller
                 $modifying_deadline = Carbon::createFromFormat('Y-m-d', $camp->modifying_deadline);
             }
             else{
-                $modifying_deadline = Carbon::now()->addDay();
+                $modifying_deadline = Carbon::now();
             }
-            if($isModify && $modifying_deadline->lt(Carbon::now())){
+            if($isModify && $modifying_deadline->lt(Carbon::today())){
                 if(!Str::contains(request()->headers->get('referer'), 'queryview')){
                     return back()->withInput()->withErrors(['很抱歉，報名資料修改期限已過。']);
                 }

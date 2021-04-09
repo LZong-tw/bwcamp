@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CampController;
+use App\Http\Controllers\CheckInController;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,13 +74,13 @@ Route::middleware(['admin'])->group(function () {
 });
 
 Route::group(['prefix' => 'checkin', ], function () {
-    Route::get('/', 'CheckInController@index');
-    Route::get('/query', 'CheckInController@query');
-    Route::post('/checkin', 'CheckInController@checkIn');
-    Route::post('/un-checkin', 'CheckInController@uncheckIn');
-    Route::post('/by_QR', 'CheckInController@by_QR');
-    Route::get('/realtimeStat', 'CheckInController@realtimeStat');
-    Route::get('/detailedStat', 'CheckInController@detailedStatOptimized');
+    Route::get('/', [CheckInController::class, 'index']);
+    Route::get('/query', [CheckInController::class, 'query']);
+    Route::post('/checkin', [CheckInController::class, 'checkIn']);
+    Route::post('/un-checkin', [CheckInController::class, 'uncheckIn']);
+    Route::post('/by_QR', [CheckInController::class, 'by_QR']);
+    Route::get('/realtimeStat', [CheckInController::class, 'realtimeStat']);
+    Route::get('/detailedStat', [CheckInController::class, 'detailedStatOptimized']);
 });
 
 Route::group(['prefix' => 'backend/campManage'], function(){
