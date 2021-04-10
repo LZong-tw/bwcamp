@@ -4,8 +4,8 @@ namespace App\Traits;
 
 trait EmailConfiguration {
     public static function setEmail($camp) {
-        if($camp == "hcamp"){
-            $config = \Config::get('mail.hcamp');
+        $config = \Config::get('mail.' . $camp);
+        if($config){
             config([
                 'mail.mailers.smtp.username' => $config['username'],
                 'mail.mailers.smtp.password' => $config['password'],
