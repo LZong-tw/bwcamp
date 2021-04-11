@@ -12,6 +12,7 @@
         <h2 class="d-inline-block">{{ $campFullData->abbreviation }} 銷帳資料</h2>
         <a href="{{ route("accounting", $campFullData->id) }}?download=1" class="btn btn-primary d-inline-block" style="margin-bottom: 14px">下載資料</a>
     </div>
+    共 {{ $accountings->count() }} 筆資料
     <table class="table table-bordered">
         <thead>
             <tr class="bg-secondary text-white">
