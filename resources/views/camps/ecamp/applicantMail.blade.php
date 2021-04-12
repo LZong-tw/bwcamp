@@ -1,8 +1,8 @@
 {{ $applicant->name }} 您好：<br>
 <br>
-    感謝您報名{{ $camp_data->fullName }}，報名手續已完成，<br>
+    感謝您報名{{ $applicant->batch->camp->fullName }}，報名手續已完成，<br>
     請記下您的報名序號： {{ $applicant->id }} 作為日後查詢使用。<br>
-    錄取名單將於 {{ $campData->admission_announcing_date }} 後陸續以E-mail通知。<br>
+    錄取名單將於 {{ $applicant->batch->camp->admission_announcing_date }} 後陸續以E-mail通知。<br>
     <br>
     洽詢電話：(週一至週五10:00~17:30)<br>
     　台北 (02)2545-2787(分機507,510企業營報名組)<br>
