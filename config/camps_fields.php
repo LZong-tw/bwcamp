@@ -27,8 +27,8 @@ return [
         "phone_home" => "家中電話", 
         // "phone_work" => "工作電話", 
         // "fax" => "傳真", 
-        // "line" => "Line", 
-        // "wechat" => "WeChat", 
+        "line" => "LineID", 
+        "wechat" => "微信ID", 
         "email" => "Email", 
         "zipcode" => "郵遞區號", 
         "address" => "地址", 
@@ -71,8 +71,18 @@ return [
     ],
 
     'ecamp' => [
-        "is_attend" => "回覆參加", 
-        "nationality" => "國籍", 
+        "belief" => "宗教信仰", 
+        "education" => "最高學歷", 
+        "unit" => "服務單位", 
+        "unit_location" => "服務單位所在地", 
+        "title" => "職稱", 
+        "job_property" => "工作屬性", 
+        "experience" => "經歷", 
+        "employees" => "公司員工人數", 
+        "direct_managed_employees" => "直屬管轄人數", 
+        "industry" => "產業別", 
+        "after_camp_available_day" => "有興趣活動", 
+        "favored_event" => "後續課程時間"
     ],
 
     'hcamp' => [
