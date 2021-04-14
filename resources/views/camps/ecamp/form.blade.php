@@ -593,7 +593,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 
     <hr>
         
-    <div class='row form-group'>
+    <div class='row form-group required'>
         <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>請問您有興趣參加活動的類別？（可複選）</label>
         <div class='col-md-10'>
             <label><input type="checkbox" name=favored_event[] value='企業參訪' > 企業參訪</label> <br/>
@@ -606,7 +606,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-    <div class='row form-group'>
+    <div class='row form-group required'>
         <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>營隊結束後，若有後續課程開課，請問您比較方便參加的時段？（可複選）</label>
         <div class='col-md-10'>
             <label><input type="checkbox" name=after_camp_available_day[] value='週一' > 週一</label> <br/>
