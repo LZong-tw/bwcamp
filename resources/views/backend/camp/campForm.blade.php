@@ -45,10 +45,11 @@
             <div class='col-md-6'>
                 <select name="table" id="" class='form-control' required>
                     <option value="">請選擇</option>
-                    <option value="tcamp" @if(isset($camp) && $camp->table == "tcamp") selected @endif>教師營</option>
-                    <option value="ycamp" @if(isset($camp) && $camp->table == "ycamp") selected @endif>大專營</option>
+                    <option value="acamp" @if(isset($camp) && $camp->table == "acamp") selected @endif>卓青營</option>
                     <option value="ecamp" @if(isset($camp) && $camp->table == "ecamp") selected @endif>企業營</option>
                     <option value="hcamp" @if(isset($camp) && $camp->table == "hcamp") selected @endif>快樂營</option>
+                    <option value="tcamp" @if(isset($camp) && $camp->table == "tcamp") selected @endif>教師營</option>
+                    <option value="ycamp" @if(isset($camp) && $camp->table == "ycamp") selected @endif>大專營</option>
                 </select>
             </div>
         </div>
