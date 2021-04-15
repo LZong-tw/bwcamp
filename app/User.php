@@ -5,10 +5,11 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Traits\EmailConfiguration;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, EmailConfiguration;
 
     /**
      * The attributes that are mass assignable.
@@ -58,5 +59,16 @@ class User extends Authenticatable
 
     public function role_relations(){
         return $this->hasMany('App\Models\RoleUser');
+    }
+
+    /**
+     * Send the given notification.
+     *
+     * @param  mixed  $instance
+     * @return void
+     */
+    public function notify($instance) {
+        $this->setEmail($this->role_relations->first()->role->camp->table);
+        app(Dispatcher::class)->send($this, $instance);
     }
 }
