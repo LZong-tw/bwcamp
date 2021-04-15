@@ -26,4 +26,24 @@ class Applicant extends Model {
     public function checkInData() {
         return $this->hasMany(CheckIn::class);
     }
+    
+    public function acamp() {
+        return $this->hasOne(Acamp::class, 'applicant_id', 'id');
+    }
+
+    public function ecamp() {
+        return $this->hasOne(Ecamp::class, 'applicant_id', 'id');
+    }
+
+    public function hcamp() {
+        return $this->hasOne(Hcamp::class, 'applicant_id', 'id');
+    }
+
+    public function tcamp() {
+        return $this->hasOne(Tcamp::class, 'applicant_id', 'id');
+    }
+
+    public function ycamp() {
+        return $this->hasOne(Ycamp::class, 'applicant_id', 'id');
+    }
 }

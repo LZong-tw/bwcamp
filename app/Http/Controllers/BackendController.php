@@ -616,8 +616,11 @@ class BackendController extends Controller
     }
 
     public function showTrafficList() {
-        
-        return view('backend.in_camp.traffic_list');
+        $batches = $this->campFullData->batchs;
+        $batch_ids = $batches->pluck('id');
+        $camp = $this->campFullData->table;
+        $applicants = Applicant::with($camp)->whereIn('batch_id', $batch_ids)->get();
+        return view('backend.in_camp.traffic_list', compact('batches', 'applicants', 'camp'));
     }
     
     public function appliedDateStat() {
