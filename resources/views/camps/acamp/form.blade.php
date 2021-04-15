@@ -632,11 +632,12 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 
     <!--- 同意書 -->
     <div class='row form-group required'>
-        <label for='inputTerm' class='col-md-2 control-label text-md-right'>個人資料</label>
+        <label for='inputTerm' class='col-md-2 control-label text-md-right'>請同意</label>
         <div class='col-md-10'>
             <label>
                 <p class='form-control-static text-danger'>
-                <input type='radio' required name='profile_agree' value='1'> 我同意，本報名表所填個人資料，僅提供此次營隊及福智課程通知使用。</p>
+                <input type='radio' required name='profile_agree' value='1'> 我同意，本報名表所填個人資料，僅提供此次營隊及福智課程通知使用。主辦單位有權將此次活動的錄影、
+照片，於刊物及網路上撥放、展出。(同意將肖像用於相關活動的宣傳與播放使用）</p>
                 <div class="invalid-feedback">
                     請圈選本欄位
                 </div>
@@ -645,6 +646,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <br/>
         </div>
     </div>
+    {{--
     <div class='row form-group required'>
         <label for='inputTerm' class='col-md-2 control-label text-md-right'>肖像權</label>
         <div class='col-md-10 form-check'>
@@ -659,7 +661,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <br/>
         </div>
     </div>
-
+    --}}
     <!--- 填寫表單之人 -->
     <div class='row form-group required'>
         <label class='col-md-2 control-label text-md-right'>是否為本人親自報名</label>
@@ -676,11 +678,11 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
     <div class='row form-group'>
-        <label class='col-md-2 control-label text-md-right'>如非本人報名</label>
+        <label class='col-md-2 control-label text-md-right'>如非本人報名，請填寫填表人資料</label>
         <div class='col-md-10'>
             <div class='row form-group'>
                 <div class='col-md-2'>
-                    填表人姓名： 
+                    姓名： 
                 </div>
                 <div class='col-md-10'>
                     <input type=text class='form-control' name="agent_name" value=''>
@@ -688,12 +690,31 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
             <div class='row form-group'>
                 <div class='col-md-2'>
-                    填表人聯絡電話：
+                    聯絡電話：
                 </div>
                 <div class='col-md-10'>
                     <input type=tel class='form-control' name="agent_phone" value=''>
                 </div>
-            </div>     
+            </div>
+            <div class='row form-group'>
+                <div class='col-md-2'>
+                    與報名學員關係：
+                </div>
+                <div class='col-md-10'>
+                    <select name="introducer_relationship" class="form-control"> 
+                        <option value=''>- 請選擇 -</option>
+                        <option value='配偶'>配偶</option>
+                        <option value='父親'>父親</option>
+                        <option value='母親'>母親</option>
+                        <option value='兄弟'>兄弟</option>
+                        <option value='姊妹'>姊妹</option>
+                        <option value='朋友'>朋友</option>
+                        <option value='同事'>同事</option>
+                        <option value='子女'>子女</option>
+                        <option value='其他'>其他</option>
+                    </select>
+                </div>
+            </div>      
         </div>
     </div>
 
