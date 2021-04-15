@@ -1,6 +1,6 @@
 @extends('backend.master')
 @section('content')
-    <h2>{{ $campFullData->abbreviation }} 統計資料：出生年次</h2>
+    <h2>{{ $campFullData->abbreviation }} 統計資料：出生年次 / 歲數</h2>
     <!--Div that will hold the column chart-->
     <table class='columns'>
         <tr>
@@ -23,13 +23,13 @@
             var data = new google.visualization.DataTable({!! $GChartData !!});
     
             // Set chart options
-            var piechart_options = {'title':'年次統計，共 {{ $total }} 人',
+            var piechart_options = {'title':'年次(歲)統計，共 {{ $total }} 人',
                             'hAxis': {
                             'title':'報名人數',
                             'titleTextStyle': {'bold':true,'ilatic':false},
                             },
                             'vAxis': {
-                            'title':'年次',
+                            'title':'年次(歲)',
                             'titleTextStyle': {'bold':true,'ilatic':false},
                             },
                             'width':450,

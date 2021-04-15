@@ -721,7 +721,7 @@ class BackendController extends Controller
     }
 
     public function birthyearStat(){
-        $applicants = Applicant::select(\DB::raw('birthyear, count(*) as total'))
+        $applicants = Applicant::select(\DB::raw('CONCAT(birthyear, "(", YEAR(CURDATE()) - birthyear, "歲)") as birthyear, count(*) as total'))
         ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
@@ -732,7 +732,7 @@ class BackendController extends Controller
         $i = 0 ;
         $total = 0 ;
         $GChartData = array('cols'=> array(
-                        array('id'=>'birthyear','label'=>'年次','type'=>'string'),
+                        array('id'=>'birthyear','label'=>'年次(歲)','type'=>'string'),
                         array('id'=>'people','label'=>'人數','type'=>'number'),
                         array('id'=>'annotation','role'=>'annotation','type'=>'number')
                     ),
