@@ -435,9 +435,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <input readonly type=text name=zipcode value='' class='form-control'>
         </div>
         <div class='col-md-3'>
-            <input type=text required name='address' value='' maxlength=80 class='form-control' placeholder='請填寫通訊地址'>
+            <input type=text required name='address' value='' pattern=".{10,80}" class='form-control' placeholder='請填寫通訊地址'>
             <div class="invalid-feedback">
-                請填寫通訊地址
+                請填寫通訊地址或檢查輸入的地址是否不齊全
             </div>
         </div>
     </div>

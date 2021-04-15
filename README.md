@@ -12,10 +12,8 @@
     - 後台統計：分組統計
     - 報名表單：https://docs.google.com/forms/d/1c_QhNl8QplunsWnoHU9jMPf0-DVojo161wMtYPAjDWw/edit
 - 企業營開發
-    - 報名表單完成
-    - camps_fields 欄位補正
+    - 權限
     - 地區分配方式 
-    - 電子郵件寄件地址
     - 報到通知信內容
     - 地區：台北(A)、桃園(B)、新竹(C)、台中(D)、雲嘉(E)、台南(F)、高雄(G)、屏東?(H)
 - 桌青營開發
@@ -103,6 +101,10 @@
 - 自定郵件結合動態電子郵件 -> 修正完成
 - 動態電子郵件設定
 - PaymentForm.blade.php, PaymentFormPDF.blade.php 移出 backend
+- 企業營開發
+    - 報名表單完成
+    - camps_fields 欄位補正
+    - 電子郵件寄件地址
 - 快樂營開發
     - 取消報名的資訊
     - 報名資料修改期限、取消截止日、生日上下限
