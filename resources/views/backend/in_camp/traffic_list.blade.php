@@ -11,40 +11,54 @@
     <h2>{{ $campFullData->abbreviation }} 交通名單</h2>
     @foreach ($batches as $batch)
         <h4 class="card-link"><a href="{{ route("writeMail", $campFullData->id) }}?target=batch&batch_id={{ $batch->id }}">梯次：{{ $batch->name }}</a></h4>
-        <table>
+        <table class="table table-bordered">
             <tr>
-                @php  
-                    $batchCount = 0;    
-                @endphp
-                @foreach ($batch->regions as $region)
-                <td style="vertical-align: top;">
-                    <table class="table table-bordered">
-                        <thead><tr class="bg-primary text-white"><th colspan="2">{{ $region->region }}</th></tr></thead>
-                        @php
-                            $count = 0;
-                        @endphp
-                        @foreach ($region->groups as $group)
-                            <tr>
-                                <td><a href="{{ route("writeMail", $campFullData->id) }}?target=group&batch_id={{ $batch->id }}&group_no={{ $group->group }}" class="card-link">{{ $group->group }}</a></td>
-                                <td>{{ $group->count }}</td>
-                                @php
-                                    $count = $count + $group->count;
-                                @endphp
-                            </tr>
-                        @endforeach
-                        <tr class="bg-success text-white">
-                            <td>合計</td>
-                            <td>{{ $count }}</td>
-                            @php 
-                                $batchCount = $count + $batchCount;
-                            @endphp
-                        </tr>
-                    </table>
-                </td>
-                @endforeach
+                <th>姓名</th>
+                <th>去程</th>
+                <th>回程</th>
             </tr>
+            @php
+                $count = 0;    
+            @endphp
+            @foreach ($applicants as $applicant)
+                @if($applicant->$camp->traffic_depart == "自往" && $applicant->$camp->traffic_return == "自往")
+                    @continue
+                @else
+                    <tr>
+                        <td>{{ $applicant->name }}</td>
+                        <td>{{ $applicant->$camp->traffic_depart }}</td>
+                        <td>{{ $applicant->$camp->traffic_return }}</td>
+                    </tr>
+                    @php
+                        $count++;    
+                    @endphp
+                @endif
+            @endforeach
         </table>
-        <h4>總人數：{{ $batchCount }}</h4>
+        共 {{ $count }} 位
+        <br><br>
+        <h5>全程自往</h5>
+        <table class="table table-bordered">
+            <tr>
+                <th>姓名</th>
+            </tr>
+            @php
+                $count = 0;    
+            @endphp
+            @foreach ($applicants as $applicant)
+                @if($applicant->$camp->traffic_depart == "自往" && $applicant->$camp->traffic_return == "自往")
+                    <tr>
+                        <td>{{ $applicant->name }}</td>
+                    </tr>
+                    @php
+                        $count++;    
+                    @endphp
+                @else
+                    @continue
+                @endif
+            @endforeach
+        </table>
+        共 {{ $count }} 位
         <hr>
     @endforeach
 @endsection

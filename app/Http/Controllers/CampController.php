@@ -247,9 +247,9 @@ class CampController extends Controller
         $applicant = Applicant::select('applicants.id', 'applicants.email', 'applicants.name', $campTable . '.*')
                 ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
                 ->where('applicants.name', $request->name)
-                ->where('birthyear', $request->birthyear)
-                ->where('birthmonth', $request->birthmonth)
-                ->where('birthday', $request->birthday)
+                ->where('birthyear', ltrim($request->birthyear, '0'))
+                ->where('birthmonth', ltrim($request->birthmonth, '0'))
+                ->where('birthday', ltrim($request->birthday, '0'))
                 ->withTrashed()
                 ->first();
         if($applicant) {
