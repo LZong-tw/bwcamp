@@ -185,7 +185,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 --}}
     <div class='row form-group required'>
-        <label for='inputAddress' class='col-md-2 control-label text-md-right'>現居住地點<br>(縣/市、區)</label>
+        <label for='inputAddress' class='col-md-2 control-label text-md-right'>現居住地點</label>
         <div class='col-md-2'>
             <select name="county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value);"> 
                 <option value=''>- 請先選縣市 -</option>
@@ -220,6 +220,16 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <option value=''>- 再選區鄉鎮 -</option>
             </select>
         </div>
+        <div class='col-md-1'>
+            <input readonly type=hidden name=zipcode value='' class='form-control'>
+        </div>
+        <div class='col-md-3'>
+            <input type=hidden name=address value='' maxlength=80 class='form-control' placeholder='請填寫通訊地址'>
+            <div class="invalid-feedback">
+                請填寫通訊地址
+            </div>
+        </div>
+
     </div>
 
     <div class='row form-group required'>
@@ -286,10 +296,10 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class='row form-group required'>
-        <label for='inputAddress' class='col-md-2 control-label text-md-right'>服務地點</label>
+        <label for='inputUnitCounty' class='col-md-2 control-label text-md-right'>服務地點</label>
         <div class='col-md-2'>
-            <select name="county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value);"> 
-                <option value=''>- 請先選縣市 -</option>
+            <select name="unit_county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value);"> 
+                <option value=''>- 請選擇縣市 -</option>
                 <option value='臺北市'>臺北市</option>
                 <option value='新北市'>新北市</option>
                 <option value='基隆市'>基隆市</option>
@@ -317,9 +327,18 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </select>
         </div>
         <div class='col-md-2'>
-            <select name=subarea class='form-control' onChange='document.Camp.zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.address.value=MyAddress(document.Camp.county.value, this.options[this.options.selectedIndex].text);'>
+            <select name=unit_district class='form-control' onChange='document.Camp.zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.address.value=MyAddress(document.Camp.county.value, this.options[this.options.selectedIndex].text);'>
                 <option value=''>- 再選區鄉鎮 -</option>
             </select>
+        </div>
+        <div class='col-md-1'>
+            <input readonly type=hidden name=unit_zipcode value='' class='form-control'>
+        </div>
+        <div class='col-md-3'>
+            <input type=hidden name=unit_address value='' maxlength=80 class='form-control' placeholder='請填寫通訊地址'>
+            <div class="invalid-feedback">
+                請填寫通訊地址
+            </div>
         </div>
     </div>
 
