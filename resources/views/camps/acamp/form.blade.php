@@ -124,6 +124,39 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     </div>
+
+    <div class='row form-group required'>
+        <label for='inputEducation' class='col-md-2 control-label text-md-right'>最高學歷</label>
+        <div class='col-md-10'>
+                <select name="education" class="form-control"> 
+                        <option value=''>- 請選擇 -</option>
+                        <option value='高中職'>高中職</option>
+                        <option value='大專'>大專</option>
+                        <option value='碩士'>碩士</option>
+                        <option value='博士'>博士</option>
+                        <option value='其它'>其它</option>
+                </select>
+        </div>
+    </div>
+
+    <div class='row form-group'>
+        <label for='inputBelief' class='col-md-2 control-label text-md-right'>宗教信仰</label>
+        <div class='col-md-10'>
+                <select name="belief" class="form-control"> 
+                        <option value=''>- 請選擇 -</option>
+                        <option value='佛教'>佛教</option>
+                        <option value='道教'>道教</option>
+                        <option value='天主教'>天主教</option>
+                        <option value='基督教'>基督教</option>
+                        <option value='一貫道'>一貫道</option>
+                        <option value='民間信仰'>民間信仰</option>
+                        <option value='佛道'>佛道</option>
+                        <option value='其它'>其它</option>
+                        <option value='無'>無</option>
+                </select>
+        </div>
+    </div>
+
 {{--
     <div class='row form-group required'>
         <label for='inputNationName' class='col-md-2 control-label text-md-right'>國家地區</label>
@@ -212,7 +245,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group'>
         <label for='inputTelHome' class='col-md-2 control-label text-md-right'>住家電話</label>
         <div class='col-md-10'>
-            <input type=tel  name='phone_home' value='' class='form-control' id='inputTelHome' placeholder='格式：0225452546#520'>
+            <input type=tel  name='phone_home' value='' class='form-control' id='inputTelHome' placeholder='格式：0225452546'>
         </div>
     </div>
 
@@ -235,7 +268,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputEmail' class='col-md-2 control-label text-md-right'>確認電子郵件</label>
         <div class='col-md-10'>
-            <input type='email' required name='emailConfirm' value='' class='form-control' id='inputEmailConfirm'>
+            <input type='email' required name='emailConfirm' value='' class='form-control' id='inputEmailConfirm' placeholder='請再次填寫確認'>
             {{-- data-match='#inputEmail' data-match-error='郵件不符合' placeholder='請再次填寫確認郵件填寫正確' --}}
         </div>
     </div>
@@ -243,9 +276,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 
 
     <div class='row form-group required'> 
-    <label for='inputUnit' class='col-md-2 control-label text-md-right'>服務單位<br>(公司名稱)</label>
+    <label for='inputUnit' class='col-md-2 control-label text-md-right'>服務單位</label>
         <div class='col-md-10'>
-            <input type=text required name='unit' value='' class='form-control' id='inputUnit'>
+            <input type=text required name='unit' value='' class='form-control' id='inputUnit' placeholder='公司名稱'>
             <div class="invalid-feedback crumb">
                 請填寫服務單位(公司名稱)
             </div>
@@ -253,7 +286,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class='row form-group required'>
-        <label for='inputAddress' class='col-md-2 control-label text-md-right'>服務地點<br>(縣/市、區)</label>
+        <label for='inputAddress' class='col-md-2 control-label text-md-right'>服務地點</label>
         <div class='col-md-2'>
             <select name="county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value);"> 
                 <option value=''>- 請先選縣市 -</option>
@@ -322,19 +355,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-    <div class='row form-group required'>
-        <label for='inputEducation' class='col-md-2 control-label text-md-right'>學歷</label>
-        <div class='col-md-10'>
-                <select name="education" class="form-control"> 
-                        <option value=''>- 請選擇 -</option>
-                        <option value='高中職'>高中職</option>
-                        <option value='大專'>大專</option>
-                        <option value='碩士'>碩士</option>
-                        <option value='博士'>博士</option>
-                        <option value='其它'>其它</option>
-                </select>
-        </div>
-    </div>
 
     <div class='row form-group required'>
         <label for='inputJobProperty' class='col-md-2 control-label text-md-right'>目前工作屬性</label>
@@ -412,31 +432,19 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class='row form-group required'>
-        <label for='inputStuType' class='col-md-2 control-label text-md-right'>若營隊後續有平日晚間課程，您希望在哪裡參加？</label>
+        <label for='inputSource' class='col-md-2 control-label text-md-right'>您如何得知此營隊活動？(單選，最主要管道)</label>
         <div class='col-md-10'>
-            <label class=radio-inline>
-                <input type=radio required name='class_location' value='上班附近' > 上班附近
-                <div class="invalid-feedback">
-                    請選擇課程地點
-                </div>
-            </label> 
-            <label class=radio-inline>
-                <input type=radio required name='class_location' value='住家附近' > 住家附近
-                <div class="invalid-feedback">
-                    &nbsp;
-                </div>
-            </label> 
-            <label class=radio-inline>
-                <input type=radio required name='class_location' value='皆可' > 皆可
-                <div class="invalid-feedback">
-                    &nbsp;
-                </div>
-            </label> 
+                <select name="belief" class="form-control"> 
+                        <option value=''>- 請選擇 -</option>
+                        <option value='網路、fb'>網路、fb</option>
+                        <option value='朋友同事'>朋友同事</option>
+                        <option value='家人親戚'>家人親戚</option>
+                        <option value='活動海報'>活動海報</option>
+                        <option value='公司推薦'>公司推薦</option>
+                        <option value='其它'>其它</option>
+                </select>
         </div>
-    </div>
-
-    <div class='row form-group required'>
-        <label for='inputSource' class='col-md-2 control-label text-md-right'>您如何得知此營隊活動？</label>
+    {{--
         <div class='col-md-10'>
             <p class='form-control-static text-danger'>單選，請選最主要管道。</p>
             <label class=radio-inline>
@@ -476,26 +484,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 </div>
             </label>
         </div>
+    --}}
     </div>
 
-    
-    <div class='row form-group'>
-        <label for='inputBelief' class='col-md-2 control-label text-md-right'>宗教信仰</label>
-        <div class='col-md-10'>
-                <select name="belief" class="form-control"> 
-                        <option value=''>- 請選擇 -</option>
-                        <option value='佛教'>佛教</option>
-                        <option value='道教'>道教</option>
-                        <option value='天主教'>天主教</option>
-                        <option value='基督教'>基督教</option>
-                        <option value='一貫道'>一貫道</option>
-                        <option value='民間信仰'>民間信仰</option>
-                        <option value='佛道'>佛道</option>
-                        <option value='其它'>其它</option>
-                        <option value='無'>無</option>
-                </select>
-        </div>
-    </div>
     {{-- 動機 --}}
     <div class='row form-group required'>
         <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>報名探索營的動機</label>
@@ -524,6 +515,30 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class='row form-group required'>
+        <label for='inputStuType' class='col-md-2 control-label text-md-right'>若營隊後續有平日晚間課程，您希望在哪裡參加？</label>
+        <div class='col-md-10'>
+            <label class=radio-inline>
+                <input type=radio required name='class_location' value='上班附近' > 上班附近
+                <div class="invalid-feedback">
+                    請選擇課程地點
+                </div>
+            </label> 
+            <label class=radio-inline>
+                <input type=radio required name='class_location' value='住家附近' > 住家附近
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label> 
+            <label class=radio-inline>
+                <input type=radio required name='class_location' value='皆可' > 皆可
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label> 
+        </div>
+    </div>
+
+    <div class='row form-group required'>
         <label class='col-md-2 control-label text-md-right'>緊急聯絡人</label>
         <div class='col-md-10'>
             <div class='row form-group'>
@@ -537,10 +552,20 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     請填寫本欄位
                 </div>
             </div>
-
             <div class='row form-group'>
                 <div class='col-md-2'>
-                    關係：
+                    聯絡電話：
+                </div>
+                <div class='col-md-10'>
+                    <input type='tel' class='form-control' name="emergency_mobile" value='' required>
+                </div>
+                <div class="invalid-feedback">
+                    請填寫本欄位
+                </div>
+            </div>   
+            <div class='row form-group'>
+                <div class='col-md-2'>
+                    與報名者關係：
                 </div>
                 <div class='col-md-10'>
                     <select name="emergency_relationship" class="form-control"> 
@@ -557,22 +582,11 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     </select>
                 </div>
             </div>   
-            <div class='row form-group'>
-                <div class='col-md-2'>
-                    聯絡電話：
-                </div>
-                <div class='col-md-10'>
-                    <input type='tel' class='form-control' name="emergency_mobile" value='' required>
-                </div>
-                <div class="invalid-feedback">
-                    請填寫本欄位
-                </div>
-            </div>   
         </div>
     </div>
 
     <div class='row form-group'>
-        <label class='col-md-2 control-label text-md-right'>介紹人<br>(若無免填)</label>
+        <label class='col-md-2 control-label text-md-right'>若有介紹人<br>請填寫介紹人資料</label>
         <div class='col-md-10'>
             <div class='row form-group'>
                 <div class='col-md-2'>
@@ -588,7 +602,19 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 
             <div class='row form-group'>
                 <div class='col-md-2'>
-                    關係：
+                    聯絡電話：
+                </div>
+                <div class='col-md-10'>
+                    <input type='tel' class='form-control' name="introducer_phone" value=''>
+                </div>
+                <div class="invalid-feedback">
+                    請填寫本欄位
+                </div>
+            </div>
+
+            <div class='row form-group'>
+                <div class='col-md-2'>
+                    與報名者關係：
                 </div>
                 <div class='col-md-10'>
                     <select name="introducer_relationship" class="form-control"> 
@@ -605,17 +631,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     </select>
                 </div>
             </div>   
-            <div class='row form-group'>
-                <div class='col-md-2'>
-                    聯絡電話：
-                </div>
-                <div class='col-md-10'>
-                    <input type='tel' class='form-control' name="introducer_phone" value=''>
-                </div>
-                <div class="invalid-feedback">
-                    請填寫本欄位
-                </div>
-            </div>
+
             <div class='row form-group'>
                 <div class='col-md-2'>
                     福智班別：
@@ -667,18 +683,21 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <label class='col-md-2 control-label text-md-right'>是否為本人親自報名</label>
         <div class='col-md-10'>
             <label class=radio-inline>
-                <input type=radio required name="is_inperson" value="1" > 是 <br/>
-            </label> <br/>
+                <input type=radio required name="is_inperson" value="1" > 是
+                <div class="invalid-feedback">
+                    請選擇是否本人親自報名
+                </div>
+            </label>
             <label class=radio-inline>
                 <input type=radio required name="is_inperson" value="0" > 否
                 <div class="invalid-feedback">
-                    請選擇其中一項
+                    &nbsp;
                 </div>
             </label>
         </div>
     </div>
     <div class='row form-group'>
-        <label class='col-md-2 control-label text-md-right'>如非本人報名，請填寫填表人資料</label>
+        <label class='col-md-2 control-label text-md-right'>如非本人報名<br>請填寫填表人資料</label>
         <div class='col-md-10'>
             <div class='row form-group'>
                 <div class='col-md-2'>
@@ -698,7 +717,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
             <div class='row form-group'>
                 <div class='col-md-2'>
-                    與報名學員關係：
+                    與報名者關係：
                 </div>
                 <div class='col-md-10'>
                     <select name="introducer_relationship" class="form-control"> 
