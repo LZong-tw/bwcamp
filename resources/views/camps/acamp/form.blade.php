@@ -672,7 +672,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <label>
                 <p class='form-control-static text-danger'>
                 <input type='radio' required name='profile_agree' value='1'> 我同意，本報名表所填個人資料，僅提供此次營隊及福智課程通知使用。主辦單位有權將此次活動的錄影、
-照片，於刊物及網路上撥放、展出。(同意將肖像用於相關活動的宣傳與播放使用）</p>
+照片，於刊物及網路上播放、展出。(同意將肖像用於相關活動的宣傳與播放使用）</p>
                 <div class="invalid-feedback">
                     請圈選本欄位
                 </div>
