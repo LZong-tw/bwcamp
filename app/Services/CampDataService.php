@@ -58,7 +58,9 @@ class CampDataService
             ]);
         }
         if(isset($request->unit_address)) {
-            $request->unit_subarea = \Str::substr($request->unit_address, 3);
+            $request->merge([
+                'unit_subarea' => \Str::substr($request->unit_address, 3)
+            ]);
         }
 
         return $request;
