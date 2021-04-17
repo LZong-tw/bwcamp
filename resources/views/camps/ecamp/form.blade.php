@@ -564,30 +564,42 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputTerm' class='col-md-2 control-label text-md-right'>肖像權</label>
         <div class='col-md-10 form-check'>
-            <label>
-                <p class='form-control-static text-danger'>
-                <input type='radio' required name="portrait_agree" value='1'> 我同意主辦單位在營隊期間拍照、錄影之活動記錄，使用於營隊及主辦單位的非營利教育推廣使用，並以網路方式推播。</p>
+            <p class='form-control-static text-danger'>
+            主辦單位在營隊期間拍照、錄影之活動記錄，可使用於營隊及主辦單位的非營利教育推廣使用，並以網路方式推播。
+            </p>
+            <label class=radio-inline>
+                <input type='radio' required name="portrait_agree" value='1' checked> 我同意
                 <div class="invalid-feedback">
                     請圈選本欄位
                 </div>
-            </label>  
-            <input type='radio' class='d-none' name="portrait_agree" value='0'>  
-            <br/>
+            </label>
+            <label class=radio-inline>
+                <input type=radio required name="portrait_agree" value='0' > 我不同意
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label>
         </div>
     </div>
 
     <div class='row form-group required'>
         <label for='inputTerm' class='col-md-2 control-label text-md-right'>個人資料</label>
-        <div class='col-md-10'>
-            <label>
-                <p class='form-control-static text-danger'>
-                <input type='radio' required name='profile_agree' value='1'> 我同意主辦單位於本次營隊取得我的個人資料，於營隊期間及後續主辦單位舉辦之活動，作為訊息通知、行政處理等非營利目的之使用，不會提供給無關之其他私人單位使用。</p>
+        <div class='col-md-10 form-check'>
+            <p class='form-control-static text-danger'>
+            主辦單位於本次營隊取得我的個人資料，於營隊期間及後續主辦單位舉辦之活動，作為訊息通知、行政處理等非營利目的之使用，不會提供給無關之其他私人單位使用。
+            </p>
+            <label class=radio-inline>
+                <input type='radio' required name="profile_agree" value='1' checked> 我同意
                 <div class="invalid-feedback">
                     請圈選本欄位
                 </div>
-            </label> 
-            <input type='radio' class='d-none' name='profile_agree' value='0' >
-            <br/>
+            </label>
+            <label class=radio-inline>
+                <input type=radio required name="profile_agree" value='0' > 我不同意
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label>
         </div>
     </div>
 
