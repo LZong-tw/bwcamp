@@ -451,7 +451,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class='row form-group required'>
-        <label for='inputSource' class='col-md-2 control-label text-md-right'>您如何得知此營隊活動？(單選，最主要管道)</label>
+        <label for='inputSource' class='col-md-2 control-label text-md-right'>您如何得知此營隊？(單選，最主要管道)</label>
         <div class='col-md-10'>
                 <select name="belief" class="form-control"> 
                         <option value=''>- 請選擇 -</option>
@@ -508,7 +508,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 
     {{-- 動機 --}}
     <div class='row form-group required'>
-        <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>報名探索營的動機</label>
+        <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>報名探索營的動機（可複選）</label>
         <div class='col-md-10'>
             <label><input type="checkbox" name=motivation[] value='自我提升' > 自我提升</label> <br/>
             <label><input type="checkbox" name=motivation[] value='紓壓釋放' > 紓壓釋放</label> <br/>
@@ -520,13 +520,13 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
     {{-- 曾參與 --}}
     <div class='row form-group required'>
-        <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>曾參與福智文教基金會所舉辦的營隊或課程（複選）</label>
+        <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>曾參與福智文教基金會所舉辦的營隊或課程（可複選）</label>
         <div class='col-md-10'>
             <label><input type="checkbox" name=blisswisdom_type[] value='否' > 否</label> <br/>
             <label><input type="checkbox" name=blisswisdom_type[] value='大專營' > 大專營</label> <br/>
             <label><input type="checkbox" name=blisswisdom_type[] value='教師營' > 教師營</label> <br/>
-            <label><input type="checkbox" name=blisswisdom_type[] value='卓越青年營' > 卓越青年營(卓青營)</label> <br/>
             <label><input type="checkbox" name=blisswisdom_type[] value='企業營' > 企業營</label> <br/>
+            <label><input type="checkbox" name=blisswisdom_type[] value='卓越青年營' > 卓越青年營(卓青營)</label> <br/>
             <label><input type="checkbox" name=blisswisdom_type[] value='廣論研討班' > 廣論研討班</label> <br/>
             <label><input type="checkbox" name=blisswisdom_type[] value='其它' > 其它</label>
             {{-- 其它 --}}
@@ -555,6 +555,19 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 </div>
             </label> 
         </div>
+    </div>
+
+    <div class='row form-group required'>
+        <label for='inputIndustry' class='col-md-2 control-label text-md-right'>交通需求</label>
+        <div class='col-md-10'>
+            <select required class='form-control' name='transportation' onChange=''>
+                <option value='' selected>- 請選擇 -</option>
+                <option value='捷運士林站接駁' >捷運士林站接駁</option>
+                <option value='捷運劍南路站(美麗華)接駁' >捷運劍南路站(美麗華)接駁</option>
+                <option value='校園機車停車位' >校園機車停車位</option>
+                <option value='無以上需求' >無以上需求</option>
+            </select>
+        </div>  
     </div>
 
     <div class='row form-group required'>
