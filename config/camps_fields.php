@@ -47,9 +47,27 @@ return [
         "expectation" => "對活動的期望"
     ],
 
-    'ycamp' => [
-        "nationality" => "國籍", 
-        "is_attend" => "回覆參加", 
+    'acamp' => [
+        "unit" => "服務單位", 
+        "unit_county" => "服務地點-縣市", 
+        "unit_district" => "服務地點-區",
+        "industry" => "產業別",
+        "title" => "職稱",
+        "education" => "最高學歷",
+        "job_property" => "工作屬性",
+        "is_manager" => "是否為主管",
+        "is_cadre" => "是否為儲訓主管",
+        "is_technicalstaff" => "是否為專門技術人員",
+        "class_location" => "",
+        "way" => "如何得知營隊",
+        "belief" => "宗教信仰",
+        "motivation" => "報名動機",
+        "blisswisdom_type" => "參與過福智活動",
+        "transportation" => "交通需求",
+        "in_inperson" => "是否本人填表",
+        "agent_name" => "代填人姓名",
+        "agent_phone" => "代填人電話",
+        "agent_relationship" => "代填人關係",
     ],
 
     'tcamp' => [
@@ -82,7 +100,7 @@ return [
         "direct_managed_employees" => "直屬管轄人數", 
         "industry" => "產業別", 
         "after_camp_available_day" => "有興趣活動", 
-        "favored_event" => "後續課程時間"
+        "favored_event" => "後續課程時間",
     ],
 
     'hcamp' => [
@@ -97,4 +115,31 @@ return [
         "is_lamrim" => "父母是否參加廣論班", 
         "is_child_blisswisdommed" => "孩子曾在的福智文教系統", 
     ],
+
+    'ycamp' => [
+        "nationality" => "國籍", 
+        "is_attend" => "回覆參加", 
+        "school" => "就讀學校",
+        "school_location" => "就讀學校所在地",
+        "day_nigh" => "部別",
+        "system" => "課程學制",
+        "department" => "系所",
+        "grade" => "年級",
+        "way" => "如何得知活動",
+        //"is_blisswisdom" => "",
+        "blisswisdom_type" => "曾參與福智活動",
+        "father_name" => "父親姓名",
+        "father_lamrim" => "父親廣論班別",
+        "father_phone" => "父親聯絡電話",
+        "mother_name" => "母親姓名",
+        "mother_lamrim" => "母親廣論班別",
+        "mother_phone" => "母親聯絡電話",
+        "in_inperson" => "是否本人填表",
+        "agent_name" => "代填人姓名",
+        "agent_phone" => "代填人電話",
+        "habbit" => "興趣",
+        "club" => "社團活動及擔任職務",
+        "goal" => "這一生目標"
+    ],
+
 ];
