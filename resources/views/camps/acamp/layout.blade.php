@@ -60,10 +60,10 @@
                         </li>
                     @endif
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url("downloads/acamp2021/2021教師生命成長營課程表.pdf") }}">課程表</a>
+                        <a class="nav-link" href="http://www.youngone.org.tw/camp/">課程表</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url("downloads/acamp2021/2021教師生命成長營簡章.docx") }}">報名簡章下載</a>
+                        <a class="nav-link" href="{{ url("downloads/acamp2021/2021卓越青年生命探索營報名簡章0410R2.doc") }}">報名簡章下載</a>
                     </li>
                 </ul>
             </div>
