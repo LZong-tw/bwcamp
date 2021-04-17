@@ -453,7 +453,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputSource' class='col-md-2 control-label text-md-right'>您如何得知此營隊？(單選，最主要管道)</label>
         <div class='col-md-10'>
-                <select name="belief" class="form-control"> 
+                <select name="way" class="form-control"> 
                         <option value=''>- 請選擇 -</option>
                         <option value='網路、fb'>網路、fb</option>
                         <option value='朋友同事'>朋友同事</option>
