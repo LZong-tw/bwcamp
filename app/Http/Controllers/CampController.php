@@ -248,10 +248,14 @@ class CampController extends Controller
                 ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
                 ->where('applicants.name', $request->name)
                 ->where('birthyear', ltrim($request->birthyear, '0'))
-                ->where('birthmonth', ltrim($request->birthmonth, '0'))
-                ->where('birthday', ltrim($request->birthday, '0'))
-                ->withTrashed()
-                ->first();
+                ->where('birthmonth', ltrim($request->birthmonth, '0'));
+        if($campTable == 'acamp'){
+            $applicant = $applicant->withTrashed()->first();
+        }
+        else{
+            $applicant = $applicant->where('birthday', ltrim($request->birthday, '0'))
+            ->withTrashed()->first();
+        }
         if($applicant) {
             // 寄送報名序號
             Mail::to($applicant)->send(new ApplicantMail($applicant, $this->camp_data, true));
