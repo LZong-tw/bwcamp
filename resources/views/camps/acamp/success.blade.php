@@ -10,7 +10,7 @@
         </div>
         <div class="card-body">
             <p class="card-text">
-                恭喜您已完成{{ $camp_data->fullName }}網路報名程序。
+                恭喜您已完成{{ $camp_data->fullName }}網路報名程序。您所填寫的個人資料，僅用於本營隊的報名及活動聯絡之用。本基金會（財團法人福智文教基金會）將依個人資料保護法及相關法令之規定善盡保密責任。
                 @include('camps.acamp.successMessages')
             </p>
             <form action="{{ route("queryview", $applicant->batch_id) }}" method="post" class="d-inline">
