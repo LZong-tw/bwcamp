@@ -134,7 +134,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         <option value='大專'>大專</option>
                         <option value='碩士'>碩士</option>
                         <option value='博士'>博士</option>
-                        <option value='其它'>其它</option>
+                        <option value='其他'>其他</option>
                 </select>
         </div>
     </div>
@@ -151,7 +151,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         <option value='一貫道'>一貫道</option>
                         <option value='民間信仰'>民間信仰</option>
                         <option value='佛道'>佛道</option>
-                        <option value='其它'>其它</option>
+                        <option value='其他'>其他</option>
                         <option value='無'>無</option>
                 </select>
         </div>
@@ -179,7 +179,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <option value='印尼' >印尼</option>
             <option value='泰國' >泰國</option>
             <option value='越南' >越南</option>
-            <option value='其它' >其它</option>
+            <option value='其他' >其他</option>
         </select>
         </div>
     </div>
@@ -212,7 +212,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <option value='金門縣'>金門縣</option>
                 <option value='連江縣'>連江縣</option>
                 <option value='南海諸島'>南海諸島</option>
-                <option value='其它'>其它</option>
+                <option value='其他'>其他</option>
             </select>
         </div>
         <div class='col-md-2'>
@@ -245,10 +245,10 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group'>
         <label for='inputTelWork' class='col-md-2 control-label text-md-right'>公司電話</label>
         <div class='col-md-10'>
-            <input type=tel required name='phone_work' value='' class='form-control' id='inputTelWork' placeholder='格式：0225452546#520'>
-            <div class="invalid-feedback">
+            <input type=tel name='phone_work' value='' class='form-control' id='inputTelWork' placeholder='格式：0225452546#520'>
+            {{-- <div class="invalid-feedback">
                 請填寫公司電話
-            </div>
+            </div> --}}
         </div>
     </div>
 
@@ -298,7 +298,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputUnitCounty' class='col-md-2 control-label text-md-right'>服務地點</label>
         <div class='col-md-2'>
-            <select name="unit_county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value);"> 
+            <select name="unit_county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value, 'unit');"> 
                 <option value=''>- 請選擇縣市 -</option>
                 <option value='臺北市'>臺北市</option>
                 <option value='新北市'>新北市</option>
@@ -323,11 +323,11 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <option value='金門縣'>金門縣</option>
                 <option value='連江縣'>連江縣</option>
                 <option value='南海諸島'>南海諸島</option>
-                <option value='其它'>其它</option>
+                <option value='其他'>其他</option>
             </select>
         </div>
         <div class='col-md-2'>
-            <select name=unit_district class='form-control' onChange='document.Camp.zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.address.value=MyAddress(document.Camp.county.value, this.options[this.options.selectedIndex].text);'>
+            <select name='unit_subarea' class='form-control' onChange='document.Camp.unit_zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.unit_address.value=MyAddress(document.Camp.unit_county.value, this.options[this.options.selectedIndex].text);'>
                 <option value=''>- 再選區鄉鎮 -</option>
             </select>
         </div>
@@ -359,7 +359,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <option value='批發零售業' >批發零售業</option>
                 <option value='醫療及社工服務業' >醫療及社工服務業</option>
                 <option value='待業中' >待業中</option>
-                <option value='其它' >其它</option>
+                <option value='其他' >其他</option>
             </select>
         </div>  
     </div>
@@ -391,7 +391,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <option value='視覺設計' >視覺設計</option>
                 <option value='電腦資訊' >電腦資訊</option>
                 <option value='醫療護理' >醫療護理</option>
-                <option value='其它' >其它</option>
+                <option value='其他' >其他</option>
             </select>
         </div>  
     </div>    
@@ -460,7 +460,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         <option value='家人親戚'>家人親戚</option>
                         <option value='活動海報'>活動海報</option>
                         <option value='公司推薦'>公司推薦</option>
-                        <option value='其它'>其它</option>
+                        <option value='其他'>其他</option>
                 </select>
         </div>
     {{--
@@ -497,7 +497,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 </div>
             </label> 
             <label class=radio-inline>
-                <input type=radio required name='way' value=其它 > 其它
+                <input type=radio required name='way' value=其他 > 其他
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
@@ -514,8 +514,13 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <label><input type="checkbox" name=motivation[] value='紓壓釋放' > 紓壓釋放</label> <br/>
             <label><input type="checkbox" name=motivation[] value='交朋友' > 交朋友</label> <br/>
             <label><input type="checkbox" name=motivation[] value='認識福智' > 認識福智</label> <br/>
-            <label><input type="checkbox" name=motivation[] value='其它' > 其它</label> 
-            {{-- 其它 --}}
+            <label>
+                <input type="checkbox" name=motivation[] value='其他' id="motivation_other_checkbox"> 其他：<input type="text" name="motivation_other">
+                <div class="invalid-feedback">
+                    請填寫本欄位
+                </div>
+            </label> 
+            {{-- 其他 --}}
         </div>
     </div>
     {{-- 曾參與 --}}
@@ -528,8 +533,14 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <label><input type="checkbox" name=blisswisdom_type[] value='企業營' > 企業營</label> <br/>
             <label><input type="checkbox" name=blisswisdom_type[] value='卓越青年營' > 卓越青年營(卓青營)</label> <br/>
             <label><input type="checkbox" name=blisswisdom_type[] value='廣論研討班' > 廣論研討班</label> <br/>
-            <label><input type="checkbox" name=blisswisdom_type[] value='其它' > 其它</label>
-            {{-- 其它 --}}
+            <label>
+                <input type="checkbox" name=blisswisdom_type[] value='其他' id="blisswisdom_type_other_checkbox"> 其他：
+                <input type="text" name="blisswisdom_type_other">
+                <div class="invalid-feedback">
+                    請填寫本欄位
+                </div>
+            </label>
+            {{-- 其他 --}}
         </div>
     </div>
 
@@ -694,6 +705,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <br/>
         </div>
     </div>
+
+    <input type='hidden' name="portrait_agree" value='1'>
+
     {{--
     <div class='row form-group required'>
         <label for='inputTerm' class='col-md-2 control-label text-md-right'>肖像權</label>
@@ -842,6 +856,13 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         */
         document.onreadystatechange = () => {
             if (document.readyState === 'complete') {
+                document.getElementById('motivation_other_checkbox').addEventListener("change", function(){
+                    document.Camp.motivation_other.required = document.getElementById('motivation_other_checkbox').checked;
+                });
+                document.getElementById('blisswisdom_type_other_checkbox').addEventListener("change", function(){
+                    document.Camp.blisswisdom_type_other.required = document.getElementById('blisswisdom_type_other_checkbox').checked;
+                });
+
                 /**
                 * 是否在學校或教育單位任職，勾選後顯示/隱藏任職單位相關欄位。
                 */
