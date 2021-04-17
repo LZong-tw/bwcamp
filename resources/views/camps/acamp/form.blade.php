@@ -187,7 +187,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputAddress' class='col-md-2 control-label text-md-right'>現居住地點</label>
         <div class='col-md-2'>
-            <select name="county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value);"> 
+            <select name="county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value);" required> 
                 <option value=''>- 請先選縣市 -</option>
                 <option value='臺北市'>臺北市</option>
                 <option value='新北市'>新北市</option>
@@ -216,7 +216,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </select>
         </div>
         <div class='col-md-2'>
-            <select name=subarea class='form-control' onChange='document.Camp.zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.address.value=MyAddress(document.Camp.county.value, this.options[this.options.selectedIndex].text);'>
+            <select name=subarea class='form-control' onChange='document.Camp.zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.address.value=MyAddress(document.Camp.county.value, this.options[this.options.selectedIndex].text);' required>
                 <option value=''>- 再選區鄉鎮 -</option>
             </select>
         </div>
@@ -766,7 +766,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     與報名者關係：
                 </div>
                 <div class='col-md-10'>
-                    <select name="introducer_relationship" class="form-control"> 
+                    <select name="agent_relationship" class="form-control"> 
                         <option value=''>- 請選擇 -</option>
                         <option value='配偶'>配偶</option>
                         <option value='父親'>父親</option>
