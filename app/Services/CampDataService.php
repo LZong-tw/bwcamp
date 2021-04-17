@@ -52,6 +52,11 @@ class CampDataService
                 'after_camp_available_day' => implode("||/", $request->after_camp_available_day)
             ]);
         }
+        if(isset($request->motivation)) {
+            $request->merge([
+                'motivation' => implode("||/", $request->motivation)
+            ]);
+        }
 
         return $request;
     }
