@@ -572,7 +572,10 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class='row form-group required'>
-        <label for='inputIndustry' class='col-md-2 control-label text-md-right'>交通需求</label>
+        <label for='inputIndustry' class='col-md-2 control-label text-md-right'>
+            交通需求 <br>
+            (校園沒有提供汽車車位)
+        </label>
         <div class='col-md-10'>
             <select required class='form-control' name='transportation' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
