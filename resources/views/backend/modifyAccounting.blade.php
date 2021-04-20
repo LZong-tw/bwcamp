@@ -26,7 +26,7 @@
             <form action="{{ route("modifyAccounting", $campFullData->id) }}" method="post" class="form-horizontal">
                 @csrf
                 <input type="hidden" name="id" value="{{ $applicant->id }}">
-                確認報名序號：<input type="text" class="form-control" name="double_check" placeholder="輸入報名序號" required><br>
+                確認報名序號或錄取序號：<input type="text" class="form-control" name="double_check" placeholder="輸入報名序號或錄取序號" required><br>
                 <input type="submit" class="btn btn-success" value="後台繳費 / 繳費金額調整">
             </form>
         @endif
