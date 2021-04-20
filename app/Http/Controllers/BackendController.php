@@ -980,7 +980,7 @@ class BackendController extends Controller
         if ($request->isMethod('POST')) {
             $applicant = Applicant::find($request->id);
             $admitted_sn = $applicant->group.$applicant->number;
-            if($admitted_sn == $request->double_check){
+            if($admitted_sn == $request->double_check || $applicant->id == $request->double_check){
                 $applicant->deposit = $applicant->fee;
                 $applicant->save();
                 $applicant = $this->applicantService->checkPaymentStatus($applicant);
