@@ -620,7 +620,19 @@ class BackendController extends Controller
         $batch_ids = $batches->pluck('id');
         $camp = $this->campFullData->table;
         $applicants = Applicant::with($camp)->whereIn('batch_id', $batch_ids)->get();
-        return view('backend.in_camp.traffic_list', compact('batches', 'applicants', 'camp'));
+        $traffic_depart = Applicant::select(
+                \DB::raw($camp . '.traffic_depart as traffic_depart, count(*) as count')
+            )->join($camp, $camp . '.applicant_id', '=', 'applicants.id')
+            ->where('traffic_depart', '<>', '自往')
+            ->whereIn('batch_id', $batch_ids)
+            ->groupBy($camp . '.traffic_depart')->get();
+        $traffic_return = Applicant::select(
+            \DB::raw($camp . '.traffic_return as traffic_return, count(*) as count')
+            )->join($camp, $camp . '.applicant_id', '=', 'applicants.id')
+            ->where('traffic_return', '<>', '自往')
+            ->whereIn('batch_id', $batch_ids)
+            ->groupBy($camp . '.traffic_return')->get();
+        return view('backend.in_camp.traffic_list', compact('batches', 'applicants', 'traffic_depart', 'traffic_return', 'camp'));
     }
     
     public function appliedDateStat() {

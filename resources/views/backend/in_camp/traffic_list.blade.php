@@ -11,28 +11,43 @@
     <h2>{{ $campFullData->abbreviation }} 交通名單</h2>
     @foreach ($batches as $batch)
         <h4 class="card-link"><a href="{{ route("writeMail", $campFullData->id) }}?target=batch&batch_id={{ $batch->id }}">梯次：{{ $batch->name }}</a></h4>
+        <h5>去程</h5>
         <table class="table table-bordered">
             <tr>
-                <th>姓名</th>
-                <th>去程</th>
-                <th>回程</th>
+                <th>地點</th>
+                <th>人數</th>
             </tr>
             @php
                 $count = 0;    
             @endphp
-            @foreach ($applicants as $applicant)
-                @if($applicant->$camp->traffic_depart == "自往" && $applicant->$camp->traffic_return == "自往")
-                    @continue
-                @else
-                    <tr>
-                        <td>{{ $applicant->name }}</td>
-                        <td>{{ $applicant->$camp->traffic_depart }}</td>
-                        <td>{{ $applicant->$camp->traffic_return }}</td>
-                    </tr>
-                    @php
-                        $count++;    
-                    @endphp
-                @endif
+            @foreach ($traffic_depart as $t)
+                <tr>
+                    <td>{{ $t->traffic_depart }}</td>
+                    <td>{{ $t->count }}</td>
+                </tr>
+                @php
+                    $count++;    
+                @endphp
+            @endforeach
+        </table>
+        共 {{ $count }} 位
+        <h5>回程</h5>
+        <table class="table table-bordered">
+            <tr>
+                <th>地點</th>
+                <th>人數</th>
+            </tr>
+            @php
+                $count = 0;    
+            @endphp
+            @foreach ($traffic_return as $t)
+                <tr>
+                    <td>{{ $t->traffic_return }}</td>
+                    <td>{{ $t->count }}</td>
+                </tr>
+                @php
+                    $count++;    
+                @endphp
             @endforeach
         </table>
         共 {{ $count }} 位
