@@ -327,7 +327,8 @@ class CampController extends Controller
     public function downloadPaymentForm(Request $request) {
         ini_set('memory_limit', -1);        
         $applicant = Applicant::find($request->applicant_id);
-        $this->applicantService->checkIfPaidEarlyBird($applicant);
+        $applicant = $this->applicantService->checkIfPaidEarlyBird($applicant);
+        $applicant->save();
         return \PDF::loadView('camps.' . $this->camp_data->table . '.paymentFormPDF', compact('applicant'))->download(\Carbon\Carbon::now()->format('YmdHis') . $this->camp_data->table . $applicant->id . '繳費聯.pdf');
     }
 
