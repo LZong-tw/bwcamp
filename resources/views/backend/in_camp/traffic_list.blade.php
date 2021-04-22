@@ -26,7 +26,7 @@
                     <td>{{ $t->count }}</td>
                 </tr>
                 @php
-                    $count++;    
+                    $count += $t->count;    
                 @endphp
             @endforeach
         </table>
@@ -46,7 +46,7 @@
                     <td>{{ $t->count }}</td>
                 </tr>
                 @php
-                    $count++;    
+                    $count += $t->count;    
                 @endphp
             @endforeach
         </table>
