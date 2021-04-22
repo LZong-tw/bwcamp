@@ -6,6 +6,7 @@
 - 快樂營開發
     - 首頁：倒數報名，於報名期間內自動轉址: 處理中
     - 報到通知內容
+    - 早鳥轉普通繳費問題
     - 後台統計：學程，特殊需求：包含性別
     - 後台統計：分組統計
     - 報名表單：https://docs.google.com/forms/d/1c_QhNl8QplunsWnoHU9jMPf0-DVojo161wMtYPAjDWw/edit
