@@ -24,7 +24,7 @@
         color: red;
     }
 </style>
-<a href="{{ route('showPaymentForm', [$applicant->batch_id, $applicant->id]) }}?download=1" target="_blank">下載繳費單</a>
+<a href="{{ route('showPaymentForm', [$applicant->batch->camp->id, $applicant->id]) }}?download=1" target="_blank">下載繳費單</a>
 財團法人福智文教基金會 <br>
 謙德管理顧問股份有限公司
 <a style="float:right; writing-mode: vertical-lr;text-orientation: mixed; margin-top: 125px">代收行存查聯</a>
