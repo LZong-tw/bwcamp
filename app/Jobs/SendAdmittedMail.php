@@ -39,7 +39,8 @@ class SendAdmittedMail implements ShouldQueue
         ini_set('memory_limit', -1);
         ini_set('max_execution_time', 180);
         $applicant = $this->applicant;
-        $applicantService->checkIfPaidEarlyBird($applicant);
+        $applicant = $applicantService->checkIfPaidEarlyBird($applicant);
+        $applicant->save();
         $paymentFile = \PDF::loadView('camps.' . $applicant->batch->camp->table . '.paymentFormPDF', compact('applicant'))->download();
         // 動態載入電子郵件設定
         $this->setEmail($applicant->batch->camp->table);

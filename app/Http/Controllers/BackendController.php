@@ -194,7 +194,8 @@ class BackendController extends Controller
 
     public function showPaymentForm($camp_id, $applicant_id) {
         $applicant = Applicant::find($applicant_id);
-        $this->applicantService->checkIfPaidEarlyBird($applicant);
+        $applicant = $this->applicantService->checkIfPaidEarlyBird($applicant);
+        $applicant->save();
         $download = $_GET['download'] ?? false;
         if(!$download){
             return view('camps.' . $applicant->batch->camp->table . '.paymentForm', compact('applicant','download'));
