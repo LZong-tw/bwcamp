@@ -55,11 +55,11 @@ class ApplicantService
             return $applicant;
         }
         // 快樂營其他(無論有無早鳥)，僅檢查報名者是否錄取，未錄取表示未繳費完成，則填入繳費資料
-        else if($applicant->batch->camp == "hcamp" && !$applicant->is_admitted){
+        else if($applicant->batch->camp->table == "hcamp" && !$applicant->is_admitted){
             $applicant = $this->fillPaymentData($applicant);
         }
         // 其他(無論有無早鳥)，僅檢查報名者是否錄取，已錄取則填入繳費資料
-        else if($applicant->batch->camp != "hcamp" && $applicant->is_admitted){
+        else if($applicant->batch->camp->table != "hcamp" && $applicant->is_admitted){
             $applicant = $this->fillPaymentData($applicant);
         }
         return $applicant;
