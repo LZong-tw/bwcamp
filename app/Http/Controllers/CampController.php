@@ -287,10 +287,15 @@ class CampController extends Controller
     }
 
     public function campCancellation(Request $request) {
-        if(Applicant::find($request->sn)->delete()){
-            return view('camps.' . $this->camp_data->table . '.cancel_successful');
+        try{
+            if(Applicant::find($request->sn)->delete()){
+                return view('camps.' . $this->camp_data->table . '.cancel_successful');
+            }
         }
-        return "<h2>取消時發生未預期錯誤，請向主辦方回報。</h2>";
+        catch(\Exception $e){
+            logger($e);
+            return "<h2>取消時發生未預期錯誤，請確認報名資料是否正確，或向主辦方回報。</h2>";
+        }
     }
 
     public function restoreCancellation(Request $request) {
