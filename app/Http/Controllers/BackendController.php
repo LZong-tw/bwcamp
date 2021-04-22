@@ -43,7 +43,7 @@ class BackendController extends Controller
         if($request->route()->parameter('camp_id')){
             $this->middleware('permitted');
             $this->camp_id = $request->route()->parameter('camp_id');
-            $this->campFullData = Camp::find($this->camp_id);
+            $this->campFullData = Camp::find($request->route()->parameter('camp_id'));
             View::share('camp_id', $this->camp_id);
             View::share('campFullData', $this->campFullData);
             // 動態載入電子郵件設定
