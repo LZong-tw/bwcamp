@@ -422,7 +422,7 @@ class BackendController extends Controller
                 }
                 // 按陣列鍵值升冪排列           
                 ksort($checkInDates);
-
+                $checkInData = array();
                 // 將每人每日的報到資料按報到日期組合成一個陣列
                 foreach($checkInDates as $checkInDate => $v) {
                     $checkInData[(string)$checkInDate] = array();

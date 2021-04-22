@@ -11,6 +11,7 @@
     - 報名表單：https://docs.google.com/forms/d/1c_QhNl8QplunsWnoHU9jMPf0-DVojo161wMtYPAjDWw/edit
 - 企業營開發
     - 權限
+    - ecamp title 欄位長度過短
     - checkbox 必填
     - 地區分配方式 
     - 報到通知信內容
