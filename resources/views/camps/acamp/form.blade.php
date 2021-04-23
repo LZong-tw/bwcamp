@@ -301,7 +301,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputUnitCounty' class='col-md-2 control-label text-md-right'>服務地點</label>
         <div class='col-md-2'>
-            <select name="unit_county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value, 'unit');"> 
+            <select name="unit_county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value, 'unit');" required> 
                 <option value=''>- 請選擇縣市 -</option>
                 <option value='臺北市'>臺北市</option>
                 <option value='新北市'>新北市</option>
@@ -330,7 +330,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </select>
         </div>
         <div class='col-md-2'>
-            <select name='unit_subarea' class='form-control' onChange='document.Camp.unit_zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.unit_address.value=MyAddress(document.Camp.unit_county.value, this.options[this.options.selectedIndex].text);'>
+            <select name='unit_subarea' class='form-control' onChange='document.Camp.unit_zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.unit_address.value=MyAddress(document.Camp.unit_county.value, this.options[this.options.selectedIndex].text);' required>
                 <option value=''>- 再選區鄉鎮 -</option>
             </select>
         </div>

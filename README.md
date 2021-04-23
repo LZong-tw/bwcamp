@@ -11,12 +11,12 @@
     - 報名表單：https://docs.google.com/forms/d/1c_QhNl8QplunsWnoHU9jMPf0-DVojo161wMtYPAjDWw/edit
 - 企業營開發
     - 權限
-    - ecamp title 欄位長度過短
     - checkbox 必填
     - 地區分配方式 
     - 報到通知信內容
     - 地區：台北(A)、桃園(B)、新竹(C)、台中(D)、雲嘉(E)、台南(F)、高雄(G)、屏東?(H)
 - 桌青營開發
+    - acamp title 欄位長度過短
     - 兩個地址拆分及回填
     - 工作地必填
     - 電訪記錄（之後)
