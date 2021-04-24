@@ -56,13 +56,15 @@
                             </li>
                             @if($campFullData->table == "ycamp")
                                 <li>
-                                    <a href="#">就讀學程</a>
-                                </li>
-                                <li>
                                     <a href="#">管道統計</a>
                                 </li>
                                 <li>
                                     <a href="#">國籍</a>
+                                </li>
+                            @endif
+                            @if($campFullData->table == "ycamp" || $campFullData->table == "hcamp")
+                                <li>
+                                    <a href="{{ route("educationStat", $campFullData->id) }}">就讀學程</a>
                                 </li>
                             @endif
                             <li>

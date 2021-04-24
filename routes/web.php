@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CampController;
 use App\Http\Controllers\CheckInController;
+use App\Http\Controllers\StatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -122,6 +123,7 @@ Route::group(['prefix' => 'backend/{camp_id}', ], function () {
     Route::get('/statistics/birthyear', 'BackendController@birthyearStat')->name('birthyearStat');
     Route::get('/statistics/batches', 'BackendController@batchesStat')->name('batchesStat');
     Route::get('/statistics/schoolOrCourse', 'BackendController@schoolOrCourseStat')->name('schoolOrCourseStat');
+    Route::get('/statistics/educationStat', [StatController::class, 'educationStat'])->name('educationStat');
     Route::get('/statistics/admission', 'BackendController@admissionStat')->name('admissionStat');
     Route::get('/statistics/checkin', 'BackendController@checkinStat')->name('checkinStat');
     Route::get('/accounting', 'BackendController@showAccountingPage')->name('accounting');
