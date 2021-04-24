@@ -499,14 +499,23 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <label><input type="checkbox" name=blisswisdom_type[] value='福智中小學' > 就讀福智中小學</label> <br/>
             <label><input type="checkbox" name=blisswisdom_type[] value='青少年班' > 參加青少年班</label> <br/>
             <label><input type="checkbox" name=blisswisdom_type[] value='青少年營' > 參加青少年營</label> <br/>
+            {{--
             <div class='row form-group'>
                 <div class='col-md-2'>
                     <label>其它：</label>
                 </div>
                 <div class='col-md-10'>
-                    <input type=text class='form-control' name=blisswisdom_type[] value=''>
+                    <input type=text class='form-control' name=blisswisdom_type_other[] value=''>
                 </div>
             </div>
+            --}}
+            <label>
+                <input type="checkbox" name=blisswisdom_type[] value='其它' id="blisswisdom_type_other_checkbox"> 其它：
+                <input type="text" name="blisswisdom_type_other" class="form-control">
+                <div class="invalid-feedback">
+                    請填寫本欄位
+                </div>
+            </label>
         </div>
     </div>
 
