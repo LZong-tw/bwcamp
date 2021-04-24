@@ -311,6 +311,9 @@ class BackendController extends Controller
                 $applicant->is_cancelled = "否";
             }
         }
+        if(auth()->user()->getPermission(false, $this->campFullData->id)->level > 2){
+            $applicants = $applicants->where('region', auth()->user()->getPermission(false, $this->campFullData->id)->region);
+        }
         // 報名名單不以繳費與否排序
         // $applicants = $applicants->sortByDesc('is_paid');
         if(isset($request->download)){
