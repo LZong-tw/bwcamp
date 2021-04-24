@@ -38,8 +38,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     
-    public function getPermission($all = false, $camp_id = null, $function_id = null) {
-        if(!$all){
+    public function getPermission($top = false, $camp_id = null, $function_id = null) {
+        if(!$top){
             $hasRole = \App\Models\RoleUser::join('roles', 'roles.id', '=', 'role_user.role_id')->where('user_id', $this->id)->orderBy('level', 'asc')->get();
             if($hasRole->count() == 0){
                 $empty = new \App\Models\Role;
@@ -48,8 +48,8 @@ class User extends Authenticatable
             }
             return $hasRole->first();
         }
-        elseif($all && $camp_id){
-            
+        elseif($top && $camp_id){
+            return $this->role_relations()->role->orderBy('level', 'desc')->first();
         }
         else{
             return $this->role_relations()->get();

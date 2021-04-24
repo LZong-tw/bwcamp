@@ -90,13 +90,13 @@ class AdminController extends BackendController{
             return view('backend.user.roleForm', ['camps' => Camp::all(), 'role' => $role]);
         }
         if ($request->isMethod('POST')) {
-            $result = new \App\Models\Role;
-            $result->name = $request->name;
-            $result->level = $request->level;
-            $result->camp_id = $request->camp_id;
-            $result->region = $request->region;
-            $result->save();
-            if($result){
+            $role = Role::find($role_id);
+            $role->name = $request->name;
+            $role->level = $request->level;
+            $role->camp_id = $request->camp_id;
+            $role->region = $request->region;
+            $role->save();
+            if($role){
                 \Session::flash('message', "角色修改成功。");
                 return redirect()->route('rolelist');
             }

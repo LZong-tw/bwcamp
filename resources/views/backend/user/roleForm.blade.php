@@ -8,10 +8,11 @@
             color: #33B2FF!important;
         }
     </style>
-    <h2>新增角色</h2>
     @if(!isset($role))
+        <h2>新增角色</h2>
         <form action="{{ route('listAddRole', \Request::route('camp_id') ?? "") }}" method="POST">
     @else
+        <h2>修改角色</h2>
         <form action="{{ route('editRole', $role->id) }}" method="POST">
     @endif
         @csrf
