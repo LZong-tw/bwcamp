@@ -511,7 +511,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             --}}
             <label>
                 <input type="checkbox" name=blisswisdom_type[] value='其它' id="blisswisdom_type_other_checkbox"> 其它：
-                <input type="text" name="blisswisdom_type_other" class="form-control">
+                <input type="text" name="blisswisdom_type_other" class="form-control" onclick="blisswisdom_type_other_checkbox.checked = true; this.required = true;">
                 <div class="invalid-feedback">
                     請填寫本欄位
                 </div>
@@ -741,6 +741,19 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         document.Camp.classList.add('was-validated');
                     }
         });
+
+        /**
+        * Ready functions.
+        * Executes commands after the web page is loaded. 
+        */
+        document.onreadystatechange = () => {
+            if (document.readyState === 'complete') {
+                document.getElementById('blisswisdom_type_other_checkbox').addEventListener("change", function(){
+                    document.Camp.blisswisdom_type_other.required = document.getElementById('blisswisdom_type_other_checkbox').checked;
+                });
+            }
+        };
+
         (function() {
             'use strict';
             window.addEventListener('load', function() {
