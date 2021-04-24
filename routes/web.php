@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CampController;
 use App\Http\Controllers\CheckInController;
 use App\Http\Controllers\StatController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,17 +62,19 @@ Route::group(['prefix' => 'camp/{batch_id}'], function () {
 });
 
 Route::get('/backend', 'BackendController@masterIndex')->name('backendIndex');
-Route::get('/jobs/{camp_id?}', 'BackendController@showJobs')->name('jobs');
-Route::get('/failedJobsClear', 'BackendController@failedJobsClear')->name('failedJobsClear');
+Route::get('/jobs/{camp_id?}', [AdminController::class, 'showJobs'])->name('jobs');
+Route::get('/failedJobsClear', [AdminController::class, 'failedJobsClear'])->name('failedJobsClear');
 Route::middleware(['admin'])->group(function () {
-    Route::get('/userlist/{camp_id?}', 'BackendController@userlist')->name('userlist');
-    Route::get('/user/editRole/{user_id}', 'BackendController@editRole')->name('editRole');
-    Route::post('/user/removeRole', 'BackendController@removeRole')->name('removeRole');
-    Route::post('/user/addRole', 'BackendController@addRole')->name('addRole');
-    Route::get('/rolelist/{camp_id?}', 'BackendController@rolelist')->name('rolelist');
-    Route::post('/listrole/removeRole', 'BackendController@listRemoveRole')->name('listRemoveRole');
-    Route::get('/listrole/addRole/{camp_id?}', 'BackendController@listAddRole')->name('listAddRole');
-    Route::post('/listrole/addRole/{camp_id?}', 'BackendController@listAddRole')->name('listAddRole');
+    Route::get('/userlist/{camp_id?}', [AdminController::class, 'userlist'])->name('userlist');
+    Route::get('/user/userAddRole/{user_id}', [AdminController::class, 'userAddRole'])->name('userAddRole');
+    Route::post('/user/removeRole', [AdminController::class, 'removeRole'])->name('removeRole');
+    Route::post('/user/addRole', [AdminController::class, 'addRole'])->name('addRole');
+    Route::get('/role/edit/{role_id}', [AdminController::class, 'editRole'])->name('editRole');
+    Route::post('/role/edit/{role_id}', [AdminController::class, 'editRole'])->name('editRole');
+    Route::get('/rolelist/{camp_id?}', [AdminController::class, 'rolelist'])->name('rolelist');
+    Route::post('/listrole/removeRole', [AdminController::class, 'listRemoveRole'])->name('listRemoveRole');
+    Route::get('/listrole/addRole/{camp_id?}', [AdminController::class, 'listAddRole'])->name('listAddRole');
+    Route::post('/listrole/addRole/{camp_id?}', [AdminController::class, 'listAddRole'])->name('listAddRole');
 });
 
 Route::group(['prefix' => 'checkin', ], function () {
@@ -85,16 +88,16 @@ Route::group(['prefix' => 'checkin', ], function () {
 });
 
 Route::group(['prefix' => 'backend/campManage'], function(){
-    Route::get('/list', 'BackendController@campManagement')->name("campManagement");
-    Route::get('/batchList/{camp_id}', 'BackendController@showBatch')->name("showBatch");
-    Route::get('/list/add', 'BackendController@showAddCamp')->name("showAddCamp");
-    Route::post('/list/add', 'BackendController@addCamp')->name("addCamp");
-    Route::get('/list/modify/{camp_id}', 'BackendController@showModifyCamp')->name("showModifyCamp");
-    Route::post('/list/modify/{camp_id}', 'BackendController@modifyCamp')->name("modifyCamp");
-    Route::get('/batchList/{camp_id}/add', 'BackendController@showAddBatch')->name("showAddBatch");
-    Route::post('/batchList/{camp_id}/add', 'BackendController@addBatches')->name("addBatch");
-    Route::get('/batchList/{camp_id}/{batch_id}/modify', 'BackendController@showModifyBatch')->name("showModifyBatch");
-    Route::post('/batchList/{camp_id}/{batch_id}/modify', 'BackendController@modifyBatch')->name("modifyBatches");
+    Route::get('/list', [AdminController::class, 'campManagement'])->name("campManagement");
+    Route::get('/batchList/{camp_id}', [AdminController::class, 'showBatch'])->name("showBatch");
+    Route::get('/list/add', [AdminController::class, 'showAddCamp'])->name("showAddCamp");
+    Route::post('/list/add', [AdminController::class, 'addCamp'])->name("addCamp");
+    Route::get('/list/modify/{camp_id}', [AdminController::class, 'showModifyCamp'])->name("showModifyCamp");
+    Route::post('/list/modify/{camp_id}', [AdminController::class, 'modifyCamp'])->name("modifyCamp");
+    Route::get('/batchList/{camp_id}/add', [AdminController::class, 'showAddBatch'])->name("showAddBatch");
+    Route::post('/batchList/{camp_id}/add', [AdminController::class, 'addBatches'])->name("addBatch");
+    Route::get('/batchList/{camp_id}/{batch_id}/modify', [AdminController::class, 'showModifyBatch'])->name("showModifyBatch");
+    Route::post('/batchList/{camp_id}/{batch_id}/modify', [AdminController::class, 'modifyBatch'])->name("modifyBatches");
 });
 
 Route::group(['prefix' => 'backend/{camp_id}', ], function () {

@@ -31,7 +31,7 @@
                     @endif
                 @endforeach</td>
                 <td><a href="" class="btn btn-success" target="_blank">修改</a></td>
-                <td><a href="{{ route("editRole", [$user->id]) }}" class="btn btn-primary" target="_blank">設定</a></td>
+                <td><a href="{{ route("userAddRole", [$user->id]) }}" class="btn btn-primary" target="_blank">設定</a></td>
             </tr>
         @endforeach
     </table>

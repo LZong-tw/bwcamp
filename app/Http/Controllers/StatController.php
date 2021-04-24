@@ -2,17 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Services\CampDataService;
-use App\Services\ApplicantService;
-use App\Models\Camp;
 use App\Models\Applicant;
-use App\Models\Batch;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\AdmittedMail;
-use App\Models\CheckIn;
-use Carbon\Carbon;
-use View;
 use App\Traits\EmailConfiguration;
 
 class StatController extends BackendController
