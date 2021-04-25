@@ -50,6 +50,7 @@
                     <option value="hcamp" @if(isset($camp) && $camp->table == "hcamp") selected @endif>快樂營</option>
                     <option value="tcamp" @if(isset($camp) && $camp->table == "tcamp") selected @endif>教師營</option>
                     <option value="ycamp" @if(isset($camp) && $camp->table == "ycamp") selected @endif>大專營</option>
+                    <option value="coupon" @if(isset($camp) && $camp->table == "coupon") selected @endif>優惠碼/劵</option>
                 </select>
             </div>
         </div>
