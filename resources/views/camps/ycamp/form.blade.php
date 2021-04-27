@@ -636,7 +636,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     關係：
                 </div>
                 <div class='col-md-10'>
-                    <input type='tel' class='form-control' name="emergency_relationship" value='' required>
+                    <input type='text' class='form-control' name="emergency_relationship" value='' required>
                 </div>
                 <div class="invalid-feedback">
                     請填寫本欄位
