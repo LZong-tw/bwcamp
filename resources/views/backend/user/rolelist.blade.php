@@ -26,6 +26,7 @@
             <th>角色名稱</th>
             <th>等級</th>
             <th>可存取的營隊</th>
+            <th>地區</th>
             <th>修改資料</th>
             <th>刪除角色</th>
         </tr>
@@ -35,9 +36,10 @@
                 <td>{{ $role->name }}</td>
                 <td>{{ $role->level }}</td>
                 <td><a href="{{ route("campIndex", $role->camp_id ?? "") }}" class="card-link" target="_blank">{{ $role->camp->abbreviation ?? "" }}</a></td>
+                <td>{{ $role->region }}</td>
                 <td>
                     @if($role->level > 1)
-                        <a href="" class="btn btn-primary">修改</a>
+                        <a href="{{ route("editRole", $role->id) }}" class="btn btn-primary">修改</a>
                     @else
                         無法修改
                     @endif
