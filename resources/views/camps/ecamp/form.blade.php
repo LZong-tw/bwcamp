@@ -6,6 +6,7 @@ header("Cache-Control: no-cache, no-store, must-revalidate, post-check=0, pre-ch
 header("Pragma: no-cache");
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
+$regions = ['台北', '桃園', '新竹', '台中', '雲嘉', '台南', '高雄'];
 ?>
 @extends('camps.ecamp.layout')
 @section('content')
@@ -38,8 +39,10 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             @if(isset($applicant_data))
                 <h3>{{ $applicant_raw_data->batch->name }} {{ $applicant_raw_data->batch->batch_start }} ~ {{ $applicant_raw_data->batch->batch_end }} </h3>
                 <input type='hidden' name='applicant_id' value='{{ $applicant_id }}'>
+                <input type="hidden" name="region" value="@foreach($regions as $r) @if(\Str::contains($applicant_raw_data->batch->name, $r)){{ $r }} @break @endif @endforeach">
             @else
                 <h3>{{ $batch->name }} {{ $batch->batch_start }} ~ {{ $batch->batch_end }} </h3>
+                <input type="hidden" name="region" value="@foreach($regions as $r) @if(\Str::contains($batch->name, $r)){{ $r }} @break @endif @endforeach">
             @endif
         </div>
     </div>
