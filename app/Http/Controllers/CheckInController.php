@@ -85,19 +85,39 @@ class CheckInController extends Controller
 
     public function by_QR(Request $request) {
         try{
-            $applicant = Applicant::find($request->applicant_id);
+            $dataStr = [['報名資料', '梯次', '錄取序號', '姓名'], ['優惠碼', '場次', '', '優惠碼']];
+            $resultStr = [['報名資料'], ['查詢結果']];
+            $pivot = 0;
+            if($request->code){
+                $applicant = Applicant::where('name', $request->code)->first();
+                $pivot = 1;
+            }
+            else{
+                $applicant = Applicant::find($request->applicant_id);
+            }
             if(!$applicant){
                 return response()->json([
-                    'msg' => '<h4 class="text-danger">找不到報名資料，請檢查後重試</h4>'
+                    'msg' => '<h4 class="text-danger">找不到' . $dataStr[$pivot][0] . '，請檢查後重試</h4>'
                 ]);
             }
-            $str = '梯次：' . $applicant->batch->name . '<br>錄取序號：' . $applicant->group . $applicant->number . '<br>姓名：' . $applicant->name;
+            $str = $resultStr[$pivot][0] . '：' . $applicant->batch->name . '<br>' . $dataStr[$pivot][2] . '：' . $applicant->group . $applicant->number . '<br>' . $dataStr[$pivot][3] . '：' . $applicant->name;
             if($applicant->deposit - $applicant->fee < 0){   
                 return response()->json([
                     'msg' => $str . '<h4 class="text-danger">未繳費，無法報到</h4>'
                 ]);  
             }     
-            if(CheckIn::where('applicant_id', $request->applicant_id)->where('check_in_date', Carbon::today()->format('Y-m-d'))->first()){            
+            if($pivot == 1){
+                $hasCheckedIn = CheckIn::where('applicant_id', $request->applicant_id)->first();
+            }
+            else{
+                $hasCheckedIn = CheckIn::where('applicant_id', $request->applicant_id)->where('check_in_date', Carbon::today()->format('Y-m-d'))->first();
+            }
+            if($hasCheckedIn){  
+                if($pivot == 1){
+                    return response()->json([
+                        'msg' => $str . '<h4 class="text-warning">已兌換，無法重複使用</h4>'
+                    ]);      
+                }          
                 return response()->json([
                     'msg' => $str . '<h4 class="text-warning">已報到完成，無法重複報到</h4>'
                 ]);  
@@ -108,6 +128,11 @@ class CheckInController extends Controller
                 $checkin->checker_id = \Auth()->user()->id;
                 $checkin->check_in_date = Carbon::today()->format('Y-m-d');
                 $checkin->save();
+                if($pivot == 1){
+                    return response()->json([
+                        'msg' => $str . '<h4 class="text-success">兌換完成</h4>'
+                    ]);      
+                } 
                 return response()->json([
                     'msg' => $str . '<h4 class="text-success">報到完成</h4>'
                 ]);
@@ -115,6 +140,11 @@ class CheckInController extends Controller
         }
         catch(\Exception $e){
             logger($e);
+            if($pivot == 1){
+                return response()->json([
+                    'msg' => '<h4 class="text-danger">發生未預期錯誤，無法完成兌換程序</h4>'
+                ]);      
+            } 
             return response()->json([
                 'msg' => '<h4 class="text-danger">發生未預期錯誤，無法完成報到程序</h4>'
             ]);
