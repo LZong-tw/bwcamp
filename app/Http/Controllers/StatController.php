@@ -308,7 +308,7 @@ class StatController extends BackendController
         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
         ->join($this->campFullData->table, $this->campFullData->table . '.applicant_id', '=', 'applicants.id')
         ->where('camps.id', $this->campFullData->id)
-        ->groupBy($this->campFullData->table . '.education')->get();
+        ->groupBy('education')->get();
         $rows = count($applicants);
         $array = $applicants->toArray();
 
