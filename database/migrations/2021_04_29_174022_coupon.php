@@ -28,6 +28,6 @@ class Coupon extends Migration
     public function down()
     {
         //
-        Schema::dropIfExists('tcamp');
+        Schema::dropIfExists('coupon');
     }
 }
