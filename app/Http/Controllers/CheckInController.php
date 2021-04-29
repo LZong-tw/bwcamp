@@ -85,11 +85,11 @@ class CheckInController extends Controller
 
     public function by_QR(Request $request) {
         try{
-            $dataStr = [['報名資料', '梯次', '錄取序號', '姓名'], ['優惠碼', '場次', '', '優惠碼']];
-            $resultStr = [['報名資料'], ['查詢結果']];
+            $dataStr = [['報名資料', '梯次', '錄取序號', '姓名'], ['優惠碼', '場次', '內部編號', '優惠碼']];
+            $resultStr = [['梯次'], ['限制']];
             $pivot = 0;
-            if($request->code){
-                $applicant = Applicant::where('name', $request->code)->first();
+            if($request->coupon_code){
+                $applicant = Applicant::where('name', $request->coupon_code)->first();
                 $pivot = 1;
             }
             else{
@@ -107,7 +107,7 @@ class CheckInController extends Controller
                 ]);  
             }     
             if($pivot == 1){
-                $hasCheckedIn = CheckIn::where('applicant_id', $request->applicant_id)->first();
+                $hasCheckedIn = CheckIn::where('applicant_id', $applicant->id)->first();
             }
             else{
                 $hasCheckedIn = CheckIn::where('applicant_id', $request->applicant_id)->where('check_in_date', Carbon::today()->format('Y-m-d'))->first();
@@ -115,7 +115,7 @@ class CheckInController extends Controller
             if($hasCheckedIn){  
                 if($pivot == 1){
                     return response()->json([
-                        'msg' => $str . '<h4 class="text-warning">已兌換，無法重複使用</h4>'
+                        'msg' => $str . '<h4 class="text-warning">已於 ' . $hasCheckedIn->created_at . ' 兌換，無法重複使用</h4>'
                     ]);      
                 }          
                 return response()->json([
@@ -124,7 +124,7 @@ class CheckInController extends Controller
             }
             else{
                 $checkin = new CheckIn;
-                $checkin->applicant_id = $request->applicant_id;
+                $checkin->applicant_id = $applicant->id;
                 $checkin->checker_id = \Auth()->user()->id;
                 $checkin->check_in_date = Carbon::today()->format('Y-m-d');
                 $checkin->save();

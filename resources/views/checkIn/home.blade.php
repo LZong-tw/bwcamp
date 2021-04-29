@@ -213,6 +213,7 @@
             console.log(data);
             postData('{{ url("") }}/checkin/by_QR', { 
                 applicant_id: data.applicant_id, 
+                coupon_code: data.coupon_code,
                 _token: "{{ csrf_token() }}" })
                 .then(data => {
                     if (data.status === 401) {
