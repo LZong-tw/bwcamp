@@ -59,7 +59,7 @@ class BackendController extends Controller
      */
     public function masterIndex() {
         // 檢查權限
-        $permission = auth()->user()->getPermission(true);
+        $permission = auth()->user()->getPermission('all');
         $camps = $this->campDataService->getAvailableCamps($permission);
         return view('backend.MasterIndex')->with("camps", $camps);
     }
@@ -221,7 +221,12 @@ class BackendController extends Controller
     }
 
     public function showRegistration() {
-        return view('backend.registration.registration');
+        $user_batch_or_region = null;
+        if($this->campFullData->table == 'ecamp' && auth()->user()->getPermission('all')->first()->level > 2){
+            $user_batch_or_region = Batch::where('camp_id', $this->campFullData->id)->where('name', 'like', '%' . auth()->user()->getPermission(false, $this->campFullData->id)->region . '%')->first();
+            $user_batch_or_region = $user_batch_or_region ?? "empty";
+        }
+        return view('backend.registration.registration', compact('user_batch_or_region'));
     }
 
     public function showRegistrationList() {
@@ -312,7 +317,11 @@ class BackendController extends Controller
             }
         }
         if(auth()->user()->getPermission(false, $this->campFullData->id)->level > 2){
-            $applicants = $applicants->where('region', auth()->user()->getPermission(false, $this->campFullData->id)->region);
+            $constraint = auth()->user()->getPermission(false, $this->campFullData->id)->region;
+            $batch = Batch::where('camp_id', $this->campFullData->id)->where('name', 'like', '%' . $constraint . '%')->first();
+            $applicants = $applicants->filter(function ($applicant) use ($constraint, $batch) {
+                return $applicant->region == $constraint || $applicant->batch_id == $batch->id;
+            });
         }
         // 報名名單不以繳費與否排序
         // $applicants = $applicants->sortByDesc('is_paid');

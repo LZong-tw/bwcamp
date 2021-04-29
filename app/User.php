@@ -48,11 +48,14 @@ class User extends Authenticatable
             }
             return $hasRole->first();
         }
-        elseif($top && $camp_id){
-            return $this->role_relations()->role->orderBy('level', 'desc')->first();
-        }
-        else{
-            return $this->role_relations()->get();
+        else if($top){
+            $roles = \App\Models\Role::whereIn('id', $this->role_relations->pluck('role_id'))->get();
+            if($camp_id){
+                return $roles->where('camp_id', $camp_id)->sortByDesc('level')->first();
+            }
+            else{
+                return $roles->sortByDesc('level');
+            }
         }
         
     }

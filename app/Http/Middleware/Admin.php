@@ -14,7 +14,7 @@ class Admin
      * @return mixed
      */
     public function handle($request, Closure $next) {
-        $userPermission = auth()->user()->getPermission(true);
+        $userPermission = auth()->user()->getPermission('all');
         $isAdmin = 0;
         foreach($userPermission as $p){
             if($p->role->level == 1) {

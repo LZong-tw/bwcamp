@@ -14,16 +14,16 @@ class Permitted
      * @return mixed
      */
     public function handle($request, Closure $next) {
-        $userPermission = auth()->user()->getPermission(true);
+        $userPermission = auth()->user()->getPermission('all');
         foreach($userPermission as $p){
-            if($p->role->level == 1) {
+            if($p->level == 1) {
                 return $next($request);
             }
-            else if($p->role->level >= 2 && $p->role->level <= 6) {
-                if(\Str::contains($p->role->camp_id, $request->route()->parameter('camp_id'))){
+            else if($p->level >= 2 && $p->level <= 6) {
+                if(\Str::contains($p->camp_id, $request->route()->parameter('camp_id'))){
                     return $next($request);
                 }
-                else if(\Str::contains($p->role->camp_id, $request->camp_id)){
+                else if(\Str::contains($p->camp_id, $request->camp_id)){
                     return $next($request);
                 }
             }
