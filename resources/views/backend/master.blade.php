@@ -176,9 +176,9 @@
                 </li>
                 <li>
                     @if(isset($campFullData))
-                        <a href="">權限：{{ auth()->user()->getPermission(false, $campFullData->id)->name }}</a>
-                        @if(auth()->user()->getPermission(false, $campFullData->id)->level > 2)
-                            <a href="">地區：{{ auth()->user()->getPermission(false, $campFullData->id)->region }}</a>
+                        <a href="">權限：{{ auth()->user()->getPermission(true, $campFullData->id)->name }}</a>
+                        @if(auth()->user()->getPermission(true, $campFullData->id)->level > 2)
+                            <a href="">地區：{{ auth()->user()->getPermission(true, $campFullData->id)->region }}</a>
                         @endif
                     @endif
                 </li>

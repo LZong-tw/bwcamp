@@ -223,7 +223,7 @@ class BackendController extends Controller
     public function showRegistration() {
         $user_batch_or_region = null;
         if($this->campFullData->table == 'ecamp' && auth()->user()->getPermission('all')->first()->level > 2){
-            $user_batch_or_region = Batch::where('camp_id', $this->campFullData->id)->where('name', 'like', '%' . auth()->user()->getPermission(false, $this->campFullData->id)->region . '%')->first();
+            $user_batch_or_region = Batch::where('camp_id', $this->campFullData->id)->where('name', 'like', '%' . auth()->user()->getPermission(true, $this->campFullData->id)->region . '%')->first();
             $user_batch_or_region = $user_batch_or_region ?? "empty";
         }
         return view('backend.registration.registration', compact('user_batch_or_region'));
@@ -316,8 +316,8 @@ class BackendController extends Controller
                 $applicant->is_cancelled = "否";
             }
         }
-        if(auth()->user()->getPermission(false, $this->campFullData->id)->level > 2){
-            $constraint = auth()->user()->getPermission(false, $this->campFullData->id)->region;
+        if(auth()->user()->getPermission(true, $this->campFullData->id)->level > 2){
+            $constraint = auth()->user()->getPermission(true, $this->campFullData->id)->region;
             $batch = Batch::where('camp_id', $this->campFullData->id)->where('name', 'like', '%' . $constraint . '%')->first();
             $applicants = $applicants->filter(function ($applicant) use ($constraint, $batch) {
                 return $applicant->region == $constraint || $applicant->batch_id == $batch->id;
