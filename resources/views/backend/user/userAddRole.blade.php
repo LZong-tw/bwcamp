@@ -26,6 +26,7 @@
             <th>名稱</th>
             <th>等級</th>
             <th>可存取的營隊</th>
+            <th>地區</th>
             <th>刪除</th>
         </tr>
         @foreach($user->role_relations as $role_relation)
@@ -36,6 +37,7 @@
                 <td>
                     <a href="{{ route("campIndex", $role_relation->role_data->camp_id ?? "") }}" class="card-link">{{ $role_relation->role_data->camp->abbreviation ?? "" }}</a>
                 </td>
+                <td>{{ $role_relation->role_data->region }}</td>
                 <td>
                     <form action="{{ route("removeRole") }}" method="post">
                         @csrf
@@ -54,6 +56,7 @@
             <th>名稱</th>
             <th>等級</th>
             <th>可存取的營隊</th>
+            <th>地區</th>
             <th>新增</th>
         </tr>
         @foreach($roles_available as $role)
@@ -64,6 +67,7 @@
                 <td>
                     <a href="{{ route("campIndex", $role->camp_id ?? "") }}" class="card-link">{{ $role->camp->abbreviation ?? "" }}</a>
                 </td>
+                <td>{{ $role->region }}</td>
                 <td>
                     <form action="{{ route("addRole") }}" method="post">
                         @csrf
