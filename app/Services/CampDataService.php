@@ -74,12 +74,12 @@ class CampDataService
     public function getAvailableCamps($permission) {
         $camps = array();
         foreach($permission as $p){
-            if($p->role->level == 1) {
+            if($p->level == 1) {
                 $camps = Camp::all();
                 break;
             }
-            else if($p->role->level >= 2 && $p->role->level <= 4) {
-                array_push($camps, Camp::where('id', $p->role->camp_id)->first());
+            else if($p->level >= 2 && $p->level <= 4) {
+                array_push($camps, Camp::where('id', $p->camp_id)->first());
             }
         }
         return $camps;

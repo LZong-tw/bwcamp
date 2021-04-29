@@ -17,7 +17,7 @@ class Admin
         $userPermission = auth()->user()->getPermission('all');
         $isAdmin = 0;
         foreach($userPermission as $p){
-            if($p->role->level == 1) {
+            if($p->level == 1) {
                 $isAdmin = 1;
             }
         }
