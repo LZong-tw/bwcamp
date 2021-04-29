@@ -175,11 +175,13 @@
                     <a href="{{ route("home") }}">{{ Auth::user()->name }}</a>
                 </li>
                 <li>
-                    @if(isset($campFullData))
+                    @if(isset($campFullData) && auth()->user()->getPermission(true, $campFullData->id))
                         <a href="">權限：{{ auth()->user()->getPermission(true, $campFullData->id)->name }}</a>
                         @if(auth()->user()->getPermission(true, $campFullData->id)->level > 2)
                             <a href="">地區：{{ auth()->user()->getPermission(true, $campFullData->id)->region }}</a>
                         @endif
+                    @else
+                        <a href="">權限：{{ auth()->user()->getPermission(false)->name }}</a>
                     @endif
                 </li>
                 @if(auth()->user()->getPermission()->level == 1)
