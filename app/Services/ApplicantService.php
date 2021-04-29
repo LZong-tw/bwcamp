@@ -76,6 +76,9 @@ class ApplicantService
      * @return 一個報名者 model
      */
     public function fillPaymentData($candidate){
+        if(!config('camps_payments.' . $candidate->batch->camp->table)){
+            return $candidate;
+        }
         $data = array_merge(config('camps_payments.general'), config('camps_payments.' . $candidate->batch->camp->table));
         $data["應繳日期"] = $candidate->batch->camp->payment_startdate ?? "0000";
         $data["繳費期限"] = $candidate->batch->camp->set_payment_deadline ?? "000000";
