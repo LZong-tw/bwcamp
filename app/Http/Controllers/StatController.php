@@ -299,7 +299,11 @@ class StatController extends BackendController
 
 
     public function educationStat(){
-        $applicants = Applicant::select(\DB::raw($this->campFullData->table . '.education as education, count(*) as total'))
+        $str = 'education';
+        if($this->campFullData == 'ycamp'){
+            $str = 'system';
+        }
+        $applicants = Applicant::select(\DB::raw($this->campFullData->table . '.' . $str . ' as education, count(*) as total'))
         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
         ->join($this->campFullData->table, $this->campFullData->table . '.applicant_id', '=', 'applicants.id')
