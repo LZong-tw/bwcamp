@@ -30,7 +30,7 @@ class LogSuccessfulLogin
         $levels = '';
         $camp_ids = '';
         $function_ids = '';
-        foreach($event->user->getPermission(true) as $role_relation){
+        foreach($event->user->getPermission('all') as $role_relation){
             $levels .= $role_relation->role->level . ", ";
             $camp_ids .= $role_relation->role->camp_id . ", ";
             $function_ids .= $role_relation->role->function_id . ", ";
