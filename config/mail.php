@@ -113,6 +113,12 @@ return [
         'password' => env('ACAMP_MAIL_PASSWORD'),
     ],
 
+    'coupon' => [
+        'address' => env('COUPON_MAIL_USERNAME', 'hello@example.com'),
+        'username' => env('COUPON_MAIL_USERNAME'),
+        'password' => env('COUPON_MAIL_PASSWORD'),
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Markdown Mail Settings
