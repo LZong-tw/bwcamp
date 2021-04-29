@@ -300,7 +300,7 @@ class StatController extends BackendController
 
     public function educationStat(){
         $str = 'education';
-        if($this->campFullData == 'ycamp'){
+        if($this->campFullData->table == 'ycamp'){
             $str = 'system';
         }
         $applicants = Applicant::select(\DB::raw($this->campFullData->table . '.' . $str . ' as education, count(*) as total'))
