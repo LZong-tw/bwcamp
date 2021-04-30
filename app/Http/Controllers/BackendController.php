@@ -9,6 +9,7 @@ use App\Models\Camp;
 use App\Models\Applicant;
 use App\Models\Batch;
 use App\Models\CheckIn;
+use App\Models\Traffic;
 use Carbon\Carbon;
 use View;
 use App\Traits\EmailConfiguration;
@@ -554,10 +555,14 @@ class BackendController extends Controller
     }
 
     public function showTrafficList() {
+        $camp = $this->campFullData->table;
         $batches = $this->campFullData->batchs;
         $batch_ids = $batches->pluck('id');
-        $camp = $this->campFullData->table;
         $applicants = Applicant::with($camp)->whereIn('batch_id', $batch_ids)->get();
+        $trafficData = Traffic::whereIn('applicant_id', $applicants->pluck('id'))->get();
+        if(!\Schema::hasColumn($camp, 'traffic_depart') && $trafficData->count() == 0) {
+            return "<h1>本次營隊沒有統計交通</h1>";
+        }
         $traffic_depart = Applicant::select(
                 \DB::raw($camp . '.traffic_depart as traffic_depart, count(*) as count')
             )->join($camp, $camp . '.applicant_id', '=', 'applicants.id')
