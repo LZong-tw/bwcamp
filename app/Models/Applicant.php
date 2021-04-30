@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Traffic;
 
 class Applicant extends Model {
     use SoftDeletes;
@@ -27,6 +28,10 @@ class Applicant extends Model {
         return $this->hasMany(CheckIn::class);
     }
     
+    public function traffic() {
+        return $this->hasOne(Traffic::class, 'applicant_id', 'id');
+    }
+
     public function acamp() {
         return $this->hasOne(Acamp::class, 'applicant_id', 'id');
     }
