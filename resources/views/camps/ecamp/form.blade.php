@@ -240,7 +240,7 @@ $regions = ['台北', '桃園', '新竹', '台中', '雲嘉', '台南', '高雄'
     <div class='row form-group required'> 
     <label for='inputTitle' class='col-md-2 control-label text-md-right'>職稱</label>
         <div class='col-md-10'>
-            <input type=text required name='title' value='' class='form-control' id='inputTitle'>
+            <input type=text required name='title' value='' maxlength="40" class='form-control' id='inputTitle'>
             <div class="invalid-feedback crumb">
                 請填寫職稱
             </div>
