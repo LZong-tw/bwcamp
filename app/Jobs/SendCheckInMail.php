@@ -37,18 +37,19 @@ class SendCheckInMail implements ShouldQueue
         sleep(10);
         ini_set('memory_limit', -1);
         ini_set('max_execution_time', 180);
-        $applicant = $this->applicant;
-        if($applicant->batch->camp->table == 'coupon'){
-            $qr_code = \DNS2D::getBarcodePNG('{"coupon_code":"' . $applicant->name . '"}', 'QRCODE');
+        if($this->applicant->batch->camp->table == 'coupon'){
+            $qr_code = \DNS2D::getBarcodePNG('{"coupon_code":"' . $this->applicant->name . '"}', 'QRCODE');
+            $pdf = \App::make('dompdf.wrapper');
+            $pdf->loadHTML($this->applicant->batch->camp->fullName . ' QR code 優惠碼<br>梯次：' . $this->applicant->batch->name . '<br>流水號：' . $this->applicant->group . $this->applicant->number . '<br>優惠碼：' . $this->applicant->name . '<br><img src="data:image/png;base64,' . $qr_code . '" alt="barcode" height="200px"/>')->setPaper('a6');
         }
         else{
-            $qr_code = \DNS2D::getBarcodePNG('{"applicant_id":' . $applicant->id . '}', 'QRCODE');
-        }        
-        $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadHTML($this->applicant->batch->camp->fullName . ' QR code 報到單<br>梯次：' . $applicant->batch->name . '<br>錄取序號：' . $applicant->group . $applicant->number . '<br>姓名：' . $applicant->name . '<br><img src="data:image/png;base64,' . $qr_code . '" alt="barcode" height="200px"/>')->setPaper('a6');
+            $qr_code = \DNS2D::getBarcodePNG('{"applicant_id":' . $this->applicant->id . '}', 'QRCODE');
+            $pdf = \App::make('dompdf.wrapper');
+            $pdf->loadHTML($this->applicant->batch->camp->fullName . ' QR code 報到單<br>梯次：' . $this->applicant->batch->name . '<br>錄取序號：' . $this->applicant->group . $this->applicant->number . '<br>姓名：' . $this->applicant->name . '<br><img src="data:image/png;base64,' . $qr_code . '" alt="barcode" height="200px"/>')->setPaper('a6');
+        }                
         $attachment =  $pdf->stream();
         // 動態載入電子郵件設定
-        $this->setEmail($applicant->batch->camp->table);
-        \Mail::to($applicant->email)->send(new \App\Mail\CheckInMail($applicant, $attachment));
+        $this->setEmail($this->applicant->batch->camp->table);
+        \Mail::to($this->applicant->email)->send(new \App\Mail\CheckInMail($this->applicant, $attachment));
     }
 }

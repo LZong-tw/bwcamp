@@ -69,55 +69,89 @@
             <h5>梯次：{{ $batch_name }}</h5>  
             <table class="table table-bordered text-break">
                 <tr class="table-active">
-                    <th style="width: 20%">組別</th>
-                    <th style="width: 20%">編號</th>
-                    <th style="width: 20%">姓名</th>
-                    <th style="width: 20%">狀態</th>
-                    <th style="width: 15%">動作</th>
+                    @if($camp->table != 'coupon')
+                        <th style="width: 20%">組別</th>
+                        <th style="width: 20%">編號</th>
+                        <th style="width: 20%">姓名</th>
+                        <th style="width: 20%">狀態</th>
+                        <th style="width: 15%">動作</th>
+                    @else
+                        <th style="width: 18%">流水號</th>
+                        <th style="width: 18%">優惠碼</th>
+                        <th style="width: 15%">狀態</th>
+                        <th style="width: 25%">動作</th>
+                    @endif
                 </tr>
                 @foreach ($applicants as $applicant)
                     @if($applicant->batch->id == $batch_key)
                         <tr id="{{ $applicant->id }}">
-                            <td class="align-middle">{{ $applicant->group }}</td>
-                            <td class="align-middle">{{ $applicant->number }}</td>
+                            @if($camp->table != 'coupon')
+                                <td class="align-middle">{{ $applicant->group }}</td>
+                                <td class="align-middle">{{ $applicant->number }}</td>
+                            @else
+                                <td class="align-middle">{{ $applicant->group }}{{ $applicant->number }}</td>
+                            @endif
                             <td class="align-middle">{{ $applicant->name }}</td>
                             <td class="align-middle">
                                 @php
                                     $is_check_in = 0;   
                                 @endphp
-                                @foreach($applicant->checkInData as $checkInData)
-                                    @if($checkInData->check_in_date == \Carbon\Carbon::today()->format('Y-m-d'))
+                                @if($camp->table != 'coupon')
+                                    @foreach($applicant->checkInData as $checkInData)
+                                        @if($checkInData->check_in_date == \Carbon\Carbon::today()->format('Y-m-d'))
+                                            @php $is_check_in = 1; @endphp
+                                        @endif
+                                    @endforeach
+                                    {!! $is_check_in ? "<a class='text-success'>已報到</a>" : "<a class='text-danger'>未報到</a>" !!}
+                                @else
+                                    @if(count($applicant->checkInData) > 0)
                                         @php $is_check_in = 1; @endphp
                                     @endif
-                                @endforeach
-                                {!! $is_check_in ? "<a class='text-success'>已報到</a>" : "<a class='text-danger'>未報到</a>" !!}
+                                    {!! $is_check_in ? "<a class='text-success'>已兌換</a>" : "<a class='text-danger'>未兌換</a>" !!}
+                                @endif
                             </td>
                             <td class="align-middle">
                                 @php
                                     $yes = 0;   
                                 @endphp
-                                @foreach($applicant->checkInData as $checkInData)
-                                    @if($checkInData->check_in_date == \Carbon\Carbon::today()->format('Y-m-d'))
-                                        @php
-                                            $yes = 1;   
-                                        @endphp
+                                @if($camp->table != 'coupon')
+                                    @foreach($applicant->checkInData as $checkInData)
+                                        @if($checkInData->check_in_date == \Carbon\Carbon::today()->format('Y-m-d'))
+                                            @php
+                                                $yes = 1;   
+                                            @endphp
+                                        @endif
+                                    @endforeach
+                                    @if($yes)
+                                        <form action="/checkin/un-checkin" method="POST" class="d-inline" name="uncheckIn{{ $applicant->id }}">
+                                            @csrf
+                                            <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
+                                            <input type="hidden" name="check_in_date" value="{{ $checkInData->check_in_date }} ">
+                                            <input type="hidden" name="query_str" value="{{ old("query_str") }}">
+                                            <input type="submit" value="取消" onclick="this.value = '取消中'; this.disabled = true; document.uncheckIn{{ $applicant->id }}.submit();" class="btn btn-danger">
+                                        </form> 
+                                    @else
+                                        <form action="/checkin/checkin" method="POST" name="checkIn{{ $applicant->id }}">
+                                            @csrf
+                                            <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
+                                            <input type="hidden" name="query_str" value="{{ old("query_str") }}">
+                                            <input type="submit" value="報到" onclick="this.value = '報到中'; this.disabled = true; document.checkIn{{ $applicant->id }}.submit();" class="btn btn-success" id="btn{{ $applicant->id }}">
+                                        </form>
                                     @endif
-                                @endforeach
-                                @if($yes)
-                                    <form action="/checkin/un-checkin" method="POST" class="d-inline" name="uncheckIn{{ $applicant->id }}">
-                                        @csrf
-                                        <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
-                                        <input type="hidden" name="check_in_date" value="{{ $checkInData->check_in_date }} ">
-                                        <input type="hidden" name="query_str" value="{{ old("query_str") }}">
-                                        <input type="submit" value="取消" onclick="this.value = '取消中'; this.disabled = true; document.uncheckIn{{ $applicant->id }}.submit();" class="btn btn-danger">
-                                    </form> 
                                 @else
-                                    <form action="/checkin/checkin" method="POST" name="checkIn{{ $applicant->id }}">
-                                        @csrf
-                                        <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
-                                        <input type="hidden" name="query_str" value="{{ old("query_str") }}">
-                                        <input type="submit" value="報到" onclick="this.value = '報到中'; this.disabled = true; document.checkIn{{ $applicant->id }}.submit();" class="btn btn-success" id="btn{{ $applicant->id }}">
-                                    </form>
+                                    @if(count($applicant->checkInData) > 0)
+                                        @php $yes = 1; @endphp
+                                    @endif
+                                    @if($yes)
+                                        <a class="text-danger">兌換日期：{{ $applicant->checkInData[0]['created_at'] }}</a>
+                                    @else
+                                        <form action="/checkin/checkin" method="POST" name="checkIn{{ $applicant->id }}">
+                                            @csrf
+                                            <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
+                                            <input type="hidden" name="query_str" value="{{ old("query_str") }}">
+                                            <input type="submit" value="兌換" onclick="this.value = '兌換中'; this.disabled = true; document.checkIn{{ $applicant->id }}.submit();" class="btn btn-success" id="btn{{ $applicant->id }}">
+                                        </form>
+                                    @endif
                                 @endif
                             </td>
                         </tr>
