@@ -129,6 +129,11 @@
                 <th>組別</th>
                 <th>區域</th>
                 <th>學程</th>
+                @if($campFullData->table == "ycamp")
+                    <th>學校</th>
+                    <th>學校所在縣市</th>
+                    <th>系級</th>
+                @endif
                 @if($campFullData->table == "tcamp")
                     <th>職稱</th>
                     <th>單位</th>
@@ -146,7 +151,12 @@
                 @endif
                 <td>{{ $applicant->group . $applicant->number }}</td>
                 <td>{{ $applicant->region }}</td>
-                <td>{{ $campFullData->table == "tcamp" ? $applicant->school_or_course : $applicant->education }}</td>
+                <td>{{ $campFullData->table == "tcamp" ? $applicant->school_or_course : $applicant->system }}</td>
+                @if($campFullData->table == "ycamp")
+                    <td>{{ $applicant->school }}</td>
+                    <td>{{ $applicant->school_location }}</td>
+                    <td>{{ $applicant->department }}{{ $applicant->grade }}</td>
+                @endif
                 @if($campFullData->table == "tcamp")
                     <td>{{ $applicant->title }}</td>
                     <td>{{ $applicant->unit }}</td>
