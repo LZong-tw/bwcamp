@@ -85,7 +85,7 @@ class CheckInController extends Controller
 
     public function by_QR(Request $request) {
         try{
-            $dataStr = [['報名資料', '梯次', '錄取序號', '姓名'], ['優惠碼', '場次', '內部編號', '優惠碼']];
+            $dataStr = [['報名資料', '梯次', '錄取序號', '姓名'], ['優惠碼', '場次', '流水號', '優惠碼']];
             $resultStr = [['梯次'], ['限制']];
             $pivot = 0;
             if($request->coupon_code){
