@@ -56,10 +56,10 @@
                             </li>
                             @if($campFullData->table == "ycamp")
                                 <li>
-                                    <a href="#">管道統計</a>
+                                    <a href="{{ route("wayStat", $campFullData->id) }}">管道統計</a>
                                 </li>
                                 <li>
-                                    <a href="#">國籍</a>
+                                    <a href="#">國籍(開發中)</a>
                                 </li>
                             @endif
                             @if($campFullData->table == "ycamp" || $campFullData->table == "hcamp")
