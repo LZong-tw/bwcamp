@@ -18,7 +18,7 @@
     }
 
     if (cityname == '臺北市')
-    {   document.Camp.sname.options[ctr] = new Option ("陽明大學", "國立陽明大學") ;
+    {   document.Camp.sname.options[ctr] = new Option ("陽明交大", "國立陽明交通大學陽明校區") ;
         ctr = ctr + 1;
     }
 
@@ -450,7 +450,7 @@
     }
 
     if (cityname == '新竹市')
-    {   document.Camp.sname.options[ctr] = new Option ("交通大學", "國立交通大學") ;
+    {   document.Camp.sname.options[ctr] = new Option ("陽明交大", "國立陽明交通大學交大校區") ;
         ctr = ctr + 1;
     }
 
@@ -527,10 +527,11 @@
         ctr = ctr + 1;
     }
 
-    if (cityname == '臺中市')
+    //留「國立臺中科技大學」就好
+    /*if (cityname == '臺中市')
     {   document.Camp.sname.options[ctr] = new Option ("中護健康", "國立臺中科技大學中護健康學院") ;
         ctr = ctr + 1;
-    }
+    }*/
 
     if (cityname == '臺中市')
     {   document.Camp.sname.options[ctr] = new Option ("東海大學", "東海大學") ;
@@ -849,17 +850,27 @@
     }
 
     if (cityname == '高雄市')
-    {   document.Camp.sname.options[ctr] = new Option ("第一科大", "國立高雄科技大學(原第一科大)") ;
+    {   document.Camp.sname.options[ctr] = new Option ("高雄科大", "國立高雄科技大學建工校區") ;
         ctr = ctr + 1;
     }
 
     if (cityname == '高雄市')
-    {   document.Camp.sname.options[ctr] = new Option ("海洋科大", "國立高雄科技大學(原海洋科大)") ;
+    {   document.Camp.sname.options[ctr] = new Option ("高雄科大", "國立高雄科技大學燕巢校區") ;
         ctr = ctr + 1;
     }
 
     if (cityname == '高雄市')
-    {   document.Camp.sname.options[ctr] = new Option ("應用科大", "國立高雄科技大學(原應用科大)") ;
+    {   document.Camp.sname.options[ctr] = new Option ("高雄科大", "國立高雄科技大學第一校區") ;
+        ctr = ctr + 1;
+    }
+
+    if (cityname == '高雄市')
+    {   document.Camp.sname.options[ctr] = new Option ("高雄科大", "國立高雄科技大學楠梓校區") ;
+        ctr = ctr + 1;
+    }
+
+    if (cityname == '高雄市')
+    {   document.Camp.sname.options[ctr] = new Option ("高雄科大", "國立高雄科技大學旗津校區") ;
         ctr = ctr + 1;
     }
 
