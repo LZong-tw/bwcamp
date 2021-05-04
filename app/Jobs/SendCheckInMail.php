@@ -40,7 +40,7 @@ class SendCheckInMail implements ShouldQueue
         if($this->applicant->batch->camp->table == 'coupon'){
             $qr_code = \DNS2D::getBarcodePNG('{"coupon_code":"' . $this->applicant->name . '"}', 'QRCODE');
             $pdf = \App::make('dompdf.wrapper');
-            $pdf->loadHTML($this->applicant->batch->camp->fullName . ' QR code 優惠碼<br>梯次：' . $this->applicant->batch->name . '<br>流水號：' . $this->applicant->group . $this->applicant->number . '<br>優惠碼：' . $this->applicant->name . '<br><img src="data:image/png;base64,' . $qr_code . '" alt="barcode" height="200px"/>')->setPaper('a6');
+            $pdf->loadHTML($this->applicant->batch->camp->abbreviation . '<br>流水號：' . $this->applicant->group . $this->applicant->number . '<br>優惠碼：' . $this->applicant->name . '<br><img src="data:image/png;base64,' . $qr_code . '" alt="barcode" height="200px"/>')->setPaper('a6');
         }
         else{
             $qr_code = \DNS2D::getBarcodePNG('{"applicant_id":' . $this->applicant->id . '}', 'QRCODE');
