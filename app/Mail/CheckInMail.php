@@ -32,9 +32,9 @@ class CheckInMail extends Mailable
      */
     public function build() {
         if($this->applicant->batch->camp->table == 'coupon'){
-            return $this->subject($this->applicant->batch->camp->abbreviation . '優惠碼通知')
+            return $this->subject($this->applicant->batch->camp->fullName)
                     ->view('camps.' . $this->applicant->batch->camp->table . ".checkInMail")
-                    ->attachData($this->attachment, $this->applicant->batch->camp->abbreviation . $this->applicant->id . $this->applicant->name . 'QR code 優惠碼.pdf', [
+                    ->attachData($this->attachment, $this->applicant->batch->camp->abbreviation . '.pdf', [
                         'mime' => 'application/pdf',
                     ]);
         }
