@@ -54,7 +54,7 @@
                 401            </div>
 
             <div class="message" style="padding: 10px;">
-                權限不足</div>
+                權限不足@if(isset($message))({{ $message }})@endif</div>
         </div>
     </body>
 </html>
