@@ -70,7 +70,7 @@ class User extends Authenticatable
      * @return void
      */
     public function notify($instance) {
-        $this->setEmail($this->role_relations->first()->role->camp->table);
+        $this->setEmail($this->role_relations->first()->role->camp->table ?? "");
         app(\Illuminate\Contracts\Notifications\Dispatcher::class)->send($this, $instance);
     }
 }
