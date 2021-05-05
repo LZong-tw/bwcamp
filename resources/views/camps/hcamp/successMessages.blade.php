@@ -1,5 +1,5 @@
 請記下您的<span class="text-danger font-weight-bold">《 報名序號：{{ $applicant->id }} 》</span>作為日後查詢使用。
-並請於 <u>@if(\Carbon\Carbon::now()->lt(\Carbon\Carbon::createFromFormat('Y-m-d', $applicant->batch->camp->early_bird_last_day)->addDay())) 4/20 @else 5/4 @endif 前完成繳費</u>，<strong>繳費後始完成報名手續</strong>，倘未繳費，視同放棄。
+並請於 <u>@if(\Carbon\Carbon::now()->lt(\Carbon\Carbon::createFromFormat('Y-m-d', $applicant->batch->camp->early_bird_last_day)->addDay())) 4/20 @else 5/11 @endif 前完成繳費</u>，<strong>繳費後始完成報名手續</strong>，倘未繳費，視同放棄。
 <br>
 <form action="{{ route("downloadPaymentForm", $applicant->batch_id) }}" method="post" name="downloadPaymentForm" class="d-inline">
     @csrf
