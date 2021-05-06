@@ -76,6 +76,11 @@
                             <li>
                                 <a href="{{ route("checkinStat", $campFullData->id) }}">報到統計</a>
                             </li>
+                            @if($campFullData->table == "ycamp")
+                                <li>
+                                    <a href="{{ route("bwclubStat", $campFullData->id) }}">福青社統計</a>
+                                </li>
+                            @endif
                             @if($campFullData->table == "tcamp")
                                 <li>
                                     <a href="{{ route("schoolOrCourseStat", $campFullData->id) }}">任教學程</a>
