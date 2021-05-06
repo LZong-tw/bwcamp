@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Applicant;
 use Illuminate\Http\Request;
 
-class BWClubStat extends BackendController{
+class BWClubSchoolStat extends BackendController{
     protected $taipei = array (
 		"國立臺灣大學",
 		"國立臺灣科技大學",
@@ -121,7 +121,7 @@ class BWClubStat extends BackendController{
             $totals[$groupname] = $total;
         }
 
-        return view('backend.statistics.bwclub', [
+        return view('backend.statistics.bwclubschool', [
             'groups' => $this->groups,
             'totals' => $totals
             ]);

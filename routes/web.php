@@ -130,7 +130,7 @@ Route::group(['prefix' => 'backend/{camp_id}', ], function () {
     Route::get('/statistics/educationStat', [StatController::class, 'educationStat'])->name('educationStat');
     Route::get('/statistics/admission', [StatController::class, 'admissionStat'])->name('admissionStat');
     Route::get('/statistics/checkin', [StatController::class, 'checkinStat'])->name('checkinStat');
-    Route::get('/statistics/bwclub', BWClubStat::class)->name('bwclubStat');
+    Route::get('/statistics/bwclubschool', BWClubSchoolStat::class)->name('bwclubschoolStat');
     Route::get('/accounting', 'BackendController@showAccountingPage')->name('accounting');
     Route::get('/accounting/modify', 'BackendController@modifyAccounting')->name('modifyAccounting');
     Route::post('/accounting/modify', 'BackendController@modifyAccounting')->name('modifyAccounting');
