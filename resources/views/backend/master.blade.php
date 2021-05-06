@@ -78,7 +78,7 @@
                             </li>
                             @if($campFullData->table == "ycamp")
                                 <li>
-                                    <a href="{{ route("bwclubStat", $campFullData->id) }}">福青社統計</a>
+                                    <a href="{{ route("bwclubschoolStat", $campFullData->id) }}">福青社學校統計</a>
                                 </li>
                             @endif
                             @if($campFullData->table == "tcamp")
