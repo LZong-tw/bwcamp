@@ -15,7 +15,7 @@ class StatController extends BackendController
         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
         ->where('camps.id', $this->campFullData->id)
-        ->groupBy('date')->get();
+        ->groupBy('date')->withTrashed()->get();
         $rows = count($applicants);
         $array = $applicants->toArray();
         
