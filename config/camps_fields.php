@@ -109,7 +109,7 @@ return [
         "education" => "報名者學程", 
         "special_condition" => "特殊狀況", 
         "traffic_depart" => "去程交通", 
-        " traffic_return" => "回程交通", 
+        "traffic_return" => "回程交通", 
         // "branch_or_classroom_belongs_to" => "", 
         // "class_type" => "", 
         // "parent_lamrim_class" => "", 
