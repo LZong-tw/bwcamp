@@ -850,27 +850,27 @@
     }
 
     if (cityname == '高雄市')
-    {   document.Camp.sname.options[ctr] = new Option ("高雄科大", "國立高雄科技大學建工校區") ;
+    {   document.Camp.sname.options[ctr] = new Option ("高科建工", "國立高雄科技大學建工校區") ;
         ctr = ctr + 1;
     }
 
     if (cityname == '高雄市')
-    {   document.Camp.sname.options[ctr] = new Option ("高雄科大", "國立高雄科技大學燕巢校區") ;
+    {   document.Camp.sname.options[ctr] = new Option ("高科燕巢", "國立高雄科技大學燕巢校區") ;
         ctr = ctr + 1;
     }
 
     if (cityname == '高雄市')
-    {   document.Camp.sname.options[ctr] = new Option ("高雄科大", "國立高雄科技大學第一校區") ;
+    {   document.Camp.sname.options[ctr] = new Option ("高科第一", "國立高雄科技大學第一校區") ;
         ctr = ctr + 1;
     }
 
     if (cityname == '高雄市')
-    {   document.Camp.sname.options[ctr] = new Option ("高雄科大", "國立高雄科技大學楠梓校區") ;
+    {   document.Camp.sname.options[ctr] = new Option ("高科楠梓", "國立高雄科技大學楠梓校區") ;
         ctr = ctr + 1;
     }
 
     if (cityname == '高雄市')
-    {   document.Camp.sname.options[ctr] = new Option ("高雄科大", "國立高雄科技大學旗津校區") ;
+    {   document.Camp.sname.options[ctr] = new Option ("高科旗津", "國立高雄科技大學旗津校區") ;
         ctr = ctr + 1;
     }
 
