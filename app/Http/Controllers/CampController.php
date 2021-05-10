@@ -62,8 +62,9 @@ class CampController extends Controller
 
     public function campRegistration(Request $request) {        
         $today = \Carbon\Carbon::today();
-        if($this->camp_data->is_late_registration_end){
-            $registration_end = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $this->camp_data->late_registration_end . "23:59:59");
+        $batch = Batch::find($this->batch_id);
+        if($batch->is_late_registration_end){
+            $registration_end = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $batch->late_registration_end . "23:59:59");
         }
         else{
             $registration_end = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $this->camp_data->registration_end . "23:59:59");
