@@ -587,7 +587,7 @@ class BackendController extends Controller
             ->with(['batch', 'batch.camp' => $constraints])
             ->whereHas('batch.camp', $constraints)
             ->join($accountingTable, $accountingTable . '.accounting_no', '=', 'applicants.bank_second_barcode')
-            ->orderBy($accountingTable . '.id', 'desc')->get();
+            ->orderBy($accountingTable . '.id', 'desc')->withTrashed()->get();
         $download = $_GET['download'] ?? false;
         if(!$download){
             return view('backend.registration.accounting')->with('accountings', $accountings);
