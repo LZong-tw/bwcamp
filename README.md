@@ -79,6 +79,7 @@
     - 測試設定：https://stackoverflow.com/questions/34197653/getusermedia-in-chrome-47-without-using-https/34198101#34198101
     - 備案：https://github.com/nimiq/qr-scanner
 - PDF 產生器文件：https://github.com/barryvdh/laravel-dompdf
+- Schedule 顯示頁：https://github.com/codestudiohq/laravel-totem
 
 ## 報到系統使用教學注意事項
 
