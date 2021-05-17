@@ -54,11 +54,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('query', $batch_id) }}">報名查詢/修改</a>
                     </li>
-                    @if(\Carbon\Carbon::now() >= \Carbon\Carbon::createFromFormat("Y-m-d", $camp_data->admission_announcing_date))
+                    {{-- @if(\Carbon\Carbon::now() >= \Carbon\Carbon::createFromFormat("Y-m-d", $camp_data->admission_announcing_date))
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('queryadmit', $batch_id) }}">錄取查詢</a>
                         </li>
-                    @endif
+                    @endif --}}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url("downloads/ecamp2021/2021企業營課表.jpg") }}">課程表</a>
                     </li>
