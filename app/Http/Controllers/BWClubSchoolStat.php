@@ -34,7 +34,7 @@ class BWClubSchoolStat extends BackendController{
             "中央警察大學"
     );
     protected $hsinchu = array (
-            "國立陽明交通大學",
+            "國立陽明交通大學交大校區",
             "國立清華大學",
             "國立清華大學南大校區"
     );
