@@ -26,7 +26,7 @@
                         <th>姓名 / 生理性別</th>
                         <th>分區</th>
                         <th>錄取序號</th>
-                        <th>輸入錄取序號</th>
+                        <th>輸入錄取序號(共五碼)</th>
                     </tr>
                 </thead>
                 @foreach ($applicants as $applicant)
@@ -38,9 +38,13 @@
                         <td>{{ $applicant->region }}</td>
                         <td>{{ $applicant->group.$applicant->number }}</td>
                         <td>
-                            @if($applicant->gender !== "N/A" && !$applicant->group && !$applicant->number)
+                            @if($applicant->gender !== "N/A")
                                 <input type="hidden" name="id[]" value="{{ $applicant->id }}">
-                                <input type="text" name="admittedSN[]" value="{{ $applicant->getBatch->admission_suffix }}" class="form-control" required>
+                                @if(!$applicant->group && !$applicant->number)
+                                    <input type="text" name="admittedSN[]" value="{{ $applicant->getBatch->admission_suffix }}" class="form-control" required pattern=".{5}">
+                                @else
+                                    <input type="text" name="admittedSN[]" value="{{ $applicant->group.$applicant->number }}" class="form-control" required pattern=".{5}">
+                                @endif
                             @endif
                         </td>
                     </tr>

@@ -147,7 +147,7 @@ class BackendController extends Controller
                 ->where('group', 'like', $group)->where('number', 'like', $number)->first();
                 $candidate = Applicant::find($id);
                 if($check){
-                    array_push($error, $candidate->name . "，錄取序號" . $request->admittedSN[$key] . "重複。");
+                    array_push($error, $candidate->name . "，錄取序號" . $request->admittedSN[$key] . "重複，沒有針對此人執行任何動作。");
                     $skip = true;
                 }
                 if(!$skip){                    
