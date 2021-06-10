@@ -155,9 +155,9 @@ class CampDataService
                     "台中",
                     "台中",
                     "台中",
-                    "嘉義",
-                    "嘉義",
-                    "嘉義",
+                    "雲嘉",
+                    "雲嘉",
+                    "雲嘉",
                     "台南",
                     "高雄",
                     "高雄",
@@ -178,7 +178,7 @@ class CampDataService
             }
             
             if ($formData["school"] == '國立臺南藝術大學' or $formData["school"] == '台灣首府大學' or $formData["school"] == '南榮技術學院' or $formData["school"] == '敏惠醫護管理專校' or $formData["school"] == '真理大學麻豆校區') {
-                $formData["region"] = '嘉義';
+                $formData["region"] = '雲嘉';
             }
         }
         else if($camp == "tcamp" && isset($formData["unit_county"])){
@@ -197,7 +197,7 @@ class CampDataService
             }
 
             for($l = 0; $l < Count($chiayi); $l++){
-                if($formData["unit_county"] == $chiayi[$l]) $region = "嘉義";
+                if($formData["unit_county"] == $chiayi[$l]) $region = "雲嘉";
             }
 
             for($m = 0; $m < Count($south); $m++){

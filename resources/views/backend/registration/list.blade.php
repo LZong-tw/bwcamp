@@ -35,7 +35,7 @@
                     <input class="btn btn-primary" type=submit name=region value='桃園'>&nbsp;
                     <input class="btn btn-primary" type=submit name=region value='新竹'>&nbsp;
                     <input class="btn btn-primary" type=submit name=region value='台中'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='嘉義'>&nbsp;
+                    <input class="btn btn-primary" type=submit name=region value='雲嘉'>&nbsp;
                     <input class="btn btn-primary" type=submit name=region value='台南'>&nbsp;
                     <input class="btn btn-primary" type=submit name=region value='高雄'>&nbsp;
                     <input class="btn btn-primary" type=submit name=region value='其他'>&nbsp;
