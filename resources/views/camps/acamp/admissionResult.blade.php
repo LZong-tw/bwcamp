@@ -84,7 +84,7 @@
                     </div>
                     <div class="card-body">
                         <p class="card-text">{{ $applicant->name }} 您好</p>
-                        <p class="card-text indent">非常感謝您報名參加「2021 卓越青年生命探索營」，由於場地與各項條件的限制，非常抱歉未能錄取您。誠摯地邀請您報名相關活動。</p>
+                        <p class="card-text indent">非常感謝您報名「{{ $camp_data->fullName }}」，由於場地與各項條件的限制，非常抱歉未能錄取您。誠摯地邀請您報名相關活動。</p>
                         <p class="card-text indent">相關活動訊息，請洽詢各區聯絡窗口：</p>
                         <p class="card-text indent"><a href="https://www.blisswisdom.org/about/branches" target="_blank" rel="noopener noreferrer">全球辦事處</a></p>
                         <p class="card-text indent"><a href="http://tp.blisswisdom.org/352-2" target="_blank" rel="noopener noreferrer">北區服務據點</a></p>
