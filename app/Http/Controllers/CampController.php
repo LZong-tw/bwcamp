@@ -350,4 +350,9 @@ class CampController extends Controller
         $pdf->loadHTML($applicant->batch->camp->fullName . ' QR code 報到單<br>梯次：' . $applicant->batch->name . '<br>錄取序號：' . $applicant->group . $applicant->number . '<br>姓名：' . $applicant->name . '<br><img src="data:image/png;base64,' . $qr_code . '" alt="barcode" height="200px"/>')->setPaper('a6');
         return $pdf->download(\Carbon\Carbon::now()->format('YmdHis') . $this->camp_data->table . $applicant->id . 'QR Code 報到單.pdf');
     }
+
+    public function getCampTotalRegisteredNumber() {
+        $batches = Batch::where('camp_id', $this->camp_data->id)->get()->pluck('id');
+        return Applicant::whereIn('batch_id', $batches)->withTrashed()->count();
+    }
 }
