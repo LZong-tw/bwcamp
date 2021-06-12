@@ -83,13 +83,13 @@ class ApplicantService
         $data["應繳日期"] = $candidate->batch->camp->payment_startdate ?? "0000";
         $data["繳費期限"] = $candidate->batch->camp->set_payment_deadline ?? "000000";
         $data["銷帳編號"] = $data["銷帳流水號前1碼"] . str_pad($candidate->id, 5, '0', STR_PAD_LEFT);
-        $candidate->fee = $candidate->batch->camp->set_fee;
+        $candidate->fee = $candidate->batch->camp->set_fee ?? 0;
         $paymentFlow = new PaymentflowService($data);        
         $candidate->store_first_barcode = $paymentFlow->getStoreFirstBarcode();
         $candidate->store_second_barcode = $paymentFlow->getStoreSecondBarcode();
-        $candidate->store_third_barcode = $paymentFlow->getStoreThirdBarcode($candidate->fee ?? 0);
+        $candidate->store_third_barcode = $paymentFlow->getStoreThirdBarcode($candidate->fee);
         $candidate->bank_second_barcode = $paymentFlow->getBankSecondBarcode();
-        $candidate->bank_third_barcode = $paymentFlow->getBankThirdBarcode($candidate->fee ?? 0);
+        $candidate->bank_third_barcode = $paymentFlow->getBankThirdBarcode($candidate->fee);
         $candidate->deposit = $candidate->deposit == null || $candidate->deposit == 0 ? 0 : $candidate->deposit;
         $candidate->save();
         return $candidate;

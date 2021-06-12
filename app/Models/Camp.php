@@ -43,13 +43,17 @@ class Camp extends Model
 
     // 決定當下的費用是原價或早鳥價
     public function getSetFeeAttribute(){
-        $early_bird_last_day = Carbon::createFromFormat('Y-m-d', $this->early_bird_last_day);
-        if($this->has_early_bird && Carbon::today()->lte($early_bird_last_day)){
-            return $this->early_bird_fee;
-        }        
-        else{
-            return $this->fee;
+        if($this->early_bird_last_day){
+            $early_bird_last_day = Carbon::createFromFormat('Y-m-d', $this->early_bird_last_day);
+            if($this->has_early_bird && Carbon::today()->lte($early_bird_last_day)){
+                return $this->early_bird_fee;
+            }        
+            else{
+                return $this->fee;
+            }
         }
+        // 或根本沒早鳥 
+        return $this->fee;
     }
 
     // 決定當下的繳費期限是最終繳費期限或早鳥繳費期限
