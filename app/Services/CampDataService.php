@@ -85,7 +85,7 @@ class CampDataService
         return $camps;
     }
 
-    public function handelRegion($formData, $camp){
+    public function handelRegion($formData, $camp, $camp_id = null){
         // 報名者分區
         if($camp == "ycamp"){
             // 大專營
@@ -182,7 +182,7 @@ class CampDataService
             }
             // 2021 年特殊需求：梯次即學校區域
             if(Carbon::now()->year == 2021) {
-                $formData["batch_id"] = Batch::where('name', $formData["region"])->first()->id;
+                $formData["batch_id"] = Batch::where('camp_id', $camp_id)->where('name', $formData["region"])->first()->id;
             }
         }
         else if($camp == "tcamp" && isset($formData["unit_county"])){
