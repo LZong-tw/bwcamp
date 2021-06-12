@@ -13,53 +13,31 @@
             <div class="col-sm-10">
                 <div class="card">
                     <div class="card-header">
-                        錄取暨繳費通知
+                        錄取通知
                     </div>
                     <div class="card-body">
+                        <p class="card-text">{{ $applicant->name }} 您好</p>
+                        <p class="card-text indent">恭喜您錄取「{{ $camp_data->fullName }}」！歡迎您參加本研習活動，我們誠摯歡迎您來共享這場心靈饗宴。兩天研習務必全程參加，相關訊息請參閱下列說明。</p>
+                        <p class="card-text indent">近期由於新冠疫情關係，福智文教基金會遵照政府發佈的全國防疫措施，原訂7/31~8/1的營隊日期將往後延期，並改為線上課程方式舉辦。線上營隊的舉辦日期、與報到相關資訊，我們將再另行通知即公告。</p>
+                        <p class="card-text indent">若您對營隊有任何問題，歡迎您透過以下方式聯絡本基金會，我們將盡速為您服務。</p>
+                        <p class="card-text indent">福智文教基金會 關心您的健康，感謝您的支持！</p>
                         <p class="card-text">
-                            恭喜您錄取「{{ $camp_data->fullName }}」！竭誠歡迎您的到來，期待與您共享這場心靈饗宴，希望您能獲得豐盛的收穫。以下幾點事情需要您的協助與配合：
-                            <h4>研習期間</h4>
-                                <div class="ml-4 mb-2">2021年1月30日（六）至1月31日（日），共2天（北桃竹嘉南高）<br>
-                                2021年2月3日（三）至2月4日（四），共2天（中）</div>
-                            <h4>活動費用</h4>
-                                <div class="ml-4 mb-2">1200元，繳費聯請下載附件檔。</div>
-                            <h4>報到時間</h4>
-                                <div class="ml-4 mb-2">請於{{ \Carbon\Carbon::now()->year }}年{{ substr($camp_data->payment_deadline, 2, 2) }}月{{ substr($camp_data->payment_deadline, 4, 2) }}日前完成繳費，逾時將視同放棄錄取資格。</div>
-                            <h4>繳費地點</h4>
-                                <div class="ml-4 mb-2">可至超商、上海銀行繳費，或使用ATM轉帳、臨櫃匯款。<br>
-                                若完成繳費，請於至少一個工作天後，上網查詢是否已繳費完畢。</div>
-                            <h4>其他事項</h4>
-                            <ul>
-                                <li>發票於營隊第一天提供，<strong>若需開立統一編號，請於 1/22 前填寫<a href="https://docs.google.com/forms/d/e/1FAIpQLSeVcqd01trNPKMSvc-RH8Zhac5Gexn-fBaAfAWMCn323PVgFw/viewform">申請單</a></strong>。</li>
-                                <li>若繳費後，因故無法參加研習需退費者，請參照<a href="https://bwfoce.wixsite.com/bwtcamp/faq" target="_blank">報名網站申請退費注意事項</a>，並填寫<strong>退費申請單</strong>。</li>
-                                <li><a style="color: red;">本會密切注意新冠疫情發展，若因故必須取消營隊或改變舉辦方式，將公布於教師營網頁。</a></li>
-                                <li>各區諮詢窗口<strong>（請於周一至周五 10:00~17:30 來電）</strong>：
-                                    <table width="100%" style="table-layout:fixed; border: 0;">
-                                        <tr>
-                                            <td>台北場　劉小姐 (02)2545-3788#529</td>
-                                            <td>雲林場　吳小姐0921-013450</td>
-                                        </tr>
-                                        <tr>
-                                            <td>桃園場　趙小姐  (03)275-6133#1312</td>
-                                            <td>嘉義場　吳小姐0928-780108</td>
-                                        </tr>
-                                        <tr>
-                                            <td>新竹場　張小姐 (03)532-5566#246</td>
-                                            <td>台南場　簡小姐0919-852066</td>
-                                        </tr>
-                                        <tr>
-                                            <td>台中場　蔣小姐  0933-199203</td>
-                                            <td>高雄場　胡小姐(07)9769341#417</td>
-                                        </tr>
-                                    </table>	
-                                </li>
-                            </ul>
+                            <h4>注意事項</h4>
+                                <div class="ml-4 mb-2">兩天研習課程務必全程參加，若您無法全程參加，請告知關懷員，感謝您的貼心。謝謝！</div>
+                                <div class="ml-4 mb-2">本會關懷員近日將以電話跟您確認，若有任何問題，歡迎與該關懷員聯絡，或來電本會。</div>
                         </p>
+                        <p class="card-text text-right">主辦單位：財團法人福智文教基金會 敬啟</p>
+                        <p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
+                        <p class="card-text">聯絡電話：02-7751-6788分機:610408、613091、610301</p>
+                        <p class="card-text">洽詢時間：週一∼週五 10:00 ~ 20:00、週六 10:00～16:00</p>
+                        <p class="card-text">Facebook 卓越青年<a href="https://www.facebook.com/YoungOneCamp" target="_blank" rel="noopener noreferrer">https://www.facebook.com/YoungOneCamp</a></p>
+                        <p class="card-text">2021卓越青年生命探索營官方網站<a href="http://www.youngone.org.tw/camp/" target="_blank" rel="noopener noreferrer">http://www.youngone.org.tw/camp/</a></p>
                         <input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>
                         <a href="{{ $camp_data->site_url }}" class="btn btn-primary">回營隊首頁</a>
                     </div>
                 </div>
             </div>
+            {{--
             <div class="col-sm-2">
                 <div class="card">
                     <div class="card-header">
@@ -97,22 +75,23 @@
                     </div>
                 @endif
             </div>
+            --}}
         @else
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
-                        報名結果通知單
+                        錄取查詢結果
                     </div>
                     <div class="card-body">
-                        <p class="card-text">敬愛的教育界先進，您好!</p>
-                        <p class="card-text indent">「教師生命成長營」自舉辦以來，每年都得到教育界先進們的支持和肯定，思及社會上仍有 這麼多人共同關心莘莘學子們的學習成長，令人深感振奮!每一位老師的報名都是鼓舞我們的一 分力量，激勵基金會的義工們持續不懈，與大家共同攜手為教育盡心盡力。</p>
-                        <p class="card-text indent">非常感謝您的報名，由於場地容量的侷限，不克錄取，造成您的不便，敬請見諒包涵!</p>
-                        <p class="card-text indent">福智文教基金會在全省各縣市的分支機構，平日都設有適合各年齡層的多元心靈提升課程， 誠摯歡迎您的參與!</p>
-                        <p class="card-text indent">關注「福智文教基金會」網站: <a href="https://bwfoce.org" target="_blank" rel="noopener noreferrer">https://bwfoce.org</a></p>
-                        <p class="card-text indent">關注「哈特麥 1D」(heart mind edu.)FB: <a href="https://www.facebook.com/heartmind1d/" target="_blank" rel="noopener noreferrer">https://www.facebook.com/heartmind1d/</a></p>
-                        <p class="card-text">祝福　教安，健康平安!</p>
-                        <p class="card-text text-right">財團法人福智文教基金會</p>
-                        <p class="card-text text-right">謹此 2020 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
+                        <p class="card-text">{{ $applicant->name }} 您好</p>
+                        <p class="card-text indent">非常感謝您報名「{{ $camp_data->fullName }}」，由於場地與各項條件的限制，非常抱歉未能錄取您。誠摯地邀請您報名相關活動。</p>
+                        <p class="card-text indent">相關活動訊息，請洽詢各區聯絡窗口：</p>
+                        <p class="card-text indent"><a href="https://www.blisswisdom.org/about/branches" target="_blank" rel="noopener noreferrer">全球辦事處</a></p>
+                        <p class="card-text indent"><a href="http://tp.blisswisdom.org/352-2" target="_blank" rel="noopener noreferrer">北區服務據點</a></p>
+                        <p class="card-text indent">若有任何問題，歡迎來電本會02-7751-6788分機: 610408、613091、610301。</p>
+                        <p class="card-text indent">(洽詢時間：週一∼週五 10:00 ~ 20:00、週六 10:00～16:00)</p>
+                        <p class="card-text text-right">主辦單位：財團法人福智文教基金會 敬啟</p>
+                        <p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
                         <input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>
                         <a href="{{ $camp_data->site_url }}" class="btn btn-primary">回營隊首頁</a>
                     </div>
