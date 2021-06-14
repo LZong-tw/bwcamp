@@ -54,6 +54,8 @@ Route::group(['prefix' => 'camp/{batch_id}'], function () {
     Route::post('/querycancel', [CampController::class, 'campConfirmCancel'])->name('querycancel');
     Route::post('/cancel', [CampController::class, 'campCancellation'])->name('cancel');
     Route::post('/queryadmit', [CampController::class, 'campQueryAdmission'])->name('queryadmit');
+    Route::get('/showadmit', [CampController::class, 'campQueryAdmission'])->name('showadmit');
+    Route::post('/toggleAttend', [CampController::class, 'toggleAttend'])->name('toggleAttend');
     Route::post('/downloadPaymentForm', 'CampController@downloadPaymentForm')->name('downloadPaymentForm');
     Route::post('/downloadCheckInNotification', 'CampController@downloadCheckInNotification')->name('downloadCheckInNotification');
     Route::post('/downloadCheckInQRcode', 'CampController@downloadCheckInQRcode')->name('downloadCheckInQRcode');
