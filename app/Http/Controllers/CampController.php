@@ -355,4 +355,12 @@ class CampController extends Controller
         $batches = Batch::where('camp_id', $this->camp_data->id)->get()->pluck('id');
         return Applicant::whereIn('batch_id', $batches)->withTrashed()->count();
     }
+
+    public function toggleAttend(Request $request) {
+        $applicant = Applicant::find($request->id);
+        $applicant->is_attend = !$applicant->is_attend;
+        $applicant->save();
+        $applicant = $this->applicantService->checkPaymentStatus($applicant);
+        return redirect(route('showadmit', ['batch_id' => $applicant->batch_id, 'sn' => $applicant->id, 'name' => $applicant->name]));
+    }
 }
