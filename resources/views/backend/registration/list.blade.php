@@ -15,8 +15,10 @@
     <table class="table table-responsive">
         <tr>
             <td>
-                <0> 設定下載 <input type="checkbox" name="download" id=""><br>
-                僅已取消名單 <input type="checkbox" name="show_cancelled" id="" value="1" @if(old('show_cancelled')) checked @endif>
+                <0> 
+                    按報名日期降冪排序 <input type="checkbox" name="orderByCreatedAtDesc" id="" value="1" @if(old('orderByCreatedAtDesc')) checked @endif><br>
+                    設定下載 <input type="checkbox" name="download" id=""><br>
+                    僅已取消名單 <input type="checkbox" name="show_cancelled" id="" value="1" @if(old('show_cancelled')) checked @endif>
             </td>
         </tr>
         <tr>
@@ -77,6 +79,7 @@
             <td align=left valign=middle nowrap>
                 <4> 縣市：    
                 <select class="form-control" name=county size=1 onChange='Address(this.options[this.options.selectedIndex].value); document.Camp.address.value=this.options[this.options.selectedIndex].value;'>
+                    @if(old('county')) <option value='{{ old('county') }}'>{{ old('county') }}</option> @endif
                     <option value=''>- 請選縣市 -</option>
                     <option value='臺北市'>臺北市</option>
                     <option value='新北市'>新北市</option>
@@ -105,6 +108,7 @@
                 </select>&nbsp;&nbsp;
 
                 <select class="form-control" id=subarea name=subarea size=1 onChange='document.Camp.zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.address.value=MyAddress(document.Camp.county.value, this.options[this.options.selectedIndex].text);'>
+                    @if(old('address')) <option value='{{ substr(old('address'), 9) }}'>{{ substr(old('address'), 9) }}</option> @endif
                     <option value=''>- 再選區鄉鎮 -</option>
                 </select>&nbsp;
                 <input type="hidden" name="zipcode">
@@ -140,6 +144,7 @@
                 @endif
                 <th>繳費狀況</th>
                 <th>已取消</th>
+                <th>報名時間</th>
             </tr>
         </thead>
         @forelse ($applicants as $applicant)
@@ -171,6 +176,7 @@
                     @endif
                 </td>
                 <td>{!! $applicant->is_cancelled == "是" ? '<a style="color: red">是 (' . $applicant->deleted_at . ')</a>' : '<a style="color: green">否</a>' !!}</td>
+                <td>{{ $applicant->created_at }}</td>
             </tr>
         @empty
             查詢的條件沒有資料

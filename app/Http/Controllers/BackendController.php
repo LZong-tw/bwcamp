@@ -328,6 +328,9 @@ class BackendController extends Controller
         }
         // 報名名單不以繳費與否排序
         // $applicants = $applicants->sortByDesc('is_paid');
+        if($request->orderByCreatedAtDesc) {
+            $applicants = $applicants->sortByDesc('created_at');
+        }
         if(isset($request->download)){
             if($applicants){
                 // 參加者報到日期
@@ -421,6 +424,7 @@ class BackendController extends Controller
             };
             return response()->stream($callback, 200, $headers);
         }
+        $request->flash();
         return view('backend.registration.list')
                 ->with('applicants', $applicants)
                 ->with('query', $query)
