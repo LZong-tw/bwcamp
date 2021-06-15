@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('check:Accounting tcamp')->dailyAt("16:30");
-        $schedule->command('check:Accounting hcamp')->dailyAt("16:30");
+        // $schedule->command('check:Accounting hcamp')->dailyAt("16:30");
     }
 
     /**
