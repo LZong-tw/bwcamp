@@ -158,7 +158,12 @@ class CampController extends Controller
                 return $applicant;
             });     
             // 寄送報名資料
-            Mail::to($applicant)->send(new ApplicantMail($applicant, $this->camp_data));
+            try{
+                Mail::to($applicant)->send(new ApplicantMail($applicant, $this->camp_data));
+            }
+            catch(\Exception $e) {
+                logger($e);
+            }
         }
         
         return view('camps.' . $this->camp_data->table . '.success')->with('applicant', $applicant);
