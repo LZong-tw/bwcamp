@@ -17,7 +17,3 @@
 <p class="card-text indent">有任何問題，請Email至<a href="mailto:youth@blisswisdom.org">youth@blisswisdom.org</a>，或於<a href="https://www.facebook.com/bwyouth" target="_blank" rel="noopener noreferrer">福智青年粉專</a>留言</p>
 <p class="card-text text-right">財團法人福智文教基金會 敬啟</p>
 <p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
-
-
-
- 錄取學員敬請全程參與本活動。全程參與者，發給研習證明文件。
