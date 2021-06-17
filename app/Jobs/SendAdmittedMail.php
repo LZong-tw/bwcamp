@@ -41,9 +41,15 @@ class SendAdmittedMail implements ShouldQueue
         $applicant = $this->applicant;
         $applicant = $applicantService->checkIfPaidEarlyBird($applicant);
         $applicant->save();
-        $paymentFile = \PDF::loadView('camps.' . $applicant->batch->camp->table . '.paymentFormPDF', compact('applicant'))->download();
         // 動態載入電子郵件設定
         $this->setEmail($applicant->batch->camp->table);
-        \Mail::to($applicant->email)->send(new \App\Mail\AdmittedMail($applicant, $applicant->batch->camp, $paymentFile));
+        if($applicant->fee == 0){
+            \Mail::to($applicant->email)->send(new \App\Mail\AdmittedMail($applicant, $applicant->batch->camp));
+        }
+        else{
+            $paymentFile = \PDF::loadView('camps.' . $applicant->batch->camp->table . '.paymentFormPDF', compact('applicant'))->download();
+            \Mail::to($applicant->email)->send(new \App\Mail\AdmittedMail($applicant, $applicant->batch->camp, $paymentFile));
+        }
+        
     }
 }
