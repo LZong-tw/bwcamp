@@ -12,7 +12,7 @@
     <div class="ml-4 mb-2">營隊期間：2021/8/14~15 (六、日) 9:30~17:30  共 2天</div>
 <h4>營隊場次：{{ $applicant->batch->name }}</h4>
 <h4>確認參加</h4>
-<p class="card-text indent">請點擊以下網址 <a href="https://bwcamp.bwfoce.org/camp/19/queryadmit?sn={{ $applicant->id }}&name={{ $applicant->name }}">https://bwcamp.bwfoce.org/camp/19/queryadmit</a> 回覆確認參加。</p>
+<p class="card-text indent">請點擊以下網址 <a href="https://bwcamp.bwfoce.org/camp/19/showadmit?sn={{ $applicant->id }}&name={{ $applicant->name }}">https://bwcamp.bwfoce.org/camp/19/queryadmit</a> 回覆確認參加。</p>
 <h4>★錄取學員敬請全程參與本活動。全程參與者，發給研習證明文件。</h4>
 <p class="card-text indent">有任何問題，請Email至<a href="mailto:youth@blisswisdom.org">youth@blisswisdom.org</a>，或於<a href="https://www.facebook.com/bwyouth" target="_blank" rel="noopener noreferrer">福智青年粉專</a>留言</p>
 <p class="card-text text-right">財團法人福智文教基金會 敬啟</p>
