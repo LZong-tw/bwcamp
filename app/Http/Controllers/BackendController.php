@@ -247,6 +247,9 @@ class BackendController extends Controller
             if($request->region == '全區'){
                 $applicants = $query->get();
             }
+            elseif($request->region == '其他'){
+                $applicants = $query->whereNotIn('region', ['台北', '桃園', '新竹', '台中', '雲嘉', '台南', '高雄'])->get();
+            }
             else{
                 $applicants = $query->where('region', $request->region)->get();
             }
