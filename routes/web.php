@@ -123,6 +123,7 @@ Route::group(['prefix' => 'backend/{camp_id}', ], function () {
     Route::get('/registration/groupList', 'BackendController@showGroupList')->name('showGroupList');
     Route::get('/registration/group/{batch_id}/{group}', 'BackendController@showGroup')->name('showGroup');
     Route::get('/inCamp/trafficList', 'BackendController@showTrafficList')->name('showTrafficList');
+    Route::get('/registration/groupAttendList', 'BackendController@showGroupAttendList')->name('showGroupAttendList');
     Route::get('/statistics/appliedDate', [StatController::class, 'appliedDateStat'])->name('appliedDateStat');
     Route::get('/statistics/gender', [StatController::class, 'genderStat'])->name('genderStat');
     Route::get('/statistics/county', [StatController::class, 'countyStat'])->name('countyStat');

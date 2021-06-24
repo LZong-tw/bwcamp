@@ -546,7 +546,33 @@ class BackendController extends Controller
             };
             return response()->stream($callback, 200, $headers);
         }
+        if($request->showAttend){
+            return view('backend.in_camp.groupAttend', compact('applicants'));
+        }
         return view('backend.registration.group', compact('applicants'));
+    }
+
+    public function showGroupAttendList() {
+        $batches = Batch::where('camp_id', $this->camp_id)->get()->all();
+        foreach($batches as &$batch){
+            $batch->regions = Applicant::select('region')
+                ->where('batch_id', $batch->id)
+                ->where('is_admitted', 1)
+                ->whereNotNull('group')
+                ->whereNotNull('number')
+                ->groupBy('region')->get();
+            foreach($batch->regions as &$region){
+                $region->groups = Applicant::select('group', \DB::raw('count(*) as count, SUM(case when is_attend = 1 then 1 else 0 end) as sum'))
+                    ->where('batch_id', $batch->id)
+                    ->where('region', $region->region)
+                    ->where('is_admitted', 1)
+                    ->whereNotNull('group')
+                    ->whereNotNull('number')
+                    ->groupBy('group')->get();
+                $region->region = $region->region ?? "其他";
+            }
+        }
+        return view('backend.in_camp.groupAttendList')->with('batches', $batches);
     }
 
     public function sendCheckInNotifydMail(Request $request){
