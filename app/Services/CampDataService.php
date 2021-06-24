@@ -181,7 +181,7 @@ class CampDataService
                 $formData["region"] = '雲嘉';
             }
             // 2021 年特殊需求：梯次即學校區域
-            if(Carbon::now()->year == 2021) {
+            if(Carbon::now()->year == 2021 && $formData["region"] != "海外") {
                 $formData["batch_id"] = Batch::where('camp_id', $camp_id)->where('name', $formData["region"])->first()->id;
             }
         }
