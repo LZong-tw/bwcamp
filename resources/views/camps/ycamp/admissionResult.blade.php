@@ -23,21 +23,26 @@
                         <div class="ml-4 mb-2">營隊期間：2021/8/14~15 (六、日) 9:30~17:30  共 2天</div>
                     <h4>營隊場次：{{ $applicant->batch->name }}</h4>
                     <h4>確認參加</h4>
-                        <div class="ml-4 mb-2">請回覆確認參加。</div>
-                        @if($applicant->is_attend)
-                            <div class="ml-4 mb-2 text-success">狀態：已確認參加。</div>
-                            <form class="ml-4 mb-2" action="{{ route('toggleAttend', $batch_id) }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="id" value="{{ $applicant->applicant_id ?? $applicant->id }}">
-                                <input class="btn btn-danger" type="submit" value="取消參加" id="cancel">
-                            </form>
-                        @else   
-                            <form class="ml-4 mb-2" action="{{ route('toggleAttend', $batch_id) }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="id" value="{{ $applicant->applicant_id ?? $applicant->id }}">
-                                <input class="btn btn-success" type="submit" value="確認參加">
-                            </form>
+                    <div class="ml-4 mb-2">請回覆確認參加。</div>
+                    @if(!isset($applicant->is_attend))
+                        <div class="ml-4 mb-2 text-primary">狀態：未回覆參加。</div>
+                    @elseif($applicant->is_attend)
+                        <div class="ml-4 mb-2 text-success">狀態：已確認參加。</div>
+                    @else
+                        <div class="ml-4 mb-2 text-danger">狀態：不參加。</div>
+                    @endif
+                    <form class="ml-4 mb-2" action="{{ route('toggleAttend', $batch_id) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="id" value="{{ $applicant->applicant_id ?? $applicant->id }}">
+                        @if(!isset($applicant->is_attend))
+                            <input class="btn btn-success" type="submit" value="確認參加">
+                            <input class="btn btn-danger" type="submit" value="不參加" id="cancel" name="confirmation_no">
+                        @elseif($applicant->is_attend)
+                            <input class="btn btn-danger" type="submit" value="取消參加" id="cancel">
+                        @else
+                            <input class="btn btn-success" type="submit" value="確認參加">
                         @endif
+                    </form>
                 </p>
                 <p class="card-text indent">錄取學員敬請全程參與本活動。全程參與者，發給研習證明文件。</p>
                 <p class="card-text indent">有任何問題，請Email至<a href="mailto:youth@blisswisdom.org">youth@blisswisdom.org</a>，或於<a href="https://www.facebook.com/bwyouth" target="_blank" rel="noopener noreferrer">福智青年粉專</a>留言</p>
@@ -72,9 +77,15 @@
     <script>
         let cancel = document.getElementById('cancel');
         cancel.addEventListener('click', function(event) {
-            if(confirm('確認取消？')){
-                return true;
-            }
+            @if(!isset($applicant->is_attend))
+                if(confirm('確認不參加？')){
+                    return true;
+                }
+            @else
+                if(confirm('確認取消？')){
+                    return true;
+                }
+            @endif
             event.preventDefault();
             return false;
         });
