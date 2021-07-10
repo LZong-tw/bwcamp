@@ -363,7 +363,12 @@ class CampController extends Controller
 
     public function toggleAttend(Request $request) {
         $applicant = Applicant::find($request->id);
-        $applicant->is_attend = !$applicant->is_attend;
+        if($request->confirmation_no){
+            $applicant->is_attend = 0;
+        }
+        else{
+            $applicant->is_attend = !isset($applicant->is_attend) ? 1 : !$applicant->is_attend;
+        }
         $applicant->save();
         $applicant = $this->applicantService->checkPaymentStatus($applicant);
         return redirect(route('showadmit', ['batch_id' => $applicant->batch_id, 'sn' => $applicant->id, 'name' => $applicant->name]));
