@@ -45,7 +45,14 @@
                 @endif
                 <td>{{ $applicant->region }}</td>
                 <td>{!! $applicant->is_paid == "是" ? "<a style='color: green;'>是</a>" : "<a style='color: red;'>否</a>" !!}</td> --}}
-                <th>{!! $applicant->is_attend == 1 ? "<a style='color: green;'>回覆參加</a>" : "<a style='color: red;'>回覆不參加 / 未回覆</a>" !!}</th>
+                @if(!isset($applicant->is_attend))
+                    <th>{!! "<a style='color: rgb(0, 132, 255);'>未回覆</a>" !!}</th>
+                @elseif($applicant->is_attend)
+                    <th>{!! "<a style='color: green;'>回覆參加</a>" !!}</th>
+                @else
+                    <th>{!! "<a style='color: red;'>回覆不參加</a>" !!}</th>
+                @endif
+                
             </tr>
         @endforeach
     </table>
