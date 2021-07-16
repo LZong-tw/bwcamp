@@ -18,17 +18,21 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr class="bg-primary text-white">
-                                <th colspan="3">{{ $region->region }}</th>
+                                <th colspan="5">{{ $region->region }}</th>
                             </tr>
                             <tr class="bg-secondary text-white">
                                 <th>組別</th>
                                 <th>錄取人數</th>
                                 <th>回覆參加人數</th>
+                                <th>回覆不參加人數</th>
+                                <th>未回覆人數</th>
                             </tr>
                         </thead>
                         @php
                             $count_total = 0;    
-                            $sum_total = 0;
+                            $attend_sum_total = 0;
+                            $not_attend_sum_total = 0;
+                            $not_reply_sum_total = 0;
                         @endphp
                         @foreach ($region->groups as $group)
                             <tr>
@@ -36,17 +40,23 @@
                                     <a href="{{ route("showGroup", [$campFullData->id, $batch->id, $group->group]) }}/?showAttend=1" class="card-link">{{ $group->group }}</a>
                                 </td>
                                 <td>{{ $group->count }}</td>
-                                <td>{{ $group->sum }}</td>
+                                <td>{{ $group->attend_sum }}</td>
+                                <td>{{ $group->not_attend_sum }}</td>
+                                <td>{{ $group->not_reply_sum }}</td>
                                 @php
                                     $count_total = $count_total + $group->count;
-                                    $sum_total = $sum_total + $group->sum;
+                                    $attend_sum_total = $attend_sum_total + $group->attend_sum;
+                                    $not_attend_sum_total = $not_attend_sum_total + $group->not_attend_sum;
+                                    $not_reply_sum_total = $not_reply_sum_total + $group->not_reply_sum;
                                 @endphp
                             </tr>
                         @endforeach
                         <tr class="bg-success text-white">
                             <td>合計</td>
                             <td>{{ $count_total }}</td>
-                            <td>{{ $sum_total }}</td>
+                            <td>{{ $attend_sum_total }}</td>
+                            <td>{{ $not_attend_sum_total }}</td>
+                            <td>{{ $not_reply_sum_total }}</td>
                         </tr>
                     </table>
                 </td>
