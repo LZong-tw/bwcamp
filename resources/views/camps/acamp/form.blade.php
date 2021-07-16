@@ -12,7 +12,8 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     @include('partials.schools_script')
     @include('partials.counties_areas_script')
     <div class='alert alert-info' role='alert'>
-        您在本網站所填寫的個人資料，僅用於此次{{ $camp_data->abbreviation }}的報名及活動聯絡之用。
+        {{-- 您在本網站所填寫的個人資料，僅用於此次{{ $camp_data->abbreviation }}的報名及活動聯絡之用。 --}}
+        報名時間(2021年6月6日)已經截止，您的報名將列為備取名單(若錄取將另外通知)
     </div>
 
     <div class='page-header form-group'>
