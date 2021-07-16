@@ -32,7 +32,6 @@
                             $count_total = 0;    
                             $attend_sum_total = 0;
                             $not_attend_sum_total = 0;
-                            $not_reply_sum_total = 0;
                         @endphp
                         @foreach ($region->groups as $group)
                             <tr>
@@ -42,12 +41,11 @@
                                 <td>{{ $group->count }}</td>
                                 <td>{{ $group->attend_sum }}</td>
                                 <td>{{ $group->not_attend_sum }}</td>
-                                <td>{{ $group->not_reply_sum }}</td>
+                                <td>{{ $group->count - $group->attend_sum - $group->not_attend_sum }}</td>
                                 @php
                                     $count_total = $count_total + $group->count;
                                     $attend_sum_total = $attend_sum_total + $group->attend_sum;
                                     $not_attend_sum_total = $not_attend_sum_total + $group->not_attend_sum;
-                                    $not_reply_sum_total = $not_reply_sum_total + $group->not_reply_sum;
                                 @endphp
                             </tr>
                         @endforeach
@@ -56,7 +54,7 @@
                             <td>{{ $count_total }}</td>
                             <td>{{ $attend_sum_total }}</td>
                             <td>{{ $not_attend_sum_total }}</td>
-                            <td>{{ $not_reply_sum_total }}</td>
+                            <td>{{ $count_total - $attend_sum_total - $not_attend_sum_total }}</td>
                         </tr>
                     </table>
                 </td>
