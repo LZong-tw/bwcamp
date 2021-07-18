@@ -70,6 +70,7 @@ return [
         "agent_name" => "代填人姓名",
         "agent_phone" => "代填人電話",
         "agent_relationship" => "代填人關係",
+        "is_attend" => "回覆參加", 
     ],
 
     'tcamp' => [
