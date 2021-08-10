@@ -58,7 +58,7 @@ class CheckInController extends Controller
                 ->orWhere(\DB::raw("replace(mobile, ')', '')"), 'like', '%' . $request->query_str . '%')
                 ->orWhere(\DB::raw("replace(mobile, '（', '')"), 'like', '%' . $request->query_str . '%')
                 ->orWhere(\DB::raw("replace(mobile, '）', '')"), 'like', '%' . $request->query_str . '%');
-            })->get();
+            })->groupBy('number', 'asc')->get();
         $batches = $applicants->pluck('batch.name', 'batch.id')->unique();
         $request->flash();
         return view('checkIn.home', compact('applicants', 'batches'));
