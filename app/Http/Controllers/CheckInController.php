@@ -46,6 +46,11 @@ class CheckInController extends Controller
         $applicants = Applicant::with(['batch', 'batch.camp' => $constrain])
             ->whereHas('batch.camp', $constrain)
             ->where('is_admitted', 1)
+            ->where(function($query){
+                if($this->camp->table == 'ycamp'){
+                    $query->where('is_attend', 1);
+                }
+            })
             ->where(function($query) use ($request, $group, $number){
                 $query->where('id', $request->query_str)
                 ->orWhere('group', $request->query_str);
@@ -58,7 +63,7 @@ class CheckInController extends Controller
                 ->orWhere(\DB::raw("replace(mobile, ')', '')"), 'like', '%' . $request->query_str . '%')
                 ->orWhere(\DB::raw("replace(mobile, '（', '')"), 'like', '%' . $request->query_str . '%')
                 ->orWhere(\DB::raw("replace(mobile, '）', '')"), 'like', '%' . $request->query_str . '%');
-            })->groupBy('number', 'asc')->get();
+            })->orderBy('number', 'asc')->get();
         $batches = $applicants->pluck('batch.name', 'batch.id')->unique();
         $request->flash();
         return view('checkIn.home', compact('applicants', 'batches'));
