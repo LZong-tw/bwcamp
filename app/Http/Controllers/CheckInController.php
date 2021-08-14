@@ -14,7 +14,7 @@ use Carbon\Carbon;
 
 class CheckInController extends Controller
 {
-    protected $campDataService, $applicantService, $batch_id, $camp_data, $batch;
+    protected $campDataService, $applicantService, $batch_id, $camp_data, $batch, $has_attend_data;
     /**
      * Create a new controller instance.
      *
@@ -28,6 +28,9 @@ class CheckInController extends Controller
         $this->camp = $camp;
         $this->campDataService = $campDataService;
         $this->applicantService = $applicantService;
+        if($this->camp->table == 'ycamp'){
+            $this->has_attend_data = true; 
+        }
         View::share('camp', $this->camp);
     }
 
@@ -47,7 +50,7 @@ class CheckInController extends Controller
             ->whereHas('batch.camp', $constrain)
             ->where('is_admitted', 1)
             ->where(function($query){
-                if($this->camp->table == 'ycamp'){
+                if($this->has_attend_data){
                     $query->where('is_attend', 1);
                 }
             })
@@ -161,6 +164,11 @@ class CheckInController extends Controller
             $checkedInCount = CheckIn::where('check_in_date', Carbon::today()->format('Y-m-d'))->count();
             $applicants = Applicant::join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                         ->where('batchs.camp_id', $this->camp->id)
+                        ->where(function($query){
+                            if($this->has_attend_data){
+                                $query->where('is_attend', 1);
+                            }
+                        })
                         ->where(\DB::raw('fee - deposit'), '<=', 0)
                         ->whereNotNull('group')
                         ->where('group', '<>', '')
@@ -182,6 +190,11 @@ class CheckInController extends Controller
         $allApplicants = Applicant::join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                     ->where('batchs.camp_id', $this->camp->id)
                     ->where(\DB::raw('fee - deposit'), '<=', 0)
+                    ->where(function($query){
+                        if($this->has_attend_data){
+                            $query->where('is_attend', 1);
+                        }
+                    })
                     ->get();
         $checkedInApplicants = Applicant::select('batchs.name', \DB::raw('count(*) as count'))
                     ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
@@ -216,6 +229,11 @@ class CheckInController extends Controller
             $allApplicants = Applicant::where(\DB::raw("fee - deposit"), "<=", 0)
                                 ->where("batch_id", $batch->id)
                                 ->whereNotNull('group')
+                                ->where(function($query){
+                                    if($this->has_attend_data){
+                                        $query->where('is_attend', 1);
+                                    }
+                                })
                                 ->where('group', '<>', '')
                                 ->count();
             $checkedInApplicants = Applicant::where("batch_id", $batch->id)
