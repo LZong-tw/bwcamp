@@ -264,7 +264,7 @@ class StatController extends BackendController
             $total = $total + $record['total'];
         }
         $GChartData = json_encode($GChartData);
-        $batches = Batch::where('camp_id', $this->campFullData->id)->get();
+        $batches = \App\Models\Batch::where('camp_id', $this->campFullData->id)->get();
         foreach($batches as $batch){
             $batch_applicants = Applicant::select(\DB::raw('check_in.check_in_date, count(*) as total'))
             ->join('check_in', 'applicants.id', '=', 'check_in.applicant_id')
