@@ -19,8 +19,10 @@
         "laravel/ui": "^2.1",
         "milon/barcode": "7.0",
         "rap2hpoutre/laravel-log-viewer": "^1.7",
-        "studio/laravel-totem": "^7.0"
+        "studio/laravel-totem": "^7.0",
+        "dompdf/dompdf": "0.8.6.3"
     },
+    
     "require-dev": {
         "facade/ignition": "^2.0",
         "fzaninotto/faker": "^1.9.1",
@@ -28,6 +30,11 @@
         "nunomaduro/collision": "^4.1",
         "phpunit/phpunit": "^8.5"
     },
+    "repositories": [{ 
+        "type": "vcs", 
+        "url": "https://github.com/vladislavtkachenko/dompdf.git", 
+        "canonical": false 
+    }],
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",

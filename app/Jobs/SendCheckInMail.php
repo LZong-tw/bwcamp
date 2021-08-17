@@ -50,6 +50,11 @@ class SendCheckInMail implements ShouldQueue
         $attachment =  $pdf->stream();
         // 動態載入電子郵件設定
         $this->setEmail($this->applicant->batch->camp->table);
-        \Mail::to($this->applicant->email)->send(new \App\Mail\CheckInMail($this->applicant, $attachment));
+        if($this->applicant->batch->camp->table == "acamp"){
+            \Mail::to($this->applicant->email)->send(new \App\Mail\CheckInMail($this->applicant));    
+        }
+        else{
+            \Mail::to($this->applicant->email)->send(new \App\Mail\CheckInMail($this->applicant, $attachment));
+        }
     }
 }
