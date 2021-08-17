@@ -42,19 +42,14 @@ class SendCheckInMail implements ShouldQueue
             $pdf = \App::make('dompdf.wrapper');
             $pdf->loadHTML($this->applicant->batch->camp->abbreviation . '<br>流水號：' . $this->applicant->group . $this->applicant->number . '<br>優惠碼：' . $this->applicant->name . '<br><img src="data:image/png;base64,' . $qr_code . '" alt="barcode" height="200px"/>')->setPaper('a6');
         }
-        else{
+        elseif($this->applicant->batch->camp->table != 'acamp'){
             $qr_code = \DNS2D::getBarcodePNG('{"applicant_id":' . $this->applicant->id . '}', 'QRCODE');
             $pdf = \App::make('dompdf.wrapper');
             $pdf->loadHTML($this->applicant->batch->camp->fullName . ' QR code 報到單<br>梯次：' . $this->applicant->batch->name . '<br>錄取序號：' . $this->applicant->group . $this->applicant->number . '<br>姓名：' . $this->applicant->name . '<br><img src="data:image/png;base64,' . $qr_code . '" alt="barcode" height="200px"/>')->setPaper('a6');
         }                
-        $attachment =  $pdf->stream();
+        $attachment = isset($pdf) ? $pdf->stream() : null;
         // 動態載入電子郵件設定
         $this->setEmail($this->applicant->batch->camp->table);
-        if($this->applicant->batch->camp->table == "acamp"){
-            \Mail::to($this->applicant->email)->send(new \App\Mail\CheckInMail($this->applicant));    
-        }
-        else{
-            \Mail::to($this->applicant->email)->send(new \App\Mail\CheckInMail($this->applicant, $attachment));
-        }
+        \Mail::to($this->applicant->email)->send(new \App\Mail\CheckInMail($this->applicant, $attachment));
     }
 }

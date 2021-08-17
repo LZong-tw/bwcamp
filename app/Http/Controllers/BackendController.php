@@ -12,13 +12,9 @@ use App\Models\CheckIn;
 use App\Models\Traffic;
 use Carbon\Carbon;
 use View;
-use App\Traits\EmailConfiguration;
 
-class BackendController extends Controller
-{
-    use EmailConfiguration;
-
-    protected $campDataService, $applicantService, $batch_id, $camp_data, $batch;
+class BackendController extends Controller {
+    protected $campDataService, $applicantService, $batch_id, $camp_data, $batch, $has_attend_data;
     /**
      * Create a new controller instance.
      *
@@ -36,8 +32,9 @@ class BackendController extends Controller
             View::share('batch', $this->batch);
             View::share('batch_id', $this->batch_id);
             View::share('camp_data', $this->camp_data);
-            // 動態載入電子郵件設定
-            $this->setEmail($this->camp_data->table);
+            if($this->camp_data->table == 'ycamp' || $this->camp_data->table == 'acamp'){
+                $this->has_attend_data = true; 
+            }
         }
         if($request->route()->parameter('camp_id')){
             $this->middleware('permitted');
@@ -45,12 +42,13 @@ class BackendController extends Controller
             $this->campFullData = Camp::find($request->route()->parameter('camp_id'));
             View::share('camp_id', $this->camp_id);
             View::share('campFullData', $this->campFullData);
-            // 動態載入電子郵件設定
-            $this->setEmail($this->campFullData->table);
+            if($this->campFullData->table == 'ycamp' || $this->campFullData->table == 'acamp'){
+                $this->has_attend_data = true; 
+            }
         }
         if(\Str::contains(url()->current(), "campManage")){
             $this->middleware('admin');
-        }        
+        }     
     }
 
     /**
@@ -478,7 +476,11 @@ class BackendController extends Controller
         foreach($batches as &$batch){
             $batch->regions = Applicant::select('region')->where('batch_id', $batch->id)->where('is_admitted', 1)->whereNotNull('group')->whereNotNull('number')->groupBy('region')->get();
             foreach($batch->regions as &$region){
-                $region->groups = Applicant::select('group', \DB::raw('count(*) as count'))->where('batch_id', $batch->id)->where('region', $region->region)->where('is_admitted', 1)->whereNotNull('group')->whereNotNull('number')->groupBy('group')->get();
+                $region->groups = Applicant::select('group', \DB::raw('count(*) as count'))->where('batch_id', $batch->id)->where('region', $region->region)->where('is_admitted', 1)->where(function($query){
+                    if($this->has_attend_data){
+                        $query->where('is_attend', 1);
+                    }
+                })->whereNotNull('group')->whereNotNull('number')->groupBy('group')->get();
                 $region->region = $region->region ?? "其他";
             }
         }
@@ -491,7 +493,12 @@ class BackendController extends Controller
         $applicants = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
         ->join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')
         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
-        ->where('batch_id', $batch_id)->where('group', $group)->get();
+        ->where('batch_id', $batch_id)->where('group', $group)
+        ->where(function($query){
+            if($this->has_attend_data){
+                $query->where('is_attend', 1);
+            }
+        })->get();
         foreach($applicants as $applicant){
             if($applicant->fee > 0){
                 if($applicant->fee - $applicant->deposit <= 0){
