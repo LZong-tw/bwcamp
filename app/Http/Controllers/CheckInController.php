@@ -12,8 +12,7 @@ use App\Models\CheckIn;
 use View;
 use Carbon\Carbon;
 
-class CheckInController extends Controller
-{
+class CheckInController extends Controller {
     protected $campDataService, $applicantService, $batch_id, $camp_data, $batch, $has_attend_data;
     /**
      * Create a new controller instance.
@@ -28,7 +27,7 @@ class CheckInController extends Controller
         $this->camp = $camp;
         $this->campDataService = $campDataService;
         $this->applicantService = $applicantService;
-        if($this->camp->table == 'ycamp'){
+        if($this->camp->table == 'ycamp' || $this->camp->table == 'acamp'){
             $this->has_attend_data = true; 
         }
         View::share('camp', $this->camp);

@@ -38,6 +38,10 @@ class CheckInMail extends Mailable
                         'mime' => 'application/pdf',
                     ]);
         }
+        elseif(!$this->attachment){
+            return $this->subject($this->applicant->batch->camp->abbreviation . '報到通知')
+                    ->view('camps.' . $this->applicant->batch->camp->table . ".checkInMail");            
+        }
         else{
             return $this->subject($this->applicant->batch->camp->abbreviation . '報到通知')
                     ->view('camps.' . $this->applicant->batch->camp->table . ".checkInMail")

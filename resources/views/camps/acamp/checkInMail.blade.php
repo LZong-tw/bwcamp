@@ -43,19 +43,19 @@
             <p>
                 ZOOM會議ID：946 3186 5789 <br>
                 ZOOM 會議室密碼： 264731 <br>
-                ZOOM 加入姓名(顯示名稱)：  
-                <ol type="A">
+                ZOOM 加入姓名(顯示名稱)：
+                <ol type="A" style="margin-top: 5px">
                     <li>在最前面加個A，後面接組別&姓名</li> 
                     <li>若有分小組，請在後方加-01 、-02，沒有分小組就不加</li> 
                 </ol>
                 例如： <br>
                 【沒有分小組的顯示名稱】<br>
-                A02 <姓名> <br>
+                A02&nbsp;&lt;姓名&gt; <br>
                 【有分小組的顯示名稱】 <br>
-                A01-01 <姓名> <br>
-                A01-02 <姓名> <br>
-                A03-01 <姓名> <br>
-                <a style="color: red;">關懷員會通知及提醒顯示名稱的方式，若有疑問請告知關懷員。</a> 
+                A01-01&nbsp;&lt;姓名&gt; <br>
+                A01-02&nbsp;&lt;姓名&gt; <br>
+                A03-01&nbsp;&lt;姓名&gt; <br>
+                <a style="color: red; font-weight: bolder;">關懷員會通知及提醒顯示名稱的方式，若有疑問請告知關懷員。</a> 
             </p>
         </li>
     </ol>
