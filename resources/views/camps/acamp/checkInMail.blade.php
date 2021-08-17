@@ -2,6 +2,11 @@
     u{
         color: red;
     }
+    .right{
+        float: right;
+        margin-bottom: 5px;
+        clear: both;
+    }
 </style>
 <body style="font-size:16px;">
 <h2 class="center">{{ $applicant->batch->camp->fullName }}</h2>
@@ -21,7 +26,7 @@
 <tr><td>        
     <ol>
         <li>研習日期：2021年9月4日(星期六)至9月5日(星期日)
-            <p>
+            <p style="font-weight: bolder;">
                 2021年9月4日(星期六) <br>
                 報到時間(提前上線時間)：13:45 <br>
                 正式開始時間：14:00 <br>
@@ -35,7 +40,7 @@
             </p>
         </li>            
         <li>線上連結：
-            <p style="font-weight: bolder;">
+            <p>
                 ZOOM會議ID：946 3186 5789 <br>
                 ZOOM 會議室密碼： 264731 <br>
                 ZOOM 加入姓名(顯示名稱)：  
