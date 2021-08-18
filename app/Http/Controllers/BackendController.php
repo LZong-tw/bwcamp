@@ -498,11 +498,14 @@ class BackendController extends Controller {
         ->join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')
         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
         ->where('batch_id', $batch_id)->where('group', $group)
-        ->where(function($query){
-            if($this->has_attend_data){
+        ->where(function($query) use ($request){
+            if($this->has_attend_data && !$request->showAttend){
                 $query->where('is_attend', 1);
             }
-        })->get();
+        })
+        ->orderBy('group', 'asc')
+        ->orderBy('number', 'asc')
+        ->get();
         foreach($applicants as $applicant){
             if($applicant->fee > 0){
                 if($applicant->fee - $applicant->deposit <= 0){
