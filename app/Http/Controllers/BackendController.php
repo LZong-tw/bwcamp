@@ -33,7 +33,9 @@ class BackendController extends Controller {
             View::share('batch_id', $this->batch_id);
             View::share('camp_data', $this->camp_data);
             if($this->camp_data->table == 'ycamp' || $this->camp_data->table == 'acamp'){
-                $this->has_attend_data = true; 
+                if($this->camp_data->admission_confirming_end && Carbon::now()->gt($this->camp_data->admission_confirming_end)){
+                    $this->has_attend_data = true; 
+                }
             }
         }
         if($request->route()->parameter('camp_id')){
@@ -43,7 +45,9 @@ class BackendController extends Controller {
             View::share('camp_id', $this->camp_id);
             View::share('campFullData', $this->campFullData);
             if($this->campFullData->table == 'ycamp' || $this->campFullData->table == 'acamp'){
-                $this->has_attend_data = true; 
+                if($this->campFullData->admission_confirming_end && Carbon::now()->gt($this->campFullData->admission_confirming_end)){
+                    $this->has_attend_data = true; 
+                }
             }
         }
         if(\Str::contains(url()->current(), "campManage")){
