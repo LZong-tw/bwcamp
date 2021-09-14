@@ -8,15 +8,17 @@
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }}</h4>
     </div>
-    <div class="card">
-        <div class="card-header">
-            <h2>研習證明下載</h2>
+    @if($applicant->is_admitted)
+        <div class="card">
+            <div class="card-header">
+                <h2>研習證明下載</h2>
+            </div>
+            <div class="card-body">
+                <a href="https://bwcamp.bwfoce.org/downloads/ycamp2021/{{ $applicant->group }}{{ $applicant->number }}{{ $applicant->id }}.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-success">下載</a>
+            </div>
         </div>
-        <div class="card-body">
-            <a href="https://bwcamp.bwfoce.org/downloads/ycamp2021/{{ $applicant->group }}{{ $applicant->number }}{{ $applicant->id }}.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-success">下載</a>
-        </div>
-    </div>
-    <br>
+        <br>
+    @endif
     <div class="card">
         <div class="card-header">
             錄取查詢
