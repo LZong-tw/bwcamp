@@ -14,7 +14,7 @@
                 <h2>研習證明下載</h2>
             </div>
             <div class="card-body">
-                <a href="https://bwcamp.bwfoce.org/downloads/ycamp2021/{{ $applicant->group }}{{ $applicant->number }}{{ $applicant->id }}.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-success">下載</a>
+                <a href="https://bwcamp.bwfoce.org/downloads/ycamp2021/{{ $applicant->group }}{{ $applicant->number }}{{ $applicant->applicant_id }}.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-success">下載</a>
             </div>
         </div>
         <br>
