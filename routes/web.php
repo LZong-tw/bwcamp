@@ -18,7 +18,8 @@ use App\Http\Controllers\AdminController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $camps = \App\Models\Batch::with('camp')->where('batch_start', '>', now())->groupBy('camp_id')->get();
+    return view('welcome', compact('camps'));
 });
 
 /***********************Auth routes******************************************/
