@@ -83,9 +83,10 @@
                 <div class="title m-b-md">
                     {{ config('app.name', 'Laravel') }}
                 </div>
+                <div class="">報名中營隊</div>
                 <div class="links">
                     @foreach ($camps as $camp)
-                        <a href="">{{ $camp->name }}</a>
+                        <a href="camp/{{ $camp->batch_id }}/registration">{{ $camp->abbreviation }}</a>
                     @endforeach
                 </div>
             </div>
