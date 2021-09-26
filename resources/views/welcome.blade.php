@@ -8,7 +8,7 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-
+        <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
         <!-- Styles -->
         <style>
             html, body {
@@ -83,8 +83,8 @@
                 <div class="title m-b-md">
                     {{ config('app.name', 'Laravel') }}
                 </div>
-                <div class="">報名中營隊</div>
-                <div class="links">
+                <div class="h3">目前營隊</div>
+                <div class="links h4">
                     @foreach ($camps as $camp)
                         <a href="camp/{{ $camp->batch_id }}/registration">{{ $camp->abbreviation }}</a>
                     @endforeach
