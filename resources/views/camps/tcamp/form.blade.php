@@ -11,6 +11,20 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 @section('content')
     @include('partials.schools_script')
     @include('partials.counties_areas_script')
+    <div class="alert alert-warning">
+        <h4>教師營活動宗旨</h4>
+        <ol>
+            <li>建立正確的教育理念，體會教育工作的價值。</li>
+            <li>豐富教師的心靈涵養，探索真實快樂的方法。 </li>
+            <li>結識志同道合的夥伴，相互增長教學的動能。</li>
+            <li>符合 108 課綱精神，提供教師轉化實踐策略。</li>
+        </ol>
+        <h5>報名期間：110年11月1日(一) 起至110年12月10日(三)止</h5>
+        <h5>研習時數：凡參加研習者依規定核發研習時數或數位研習證書。</h5>
+        <h5>費用：1200元</h5>
+        <h6>主辦單位：財團法人福智文教基金會</h6>
+        <h6>協辦單位：福智學校財團法人、基隆市七堵區瑪陵國民小學、屏東縣立大路關國民中小學</h6>
+    </div>
     <div class='alert alert-info' role='alert'>
         您在本網站所填寫的個人資料，僅用於此次教師營的報名及活動聯絡之用。
     </div>

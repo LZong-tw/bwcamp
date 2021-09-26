@@ -373,4 +373,8 @@ class CampController extends Controller
         $applicant = $this->applicantService->checkPaymentStatus($applicant);
         return redirect(route('showadmit', ['batch_id' => $applicant->batch_id, 'sn' => $applicant->id, 'name' => $applicant->name]));
     }
+
+    public function showCampPayment() {
+        return view('camps.' . $this->camp_data->table . '.payment');
+    }
 }
