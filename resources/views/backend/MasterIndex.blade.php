@@ -14,6 +14,6 @@
     <h2>{{ config('app.name', 'Laravel') }}</h2>
     <p>請選擇營隊進行作業：</p>
     @foreach ($camps as $camp)
-        <a href="{{ route("campIndex", $camp->id) }}">{{ $camp->fullName }}({{ $camp->abbreviation }})</a><br><br>
+        <a href="{{ route("campIndex", $camp->id) }}" @if($camp->test) style="color: #FFCFE2" @endif>{{ $camp->fullName }}({{ $camp->abbreviation }})</a><br><br>
     @endforeach
 @endsection

@@ -44,9 +44,9 @@ class CheckInController extends Controller {
             $group = substr($request->query_str, 0, 3);
             $number = substr($request->query_str, 3, 2);
         }
-        $constrain = function($query){ $query->where('camps.id', $this->camp->id); };
-        $applicants = Applicant::with(['batch', 'batch.camp' => $constrain])
-            ->whereHas('batch.camp', $constrain)
+        $constraint = function($query){ $query->where('camps.id', $this->camp->id); };
+        $applicants = Applicant::with(['batch', 'batch.camp' => $constraint])
+            ->whereHas('batch.camp', $constraint)
             ->where('is_admitted', 1)
             ->where(function($query){
                 if($this->has_attend_data){

@@ -85,9 +85,11 @@
                 </div>
                 <div class="h3">目前營隊</div>
                 <div class="links h4">
-                    @foreach ($camps as $camp)
+                    @forelse ($camps as $camp)
                         <a href="camp/{{ $camp->batch_id }}/registration">{{ $camp->abbreviation }}</a>
-                    @endforeach
+                    @empty
+                        <a>無</a>
+                    @endforelse
                 </div>
             </div>
         </div>

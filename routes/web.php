@@ -18,11 +18,13 @@ use App\Http\Controllers\AdminController;
 */
 
 Route::get('/', function () {
-    $campsByBatch = \App\Models\Batch::with('camp')->where('batch_start', '>', now())->groupBy('camp_id')->get();
+    $campsByBatch = \App\Models\Batch::with(['camp' => function($query){ $query->where('test', 0); }])->where('batch_start', '>', now())->groupBy('camp_id')->get();
     $camps = array();
     foreach($campsByBatch as &$camp){
-        $camp->camp->batch_id = $camp->id;
-        array_push($camps, $camp->camp);
+        if($camp->camp){
+            $camp->camp->batch_id = $camp->id;
+            array_push($camps, $camp->camp);
+        }
     }
     $camps = collect($camps);
     return view('welcome', compact('camps'));
