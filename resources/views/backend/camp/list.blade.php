@@ -41,7 +41,7 @@
             <th>動作</th>
         </tr>
         @foreach($camps as $camp)
-            <tr>
+            <tr @if($camp->test) style="background: #83BFF3; color:white;" @endif>
                 <td>{{ $camp->id }}</td>
                 <td>{{ $camp->fullName }}</td>
                 <td>{{ $camp->abbreviation }}</td>

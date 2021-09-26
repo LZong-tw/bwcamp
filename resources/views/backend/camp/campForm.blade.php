@@ -28,6 +28,13 @@
                 <input type="text" name="abbreviation" id="" class='form-control' required value="{{ $camp->abbreviation ?? "" }}">
             </div>
         </div>
+        <div class='row form-group required'>
+            <label for='inputName' class='col-md-1 control-label'>測試用</label>
+            <div class='col-md-6'>
+                <input type="radio" name="test" id="" required value="0" @if(isset($camp->test) && !$camp->test) checked @endif> 否
+                <input type="radio" name="test" id="" required value="1" @if(isset($camp->test) && $camp->test) checked @endif> 是
+            </div>
+        </div>
         <div class='row form-group'>
             <label for='inputName' class='col-md-1 control-label'>網站網址</label>
             <div class='col-md-6'>
