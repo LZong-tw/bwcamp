@@ -34,17 +34,15 @@ if (process.env.NODE_ENV == "development") {
 // );
 
 import isEducatingSection from "./components/tcamp/IsEducatingSection.vue";
-import notEducatingSection from "./components/tcamp/NotEducatingSection.vue";
 
 const is_educating = Vue.createApp({
     components: { 
-        isEducatingSection,
-        notEducatingSection,
+        isEducatingSection
     },
 });
 
 window.onload = () => {
-    if ("#is-educating-section") {
+    if ($("#is-educating-section")) {
         is_educating.mount("#is-educating-section");
     }
 };
