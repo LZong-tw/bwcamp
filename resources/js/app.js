@@ -4,10 +4,14 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+import "./bootstrap";
 
-window.Vue = require('vue');
+window.Vue = require("vue").default;
+Vue.config.compilerOptions.whitespace = "condense";
 
+if (process.env.NODE_ENV == "development") {
+    Vue.__VUE_PROD_DEVTOOLS__ = true;
+}
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -16,10 +20,30 @@ window.Vue = require('vue');
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
 
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+// const files = require.context("./", true, /\.vue$/i);
+// files
+//     .keys()
+//     .map((key) =>
+//         Vue.component(key.split("/").pop().split(".")[0], files(key).default)
+//     );
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+// Vue2
+// Vue.component(
+//     "is-educatinng-section",
+//     require("./components/IsEducatingSection.vue").default
+// );
+
+import isEducatingSection from "./components/IsEducatingSection.vue";
+
+const is_educating = Vue.createApp({
+    components: { isEducatingSection },
+});
+
+window.onload = () => {
+    if ("#is-educating-section") {
+        is_educating.mount("#is-educating-section");
+    }
+};
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -27,6 +51,6 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const app = new Vue({
-    el: '#app',
-});
+// const app = new Vue({
+//     el: '#app',
+// });

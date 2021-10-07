@@ -1,4 +1,6 @@
-const mix = require('laravel-mix');
+const mix = require("laravel-mix");
+const path = require("path");
+const webpack = require("webpack");
 
 /*
  |--------------------------------------------------------------------------
@@ -11,5 +13,41 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css');
+mix.js("resources/js/app.js", "public/js")
+    .vue()
+    .sass("resources/sass/app.scss", "public/css")
+    .override((config) => {
+        delete config.watchOptions;
+        if (config.compilerOptions) {
+            config.compilerOptions.whitespace;
+        }
+    })
+    .webpackConfig({
+        resolve: {
+            alias: {
+                "@": path.resolve(__dirname, "resources/sass"),
+                vue: "@vue/compat",
+            },
+        },
+        module: {
+            rules: [
+                {
+                    test: /\.vue$/,
+                    loader: "vue-loader",
+                    options: {
+                        compilerOptions: {
+                            compatConfig: {
+                                MODE: 2,
+                            },
+                        },
+                    },
+                },
+            ],
+        },
+        // Not working.
+        // plugins: [
+        //     new webpack.DefinePlugin({
+        //         __VUE_PROD_DEVTOOLS__: true,
+        //     }),
+        // ],
+    });
