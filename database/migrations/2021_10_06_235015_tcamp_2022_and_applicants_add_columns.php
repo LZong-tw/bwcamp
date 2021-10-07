@@ -15,11 +15,15 @@ class Tcamp2022AndApplicantsAddColumns extends Migration
     {
         Schema::table('tcamp', function (Blueprint $table) {
             //
-            $table->addColumn('workshop_credit_type')->after('has_license')->nullable();
+            $table->string('workshop_credit_type')->after('has_license')->nullable();
+            $table->string('never_attend_any_stay_over_tcamps')->after('workshop_credit_type')->nullable();
+            $table->string('info_source')->after('never_attend_any_stay_over_tcamps')->nullable();
+            $table->string('interesting')->after('info_source')->nullable();
+            
         });
         Schema::table('applicants', function (Blueprint $table) {
             //
-            $table->addColumn('age_range')->after('birthday')->nullable();
+            $table->string('age_range')->after('birthday')->nullable();
         });
     }
 
@@ -33,6 +37,9 @@ class Tcamp2022AndApplicantsAddColumns extends Migration
         Schema::table('tcamp', function (Blueprint $table) {
             //
             $table->dropColumn('workshop_credit_type');
+            $table->dropColumn('never_attend_any_stay_over_tcamps');            
+            $table->dropColumn('info_source');            
+            $table->dropColumn('interesting');            
         });
         Schema::table('applicants', function (Blueprint $table) {
             //

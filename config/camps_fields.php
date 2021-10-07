@@ -17,9 +17,6 @@ return [
         "region" => "區域", 
         "name" => "姓名", 
         "gender" => "生理性別", 
-        "birthyear" => "出生年", 
-        "birthmonth" => "出生月", 
-        "birthday" => "出生日", 
         "idno" => "身分證字號", 
         "is_foreigner" => "海外身分", 
         "is_allow_notified" => "願意收到電子報", 
@@ -48,6 +45,9 @@ return [
     ],
 
     'acamp' => [
+        "birthyear" => "出生年", 
+        "birthmonth" => "出生月", 
+        "birthday" => "出生日", 
         "unit" => "服務單位", 
         "unit_county" => "服務地點-縣市", 
         "unit_subarea" => "服務地點-區",
@@ -74,24 +74,32 @@ return [
     ],
 
     'tcamp' => [
+        "age_range" => "年齡層",
         // "is_attend" => "回覆參加", 
         // "nationality" => "國籍", 
         "is_educating" => "是否在教育單位任職？", 
-        "has_license" => "是否有教師證", 
+        // "has_license" => "是否有教師證", 
         // "years_teached" => "教學年資", 
-        "education" => "學歷", 
+        "education" => "最高學歷", 
         "school_or_course" => "任職機關/學程", 
         "subject_teaches" => "任教科系/科目", 
         "title" => "職稱", 
         "unit_county" => "服務單位所在縣市", 
         // "unit_district" => "服務單位所在行政區",
         "unit" => "服務單位", 
-        // "is_blisswisdom" => "參加過福智的活動",
-        "blisswisdom_type" => "參加過的福智活動",
-        "blisswisdom_type_complement" => "參加過的福智活動註記"
+        "is_blisswisdom" => "參加過福智的活動",
+        // "blisswisdom_type" => "參加過的福智活動",
+        // "blisswisdom_type_complement" => "參加過的福智活動註記",
+        "workshop_credit_type" => "研習時數類型",
+        "never_attend_any_stay_over_tcamps" => "未曾參加過住宿型福智教師生命成長營",
+        "info_source" => "得知管道",
+        "interesting" => "有興趣的議題",
     ],
 
     'ecamp' => [
+        "birthyear" => "出生年", 
+        "birthmonth" => "出生月", 
+        "birthday" => "出生日", 
         "belief" => "宗教信仰", 
         "education" => "最高學歷", 
         "unit" => "服務單位", 
@@ -107,6 +115,9 @@ return [
     ],
 
     'hcamp' => [
+        "birthyear" => "出生年", 
+        "birthmonth" => "出生月", 
+        "birthday" => "出生日", 
         "education" => "報名者學程", 
         "special_condition" => "特殊狀況", 
         "traffic_depart" => "去程交通", 
@@ -120,6 +131,9 @@ return [
     ],
 
     'ycamp' => [
+        "birthyear" => "出生年", 
+        "birthmonth" => "出生月", 
+        "birthday" => "出生日", 
         "nationality" => "國籍", 
         "is_attend" => "回覆參加", 
         "school" => "就讀學校",

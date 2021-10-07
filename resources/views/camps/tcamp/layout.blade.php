@@ -74,7 +74,7 @@
         </div>
     </nav>
 @endif
-<div class=container>
+<div class="container w-full">
     @yield('content')
     <!-- Site footer -->
     <footer class='footer'>
