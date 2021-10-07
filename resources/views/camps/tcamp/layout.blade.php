@@ -13,19 +13,20 @@
     {{-- <link rel='icon' href='/camp/favicon.ico'> --}}
     <title> {{ $camp_data->fullName }} </title>
     <!-- Bootstrap core CSS -->
-    <link href='{{ asset('css/bootstrap.min.css') }}' rel='stylesheet'>
+    <script src='{{ mix('js/app.js') }}'></script>
+    <link href='{{ asset('css/app.css') }}' rel='stylesheet'>
+    {{-- <link href='{{ asset('css/bootstrap.min.css') }}' rel='stylesheet'> --}}
     <!-- Custom styles for this template -->
     <link href='{{ asset('css/camp.css') }}' rel='stylesheet'>
     <!-- jQuery library-->
-    <script src='{{ asset('js/jquery-3.5.1.min.js') }}'></script>
+    {{-- <script src='{{ asset('js/jquery-3.5.1.min.js') }}'></script> --}}
     <script src="{{ asset('js/popper_1.12.9.min.js') }}"></script>
     <!-- Bootstrap core JS -->
-    <script src='{{ asset('js/bootstrap.bundle.min.js') }}'></script>
+    {{-- <script src='{{ asset('js/bootstrap.bundle.min.js') }}'></script> --}}
     <!-- Bootstrap confirmation JS -->
     <script src='{{ asset('js/bootstrap-confirmation.min.js') }}'></script>
     <script src='{{ asset('js/bootstrap-validate.js') }}'></script>
 </head>
-
 <BODY>
 <div id='fb-root'></div>
 @if(isset($isBackend))
@@ -73,7 +74,7 @@
         </div>
     </nav>
 @endif
-<div class=container>
+<div class="container w-full">
     @yield('content')
     <!-- Site footer -->
     <footer class='footer'>
