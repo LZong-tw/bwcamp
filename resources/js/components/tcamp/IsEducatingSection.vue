@@ -42,8 +42,12 @@
 </template>
 <script>
 import rowIsEducating from "./RowIsEducating.vue";
+import rowNotEducating from "./RowNotEducating.vue";
 export default {
-    components: { rowIsEducating },
+    components: {
+        rowIsEducating,
+        rowNotEducating,
+    },
     data() {
         return {
             is_educating: null,
@@ -57,9 +61,6 @@ export default {
                 return "row-Not-Educating";
             }
         },
-    },
-    methods: {
-        
     },
     mounted() {
         console.log("Mounted.");

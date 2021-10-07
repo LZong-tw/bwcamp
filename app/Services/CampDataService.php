@@ -62,6 +62,16 @@ class CampDataService
                 'unit_subarea' => \Str::substr($request->unit_address, 3)
             ]);
         }
+        if(isset($request->info_source)) {
+            $request->merge([
+                'info_source' => implode("||/", $request->info_source)
+            ]);
+        }
+        if(isset($request->interesting)) {
+            $request->merge([
+                'interesting' => implode("||/", $request->interesting)
+            ]);
+        }
 
         return $request;
     }
