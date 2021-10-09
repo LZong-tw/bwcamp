@@ -27,7 +27,19 @@
                     value=教育局/處 class="officials"
                     v-model="school_or_course"> 教育局/處
                     <div class="invalid-feedback crumb">&nbsp;</div>
-                </label>                
+                </label>
+                <label class="radio-inline">
+                    <input
+                        type="radio"
+                        required
+                        name="school_or_course"
+                        value="大專院校"
+                        class="universities"
+                        v-model="school_or_course"
+                    />
+                    大專院校
+                    <div class="invalid-feedback crumb">&nbsp;</div>
+                </label>
                 <label class="radio-inline">
                     <input
                         type="radio"
@@ -110,7 +122,7 @@
                         name="title"
                         class="form-control"
                         id="title"
-                        :value="title"
+                        v-model="title"
                         v-bind:disabled="title === null"
                     />
                     <div class="invalid-feedback crumb">請填寫職稱</div>
@@ -121,7 +133,7 @@
             <label
                 for="inputSubjectTeaches"
                 class="col-md-2 control-label text-md-right"
-                >任教科目</label
+                >任教科系/任教科目</label
             >
             <div class="col-md-10">
                 <input
@@ -133,7 +145,7 @@
                     id="inputSubjectTeaches"
                 />
                 <div class="invalid-feedback crumb">
-                    請填寫任教科目
+                    請填寫任教科系/任教科目
                 </div>
             </div>
         </div>
@@ -166,9 +178,31 @@ export default {
                 <input type='radio' class='compulsories' value='教師' v-model='this.title_s' @click='titleSend'>教師
                 <input type='radio' class='compulsories' value='教師兼行政' v-model='this.title_s' @click='titleSend'>教師兼行政
                 <input type='radio' class='compulsories' value='代理教師' v-model='this.title_s' @click='titleSend'>代理教師<br>
-                <input type='radio' class='compulsories' value='兼課老師，兼職時數：' v-model='this.title_s' @click='titleSend'>兼課老師
+                <input type='radio' class='compulsories' value='兼課老師' v-model='this.title_s' @click='titleSend'>兼課老師
                 <input type='radio' class='compulsories' value='職員' v-model='this.title_s' @click='titleSend'>職員
                 <input type='radio' class='compulsories' value='' v-model='this.title_s' @click='titleSend'>其他(請於下方填寫)
+            </div>`,
+        },
+        universities: {
+            emits: ["titleSelected"],
+            data() {
+                return {
+                    title_s: null,
+                };
+            },
+            methods: {
+                titleSend(e) {
+                    this.$emit("titleSelected", this.title_s);
+                },
+            },
+            template: `<div class="titles universities">
+                <input type="radio" class="universities" value="校長" v-model='this.title_s' @click='titleSend'>校長
+                <input type="radio" class="universities" value="教授" v-model='this.title_s' @click='titleSend'>教授
+                <input type="radio" class="universities" value="副教授" v-model='this.title_s' @click='titleSend'>副教授
+                <input type="radio" class="universities" value="助理教授" v-model='this.title_s' @click='titleSend'>助理教授
+                <input type="radio" class="universities" value="講師" v-model='this.title_s' @click='titleSend'>講師<br>
+                <input type="radio" class="universities" value="職員" v-model='this.title_s' @click='titleSend'>職員
+                <input type="radio" class="universities" value="" v-model='this.title_s' @click='titleSend'>其他(請於下方填寫)
             </div>`,
         },
         kindergartens: {
@@ -197,7 +231,9 @@ export default {
     },
     computed: {
         toggleTitleComponent() {
-            if (this.school_or_course == "幼教") {
+            if (this.school_or_course == "大專院校") {
+                return "universities";
+            } else if (this.school_or_course == "幼教") {
                 return "kindergartens";
             } else {
                 return "officials_and_compulsories";

@@ -6,7 +6,7 @@
             <label
                 for="inputIsEducating"
                 class="col-md-2 control-label text-md-right"
-                >是否現任在學校或教育單位任職</label
+                >是否在學校或教育單位任職</label
             >
             <div class="col-md-10">
                 <label class="radio-inline">
@@ -20,7 +20,7 @@
                     />
                     是（請續填下方任職資料）
                     <div class="invalid-feedback">
-                        請勾選是否現任在學校或教育單位任職
+                        請勾選是否在學校或教育單位任職
                     </div>
                 </label>
                 <label class="radio-inline">
