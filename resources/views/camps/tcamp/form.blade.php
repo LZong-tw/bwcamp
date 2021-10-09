@@ -186,6 +186,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <div class="col-md-3">
                     <select required class='form-control' name='workshop_credit_type' placeholder=''>
                         <option value="">請選擇</option>
+                        <option value="不申請">不申請</option>
                         <option value="一般教師研習時數">一般教師研習時數</option>
                         <option value="公務員研習時數">公務員研習時數</option>
                         <option value="基金會研習數位證明">基金會研習數位證明</option>
@@ -263,7 +264,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>  
     </div>
     <p class='form-control-static text-danger'>連絡方式</p>
-    <p class="form-control-static text-danger">＊因需寄發教材資料，請務必填寫正確</p>
+    <p class="form-control-static text-danger">＊因需寄發教材資料及發票，請務必填寫正確</p>
     <div class='row form-group required'>
         <label for='inputCell' class='col-md-2 control-label text-md-right'>行動電話</label>
         <div class='col-md-10'>

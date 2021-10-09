@@ -20442,21 +20442,7 @@ __webpack_require__.r(__webpack_exports__);
           this.$emit("titleSelected", e.target.value);
         }
       },
-      template: "<div class='titles compulsories'>\n                <input type='radio' class='compulsories' value='\u6821\u9577' v-model='this.title_s' @click='titleSend'>\u6821\u9577\n                <input type='radio' class='compulsories' value='\u4E3B\u4EFB' v-model='this.title_s' @click='titleSend'>\u4E3B\u4EFB\n                <input type='radio' class='compulsories' value='\u6559\u5E2B' v-model='this.title_s' @click='titleSend'>\u6559\u5E2B\n                <input type='radio' class='compulsories' value='\u6559\u5E2B\u517C\u884C\u653F' v-model='this.title_s' @click='titleSend'>\u6559\u5E2B\u517C\u884C\u653F\n                <input type='radio' class='compulsories' value='\u4EE3\u7406\u6559\u5E2B' v-model='this.title_s' @click='titleSend'>\u4EE3\u7406\u6559\u5E2B<br>\n                <input type='radio' class='compulsories' value='\u517C\u8AB2\u8001\u5E2B' v-model='this.title_s' @click='titleSend'>\u517C\u8AB2\u8001\u5E2B\n                <input type='radio' class='compulsories' value='\u8077\u54E1' v-model='this.title_s' @click='titleSend'>\u8077\u54E1\n                <input type='radio' class='compulsories' value='' v-model='this.title_s' @click='titleSend'>\u5176\u4ED6(\u8ACB\u65BC\u4E0B\u65B9\u586B\u5BEB)\n            </div>"
-    },
-    universities: {
-      emits: ["titleSelected"],
-      data: function data() {
-        return {
-          title_s: null
-        };
-      },
-      methods: {
-        titleSend: function titleSend(e) {
-          this.$emit("titleSelected", this.title_s);
-        }
-      },
-      template: "<div class=\"titles universities\">\n                <input type=\"radio\" class=\"universities\" value=\"\u6821\u9577\" v-model='this.title_s' @click='titleSend'>\u6821\u9577\n                <input type=\"radio\" class=\"universities\" value=\"\u6559\u6388\" v-model='this.title_s' @click='titleSend'>\u6559\u6388\n                <input type=\"radio\" class=\"universities\" value=\"\u526F\u6559\u6388\" v-model='this.title_s' @click='titleSend'>\u526F\u6559\u6388\n                <input type=\"radio\" class=\"universities\" value=\"\u52A9\u7406\u6559\u6388\" v-model='this.title_s' @click='titleSend'>\u52A9\u7406\u6559\u6388\n                <input type=\"radio\" class=\"universities\" value=\"\u8B1B\u5E2B\" v-model='this.title_s' @click='titleSend'>\u8B1B\u5E2B<br>\n                <input type=\"radio\" class=\"universities\" value=\"\u8077\u54E1\" v-model='this.title_s' @click='titleSend'>\u8077\u54E1\n                <input type=\"radio\" class=\"universities\" value=\"\" v-model='this.title_s' @click='titleSend'>\u5176\u4ED6(\u8ACB\u65BC\u4E0B\u65B9\u586B\u5BEB)\n            </div>"
+      template: "<div class='titles compulsories'>\n                <input type='radio' class='compulsories' value='\u6821\u9577' v-model='this.title_s' @click='titleSend'>\u6821\u9577\n                <input type='radio' class='compulsories' value='\u4E3B\u4EFB' v-model='this.title_s' @click='titleSend'>\u4E3B\u4EFB\n                <input type='radio' class='compulsories' value='\u6559\u5E2B' v-model='this.title_s' @click='titleSend'>\u6559\u5E2B\n                <input type='radio' class='compulsories' value='\u6559\u5E2B\u517C\u884C\u653F' v-model='this.title_s' @click='titleSend'>\u6559\u5E2B\u517C\u884C\u653F\n                <input type='radio' class='compulsories' value='\u4EE3\u7406\u6559\u5E2B' v-model='this.title_s' @click='titleSend'>\u4EE3\u7406\u6559\u5E2B<br>\n                <input type='radio' class='compulsories' value='\u517C\u8AB2\u8001\u5E2B\uFF0C\u517C\u8077\u6642\u6578\uFF1A' v-model='this.title_s' @click='titleSend'>\u517C\u8AB2\u8001\u5E2B\n                <input type='radio' class='compulsories' value='\u8077\u54E1' v-model='this.title_s' @click='titleSend'>\u8077\u54E1\n                <input type='radio' class='compulsories' value='' v-model='this.title_s' @click='titleSend'>\u5176\u4ED6(\u8ACB\u65BC\u4E0B\u65B9\u586B\u5BEB)\n            </div>"
     },
     kindergartens: {
       emits: ["titleSelected"],
@@ -20475,9 +20461,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     toggleTitleComponent: function toggleTitleComponent() {
-      if (this.school_or_course == "大專院校") {
-        return "universities";
-      } else if (this.school_or_course == "幼教") {
+      if (this.school_or_course == "幼教") {
         return "kindergartens";
       } else {
         return "officials_and_compulsories";
@@ -20489,8 +20473,7 @@ __webpack_require__.r(__webpack_exports__);
       this.title = e ? e : "";
     }
   },
-  mounted: function mounted() {
-    console.log("Mounted.");
+  mounted: function mounted() {// console.log("Mounted.");
   }
 });
 
@@ -20516,7 +20499,7 @@ var _hoisted_1 = {
 var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "for": "inputIsEducating",
   "class": "col-md-2 control-label text-md-right"
-}, "是否在學校或教育單位任職", -1
+}, "是否現任在學校或教育單位任職", -1
 /* HOISTED */
 );
 
@@ -20531,7 +20514,7 @@ var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNod
 
 var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "invalid-feedback"
-}, " 請勾選是否在學校或教育單位任職 ", -1
+}, " 請勾選是否現任在學校或教育單位任職 ", -1
 /* HOISTED */
 );
 
@@ -20633,7 +20616,7 @@ var _hoisted_11 = {
   "class": "radio-inline"
 };
 
-var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" 大專院校 ");
+var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" 高中職 ");
 
 var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "invalid-feedback crumb"
@@ -20645,7 +20628,7 @@ var _hoisted_14 = {
   "class": "radio-inline"
 };
 
-var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" 高中職 ");
+var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" 國中 ");
 
 var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "invalid-feedback crumb"
@@ -20657,7 +20640,7 @@ var _hoisted_17 = {
   "class": "radio-inline"
 };
 
-var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" 國中 ");
+var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" 國小 ");
 
 var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "invalid-feedback crumb"
@@ -20669,7 +20652,7 @@ var _hoisted_20 = {
   "class": "radio-inline"
 };
 
-var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" 國小 ");
+var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" 幼教 ");
 
 var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "invalid-feedback crumb"
@@ -20678,32 +20661,20 @@ var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 );
 
 var _hoisted_23 = {
-  "class": "radio-inline"
-};
-
-var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" 幼教 ");
-
-var _hoisted_25 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "invalid-feedback crumb"
-}, " ", -1
-/* HOISTED */
-);
-
-var _hoisted_26 = {
   "class": "row form-group required"
 };
 
-var _hoisted_27 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "for": "inputSubjectTeaches",
   "class": "col-md-2 control-label text-md-right"
 }, "職稱", -1
 /* HOISTED */
 );
 
-var _hoisted_28 = {
+var _hoisted_25 = {
   "class": "col-md-10"
 };
-var _hoisted_29 = {
+var _hoisted_26 = {
   key: 0,
   id: "tip",
   style: {
@@ -20711,7 +20682,7 @@ var _hoisted_29 = {
     "font-weight": "bold"
   }
 };
-var _hoisted_30 = {
+var _hoisted_27 = {
   key: 1,
   id: "tip",
   style: {
@@ -20719,18 +20690,18 @@ var _hoisted_30 = {
     "font-weight": "bold"
   }
 };
-var _hoisted_31 = {
+var _hoisted_28 = {
   key: 2
 };
-var _hoisted_32 = ["disabled"];
+var _hoisted_29 = ["value", "disabled"];
 
-var _hoisted_33 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_30 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "invalid-feedback crumb"
 }, "請填寫職稱", -1
 /* HOISTED */
 );
 
-var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"row form-group required\"><label for=\"inputSubjectTeaches\" class=\"col-md-2 control-label text-md-right\">任教科系/任教科目</label><div class=\"col-md-10\"><input type=\"text\" required name=\"subject_teaches\" value=\"\" class=\"form-control\" id=\"inputSubjectTeaches\"><div class=\"invalid-feedback crumb\"> 請填寫任教科系/任教科目 </div></div></div>", 1);
+var _hoisted_31 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"row form-group required\"><label for=\"inputSubjectTeaches\" class=\"col-md-2 control-label text-md-right\">任教科目</label><div class=\"col-md-10\"><input type=\"text\" required name=\"subject_teaches\" value=\"\" class=\"form-control\" id=\"inputSubjectTeaches\"><div class=\"invalid-feedback crumb\"> 請填寫任教科目 </div></div></div>", 1);
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -20759,8 +20730,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "radio",
     required: "",
     name: "school_or_course",
-    value: "大專院校",
-    "class": "universities",
+    value: "高中職",
+    "class": "compulsories",
     "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
       return $data.school_or_course = $event;
     })
@@ -20770,7 +20741,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "radio",
     required: "",
     name: "school_or_course",
-    value: "高中職",
+    value: "國中",
     "class": "compulsories",
     "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
       return $data.school_or_course = $event;
@@ -20781,7 +20752,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "radio",
     required: "",
     name: "school_or_course",
-    value: "國中",
+    value: "國小",
     "class": "compulsories",
     "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
       return $data.school_or_course = $event;
@@ -20792,41 +20763,28 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "radio",
     required: "",
     name: "school_or_course",
-    value: "國小",
+    value: "幼教",
     "class": "compulsories",
     "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
       return $data.school_or_course = $event;
     })
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.school_or_course]]), _hoisted_21, _hoisted_22]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    type: "radio",
-    required: "",
-    name: "school_or_course",
-    value: "幼教",
-    "class": "compulsories",
-    "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
-      return $data.school_or_course = $event;
-    })
-  }, null, 512
-  /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.school_or_course]]), _hoisted_24, _hoisted_25])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [_hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [$data.title === null && $data.school_or_course === null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_29, " 請先選擇任教機關/任教學程 ")) : $data.title === null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_30, " 再選擇職稱，並於文字框做補充 ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.school_or_course !== null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_31, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)((0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDynamicComponent)($options.toggleTitleComponent), {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.school_or_course]]), _hoisted_21, _hoisted_22])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [$data.title === null && $data.school_or_course === null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_26, " 請先選擇任教機關/任教學程 ")) : $data.title === null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, " 再選擇職稱，並於文字框做補充 ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.school_or_course !== null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_28, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)((0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDynamicComponent)($options.toggleTitleComponent), {
     onTitleSelected: $options.receivesTitle
   }, null, 8
   /* PROPS */
-  , ["onTitleSelected"])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  , ["onTitleSelected"])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
     required: "",
     name: "title",
     "class": "form-control",
     id: "title",
-    "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
-      return $data.title = $event;
-    }),
+    value: $data.title,
     disabled: $data.title === null
   }, null, 8
   /* PROPS */
-  , _hoisted_32), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.title]]), _hoisted_33])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), _hoisted_34]);
+  , _hoisted_29), _hoisted_30])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), _hoisted_31]);
 }
 
 /***/ }),
