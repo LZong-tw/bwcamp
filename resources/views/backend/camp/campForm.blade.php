@@ -62,6 +62,12 @@
             </div>
         </div>
         <div class='row form-group required'>
+            <label for='inputName' class='col-md-1 control-label'>Variant</label>
+            <div class='col-md-6'>
+                <input type="text" name="variant" id="" value="{{ $camp->variant ?? "" }}">
+            </div>
+        </div>
+        <div class='row form-group required'>
             <label for='inputName' class='col-md-1 control-label'>報名開始日</label>
             <div class='col-md-6'>
                 <input type="date" name="registration_start" id="" class='form-control' required value="{{ $camp->registration_start ?? "" }}">
