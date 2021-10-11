@@ -23,6 +23,7 @@
             <th>網站網址</th>
             <th>圖示</th>
             <th>資料表名稱</th>
+            <th>Variant</th>
             <th>報名開始日</th>
             <th>報名結束日</th>
             <th>錄取公佈日</th>
@@ -48,6 +49,7 @@
                 <td><a href="{{ $camp->site_url }}" target="_blank">{{ $camp->site_url }}</a></td>
                 <td>{{ $camp->icon }}</td>
                 <td>{{ $camp->table }}</td>
+                <td>{{ $camp->variant }}</td>
                 <td>{{ $camp->registration_start }}</td>
                 <td>{{ $camp->registration_end }}</td>
                 <td>{{ $camp->admission_announcing_date }}</td>
