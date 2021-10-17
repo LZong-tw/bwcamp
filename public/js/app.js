@@ -20479,6 +20479,129 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0]!./resources/js/components/utcamp/RowIsTaichung.vue?vue&type=script&lang=js":
+/*!*******************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0]!./resources/js/components/utcamp/RowIsTaichung.vue?vue&type=script&lang=js ***!
+  \*******************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      school_or_course: null,
+      title: null
+    };
+  },
+  components: {
+    officials_and_compulsories: {
+      emits: ["titleSelected"],
+      data: function data() {
+        return {
+          title_s: null
+        };
+      },
+      methods: {
+        titleSend: function titleSend(e) {
+          this.$emit("titleSelected", e.target.value);
+        }
+      },
+      template: "<div class='titles compulsories'>\n                <input type='radio' class='compulsories' value='\u6821\u9577' v-model='this.title_s' @click='titleSend'>\u6821\u9577\n                <input type='radio' class='compulsories' value='\u4E3B\u4EFB' v-model='this.title_s' @click='titleSend'>\u4E3B\u4EFB\n                <input type='radio' class='compulsories' value='\u6559\u5E2B' v-model='this.title_s' @click='titleSend'>\u6559\u5E2B\n                <input type='radio' class='compulsories' value='\u6559\u5E2B\u517C\u884C\u653F' v-model='this.title_s' @click='titleSend'>\u6559\u5E2B\u517C\u884C\u653F\n                <input type='radio' class='compulsories' value='\u4EE3\u7406\u6559\u5E2B' v-model='this.title_s' @click='titleSend'>\u4EE3\u7406\u6559\u5E2B<br>\n                <input type='radio' class='compulsories' value='\u517C\u8AB2\u8001\u5E2B' v-model='this.title_s' @click='titleSend'>\u517C\u8AB2\u8001\u5E2B\n                <input type='radio' class='compulsories' value='\u8077\u54E1' v-model='this.title_s' @click='titleSend'>\u8077\u54E1\n                <input type='radio' class='compulsories' value='' v-model='this.title_s' @click='titleSend'>\u5176\u4ED6(\u8ACB\u65BC\u4E0B\u65B9\u586B\u5BEB)\n            </div>"
+    },
+    universities: {
+      emits: ["titleSelected"],
+      data: function data() {
+        return {
+          title_s: null
+        };
+      },
+      methods: {
+        titleSend: function titleSend(e) {
+          this.$emit("titleSelected", this.title_s);
+        }
+      },
+      template: "<div class=\"titles universities\">\n                <input type=\"radio\" class=\"universities\" value=\"\u6821\u9577\" v-model='this.title_s' @click='titleSend'>\u6821\u9577\n                <input type=\"radio\" class=\"universities\" value=\"\u6559\u6388\" v-model='this.title_s' @click='titleSend'>\u6559\u6388\n                <input type=\"radio\" class=\"universities\" value=\"\u526F\u6559\u6388\" v-model='this.title_s' @click='titleSend'>\u526F\u6559\u6388\n                <input type=\"radio\" class=\"universities\" value=\"\u52A9\u7406\u6559\u6388\" v-model='this.title_s' @click='titleSend'>\u52A9\u7406\u6559\u6388\n                <input type=\"radio\" class=\"universities\" value=\"\u8B1B\u5E2B\" v-model='this.title_s' @click='titleSend'>\u8B1B\u5E2B<br>\n                <input type=\"radio\" class=\"universities\" value=\"\u8077\u54E1\" v-model='this.title_s' @click='titleSend'>\u8077\u54E1\n                <input type=\"radio\" class=\"universities\" value=\"\" v-model='this.title_s' @click='titleSend'>\u5176\u4ED6(\u8ACB\u65BC\u4E0B\u65B9\u586B\u5BEB)\n            </div>"
+    },
+    kindergartens: {
+      emits: ["titleSelected"],
+      data: function data() {
+        return {
+          title_s: null
+        };
+      },
+      methods: {
+        titleSend: function titleSend(e) {
+          this.$emit("titleSelected", this.title_s);
+        }
+      },
+      template: "<div class=\"titles kindergartens\">\n                <input type=\"radio\" class=\"kindergartens\" value=\"\u5712\u9577\" v-model='this.title_s' @click='titleSend'>\u5712\u9577\n                <input type=\"radio\" class=\"kindergartens\" value=\"\u4E3B\u4EFB\" v-model='this.title_s' @click='titleSend'>\u4E3B\u4EFB\n                <input type=\"radio\" class=\"kindergartens\" value=\"\u6559\u4FDD\u7D44\u9577\" v-model='this.title_s' @click='titleSend'>\u6559\u4FDD\u7D44\u9577\n                <input type=\"radio\" class=\"kindergartens\" value=\"\u6559\u5E2B\" v-model='this.title_s' @click='titleSend'>\u6559\u5E2B\n                <input type=\"radio\" class=\"kindergartens\" value=\"\u6559\u4FDD\u54E1\" v-model='this.title_s' @click='titleSend'>\u6559\u4FDD\u54E1<br>\n                <input type=\"radio\" class=\"kindergartens\" value=\"\u884C\u653F\" v-model='this.title_s' @click='titleSend'>\u884C\u653F\n                <input type=\"radio\" class=\"kindergartens\" value=\"\u4EE3\u7406\u4EE3\u8AB2\u6559\u5E2B\" v-model='this.title_s' @click='titleSend'>\u4EE3\u7406\u4EE3\u8AB2\u6559\u5E2B\n                <input type=\"radio\" class=\"kindergartens\" value=\"\" v-model='this.title_s' @click='titleSend'>\u5176\u4ED6(\u8ACB\u65BC\u4E0B\u65B9\u586B\u5BEB)\n            </div>"
+    }
+  },
+  computed: {
+    toggleTitleComponent: function toggleTitleComponent() {
+      if (this.school_or_course == "大專院校") {
+        return "universities";
+      } else if (this.school_or_course == "幼教") {
+        return "kindergartens";
+      } else {
+        return "officials_and_compulsories";
+      }
+    }
+  },
+  methods: {
+    receivesTitle: function receivesTitle(e) {
+      this.title = e ? e : "";
+    }
+  },
+  mounted: function mounted() {// console.log("Mounted.");
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0]!./resources/js/components/utcamp/UtcampUnitAndBatchSection.vue?vue&type=script&lang=js":
+/*!*******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0]!./resources/js/components/utcamp/UtcampUnitAndBatchSection.vue?vue&type=script&lang=js ***!
+  \*******************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _RowIsTaichung_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./RowIsTaichung.vue */ "./resources/js/components/utcamp/RowIsTaichung.vue");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    rowIsTaichung: _RowIsTaichung_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  data: function data() {
+    return {
+      selected: {
+        is_taichung: null
+      }
+    };
+  },
+  computed: {
+    toggleTaichungComponent: function toggleTaichungComponent() {
+      if (this.selected.is_taichung == 1) {
+        return "row-Is-Taichung";
+      } else {
+        return null;
+      }
+    }
+  },
+  mounted: function mounted() {// console.log("Mounted.");
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0]!./resources/js/components/tcamp/IsEducatingSection.vue?vue&type=template&id=1c90cd92":
 /*!***************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0]!./resources/js/components/tcamp/IsEducatingSection.vue?vue&type=template&id=1c90cd92 ***!
@@ -20835,6 +20958,158 @@ function render(_ctx, _cache) {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0]!./resources/js/components/utcamp/RowIsTaichung.vue?vue&type=template&id=590ddae6":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0]!./resources/js/components/utcamp/RowIsTaichung.vue?vue&type=template&id=590ddae6 ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/@vue/compat/dist/vue.esm-bundler.js");
+
+var _hoisted_1 = {
+  "class": "row form-group required"
+};
+
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "inputSubjectTeaches",
+  "class": "col-md-2 control-label text-md-right"
+}, "台中可以選場次", -1
+/* HOISTED */
+);
+
+var _hoisted_3 = {
+  "class": "col-md-10"
+};
+var _hoisted_4 = {
+  key: 0,
+  id: "tip",
+  style: {
+    "color": "red",
+    "font-weight": "bold"
+  }
+};
+var _hoisted_5 = {
+  key: 1,
+  id: "tip",
+  style: {
+    "color": "red",
+    "font-weight": "bold"
+  }
+};
+var _hoisted_6 = {
+  key: 2
+};
+var _hoisted_7 = ["disabled"];
+
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "invalid-feedback crumb"
+}, "請填寫職稱", -1
+/* HOISTED */
+);
+
+var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"row form-group required\"><label for=\"inputSubjectTeaches\" class=\"col-md-2 control-label text-md-right\">任教科系/任教科目</label><div class=\"col-md-10\"><input type=\"text\" required name=\"subject_teaches\" value=\"\" class=\"form-control\" id=\"inputSubjectTeaches\"><div class=\"invalid-feedback crumb\"> 請填寫任教科系/任教科目 </div></div></div>", 1);
+
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [$data.title === null && $data.school_or_course === null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, " 選場次 ")) : $data.title === null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, " 再選擇職稱，並於文字框做補充 ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.school_or_course !== null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_6, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)((0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDynamicComponent)($options.toggleTitleComponent), {
+    onTitleSelected: $options.receivesTitle
+  }, null, 8
+  /* PROPS */
+  , ["onTitleSelected"])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "text",
+    required: "",
+    name: "title",
+    "class": "form-control",
+    id: "title",
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return $data.title = $event;
+    }),
+    disabled: $data.title === null
+  }, null, 8
+  /* PROPS */
+  , _hoisted_7), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.title]]), _hoisted_8])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), _hoisted_9]);
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0]!./resources/js/components/utcamp/UtcampUnitAndBatchSection.vue?vue&type=template&id=0fd66ada":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0]!./resources/js/components/utcamp/UtcampUnitAndBatchSection.vue?vue&type=template&id=0fd66ada ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/@vue/compat/dist/vue.esm-bundler.js");
+
+var _hoisted_1 = {
+  "class": "row form-group required"
+};
+
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "inputName",
+  "class": "col-md-2 control-label text-md-right"
+}, "服務單位", -1
+/* HOISTED */
+);
+
+var _hoisted_3 = {
+  "class": "col-md-10"
+};
+
+var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", null, "請選擇", -1
+/* HOISTED */
+);
+
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  value: {
+    is_taichung: 1,
+    name: '123'
+  }
+}, "台中", -1
+/* HOISTED */
+);
+
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  value: {
+    is_taichung: 0,
+    name: '123'
+  }
+}, "非台中", -1
+/* HOISTED */
+);
+
+var _hoisted_7 = [_hoisted_4, _hoisted_5, _hoisted_6];
+
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "invalid-feedback"
+}, "請選擇服務單位", -1
+/* HOISTED */
+);
+
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    name: "unit",
+    id: "",
+    required: "",
+    "class": "form-control",
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return $data.selected = $event;
+    })
+  }, _hoisted_7, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selected]])]), _hoisted_8]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)((0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDynamicComponent)($options.toggleTaichungComponent)))]);
+}
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -20846,6 +21121,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _bootstrap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 /* harmony import */ var _bootstrap__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_bootstrap__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_tcamp_IsEducatingSection_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/tcamp/IsEducatingSection.vue */ "./resources/js/components/tcamp/IsEducatingSection.vue");
+/* harmony import */ var _components_utcamp_UtcampUnitAndBatchSection_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/utcamp/UtcampUnitAndBatchSection.vue */ "./resources/js/components/utcamp/UtcampUnitAndBatchSection.vue");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -20879,15 +21155,27 @@ if (true) {
 
 
 
-var is_educating = Vue.createApp({
-  components: {
-    isEducatingSection: _components_tcamp_IsEducatingSection_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
-  }
-});
+
 
 window.onload = function () {
-  if ($("#is-educating-section")) {
+  // if(document.getElementById("is-educating-section"))
+  if ($("#is-educating-section").length) {
+    var is_educating = Vue.createApp({
+      components: {
+        isEducatingSection: _components_tcamp_IsEducatingSection_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+      }
+    });
     is_educating.mount("#is-educating-section");
+  } // if(document.getElementById("utcamp-unit-and-batch-section"))
+
+
+  if ($("#utcamp-unit-and-batch-section").length) {
+    var utcamp = Vue.createApp({
+      components: {
+        utcampUnitAndBatchSection: _components_utcamp_UtcampUnitAndBatchSection_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+      }
+    });
+    utcamp.mount("#utcamp-unit-and-batch-section");
   }
 };
 /**
@@ -56431,6 +56719,62 @@ if (false) {}
 
 /***/ }),
 
+/***/ "./resources/js/components/utcamp/RowIsTaichung.vue":
+/*!**********************************************************!*\
+  !*** ./resources/js/components/utcamp/RowIsTaichung.vue ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _RowIsTaichung_vue_vue_type_template_id_590ddae6__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./RowIsTaichung.vue?vue&type=template&id=590ddae6 */ "./resources/js/components/utcamp/RowIsTaichung.vue?vue&type=template&id=590ddae6");
+/* harmony import */ var _RowIsTaichung_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./RowIsTaichung.vue?vue&type=script&lang=js */ "./resources/js/components/utcamp/RowIsTaichung.vue?vue&type=script&lang=js");
+/* harmony import */ var _mnt_c_xampp_htdocs_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+const __exports__ = /*#__PURE__*/(0,_mnt_c_xampp_htdocs_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_RowIsTaichung_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_RowIsTaichung_vue_vue_type_template_id_590ddae6__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/utcamp/RowIsTaichung.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
+/***/ "./resources/js/components/utcamp/UtcampUnitAndBatchSection.vue":
+/*!**********************************************************************!*\
+  !*** ./resources/js/components/utcamp/UtcampUnitAndBatchSection.vue ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _UtcampUnitAndBatchSection_vue_vue_type_template_id_0fd66ada__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UtcampUnitAndBatchSection.vue?vue&type=template&id=0fd66ada */ "./resources/js/components/utcamp/UtcampUnitAndBatchSection.vue?vue&type=template&id=0fd66ada");
+/* harmony import */ var _UtcampUnitAndBatchSection_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UtcampUnitAndBatchSection.vue?vue&type=script&lang=js */ "./resources/js/components/utcamp/UtcampUnitAndBatchSection.vue?vue&type=script&lang=js");
+/* harmony import */ var _mnt_c_xampp_htdocs_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+const __exports__ = /*#__PURE__*/(0,_mnt_c_xampp_htdocs_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_UtcampUnitAndBatchSection_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_UtcampUnitAndBatchSection_vue_vue_type_template_id_0fd66ada__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/utcamp/UtcampUnitAndBatchSection.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
 /***/ "./resources/js/components/tcamp/IsEducatingSection.vue?vue&type=script&lang=js":
 /*!**************************************************************************************!*\
   !*** ./resources/js/components/tcamp/IsEducatingSection.vue?vue&type=script&lang=js ***!
@@ -56459,6 +56803,38 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_RowIsEducating_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_RowIsEducating_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0]!./RowIsEducating.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0]!./resources/js/components/tcamp/RowIsEducating.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/components/utcamp/RowIsTaichung.vue?vue&type=script&lang=js":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/utcamp/RowIsTaichung.vue?vue&type=script&lang=js ***!
+  \**********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_RowIsTaichung_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_RowIsTaichung_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0]!./RowIsTaichung.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0]!./resources/js/components/utcamp/RowIsTaichung.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/components/utcamp/UtcampUnitAndBatchSection.vue?vue&type=script&lang=js":
+/*!**********************************************************************************************!*\
+  !*** ./resources/js/components/utcamp/UtcampUnitAndBatchSection.vue?vue&type=script&lang=js ***!
+  \**********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_UtcampUnitAndBatchSection_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_UtcampUnitAndBatchSection_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0]!./UtcampUnitAndBatchSection.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0]!./resources/js/components/utcamp/UtcampUnitAndBatchSection.vue?vue&type=script&lang=js");
  
 
 /***/ }),
@@ -56507,6 +56883,38 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_RowNotEducating_vue_vue_type_template_id_13fc6af4__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_RowNotEducating_vue_vue_type_template_id_13fc6af4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0]!./RowNotEducating.vue?vue&type=template&id=13fc6af4 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0]!./resources/js/components/tcamp/RowNotEducating.vue?vue&type=template&id=13fc6af4");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/utcamp/RowIsTaichung.vue?vue&type=template&id=590ddae6":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/components/utcamp/RowIsTaichung.vue?vue&type=template&id=590ddae6 ***!
+  \****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_RowIsTaichung_vue_vue_type_template_id_590ddae6__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_RowIsTaichung_vue_vue_type_template_id_590ddae6__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0]!./RowIsTaichung.vue?vue&type=template&id=590ddae6 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0]!./resources/js/components/utcamp/RowIsTaichung.vue?vue&type=template&id=590ddae6");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/utcamp/UtcampUnitAndBatchSection.vue?vue&type=template&id=0fd66ada":
+/*!****************************************************************************************************!*\
+  !*** ./resources/js/components/utcamp/UtcampUnitAndBatchSection.vue?vue&type=template&id=0fd66ada ***!
+  \****************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_UtcampUnitAndBatchSection_vue_vue_type_template_id_0fd66ada__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_UtcampUnitAndBatchSection_vue_vue_type_template_id_0fd66ada__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0]!./UtcampUnitAndBatchSection.vue?vue&type=template&id=0fd66ada */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0]!./resources/js/components/utcamp/UtcampUnitAndBatchSection.vue?vue&type=template&id=0fd66ada");
 
 
 /***/ })

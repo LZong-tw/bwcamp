@@ -1,100 +1,11 @@
 /* eslint-disable prettier/prettier */ /* eslint-disable prettier/prettier */
 <template>
-    <span id="rowIsEducating">
-        <div class="row form-group required">
-            <label
-                for="inputSchoolOrCourse"
-                class="col-md-2 control-label text-md-right"
-                >任職機關/任教學程</label
-            >
-            <div class="col-md-10">
-                <label class="radio-inline">
-                    <input
-                        type="radio"
-                        required
-                        name="school_or_course"
-                        value="教育部"
-                        class="officials"
-                        v-model="school_or_course"
-                    />
-                    教育部
-                    <div class="invalid-feedback crumb">
-                        請勾選任職機關/任教學程
-                    </div>
-                </label>
-                <label class="radio-inline">
-                    <input type=radio required name='school_or_course'
-                    value=教育局/處 class="officials"
-                    v-model="school_or_course"> 教育局/處
-                    <div class="invalid-feedback crumb">&nbsp;</div>
-                </label>
-                <label class="radio-inline">
-                    <input
-                        type="radio"
-                        required
-                        name="school_or_course"
-                        value="大專院校"
-                        class="universities"
-                        v-model="school_or_course"
-                    />
-                    大專院校
-                    <div class="invalid-feedback crumb">&nbsp;</div>
-                </label>
-                <label class="radio-inline">
-                    <input
-                        type="radio"
-                        required
-                        name="school_or_course"
-                        value="高中職"
-                        class="compulsories"
-                        v-model="school_or_course"
-                    />
-                    高中職
-                    <div class="invalid-feedback crumb">&nbsp;</div>
-                </label>
-                <label class="radio-inline">
-                    <input
-                        type="radio"
-                        required
-                        name="school_or_course"
-                        value="國中"
-                        class="compulsories"
-                        v-model="school_or_course"
-                    />
-                    國中
-                    <div class="invalid-feedback crumb">&nbsp;</div>
-                </label>
-                <label class="radio-inline">
-                    <input
-                        type="radio"
-                        required
-                        name="school_or_course"
-                        value="國小"
-                        class="compulsories"
-                        v-model="school_or_course"
-                    />
-                    國小
-                    <div class="invalid-feedback crumb">&nbsp;</div>
-                </label>
-                <label class="radio-inline">
-                    <input
-                        type="radio"
-                        required
-                        name="school_or_course"
-                        value="幼教"
-                        class="compulsories"
-                        v-model="school_or_course"
-                    />
-                    幼教
-                    <div class="invalid-feedback crumb">&nbsp;</div>
-                </label>
-            </div>
-        </div>
+    <span>    
         <div class="row form-group required">
             <label
                 for="inputSubjectTeaches"
                 class="col-md-2 control-label text-md-right"
-                >職稱</label
+                >台中可以選場次</label
             >
             <div class="col-md-10">
                 <div
@@ -102,7 +13,7 @@
                     style="color: red; font-weight: bold"
                     v-if="title === null && school_or_course === null"
                 >
-                    請先選擇任教機關/任教學程
+                    選場次
                 </div>
                 <div
                     id="tip"

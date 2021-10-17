@@ -34,16 +34,36 @@ if (process.env.NODE_ENV == "development") {
 // );
 
 import isEducatingSection from "./components/tcamp/IsEducatingSection.vue";
-
-const is_educating = Vue.createApp({
-    components: { 
-        isEducatingSection
-    },
-});
+import utcampUnitAndBatchSection from "./components/utcamp/UtcampUnitAndBatchSection.vue";
+import utcampTitle from "./components/utcamp/UtcampTitle.vue";
 
 window.onload = () => {
-    if ($("#is-educating-section")) {
+    // if(document.getElementById("is-educating-section"))
+    if ($("#is-educating-section").length) {
+        const is_educating = Vue.createApp({
+            components: { 
+                isEducatingSection,
+            },
+        });
         is_educating.mount("#is-educating-section");
+    }
+    // if(document.getElementById("utcamp-unit-and-batch-section"))
+    if ($("#utcamp-unit-and-batch-section").length) {
+        const utcamp = Vue.createApp({
+            components: { 
+                utcampUnitAndBatchSection,
+            },
+        });
+        utcamp.mount("#utcamp-unit-and-batch-section");
+    }
+
+    if ($("#utcamp-title").length) {
+        const utcTitle = Vue.createApp({
+            components: { 
+                utcampTitle,
+            },
+        });
+        utcTitle.mount("#utcamp-title");
     }
 };
 
