@@ -101,7 +101,7 @@
                 </div>
                 <span v-if="school_or_course !== null">
                     <component
-                        v-bind:is="toggleTitleComponent"
+                        :is="toggleTitleComponent"
                         @titleSelected="receivesTitle"
                     ></component>
                     <input
@@ -111,7 +111,8 @@
                         class="form-control"
                         id="title"
                         :value="title"
-                        v-bind:disabled="title === null"
+                        :disabled="title === null"
+                        @input="checkValidity($event)"
                     />
                     <div class="invalid-feedback crumb">請填寫職稱</div>
                 </span>
@@ -205,8 +206,12 @@ export default {
         },
     },
     methods: {
+        checkValidity() {
+            document.Camp.title.classList.remove("is-invalid");
+        },
         receivesTitle(e) {
             this.title = e ? e : "";
+            this.checkValidity();
         },
     },
     mounted() {

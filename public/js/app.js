@@ -20469,8 +20469,12 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    checkValidity: function checkValidity() {
+      document.Camp.title.classList.remove("is-invalid");
+    },
     receivesTitle: function receivesTitle(e) {
       this.title = e ? e : "";
+      this.checkValidity();
     }
   },
   mounted: function mounted() {// console.log("Mounted.");
@@ -20580,9 +20584,7 @@ __webpack_require__.r(__webpack_exports__);
       is_blisswisdom: ''
     };
   },
-  mounted: function mounted() {
-    console.log('isbw mounted.');
-  }
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -20604,7 +20606,11 @@ __webpack_require__.r(__webpack_exports__);
       title: null
     };
   },
-  methods: {},
+  methods: {
+    checkValidity: function checkValidity() {
+      document.Camp.title.classList.remove("is-invalid");
+    }
+  },
   mounted: function mounted() {// console.log("Mounted.");
   }
 });
@@ -20630,18 +20636,16 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      selected: {
-        is_taichung: null
-      }
+      selected: ''
     };
   },
   computed: {
     toggleTaichungComponent: function toggleTaichungComponent() {
-      if (this.selected.is_taichung == 1) {
+      if (this.selected && this.selected.is_taichung == 1) {
         return "row-Is-Taichung";
-      } else {
-        return null;
       }
+
+      return null;
     }
   },
   mounted: function mounted() {// console.log("Mounted.");
@@ -20952,9 +20956,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "form-control",
     id: "title",
     value: $data.title,
-    disabled: $data.title === null
-  }, null, 8
-  /* PROPS */
+    disabled: $data.title === null,
+    onInput: _cache[6] || (_cache[6] = function ($event) {
+      return $options.checkValidity($event);
+    })
+  }, null, 40
+  /* PROPS, HYDRATE_EVENTS */
   , _hoisted_29), _hoisted_30])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), _hoisted_31]);
 }
 
@@ -21191,112 +21198,145 @@ var _hoisted_4 = {
     "font-weight": "bold"
   }
 };
-var _hoisted_5 = {
-  "class": "titles universities"
-};
 
-var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("校長 ");
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("校長 ");
 
-var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("教授 ");
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("教授 ");
 
-var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("副教授 ");
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("副教授 ");
 
-var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("助理教授 ");
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("助理教授 ");
 
-var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("講師");
+var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("講師");
 
-var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
 /* HOISTED */
 );
 
-var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("職員 ");
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("職員 ");
 
-var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("其他(請於下方填寫) ");
+var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("其他(請於下方填寫) ");
+
+var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "invalid-feedback crumb"
+}, "請選擇並填寫職稱", -1
+/* HOISTED */
+);
 
 var _hoisted_14 = ["value", "disabled"];
-var _hoisted_15 = {
-  key: 0,
-  "class": "invalid-feedback crumb"
-};
-var _hoisted_16 = {
-  key: 1,
-  "class": "invalid-feedback crumb"
-};
+
+var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "invalid-feedback crumb",
+  id: "title"
+}, "請填寫職稱", -1
+/* HOISTED */
+);
+
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [$data.title === null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, " 請選擇職稱，並於文字框做補充 ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [$data.title === null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, " 請選擇職稱，並於文字框做補充 ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "radio",
-    "class": "universities",
     value: "校長",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.title = $event;
-    })
-  }, null, 512
-  /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.title]]), _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }),
+    onChange: _cache[1] || (_cache[1] = function ($event) {
+      return $options.checkValidity();
+    }),
+    name: "pre_title",
+    required: ""
+  }, null, 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.title]]), _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "radio",
-    "class": "universities",
     value: "教授",
-    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-      return $data.title = $event;
-    })
-  }, null, 512
-  /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.title]]), _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    type: "radio",
-    "class": "universities",
-    value: "副教授",
     "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
       return $data.title = $event;
-    })
-  }, null, 512
-  /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.title]]), _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }),
+    onChange: _cache[3] || (_cache[3] = function ($event) {
+      return $options.checkValidity();
+    }),
+    name: "pre_title",
+    required: ""
+  }, null, 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.title]]), _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "radio",
-    "class": "universities",
-    value: "助理教授",
-    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
-      return $data.title = $event;
-    })
-  }, null, 512
-  /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.title]]), _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    type: "radio",
-    "class": "universities",
-    value: "講師",
+    value: "副教授",
     "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
       return $data.title = $event;
-    })
-  }, null, 512
-  /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.title]]), _hoisted_10, _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }),
+    onChange: _cache[5] || (_cache[5] = function ($event) {
+      return $options.checkValidity();
+    }),
+    name: "pre_title",
+    required: ""
+  }, null, 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.title]]), _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "radio",
-    "class": "universities",
-    value: "職員",
-    "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
-      return $data.title = $event;
-    })
-  }, null, 512
-  /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.title]]), _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    type: "radio",
-    "class": "universities",
-    value: "",
+    value: "助理教授",
     "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
       return $data.title = $event;
-    })
-  }, null, 512
-  /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.title]]), _hoisted_13]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }),
+    onChange: _cache[7] || (_cache[7] = function ($event) {
+      return $options.checkValidity();
+    }),
+    name: "pre_title",
+    required: ""
+  }, null, 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.title]]), _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "radio",
+    value: "講師",
+    "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
+      return $data.title = $event;
+    }),
+    onChange: _cache[9] || (_cache[9] = function ($event) {
+      return $options.checkValidity();
+    }),
+    name: "pre_title",
+    required: ""
+  }, null, 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.title]]), _hoisted_9, _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "radio",
+    value: "職員",
+    "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
+      return $data.title = $event;
+    }),
+    onChange: _cache[11] || (_cache[11] = function ($event) {
+      return $options.checkValidity();
+    }),
+    name: "pre_title",
+    required: ""
+  }, null, 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.title]]), _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "radio",
+    value: "",
+    "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
+      return $data.title = $event;
+    }),
+    onChange: _cache[13] || (_cache[13] = function ($event) {
+      return $options.checkValidity();
+    }),
+    name: "pre_title",
+    required: ""
+  }, null, 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.title]]), _hoisted_12, _hoisted_13]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
+    required: "",
     name: "title",
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.title === null ? 'is-invalid form-control' : 'is-valid form-control'),
-    id: "title",
+    "class": "form-control",
     value: $data.title,
     disabled: $data.title === null,
-    required: true
-  }, null, 10
-  /* CLASS, PROPS */
-  , _hoisted_14), $data.title === null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, "請選擇並填寫職稱")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, "請填寫職稱"))])])])]);
+    onInput: _cache[14] || (_cache[14] = function ($event) {
+      return $options.checkValidity($event);
+    })
+  }, null, 40
+  /* PROPS, HYDRATE_EVENTS */
+  , _hoisted_14), _hoisted_15])])])]);
 }
 
 /***/ }),
@@ -21330,9 +21370,7 @@ var _hoisted_3 = {
 };
 
 var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-  value: {
-    is_taichung: null
-  }
+  value: ''
 }, "- 請選擇 -", -1
 /* HOISTED */
 );
@@ -21366,14 +21404,14 @@ var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     name: "unit",
-    id: "",
-    required: "",
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.selected.is_taichung === null ? 'is-invalid form-control' : 'is-valid form-control'),
+    id: "unit",
+    "class": "form-control",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.selected = $event;
-    })
-  }, _hoisted_7, 2
-  /* CLASS */
+    }),
+    required: ""
+  }, _hoisted_7, 512
+  /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selected]]), _hoisted_8])]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)((0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDynamicComponent)($options.toggleTaichungComponent)))]);
 }
 
@@ -56941,13 +56979,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _IsEducatingSection_vue_vue_type_template_id_1c90cd92__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./IsEducatingSection.vue?vue&type=template&id=1c90cd92 */ "./resources/js/components/tcamp/IsEducatingSection.vue?vue&type=template&id=1c90cd92");
 /* harmony import */ var _IsEducatingSection_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./IsEducatingSection.vue?vue&type=script&lang=js */ "./resources/js/components/tcamp/IsEducatingSection.vue?vue&type=script&lang=js");
-/* harmony import */ var _Users_lzong_wwwroot_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _mnt_c_xampp_htdocs_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,_Users_lzong_wwwroot_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_IsEducatingSection_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_IsEducatingSection_vue_vue_type_template_id_1c90cd92__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/tcamp/IsEducatingSection.vue"]])
+const __exports__ = /*#__PURE__*/(0,_mnt_c_xampp_htdocs_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_IsEducatingSection_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_IsEducatingSection_vue_vue_type_template_id_1c90cd92__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/tcamp/IsEducatingSection.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -56969,13 +57007,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _RowIsEducating_vue_vue_type_template_id_a2d9fefa__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./RowIsEducating.vue?vue&type=template&id=a2d9fefa */ "./resources/js/components/tcamp/RowIsEducating.vue?vue&type=template&id=a2d9fefa");
 /* harmony import */ var _RowIsEducating_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./RowIsEducating.vue?vue&type=script&lang=js */ "./resources/js/components/tcamp/RowIsEducating.vue?vue&type=script&lang=js");
-/* harmony import */ var _Users_lzong_wwwroot_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _mnt_c_xampp_htdocs_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,_Users_lzong_wwwroot_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_RowIsEducating_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_RowIsEducating_vue_vue_type_template_id_a2d9fefa__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/tcamp/RowIsEducating.vue"]])
+const __exports__ = /*#__PURE__*/(0,_mnt_c_xampp_htdocs_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_RowIsEducating_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_RowIsEducating_vue_vue_type_template_id_a2d9fefa__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/tcamp/RowIsEducating.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -56996,12 +57034,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _RowNotEducating_vue_vue_type_template_id_13fc6af4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./RowNotEducating.vue?vue&type=template&id=13fc6af4 */ "./resources/js/components/tcamp/RowNotEducating.vue?vue&type=template&id=13fc6af4");
-/* harmony import */ var _Users_lzong_wwwroot_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _mnt_c_xampp_htdocs_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 const script = {}
 
 ;
-const __exports__ = /*#__PURE__*/(0,_Users_lzong_wwwroot_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_1__["default"])(script, [['render',_RowNotEducating_vue_vue_type_template_id_13fc6af4__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/tcamp/RowNotEducating.vue"]])
+const __exports__ = /*#__PURE__*/(0,_mnt_c_xampp_htdocs_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_1__["default"])(script, [['render',_RowNotEducating_vue_vue_type_template_id_13fc6af4__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/tcamp/RowNotEducating.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -57023,13 +57061,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _RowIsTaichung_vue_vue_type_template_id_590ddae6__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./RowIsTaichung.vue?vue&type=template&id=590ddae6 */ "./resources/js/components/utcamp/RowIsTaichung.vue?vue&type=template&id=590ddae6");
 /* harmony import */ var _RowIsTaichung_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./RowIsTaichung.vue?vue&type=script&lang=js */ "./resources/js/components/utcamp/RowIsTaichung.vue?vue&type=script&lang=js");
-/* harmony import */ var _Users_lzong_wwwroot_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _mnt_c_xampp_htdocs_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,_Users_lzong_wwwroot_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_RowIsTaichung_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_RowIsTaichung_vue_vue_type_template_id_590ddae6__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/utcamp/RowIsTaichung.vue"]])
+const __exports__ = /*#__PURE__*/(0,_mnt_c_xampp_htdocs_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_RowIsTaichung_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_RowIsTaichung_vue_vue_type_template_id_590ddae6__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/utcamp/RowIsTaichung.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -57051,13 +57089,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _UtcampIsBlisswisdom_vue_vue_type_template_id_55396d9c__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UtcampIsBlisswisdom.vue?vue&type=template&id=55396d9c */ "./resources/js/components/utcamp/UtcampIsBlisswisdom.vue?vue&type=template&id=55396d9c");
 /* harmony import */ var _UtcampIsBlisswisdom_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UtcampIsBlisswisdom.vue?vue&type=script&lang=js */ "./resources/js/components/utcamp/UtcampIsBlisswisdom.vue?vue&type=script&lang=js");
-/* harmony import */ var _Users_lzong_wwwroot_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _mnt_c_xampp_htdocs_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,_Users_lzong_wwwroot_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_UtcampIsBlisswisdom_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_UtcampIsBlisswisdom_vue_vue_type_template_id_55396d9c__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/utcamp/UtcampIsBlisswisdom.vue"]])
+const __exports__ = /*#__PURE__*/(0,_mnt_c_xampp_htdocs_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_UtcampIsBlisswisdom_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_UtcampIsBlisswisdom_vue_vue_type_template_id_55396d9c__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/utcamp/UtcampIsBlisswisdom.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -57079,13 +57117,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _UtcampTitle_vue_vue_type_template_id_0a979b94__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UtcampTitle.vue?vue&type=template&id=0a979b94 */ "./resources/js/components/utcamp/UtcampTitle.vue?vue&type=template&id=0a979b94");
 /* harmony import */ var _UtcampTitle_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UtcampTitle.vue?vue&type=script&lang=js */ "./resources/js/components/utcamp/UtcampTitle.vue?vue&type=script&lang=js");
-/* harmony import */ var _Users_lzong_wwwroot_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _mnt_c_xampp_htdocs_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,_Users_lzong_wwwroot_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_UtcampTitle_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_UtcampTitle_vue_vue_type_template_id_0a979b94__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/utcamp/UtcampTitle.vue"]])
+const __exports__ = /*#__PURE__*/(0,_mnt_c_xampp_htdocs_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_UtcampTitle_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_UtcampTitle_vue_vue_type_template_id_0a979b94__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/utcamp/UtcampTitle.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -57107,13 +57145,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _UtcampUnitAndBatchSection_vue_vue_type_template_id_0fd66ada__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UtcampUnitAndBatchSection.vue?vue&type=template&id=0fd66ada */ "./resources/js/components/utcamp/UtcampUnitAndBatchSection.vue?vue&type=template&id=0fd66ada");
 /* harmony import */ var _UtcampUnitAndBatchSection_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UtcampUnitAndBatchSection.vue?vue&type=script&lang=js */ "./resources/js/components/utcamp/UtcampUnitAndBatchSection.vue?vue&type=script&lang=js");
-/* harmony import */ var _Users_lzong_wwwroot_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _mnt_c_xampp_htdocs_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,_Users_lzong_wwwroot_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_UtcampUnitAndBatchSection_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_UtcampUnitAndBatchSection_vue_vue_type_template_id_0fd66ada__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/utcamp/UtcampUnitAndBatchSection.vue"]])
+const __exports__ = /*#__PURE__*/(0,_mnt_c_xampp_htdocs_bwcamp_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_UtcampUnitAndBatchSection_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_UtcampUnitAndBatchSection_vue_vue_type_template_id_0fd66ada__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/utcamp/UtcampUnitAndBatchSection.vue"]])
 /* hot reload */
 if (false) {}
 
