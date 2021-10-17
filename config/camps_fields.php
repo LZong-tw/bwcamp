@@ -88,7 +88,7 @@ return [
         // "unit_district" => "服務單位所在行政區",
         "unit" => "服務單位", 
         "is_blisswisdom" => "參加過福智的活動",
-        // "blisswisdom_type" => "參加過的福智活動",
+        "blisswisdom_type" => "參加過的福智活動",
         // "blisswisdom_type_complement" => "參加過的福智活動註記",
         "workshop_credit_type" => "研習時數類型",
         "never_attend_any_stay_over_tcamps" => "未曾參加過住宿型福智教師生命成長營",

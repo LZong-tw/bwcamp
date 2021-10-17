@@ -27,14 +27,15 @@
                     </div>
                     <input
                         type="text"
-                        required
                         name="title"
-                        class="form-control"
+                        :class="title === null ? 'is-invalid form-control' : 'is-valid form-control'"
                         id="title"
                         :value="title"
-                        v-bind:disabled="title === null"
+                        :disabled="title === null"
+                        :required="true"
                     />
-                    <div class="invalid-feedback crumb">請填寫職稱</div>
+                    <div class="invalid-feedback crumb" v-if="title === null">請選擇並填寫職稱</div>
+                    <div class="invalid-feedback crumb" v-else>請填寫職稱</div>
                 </span>
             </div>
         </div>

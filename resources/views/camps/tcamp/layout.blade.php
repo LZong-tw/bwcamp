@@ -55,9 +55,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('query', $batch_id) }}">報名查詢/修改</a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link" href="{{ route('payment', $batch_id) }}">線上繳費</a>
-                    </li>
+                    </li> --}}
                     @if(\Carbon\Carbon::now() >= \Carbon\Carbon::createFromFormat("Y-m-d", $camp_data->admission_announcing_date))
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('queryadmit', $batch_id) }}">錄取查詢</a>
