@@ -64,7 +64,7 @@
         <div class='row form-group required'>
             <label for='inputName' class='col-md-1 control-label'>Variant</label>
             <div class='col-md-6'>
-                <input type="text" name="variant" id="" value="{{ $camp->variant ?? "" }}">
+                <input type="text" name="variant" id="" class='form-control' value="{{ $camp->variant ?? "" }}">
             </div>
         </div>
         <div class='row form-group required'>
