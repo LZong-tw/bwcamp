@@ -32,6 +32,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }}線上報名表</h4>
     </div>
+<span id="tcamp-layout">
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
 @if(!isset($isModify) || $isModify)
     <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form'>
@@ -46,15 +47,17 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <span class='text-danger'>＊必填</span>
         </div>
     </div>
-    <div class='row form-group'>
-        <label for='inputBatch' class='col-md-2 control-label text-md-right'>營隊梯次</label>
-        <div class='col-md-10'>
-            <h3>{{ $camp_data->name . '梯' }} ({{ $camp_data->batch_start }} ~ {{ $camp_data->batch_end }})</h3>
-            @if(isset($applicant_data))
-                <input type='hidden' name='applicant_id' value='{{ $applicant_id }}'>
-            @endif
+    {{-- @if($camp_data->variant ?? '' == 'utcamp' || isset($applicant_data))
+        <div class='row form-group'>
+            <label for='inputBatch' class='col-md-2 control-label text-md-right'>營隊梯次</label>
+            <div class='col-md-10'>
+                <h3>{{ $batch->name . '梯' }} ({{ $batch->batch_start }} ~ {{ $batch->batch_end }})</h3>
+                @if(isset($applicant_data))
+                    <input type='hidden' name='applicant_id' value='{{ $applicant_id }}'>
+                @endif
+            </div>
         </div>
-    </div>
+    @endif --}}
     @if(isset($isModify))
         <div class='row form-group'>
             <label for='inputBatch' class='col-md-2 control-label text-md-right'>報名日期</label>
@@ -63,18 +66,11 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     @endif
-    @if(isset($camp_data->variant) && $camp_data->variant == "utcamp")
-        <div class='row form-group required'>
-            <label for='inputName' class='col-md-2 control-label text-md-right'>服務單位</label>
-            <div class='col-md-10'>
-                <select name="unit" id="">
-                    <option value="">請選擇</option>
-                </select>
-            </div>
-            <div class="invalid-feedback">
-                請選擇服務單位
-            </div>
-        </div>
+    @if($camp_data->variant ?? '' == 'utcamp' && !isset($applicant_data))
+        {{-- 大專教師營 --}}
+        <div id="utcamp-unit-and-batch-section" class="m-0 p-0">
+            <utcamp-unit-and-batch-section></utcamp-unit-and-batch-section>
+        </div>      
     @endif
     <div class='row form-group required'>
         <label for='inputName' class='col-md-2 control-label text-md-right'>姓名</label>
@@ -133,6 +129,20 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class='row form-group required'>
+        <label for='inputEducation' class='col-md-2 control-label text-md-right'>最高學歷</label>
+        <div class='col-md-10'>
+                <select name="education" class="form-control"> 
+                        <option value=''>- 請選擇 -</option>
+                        <option value='高中職'>高中職</option>
+                        <option value='大專'>大專</option>
+                        <option value='研究所'>研究所</option>
+                        <option value='博士'>博士</option>
+                        <option value='其他'>其他</option>
+                </select>
+        </div>
+    </div>
+
+    <div class='row form-group required'>
         <label for='inputID' class='col-md-2 control-label text-md-right'>身份證字號</label>
         <div class='col-md-10'>
             <input type='text' name='idno' value='' class='form-control' id='inputID' placeholder='僅作為申請研習時數或研習證明用' required @if(isset($isModify) && $isModify) disabled @endif>
@@ -151,26 +161,12 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>--}}
 
     <div class='row form-group required'>
-        <label for='inputEducation' class='col-md-2 control-label text-md-right'>最高學歷</label>
-        <div class='col-md-10'>
-                <select name="education" class="form-control"> 
-                        <option value=''>- 請選擇 -</option>
-                        <option value='高中職'>高中職</option>
-                        <option value='大專'>大專</option>
-                        <option value='研究所'>研究所</option>
-                        <option value='博士'>博士</option>
-                        <option value='其他'>其他</option>
-                </select>
-        </div>
-    </div>
-
-    <div class='row form-group required'>
         <label for='inputBirth' class='col-md-2 control-label text-md-right'>研習時數申請</label>
         <div class='date col-md-10' id='inputBirth'>
             <div class='row form-group required'>
                 <div class="col-md-3">
                     <select required class='form-control' name='workshop_credit_type' placeholder=''>
-                        <option value="">請選擇</option>
+                        <option value="">- 請選擇 -</option>
                         <option value="不申請">不申請</option>
                         <option value="一般教師研習時數">一般教師研習時數</option>
                         <option value="公務員研習時數">公務員研習時數</option>
@@ -202,54 +198,79 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div> --}}
 
-    <div id="is-educating-section">
-        <Is-Educating-Section></Is-Educating-Section>
-    </div>
+    @if(!$camp_data->variant)
+        <div id="is-educating-section" class="m-0 p-0">
+            <Is-Educating-Section></Is-Educating-Section>
+        </div>
 
-    <div class='row form-group required'> 
-    <label for='inputUnit' class='col-md-2 control-label text-md-right'>服務單位名稱/校名</label>
-        <div class='col-md-10'>
-            <input type=text required name='unit' value='' class='form-control' id='inputUnit'>
-            <div class="invalid-feedback crumb">
-                請填寫服務單位名稱/校名
+        <div class='row form-group required'> 
+        <label for='inputUnit' class='col-md-2 control-label text-md-right'>服務單位名稱/校名</label>
+            <div class='col-md-10'>
+                <input type=text required name='unit' value='' class='form-control' id='inputUnit'>
+                <div class="invalid-feedback crumb">
+                    請填寫服務單位名稱/校名
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class='row form-group required'>
-        <label for='inputUnitCounty' class='col-md-2 control-label text-md-right'>服務單位所在縣市</label>
-        <div class='col-md-10'>
-            <select required class='form-control' name='unit_county'' onChange='SchooList(this.options[this.options.selectedIndex].value);'>
-                <option value='' selected>- 請先選縣市 -</option>
-                <option value='臺北市' >臺北市</option>
-                <option value='新北市' >新北市</option>
-                <option value='基隆市' >基隆市</option>
-                <option value='宜蘭縣' >宜蘭縣</option>
-                <option value='花蓮縣' >花蓮縣</option>
-                <option value='桃園市' >桃園市</option>
-                <option value='新竹市' >新竹市</option>
-                <option value='新竹縣' >新竹縣</option>
-                <option value='苗栗縣' >苗栗縣</option>
-                <option value='臺中市' >臺中市</option>
-                <option value='彰化縣' >彰化縣</option>
-                <option value='南投縣' >南投縣</option>
-                <option value='雲林縣' >雲林縣</option>
-                <option value='嘉義市' >嘉義市</option>
-                <option value='嘉義縣' >嘉義縣</option>
-                <option value='臺南市' >臺南市</option>
-                <option value='高雄市' >高雄市</option>
-                <option value='屏東縣' >屏東縣</option>
-                <option value='臺東縣' >臺東縣</option>
-                <option value='澎湖縣' >澎湖縣</option>
-                <option value='金門縣' >金門縣</option>
-                <option value='連江縣' >連江縣</option>
-                <option value='南海諸島' >南海諸島</option>
-                <option value='海外' >海外</option>
-            </select>
-        </div>  
-    </div>
+        <div class='row form-group required'>
+            <label for='inputUnitCounty' class='col-md-2 control-label text-md-right'>服務單位所在縣市</label>
+            <div class='col-md-10'>
+                <select required class='form-control' name='unit_county'' onChange='SchooList(this.options[this.options.selectedIndex].value);'>
+                    <option value='' selected>- 請先選縣市 -</option>
+                    <option value='臺北市' >臺北市</option>
+                    <option value='新北市' >新北市</option>
+                    <option value='基隆市' >基隆市</option>
+                    <option value='宜蘭縣' >宜蘭縣</option>
+                    <option value='花蓮縣' >花蓮縣</option>
+                    <option value='桃園市' >桃園市</option>
+                    <option value='新竹市' >新竹市</option>
+                    <option value='新竹縣' >新竹縣</option>
+                    <option value='苗栗縣' >苗栗縣</option>
+                    <option value='臺中市' >臺中市</option>
+                    <option value='彰化縣' >彰化縣</option>
+                    <option value='南投縣' >南投縣</option>
+                    <option value='雲林縣' >雲林縣</option>
+                    <option value='嘉義市' >嘉義市</option>
+                    <option value='嘉義縣' >嘉義縣</option>
+                    <option value='臺南市' >臺南市</option>
+                    <option value='高雄市' >高雄市</option>
+                    <option value='屏東縣' >屏東縣</option>
+                    <option value='臺東縣' >臺東縣</option>
+                    <option value='澎湖縣' >澎湖縣</option>
+                    <option value='金門縣' >金門縣</option>
+                    <option value='連江縣' >連江縣</option>
+                    <option value='南海諸島' >南海諸島</option>
+                    <option value='海外' >海外</option>
+                </select>
+            </div>  
+        </div>
+    @elseif($camp_data->variant == "utcamp")
+        <div class="row form-group required">
+            <label
+                for="inputSchoolOrCourse"
+                class="col-md-2 control-label text-md-right"
+                >服務系所/部門</label
+            >
+            <div class="col-md-10">
+                <input
+                    type="text"
+                    required
+                    name="school_or_course"
+                    class='form-control'
+                    value=""
+                />                    
+                <div class="invalid-feedback crumb">
+                    請輸入服務系所/部門
+                </div>     
+            </div>
+        </div>
+        <span id="utcamp-title" class="m-0 p-0">
+            <utcamp-title></utcamp-title>
+        </span>
+    @endif
     <p class='form-control-static text-danger'>連絡方式</p>
-    <p class="form-control-static text-danger">＊因需寄發教材資料及發票，請務必填寫正確</p>
+    <p class="form-control-static text-danger">＊因需寄發教材資料及通知，請務必填寫正確</p>
     <div class='row form-group required'>
         <label for='inputCell' class='col-md-2 control-label text-md-right'>行動電話</label>
         <div class='col-md-10'>
@@ -266,6 +287,15 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <input type=tel  name='phone_home' value='' class='form-control' id='inputTelHome' placeholder='格式：0225452546'>
         </div>
     </div>
+
+    @if($camp_data->variant ?? '' == 'utcamp')
+        <div class='row form-group'>
+            <label for='inputTelHome' class='col-md-2 control-label text-md-right'>工作場所電話</label>
+            <div class='col-md-10'>
+                <input type=tel  name='phone_work' value='' class='form-control' id='inputTelWork' placeholder='格式：0225452546#1234'>
+            </div>
+        </div>
+    @endif
 
     <div class='row form-group required'>
         <label for='inputEmail' class='col-md-2 control-label text-md-right'>電子郵件</label>
@@ -486,6 +516,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
     </form>
+</span>
             
     <script>        
         $('[data-toggle="confirmation"]').confirmation({
