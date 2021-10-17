@@ -21,7 +21,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </ol>
         <h5>報名期間：110年11月1日(一) 起至110年12月10日(三)止</h5>
         <h5>研習時數：凡參加研習者依規定核發研習時數或數位研習證書。</h5>
-        <h5>費用：1200元</h5>
         <h6>主辦單位：財團法人福智文教基金會</h6>
         <h6>協辦單位：福智學校財團法人、基隆市七堵區瑪陵國民小學、屏東縣立大路關國民中小學</h6>
     </div>
@@ -34,8 +33,12 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 <span id="tcamp-layout">
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
-@if(!isset($isModify) || $isModify)
+@if((!isset($isModify) || $isModify) && $batch->is_appliable)
     <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form'>
+{{-- 禁止前台報名 --}}
+@elseif(!$batch->is_appliable)
+    <script>window.location = "/";</script>
+    @exit
 {{-- 以上皆非: 檢視資料狀態 --}}
 @else
     <form action="{{ route("queryupdate", $applicant_batch_id) }}" method="post" class="d-inline">
@@ -47,7 +50,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <span class='text-danger'>＊必填</span>
         </div>
     </div>
-    {{-- @if($camp_data->variant ?? '' == 'utcamp' || isset($applicant_data))
+    {{-- @if($camp_data->variant ?? null == 'utcamp' || isset($applicant_data))
         <div class='row form-group'>
             <label for='inputBatch' class='col-md-2 control-label text-md-right'>營隊梯次</label>
             <div class='col-md-10'>
@@ -66,7 +69,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     @endif
-    @if($camp_data->variant ?? '' == 'utcamp' && !isset($applicant_data))
+    @if($camp_data->variant ?? null == 'utcamp')
         {{-- 大專教師營 --}}
         <div id="utcamp-unit-and-batch-section" class="m-0 p-0">
             <utcamp-unit-and-batch-section></utcamp-unit-and-batch-section>
@@ -76,9 +79,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <label for='inputName' class='col-md-2 control-label text-md-right'>姓名</label>
         <div class='col-md-10'>
             <input type='text' name='name' value='' class='form-control' id='inputName' placeholder='請填寫全名' required @if(isset($isModify) && $isModify) disabled @endif>
-        </div>
-        <div class="invalid-feedback">
-            請填寫姓名
+            <div class="invalid-feedback">
+                請填寫姓名
+            </div>
         </div>
     </div>
 
@@ -146,9 +149,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <label for='inputID' class='col-md-2 control-label text-md-right'>身份證字號</label>
         <div class='col-md-10'>
             <input type='text' name='idno' value='' class='form-control' id='inputID' placeholder='僅作為申請研習時數或研習證明用' required @if(isset($isModify) && $isModify) disabled @endif>
-        </div>
-        <div class="invalid-feedback">
-            請填寫身份證字號；
+            <div class="invalid-feedback">
+                請填寫身份證字號
+            </div>
         </div>
     </div>
 
@@ -288,7 +291,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-    @if($camp_data->variant ?? '' == 'utcamp')
+    @if($camp_data->variant ?? null == 'utcamp')
         <div class='row form-group'>
             <label for='inputTelHome' class='col-md-2 control-label text-md-right'>工作場所電話</label>
             <div class='col-md-10'>
@@ -408,13 +411,33 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <!--- 福智活動 -->
-    <div class='row form-group'>
-        <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>是否參加過福智的活動</label>
-        <div class='col-md-10'>
-            <label><input type="radio" name="is_blisswisdom" value='1' > 是</label> <br/>
-            <label><input type="radio" name="is_blisswisdom" value='0' > 否</label>
-        </div>
-    </div>
+    @if($camp_data->variant ?? null == 'utcamp')
+        <span id="utcamp-is-blisswisdom">
+            <utcamp-is-blisswisdom></utcamp-is-blisswisdom>
+        </span>        
+    @else
+        <div class='row form-group'>
+            <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>是否參加過福智的活動</label>
+            <div class='col-md-10'>
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="1">
+                        <input type="radio" name="is_blisswisdom" value='1' > 是
+                        <div class="invalid-feedback">
+                            請選擇項目
+                        </div>
+                    </label> 
+                </div>
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="0">
+                        <input type="radio" name="is_blisswisdom" value='0' > 否
+                        <div class="invalid-feedback">
+                            &nbsp;
+                        </div>
+                    </label> 
+                </div>
+            </div>
+        </div>        
+    @endif        
 
     <div class='row form-group'>
         <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>如何得知報名訊息（可複選） </label>
@@ -423,44 +446,84 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <label><input type="checkbox" name=info_source[] value='學校公文' > 學校公文</label> <br/>
             <label><input type="checkbox" name=info_source[] value='宣傳海報/小卡' > 宣傳海報/小卡</label> <br/>
             <label><input type="checkbox" name=info_source[] value='福智文教基金會官網' > 福智文教基金會官網</label> <br/>
-            <label><input type="checkbox" name=info_source[] value='幸福心學堂 Online 臉書' > 幸福心學堂 Online 臉書</label> <br/>
-            <label><input type="checkbox" name=info_source[] value='哈特麥臉書' > 哈特麥臉書</label> <br/>
+            @if(!isset($camp_data->variant) || $camp_data->variant != 'utcamp')
+                <label><input type="checkbox" name=info_source[] value='幸福心學堂 Online 臉書' > 幸福心學堂 Online 臉書</label> <br/>
+                <label><input type="checkbox" name=info_source[] value='哈特麥臉書' > 哈特麥臉書</label> <br/>
+            @endif
             <label><input type="checkbox" name=info_source[] value='自行搜尋' > 自行搜尋</label>
         </div>
     </div>
 
-    <div class='row form-group'>
-        <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>對哪些議題有興趣（可複選） </label>
-        <div class='col-md-10'>
-            <label><input type="checkbox" name=interesting[] value='生命故事' > 生命故事</label> <br/>
-            <label><input type="checkbox" name=interesting[] value='心靈教育' > 心靈教育</label> <br/>
-            <label><input type="checkbox" name=interesting[] value='人際溝通' > 人際溝通</label> <br/>
-            <label><input type="checkbox" name=interesting[] value='親子互動' > 親子互動</label> <br/>
-            <label><input type="checkbox" name=interesting[] value='校園淨塑' > 校園淨塑</label> <br/>
-            <label><input type="checkbox" name=interesting[] value='食農教育' > 食農教育</label> <br/>
-            <label><input type="checkbox" name=interesting[] value='師生關係' > 師生關係</label> <br/>
-            <label><input type="checkbox" name=interesting[] value='教師成長工作坊' > 教師成長工作坊</label> <br/>
-            <label><input type="checkbox" name=interesting[] value='經典教育' > 經典教育</label> <br/>
-            <label><input type="checkbox" name=interesting[] value='教學法' > 教學法</label> <br/>
+    @if(!isset($camp_data->variant) || $camp_data->variant != 'utcamp')
+        <div class='row form-group'>
+            <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>對哪些議題有興趣（可複選） </label>
+            <div class='col-md-10'>
+                <label><input type="checkbox" name=interesting[] value='生命故事' > 生命故事</label> <br/>
+                <label><input type="checkbox" name=interesting[] value='心靈教育' > 心靈教育</label> <br/>
+                <label><input type="checkbox" name=interesting[] value='人際溝通' > 人際溝通</label> <br/>
+                <label><input type="checkbox" name=interesting[] value='親子互動' > 親子互動</label> <br/>
+                <label><input type="checkbox" name=interesting[] value='校園淨塑' > 校園淨塑</label> <br/>
+                <label><input type="checkbox" name=interesting[] value='食農教育' > 食農教育</label> <br/>
+                <label><input type="checkbox" name=interesting[] value='師生關係' > 師生關係</label> <br/>
+                <label><input type="checkbox" name=interesting[] value='教師成長工作坊' > 教師成長工作坊</label> <br/>
+                <label><input type="checkbox" name=interesting[] value='經典教育' > 經典教育</label> <br/>
+                <label><input type="checkbox" name=interesting[] value='教學法' > 教學法</label> <br/>
+            </div>
         </div>
-    </div>
+        
+        <div class='row form-group required'>
+            <label for='inputTerm' class='col-md-2 control-label text-md-right'></label>
+            <div class='col-md-10 form-check'>
+                <label>
+                    <p class='form-control-static text-danger'>
+                    <input type='radio' required name="never_attend_any_stay_over_tcamps" value='1'> 我未曾參加過福智教師生命成長營——住宿型</p>
+                    <div class="invalid-feedback">
+                        請圈選本欄位
+                    </div>
+                </label>  
+                <input type='radio' class='d-none' name="portrait_agree" value='0'>  
+                <br/>
+            </div>
+        </div>
+    @else
+        <div class='row form-group'>
+            <label class='col-md-2 control-label text-md-right'>推薦人</label>
+            <div class='col-md-10'>
+                <div class='row form-group'>
+                    <div class='col-md-2'>
+                        姓名：
+                    </div>
+                    <div class='col-md-10'>
+                        <input type='text'class='form-control' name="introducer_name" value=''>
+                    </div>
+                    {{-- <div class="invalid-feedback">
+                        請填寫本欄位
+                    </div> --}}
+                </div>
+
+                <div class='row form-group'>
+                    <div class='col-md-2'>
+                        關係：
+                    </div>
+                    <div class='col-md-10'>
+                        <select name="introducer_relationship" class="form-control"> 
+                            <option value=''>- 請選擇 -</option>
+                            <option value='配偶'>配偶</option>
+                            <option value='學生'>學生</option>
+                            <option value='父母'>父母</option>
+                            <option value='兄弟姊妹'>兄弟姊妹</option>
+                            <option value='朋友'>朋友</option>
+                            <option value='同事'>同事</option>
+                            <option value='子女'>子女</option>
+                            <option value='其他'>其他</option>
+                        </select>
+                    </div>
+                </div>    
+            </div>
+        </div>
+    @endif
 
     <!--- 同意書 -->
-    <div class='row form-group required'>
-        <label for='inputTerm' class='col-md-2 control-label text-md-right'></label>
-        <div class='col-md-10 form-check'>
-            <label>
-                <p class='form-control-static text-danger'>
-                <input type='radio' required name="never_attend_any_stay_over_tcamps" value='1'> 我未曾參加過福智教師生命成長營——住宿型</p>
-                <div class="invalid-feedback">
-                    請圈選本欄位
-                </div>
-            </label>  
-            <input type='radio' class='d-none' name="portrait_agree" value='0'>  
-            <br/>
-        </div>
-    </div>
-
     <div class='row form-group required'>
         <label for='inputTerm' class='col-md-2 control-label text-md-right'>肖像權</label>
         <div class='col-md-10 form-check'>

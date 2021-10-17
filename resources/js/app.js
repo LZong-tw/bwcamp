@@ -36,6 +36,7 @@ if (process.env.NODE_ENV == "development") {
 import isEducatingSection from "./components/tcamp/IsEducatingSection.vue";
 import utcampUnitAndBatchSection from "./components/utcamp/UtcampUnitAndBatchSection.vue";
 import utcampTitle from "./components/utcamp/UtcampTitle.vue";
+import utcampIsBlisswisdom from "./components/utcamp/UtcampIsBlisswisdom.vue";
 
 window.onload = () => {
     // if(document.getElementById("is-educating-section"))
@@ -64,6 +65,15 @@ window.onload = () => {
             },
         });
         utcTitle.mount("#utcamp-title");
+    }
+
+    if($("#utcamp-is-blisswisdom").length) {
+        const utcIsBlisswisdom = Vue.createApp({
+            components: {
+                utcampIsBlisswisdom,
+            },
+        });
+        utcIsBlisswisdom.mount("#utcamp-is-blisswisdom");
     }
 };
 

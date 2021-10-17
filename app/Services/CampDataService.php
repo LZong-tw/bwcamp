@@ -27,7 +27,7 @@ class CampDataService
     public function checkBoxToArray($request) {
         // 各營隊客製化欄位特殊處理
         // 大專營：參加過的福智活動
-        if(isset($request->blisswisdom_type)) {
+        if(isset($request->blisswisdom_type) && is_array($request->blisswisdom_type)) {
             $request->merge([
                 'blisswisdom_type' => implode("||/", $request->blisswisdom_type)
             ]);

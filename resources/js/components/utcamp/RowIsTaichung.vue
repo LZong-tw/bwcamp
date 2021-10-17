@@ -15,49 +15,6 @@
                 >
                     選場次
                 </div>
-                <div
-                    id="tip"
-                    style="color: red; font-weight: bold"
-                    v-else-if="title === null"
-                >
-                    再選擇職稱，並於文字框做補充
-                </div>
-                <span v-if="school_or_course !== null">
-                    <component
-                        v-bind:is="toggleTitleComponent"
-                        @titleSelected="receivesTitle"
-                    ></component>
-                    <input
-                        type="text"
-                        required
-                        name="title"
-                        class="form-control"
-                        id="title"
-                        v-model="title"
-                        v-bind:disabled="title === null"
-                    />
-                    <div class="invalid-feedback crumb">請填寫職稱</div>
-                </span>
-            </div>
-        </div>
-        <div class="row form-group required">
-            <label
-                for="inputSubjectTeaches"
-                class="col-md-2 control-label text-md-right"
-                >任教科系/任教科目</label
-            >
-            <div class="col-md-10">
-                <input
-                    type="text"
-                    required
-                    name="subject_teaches"
-                    value=""
-                    class="form-control"
-                    id="inputSubjectTeaches"
-                />
-                <div class="invalid-feedback crumb">
-                    請填寫任教科系/任教科目
-                </div>
             </div>
         </div>
     </span>
