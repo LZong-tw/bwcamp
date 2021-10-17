@@ -39,8 +39,6 @@ export default {
             is_blisswisdom: '',
         };
     },
-    mounted() {
-        console.log('isbw mounted.');
-    },
+    mounted() {},
 }
 </script>

@@ -7,16 +7,12 @@
             <div class="col-md-10">
                 <select
                     name="unit"
-                    id=""
-                    required
-                    :class="
-                        selected.is_taichung === null
-                            ? 'is-invalid form-control'
-                            : 'is-valid form-control'
-                    "
+                    id="unit"
+                    class="form-control"
                     v-model="selected"
+                    required
                 >
-                    <option :value="{ is_taichung: null }">- 請選擇 -</option>
+                    <option :value="''">- 請選擇 -</option>
                     <option :value="{ is_taichung: 1, name: '123' }">台中</option>
                     <option :value="{ is_taichung: 0, name: '123' }">非台中</option>
                 </select>
@@ -34,16 +30,15 @@ export default {
     },
     data() {
         return {
-            selected: { is_taichung: null },
+            selected: '',
         };
     },
     computed: {
         toggleTaichungComponent() {
-            if (this.selected.is_taichung == 1) {
+            if (this.selected && this.selected.is_taichung == 1) {
                 return "row-Is-Taichung";
-            } else {
-                return null;
             }
+            return null;
         },
     },
     mounted() {

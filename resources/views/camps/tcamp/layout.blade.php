@@ -25,7 +25,6 @@
     {{-- <script src='{{ asset('js/bootstrap.bundle.min.js') }}'></script> --}}
     <!-- Bootstrap confirmation JS -->
     <script src='{{ asset('js/bootstrap-confirmation.min.js') }}'></script>
-    <script src='{{ asset('js/bootstrap-validate.js') }}'></script>
 </head>
 <BODY>
 <div id='fb-root'></div>

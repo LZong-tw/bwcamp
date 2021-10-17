@@ -111,22 +111,18 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 
     <div class='row form-group required'>
         <label for='inputBirth' class='col-md-2 control-label text-md-right'>年齡層</label>
-        <div class='date col-md-10' id='inputBirth'>
-            <div class='row form-group required'>
-                <div class="col-md-3">
-                    <select required class='form-control' name='age_range' placeholder=''>
-                        <option value="">- 請選擇 -</option>
-                        <option value="25 歲以下">25 歲以下</option>
-                        <option value="26 歲 - 35 歲">26 歲 - 35 歲</option>
-                        <option value="36 歲 - 45 歲">36 歲 - 45 歲</option>
-                        <option value="46 歲 - 55 歲">46 歲 - 55 歲</option>
-                        <option value="56 歲 - 65 歲">56 歲 - 65 歲</option>
-                        <option value="66 歲以上">66 歲以上</option>
-                    </select>
-                    <div class="invalid-feedback">
-                        未選擇
-                    </div>
-                </div>
+        <div class='col-md-10'>
+            <select required class='form-control' name='age_range' placeholder=''>
+                <option value="">- 請選擇 -</option>
+                <option value="25 歲以下">25 歲以下</option>
+                <option value="26 歲 - 35 歲">26 歲 - 35 歲</option>
+                <option value="36 歲 - 45 歲">36 歲 - 45 歲</option>
+                <option value="46 歲 - 55 歲">46 歲 - 55 歲</option>
+                <option value="56 歲 - 65 歲">56 歲 - 65 歲</option>
+                <option value="66 歲以上">66 歲以上</option>
+            </select>
+            <div class="invalid-feedback">
+                未選擇
             </div>
         </div>
     </div>
@@ -134,14 +130,14 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputEducation' class='col-md-2 control-label text-md-right'>最高學歷</label>
         <div class='col-md-10'>
-                <select name="education" class="form-control"> 
-                        <option value=''>- 請選擇 -</option>
-                        <option value='高中職'>高中職</option>
-                        <option value='大專'>大專</option>
-                        <option value='研究所'>研究所</option>
-                        <option value='博士'>博士</option>
-                        <option value='其他'>其他</option>
-                </select>
+            <select name="education" class="form-control" required> 
+                <option value=''>- 請選擇 -</option>
+                <option value='高中職'>高中職</option>
+                <option value='大專'>大專</option>
+                <option value='研究所'>研究所</option>
+                <option value='博士'>博士</option>
+                <option value='其他'>其他</option>
+            </select>
         </div>
     </div>
 
@@ -165,20 +161,16 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 
     <div class='row form-group required'>
         <label for='inputBirth' class='col-md-2 control-label text-md-right'>研習時數申請</label>
-        <div class='date col-md-10' id='inputBirth'>
-            <div class='row form-group required'>
-                <div class="col-md-3">
-                    <select required class='form-control' name='workshop_credit_type' placeholder=''>
-                        <option value="">- 請選擇 -</option>
-                        <option value="不申請">不申請</option>
-                        <option value="一般教師研習時數">一般教師研習時數</option>
-                        <option value="公務員研習時數">公務員研習時數</option>
-                        <option value="基金會研習數位證明">基金會研習數位證明</option>
-                    </select>
-                    <div class="invalid-feedback">
-                        未選擇
-                    </div>
-                </div>
+        <div class='col-md-10'>
+            <select required class='form-control' name='workshop_credit_type' placeholder=''>
+                <option value="">- 請選擇 -</option>
+                <option value="不申請">不申請</option>
+                <option value="一般教師研習時數">一般教師研習時數</option>
+                <option value="公務員研習時數">公務員研習時數</option>
+                <option value="基金會研習數位證明">基金會研習數位證明</option>
+            </select>
+            <div class="invalid-feedback">
+                未選擇
             </div>
         </div>
     </div>
@@ -527,24 +519,21 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputTerm' class='col-md-2 control-label text-md-right'>肖像權</label>
         <div class='col-md-10 form-check'>
-            <label>
-                <p class='form-control-static text-danger'>
-                <input type='radio' required name="portrait_agree" value='1'> 我同意主辦單位在營隊期間拍照、錄影之活動記錄，使用於營隊及主辦單位的非營利教育推廣使用，並以網路方式推播。</p>
-                <div class="invalid-feedback">
-                    請圈選本欄位
-                </div>
-            </label>  
-            <input type='radio' class='d-none' name="portrait_agree" value='0'>  
-            <br/>
+            <input type='radio' required name="portrait_agree form-control" value='1'><p class='form-control-static text-danger'>我同意主辦單位在營隊期間拍照、錄影之活動記錄，使用於營隊及主辦單位的非營利教育推廣使用，並以網路方式推播。</p>
+            <div class="invalid-feedback">
+                請圈選本欄位
+            </div>
+            <span class="form-check">
+                <input type='radio' class='d-none' name="portrait_agree" value='0'> 
+            </span>
         </div>
     </div>
 
     <div class='row form-group required'>
         <label for='inputTerm' class='col-md-2 control-label text-md-right'>個人資料</label>
         <div class='col-md-10'>
-            <label>
-                <p class='form-control-static text-danger'>
-                <input type='radio' required name='profile_agree' value='1'> 我同意主辦單位於本次營隊取得我的個人資料，於營隊期間及後續主辦單位舉辦之活動，作為訊息通知、行政處理等非營利目的之使用，不會提供給無關之其他私人單位使用。</p>
+            <label>                
+                <input type='radio' required name='profile_agree' value='1'><p class='form-control-static text-danger'>我同意主辦單位於本次營隊取得我的個人資料，於營隊期間及後續主辦單位舉辦之活動，作為訊息通知、行政處理等非營利目的之使用，不會提供給無關之其他私人單位使用。</p>
                 <div class="invalid-feedback">
                     請圈選本欄位
                 </div>
@@ -591,6 +580,11 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             onConfirm: function() {
                         if (document.Camp.checkValidity() === false) {
                             $(".tips").removeClass('d-none');
+                            if(document.Camp.title) {
+                                if(document.Camp.title.value == '' && document.Camp.title.disabled) {
+                                    document.Camp.title.classList.add("is-invalid");
+                                }
+                            }
                             event.preventDefault();
                             event.stopPropagation();
                         }
@@ -610,6 +604,11 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 var validation = Array.prototype.filter.call(forms, function(form) {
                     form.addEventListener('submit', function(event) {
                         if (form.checkValidity() === false) {
+                            if(document.Camp.title) {
+                                if(document.Camp.title.value == '' && document.Camp.title.disabled) {
+                                    document.Camp.title.classList.add("is-invalid");
+                                }
+                            }
                             event.preventDefault();
                             event.stopPropagation();
                         }
