@@ -3,7 +3,8 @@
 namespace App\Traits;
 
 trait EmailConfiguration {
-    public static function setEmail($camp) {
+    public static function setEmail($camp, $variant = null) {
+        if($variant){ $camp = $variant; }
         $config = \Config::get('mail.' . $camp);
         if($config && $config['username']){
             config([

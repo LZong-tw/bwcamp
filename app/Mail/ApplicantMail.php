@@ -24,7 +24,6 @@ class ApplicantMail extends Mailable
         $this->applicant = $applicant;
         $this->campData = $campData;
         $this->isGetSN = $isGetSN;
-        // $this->setEmail();
     }
 
     /**
