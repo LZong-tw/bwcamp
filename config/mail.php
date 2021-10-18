@@ -89,6 +89,18 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    'tcamp' => [
+        'address' => env('TCAMP_MAIL_USERNAME', 'hello@example.com'),
+        'username' => env('TCAMP_MAIL_USERNAME'),
+        'password' => env('TCAMP_MAIL_PASSWORD'),
+    ],
+
+    'utcamp' => [
+        'address' => env('UTCAMP_MAIL_USERNAME', 'hello@example.com'),
+        'username' => env('UTCAMP_MAIL_USERNAME'),
+        'password' => env('UTCAMP_MAIL_PASSWORD'),
+    ],
+
     'hcamp' => [
         'address' => env('HCAMP_MAIL_USERNAME', 'hello@example.com'),
         'username' => env('HCAMP_MAIL_USERNAME'),

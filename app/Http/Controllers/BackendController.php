@@ -12,9 +12,13 @@ use App\Models\CheckIn;
 use App\Models\Traffic;
 use Carbon\Carbon;
 use View;
+use App\Traits\EmailConfiguration;
 
 class BackendController extends Controller {
+    use EmailConfiguration;
+
     protected $campDataService, $applicantService, $batch_id, $camp_data, $batch, $has_attend_data;
+
     /**
      * Create a new controller instance.
      *
@@ -37,6 +41,8 @@ class BackendController extends Controller {
                     $this->has_attend_data = true; 
                 }
             }
+            // 動態載入電子郵件設定
+            $this->setEmail($this->camp_data->table, $this->camp_data->variant);
         }
         if($request->route()->parameter('camp_id')){
             $this->middleware('permitted');
@@ -49,6 +55,8 @@ class BackendController extends Controller {
                     $this->has_attend_data = true; 
                 }
             }
+            // 動態載入電子郵件設定
+            $this->setEmail($this->campFullData->table, $this->campFullData->variant);
         }
         if(\Str::contains(url()->current(), "campManage")){
             $this->middleware('admin');
@@ -753,7 +761,7 @@ class BackendController extends Controller {
             }
         }
         foreach($receivers as $receiver){
-            \Mail::to($receiver)->queue(new \App\Mail\CustomMail($request->subject, $request->content, $files, $receiver->batch->camp->table));
+            \Mail::to($receiver)->queue(new \App\Mail\CustomMail($request->subject, $request->content, $files, $receiver->batch->camp->variant ?? $receiver->batch->camp->table));
         }
         return view("backend.other.mailSent", ['message' => '已成功將自定郵件送入任務佇列。']);
     }

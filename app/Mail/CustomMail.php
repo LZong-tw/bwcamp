@@ -18,12 +18,12 @@ class CustomMail extends Mailable
      *
      * @return void
      */
-    public function __construct($subject, $content, $attachment, $camp) {
+    public function __construct($subject, $content, $attachment, $campOrVariant) {
         //
         $this->subject = $subject;
         $this->content = $content;
         $this->attachment = $attachment;
-        $this->camp = $camp;
+        $this->camp = $campOrVariant;
     }
 
     /**
@@ -33,6 +33,7 @@ class CustomMail extends Mailable
      */
     public function build() {
         sleep(10);
+        logger( \Config::get('mail'));
         $email = $this->subject($this->subject)->view("backend.other.customMailView");
         $attachmentCount = count($this->attachment);
         $attachments = null;
