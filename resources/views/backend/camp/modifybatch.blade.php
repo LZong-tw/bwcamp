@@ -43,7 +43,10 @@
         <div class='row form-group'>
             <label for='inputName' class='col-md-1 control-label'>允許前台報名</label>
             <div class='col-md-6'>
-                <input type="date" name="batch_end" id="" class='form-control' value="{{ $batch->is_appliable ?? "" }}">
+                <select name="is_appliable" id="" class="form-control">
+                    <option value="1" @if($batch->is_appliable) selected @endif>是</option>
+                    <option value="0" @if(!$batch->is_appliable) selected @endif>否</option>
+                </select>
             </div>
         </div>
         <div class='row form-group'>
