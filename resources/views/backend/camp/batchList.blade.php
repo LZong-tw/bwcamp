@@ -22,6 +22,7 @@
             <th>錄取編號前綴</th>
             <th>梯次開始日</th>
             <th>梯次結束日</th>
+            <th>允許前台報名</th>
             <th>是否延後截止報名</th>
             <th>報名延後截止日 </th>
             <th>地點名</th>
@@ -39,6 +40,7 @@
                 <td>{{ $batch->admission_suffix }}</td>
                 <td>{{ $batch->batch_start }}</td>
                 <td>{{ $batch->batch_end }}</td>
+                <td>{{ $batch->is_appliable }}</td>
                 <td>{{ $batch->is_late_registration_end }}</td>
                 <td>{{ $batch->late_registration_end }}</td>
                 <td>{{ $batch->locationName }}</td>
