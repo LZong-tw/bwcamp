@@ -41,6 +41,12 @@
             </div>
         </div>
         <div class='row form-group'>
+            <label for='inputName' class='col-md-1 control-label'>允許前台報名</label>
+            <div class='col-md-6'>
+                <input type="date" name="batch_end" id="" class='form-control' value="{{ $batch->is_appliable ?? "" }}">
+            </div>
+        </div>
+        <div class='row form-group'>
             <label for='inputName' class='col-md-1 control-label'>是否延後截止報名</label>
             <div class='col-md-6'>
                 <select name="is_late_registration_end" id="" class='form-control'>
