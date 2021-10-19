@@ -473,7 +473,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         請圈選本欄位
                     </div>
                 </label>  
-                <input type='radio' class='d-none' name="portrait_agree" value='0'>  
+                <input type='radio' class='d-none' name="never_attend_any_stay_over_tcamps" value='0'>  
                 <br/>
             </div>
         </div>
@@ -519,7 +519,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputTerm' class='col-md-2 control-label text-md-right'>肖像權</label>
         <div class='col-md-10 form-check'>
-            <input type='radio' required name="portrait_agree form-control" value='1'><p class='form-control-static text-danger'>我同意主辦單位在營隊期間拍照、錄影之活動記錄，使用於營隊及主辦單位的非營利教育推廣使用，並以網路方式推播。</p>
+            <input type='radio' required name="portrait_agree" value='1'><p class='form-control-static text-danger'>我同意主辦單位在營隊期間拍照、錄影之活動記錄，使用於營隊及主辦單位的非營利教育推廣使用，並以網路方式推播。</p>
             <div class="invalid-feedback">
                 請圈選本欄位
             </div>
