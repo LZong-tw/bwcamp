@@ -11,19 +11,21 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 @section('content')
     @include('partials.schools_script')
     @include('partials.counties_areas_script')
-    <div class="alert alert-warning">
-        <h4>教師營活動宗旨</h4>
-        <ol>
-            <li>建立正確的教育理念，體會教育工作的價值。</li>
-            <li>豐富教師的心靈涵養，探索真實快樂的方法。 </li>
-            <li>結識志同道合的夥伴，相互增長教學的動能。</li>
-            <li>符合 108 課綱精神，提供教師轉化實踐策略。</li>
-        </ol>
-        <h5>報名期間：110年11月1日(一) 起至110年12月10日(三)止</h5>
-        <h5>研習時數：凡參加研習者依規定核發研習時數或數位研習證書。</h5>
-        <h6>主辦單位：財團法人福智文教基金會</h6>
-        <h6>協辦單位：福智學校財團法人、基隆市七堵區瑪陵國民小學、屏東縣立大路關國民中小學</h6>
-    </div>
+    @if(!$camp_data->variant)
+        <div class="alert alert-warning">
+            <h4>教師營活動宗旨</h4>
+            <ol>
+                <li>建立正確的教育理念，體會教育工作的價值。</li>
+                <li>豐富教師的心靈涵養，探索真實快樂的方法。 </li>
+                <li>結識志同道合的夥伴，相互增長教學的動能。</li>
+                <li>符合 108 課綱精神，提供教師轉化實踐策略。</li>
+            </ol>
+            <h5>報名期間：110年11月1日(一) 起至110年12月5日(三)止</h5>
+            <h5>研習時數：凡參加研習者依規定核發研習時數或數位研習證書。</h5>
+            <h6>主辦單位：財團法人福智文教基金會</h6>
+            <h6>協辦單位：福智學校財團法人、基隆市七堵區瑪陵國民小學、屏東縣立大路關國民中小學</h6>
+        </div>
+    @endif
     <div class='alert alert-info' role='alert'>
         您在本網站所填寫的個人資料，僅用於此次教師營的報名及活動聯絡之用。
     </div>
@@ -142,9 +144,27 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class='row form-group required'>
+        <label for='inputBirth' class='col-md-2 control-label text-md-right'>研習時數申請</label>
+        <div class='col-md-10'>
+            <select required class='form-control' name='workshop_credit_type' placeholder='' onchange="id_setRequired(this)">
+                <option value="">- 請選擇 -</option>
+                <option value="不申請">不申請</option>
+                @if(!$camp_data->variant)
+                    <option value="一般教師研習時數">一般教師研習時數</option>
+                @endif
+                <option value="公務員研習時數">公務員研習時數</option>
+                <option value="基金會研習數位證明書">基金會研習數位證明書</option>
+            </select>
+            <div class="invalid-feedback">
+                未選擇
+            </div>
+        </div>
+    </div>
+
+    <div class='row form-group'>
         <label for='inputID' class='col-md-2 control-label text-md-right'>身份證字號</label>
         <div class='col-md-10'>
-            <input type='text' name='idno' value='' class='form-control' id='inputID' placeholder='僅作為申請研習時數或研習證明用' required @if(isset($isModify) && $isModify) disabled @endif>
+            <input type='text' name='idno' value='' class='form-control' id='inputID' placeholder='僅作為申請研習時數或研習證明用' @if(isset($isModify) && $isModify) disabled @endif>
             <div class="invalid-feedback">
                 請填寫身份證字號
             </div>
@@ -159,41 +179,25 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>--}}
 
-    <div class='row form-group required'>
-        <label for='inputBirth' class='col-md-2 control-label text-md-right'>研習時數申請</label>
-        <div class='col-md-10'>
-            <select required class='form-control' name='workshop_credit_type' placeholder=''>
-                <option value="">- 請選擇 -</option>
-                <option value="不申請">不申請</option>
-                <option value="一般教師研習時數">一般教師研習時數</option>
-                <option value="公務員研習時數">公務員研習時數</option>
-                <option value="基金會研習數位證明">基金會研習數位證明</option>
-            </select>
-            <div class="invalid-feedback">
-                未選擇
+    @if(!$camp_data->variant)
+        <div class='row form-group required'>
+            <label for='inputHasLicense' class='col-md-2 control-label text-md-right'>是否有教師證</label>
+            <div class='col-md-10'>
+                <label class=radio-inline>
+                    <input type=radio required name='has_license' value=1 > 有
+                    <div class="invalid-feedback">
+                        請勾選是否有教師證
+                    </div>
+                </label> 
+                <label class=radio-inline>
+                    <input type=radio required name='has_license' value=0 > 無
+                    <div class="invalid-feedback">
+                        &nbsp;
+                    </div>
+                </label> 
             </div>
         </div>
-    </div>
 
-    {{-- <div class='row form-group required'>
-        <label for='inputHasLicense' class='col-md-2 control-label text-md-right'>是否有教師證</label>
-        <div class='col-md-10'>
-            <label class=radio-inline>
-                <input type=radio required name='has_license' value=1 > 有
-                <div class="invalid-feedback">
-                    請勾選是否有教師證
-                </div>
-            </label> 
-            <label class=radio-inline>
-                <input type=radio required name='has_license' value=0 > 無
-                <div class="invalid-feedback">
-                    &nbsp;
-                </div>
-            </label> 
-        </div>
-    </div> --}}
-
-    @if(!$camp_data->variant)
         <div id="is-educating-section" class="m-0 p-0">
             <Is-Educating-Section></Is-Educating-Section>
         </div>
@@ -393,7 +397,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
     
     <div class='row form-group'>
-        <label for='inputExpect' class='col-md-2 control-label text-md-right'>您對這次活動的期望？</label>
+        <label for='inputExpect' class='col-md-2 control-label text-md-right'>我對這次活動的期望</label>
         <div class='col-md-10'>
             <textarea class='form-control' rows=2 name='expectation' id=inputExpect></textarea>
             {{-- <div class="invalid-feedback">
@@ -448,18 +452,13 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 
     @if(!isset($camp_data->variant) || $camp_data->variant != 'utcamp')
         <div class='row form-group'>
-            <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>對哪些議題有興趣（可複選） </label>
+            <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>對哪些活動有興趣（可複選） </label>
             <div class='col-md-10'>
-                <label><input type="checkbox" name=interesting[] value='生命故事' > 生命故事</label> <br/>
-                <label><input type="checkbox" name=interesting[] value='心靈教育' > 心靈教育</label> <br/>
-                <label><input type="checkbox" name=interesting[] value='人際溝通' > 人際溝通</label> <br/>
-                <label><input type="checkbox" name=interesting[] value='親子互動' > 親子互動</label> <br/>
-                <label><input type="checkbox" name=interesting[] value='校園淨塑' > 校園淨塑</label> <br/>
-                <label><input type="checkbox" name=interesting[] value='食農教育' > 食農教育</label> <br/>
-                <label><input type="checkbox" name=interesting[] value='師生關係' > 師生關係</label> <br/>
-                <label><input type="checkbox" name=interesting[] value='教師成長工作坊' > 教師成長工作坊</label> <br/>
-                <label><input type="checkbox" name=interesting[] value='經典教育' > 經典教育</label> <br/>
-                <label><input type="checkbox" name=interesting[] value='教學法' > 教學法</label> <br/>
+                <label><input type="checkbox" name=interesting[] value='心靈成長講座' > 心靈成長講座</label> <br/>
+                <label><input type="checkbox" name=interesting[] value='教材教法工作坊' > 教材教法工作坊</label> <br/>
+                <label><input type="checkbox" name=interesting[] value='淨灘淨山' > 淨灘淨山</label> <br/>
+                <label><input type="checkbox" name=interesting[] value='農場體驗' > 農場體驗</label> <br/>
+                <label><input type="checkbox" name=interesting[] value='校園參訪' > 校園參訪</label> <br/>
             </div>
         </div>
         
@@ -725,6 +724,17 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             for(let i = 0; i < titles.length; i++){
                 titles[i].addEventListener("click", fillTheTitle);
                 titles[i].addEventListener("change", fillTheTitle);
+            }
+        }
+
+        function id_setRequired(ele) {
+            if(ele.value == "一般教師研習時數" || ele.value == "公務員研習時數") {
+                $("#inputID").prop('required',true);
+                $("#inputID").parent().parent().addClass("required");
+            }
+            else {
+                $("#inputID").prop('required',false);
+                $("#inputID").parent().parent().removeClass("required");
             }
         }
 
