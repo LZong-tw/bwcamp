@@ -8,7 +8,7 @@
                 >任職機關/任教學程</label
             >
             <div class="col-md-10">
-                <label class="radio-inline">
+                <label class="radio-inline mr-2">
                     <input
                         type="radio"
                         required
@@ -22,13 +22,13 @@
                         請勾選任職機關/任教學程
                     </div>
                 </label>
-                <label class="radio-inline">
+                <label class="radio-inline mx-2">
                     <input type=radio required name='school_or_course'
                     value=教育局/處 class="officials"
                     v-model="school_or_course"> 教育局/處
                     <div class="invalid-feedback crumb">&nbsp;</div>
                 </label>                
-                <label class="radio-inline">
+                <label class="radio-inline mx-2">
                     <input
                         type="radio"
                         required
@@ -40,7 +40,7 @@
                     高中職
                     <div class="invalid-feedback crumb">&nbsp;</div>
                 </label>
-                <label class="radio-inline">
+                <label class="radio-inline mx-2">
                     <input
                         type="radio"
                         required
@@ -52,7 +52,7 @@
                     國中
                     <div class="invalid-feedback crumb">&nbsp;</div>
                 </label>
-                <label class="radio-inline">
+                <label class="radio-inline mx-2">
                     <input
                         type="radio"
                         required
@@ -64,7 +64,7 @@
                     國小
                     <div class="invalid-feedback crumb">&nbsp;</div>
                 </label>
-                <label class="radio-inline">
+                <label class="radio-inline ml-2">
                     <input
                         type="radio"
                         required
