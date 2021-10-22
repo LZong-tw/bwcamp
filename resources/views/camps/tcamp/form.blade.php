@@ -161,7 +161,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-    <div class='row form-group'>
+    <div class='row form-group required' style="display: none;">
         <label for='inputID' class='col-md-2 control-label text-md-right'>身份證字號</label>
         <div class='col-md-10'>
             <input type='text' name='idno' value='' class='form-control' id='inputID' placeholder='僅作為申請研習時數或研習證明用' @if(isset($isModify) && $isModify) disabled @endif>
@@ -616,9 +616,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 });
             }, false);
         })();     
-        
-        let categories = null;
-        let rowIsEducating = null;
 
         /**
         * Ready functions.
@@ -626,126 +623,17 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         */
         document.onreadystatechange = () => {
             if (document.readyState === 'complete') {
-            //     /**
-            //     * 是否在學校或教育單位任職，勾選後顯示/隱藏任職單位相關欄位。
-            //     */
-            //     rowIsEducating = document.getElementById("rowIsEducating");
-            //     document.getElementById("is_educating_y").addEventListener("change", showFields);
-            //     document.getElementById("is_educating_n").addEventListener("change", hideFields);
-            //     if(document.getElementById("is_educating_n").checked){
-            //         hideFields();
-            //     }
-            //     /**
-            //     * 任職機關/任教學程，勾選後顯示對應職稱。
-            //     */
-            //     categories = document.getElementsByName("school_or_course");
-            //     for(let i = 0; i < categories.length; i++){
-            //         categories[i].addEventListener("click", changeJobTitleList);
-            //         categories[i].addEventListener("change", changeJobTitleList);
-            //     }
-                            
-            //     /**
-            //     * 選擇職稱後，將職稱填至欄位中。
-            //     */
-            //     titles = document.getElementsByName("data[12]");
-            //     for(let i = 0; i < titles.length; i++){
-            //         titles[i].addEventListener("click", fillTheTitle);
-            //         titles[i].addEventListener("change", fillTheTitle);
-            //     }
             }
         };
 
-        function showFields(){        
-            rowIsEducating.innerHTML = "<div class='row form-group required'>" +
-                "    <label for='inputSchoolOrCourse' class='col-md-2 control-label text-md-right'>任職機關/任教學程</label>" +
-                "    <div class='col-md-10'>" +
-                "        <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=教育部 class='officials'> 教育部" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                請勾選任職機關/任教學程" +
-                "            </div>" +
-                "        </label> " +
-                "        <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=教育局/處 class='officials'> 教育局/處" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                &nbsp;" +
-                "            </div>" +
-                "        </label> " +
-                "        <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=大專校院 class='universities'> 大專校院" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                &nbsp;" +
-                "            </div>" +
-                "        </label> <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=高中職 class='compulsories'> 高中職" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                &nbsp;" +
-                "            </div>" +
-                "        </label> <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=國中 class='compulsories'> 國中" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                &nbsp;" +
-                "            </div>" +
-                "        </label> <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=國小 class='compulsories'> 國小" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                &nbsp;" +
-                "            </div>" +
-                "        </label> <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=幼教 class='compulsories'> 幼教" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                &nbsp;" +
-                "            </div>" +
-                "        </label> " +
-                "    </div>" +
-                "</div>" +
-                "<div class='row form-group required'> " +
-                "<label for='inputSubjectTeaches' class='col-md-2 control-label text-md-right'>任教科系/任教科目</label>" +
-                "    <div class='col-md-10'>" +
-                "        <input type=text required  name='subject_teaches' value='' class='form-control' id='inputSubjectTeaches'>" +
-                "        <div class='invalid-feedback crumb'>" +
-                "            請填寫任教科系/任教科目" +
-                "        </div>" +
-                "    </div>" +
-                "</div>";
-
-            document.getElementById("tip").innerHTML = '請先選擇任教機關/任教學程';
-                
-            /*************************************
-             * 物件重建後需重新設定 event listener
-             *************************************/
-            categories = document.getElementsByName("school_or_course");
-            for(let i = 0; i < categories.length; i++){
-                categories[i].addEventListener("click", changeJobTitleList);
-                categories[i].addEventListener("change", changeJobTitleList);
-            }
-
-            titles = document.getElementsByName("data[12]");
-            for(let i = 0; i < titles.length; i++){
-                titles[i].addEventListener("click", fillTheTitle);
-                titles[i].addEventListener("change", fillTheTitle);
-            }
-        }
-
         function id_setRequired(ele) {
             if(ele.value == "一般教師研習時數" || ele.value == "公務員研習時數") {
+                $("#inputID").parent().parent().show();
                 $("#inputID").prop('required',true);
-                $("#inputID").parent().parent().addClass("required");
             }
             else {
                 $("#inputID").prop('required',false);
-                $("#inputID").parent().parent().removeClass("required");
-            }
-        }
-
-        function hideFields(){        
-            rowIsEducating.innerHTML = '';
-            document.getElementById("tip").innerHTML = '';
-        }
-
-        function setUnrequired(elements){
-            for(let i = 0; i < elements.length; i++){
-                elements[i].required = false;
+                $("#inputID").parent().parent().hide();
             }
         }
 
@@ -753,38 +641,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             for(let i = 0; i < elements.length; i++){
                 elements[i].required = true;
             }
-        }
-
-        function changeJobTitleList(){
-            if(this.checked){
-                document.getElementById('tip').style.display = 'none';
-                document.getElementById('title').value = '';
-                titleSets = document.getElementsByClassName("titles");
-                for(let i = 0 ; i < titleSets.length ; i++){
-                    if(titleSets[i].className.includes(this.className)){
-                        titleSets[i].style.display = "";
-                    }
-                    else{
-                        inputs = titleSets[i].getElementsByTagName('input');
-                        for(let j = 0 ; j < inputs.length ; j++){
-                            inputs[j].checked = false;
-                        }
-                        titleSets[i].style.display = "none";
-                    }
-                }
-            }
-        }
-        
-        function fillTheTitle(){
-            if(this.value == '其他'){
-                document.getElementById('title').value = '請在此處自行輸入職稱';
-            }
-            else if(this.value == '兼課老師'){
-                document.getElementById('title').value = '兼課老師(兼課時數: 小時)';
-            }
-            else if(this.value != null){
-                document.getElementById('title').value = this.value;
-            }            
         }
 
         @if(isset($applicant_data))
