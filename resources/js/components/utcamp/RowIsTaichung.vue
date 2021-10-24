@@ -5,16 +5,20 @@
             <label
                 for="inputSubjectTeaches"
                 class="col-md-2 control-label text-md-right"
-                >台中可以選場次</label
+                >報名場次</label
             >
             <div class="col-md-10">
-                <div
-                    id="tip"
-                    style="color: red; font-weight: bold"
-                    v-if="title === null && school_or_course === null"
-                >
-                    選場次
-                </div>
+                <select name="batch_id" id="" class="form-control" required>
+                    <option value="">請選擇</option>
+                    <option
+                        v-for="(item, key) in batches"
+                        :value="item.id"
+                        :key="key"
+                    >
+                        {{ item.name }}
+                    </option>
+                </select>
+                <div class="invalid-feedback">請選擇報名場次</div>
             </div>
         </div>
     </span>
@@ -25,6 +29,7 @@ export default {
         return {
             school_or_course: null,
             title: null,
+            batches: null,
         };
     },
     components: {
@@ -114,7 +119,12 @@ export default {
         },
     },
     mounted() {
-        // console.log("Mounted.");
+        let batch_id = window.location.pathname.split('/')[2];
+        console.log(batch_id);
+        axios.post("/api/getBatch", {id: batch_id}).then((res) => {
+            this.batches = res.data;
+            console.log(res.data);
+        });
     },
 };
 </script>
