@@ -17,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::post('getBatch', function (Request $request) {
+   return \App\Models\Batch::where('camp_id', \App\Models\Batch::find($request->id)->camp->id)->get()->toArray();
+});

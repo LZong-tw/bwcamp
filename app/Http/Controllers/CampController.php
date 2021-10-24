@@ -377,4 +377,8 @@ class CampController extends Controller
     public function showCampPayment() {
         return view('camps.' . $this->camp_data->table . '.payment');
     }
+
+    public function returnBatches() {
+        return;
+    }
 }
