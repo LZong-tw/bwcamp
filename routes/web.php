@@ -23,6 +23,7 @@ Route::get('/', function () {
     foreach($campsByBatch as &$camp){
         if($camp->camp){
             $camp->camp->batch_id = $camp->id;
+            $camp->camp->batch_name = $camp->name;
             array_push($camps, $camp->camp);
         }
     }
