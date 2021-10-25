@@ -8,7 +8,7 @@
                 >報名場次</label
             >
             <div class="col-md-10">
-                <select name="batch_id" id="" class="form-control" required>
+                <select name="set_batch_id" id="" class="form-control" required>
                     <option value="">請選擇</option>
                     <option
                         v-for="(item, key) in batches"

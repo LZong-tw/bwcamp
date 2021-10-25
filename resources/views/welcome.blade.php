@@ -86,7 +86,7 @@
                 <div class="h3">目前營隊</div>
                 <div class="links h4">
                     @forelse ($camps as $camp)
-                        <a href="camp/{{ $camp->batch_id }}/registration">{{ $camp->abbreviation }}</a>
+                        <a href="camp/{{ $camp->batch_id }}/registration">{{ $camp->abbreviation }} - {{ $camp->batch_name }}</a>
                     @empty
                         <a>無</a>
                     @endforelse
