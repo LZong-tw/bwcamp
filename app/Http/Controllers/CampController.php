@@ -251,16 +251,22 @@ class CampController extends Controller
     public function campGetApplicantSN(Request $request) {
         $campTable = $this->camp_data->table;
         $applicant = Applicant::select('applicants.id', 'applicants.email', 'applicants.name', $campTable . '.*')
-                ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
-                ->where('applicants.name', $request->name)
-                ->where('birthyear', ltrim($request->birthyear, '0'))
-                ->where('birthmonth', ltrim($request->birthmonth, '0'));
-        if($campTable == 'acamp'){
-            $applicant = $applicant->withTrashed()->first();
+        ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
+        ->where('applicants.name', $request->name);
+        if($request->mobile){
+            $applicant = $applicant->where('mobile', $request->mobile)
+            ->withTrashed()->first();
         }
         else{
-            $applicant = $applicant->where('birthday', ltrim($request->birthday, '0'))
-            ->withTrashed()->first();
+            $applicant = $applicant->where('birthyear', ltrim($request->birthyear, '0'))
+            ->where('birthmonth', ltrim($request->birthmonth, '0'));
+            if($campTable == 'acamp'){
+                $applicant = $applicant->withTrashed()->first();
+            }
+            else{
+                $applicant = $applicant->where('birthday', ltrim($request->birthday, '0'))
+                ->withTrashed()->first();
+            }
         }
         if($applicant) {
             // 寄送報名序號
