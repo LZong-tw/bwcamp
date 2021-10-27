@@ -18,5 +18,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::post('getBatch', function (Request $request) {
-   return \App\Models\Batch::where('camp_id', \App\Models\Batch::find($request->id)->camp->id)->get()->toArray();
+   $batches = \App\Models\Batch::where('camp_id', \App\Models\Batch::find($request->id)->camp->id)->get();
+   foreach($batches as &$batch) {
+       $batch->name = $batch->name . " "  . (new \Carbon\Carbon($batch->batch_start))->translatedFormat("m/d(D)") . "~" . (new \Carbon\Carbon($batch->batch_end))->translatedFormat("m/d(D)");
+   }
+   return $batches->toArray();
 });
