@@ -22,7 +22,7 @@
                         <input type="radio" value="副教授" v-model='title' @change="checkValidity()" name="pre_title" required>副教授
                         <input type="radio" value="助理教授" v-model='title' @change="checkValidity()" name="pre_title" required>助理教授
                         <input type="radio" value="講師" v-model='title' @change="checkValidity()" name="pre_title" required>講師<br>
-                        <input type="radio" value="職員" v-model='title' @change="checkValidity()" name="pre_title" required>職員
+                        <input type="radio" value="行政人員：" v-model='title' @change="checkValidity()" name="pre_title" required>行政人員(請於下方填寫職稱)
                         <input type="radio" value="" v-model='title' @change="checkValidity()" name="pre_title" required>其他(請於下方填寫)
                         <div class="invalid-feedback crumb">請選擇並填寫職稱</div>
                     </div>
@@ -33,6 +33,9 @@
                         class="form-control"
                         :value="title"
                         :disabled="title === null"
+                        :pattern="
+                            title == '行政人員：' ? '.{7,40}' : null
+                        "
                         @input="checkValidity($event)"
                     />
                     <div class="invalid-feedback crumb" id="title">請填寫職稱</div>
