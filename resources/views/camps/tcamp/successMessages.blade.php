@@ -1,3 +1,3 @@
 
 請記下您的<span class="text-danger font-weight-bold">《 報名序號：{{ $applicant->id }} 》</span>作為日後查詢使用。
-錄取結果將在 <u>{{ $camp_data->admission_announcing_date }} ({{ $admission_announcing_date_Weekday }})</u> 起於網上公布，請自行上網查詢。
+請於 <u>{{ \Carbon\Carbon::parse($campData->admission_announcing_date)->translatedFormat("Y年m月d日(l)") }}</u> 起，至活動網站 <a href="http://bwfoce.org/tcamp">http://bwfoce.org/tcamp</a> 查詢是否錄取。
