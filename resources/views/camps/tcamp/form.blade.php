@@ -457,7 +457,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <label><input type="checkbox" name=interesting[] value='心靈成長講座' > 心靈成長講座</label> <br/>
                 <label><input type="checkbox" name=interesting[] value='教材教法工作坊' > 教材教法工作坊</label> <br/>
                 <label><input type="checkbox" name=interesting[] value='淨灘淨山' > 淨灘淨山</label> <br/>
-                <label><input type="checkbox" name=interesting[] value='農場體驗' > 農場體驗</label>
+                <label><input type="checkbox" name=interesting[] value='農場體驗' > 農場體驗</label> <br/>
+                <label><input type="checkbox" name=interesting[] value='其他' onchange="document.getElementById('interesting_complement').required = document.getElementById('interesting_complement').required ? 1 : 0"> 其他</label> <br>
+                <input type=text class='form-control' name="interesting_complement" value='' id="interesting_complement">
             </div>
         </div>
         
