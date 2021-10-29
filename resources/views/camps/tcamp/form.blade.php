@@ -91,7 +91,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <label for='inputGender' class='col-md-2 control-label text-md-right'>生理性別</label>
         <div class='col-md-10'>
             <div class="form-check form-check-inline">
-                <label class="form-check-label" for="M">
+                <label class="form-check-label">
                     <input class="form-check-input" type="radio" name="gender" value="M" required @if(isset($isModify) && $isModify) disabled @endif>
                     男
                     <div class="invalid-feedback">
@@ -100,7 +100,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 </label>
             </div>
             <div class="form-check form-check-inline">
-                <label class="form-check-label" for="F">
+                <label class="form-check-label">
                     <input class="form-check-input" type="radio" name="gender" value="F" required @if(isset($isModify) && $isModify) disabled @endif>
                     女
                     <div class="invalid-feedback">
@@ -136,7 +136,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <option value=''>- 請選擇 -</option>
                 <option value='高中職'>高中職</option>
                 <option value='大專'>大專</option>
-                <option value='研究所'>研究所</option>
+                <option value='碩士'>碩士</option>
                 <option value='博士'>博士</option>
                 <option value='其他'>其他</option>
             </select>
@@ -324,7 +324,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <label for='inputEmail' class='col-md-2 control-label text-md-right'>願意收到福智文教基金會電子報</label>
         <div class="col-md-10">
             <div class="form-check form-check-inline">
-                <label class="form-check-label" for="1">
+                <label class="form-check-label">
                     <input type="radio" name="is_allow_notified" value="1" required>
                     是
                     <div class="invalid-feedback">
@@ -333,7 +333,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 </label>
             </div>
             <div class="form-check form-check-inline">
-                <label class="form-check-label" for="0">
+                <label class="form-check-label">
                     <input type="radio" name="is_allow_notified" value="0" required>
                     否
                     <div class="invalid-feedback">
@@ -416,7 +416,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>是否參加過福智的活動</label>
             <div class='col-md-10'>
                 <div class="form-check form-check-inline">
-                    <label class="form-check-label" for="1">
+                    <label class="form-check-label">
                         <input type="radio" name="is_blisswisdom" value='1' > 是
                         <div class="invalid-feedback">
                             請選擇項目
@@ -424,7 +424,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     </label> 
                 </div>
                 <div class="form-check form-check-inline">
-                    <label class="form-check-label" for="0">
+                    <label class="form-check-label">
                         <input type="radio" name="is_blisswisdom" value='0' > 否
                         <div class="invalid-feedback">
                             &nbsp;
@@ -470,14 +470,15 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <label for='inputTerm' class='col-md-2 control-label text-md-right'></label>
             <div class='col-md-10 form-check'>
                 <label>
-                    <p class='form-control-static text-danger'>
-                    <input type='radio' required name="never_attend_any_stay_over_tcamps" value='1'> 我未曾參加過福智教師生命成長營——住宿型</p>
-                    <div class="invalid-feedback">
-                        請圈選本欄位
-                    </div>
+                    <p class='form-control-static text-danger mb-0'>
+                        <input type='radio' required name="never_attend_any_stay_over_tcamps" value='1'> 
+                        我未曾參加過福智教師生命成長營——住宿型
+                    </p>
                 </label>  
-                <input type='radio' class='d-none' name="never_attend_any_stay_over_tcamps" value='0'>  
-                <br/>
+                <input type='radio' class='d-none' name="never_attend_any_stay_over_tcamps" value='0'>
+                <div class="invalid-feedback mt-0">
+                    請圈選本欄位
+                </div>
             </div>
         </div>
     @else
@@ -522,27 +523,32 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputTerm' class='col-md-2 control-label text-md-right'>肖像權</label>
         <div class='col-md-10 form-check'>
-            <input type='radio' required name="portrait_agree" value='1'><p class='form-control-static text-danger'>我同意主辦單位在營隊期間拍照、錄影之活動記錄，使用於營隊及主辦單位的非營利教育推廣使用，並以網路方式推播。</p>
-            <div class="invalid-feedback">
+            <p class='form-control-static text-danger mb-0'>
+                <label>
+                    <input type='radio' required name="portrait_agree" value='1'>
+                    我同意主辦單位在營隊期間拍照、錄影之活動記錄，使用於營隊及主辦單位的非營利教育推廣使用，並以網路方式推播。
+                </label>
+            </p>
+            <input type='radio' class='d-none' name="portrait_agree" value='0'> 
+            <div class="invalid-feedback mt-0">
                 請圈選本欄位
             </div>
-            <span class="form-check">
-                <input type='radio' class='d-none' name="portrait_agree" value='0'> 
-            </span>
         </div>
     </div>
 
     <div class='row form-group required'>
         <label for='inputTerm' class='col-md-2 control-label text-md-right'>個人資料</label>
         <div class='col-md-10'>
-            <label>                
-                <input type='radio' required name='profile_agree' value='1'><p class='form-control-static text-danger'>我同意主辦單位於本次營隊取得我的個人資料，於營隊期間及後續主辦單位舉辦之活動，作為訊息通知、行政處理等非營利目的之使用，不會提供給無關之其他私人單位使用。</p>
-                <div class="invalid-feedback">
-                    請圈選本欄位
-                </div>
-            </label> 
+            <p class='form-control-static text-danger mb-0'>
+                <label>                
+                    <input type='radio' required name='profile_agree' value='1'>
+                    我同意主辦單位於本次營隊取得我的個人資料，於營隊期間及後續主辦單位舉辦之活動，作為訊息通知、行政處理等非營利目的之使用，不會提供給無關之其他私人單位使用。
+                </label> 
+            </p>
             <input type='radio' class='d-none' name='profile_agree' value='0' >
-            <br/>
+            <div class="invalid-feedback mt-0">
+                請圈選本欄位
+            </div>
         </div>
     </div>
 

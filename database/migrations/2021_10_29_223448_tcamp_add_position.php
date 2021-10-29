@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class TcampAddInterestingComplement extends Migration
+class TcampAddPosition extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +15,7 @@ class TcampAddInterestingComplement extends Migration
     {
         Schema::table('tcamp', function (Blueprint $table) {
             //
-            $table->string('interesting_complement')->nullable()->after('interesting');
+            $table->string('position')->nullable()->after('subject_teaches');
         });
     }
 
@@ -28,7 +28,7 @@ class TcampAddInterestingComplement extends Migration
     {
         Schema::table('tcamp', function (Blueprint $table) {
             //
-            $table->dropColumn('interesting_complement');
+            $table->dropColumn('position');
         });
     }
 }

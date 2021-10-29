@@ -6,13 +6,15 @@
             <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>是否參加過福智的活動</label>
             <div class='col-md-10'>
                 <div class="form-check form-check-inline">
-                    <label class="form-check-label" for="1">
+                    <label class="form-check-label">
                         <input type="radio" name="is_blisswisdom" value='1' v-model="is_blisswisdom" required> 是
                         <div class="invalid-feedback">
                             請選擇項目
                         </div>
                     </label> 
-                    <label class="form-check-label" for="0">
+                </div>
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label">
                         <input type="radio" name="is_blisswisdom" value='0' v-model="is_blisswisdom" required> 否
                         <div class="invalid-feedback">
                             &nbsp;

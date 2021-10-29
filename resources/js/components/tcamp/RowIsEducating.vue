@@ -27,7 +27,7 @@
                     value=教育局/處 class="officials"
                     v-model="school_or_course"> 教育局/處
                     <div class="invalid-feedback crumb">&nbsp;</div>
-                </label>                
+                </label>
                 <label class="radio-inline mx-2">
                     <input
                         type="radio"
@@ -112,9 +112,18 @@
                         id="title"
                         :value="title"
                         :disabled="title === null"
+                        :pattern="
+                            title == '兼課老師，兼職時數：' ? '.{11,30}' : null
+                        "
                         @input="checkValidity($event)"
                     />
-                    <div class="invalid-feedback crumb">請填寫職稱</div>
+                    <div
+                        class="invalid-feedback crumb"
+                        v-if="title == '兼課老師，兼職時數：'"
+                    >
+                        請填寫兼職時數
+                    </div>
+                    <div class="invalid-feedback crumb" v-else>請填寫職稱</div>
                 </span>
             </div>
         </div>
@@ -133,9 +142,7 @@
                     class="form-control"
                     id="inputSubjectTeaches"
                 />
-                <div class="invalid-feedback crumb">
-                    請填寫任教科目
-                </div>
+                <div class="invalid-feedback crumb">請填寫任教科目</div>
             </div>
         </div>
     </span>
@@ -162,14 +169,46 @@ export default {
                 },
             },
             template: `<div class='titles compulsories'>
-                <input type='radio' class='compulsories' value='校長' v-model='this.title_s' @click='titleSend'>校長
-                <input type='radio' class='compulsories' value='主任' v-model='this.title_s' @click='titleSend'>主任
-                <input type='radio' class='compulsories' value='教師' v-model='this.title_s' @click='titleSend'>教師
-                <input type='radio' class='compulsories' value='教師兼行政' v-model='this.title_s' @click='titleSend'>教師兼行政
-                <input type='radio' class='compulsories' value='代理教師' v-model='this.title_s' @click='titleSend'>代理教師<br>
-                <input type='radio' class='compulsories' value='兼課老師，兼職時數：' v-model='this.title_s' @click='titleSend'>兼課老師
-                <input type='radio' class='compulsories' value='職員' v-model='this.title_s' @click='titleSend'>職員
-                <input type='radio' class='compulsories' value='' v-model='this.title_s' @click='titleSend'>其他(請於下方填寫)
+                <div class="form-check form-check-inline">
+                    <label>
+                        <input type='radio' class='compulsories' value='校長' v-model='this.title_s' @click='titleSend'>校長
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <label>
+                        <input type='radio' class='compulsories' value='主任' v-model='this.title_s' @click='titleSend'>主任
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <label>
+                        <input type='radio' class='compulsories' value='教師' v-model='this.title_s' @click='titleSend'>教師
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <label>
+                        <input type='radio' class='compulsories' value='教師兼行政' v-model='this.title_s' @click='titleSend'>教師兼行政
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <label>
+                        <input type='radio' class='compulsories' value='代理教師' v-model='this.title_s' @click='titleSend'>代理教師
+                    </label>
+                </div><br>
+                <div class="form-check form-check-inline">
+                    <label>
+                        <input type='radio' class='compulsories' value='兼課老師，兼職時數：' v-model='this.title_s' @click='titleSend'>兼課老師
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <label>
+                        <input type='radio' class='compulsories' value='職員' v-model='this.title_s' @click='titleSend'>職員
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <label>
+                        <input type='radio' class='compulsories' value='' v-model='this.title_s' @click='titleSend'>其他(請於下方填寫)
+                    </label>
+                </div>
             </div>`,
         },
         kindergartens: {
@@ -185,14 +224,46 @@ export default {
                 },
             },
             template: `<div class="titles kindergartens">
-                <input type="radio" class="kindergartens" value="園長" v-model='this.title_s' @click='titleSend'>園長
-                <input type="radio" class="kindergartens" value="主任" v-model='this.title_s' @click='titleSend'>主任
-                <input type="radio" class="kindergartens" value="教保組長" v-model='this.title_s' @click='titleSend'>教保組長
-                <input type="radio" class="kindergartens" value="教師" v-model='this.title_s' @click='titleSend'>教師
-                <input type="radio" class="kindergartens" value="教保員" v-model='this.title_s' @click='titleSend'>教保員<br>
-                <input type="radio" class="kindergartens" value="行政" v-model='this.title_s' @click='titleSend'>行政
-                <input type="radio" class="kindergartens" value="代理代課教師" v-model='this.title_s' @click='titleSend'>代理代課教師
-                <input type="radio" class="kindergartens" value="" v-model='this.title_s' @click='titleSend'>其他(請於下方填寫)
+                <div class="form-check form-check-inline">
+                    <label>
+                        <input type="radio" class="kindergartens" value="園長" v-model='this.title_s' @click='titleSend'>園長
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <label>
+                        <input type="radio" class="kindergartens" value="主任" v-model='this.title_s' @click='titleSend'>主任
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <label>
+                        <input type="radio" class="kindergartens" value="教保組長" v-model='this.title_s' @click='titleSend'>教保組長
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <label>
+                        <input type="radio" class="kindergartens" value="教師" v-model='this.title_s' @click='titleSend'>教師
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <label>
+                        <input type="radio" class="kindergartens" value="教保員" v-model='this.title_s' @click='titleSend'>教保員
+                    </label>
+                </div><br>
+                <div class="form-check form-check-inline">
+                    <label>
+                        <input type="radio" class="kindergartens" value="行政" v-model='this.title_s' @click='titleSend'>行政
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <label>
+                        <input type="radio" class="kindergartens" value="代理代課教師" v-model='this.title_s' @click='titleSend'>代理代課教師
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <label>
+                        <input type="radio" class="kindergartens" value="" v-model='this.title_s' @click='titleSend'>其他(請於下方填寫)
+                    </label>
+                </div>
             </div>`,
         },
     },
