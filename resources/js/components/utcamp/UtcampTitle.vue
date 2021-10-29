@@ -1,44 +1,111 @@
 /* eslint-disable prettier/prettier */ /* eslint-disable prettier/prettier */
 <template>
-    <span>        
+    <span>
+        <div class="row form-group required">
+            <label
+                for="inputSubjectTeaches"
+                class="col-md-2 control-label text-md-right"
+                >身分別</label
+            >
+            <div class="col-md-10">
+                <span>
+                    <div>
+                        <div class="form-check form-check-inline">
+                            <label>
+                                <input
+                                    type="radio"
+                                    value="教授"
+                                    v-model="title"
+                                    @change="checkValidity()"
+                                    name="position"
+                                    required
+                                />教授
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <label>
+                                <input
+                                    type="radio"
+                                    value="副教授"
+                                    v-model="title"
+                                    @change="checkValidity()"
+                                    name="position"
+                                    required
+                                />副教授
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <label>
+                                <input
+                                    type="radio"
+                                    value="助理教授"
+                                    v-model="title"
+                                    @change="checkValidity()"
+                                    name="position"
+                                    required
+                                />助理教授
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <label>
+                                <input
+                                    type="radio"
+                                    value="講師"
+                                    v-model="title"
+                                    @change="checkValidity()"
+                                    name="position"
+                                    required
+                                />講師
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <label>
+                                <input
+                                    type="radio"
+                                    value="行政人員"
+                                    v-model="title"
+                                    @change="checkValidity()"
+                                    name="position"
+                                    required
+                                />行政人員
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <label>
+                                <input
+                                    type="radio"
+                                    value=""
+                                    v-model="title"
+                                    @change="checkValidity()"
+                                    name="position"
+                                    required
+                                />其他
+                            </label>
+                        </div>
+                        <div class="invalid-feedback crumb">請選擇身分別</div>
+                    </div>
+                </span>
+            </div>
+        </div>
         <div class="row form-group required">
             <label
                 for="inputSubjectTeaches"
                 class="col-md-2 control-label text-md-right"
                 >職稱</label
             >
-            <div class="col-md-10">                
-                <div
-                    id="tip"
-                    style="color: red; font-weight: bold"
-                    v-if="title === null"
-                >
-                    請選擇職稱，並於文字框做補充
-                </div>
+            <div class="col-md-10">
                 <span>
-                    <div>
-                        <input type="radio" value="校長" v-model='title' @change="checkValidity()" name="pre_title" required>校長
-                        <input type="radio" value="教授" v-model='title' @change="checkValidity()" name="pre_title" required>教授
-                        <input type="radio" value="副教授" v-model='title' @change="checkValidity()" name="pre_title" required>副教授
-                        <input type="radio" value="助理教授" v-model='title' @change="checkValidity()" name="pre_title" required>助理教授
-                        <input type="radio" value="講師" v-model='title' @change="checkValidity()" name="pre_title" required>講師<br>
-                        <input type="radio" value="行政人員：" v-model='title' @change="checkValidity()" name="pre_title" required>行政人員(請於下方填寫職稱)
-                        <input type="radio" value="" v-model='title' @change="checkValidity()" name="pre_title" required>其他(請於下方填寫)
-                        <div class="invalid-feedback crumb">請選擇並填寫職稱</div>
-                    </div>
                     <input
                         type="text"
                         required
                         name="title"
                         class="form-control"
-                        :value="title"
-                        :disabled="title === null"
-                        :pattern="
-                            title == '行政人員：' ? '.{7,40}' : null
-                        "
-                        @input="checkValidity($event)"
+                        pattern=".{2,40}"
+                        placeholder="若為兼任行政主管，亦請於此填寫職稱"
                     />
-                    <div class="invalid-feedback crumb" id="title">請填寫職稱</div>
+                    <div class="invalid-feedback crumb" id="title">
+                        請填寫職稱
+                    </div>
                 </span>
             </div>
         </div>
@@ -51,7 +118,7 @@ export default {
             title: null,
         };
     },
-    methods: { 
+    methods: {
         checkValidity() {
             document.Camp.title.classList.remove("is-invalid");
         },
