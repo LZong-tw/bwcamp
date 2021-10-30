@@ -62,12 +62,21 @@
                             <a class="nav-link" href="{{ route('queryadmit', $batch_id) }}">錄取查詢</a>
                         </li>
                     @endif
+                    @if(!$camp_data->variant)
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url("downloads/tcamp2022/2022第30屆教師生命成長營課程表.pdf") }}">課程表</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url("downloads/tcamp2022/2022教師生命成長營簡章(網頁版)1025F.pdf") }}">報名簡章下載</a>
                     </li>
+                    @else
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url("downloads/tcamp2022/2022第30屆教師生命成長營大專教職員梯-活動簡章_含課表_1029.pdf") }}">課程表</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url("downloads/tcamp2022/2022第30屆教師生命成長營大專教職員梯-活動簡章_含課表_1029.pdf") }}">報名簡章下載</a>
+                    </li>
+                    @endif
                 </ul>
             </div>
         </div>
