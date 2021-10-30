@@ -13,15 +13,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     @include('partials.counties_areas_script')
     @if(!$camp_data->variant)
         <div class="alert alert-warning">
-            <h4>教師營活動宗旨</h4>
-            <ol>
-                <li>建立正確的教育理念，體會教育工作的價值。</li>
-                <li>豐富教師的心靈涵養，探索真實快樂的方法。 </li>
-                <li>結識志同道合的夥伴，相互增長教學的動能。</li>
-                <li>符合 108 課綱精神，提供教師轉化實踐策略。</li>
-            </ol>
             <h5>報名期間：110年11月1日(一) 起至110年12月5日(日)止</h5>
-            <h5>研習時數：凡參加研習者依規定核發研習時數或數位研習證書。</h5>
+            <h5>研習時間：111年1月26日(三)至111年1月27(四)止</h5>
+            <h5>研習時數：凡參加研習者依規定核發研習時數或數位研習證書</h5>
             <h6>主辦單位：財團法人福智文教基金會</h6>
             <h6>協辦單位：福智學校財團法人、基隆市七堵區瑪陵國民小學、屏東縣立大路關國民中小學</h6>
         </div>
@@ -273,9 +267,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputCell' class='col-md-2 control-label text-md-right'>行動電話</label>
         <div class='col-md-10'>
-            <input type=tel required name='mobile' value='' class='form-control' id='inputCell' placeholder='格式：0912345678'>
+            <input type=tel required name='mobile' value='' class='form-control' id='inputCell' pattern='09\d{8}' placeholder='格式：0912345678'>
             <div class="invalid-feedback">
-                請填寫行動電話
+                請填寫行動電話，或檢查格式是否有誤
             </div>
         </div>
     </div>

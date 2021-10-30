@@ -13,6 +13,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Mail\ApplicantMail;
+use App\Mail\QueuedApplicantMail;
 use View;
 use App\Traits\EmailConfiguration;
 
@@ -159,7 +160,8 @@ class CampController extends Controller
             });     
             // 寄送報名資料
             try{
-                Mail::to($applicant)->send(new ApplicantMail($applicant, $this->camp_data));
+                // Mail::to($applicant)->send(new ApplicantMail($applicant, $this->camp_data));
+                Mail::to($applicant)->queue(new QueuedApplicantMail($applicant->id, $this->camp_data->variant ? $this->camp_data->variant : $this->camp_data->table));
             }
             catch(\Exception $e) {
                 logger($e);
@@ -270,7 +272,8 @@ class CampController extends Controller
         }
         if($applicant) {
             // 寄送報名序號
-            Mail::to($applicant)->send(new ApplicantMail($applicant, $this->camp_data, true));
+            // Mail::to($applicant)->send(new ApplicantMail($applicant, $this->camp_data, true));
+            Mail::to($applicant)->queue(new QueuedApplicantMail($applicant->applicant_id, $this->camp_data->variant ? $this->camp_data->variant : $this->camp_data->table, true));
             return view('camps.' . $campTable . '.getSN')
                 ->with('applicant', $applicant);
         }
