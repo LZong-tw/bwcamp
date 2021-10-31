@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FormFieldApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +25,4 @@ Route::post('getBatch', function (Request $request) {
    }
    return $batches->toArray();
 });
+Route::post('getFieldData', [FormFieldApiController::class, 'getFieldData']);

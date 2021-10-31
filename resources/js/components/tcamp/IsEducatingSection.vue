@@ -1,5 +1,4 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable prettier/prettier */
+/* eslint-disable prettier/prettier */ /* eslint-disable prettier/prettier */
 <template>
     <span>
         <div class="row form-group required">
@@ -17,6 +16,7 @@
                         value="1"
                         id="is_educating_y"
                         v-model="is_educating"
+                        :disabled="this.inputEnabled === false"
                     />
                     是（請續填下方任職資料）
                     <div class="invalid-feedback">
@@ -31,6 +31,7 @@
                         value="0"
                         id="is_educating_n"
                         v-model="is_educating"
+                        :disabled="this.inputEnabled === false"
                     />
                     否
                     <div class="invalid-feedback">&nbsp;</div>
@@ -43,6 +44,7 @@
 <script>
 import rowIsEducating from "./RowIsEducating.vue";
 import rowNotEducating from "./RowNotEducating.vue";
+
 export default {
     components: {
         rowIsEducating,
@@ -62,8 +64,13 @@ export default {
             }
         },
     },
-    mounted() {
-        // console.log("Mounted.");
+    beforeMount() {
+        window.activeComponents.push(this);
     },
-}
+    mounted() {
+        if (this.doPopulate) {
+            this.getFieldData(this, "isEducating", "tcamp");
+        }
+    },
+};
 </script>
