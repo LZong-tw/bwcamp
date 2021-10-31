@@ -6,8 +6,8 @@ export const mixin = {
          * @param {string} field 
          * @param {string} camp, if not specified: Applicant
          */
-        getFieldData: function (component, field, camp = null) {
-            axios
+        getFieldData: async function (component, field, camp = null) {
+            await axios
                 .post("/api/getFieldData", {
                     id: window.applicant_id,
                     field: field,
@@ -16,6 +16,7 @@ export const mixin = {
                 .then((response) => {
                     component[this.snake(field)] = response.data;
                 });
+            return component[this.snake(field)];
         },
         snake: (str) => {
             return (

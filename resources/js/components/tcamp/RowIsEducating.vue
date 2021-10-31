@@ -157,25 +157,13 @@
     </span>
 </template>
 <script>
-import { watch, ref, onMounted } from "vue";
+import { watch, ref, onMounted, provide, inject, getCurrentInstance } from "vue";
 
 export default {
     setup() {
         let school_or_course = ref(null);
         let selected_component = ref(null);
-        let doThing = false;
-
-        const doTheThing = async () => {
-            setEnabled();
-        };
-
-        function setEnabled() {
-            console.log(1);
-            if (doThing && inputEnabled === false) {
-                this.$refs.titleEle.Each((ele) => console.log(ele));
-                console.log(this.$refs.titleEle);
-            }
-        }
+        window.doThing = false;
 
         watch(school_or_course, (newValue) => {
             if (newValue == "幼教") {
@@ -183,10 +171,29 @@ export default {
             } else {
                 selected_component.value = "officials_and_compulsories";
             }
-            doThing = true;
+            window.doThing = true;
         });
-
-        onMounted(doTheThing);
+        
+        provide("setEnabled", function (ele) {
+                if (window.doThing && window.inputEnabled === false && ele) {
+                    ele.disabled = true;
+                }
+            });
+        
+        provide("allDescendants", function (node, setEnabled, callback) {
+                if(node && node.childNodes) {
+                    // console.log(node.childNodes);
+                    for (var i = 0; i < node.childNodes.length; i++) {
+                        var child = node.childNodes[i];
+                        if(callback) {
+                            callback(child, setEnabled, callback);
+                        }
+                        if(setEnabled) {
+                            setEnabled(child);
+                        }
+                    }
+                }
+            });
 
         return {
             school_or_course,
@@ -206,6 +213,8 @@ export default {
             setup(props) {
                 const titleEle = ref();
                 const title_s = ref(null || props.populatedTitle);
+                const setEnabled = inject("setEnabled");
+                const allDescendants = inject("allDescendants");
                 onMounted(() => {
                     watch(
                         () => props.populatedTitle,
@@ -216,6 +225,7 @@ export default {
                             console.log("detected:", first, second);
                         }
                     );
+                    allDescendants(getCurrentInstance().refs.titleEle, setEnabled, allDescendants);
                 });
                 return { titleEle, title_s };
             },
@@ -273,6 +283,8 @@ export default {
             setup(props) {
                 const titleEle = ref();
                 const title_s = ref(null || props.populatedTitle);
+                const setEnabled = inject("setEnabled");
+                const allDescendants = inject("allDescendants");
                 onMounted(() => {
                     watch(
                         () => props.populatedTitle,
@@ -283,6 +295,7 @@ export default {
                             console.log("detected:", first, second);
                         }
                     );
+                    allDescendants(getCurrentInstance().refs.titleEle, setEnabled, allDescendants);
                 });
                 return { titleEle, title_s };
             },

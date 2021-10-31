@@ -71,7 +71,7 @@ class CampController extends Controller
             $registration_end = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $this->camp_data->registration_end . "23:59:59");
         }  
         $final_registration_end = $this->camp_data->final_registration_end ? \Carbon\Carbon::createFromFormat("Y-m-d", $this->camp_data->final_registration_end)->endOfDay() : \Carbon\Carbon::today();
-        if($today > $registration_end && !isset($request->isBackend)){
+        if($today > $registration_end && !isset($request->isBackend)){            
             return view('camps.' . $this->camp_data->table . '.outdated');
         }
         elseif(isset($request->isBackend) && $today > $final_registration_end){
