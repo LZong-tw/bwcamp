@@ -6,7 +6,12 @@
         <div class="row form-group required">
             <label for="inputName" class="col-md-2 control-label text-md-right">服務單位</label>
             <div class="col-md-10">
-                <select class="form-control" v-model="unit_area">
+                <select
+                    class="form-control"
+                    v-model="unit_area"
+                    name="unit_county"
+                    :disabled="this.inputEnabled === false"
+                >
                     <option value="">- 請選擇行政區 -</option>
                     <option value="基隆市">基隆市</option>
                     <option value="臺北市">臺北市</option>
@@ -36,9 +41,11 @@
                     id="unit"
                     class="form-control"
                     v-model="selected"
+                    :disabled="this.inputEnabled === false"
                     required
                 >
-                    <option :value="''">- 請選擇 -</option>
+                    <option :value="''" v-if="this.inputEnabled !== false">- 請選擇 -</option>
+                    <option v-else>{{ selected }}</option>
                     <option
                         v-for="(item, key) in filtered_schools"
                         :value="item"
@@ -53,13 +60,20 @@
                     class="form-control"
                     name="unit"
                     placeholder="請自行填寫"
+                    :disabled="this.inputEnabled === false"
+                    :value="
+                        selected.abbreviation ? selected.abbreviation : unit
+                    "
                     required
                 />
                 <input
                     v-else
                     type="hidden"
                     name="unit"
-                    :value="selected.abbreviation"
+                    :disabled="this.inputEnabled === false"
+                    :value="
+                        selected.abbreviation ? selected.abbreviation : unit
+                    "
                 />
                 <div class="invalid-feedback">請選擇服務單位</div>
             </div>
@@ -76,7 +90,9 @@ export default {
     data() {
         return {
             selected: '',
+            unit_county: null,
             unit_area: '',
+            unit: null,
             schools: [
                 {area: '宜蘭縣', abbreviation: '佛光大學', full_name: '佛光大學', is_taichung: 0}, 
                 {area: '宜蘭縣', abbreviation: '宜蘭大學', full_name: '國立宜蘭大學', is_taichung: 0}, 
@@ -256,21 +272,41 @@ export default {
     },
     computed: {
         toggleTaichungComponent() {
-            console.log(this.selected)
             if (this.selected && this.selected.is_taichung == 1) {
                 return "row-Is-Taichung";
             }
             return null;
         },
         filtered_schools() {
+            this.clear();
             return (
                 this.schools &&
                 this.schools.filter((item) => item.area == this.unit_area)
             );
         },
     },
+    methods: {
+        clear() {
+            this.selected = '';
+        },
+    },
+    beforeMount() {
+        window.activeComponents.push(this);
+    },
     mounted() {
-        // console.log("Mounted.");
+        if (this.doPopulate) {
+            let self = this;
+            this.getFieldData(this, "unitCounty", "tcamp").then(() => {
+                self.unit_area = self.unit_county;
+                self.getFieldData(this, "unit", "tcamp").then(() => {
+                    self.schools.forEach((item) => {
+                        if (item && item.abbreviation == self.unit) {
+                            self.selected = item;
+                        }
+                    });
+                });
+            });
+        }
     },
 }
 </script>

@@ -54,6 +54,16 @@ window.onload = () => {
     let inputEnabled = null;
     window.activeComponents = [];
 
+    if (currentPage == "queryupdate") {
+        doPopulate = true;
+        inputEnabled = true;
+        window.inputEnabled = true;
+    } else if (currentPage == "queryview") {
+        doPopulate = true;
+        inputEnabled = false;
+        window.inputEnabled = false;
+    }
+
     // eventify 實作
     eventify(window.activeComponents, function (updatedArr) {
         let component = window.activeComponents.at(-1);
@@ -62,14 +72,6 @@ window.onload = () => {
         component.doPopulate = doPopulate;
         component.inputEnabled = inputEnabled;
     });
-
-    if (currentPage == "queryupdate") {
-        doPopulate = true;
-        inputEnabled = true;
-    } else if (currentPage == "queryview") {
-        doPopulate = true;
-        inputEnabled = false;
-    }
 
     // if(document.getElementById("is-educating-section"))
     if ($("#is-educating-section").length) {

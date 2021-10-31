@@ -50,4 +50,5 @@ mix.js("resources/js/app.js", "public/js")
         //         __VUE_PROD_DEVTOOLS__: true,
         //     }),
         // ],
-    });
+    })
+    .disableNotifications();

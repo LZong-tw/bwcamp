@@ -15,6 +15,14 @@ class FormFieldApiController extends Controller
         $this->middleware("checkOrigin");
     }
 
+    public function getBatch(Request $request) {
+        $batches = \App\Models\Batch::where('camp_id', \App\Models\Batch::find($request->id)->camp->id)->get();
+        foreach($batches as &$batch) {
+            $batch->name = $batch->name . " "  . (new \Carbon\Carbon($batch->batch_start))->translatedFormat("m/d(D)") . "~" . (new \Carbon\Carbon($batch->batch_end))->translatedFormat("m/d(D)");
+        }
+        return $batches->toArray();
+    }
+
     public function getFieldData(Request $request)
     {
         $field = Str::snake($request->field);

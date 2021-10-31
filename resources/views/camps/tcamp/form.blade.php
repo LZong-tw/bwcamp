@@ -29,7 +29,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 <span id="tcamp-layout">
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
-@if((!isset($isModify) || $isModify) && $batch->is_appliable)
+@if((!isset($isModify) && $batch->is_appliable) || (isset($isModify) && $isModify))
     <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form'>
 {{-- 禁止前台報名 --}}
 @elseif(!$batch->is_appliable)
@@ -46,17 +46,15 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <span class='text-danger'>＊必填</span>
         </div>
     </div>
-    {{-- @if($camp_data->variant ?? null == 'utcamp' || isset($applicant_data))
+    @if(isset($applicant_data))
         <div class='row form-group'>
             <label for='inputBatch' class='col-md-2 control-label text-md-right'>營隊梯次</label>
             <div class='col-md-10'>
-                <h3>{{ $batch->name . '梯' }} ({{ $batch->batch_start }} ~ {{ $batch->batch_end }})</h3>
-                @if(isset($applicant_data))
-                    <input type='hidden' name='applicant_id' value='{{ $applicant_id }}'>
-                @endif
+                <h4>{{ $batch->name . '梯' }} ({{ $batch->batch_start }} ~ {{ $batch->batch_end }})</h4>
+                <input type='hidden' name='applicant_id' value='{{ $applicant_id }}'>
             </div>
         </div>
-    @endif --}}
+    @endif
     @if(isset($isModify))
         <div class='row form-group'>
             <label for='inputBatch' class='col-md-2 control-label text-md-right'>報名日期</label>

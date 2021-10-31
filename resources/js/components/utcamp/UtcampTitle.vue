@@ -19,6 +19,7 @@
                                     @change="checkValidity()"
                                     name="position"
                                     required
+                                    :disabled="this.inputEnabled === false"
                                 />教授
                             </label>
                         </div>
@@ -31,6 +32,7 @@
                                     @change="checkValidity()"
                                     name="position"
                                     required
+                                    :disabled="this.inputEnabled === false"
                                 />副教授
                             </label>
                         </div>
@@ -43,6 +45,7 @@
                                     @change="checkValidity()"
                                     name="position"
                                     required
+                                    :disabled="this.inputEnabled === false"
                                 />助理教授
                             </label>
                         </div>
@@ -55,6 +58,7 @@
                                     @change="checkValidity()"
                                     name="position"
                                     required
+                                    :disabled="this.inputEnabled === false"
                                 />講師
                             </label>
                         </div>
@@ -67,6 +71,7 @@
                                     @change="checkValidity()"
                                     name="position"
                                     required
+                                    :disabled="this.inputEnabled === false"
                                 />行政人員
                             </label>
                         </div>
@@ -79,6 +84,7 @@
                                     @change="checkValidity()"
                                     name="position"
                                     required
+                                    :disabled="this.inputEnabled === false"
                                 />其他
                             </label>
                         </div>
@@ -102,6 +108,8 @@
                         class="form-control"
                         pattern=".{2,40}"
                         placeholder="若為兼任行政主管，亦請於此填寫職稱"
+                        :disabled="this.inputEnabled === false"
+                        :value="this.doPopulate === true ? title : null"
                     />
                     <div class="invalid-feedback crumb" id="title">
                         請填寫職稱
@@ -123,8 +131,13 @@ export default {
             document.Camp.title.classList.remove("is-invalid");
         },
     },
+    beforeMount() {
+        window.activeComponents.push(this);
+    },
     mounted() {
-        // console.log("Mounted.");
+        if (this.doPopulate) {
+            this.getFieldData(this, "title", "tcamp");
+        }
     },
 };
 </script>

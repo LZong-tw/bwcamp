@@ -17,19 +17,7 @@ use App\Http\Controllers\AdminController;
 |
 */
 
-Route::get('/', function () {
-    $campsByBatch = \App\Models\Batch::with(['camp' => function($query){ $query->where('test', 0); }])->where('batch_start', '>', now())->groupBy('camp_id')->get();
-    $camps = array();
-    foreach($campsByBatch as &$camp){
-        if($camp->camp){
-            $camp->camp->batch_id = $camp->id;
-            $camp->camp->batch_name = $camp->name;
-            array_push($camps, $camp->camp);
-        }
-    }
-    $camps = collect($camps);
-    return view('welcome', compact('camps'));
-});
+Route::get('/', Index::class);
 
 /***********************Auth routes******************************************/
 // Auth::routes();
@@ -53,8 +41,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['prefix' => 'camp/{batch_id}'], function () {
     Route::get('/', 'CampController@campIndex');
-    Route::get('/registration', 'CampController@campRegistration')->name('registration');
-    Route::post('/registration', 'CampController@campRegistration')->name('registration');
+    Route::match(['get', 'post'], '/registration', 'CampController@campRegistration')->name('registration');
     Route::post('/restoreCancellation', [CampController::class, 'restoreCancellation'])->name('restoreCancellation');
     Route::get('/query', 'CampController@campQueryRegistrationDataPage')->name('query');
     Route::get('/payment', [CampController::class, 'showCampPayment'])->name('payment');
@@ -62,9 +49,9 @@ Route::group(['prefix' => 'camp/{batch_id}'], function () {
     Route::post('/queryupdate', 'CampController@campViewRegistrationData')->name('queryupdate');
     Route::post('/querysn', 'CampController@campGetApplicantSN')->name('querysn');
     Route::get('/queryadmit', 'CampController@campViewAdmission')->name('queryadmit');
+    Route::post('/queryadmit', [CampController::class, 'campQueryAdmission'])->name('queryadmit');
     Route::post('/querycancel', [CampController::class, 'campConfirmCancel'])->name('querycancel');
     Route::post('/cancel', [CampController::class, 'campCancellation'])->name('cancel');
-    Route::post('/queryadmit', [CampController::class, 'campQueryAdmission'])->name('queryadmit');
     Route::get('/showadmit', [CampController::class, 'campQueryAdmission'])->name('showadmit');
     Route::post('/toggleAttend', [CampController::class, 'toggleAttend'])->name('toggleAttend');
     Route::post('/downloadPaymentForm', 'CampController@downloadPaymentForm')->name('downloadPaymentForm');
