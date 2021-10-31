@@ -16,6 +16,7 @@
                         value="教育部"
                         class="officials"
                         v-model="school_or_course"
+                        :disabled="this.inputEnabled === false"
                     />
                     教育部
                     <div class="invalid-feedback crumb">
@@ -24,8 +25,8 @@
                 </label>
                 <label class="radio-inline mx-2">
                     <input type=radio required name='school_or_course'
-                    value=教育局/處 class="officials"
-                    v-model="school_or_course"> 教育局/處
+                    value=教育局/處 class="officials" v-model="school_or_course"
+                    :disabled="this.inputEnabled === false"> 教育局/處
                     <div class="invalid-feedback crumb">&nbsp;</div>
                 </label>
                 <label class="radio-inline mx-2">
@@ -36,6 +37,7 @@
                         value="高中職"
                         class="compulsories"
                         v-model="school_or_course"
+                        :disabled="this.inputEnabled === false"
                     />
                     高中職
                     <div class="invalid-feedback crumb">&nbsp;</div>
@@ -48,6 +50,7 @@
                         value="國中"
                         class="compulsories"
                         v-model="school_or_course"
+                        :disabled="this.inputEnabled === false"
                     />
                     國中
                     <div class="invalid-feedback crumb">&nbsp;</div>
@@ -60,6 +63,7 @@
                         value="國小"
                         class="compulsories"
                         v-model="school_or_course"
+                        :disabled="this.inputEnabled === false"
                     />
                     國小
                     <div class="invalid-feedback crumb">&nbsp;</div>
@@ -72,6 +76,7 @@
                         value="幼教"
                         class="compulsories"
                         v-model="school_or_course"
+                        :disabled="this.inputEnabled === false"
                     />
                     幼教
                     <div class="invalid-feedback crumb">&nbsp;</div>
@@ -101,7 +106,8 @@
                 </div>
                 <span v-if="school_or_course !== null">
                     <component
-                        :is="toggleTitleComponent"
+                        :is="selected_component"
+                        :populatedTitle="title"
                         @titleSelected="receivesTitle"
                     ></component>
                     <input
@@ -111,7 +117,9 @@
                         class="form-control"
                         id="title"
                         :value="title"
-                        :disabled="title === null"
+                        :disabled="
+                            title === null || this.inputEnabled === false
+                        "
                         :pattern="
                             title == '兼課老師，兼職時數：' ? '.{11,30}' : null
                         "
@@ -138,9 +146,10 @@
                     type="text"
                     required
                     name="subject_teaches"
-                    value=""
+                    :value="subject_teaches"
                     class="form-control"
                     id="inputSubjectTeaches"
+                    :disabled="this.inputEnabled === false"
                 />
                 <div class="invalid-feedback crumb">請填寫任教科目</div>
             </div>
@@ -148,27 +157,74 @@
     </span>
 </template>
 <script>
+import { watch, ref, onMounted } from "vue";
+
 export default {
+    setup() {
+        let school_or_course = ref(null);
+        let selected_component = ref(null);
+        let doThing = false;
+
+        const doTheThing = async () => {
+            setEnabled();
+        };
+
+        function setEnabled() {
+            console.log(1);
+            if (doThing && inputEnabled === false) {
+                this.$refs.titleEle.Each((ele) => console.log(ele));
+                console.log(this.$refs.titleEle);
+            }
+        }
+
+        watch(school_or_course, (newValue) => {
+            if (newValue == "幼教") {
+                selected_component.value = "kindergartens";
+            } else {
+                selected_component.value = "officials_and_compulsories";
+            }
+            doThing = true;
+        });
+
+        onMounted(doTheThing);
+
+        return {
+            school_or_course,
+            selected_component,
+        };
+    },
     data() {
         return {
-            school_or_course: null,
             title: null,
+            subject_teaches: null,
         };
     },
     components: {
         officials_and_compulsories: {
             emits: ["titleSelected"],
-            data() {
-                return {
-                    title_s: null,
-                };
+            props: ["populatedTitle"],
+            setup(props) {
+                const titleEle = ref();
+                const title_s = ref(null || props.populatedTitle);
+                onMounted(() => {
+                    watch(
+                        () => props.populatedTitle,
+                        (first, second) => {
+                            if (first !== null) {
+                                title_s.value = first;
+                            }
+                            console.log("detected:", first, second);
+                        }
+                    );
+                });
+                return { titleEle, title_s };
             },
             methods: {
                 titleSend(e) {
                     this.$emit("titleSelected", e.target.value);
                 },
             },
-            template: `<div class='titles compulsories'>
+            template: `<div class='titles compulsories' ref="titleEle">
                 <div class="form-check form-check-inline">
                     <label>
                         <input type='radio' class='compulsories' value='校長' v-model='this.title_s' @click='titleSend'>校長
@@ -213,17 +269,29 @@ export default {
         },
         kindergartens: {
             emits: ["titleSelected"],
-            data() {
-                return {
-                    title_s: null,
-                };
+            props: ["populatedTitle"],
+            setup(props) {
+                const titleEle = ref();
+                const title_s = ref(null || props.populatedTitle);
+                onMounted(() => {
+                    watch(
+                        () => props.populatedTitle,
+                        (first, second) => {
+                            if (first !== null) {
+                                title_s.value = first;
+                            }
+                            console.log("detected:", first, second);
+                        }
+                    );
+                });
+                return { titleEle, title_s };
             },
             methods: {
                 titleSend(e) {
                     this.$emit("titleSelected", this.title_s);
                 },
             },
-            template: `<div class="titles kindergartens">
+            template: `<div class="titles kindergartens" ref="titleEle">
                 <div class="form-check form-check-inline">
                     <label>
                         <input type="radio" class="kindergartens" value="園長" v-model='this.title_s' @click='titleSend'>園長
@@ -267,26 +335,26 @@ export default {
             </div>`,
         },
     },
-    computed: {
-        toggleTitleComponent() {
-            if (this.school_or_course == "幼教") {
-                return "kindergartens";
-            } else {
-                return "officials_and_compulsories";
-            }
-        },
-    },
     methods: {
         checkValidity() {
             document.Camp.title.classList.remove("is-invalid");
         },
         receivesTitle(e) {
             this.title = e ? e : "";
-            this.checkValidity();
+            if (this.inputEnabled !== false) {
+                this.checkValidity();
+            }
         },
     },
+    beforeMount() {
+        window.activeComponents.push(this);
+    },
     mounted() {
-        // console.log("Mounted.");
+        if (this.doPopulate) {
+            this.getFieldData(this, "title", "tcamp");
+            this.getFieldData(this, "school_or_course", "tcamp");
+            this.getFieldData(this, "subject_teaches", "tcamp");
+        }
     },
 };
 </script>

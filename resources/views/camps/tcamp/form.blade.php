@@ -654,6 +654,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         @if(isset($applicant_data))
             {{-- 回填報名資料 --}}
             (function() {
+                window.applicant_id = '{{ $applicant_id }}';
                 let applicant_data = JSON.parse('{!! $applicant_data !!}');
                 let inputs = document.getElementsByTagName('input');
                 let selects = document.getElementsByTagName('select');

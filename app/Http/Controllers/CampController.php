@@ -61,7 +61,7 @@ class CampController extends Controller
         
     }
 
-    public function campRegistration(Request $request) {        
+    public function campRegistration(Request $request) {
         $today = \Carbon\Carbon::today();
         $batch = Batch::find($this->batch_id);
         if($batch->is_late_registration_end){
@@ -191,7 +191,7 @@ class CampController extends Controller
                 ->where('applicants.id', $request->sn)
                 ->where('name', $request->name)->withTrashed()->first();
         }
-        // 只使用報名 ID（報名序號）查詢資料，儘開放有限的存取
+        // 只使用報名 ID（報名序號）查詢資料，僅開放有限的存取
         //（因會有個資洩漏的疑慮，故只在檢視報名資料及報名資料送出後的畫面允許使用）
         // 唯三允許進入修改資料的來源：兩個地方（報名、報名資料修改）的報名資料送出後
         //                        及檢視報名資料頁面所進來的請求

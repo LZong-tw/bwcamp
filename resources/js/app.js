@@ -5,6 +5,7 @@
  */
 
 import "./bootstrap";
+import { mixin } from "./mixin";
 
 window.Vue = require("vue").default;
 Vue.config.compilerOptions.whitespace = "condense";
@@ -12,6 +13,7 @@ Vue.config.compilerOptions.whitespace = "condense";
 if (process.env.NODE_ENV == "development") {
     Vue.__VUE_PROD_DEVTOOLS__ = true;
 }
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -33,25 +35,56 @@ if (process.env.NODE_ENV == "development") {
 //     require("./components/IsEducatingSection.vue").default
 // );
 
+// 改寫 array.push 的功能，加入一個 callback，做為 event handler
+let eventify = function (arr, callback) {
+    arr.push = function (e) {
+        Array.prototype.push.call(arr, e);
+        callback(arr);
+    };
+};
+
 import isEducatingSection from "./components/tcamp/IsEducatingSection.vue";
 import utcampUnitAndBatchSection from "./components/utcamp/UtcampUnitAndBatchSection.vue";
 import utcampTitle from "./components/utcamp/UtcampTitle.vue";
 import utcampIsBlisswisdom from "./components/utcamp/UtcampIsBlisswisdom.vue";
 
 window.onload = () => {
+    let currentPage = window.location.href.split("/").pop();
+    let doPopulate = false;
+    let inputEnabled = null;
+    window.activeComponents = [];
+
+    // eventify 實作
+    eventify(window.activeComponents, function (updatedArr) {
+        let component = window.activeComponents.at(-1);
+        component.getFieldData = mixin.globalFunctions.getFieldData;
+        component.snake = mixin.globalFunctions.snake;
+        component.doPopulate = doPopulate;
+        component.inputEnabled = inputEnabled;
+    });
+
+    if (currentPage == "queryupdate") {
+        doPopulate = true;
+        inputEnabled = true;
+    } else if (currentPage == "queryview") {
+        doPopulate = true;
+        inputEnabled = false;
+    }
+
     // if(document.getElementById("is-educating-section"))
     if ($("#is-educating-section").length) {
         const is_educating = Vue.createApp({
-            components: { 
+            components: {
                 isEducatingSection,
             },
         });
         is_educating.mount("#is-educating-section");
     }
+
     // if(document.getElementById("utcamp-unit-and-batch-section"))
     if ($("#utcamp-unit-and-batch-section").length) {
         const utcamp = Vue.createApp({
-            components: { 
+            components: {
                 utcampUnitAndBatchSection,
             },
         });
@@ -60,14 +93,14 @@ window.onload = () => {
 
     if ($("#utcamp-title").length) {
         const utcTitle = Vue.createApp({
-            components: { 
+            components: {
                 utcampTitle,
             },
         });
         utcTitle.mount("#utcamp-title");
     }
 
-    if($("#utcamp-is-blisswisdom").length) {
+    if ($("#utcamp-is-blisswisdom").length) {
         const utcIsBlisswisdom = Vue.createApp({
             components: {
                 utcampIsBlisswisdom,
