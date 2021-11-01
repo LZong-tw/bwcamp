@@ -50,7 +50,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <div class='row form-group'>
             <label for='inputBatch' class='col-md-2 control-label text-md-right'>營隊梯次</label>
             <div class='col-md-10'>
-                <h4>{{ $batch->name . '梯' }} ({{ $batch->batch_start }} ~ {{ $batch->batch_end }})</h4>
+                <h4>{{ $batch->name }} ({{ $batch->batch_start }} ~ {{ $batch->batch_end }})</h4>
                 <input type='hidden' name='applicant_id' value='{{ $applicant_id }}'>
             </div>
         </div>
