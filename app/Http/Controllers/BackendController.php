@@ -177,7 +177,8 @@ class BackendController extends Controller {
             $candidates = Applicant::select('applicants.*')
             ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
             ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
-            ->join('camps', 'camps.id', '=', 'batchs.camp_id');
+            ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+            ->where('camps.id', $this->camp_id);
             $count = $candidates->count();
             $admitted = $candidates->where('is_admitted', 1)->count();
             return view('backend.registration.batchAdmission', compact('count', 'admitted'));
