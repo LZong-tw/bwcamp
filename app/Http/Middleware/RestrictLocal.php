@@ -19,7 +19,7 @@ class RestrictLocal
         $ip = $request->ip();
         // $allowed_origin = ["bw.camp"];
         // $allowed_ip = ["127.0.0.1"];
-        if($host == "bwcamp.bwfoce.org" && $ip == "54.69.93.206") {
+        if($host == "bwcamp.bwfoce.org") {
             return $next($request);
         }
         else if($host == "bw.camp" && $ip == "127.0.0.1") {
