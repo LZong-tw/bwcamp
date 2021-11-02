@@ -272,9 +272,15 @@ class BackendController extends Controller {
                             ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                             ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                             ->join('tcamp', 'applicants.id', '=', 'tcamp.applicant_id')
-                            ->where('camps.id', $this->campFullData->id)
-                            ->where('school_or_course', $request->school_or_course == "無" ? "" : $request->school_or_course)
-                            ->withTrashed()->get();
+                            ->where('camps.id', $this->campFullData->id);
+            if($request->school_or_course == "無") {
+                $applicants = $applicants->where('school_or_course',  "")
+                                        ->orWhereNull('school_or_course');
+            }
+            else{
+                $applicants = $applicants->where('school_or_course',  $request->school_or_course);
+            }                            
+            $applicants = $applicants->withTrashed()->get();
             $query = $request->school_or_course;
         }
         elseif(isset($request->education)){
