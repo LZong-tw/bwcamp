@@ -45,9 +45,15 @@
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                     {{-- <li class="nav-item active"> --}}
                     {{-- <span class="sr-only">(current)</span> --}}
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://bwfoce.org/tcamp">營隊資訊</a>
-                    </li>
+                    @if(!$camp_data->variant)
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://bwfoce.wixsite.com/website-4">營隊資訊</a>
+                        </li>
+                    @else
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://bwfoce.wixsite.com/2022utcamp">營隊資訊</a>
+                        </li>
+                    @endif
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('registration', $batch_id) }}">報名表單</a>
                     </li>
@@ -63,19 +69,19 @@
                         </li>
                     @endif
                     @if(!$camp_data->variant)
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url("downloads/tcamp2022/2022第30屆教師生命成長營課程表.pdf") }}">課程表</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url("downloads/tcamp2022/2022教師生命成長營簡章(網頁版)1025F.pdf") }}">報名簡章下載</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url("downloads/tcamp2022/2022第30屆教師生命成長營課程表.pdf") }}">課程表</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url("downloads/tcamp2022/2022教師生命成長營簡章(網頁版)1025F.pdf") }}">報名簡章下載</a>
+                        </li>
                     @else
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url("downloads/tcamp2022/2022第30屆教師生命成長營大專教職員梯-活動簡章_含課表_1029.pdf") }}">課程表</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url("downloads/tcamp2022/2022第30屆教師生命成長營大專教職員梯-活動簡章_含課表_1029.pdf") }}">報名簡章下載</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url("downloads/tcamp2022/2022第30屆教師生命成長營大專教職員梯-活動簡章_含課表_1029.pdf") }}">課程表</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url("downloads/tcamp2022/2022第30屆教師生命成長營大專教職員梯-活動簡章_含課表_1029.pdf") }}">報名簡章下載</a>
+                        </li>
                     @endif
                 </ul>
             </div>
