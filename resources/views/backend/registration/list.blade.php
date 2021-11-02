@@ -55,6 +55,7 @@
                     <input class="btn btn-warning" type=submit name=school_or_course value='國中'>&nbsp;
                     <input class="btn btn-warning" type=submit name=school_or_course value='國小'>&nbsp;
                     <input class="btn btn-warning" type=submit name=school_or_course value='幼教'>&nbsp;
+                    <input class="btn btn-warning" type=submit name=school_or_course value='無'>&nbsp;
                 @elseif($campFullData->table == "hcamp")
                     <input class="btn btn-warning" type=submit name=education value='國小五年級'>&nbsp;
                     <input class="btn btn-warning" type=submit name=education value='國小六年級'>&nbsp;
