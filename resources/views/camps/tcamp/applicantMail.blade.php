@@ -2,14 +2,22 @@
     <br>
     感謝您報名本次教師生命成長營，報名手續已完成，<br>
     請記下您的報名序號： {{ $applicant->id }} 作為日後查詢使用。<br>
-    @if($applicant->batch->camp->variant == "utcamp")
-        錄取名單將於 2021-11-16 開放查詢：https://bwfoce.org/tcamp/ <br>
+    @if($camp == "utcamp")
         {{--
-            1. 11/01 ~ 11/13: 11/16
-            2. 11/14 ~ 11/27: 11/30
-            3. 11/28 ~ 12/12: 12/15
-            4. 12/13 ~      : 12/31
-            --}}
+        1. 11/01 ~ 11/13: 11/16
+        2. 11/14 ~ 11/27: 11/30
+        3. 11/28 ~ 12/12: 12/15
+        4. 12/13 ~      : 12/31
+        --}}
+        @if($applicant->created_at->gte("2021-11-01") && $applicant->created_at->lte("2021-11-13 23:59:59"))
+            錄取名單將於 2021-11-16 開放查詢：https://bwfoce.org/tcamp/ <br>
+        @elseif($applicant->created_at->gte("2021-11-14") && $applicant->created_at->lte("2021-11-27 23:59:59"))
+            錄取名單將於 2021-11-30 開放查詢：https://bwfoce.org/tcamp/ <br>
+        @elseif($applicant->created_at->gte("2021-11-28") && $applicant->created_at->lte("2021-12-12 23:59:59"))
+            錄取名單將於 2021-12-15 開放查詢：https://bwfoce.org/tcamp/ <br>
+        @else
+            錄取名單將於 2021-12-31 開放查詢：https://bwfoce.org/tcamp/ <br>
+        @endif
         <br>
         洽詢電話：(週一 ~ 週五 上午10時 ~ 下午5時)<br>
     　           (02)7751-6799*520023 邱先生<br>
