@@ -409,7 +409,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <div class='col-md-10'>
                 <div class="form-check form-check-inline">
                     <label class="form-check-label">
-                        <input type="radio" name="is_blisswisdom" value='1' > 是
+                        <input type="radio" name="is_blisswisdom" value='1' onclick="toggleComplement(1)"> 是
                         <div class="invalid-feedback">
                             請選擇項目
                         </div>
@@ -417,7 +417,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 </div>
                 <div class="form-check form-check-inline">
                     <label class="form-check-label">
-                        <input type="radio" name="is_blisswisdom" value='0' > 否
+                        <input type="radio" name="is_blisswisdom" value='0' onclick="toggleComplement(0)"> 否
                         <div class="invalid-feedback">
                             &nbsp;
                         </div>
@@ -425,6 +425,23 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 </div>
             </div>
         </div>        
+        <div class='row form-group required' style="display: none;" id="complement_row">
+            <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>參加過福智的活動</label>
+            <div class='col-md-10'>
+                <div class="form-check form-check-inline col-md-12 p-0">
+                    <span class="col-md-2">廣論班：</span><input type="text" class="form-control" name="blisswisdom_type_complement[0]" placeholder="請填寫廣論班別，範例：北21春001班">
+                    <div class="invalid-feedback">
+                        請至少填寫一欄
+                    </div>
+                </div>
+                <div class="form-check form-check-inline col-md-12 p-0">
+                    <span class="col-md-2">其他：</span><input type="text" class="form-control" name="blisswisdom_type_complement[1]">
+                    <div class="invalid-feedback">
+                        請至少填寫一欄
+                    </div>
+                </div>
+            </div>
+        </div> 
     @endif        
 
     <div class='row form-group'>
@@ -579,13 +596,36 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             btnCancelLabel: "再檢查一下",
             popout: true,
             onConfirm: function() {
-                        if (document.Camp.checkValidity() === false) {
-                            $(".tips").removeClass('d-none');
-                            if(document.Camp.title) {
-                                if(document.Camp.title.value == '' && document.Camp.title.disabled) {
-                                    document.Camp.title.classList.add("is-invalid");
-                                }
+                        let isValid = document.Camp.checkValidity();
+                        console.log(123);
+                        if(document.Camp.title) {
+                            if(document.Camp.title.value == '' && document.Camp.title.disabled) {
+                                document.Camp.title.classList.add("is-invalid");
+                                isValid = false;
                             }
+                        }
+
+                        // let blisswisdom_type_complements = $('input').filter(function() {
+                        //                                         return this.name.match(/blisswisdom_type_complement\[\d\]/);
+                        //                                     });
+                        // if(blisswisdom_type_complements) {
+                        //     let totalFilled = 0;
+                        //     for (var i = 0; i < blisswisdom_type_complements.length; i++) {
+                        //         if(blisswisdom_type_complements[i].value) {
+                        //             totalFilled++; 
+                        //         }
+                        //     }
+                        //     if(totalFilled == 0 && document.getElementById("complement_row").style.display != "none") {
+                        //         console.log(blisswisdom_type_complements);
+                        //         for (var i = 0; i < blisswisdom_type_complements.length; i++) {
+                        //             blisswisdom_type_complements[i].classList.add("is-invalid");
+                        //             console.log(blisswisdom_type_complements[i].value);
+                        //         }
+                        //         isValid = false;
+                        //     }
+                        // }
+                        if (isValid === false) {
+                            $(".tips").removeClass('d-none');
                             event.preventDefault();
                             event.stopPropagation();
                         }
@@ -598,18 +638,39 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         });
         (function() {
             'use strict';
+            document.addEventListener('DOMContentLoaded', function () {
+                const inputs = Array.from(
+                    document.querySelectorAll('input[name="blisswisdom_type_complement[0]"], input[name="blisswisdom_type_complement[1]"]'));
+                const inputListener = e => inputs.filter(i => i !== e.target).forEach(i => i.required = !e.target.value.length);
+
+                inputs.forEach(i => i.addEventListener('input', inputListener));
+            });
             window.addEventListener('load', function() {
                 // Fetch all the forms we want to apply custom Bootstrap validation styles to
                 var forms = document.getElementsByClassName('needs-validation');
                 // Loop over them and prevent submission
                 var validation = Array.prototype.filter.call(forms, function(form) {
                     form.addEventListener('submit', function(event) {
-                        if (form.checkValidity() === false) {
-                            if(document.Camp.title) {
-                                if(document.Camp.title.value == '' && document.Camp.title.disabled) {
-                                    document.Camp.title.classList.add("is-invalid");
-                                }
+                        let isValid = form.checkValidity();
+                        console.log(223);
+                        if(form.title) {
+                            if(form.title.value == '' && form.title.disabled) {
+                                form.title.classList.add("is-invalid");
                             }
+                        }
+                        if(form.blisswisdom_type_complement) {
+                            let totalFilled = 0;
+                            form.blisswisdom_type_complement.forEach(element => {
+                                if(element.value) { totalFilled++; }
+                            });
+                            if(totalFilled == 0 && document.getElementById("complement_row").style.display != "none") {
+                                form.blisswisdom_type_complement.forEach(element => {
+                                    element.classList.add("is-invalid");
+                                });
+                                isValid = false;
+                            }
+                        }
+                        if (isValid === false) {
                             event.preventDefault();
                             event.stopPropagation();
                         }
@@ -630,6 +691,21 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 
         function toggleICrequired() {
             document.getElementById('interesting_complement').required = !document.getElementById('interesting_complement').required ? true : false;
+        }
+
+        function toggleComplement(val) {
+            let blisswisdom_type_complements = $('input').filter(function() {
+                                                            return this.name.match(/blisswisdom_type_complement\[\d\]/);
+                                                        });
+            for (var i = 0; i < blisswisdom_type_complements.length; i++) {
+                blisswisdom_type_complements[i].required = val;
+            }
+            if(val) { 
+                $("#complement_row").show();
+            }
+            else {
+                $("#complement_row").hide();
+            }
         }
 
         function id_setRequired(ele) {
@@ -688,7 +764,8 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                             inputs[i].value = applicant_data[inputs[i].name]; 
                         }
                     }
-                    else if(inputs[i].type == "text" && inputs[i].name == 'blisswisdom_type_complement[]'){
+                    else if(inputs[i].type == "text" && (inputs[i].name == 'blisswisdom_type_complement[]' || inputs[i].name == 'blisswisdom_type_complement[0]' || inputs[i].name == 'blisswisdom_type_complement[1]')){
+                        toggleComplement(applicant_data["is_blisswisdom"]);
                         inputs[i].value = complementData ? complementData[complementPivot] : null;
                         complementPivot++;
                     }
@@ -712,7 +789,8 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 
                 @if(!$isModify)
                     for (var i = 0; i < inputs.length; i++){
-                        if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox" || inputs[i].name == 'emailConfirm' || inputs[i].name == "blisswisdom_type[]" || inputs[i].name == "blisswisdom_type_complement[]"){
+                        if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox" || inputs[i].name == 'emailConfirm' || inputs[i].name == "blisswisdom_type[]" || inputs[i].name == "blisswisdom_type_complement[]" 
+                        || inputs[i].name == "blisswisdom_type_complement[0]" || inputs[i].name == "blisswisdom_type_complement[1]"){
                             inputs[i].disabled = true;
                         }
                     }
