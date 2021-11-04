@@ -2,11 +2,27 @@
     <br>
     感謝您報名本次教師生命成長營，報名手續已完成，<br>
     請記下您的報名序號： {{ $applicant->id }} 作為日後查詢使用。<br>
-    請於 {{ \Carbon\Carbon::parse($campData->admission_announcing_date)->translatedFormat("Y年m月d日(l)") }} 起，至活動網站 http://bwfoce.org/tcamp 查詢是否錄取。<br>
-    <br>
-    洽詢電話：(02)2545-3788*529 劉小姐 (週一〜週五 上午10時〜下午5時)<br>
-　  <br>
-    LINE@：http://bwfoce.org/line <br>
-    LINE ID：@bwfoce <br>
-    電子郵件：bwmedu@blisswisdom.org<br>
+    @if($applicant->batch->camp->variant == "utcamp")
+        錄取名單將於 2021-11-16 開放查詢：https://bwfoce.org/tcamp/ <br>
+        {{--
+            1. 11/01 ~ 11/13: 11/16
+            2. 11/14 ~ 11/27: 11/30
+            3. 11/28 ~ 12/12: 12/15
+            4. 12/13 ~      : 12/31
+            --}}
+        <br>
+        洽詢電話：(週一 ~ 週五 上午10時 ~ 下午5時)<br>
+    　           (02)7751-6799*520023 邱先生<br>
+        LINE@：http://bwfoce.org/line <br>
+        LINE ID：@bwfoce  <br>
+        電子郵件：bwfaculty@blisswisdom.org <br> 
+    @else
+        請於 {{ \Carbon\Carbon::parse($campData->admission_announcing_date)->translatedFormat("Y年m月d日(l)") }} 起，至活動網站 http://bwfoce.org/tcamp 查詢是否錄取。<br>
+        <br>
+        洽詢電話：(02)2545-3788*529 劉小姐 (週一〜週五 上午10時〜下午5時)<br>
+    　  <br>
+        LINE@：http://bwfoce.org/line <br>
+        LINE ID：@bwfoce <br>
+        電子郵件：bwmedu@blisswisdom.org<br>
+    @endif
 <blockquote>財團法人福智文教基金會  敬啟</blockquote>
