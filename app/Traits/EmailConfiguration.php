@@ -13,7 +13,9 @@ trait EmailConfiguration {
                 'mail.from.address' => $config['address'],
             ]);
         }
-        $app = \App::getInstance();
-        $app->register('Illuminate\Mail\MailServiceProvider');
+        app()->register('Illuminate\Mail\MailServiceProvider');
+        if (app()->isLocal()) {
+            app()->register(\App\Overrides\HeloLaravelServiceProvider::class);
+        }
     }
 }
