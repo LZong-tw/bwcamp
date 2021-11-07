@@ -274,8 +274,10 @@ class BackendController extends Controller {
                             ->join('tcamp', 'applicants.id', '=', 'tcamp.applicant_id')
                             ->where('camps.id', $this->campFullData->id);
             if($request->school_or_course == "無") {
-                $applicants = $applicants->where('school_or_course',  "")
-                                        ->orWhereNull('school_or_course');
+                $applicants = $applicants->where(function($q) {
+                    $q->where('school_or_course',  "")
+                    ->orWhereNull('school_or_course');
+                });
             }
             else{
                 $applicants = $applicants->where('school_or_course',  $request->school_or_course);
