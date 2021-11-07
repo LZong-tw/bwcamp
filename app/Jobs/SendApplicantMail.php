@@ -7,15 +7,14 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use App\Services\ApplicantService;
 use App\Traits\EmailConfiguration;
 use Illuminate\Queue\Middleware\WithoutOverlapping;
 
-class SendAdmittedMail implements ShouldQueue
+class SendApplicantMail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, EmailConfiguration;
 
-    protected $applicant, $isGetSN;
+    protected $applicant, $isGetSN, $campOrVariant;
 
     /**
      * Create a new job instance.
@@ -26,7 +25,7 @@ class SendAdmittedMail implements ShouldQueue
     {
         //
         $this->applicant = \App\Models\Applicant::find($applicant_id);
-        $this->isGetSN = $isGetSN
+        $this->isGetSN = $isGetSN;
     }
 
     /**
@@ -34,7 +33,7 @@ class SendAdmittedMail implements ShouldQueue
      *
      * @return void
      */
-    public function handle(ApplicantService $applicantService)
+    public function handle()
     {
         //
         sleep(3);
@@ -42,9 +41,10 @@ class SendAdmittedMail implements ShouldQueue
         ini_set('max_execution_time', 180);
         $applicant = $this->applicant;
         $camp = $applicant->batch->camp;
+        $this->campOrVariant = $camp->variant ? $camp->variant : $camp->table;
         // 動態載入電子郵件設定
-        $this->setEmail($camp->table, $camp->variant);
-        \Mail::to($applicant->email)->send(new \App\Mail\QueuedApplicantMail($applicant->id, $camp->variant ? $camp->variant : $camp->table, $this->isGetSN));        
+        $this->setEmail($this->campOrVariant);
+        \Mail::to($applicant->email)->send(new \App\Mail\QueuedApplicantMail($applicant->id, $this->campOrVariant, $this->isGetSN));        
     }
 
     /**
@@ -53,6 +53,6 @@ class SendAdmittedMail implements ShouldQueue
      * @return array
      */
     public function middleware() {
-        return [new WithoutOverlapping($this->user->id)];
+        return [new WithoutOverlapping($this->applicant->batch->camp->id)];
     }
 }
