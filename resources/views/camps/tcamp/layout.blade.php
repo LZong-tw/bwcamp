@@ -73,7 +73,7 @@
                             <a class="nav-link" href="{{ url("downloads/tcamp2022/2022第30屆教師生命成長營課程表.pdf") }}">課程表</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url("downloads/tcamp2022/2022教師生命成長營簡章(網頁版)1025F.pdf") }}">報名簡章下載</a>
+                            <a class="nav-link" href="{{ url("downloads/tcamp2022/2022教師生命成長營簡章(網頁版)1109F.pdf") }}">報名簡章下載</a>
                         </li>
                     @else
                         <li class="nav-item">
