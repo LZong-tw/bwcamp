@@ -11,16 +11,17 @@
         "php": "^7.3",
         "barryvdh/laravel-dompdf": "^0.8.7",
         "doctrine/dbal": "^2.10",
+        "dompdf/dompdf": "0.8.6.3",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.0",
+        "laravel/telescope": "^4.6",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.0",
         "milon/barcode": "^8.0",
         "rap2hpoutre/laravel-log-viewer": "^1.7",
-        "studio/laravel-totem": "^8.0",
-        "dompdf/dompdf": "0.8.6.3"
+        "studio/laravel-totem": "^8.0"
     },
     
     "require-dev": {
