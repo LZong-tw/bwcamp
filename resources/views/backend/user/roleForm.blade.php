@@ -40,7 +40,7 @@
             </div>
         </div>
         <div class='row form-group'>
-            <label for='inputName' class='col-md-1 control-label'>地區(權限數字大於 3 才會判斷)</label>
+            <label for='inputName' class='col-md-1 control-label'>地區(權限數字大於 2 才會判斷)</label>
             <div class='col-md-6'>
                 <input type="text" name="region" id="" class='form-control' value="{{ $role->region ?? "" }}">
             </div>
