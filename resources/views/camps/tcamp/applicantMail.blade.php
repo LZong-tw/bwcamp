@@ -4,20 +4,18 @@
     請記下您的報名序號： {{ $applicant->id }} 作為日後查詢使用。<br>
     @if($camp == "utcamp")
         {{--
-            todo
-        1. 11/01 ~ 11/13: 11/16
-        2. 11/14 ~ 11/27: 11/30
-        3. 11/28 ~ 12/12: 12/15
-        4. 12/13 ~      : 12/31
+            1. 11/01 ~ 11/28: 11/30
+            2. 11/30 ~ 12/18: 12/20
+            3. 12/19 ~      : 1/5
         --}}
-        @if($applicant->created_at->gte("2021-11-01") && $applicant->created_at->lte("2021-11-13 23:59:59"))
-            錄取名單將於 2021-11-16 開放查詢：https://bwfoce.org/tcamp/ <br>
-        @elseif($applicant->created_at->gte("2021-11-14") && $applicant->created_at->lte("2021-11-27 23:59:59"))
+        @if($applicant->created_at->gte("2021-11-01") && $applicant->created_at->lte("2021-11-28 23:59:59"))
             錄取名單將於 2021-11-30 開放查詢：https://bwfoce.org/tcamp/ <br>
-        @elseif($applicant->created_at->gte("2021-11-28") && $applicant->created_at->lte("2021-12-12 23:59:59"))
-            錄取名單將於 2021-12-15 開放查詢：https://bwfoce.org/tcamp/ <br>
+        @elseif($applicant->created_at->gte("2021-11-30") && $applicant->created_at->lte("2021-12-18 23:59:59"))
+            錄取名單將於 2021-12-30 開放查詢：https://bwfoce.org/tcamp/ <br>
+        @elseif($applicant->created_at->gte("2021-12-19"))
+            錄取名單將於 2021-01-05 開放查詢：https://bwfoce.org/tcamp/ <br>
         @else
-            錄取名單將於 2021-12-31 開放查詢：https://bwfoce.org/tcamp/ <br>
+            錄取名單將於 2021-01-05 開放查詢：https://bwfoce.org/tcamp/ <br>
         @endif
         <br>
         洽詢電話：(週一 ~ 週五 上午10時 ~ 下午5時)<br>
