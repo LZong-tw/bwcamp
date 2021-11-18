@@ -429,7 +429,7 @@
     }
 
     if (cityname == '新竹縣')
-    {   document.Camp.sname.options[ctr] = new Option ("大華科大", "大華科技大學") ;
+    {   document.Camp.sname.options[ctr] = new Option ("敏實科大", "敏實科技大學") ;
         ctr = ctr + 1;
     }
 

@@ -184,7 +184,7 @@ export default {
                 {area: '新竹市', abbreviation: '元培科大', full_name: '元培醫事科技大學', is_taichung: 0}, 
                 {area: '新竹市', abbreviation: '清華大學', full_name: '國立清華大學', is_taichung: 0}, 
                 {area: '新竹市', abbreviation: '陽明交大', full_name: '國立陽明交通大學交大校區', is_taichung: 0}, 
-                {area: '新竹縣', abbreviation: '大華科大', full_name: '敏實科技大學', is_taichung: 0}, 
+                {area: '新竹縣', abbreviation: '敏實科大', full_name: '敏實科技大學', is_taichung: 0}, 
                 {area: '新竹縣', abbreviation: '中國科大', full_name: '中國科技大學', is_taichung: 0}, 
                 {area: '新竹縣', abbreviation: '中華科大', full_name: '中華科技大學新竹分部', is_taichung: 0}, 
                 {area: '新竹縣', abbreviation: '明新科大', full_name: '明新科技大學', is_taichung: 0}, 
