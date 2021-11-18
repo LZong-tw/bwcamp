@@ -7,6 +7,11 @@
         </div>
     @endforeach
 @endif
+@if($camp->variant == "utcamp")
+    <div class="alert alert-success" role="alert">
+        您好，感謝您報名 【2022第30屆教師生命成長營 大專教職員梯】，大會因故需調整錄取時程，將修正為：11/30(二)、12/20(一)、1/5(三)，將於以上時間點寄發「錄取通知」電子信件(email)。再次感謝您的報名！
+    </div>
+@endif
 <form method="post" action="{{ route("queryadmit", $batch_id) }}" name="QueryRegis" class="form-horizontal">
     @csrf
     <div class="page-header form-group">

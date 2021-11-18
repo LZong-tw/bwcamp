@@ -285,7 +285,7 @@ class CampController extends Controller
     }
 
     public function campViewAdmission() {
-        return view('camps.' . $this->camp_data->table . ".queryadmission");
+        return view('camps.' . $this->camp_data->table . ".queryadmission", ["camp", $this->camp_data]);
     }
 
     public function campConfirmCancel(Request $request) {
