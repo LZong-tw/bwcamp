@@ -77,10 +77,10 @@
                         </li>
                     @else
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url("downloads/tcamp2022/2022第30屆教師生命成長營大專教職員梯-活動簡章_含課表_1029.pdf") }}">課程表</a>
+                            <a class="nav-link" href="{{ url("downloads/tcamp2022/2022第30屆教師生命成長營大專教職員梯-活動簡章_含課表_1115.pdf") }}">課程表</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url("downloads/tcamp2022/2022第30屆教師生命成長營大專教職員梯-活動簡章_含課表_1029.pdf") }}">報名簡章下載</a>
+                            <a class="nav-link" href="{{ url("downloads/tcamp2022/2022第30屆教師生命成長營大專教職員梯-活動簡章_含課表_1115.pdf") }}">報名簡章下載</a>
                         </li>
                     @endif
                 </ul>
