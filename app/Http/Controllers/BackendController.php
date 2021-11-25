@@ -345,7 +345,10 @@ class BackendController extends Controller {
             $constraint = auth()->user()->getPermission(true, $this->campFullData->id)->region;
             $batch = Batch::where('camp_id', $this->campFullData->id)->where('name', 'like', '%' . $constraint . '%')->first();
             $applicants = $applicants->filter(function ($applicant) use ($constraint, $batch) {
-                return $applicant->region == $constraint || $applicant->batch_id == $batch->id;
+                if($batch){
+                    return $applicant->region == $constraint || $applicant->batch_id == $batch->id;
+                }
+                return $applicant->region == $constraint;
             });
         }
         // 報名名單不以繳費與否排序
