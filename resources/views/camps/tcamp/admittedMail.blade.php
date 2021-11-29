@@ -2,16 +2,44 @@
     u{
         color: red;
     }
+
+    .center{
+        text-align: center;
+    }
+
+    .right{
+        text-align: right;
+    }
 </style>
-<h2 class="center">{{ $applicant->batch->camp->fullName }} 錄取繳費通知單</h2>
+@if($applicant->batch->camp->variant == "utcamp") 
+    <h2 class="center">2022第30屆教師生命成長營</h2> 
+    <h2 class="center">大專教職員梯 錄取/確認參加 通知單</h2> 
+@else
+    <h2 class="center">{{ $applicant->batch->camp->fullName }} 錄取通知單</h2>
+@endif
 <table width="100%" style="table-layout:fixed; border: 0;">
     <tr>
-        <td>梯次：{{ $applicant->batch->name }}</td>
+        {{-- <td>梯次：{{ $applicant->batch->name }}</td> --}}
         <td>姓名：{{ $applicant->name }}</td>
-        <td>錄取編號：{{ $applicant->group }}{{ $applicant->number }}</td>
-        <td>組別：{{ $applicant->group }}</td>
+        <td>錄取編號：<u>{{ $applicant->group }}{{ $applicant->number }}</u></td>
+        <td>組別：<u>{{ $applicant->group }}</u></td>
     </tr>
-</table><br>
+</table>
+@if($applicant->batch->camp->variant == "utcamp") 
+    歡迎您參加「2022第30屆教師生命成長營-大專教職員梯」，誠摯地期待與您共享這場心靈饗宴，希望您能獲得豐盛的收穫。請於12月7日(二)前於報名網站透過「錄取查詢」頁面（<a href="https://bwcamp.bwfoce.org/camp/46/queryadmit" target="_blank" rel="noopener noreferrer">https://bwcamp.bwfoce.org/camp/46/queryadmit</a>）進行「確認參加」步驟，以利後續作業。請詳閱以下相關訊息，祝福您營隊收穫滿滿：<br>
+    <br>
+    營隊資訊
+    <ol>
+        <li>活動期間：2022/1/23、24(日、一)</li>
+        <li>連線軟體與帳號(當日09:00開放連線)：<br>
+            Zoom 帳號：95556824059 密碼：703112
+        </li>
+        <li>大會將於營隊開始前實體寄發「教師營幸福禮盒」給完成「確認參加」的學員，請於一月密切注意。</li>
+    </ol>
+    若有任何問題，歡迎與各組關懷員聯絡，或來電02-7751-6799 #520023邱先生(2022第30屆教師生命成長營大專教職員梯秘書組)。<br>
+@else
+
+@endif
 
 {{-- 恭喜您錄取「{{ $applicant->batch->camp->fullName }} 」！竭誠歡迎您的到來，期待與您共享這場心靈饗宴，希望您能獲得豐盛的收穫。以下幾點事情需要您的協助與配合：<br>
 <ul>
