@@ -147,14 +147,16 @@ class BackendController extends Controller {
             if(!isset($request->id)){
                 return "沒有輸入任何欄位，請回上上頁重試。";
             }
+            $batches = Batch::where("camp_id", $this->camp_id)->get()->pluck("id");
             foreach($request->id as $key => $id){
                 $skip = false;
                 $groupAndNumber = $this->applicantService->groupAndNumberSeperator($request->admittedSN[$key]);
                 $group = $groupAndNumber['group'];
-                $number = $groupAndNumber['number'];
+                $number = $groupAndNumber['number'];                
                 $check = Applicant::select('applicants.*')
                 ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
-                ->where('group', 'like', $group)->where('number', 'like', $number)->first();
+                ->where('group', 'like', $group)->where('number', 'like', $number)
+                ->whereIn("batch_id", $batches)->first();
                 $candidate = Applicant::find($id);
                 if($check){
                     array_push($error, $candidate->name . "，錄取序號" . $request->admittedSN[$key] . "重複，沒有針對此人執行任何動作。");
