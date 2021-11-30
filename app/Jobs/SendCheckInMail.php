@@ -8,6 +8,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Traits\EmailConfiguration;
+use Illuminate\Queue\Middleware\WithoutOverlapping;
 
 class SendCheckInMail implements ShouldQueue
 {
@@ -51,5 +52,14 @@ class SendCheckInMail implements ShouldQueue
         // 動態載入電子郵件設定
         $this->setEmail($this->applicant->batch->camp->table, $this->applicant->batch->camp->variant);
         \Mail::to($this->applicant->email)->send(new \App\Mail\CheckInMail($this->applicant, $attachment));
+    }
+
+    /**
+     * Get the middleware the job should pass through.
+     *
+     * @return array
+     */
+    public function middleware() {
+        return [new WithoutOverlapping($this->applicant->batch->camp->id)];
     }
 }
