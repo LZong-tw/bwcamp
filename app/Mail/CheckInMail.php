@@ -31,6 +31,10 @@ class CheckInMail extends Mailable
      * @return $this
      */
     public function build() {
+        $this->withSwiftMessage(function ($message) {
+            $headers = $message->getHeaders();
+            $headers->addTextHeader('time', time());
+        });
         if($this->applicant->batch->camp->table == 'coupon'){
             return $this->subject($this->applicant->batch->camp->fullName)
                     ->view('camps.' . $this->applicant->batch->camp->table . ".checkInMail")

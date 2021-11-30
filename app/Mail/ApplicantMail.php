@@ -32,6 +32,10 @@ class ApplicantMail extends Mailable
      * @return $this
      */
     public function build() {
+        $this->withSwiftMessage(function ($message) {
+            $headers = $message->getHeaders();
+            $headers->addTextHeader('time', time());
+        });
         if(!$this->isGetSN){
             return $this->subject($this->campData->abbreviation . '報名完成')
                     ->view('camps.' . $this->campData->table . ".applicantMail");

@@ -32,6 +32,10 @@ class AdmittedMail extends Mailable
      * @return $this
      */
     public function build() {
+        $this->withSwiftMessage(function ($message) {
+            $headers = $message->getHeaders();
+            $headers->addTextHeader('time', time());
+        });
         if(!$this->attachment){
             return $this->subject($this->campFullData->abbreviation . '錄取通知')
                 ->view('camps.' . $this->campFullData->table . ".admittedMail");
