@@ -9,6 +9,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Services\ApplicantService;
 use App\Traits\EmailConfiguration;
+use Illuminate\Queue\Middleware\WithoutOverlapping;
 
 class SendAdmittedMail implements ShouldQueue
 {
@@ -51,5 +52,14 @@ class SendAdmittedMail implements ShouldQueue
             \Mail::to($applicant->email)->send(new \App\Mail\AdmittedMail($applicant, $applicant->batch->camp, $paymentFile));
         }
         
+    }
+
+    /**
+     * Get the middleware the job should pass through.
+     *
+     * @return array
+     */
+    public function middleware() {
+        return [new WithoutOverlapping($this->applicant->batch->camp->id)];
     }
 }
