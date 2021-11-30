@@ -32,6 +32,10 @@ class QueuedApplicantMail extends Mailable
      * @return $this
      */
     public function build() {
+        $this->withSwiftMessage(function ($message) {
+            $headers = $message->getHeaders();
+            $headers->addTextHeader('time', time());
+        });
         $this->applicant = Applicant::find($this->applicant_id);
         $this->campData = $this->applicant->batch->camp;
         if(!$this->isGetSN){

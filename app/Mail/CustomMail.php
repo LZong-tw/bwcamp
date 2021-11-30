@@ -34,6 +34,10 @@ class CustomMail extends Mailable
     public function build() {
         sleep(10);
         logger( \Config::get('mail'));
+        $this->withSwiftMessage(function ($message) {
+            $headers = $message->getHeaders();
+            $headers->addTextHeader('time', time());
+        });
         $email = $this->subject($this->subject)->view("backend.other.customMailView");
         $attachmentCount = count($this->attachment);
         $attachments = null;
