@@ -43,7 +43,7 @@ class SendAdmittedMail implements ShouldQueue
         $applicant->save();
         // 動態載入電子郵件設定
         $this->setEmail($applicant->batch->camp->table, $applicant->batch->camp->variant);
-        if($applicant->fee == 0){
+        if(!isset($applicant->fee) || $applicant->fee == 0){
             \Mail::to($applicant->email)->send(new \App\Mail\AdmittedMail($applicant, $applicant->batch->camp));
         }
         else{
