@@ -30,7 +30,15 @@
                             </div>
                             <div class="card-body">
                                 <p class="card-text">
-                                    親愛的{{ $applicant->name }}老師您好，非常恭喜您錄取「2022第30屆教師生命成長營-大專教職員梯」，誠摯地期待與您共享這場心靈饗宴，希望您能獲得豐盛的收穫！請詳閱以下相關訊息，祝福您營隊收穫滿滿：
+                                    <table width="100%" style="table-layout:fixed; border: 0;">
+                                        <tr>
+                                            {{-- <td>梯次：{{ $applicant->batch->name }}</td> --}}
+                                            <td>姓名：{{ $applicant->name }}</td>
+                                            <td>錄取編號：<u>{{ $applicant->group }}{{ $applicant->number }}</u></td>
+                                            <td>組別：<u>{{ $applicant->group }}</u></td>
+                                        </tr>
+                                    </table>
+                                    親愛的老師您好，非常恭喜您錄取「2022第30屆教師生命成長營-大專教職員梯」，誠摯地期待與您共享這場心靈饗宴，希望您能獲得豐盛的收穫！請詳閱以下相關訊息，祝福您營隊收穫滿滿：
                                     <h4>營隊資訊</h4>
                                     <div class="ml-4 mb-2">
                                         活動期間：2022/1/23、24 (日、一)<br>
