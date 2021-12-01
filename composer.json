@@ -22,6 +22,7 @@
         "laravel/ui": "^3.0",
         "milon/barcode": "^8.0",
         "rap2hpoutre/laravel-log-viewer": "^1.7",
+        "sentry/sentry-laravel": "^2.10",
         "studio/laravel-totem": "^8.0"
     },
     
