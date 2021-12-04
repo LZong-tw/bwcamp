@@ -253,9 +253,9 @@ class CampController extends Controller
 
     public function campGetApplicantSN(Request $request) {
         $campTable = $this->camp_data->table;
-        $applicant = Applicant::select('applicants.id', 'applicants.email', 'applicants.name', $campTable . '.*')
-        ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
-        ->where('applicants.name', $request->name);
+        $applicant = Applicant::select('applicants.id', 'applicants.email', 'applicants.name')
+                    ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
+                    ->where('applicants.name', $request->name);
         if($request->mobile){
             $applicant = $applicant->where('mobile', $request->mobile)
             ->withTrashed()->first();
