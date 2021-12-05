@@ -5,7 +5,7 @@ return [
     'dsn' => env('SENTRY_LARAVEL_DSN', env('SENTRY_DSN')),
 
     // capture release as git sha
-    // 'release' => trim(exec('git --git-dir ' . base_path('.git') . ' log --pretty="%h" -n1 HEAD')),
+    'release' => trim(exec('git --git-dir ' . base_path('.git') . ' log --pretty="%h" -n1 HEAD')),
 
     // When left empty or `null` the Laravel environment will be used
     'environment' => env('SENTRY_ENVIRONMENT'),
@@ -29,7 +29,7 @@ return [
 
     'tracing' => [
         // Trace queue jobs as their own transactions
-        'queue_job_transactions' => env('SENTRY_TRACE_QUEUE_ENABLED', false),
+        'queue_job_transactions' => env('SENTRY_TRACE_QUEUE_ENABLED', true),
 
         // Capture queue jobs as spans when executed on the sync driver
         'queue_jobs' => true,
