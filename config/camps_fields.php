@@ -78,7 +78,7 @@ return [
         // "is_attend" => "回覆參加", 
         // "nationality" => "國籍", 
         "is_educating" => "是否在教育單位任職？", 
-        // "has_license" => "是否有教師證", 
+        "has_license" => "是否有教師證", 
         // "years_teached" => "教學年資", 
         "education" => "最高學歷", 
         "school_or_course" => "任職機關/學程", 
