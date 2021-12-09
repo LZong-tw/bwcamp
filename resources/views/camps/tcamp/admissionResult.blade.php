@@ -114,6 +114,108 @@
                     </div>
                 @endif
             @else
+                @if($applicant->is_admitted)
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-header">
+                                查詢結果
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <table width="100%" style="table-layout:fixed; border: 0; text-align: center; margin-bottom: 12px; margin-top: -4px;">
+                                        <tr>
+                                            <td><h6>場次</h6></td>
+                                            <td><h6>姓名</h6></td>
+                                            <td><h6>錄取編號</h6></td>
+                                            <td><h6>組別</h6></td>
+                                        </tr>
+                                        <tr>
+                                            <td>幼小中高場(1/26-27)</td>
+                                            <td>{{ $applicant->name }}</td>
+                                            <td><u>{{ $applicant->group }}{{ $applicant->number }}</u></td>
+                                            <td><u>{{ $applicant->group }}</u></td>
+                                        </tr>
+                                    </table>
+                                    恭喜您錄取「2022教師生命成長營」！竭誠歡迎您的到來，期待與您共享這場心靈饗宴，希望您能獲得豐盛的收穫。我們會在2022年1/10〜1/12寄送幸福魔法盒(教材包)，屆時請再注意收件。這次的營隊內容結合魔法學校的情境設計元素，以下先做簡單說明：
+                                    <h5>情境設計</h5>
+                                    <div class="ml-4 mb-2">
+                                        2021年11月1日凌晨，因魔咒解除，霍福華智魔法學校重現世間，從水底深處浮出水面。頓時撼動天上人間，披風家族乘坐魔帚從四面八方凌空而來，一道道光軌劃亮夜空，迎來最明亮潔白的圓月出現天際，共同迎接萬年盛事～古堡矗立，魔法重現，不可思議即將展開~ 
+                                        <hr>
+                                        霍福華智魔法學校首辦2022年教師遊學課程--教師生命成長營，在經過一個多月的報名、審核的過程後，確認有900多位老師們身上流有魔法師的血液，具備初級魔法師的資格，有辦法進行魔法學習。魔法學校校長福智利多很重視這群新到來的初級魔法師，畢竟在麻瓜的世界裡，要找到這群人、延續魔法的血脈很不容易，因此，特別選定經過訓練後的中級魔法師們，以及特派披風家族守護員，來接引他們到學校學習。
+                                        <hr>
+                                        在入學前，初級魔法師們就會收到一封由貓頭鷹嘿美送到的入學通知書，說明入學前的準備工作、班級班號、加入線上平台、如何到達學校等。接著，會開始接到中級魔法師的電話通知、參加遊學前的兩次行前說明會，並收到幸福魔法盒、取得魔法特快車的月台車票，做好遊學前的準備工作。這段期間，也會在魔法學校和幸福心學堂online合作的線上平台上看到各種訊息、進行各種活動。
+                                        <hr>
+                                        入學當天，他們將拿著月台車票，通過九又五分之四月台，搭上魔法特快車、專屬他的班級的車廂，一起前往魔法學校。這次的遊學課程，除了兩天的營隊模式，介紹魔法學校的學習主軸和魔法體驗之外，還有長達一年的深入學習，讓魔法師們可以透過多角度的了解、討論、實作，熟練魔法的使用，堅固施展魔法解決問題、幫助別人的能力。
+                                    </div>
+                                    <h5>請加入幸福心學堂online臉書社團</h5>
+                                    <div class="ml-4 mb-2">
+                                        <a href="https://www.facebook.com/groups/bwfoce.happiness.new" target="_blank" rel="noopener noreferrer">https://www.facebook.com/groups/bwfoce.happiness.new</a>
+                                    </div>
+                                    <h5>諮詢窗口（請於周一至周五 10:00~17:30 來電）</h5>
+                                    <div class="ml-4 mb-2">
+                                        台北場　劉小姐 (02)2545-3788#529
+                                    </div>
+                                    {{-- <h4>營隊資訊</h4>
+                                    <div class="ml-4 mb-2">
+                                        活動期間：2022/1/23、24 (日、一)<br>
+                                        本次活動採線上舉辦。 <br>
+                                        連線軟體與帳號：Zoom&nbsp;(請事先下載安裝，當日09:00將開放連線)：<br>
+                                        Zoom 帳號：95556824059 密碼：703112
+                                    </div> --}}
+                                    <h4>請回覆確認參加</h4>
+                                    <div class="ml-4 mb-2">
+                                        @if(!isset($applicant->is_attend))
+                                            <div class="ml-4 mb-2 text-primary">狀態：未回覆參加。</div>
+                                        @elseif($applicant->is_attend)
+                                            <div class="ml-4 mb-2 text-success">狀態：已確認參加。</div>
+                                        @else
+                                            <div class="ml-4 mb-2 text-danger">狀態：不參加。</div>
+                                        @endif
+                                        <form class="ml-4 mb-2" action="{{ route('toggleAttend', $batch_id) }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{ $applicant->applicant_id ?? $applicant->id }}">
+                                            @if(!isset($applicant->is_attend))
+                                                <input class="btn btn-success" type="submit" value="確認參加">
+                                                <input class="btn btn-danger" type="submit" value="不參加" id="cancel" name="confirmation_no">
+                                            @elseif($applicant->is_attend)
+                                                <input class="btn btn-danger" type="submit" value="取消參加" id="cancel">
+                                            @else
+                                                <input class="btn btn-success" type="submit" value="確認參加">
+                                            @endif
+                                        </form>
+                                        {{-- 全程參與者，發給研習證明文件。 --}}
+                                    </div>
+                                </p>
+                                <input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>
+                                <a href="{{ $camp_data->site_url }}" class="btn btn-primary">回營隊首頁</a>
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-header">
+                                查詢結果
+                            </div>
+                            <div class="card-body">                                
+                                <p class="card-text">
+                                    敬愛的教育夥伴，您好！ <br>
+                                    「教師生命成長營」自舉辦以來，每年都得到教育夥伴們的支持和肯定，思及社會上仍有這麼多人共同關心莘莘學子們的學習成長，令人深感振奮！每一位老師的報名都是鼓舞我們的一分力量，激勵基金會全體人員持續不懈，與大家共同攜手為教育盡心盡力。
+                                    非常感謝您的報名，由於我們的視訊配備侷限，不克錄取，造成您的不便，敬請見諒包涵！ <br><br>
+                                    福智文教基金會在全省各縣市的分支機構，平日都設有適合各年齡層的多元心靈提升課程，誠摯歡迎您的參與！<br><br>
+                                    關注「福智文教基金會」網站：<a href="bwfoce.org" target="_blank" rel="noopener noreferrer">bwfoce.org</a><br>
+                                    關注「哈特麥1D」(heart mind edu.)FB：<a href="https://www.facebook.com/heartmind1d/" target="_blank" rel="noopener noreferrer">https://www.facebook.com/heartmind1d/</a><br>
+                                    <br>
+                                    祝福　教安，健康平安！ 
+                                </p>
+                                <a class="right">財團法人福智文教基金會　敬啟</a><br> 
+                                <a class="right">{{ \Carbon\Carbon::now()->year }}  年　{{ \Carbon\Carbon::now()->month }}  月 　 {{ \Carbon\Carbon::now()->day }}  日</a>
+                                <input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>
+                                <a href="{{ $camp_data->site_url }}" class="btn btn-primary">回營隊首頁</a>
+                            </div>
+                        </div>
+                    </div>
+                @endif
             @endif
         @endif
     </div>
