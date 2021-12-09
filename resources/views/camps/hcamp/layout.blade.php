@@ -55,7 +55,7 @@
                         <a class="nav-link" href="{{ route('query', $batch_id) }}">報名查詢/修改</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('queryadmit', $batch_id) }}">繳費查詢</a>
+                        <a class="nav-link" href="{{ route("queryadmitGET", $batch_id) }}">繳費查詢</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="https://seguchi326.wixsite.com/2021happycamp" target="blank">營隊資訊</a>
