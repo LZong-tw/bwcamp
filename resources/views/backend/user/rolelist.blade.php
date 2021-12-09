@@ -39,7 +39,7 @@
                 <td>{{ $role->region }}</td>
                 <td>
                     @if($role->level > 1)
-                        <a href="{{ route("editRole", $role->id) }}" class="btn btn-primary">修改</a>
+                        <a href="{{ route("editRoleGET", $role->id) }}" class="btn btn-primary">修改</a>
                     @else
                         無法修改
                     @endif
