@@ -71,7 +71,7 @@
                                 <a href="{{ route("batchesStat", $campFullData->id) }}">報名梯次</a>
                             </li>
                             <li>
-                                <a href="{{ route("admissionGETStat", $campFullData->id) }}">錄取統計</a>
+                                <a href="{{ route("admissionStat", $campFullData->id) }}">錄取統計</a>
                             </li>
                             <li>
                                 <a href="{{ route("checkinStat", $campFullData->id) }}">報到統計</a>
