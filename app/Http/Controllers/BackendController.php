@@ -425,13 +425,8 @@ class BackendController extends Controller {
                 }  
                 // 2022 一般教師營需要
                 if($this->campFullData->camp == "tcamp" && !$this->campFullData->variant) {
-                    $arr = [1, 2, 3, 5];
-                    $pos = 3;
-                    $val = 4;
-                
-                    $result = array_merge(array_slice($arr, 0, $pos), array($val), array_slice($arr, $pos));
-
-                    array_push($rows, '="廣論班"');
+                    $pos = 44;                
+                    $columns = array_merge(array_slice($columns, 0, $pos), ["廣論班"], array_slice($columns, $pos));
                 }
                 fputcsv($file, $columns);
 
