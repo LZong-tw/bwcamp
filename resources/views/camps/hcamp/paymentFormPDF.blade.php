@@ -93,7 +93,7 @@
 歡迎您報名「2021∞快樂營」！竭誠歡迎您的到來，期待與您一起發現快樂，經歷生動、活潑有趣的北極之旅課程。以下幾點事項，請您協助及配合：
 <br>
 活動費用：{{ $applicant->bank_third_barcode }}元 <br>
-繳費地點：請於繳費期限內，至超商繳費。若完成繳費，請於至少 1 ~ 2 個工作天後，上網查詢是否已繳費完畢。 （網址：<a href="{{ url(route("query", $applicant->batch_id)) }}">{{ route("queryadmit", $applicant->batch_id) }}</a>）<br>
+繳費地點：請於繳費期限內，至超商繳費。若完成繳費，請於至少 1 ~ 2 個工作天後，上網查詢是否已繳費完畢。 （網址：<a href="{{ url(route("query", $applicant->batch_id)) }}">{{ route("queryadmitGET", $applicant->batch_id) }}</a>）<br>
 <ol>
     <li>發票於營隊第一天提供，若需開立統一編號，請回報名網站修改報名資料處填寫。</li>
     <li>若繳費後，因故無法參加需退費者，請參照營隊網站【常見問題-退費注意事項】，並回報名網站憑報名序號、姓名及身分證字號提出申請。</li>
