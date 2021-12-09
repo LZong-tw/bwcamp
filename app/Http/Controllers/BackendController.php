@@ -424,9 +424,9 @@ class BackendController extends Controller {
                     $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $checkInDates);  
                 }  
                 // 2022 一般教師營需要
-                if($this->campFullData->camp == "tcamp" && !$this->campFullData->variant) {
+                if($this->campFullData->table == "tcamp" && !$this->campFullData->variant) {
                     $pos = 44;                
-                    $columns = array_merge(array_slice($columns, 0, $pos), ["廣論班"], array_slice($columns, $pos));
+                    $columns = array_merge(array_slice($columns, 0, $pos), ["lamrim" => "廣論班"], array_slice($columns, $pos));
                 }
                 fputcsv($file, $columns);
 
