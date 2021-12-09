@@ -13,6 +13,7 @@ yarn-error.log
 .vscode/launch.json
 /storage/attachment
 .vscode/
+*.Identifier
 
 # Payment reconciliation secrets / samples
 /storage/payment_data/
