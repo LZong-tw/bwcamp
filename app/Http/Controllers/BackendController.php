@@ -434,7 +434,7 @@ class BackendController extends Controller {
                     $rows = array();
                     foreach($columns as $key => $v){
                         // 2022 一般教師營需要
-                        if($v == "廣論班" && $this->campFullData->camp == "tcamp" && !$this->campFullData->variant) {
+                        if($v == "廣論班" && $this->campFullData->table == "tcamp" && !$this->campFullData->variant) {
                             $lamrim = \explode("\\||", $applicant->blisswisdom_type_complement)[0];
                             if(!$lamrim || $lamrim == ""){                                
                                 array_push($rows, '="無"');
