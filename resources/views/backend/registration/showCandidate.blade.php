@@ -47,10 +47,10 @@
                 <input type="submit" class="btn btn-success" value="確認錄取">
             @endif
         </form><br>
-        <a href="{{ route("admission", $campFullData->id) }}" class="btn btn-primary">下一筆</a>
+        <a href="{{ route("admissionGET", $campFullData->id) }}" class="btn btn-primary">下一筆</a>
     @else
         <p>
-            查無資料，請 <a href="{{ route("admission", $campFullData->id) }}" class="btn btn-primary">重新執行</a>。
+            查無資料，請 <a href="{{ route("admissionGET", $campFullData->id) }}" class="btn btn-primary">重新執行</a>。
         </p>
     @endif
 @endsection

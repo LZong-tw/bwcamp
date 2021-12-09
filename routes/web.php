@@ -104,16 +104,16 @@ Route::group(["prefix" => "backend/campManage"], function(){
 Route::group(["prefix" => "backend/{camp_id}", ], function () {
     Route::get("/", "BackendController@campIndex")->name("campIndex");
     Route::get("/logs", "\Rap2hpoutre\LaravelLogViewer\LogViewerController@index")->middleware("permitted")->name("logs");
-    Route::get("/registration/admission", "BackendController@admission")->name("admission");
+    Route::get("/registration/admission", "BackendController@admission")->name("admissionGET");
     Route::get("/registration/showPaymentForm/{applicant_id}", "BackendController@showPaymentForm")->name("showPaymentForm");
-    Route::get("/registration/batchAdmission", "BackendController@batchAdmission")->name("batchAdmission");
+    Route::get("/registration/batchAdmission", "BackendController@batchAdmission")->name("batchAdmissionGET");
     Route::post("/registration/showCandidate", "BackendController@showCandidate")->name("showCandidate");
     Route::post("/registration/showBatchCandidate", "BackendController@showBatchCandidate")->name("showBatchCandidate");
     Route::post("/registration/admission", "BackendController@admission")->name("admission");
     Route::post("/registration/batchAdmission", "BackendController@batchAdmission")->name("batchAdmission");
     Route::get("/registration", "BackendController@showRegistration")->name("showRegistration");
     Route::get("/registration/list", "BackendController@showRegistrationList")->name("showRegistrationList");
-    Route::get("/changeBatchOrRegion", "BackendController@changeBatchOrRegion")->name("changeBatchOrRegion");
+    Route::get("/changeBatchOrRegion", "BackendController@changeBatchOrRegion")->name("changeBatchOrRegionGET");
     Route::post("/changeBatchOrRegion", "BackendController@changeBatchOrRegion")->name("changeBatchOrRegion");
     Route::post("/registration/getList", "BackendController@getRegistrationList")->name("getRegistrationList");
     Route::post("/registration/sendAdmittedMail", "BackendController@sendAdmittedMail")->name("sendAdmittedMail");
@@ -134,7 +134,7 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
     Route::get("/statistics/checkin", [StatController::class, "checkinStat"])->name("checkinStat");
     Route::get("/statistics/bwclubschool", BWClubSchoolStat::class)->name("bwclubschoolStat");
     Route::get("/accounting", "BackendController@showAccountingPage")->name("accounting");
-    Route::get("/accounting/modify", "BackendController@modifyAccounting")->name("modifyAccounting");
+    Route::get("/accounting/modify", "BackendController@modifyAccounting")->name("modifyAccountingGET");
     Route::post("/accounting/modify", "BackendController@modifyAccounting")->name("modifyAccounting");
     Route::get("/customMail", "BackendController@customMail")->name("customMail");
     Route::get("/writeMail", "BackendController@writeCustomMail")->name("writeMail");

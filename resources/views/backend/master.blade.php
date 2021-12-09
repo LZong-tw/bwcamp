@@ -71,7 +71,7 @@
                                 <a href="{{ route("batchesStat", $campFullData->id) }}">報名梯次</a>
                             </li>
                             <li>
-                                <a href="{{ route("admissionStat", $campFullData->id) }}">錄取統計</a>
+                                <a href="{{ route("admissionGETStat", $campFullData->id) }}">錄取統計</a>
                             </li>
                             <li>
                                 <a href="{{ route("checkinStat", $campFullData->id) }}">報到統計</a>
@@ -116,7 +116,7 @@
                                 <a href="{{ route("showRegistrationList", $campFullData->id)}}">檢視及下載</a>
                             </li>
                             <li>
-                                <a href="{{ route("changeBatchOrRegion", $campFullData->id) }}">修改梯次 / 區域</a>
+                                <a href="{{ route("changeBatchOrRegionGET", $campFullData->id) }}">修改梯次 / 區域</a>
                             </li>
                         </ul>
                     </li>
@@ -124,19 +124,19 @@
                         <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">錄取相關</a>
                         <ul class="collapse list-unstyled show" id="homeSubmenu">
                             <li>
-                                <a href="{{ route("admission", $campFullData->id) }}">單一錄取<br>查詢報名資料</a>
+                                <a href="{{ route("admissionGET", $campFullData->id) }}">單一錄取<br>查詢報名資料</a>
                             </li>
                             <li>
-                                <a href="{{ route("batchAdmission", $campFullData->id) }}">批次錄取</a>
+                                <a href="{{ route("batchAdmissionGET", $campFullData->id) }}">批次錄取</a>
                             </li>
                             <li>
                                 <a href="{{ route("showGroupList", $campFullData->id) }}">組別名單查詢/下載<br>寄送錄取通知信<br>寄送報到通知信</a>
                             </li>
                             <li>
-                                <a href="{{ route("modifyAccounting", $campFullData->id) }}">修改繳費資料</a>
+                                <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">修改繳費資料</a>
                             </li>
                             <li>
-                                <a href="{{ route("modifyAccounting", $campFullData->id) }}">設定取消參加</a>
+                                <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">設定取消參加</a>
                             </li>
                         </ul>
                     </li>
@@ -153,7 +153,7 @@
                                 <a href="#">輔導組表格</a>
                             </li>
                             <li>
-                                <a href="{{ route("modifyAccounting", $campFullData->id) }}">現場手動繳費<br>修改繳費資料</a>
+                                <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">現場手動繳費<br>修改繳費資料</a>
                             </li>
                         </ul>
                     </li>
