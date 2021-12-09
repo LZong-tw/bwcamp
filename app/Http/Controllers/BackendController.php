@@ -423,21 +423,30 @@ class BackendController extends Controller {
                 else{                    
                     $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $checkInDates);  
                 }  
+                // 2022 一般教師營需要
+                if($this->campFullData->camp == "tcamp" && !$this->campFullData->variant) {
+                    $arr = [1, 2, 3, 5];
+                    $pos = 3;
+                    $val = 4;
+                
+                    $result = array_merge(array_slice($arr, 0, $pos), array($val), array_slice($arr, $pos));
+
+                    array_push($rows, '="廣論班"');
+                }
                 fputcsv($file, $columns);
 
                 foreach ($applicants as $applicant) {
                     $rows = array();
                     foreach($columns as $key => $v){
                         // 2022 一般教師營需要
-                        if($v == "參加過的福智活動") {
+                        if($v == "廣論班" && $this->campFullData->camp == "tcamp" && !$this->campFullData->variant) {
                             $lamrim = \explode("\\||", $applicant->blisswisdom_type_complement)[0];
-                            if(!$lamrim || $lamrim == ""){
-                                $rows[$key] = "無";
+                            if(!$lamrim || $lamrim == ""){                                
+                                array_push($rows, '="無"');
                             }
                             else{
-                                $rows[$key] = $lamrim;
+                                array_push($rows, '="' . $lamrim . '"');
                             }
-                            array_push($rows, '="廣論班"');
                         }
                         // 使用正規表示式抓出日期欄
                         if(preg_match('/\d\d\d\d-\d\d-\d\d/', $key)){
