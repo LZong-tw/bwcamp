@@ -428,6 +428,17 @@ class BackendController extends Controller {
                 foreach ($applicants as $applicant) {
                     $rows = array();
                     foreach($columns as $key => $v){
+                        // 2022 一般教師營需要
+                        if($v == "參加過的福智活動") {
+                            $lamrim = \explode("\\||", $applicant->blisswisdom_type_complement)[0];
+                            if(!$lamrim || $lamrim == ""){
+                                $rows[$key] = "無";
+                            }
+                            else{
+                                $rows[$key] = $lamrim;
+                            }
+                            array_push($rows, '="廣論班"');
+                        }
                         // 使用正規表示式抓出日期欄
                         if(preg_match('/\d\d\d\d-\d\d-\d\d/', $key)){
                             if(isset($checkInData)){
