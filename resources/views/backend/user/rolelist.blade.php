@@ -19,7 +19,7 @@
             {{ Session::get("error") }}
         </div>
     @endif
-    <a href="{{ route('listAddRole', \Request::route('camp_id') ?? "") }}" class="btn btn-success d-inline-block" style="margin-bottom: 10px">新增角色</a>
+    <a href="{{ route("listAddRoleGET", \Request::route('camp_id') ?? "") }}" class="btn btn-success d-inline-block" style="margin-bottom: 10px">新增角色</a>
     <table class="table table-bordered">
         <tr>
             <th>ID</th>

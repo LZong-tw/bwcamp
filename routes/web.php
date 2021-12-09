@@ -74,7 +74,7 @@ Route::middleware(["admin"])->group(function () {
     Route::post("/role/edit/{role_id}", [AdminController::class, "editRole"])->name("editRole");
     Route::get("/rolelist/{camp_id?}", [AdminController::class, "rolelist"])->name("rolelist");
     Route::post("/listrole/removeRole", [AdminController::class, "listRemoveRole"])->name("listRemoveRole");
-    Route::get("/listrole/addRole/{camp_id?}", [AdminController::class, "listAddRole"])->name("listAddRole");
+    Route::get("/listrole/addRole/{camp_id?}", [AdminController::class, "listAddRoleGET"])->name("listAddRole");
     Route::post("/listrole/addRole/{camp_id?}", [AdminController::class, "listAddRole"])->name("listAddRole");
 });
 
