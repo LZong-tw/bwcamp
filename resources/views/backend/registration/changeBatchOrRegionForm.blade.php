@@ -43,10 +43,10 @@
             <br><br>
             <input type="submit" class="btn btn-success" value="送出修改">
         </form><br>
-        <a href="{{ route("changeBatchOrRegion", $campFullData->id) }}" class="btn btn-primary">下一筆</a>
+        <a href="{{ route("changeBatchOrRegionGET", $campFullData->id) }}" class="btn btn-primary">下一筆</a>
     @else
         <p>
-            查無資料，請 <a href="{{ route("changeBatchOrRegion", $campFullData->id) }}" class="btn btn-primary">重新執行</a>。
+            查無資料，請 <a href="{{ route("changeBatchOrRegionGET", $campFullData->id) }}" class="btn btn-primary">重新執行</a>。
         </p>
     @endif
 @endsection

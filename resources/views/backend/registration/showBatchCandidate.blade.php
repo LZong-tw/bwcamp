@@ -54,5 +54,5 @@
         </form>
     @endif
     <br>
-    <a href="{{ route("batchAdmission", $campFullData->id) }}" class="btn btn-primary">繼續批次錄次</a>
+    <a href="{{ route("batchAdmissionGET", $campFullData->id) }}" class="btn btn-primary">繼續批次錄次</a>
 @endsection

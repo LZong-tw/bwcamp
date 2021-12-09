@@ -32,7 +32,7 @@
         @endif
     @else
         <p>
-            查無資料，請 <a href="{{ route("modifyAccounting", $campFullData->id) }}" class="btn btn-primary">重新執行</a>。
+            查無資料，請 <a href="{{ route("modifyAccountingGET", $campFullData->id) }}" class="btn btn-primary">重新執行</a>。
         </p>
     @endif
 @endsection
