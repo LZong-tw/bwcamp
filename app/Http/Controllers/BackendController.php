@@ -442,6 +442,7 @@ class BackendController extends Controller {
                             else{
                                 array_push($rows, '="' . $lamrim . '"');
                             }
+                            continue;
                         }
                         // 使用正規表示式抓出日期欄
                         if(preg_match('/\d\d\d\d-\d\d-\d\d/', $key)){
