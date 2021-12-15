@@ -133,6 +133,9 @@
                                 <a href="{{ route("showGroupList", $campFullData->id) }}">組別名單查詢/下載<br>寄送錄取通知信<br>寄送報到通知信</a>
                             </li>
                             <li>
+                                <a href="{{ route("showNotAdmitted", $campFullData->id) }}" class="text-warning">寄送未錄取通知信</a>
+                            </li>
+                            <li>
                                 <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">修改繳費資料</a>
                             </li>
                             <li>
