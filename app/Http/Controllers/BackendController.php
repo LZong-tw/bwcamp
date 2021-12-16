@@ -534,15 +534,22 @@ class BackendController extends Controller {
         foreach($batches as &$batch){
             $batch->regions = Applicant::select('region')->where('batch_id', $batch->id)->where('is_admitted', 1)->whereNotNull('group')->whereNotNull('number')->groupBy('region')->get();
             foreach($batch->regions as &$region){
-                $region->groups = Applicant::select('group', \DB::raw('count(*) as count'))->where('batch_id', $batch->id)->where('region', $region->region)->where('is_admitted', 1)->where(function($query){
-                    if($this->has_attend_data){
-                        $query->where('is_attend', 1);
-                    }
-                })->whereNotNull('group')->whereNotNull('number')->groupBy('group')->get();
                 $region->region = $region->region ?? "其他";
+                $region->applicants = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
+                        ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
+                        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+                        ->where('batch_id', $batch->id)
+                        ->where(function($query){
+                                // todo: 暫時性設計，應該只檢查 null
+                                $query->where('is_admitted', 0)
+                                      ->orWhereNull('is_admitted');
+                        })                        
+                        ->orderBy('applicants.id', 'asc')
+                        ->get();
+
             }
         }
-        return view('backend.registration.groupList')->with('batches', $batches);
+        return view('backend.registration.notAdmitted')->with('batches', $batches);
     }
 
     public function showGroup(Request $request){
