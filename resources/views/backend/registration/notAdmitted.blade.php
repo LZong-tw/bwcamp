@@ -16,6 +16,21 @@
             <tr>
                 <td style="vertical-align: top;">
                     <table class="table table-bordered">
+                        <tr>
+                            <th>報名序號</th>
+                            <th>姓名</th>
+                            <th>區域</th>
+                            <th>學程</th>
+                            @if($campFullData->table == "ycamp")
+                                <th>學校</th>
+                                <th>學校所在地</th>
+                                <th>系級</th>
+                            @endif
+                            @if($campFullData->table == "tcamp")
+                                <th>職稱</th>
+                                <th>單位</th>
+                            @endif
+                        </tr>
                         @forelse ($batch->applicants as $applicant)                 
                             <tr>
                                 <td>{{ $applicant->sn }}</td>
