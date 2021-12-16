@@ -549,7 +549,7 @@ class BackendController extends Controller {
                     ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                     ->where('batch_id', $batch->id)
                     ->where(function($query){
-                            // 暫時性設計，應該只檢查 0
+                            // 只檢查 0
                             $query->where('is_admitted', 0);
                     })                        
                     ->orderBy('applicants.id', 'asc')
