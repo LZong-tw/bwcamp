@@ -13,14 +13,12 @@
         <h4>梯次：{{ $batch->name }}</h4>
         <table>
             <tr>
-                @foreach ($batch->regions as $region)
                 <td style="vertical-align: top;">
                     <table class="table table-bordered">
-                        <thead><tr class="bg-primary text-white"><th colspan="2">{{ $region->region }}</th></tr></thead>
-                        @php
-                            $count = 0;   
-                        @endphp                        
-                        @forelse ($region->applicants as $applicant)
+                        @forelse ($batch->applicants as $applicant)
+                            @php
+                                $count = 0;   
+                            @endphp                        
                             <tr>
                                 <td>{{ $applicant->sn }}</td>
                                 <td>{{ $applicant->name }}</td>
