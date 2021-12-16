@@ -501,6 +501,18 @@ class BackendController extends Controller {
         return back();
     }
 
+    public function sendNotAdmittedMail(Request $request){
+        if(!$request->sns){
+            \Session::flash('error', "未選取任何人。");
+            return back();
+        }
+        foreach($request->sns as $sn){
+            \App\Jobs\SendNotAdmittedMail::dispatch($sn);
+        }
+        \Session::flash('message', "未錄取通知信寄送程序已被排入任務佇列。");
+        return back();
+    }
+
     public function sendCheckInMail(Request $request){
         if(!$request->sns){
             \Session::flash('error', "未選取任何被錄取者。");
