@@ -44,9 +44,10 @@
                                         活動期間：2022/1/23、24 (日、一)<br>
                                         本次活動採線上舉辦。 <br>
                                         連線軟體與帳號：Zoom&nbsp;(請事先下載安裝，當日09:00將開放連線)：<br>
-                                        Zoom 帳號：95556824059 密碼：703112
+                                        Zoom 帳號：95556824059 密碼：703112 <br>
+                                        全程參與者，發給研習證明文件。
                                     </div>
-                                    <h4>請回覆確認參加</h4>
+                                    {{-- <h4>請回覆確認參加</h4>
                                     <div class="ml-4 mb-2">
                                         @if(!isset($applicant->is_attend))
                                             <div class="ml-4 mb-2 text-primary">狀態：未回覆參加。</div>
@@ -66,8 +67,7 @@
                                             @else
                                                 <input class="btn btn-success" type="submit" value="確認參加">
                                             @endif
-                                        </form>
-                                        全程參與者，發給研習證明文件。
+                                        </form> --}}
                                     </div>
                                     <div class="mb-2">
                                         有任何問題，歡迎與關懷員聯絡，或來電福智文教基金會02-7751-6799 #520023邱先生(2022第30屆教師生命成長營大專教職員梯秘書組)
