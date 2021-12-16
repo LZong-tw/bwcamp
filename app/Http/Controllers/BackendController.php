@@ -532,22 +532,17 @@ class BackendController extends Controller {
     public function showNotAdmitted() {
         $batches = Batch::where('camp_id', $this->camp_id)->get()->all();
         foreach($batches as &$batch){
-            $batch->regions = Applicant::select('region')->where('batch_id', $batch->id)->where('is_admitted', 1)->whereNotNull('group')->whereNotNull('number')->groupBy('region')->get();
-            foreach($batch->regions as &$region){
-                $region->region = $region->region ?? "其他";
-                $region->applicants = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
-                        ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
-                        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
-                        ->where('batch_id', $batch->id)
-                        ->where(function($query){
-                                // todo: 暫時性設計，應該只檢查 null
-                                $query->where('is_admitted', 0)
-                                      ->orWhereNull('is_admitted');
-                        })                        
-                        ->orderBy('applicants.id', 'asc')
-                        ->get();
-
-            }
+            $batch->applicants = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
+                    ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
+                    ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+                    ->where('batch_id', $batch->id)
+                    ->where(function($query){
+                            // todo: 暫時性設計，應該只檢查 null
+                            $query->where('is_admitted', 0)
+                                    ->orWhereNull('is_admitted');
+                    })                        
+                    ->orderBy('applicants.id', 'asc')
+                    ->get();
         }
         return view('backend.registration.notAdmitted')->with('batches', $batches);
     }
