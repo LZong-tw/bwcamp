@@ -23,6 +23,8 @@
     <tr>
         @if(!$applicant->batch->camp->variant)
             <td>場次：幼小中高場(1/26-27)</td>
+        @else
+            <td>報名序號：{{ $applicant->id }}</td>
         @endif
         <td>姓名：{{ $applicant->name }}</td>
         <td>錄取編號：<u>{{ $applicant->group }}{{ $applicant->number }}</u></td>
