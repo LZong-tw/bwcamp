@@ -1,11 +1,14 @@
 @extends('backend.master')
 @section('content')
     <style>
-        .card-link{
+        .card-link {
             color: #3F86FB!important;
         }
-        .card-link:hover{
+        .card-link:hover {
             color: #33B2FF!important;
+        }
+        .v-middle {
+            vertical-align: middle!important;
         }
     </style>
     <h2>{{ $campFullData->abbreviation }} 未錄取名單</h2>
@@ -18,20 +21,20 @@
                     <td style="vertical-align: middle;">
                         <table class="table table-bordered">
                             <tr>
-                                <th>報名序號</th>
-                                <th>姓名</th>
-                                <th>區域</th>
-                                <th>學程</th>
+                                <th class="v-middle">報名序號</th>
+                                <th class="v-middle">姓名</th>
+                                <th class="v-middle">區域</th>
+                                <th class="v-middle">學程</th>
                                 @if($campFullData->table == "ycamp")
-                                    <th>學校</th>
-                                    <th>學校所在地</th>
-                                    <th>系級</th>
+                                    <th class="v-middle">學校</th>
+                                    <th class="v-middle">學校所在地</th>
+                                    <th class="v-middle">系級</th>
                                 @endif
                                 @if($campFullData->table == "tcamp")
-                                    <th>職稱</th>
-                                    <th>單位</th>
+                                    <th class="v-middle">職稱</th>
+                                    <th class="v-middle">單位</th>
                                 @endif
-                                <th>選取<br>全選<input type="checkbox" name="selectAll" onclick="toggler()"></th>
+                                <th class="v-middle">選取<br>全選<input type="checkbox" name="selectAll" onclick="toggler()"></th>
                             </tr>
                             @forelse ($batch->applicants as $applicant)                 
                                 <tr>
