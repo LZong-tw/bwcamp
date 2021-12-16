@@ -13,6 +13,7 @@
     </style>
     <h2>{{ $campFullData->abbreviation }} 未錄取名單</h2>
     <form action="" method="post" name="sendEmailByGroup">
+        @csrf
         @foreach ($batches as $batch)
             <h4>梯次：{{ $batch->name }}</h4>
             共 {{ $batch->applicants->count() }} 人
