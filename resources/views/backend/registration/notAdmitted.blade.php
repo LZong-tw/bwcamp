@@ -11,21 +11,15 @@
     <h2>{{ $campFullData->abbreviation }} 未錄取名單</h2>
     @foreach ($batches as $batch)
         <h4>梯次：{{ $batch->name }}</h4>
+        共 {{ $batch->applicants->count() }} 人
         <table>
             <tr>
                 <td style="vertical-align: top;">
                     <table class="table table-bordered">
-                        @forelse ($batch->applicants as $applicant)
-                            @php
-                                $count = 0;   
-                            @endphp                        
+                        @forelse ($batch->applicants as $applicant)                 
                             <tr>
                                 <td>{{ $applicant->sn }}</td>
                                 <td>{{ $applicant->name }}</td>
-                                @if($campFullData->table != "hcamp")
-                                    <td>{{ $applicant->bName }}</td>
-                                @endif
-                                <td>{{ $applicant->group . $applicant->number }}</td>
                                 <td>{{ $applicant->region }}</td>
                                 <td>{{ $campFullData->table == "tcamp" ? $applicant->school_or_course : $applicant->system }}</td>
                                 @if($campFullData->table == "ycamp")
@@ -37,16 +31,9 @@
                                     <td>{{ $applicant->title }}</td>
                                     <td>{{ $applicant->unit }}</td>
                                 @endif
-                                @php
-                                    $count++;
-                                @endphp
                             </tr>
                         @empty
                         @endforelse
-                        <tr class="bg-success text-white">
-                            <td>合計</td>
-                            <td>{{ $count }}</td>
-                        </tr>
                     </table>
                 </td>
             </tr>
