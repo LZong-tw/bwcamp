@@ -15,7 +15,7 @@
             共 {{ $batch->applicants->count() }} 人
             <table>
                 <tr>
-                    <td style="vertical-align: top;">
+                    <td style="vertical-align: middle;">
                         <table class="table table-bordered">
                             <tr>
                                 <th>報名序號</th>
