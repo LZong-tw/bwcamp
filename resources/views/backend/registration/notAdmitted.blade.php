@@ -12,6 +12,16 @@
         }
     </style>
     <h2>{{ $campFullData->abbreviation }} 未錄取名單</h2>
+    @if(Session::has("message"))
+        <div class="alert alert-success" role="alert">
+            {{ Session::get("message") }}
+        </div>
+    @endif
+    @if(Session::has("error"))
+        <div class="alert alert-danger" role="alert">
+            {{ Session::get("error") }}
+        </div>
+    @endif
     <form action="" method="post" name="sendEmailByGroup">
         @csrf
         @foreach ($batches as $batch)
