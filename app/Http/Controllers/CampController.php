@@ -65,7 +65,7 @@ class CampController extends Controller
     public function campRegistration(Request $request) {
         $today = \Carbon\Carbon::today();
         if($request->isBackend){
-             $batch = Batch::find($request->batch_id);
+            $batch = Batch::find($request->batch_id);
         }
         else {
             $batch = Batch::find($this->batch_id);
