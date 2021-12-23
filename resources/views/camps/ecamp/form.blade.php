@@ -1,13 +1,13 @@
 {{-- 
     參考頁面：https://bwfoce.org/ecamp/form/2020ep01.php
     --}}
-<?
-header("Cache-Control: no-cache, no-store, must-revalidate, post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
-$regions = ['台北', '桃園', '新竹', '台中', '雲嘉', '台南', '高雄'];
-?>
+@php
+    header("Cache-Control: no-cache, no-store, must-revalidate, post-check=0, pre-check=0", false);
+    header("Pragma: no-cache");
+    header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+    header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
+    $regions = ['台北', '桃園', '新竹', '台中', '雲嘉', '台南', '高雄'];
+@endphp
 @extends('camps.ecamp.layout')
 @section('content')
     @include('partials.schools_script')
