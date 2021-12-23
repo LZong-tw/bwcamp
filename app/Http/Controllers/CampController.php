@@ -64,7 +64,7 @@ class CampController extends Controller
 
     public function campRegistration(Request $request) {
         $today = \Carbon\Carbon::today();
-        if($request->isBackend){
+        if($request->isBackend == "目前為後台報名狀態。") {
             $batch = Batch::find($request->batch_id);
         }
         else {
