@@ -30,7 +30,13 @@ class SignBackendController extends BackendController
             $batch->days = $days;
         }
         
-        return view("backend.in_camp.signSetting", compact("batches"));
+        $instant = false;
+
+        if(!in_array(now()->format('Y-m-d'), $days)) {
+            $instant = true;
+        }
+
+        return view("backend.in_camp.signSetting", compact("batches", "instant"));
     }
 
     /**
