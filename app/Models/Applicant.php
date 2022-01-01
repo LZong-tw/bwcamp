@@ -51,4 +51,12 @@ class Applicant extends Model {
     public function ycamp() {
         return $this->hasOne(Ycamp::class, 'applicant_id', 'id');
     }
+    
+    public function sign_in_info() {
+        return $this->hasMany(SignInSignOut::class)->whereType('in');
+    }
+
+    public function sign_out_info() {
+        return $this->hasMany(SignInSignOut::class)->whereType('out');
+    }
 }

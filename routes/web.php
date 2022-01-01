@@ -142,4 +142,9 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
     Route::get("/writeMail", "BackendController@writeCustomMail")->name("writeMail");
     Route::post("/customMail/send", "BackendController@sendCustomMail")->name("sendMail");
     Route::get("/customMail/selectMailTarget", "BackendController@selectMailTarget")->name("selectMailTarget");
+    Route::resource("sign", SignBackendController::class)
+            ->names([
+                "index" => "sign_back",
+                "create" => "sign_set_back",
+            ]);
 });
