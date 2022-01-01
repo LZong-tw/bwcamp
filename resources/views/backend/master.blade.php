@@ -156,6 +156,9 @@
                                 <a href="#">輔導組表格</a>
                             </li>
                             <li>
+                                <a href="{{ route('sign_back', $campFullData->id) }}">設定報到時間</a>
+                            </li>
+                            <li>
                                 <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">現場手動繳費<br>修改繳費資料</a>
                             </li>
                         </ul>
