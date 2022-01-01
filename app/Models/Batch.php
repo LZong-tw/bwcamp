@@ -11,10 +11,14 @@ class Batch extends Model
     protected $fillable = ['camp_id', 'name', 'admission_suffix', 'batch_start', 'batch_end', 'is_appliable', 'is_late_registration_end', 'late_registration_end', 'locationName', 'location', 'check_in_day', 'tel'];
 
     public function camp() {
-        return $this->belongsTo('App\Models\Camp');
+        return $this->belongsTo(Camp::class);
     }
 
-    public function sign_info() {
-        # code...
+    public function sign_info($date = null) {
+        $relation = $this->hasMany(BatchSignInAvailibility::class, 'batch_id');
+        if ($date) {
+            $relation->where('start', 'like', "%{$date}%");
+        }
+        return $relation;
     }
 }
