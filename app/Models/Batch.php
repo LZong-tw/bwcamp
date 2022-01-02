@@ -17,7 +17,7 @@ class Batch extends Model
     public function sign_info($date = null) {
         $relation = $this->hasMany(BatchSignInAvailibility::class, 'batch_id');
         if ($date) {
-            $relation->where('start', 'like', "%{$date}%");
+            $relation = $relation->where('start', 'like', "%{$date}%")->get();
         }
         return $relation;
     }
