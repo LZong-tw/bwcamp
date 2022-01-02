@@ -145,6 +145,7 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
     Route::resource("sign", SignBackendController::class)
             ->names([
                 "index" => "sign_back",
-                "create" => "sign_set_back",
+                "store" => "sign_set_back",
+                "destroy" => "sign_delete_back"
             ]);
 });

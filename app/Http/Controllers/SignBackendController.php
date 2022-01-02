@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use DateTime;
 use Illuminate\Http\Request;
+use App\Models\BatchSignInAvailibility;
 
 class SignBackendController extends BackendController
 {
@@ -15,6 +15,8 @@ class SignBackendController extends BackendController
     public function index()
     {
         //
+        $instant = false;
+
         $batches = $this->campFullData->batchs;
         foreach($batches as &$batch) {
             $daysIterator = new \DatePeriod(
@@ -23,14 +25,21 @@ class SignBackendController extends BackendController
                 \Carbon\Carbon::parse($batch->batch_end)->addDay()
             );
     
+
             $days = [];
             foreach ($daysIterator as $date) {
                 $days[] = $date->format('Y-m-d');
             }
+
+            foreach ($batch->sign_info as $row) {
+                $date = substr($row->start, 0, 10);
+                if(!in_array($date, $days)) {
+                    $instant = true;
+                    array_unshift($days, $date);
+                }
+            }
             $batch->days = $days;
         }
-        
-        $instant = false;
 
         if(!in_array(now()->format('Y-m-d'), $days)) {
             $instant = true;
@@ -58,6 +67,34 @@ class SignBackendController extends BackendController
     public function store(Request $request)
     {
         //
+        if($request->end && $request->duration) {
+            return redirect()->back()->withErrors(["結束時間或持續時間只能擇一填寫。"])->withInput();
+        }
+        if(!$request->end && !$request->duration) {
+            return redirect()->back()->withErrors(["未填寫任何結束時間。"])->withInput();
+        }
+        
+        $request->start = $request->day . " " . $request->start;
+
+        if($request->end) {
+            $end = $request->day . " " . $request->end;
+        } else {
+            $end = \Carbon\Carbon::parse($request->start)->addMinutes($request->duration);
+        }
+
+        try {
+            BatchSignInAvailibility::create([
+                "batch_id" => $request->batch_id,
+                "start" => \Carbon\Carbon::parse($request->start),
+                "end" => \Carbon\Carbon::parse($end),
+            ]);
+            \Session::flash('message', "設定成功。");
+            return redirect()->back();
+        } 
+        catch (\Exception $e) {
+            \logger($e->getMessage());
+            return redirect()->back()->withErrors(["發生未知錯誤，設定失敗。"])->withInput();
+        }
     }
 
     /**
@@ -100,8 +137,11 @@ class SignBackendController extends BackendController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($camp_id, $id)
     {
         //
+        BatchSignInAvailibility::destroy($id);
+        \Session::flash('message', "刪除成功。");
+        return redirect()->back();
     }
 }
