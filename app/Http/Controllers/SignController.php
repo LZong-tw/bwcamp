@@ -15,6 +15,7 @@ class SignController extends Controller
     public function index()
     {
         //
+        return view("sign.home");
     }
 
     /**
