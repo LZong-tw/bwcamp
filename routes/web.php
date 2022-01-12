@@ -18,6 +18,7 @@ use App\Http\Controllers\AdminController;
 */
 
 Route::get("/", Index::class);
+Route::resource("sign_page", SignController::class);
 
 /***********************Auth routes******************************************/
 // Auth::routes();
