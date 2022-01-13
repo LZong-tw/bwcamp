@@ -13,6 +13,8 @@ class SignInSignOut extends Model
     //
     protected $fillable = ["applicant_id", "type"];
 
+    protected $table = "sign_in_sign_out";
+
     public function applicant() {
         return $this->belongsTo(Applicants::class);
     }
