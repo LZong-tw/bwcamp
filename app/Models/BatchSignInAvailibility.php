@@ -12,7 +12,7 @@ class BatchSignInAvailibility extends Model
     //
     protected $table = "batch_sign_availibilities";
 
-    protected $fillable = ["batch_id", "start", "end"];
+    protected $fillable = ["batch_id", "start", "end", "type"];
 
     public function batch() {
         return $this->belongsTo(Batch::class);

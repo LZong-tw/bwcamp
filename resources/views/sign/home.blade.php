@@ -37,12 +37,20 @@
 </style>
 <div class="container">
     <h2 class="mt-4 text-center">學員簽到退系統</h2>
-    <form action="/checkin/query" id="query">
+    @if($errors->any())
+        @foreach ($errors->all() as $message)
+            <div class='alert alert-danger' role='alert'>
+                {{ $message }}
+            </div>
+        @endforeach
+    @endif
+    <form action="{{ route("sign_page.search") }}" id="query" method="POST">
+        @csrf
         <div class="form-group input-group">
             <input type="text" class="form-control" name="query_str" id="" placeholder="請任選報名序號、姓名、手機輸入..." value="{{ old("query_str") }}" required>
         </div>
         <div class="form-group input-group">
-            <input type="text" class="form-control" name="admitted_no" id="" placeholder="請輸入錄取序號..." value="{{ old("admitted_no") }}" required>
+            <input type="text" class="form-control" name="admitted_no" id="" placeholder="請輸入錄取序號..." value="{{ old("admitted_no") }}" maxlength="5" minlength="5" required>
         </div>
         <div class="form-group input-group justify-content-center">
             <button class="btn btn-outline-success" type="submit" id="signinsearch">
@@ -53,23 +61,32 @@
             </button>
         </div>
     </form>
-    @if($errors->any())
-        @foreach ($errors->all() as $message)
-            <div class='alert alert-danger' role='alert'>
-                {{ $message }}
+    @if(isset($applicant))
+        @if(isset($message) && $message['status'])
+            <div class='alert alert-success' role='alert'>
+                {{ $message['message'] }}
             </div>
-        @endforeach
-    @endif
-    @if(\Session::has('message'))
-        <div class='alert alert-success' role='alert'>
-            {{ \Session::get('message') }}
-        </div>
-    @endif
-    @if(isset($applicants) && $applicants->count() > 0)
-        @if($applicants->count() >= 20)
-            <div class="alert alert-danger">查詢條件過於粗略，符合筆數過多，容易導致系統負荷過大。</div>
+        @else
+            <div class='alert alert-danger' role='alert'>
+                {{ $message['message'] }}
+            </div>
         @endif
-        @foreach ($batches as $batch_key => $batch_name)
+        <table class="table table-hovered">
+            <tr>
+                <div class="text-danger">請確認以下為個人資料及最近簽到退資料後，再進行簽到/簽退</div>
+                報名序號：{{ $applicant->id }} <br>
+                錄取序號：{{ $applicant->group . $applicant->number }} <br>
+                姓名：{{ $applicant->name }} <br>
+                手機：{{ $applicant->mobile }} <br>
+                <button class="btn btn-success"> 簽到 / 簽退 </button><br>
+            </tr>
+            <tr>
+                @foreach ($applicant->signData as $data)
+                    
+                @endforeach
+            </tr>
+        </table>
+        {{-- @foreach ($batches as $batch_key => $batch_name)
             <h5>梯次：{{ $batch_name }}</h5>  
             <table class="table table-bordered text-break">
                 <tr class="table-active">
@@ -162,13 +179,8 @@
                     @endif
                 @endforeach
             </table>          
-        @endforeach        
-    @elseif(isset($applicants) && $applicants->count() == 0)
-        <div class="alert alert-danger">查無資料。</div>
+        @endforeach         --}}
     @endif
-    <footer class="fixed-bottom footer pb-2 pt-2 text-center">
-        <a href="/checkin/detailedStat" target="_blank">今日全梯次累積報到人數 / 未報到人數： <span id="stat">查詢中</span></a>
-    </footer>
 </div>  
 <div id="CenterDIV">
     <div class="divFloat card-body text-center">
