@@ -265,11 +265,25 @@
         <div class='col-md-10'>
             <select required class='form-control' name='job_property' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
-                <option value='經營／管理' >經營／管理</option>
-                <option value='一般行政' >一般行政</option>
-                <option value='企劃' >企劃</option>
-                <option value='業務行銷' >業務行銷</option>
-                <option value='技術職' >技術職</option>
+                <option value='經營/人資' >經營/人資</option>
+                <option value='行政/總務' >行政/總務</option>
+                <option value='法務' >法務</option>
+                <option value='財會/金融' >財會/金融</option>
+                <option value='行銷/企劃' >行銷/企劃</option>
+                <option value='專案管理' >專案管理</option>
+                <option value='客服/門市' >客服/門市</option>
+                <option value='業務/貿易' >業務/貿易</option>
+                <option value='餐飲/旅遊/美容美髮' >餐飲/旅遊/美容美髮</option>
+                <option value='資訊軟體/研發' >資訊軟體/研發</option>
+                <option value='生產製造/品管/環衛' >生產製造/品管/環衛</option>
+                <option value='物流/運輸' >物流/運輸</option>
+                <option value='建築/營建' >建築/營建</option>
+                <option value='影視演藝/幕後製作' >影視演藝/幕後製作</option>
+                <option value='藝術創作/視覺設計' >藝術創作/視覺設計</option>
+                <option value='文字創作/傳媒工作' >文字創作/傳媒工作</option>
+                <option value='醫療/保健服務' >醫療/保健服務</option>
+                <option value='學術/教育輔導' >學術/教育輔導</option>
+                <option value='軍警消/保全' >軍警消/保全</option>
                 <option value='其它' >其它</option>
             </select>
         </div>  
@@ -289,7 +303,7 @@
     <div class='row form-group required'> 
     <label for='inputEmployees' class='col-md-2 control-label text-md-right'>公司員工人數</label>
         <div class='col-md-10'>
-            <input type=text required name='employees' value='' class='form-control' id='inputEmployees'>
+            <input type=number required name='employees' value='' class='form-control' id='inputEmployees'>
             <div class="invalid-feedback crumb">
                 請填寫公司員工人數
             </div>
@@ -299,7 +313,7 @@
     <div class='row form-group required'> 
     <label for='inputDirectManagedEmployees' class='col-md-2 control-label text-md-right'>直屬管轄人數</label>
         <div class='col-md-10'>
-            <input type=text required name='direct_managed_employees' value='' class='form-control' id='inputDirectManagedEmployees'>
+            <input type=number required name='direct_managed_employees' value='' class='form-control' id='inputDirectManagedEmployees'>
             <div class="invalid-feedback crumb">
                 請填寫直屬管轄人數
             </div>
@@ -311,16 +325,18 @@
         <div class='col-md-10'>
             <select required class='form-control' name='industry' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
-                <option value='科技業' >科技業</option>
                 <option value='製造業' >製造業</option>
-                <option value='金融服務業' >金融服務業</option>
-                <option value='大眾傳播業' >業務行銷</option>
-                <option value='公教業' >大眾傳播業</option>
+                <option value='公共事業' >公共事業</option>
+                <option value='營建工程業' >營建工程業</option>
+                <option value='批發及零售業' >批發及零售業</option>
+                <option value='運輸及倉儲業' >運輸及倉儲業</option>
+                <option value='住宿及餐飲業' >住宿及餐飲業</option>
+                <option value='大眾傳播業' >大眾傳播業</option>
+                <option value='金融及保險業' >金融及保險業</option>
+                <option value='科技業' >科技業</option>
+                <option value='醫療保健及社會工作服務' >醫療保健及社會工作服務</option>
                 <option value='食品業' >食品業</option>
                 <option value='貿易業' >貿易業</option>
-                <option value='運輸流通業' >運輸流通業</option>
-                <option value='觀光餐旅業' >觀光餐旅業</option>
-                <option value='自由業' >自由業</option>
                 <option value='其它' >其它</option>
             </select>
         </div>  
@@ -614,10 +630,13 @@
             <label><input type="checkbox" class="favored_event" name=favored_event[] value='企業參訪' > 企業參訪</label> <br/>
             <label><input type="checkbox" class="favored_event" name=favored_event[] value='種樹活動' > 種樹活動</label> <br/>
             <label><input type="checkbox" class="favored_event" name=favored_event[] value='環保淨灘' > 環保淨灘</label> <br/>
-            <label><input type="checkbox" class="favored_event" name=favored_event[] value='農場耕作' > 農場耕作</label> <br/>
-            <label><input type="checkbox" class="favored_event" name=favored_event[] value='宗教活動' > 宗教活動</label> <br/>
-            <label><input type="checkbox" class="favored_event" name=favored_event[] value='文藝創作' > 文藝創作</label> <br/>
-            <label><input type="checkbox" class="favored_event" name=favored_event[] value='生活講座' > 生活講座</label> <br/>
+            <label><input type="checkbox" class="favored_event" name=favored_event[] value='農場體驗' > 農場體驗</label> <br/>
+            <label><input type="checkbox" class="favored_event" name=favored_event[] value='禪修活動' > 禪修活動</label> <br/>
+            <label><input type="checkbox" class="favored_event" name=favored_event[] value='寺院參訪' > 寺院參訪</label> <br/>
+            <label><input type="checkbox" class="favored_event" name=favored_event[] value='儒學課程' > 儒學課程</label> <br/>
+            <label><input type="checkbox" class="favored_event" name=favored_event[] value='心靈講座' > 心靈講座</label> <br/>
+            <label><input type="checkbox" class="favored_event" name=favored_event[] value='藝文活動' > 藝文活動</label> <br/>    
+            <label><input type="checkbox" class="favored_event" name=favored_event[] value='親子講座' > 親子講座</label> <br/>           
             <div class="invalid-feedback" id="favored_event-invalid">
                 請勾選項目
             </div>
