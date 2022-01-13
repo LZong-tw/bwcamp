@@ -5,6 +5,7 @@ use App\Http\Controllers\CampController;
 use App\Http\Controllers\CheckInController;
 use App\Http\Controllers\StatController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SignController as ArrayedSignController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,7 @@ use App\Http\Controllers\AdminController;
 
 Route::get("/", Index::class);
 Route::resource("sign_page", SignController::class);
+Route::post("sign_page/search", [ArrayedSignController::class, 'search'])->name("sign_page.search");
 
 /***********************Auth routes******************************************/
 // Auth::routes();

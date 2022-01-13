@@ -21,4 +21,9 @@ class Batch extends Model
         }
         return $relation;
     }
+
+    public function canSignNow() {
+        return $this->hasOne(BatchSignInAvailibility::class, 'batch_id')
+                ->where([['start', '<=', now()], ['end', '>=', now()]])->first();
+    }
 }

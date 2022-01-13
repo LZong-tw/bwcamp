@@ -52,6 +52,10 @@ class Applicant extends Model {
         return $this->hasOne(Ycamp::class, 'applicant_id', 'id');
     }
     
+    public function signData($orderBy = "desc") {
+        return $this->hasMany(SignInSignOut::class)->orderBy('id', $orderBy);
+    }
+
     public function sign_in_info() {
         return $this->hasMany(SignInSignOut::class)->whereType('in');
     }
