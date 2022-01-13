@@ -1,4 +1,4 @@
-@extends('checkIn.master')
+@extends('sign.master')
 @section('content')
 <style>
     .text-center {
@@ -71,19 +71,26 @@
                 {{ $message['message'] }}
             </div>
         @endif
-        <table class="table table-hovered">
+        <table class="table table-bordered table-hover">
             <tr>
-                <div class="text-danger">請確認以下為個人資料及最近簽到退資料後，再進行簽到/簽退</div>
-                報名序號：{{ $applicant->id }} <br>
-                錄取序號：{{ $applicant->group . $applicant->number }} <br>
-                姓名：{{ $applicant->name }} <br>
-                手機：{{ $applicant->mobile }} <br>
-                <button class="btn btn-success"> 簽到 / 簽退 </button><br>
+                <td>
+                    <div class="text-danger">請確認以下為個人資料及最近簽到退資料後，再進行簽到/簽退</div>
+                    報名序號：{{ $applicant->id }} <br>
+                    錄取序號：{{ $applicant->group . $applicant->number }} <br>
+                    姓名：{{ $applicant->name }} <br>
+                    手機：{{ $applicant->mobile }} <br>
+                    <button class="btn btn-success"> 簽到 / 簽退 </button><br>
+                </td>
             </tr>
             <tr>
-                @foreach ($applicant->signData as $data)
-                    
-                @endforeach
+                @forelse ($applicant->signData as $data)
+                    {{ $data->created_at }} 
+                    @if(!$loop->last)
+                        <br>
+                    @endif
+                @empty
+                    <div class="text-danger">目前沒有任何簽到退記錄</div>
+                @endforelse
             </tr>
         </table>
         {{-- @foreach ($batches as $batch_key => $batch_name)
