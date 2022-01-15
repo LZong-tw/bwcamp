@@ -17,7 +17,7 @@ class Applicant extends Model {
     protected $guarded = [];
 
     public function batch() {
-        return $this->belongsTo('App\Models\Batch');
+        return $this->belongsTo(Batch::class);
     }
 
     public function getBatch() {
@@ -62,5 +62,15 @@ class Applicant extends Model {
 
     public function sign_out_info() {
         return $this->hasMany(SignInSignOut::class)->whereType('out');
+    }
+
+    public function hasSignedThisTime($datetime) {
+        return $this->signData()->whereHas('referencedAvailability', function ($q) use ($datetime) {
+            $q->where([['start', '<=', $datetime], ['end', '>=', $datetime]]);
+        })->first();
+    }
+
+    public function hasAlreadySigned($availability_id) {
+        return $this->signData()->whereAvailabilityId($availability_id)->first();
     }
 }

@@ -87,6 +87,7 @@ class SignBackendController extends BackendController
                 "batch_id" => $request->batch_id,
                 "start" => \Carbon\Carbon::parse($request->start),
                 "end" => \Carbon\Carbon::parse($end),
+                "type" => $request->type
             ]);
             \Session::flash('message', "設定成功。");
             return redirect()->back();

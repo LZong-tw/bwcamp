@@ -20,7 +20,7 @@ use App\Http\Controllers\SignController as ArrayedSignController;
 
 Route::get("/", Index::class);
 Route::resource("sign_page", SignController::class);
-Route::post("sign_page/search", [ArrayedSignController::class, 'search'])->name("sign_page.search");
+Route::post("sign/search", [ArrayedSignController::class, 'search'])->name("sign_page.search");
 
 /***********************Auth routes******************************************/
 // Auth::routes();
