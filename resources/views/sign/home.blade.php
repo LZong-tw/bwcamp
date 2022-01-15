@@ -48,11 +48,11 @@
         @csrf
         <div class="form-group input-group">
             {{-- <input type="text" class="form-control" name="query_str" id="" placeholder="請任選報名序號、姓名、手機輸入..." value="{{ old("query_str") }}" required> --}}
-            <input type="text" class="form-control" name="name" id="" placeholder="請輸入姓名..." value="{{ old("name") }}" required>
+            <input type="text" class="form-control" name="name" id="" placeholder="請輸入姓名全名..." value="{{ old("name", $name ?? "") }}" required>
         </div>
         <div class="form-group input-group">
             {{-- <input type="text" class="form-control" name="admitted_no" id="" placeholder="請輸入錄取序號..." value="{{ old("admitted_no") }}" maxlength="5" minlength="5" required> --}}
-            <input type="text" class="form-control" name="mobile" id="" placeholder="請輸入手機..." value="{{ old("mobile") }}" required>
+            <input type="text" class="form-control" name="mobile" id="" placeholder="請輸入手機..." value="{{ old("mobile", $mobile ?? "") }}" required>
         </div>
         <div class="form-group input-group justify-content-center">
             <button class="btn btn-outline-success" type="submit" id="signinsearch">
@@ -68,127 +68,51 @@
             <div class='alert alert-success' role='alert'>
                 {{ $message['message'] }}
             </div>
-        @else
-            <div class='alert alert-danger' role='alert'>
-                {{ $message['message'] }}
-            </div>
         @endif
         <table class="table table-bordered table-hover">
-            <tr>
-                <td>
-                    <div class="text-danger">請確認以下為個人資料及最近簽到退資料後，再進行簽到/簽退</div>
-                    報名序號：{{ $applicant->id }} <br>
-                    錄取序號：{{ $applicant->group . $applicant->number }} <br>
-                    姓名：{{ $applicant->name }} <br>
-                    手機：{{ $applicant->mobile }} <br>
-                    <button class="btn btn-success"> 簽到 / 簽退 </button><br>
-                </td>
-            </tr>
-            <tr>
-                @forelse ($applicant->signData as $data)
-                    {{ $data->created_at }} 
-                    @if(!$loop->last)
-                        <br>
-                    @endif
-                @empty
-                    <div class="text-danger">目前沒有任何簽到退記錄</div>
-                @endforelse
-            </tr>
-        </table>
-        {{-- @foreach ($batches as $batch_key => $batch_name)
-            <h5>梯次：{{ $batch_name }}</h5>  
-            <table class="table table-bordered text-break">
-                <tr class="table-active">
-                    @if($camp->table != 'coupon')
-                        <th style="width: 20%">組別</th>
-                        <th style="width: 20%">編號</th>
-                        <th style="width: 20%">姓名</th>
-                        <th style="width: 20%">狀態</th>
-                        <th style="width: 15%">動作</th>
-                    @else
-                        <th style="width: 18%">流水號</th>
-                        <th style="width: 18%">優惠碼</th>
-                        <th style="width: 15%">狀態</th>
-                        <th style="width: 25%">動作</th>
-                    @endif
+            @if(isset($message) && !$message['status'])
+                <div class='alert alert-warning' role='alert'>
+                    {{ $message['message'] }}
+                </div>
+            @else
+                <tr>
+                    <td>
+                        @if (!$isSigned)
+                            <div class="text-danger">請確認以下為個人資料及最近簽到退資料後，再進行簽到/簽退</div>
+                            報名序號：{{ $applicant->id }} <br>
+                            錄取序號：{{ $applicant->group . $applicant->number }} <br>
+                            姓名：{{ $applicant->name }} <br>
+                            手機：{{ $applicant->mobile }} <br>
+                            <form action="{{ route("sign_page.store") }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
+                                <input type="hidden" name="availability_id" value="{{ $signInfo->id }}">
+                                @if ($signInfo->type == "in" || !$signInfo->type)
+                                    <button class="btn btn-outline-success" type="submit" id="signin">
+                                        簽到 <i class="fas fa-sign-in-alt"></i>
+                                    </button>
+                                @else
+                                    <button class="btn btn-outline-danger" type="submit" id="signout">
+                                        簽退 <i class="fas fa-sign-out-alt"></i>
+                                    </button>
+                                @endif
+                            </form>
+                        @else
+                            <div class="text-success">已完成{{ $isSigned->type == 'in' || !$isSigned->type ? "簽到" : "簽退" }}</div>
+                        @endif
+                    </td>
                 </tr>
-                @foreach ($applicants as $applicant)
-                    @if($applicant->batch->id == $batch_key)
-                        <tr id="{{ $applicant->id }}">
-                            @if($camp->table != 'coupon')
-                                <td class="align-middle">{{ $applicant->group }}</td>
-                                <td class="align-middle">{{ $applicant->number }}</td>
-                            @else
-                                <td class="align-middle">{{ $applicant->group }}{{ $applicant->number }}</td>
-                            @endif
-                            <td class="align-middle">{{ $applicant->name }}</td>
-                            <td class="align-middle">
-                                @php
-                                    $is_check_in = 0;   
-                                @endphp
-                                @if($camp->table != 'coupon')
-                                    @foreach($applicant->checkInData as $checkInData)
-                                        @if($checkInData->check_in_date == \Carbon\Carbon::today()->format('Y-m-d'))
-                                            @php $is_check_in = 1; @endphp
-                                        @endif
-                                    @endforeach
-                                    {!! $is_check_in ? "<a class='text-success'>已報到</a>" : "<a class='text-danger'>未報到</a>" !!}
-                                @else
-                                    @if(count($applicant->checkInData) > 0)
-                                        @php $is_check_in = 1; @endphp
-                                    @endif
-                                    {!! $is_check_in ? "<a class='text-success'>已兌換</a>" : "<a class='text-danger'>未兌換</a>" !!}
-                                @endif
-                            </td>
-                            <td class="align-middle">
-                                @php
-                                    $yes = 0;   
-                                @endphp
-                                @if($camp->table != 'coupon')
-                                    @foreach($applicant->checkInData as $checkInData)
-                                        @if($checkInData->check_in_date == \Carbon\Carbon::today()->format('Y-m-d'))
-                                            @php
-                                                $yes = 1;   
-                                            @endphp
-                                        @endif
-                                    @endforeach
-                                    @if($yes)
-                                        <form action="/checkin/un-checkin" method="POST" class="d-inline" name="uncheckIn{{ $applicant->id }}">
-                                            @csrf
-                                            <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
-                                            <input type="hidden" name="check_in_date" value="{{ $checkInData->check_in_date }} ">
-                                            <input type="hidden" name="query_str" value="{{ old("query_str") }}">
-                                            <input type="submit" value="取消" onclick="this.value = '取消中'; this.disabled = true; document.uncheckIn{{ $applicant->id }}.submit();" class="btn btn-danger">
-                                        </form> 
-                                    @else
-                                        <form action="/checkin/checkin" method="POST" name="checkIn{{ $applicant->id }}">
-                                            @csrf
-                                            <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
-                                            <input type="hidden" name="query_str" value="{{ old("query_str") }}">
-                                            <input type="submit" value="報到" onclick="this.value = '報到中'; this.disabled = true; document.checkIn{{ $applicant->id }}.submit();" class="btn btn-success" id="btn{{ $applicant->id }}">
-                                        </form>
-                                    @endif
-                                @else
-                                    @if(count($applicant->checkInData) > 0)
-                                        @php $yes = 1; @endphp
-                                    @endif
-                                    @if($yes)
-                                        <a class="text-danger">兌換日期：{{ $applicant->checkInData[0]['created_at'] }}</a>
-                                    @else
-                                        <form action="/checkin/checkin" method="POST" name="checkIn{{ $applicant->id }}">
-                                            @csrf
-                                            <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
-                                            <input type="hidden" name="query_str" value="{{ old("query_str") }}">
-                                            <input type="submit" value="兌換" onclick="this.value = '兌換中'; this.disabled = true; document.checkIn{{ $applicant->id }}.submit();" class="btn btn-success" id="btn{{ $applicant->id }}">
-                                        </form>
-                                    @endif
-                                @endif
-                            </td>
-                        </tr>
-                    @endif
-                @endforeach
-            </table>          
-        @endforeach         --}}
+            @endif
+            <tr>
+                <td colspan="3">簽到退記錄</td>
+            </tr>
+            @foreach ($applicant->batch->sign_info as $sign_info)
+                <tr>
+                    <td>{{ $sign_info->start_time }} ~ {{ $sign_info->end_time }} {{ $sign_info->type == "in" ? '簽到' : '簽退' }}</td>
+                    <td>{{ $applicant->hasAlreadySigned($sign_info->id) ? "✔️" : "❌" }}</td>
+                </tr>       
+            @endforeach
+        </table>
     @endif
 </div>  
 <div id="CenterDIV">
