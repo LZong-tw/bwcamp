@@ -58,7 +58,7 @@ class SignController extends Controller {
                     ->with('signInfo', $signInSignOutObject)
                     ->with("message", [
                         "status" => false, 
-                        "message" => "發生未預期的錯誤，請輔導員回報問題及目前頁面截圖"
+                        "message" => "發生未預期的錯誤，請關懷員回報問題及目前頁面截圖"
                     ])
                     ->with("name", $applicant->name)
                     ->with("mobile", $applicant->mobile);
@@ -78,7 +78,7 @@ class SignController extends Controller {
         }
         $applicant = $this->applicantService->retriveApplicantForSignInSignOut($request);
         if (!$applicant) {
-            return back()->withErrors('查無報名資料，請重新輸入或與輔導員回報');
+            return back()->withErrors('查無報名資料，請重新輸入或與關懷員回報');
         }
         [$message, $signInSignOutObject] = $this->applicantService->generatesSignMessage($applicant);
         // 如果現在還在簽到時間內，則抓出學員在簽到時間內的簽到資料
