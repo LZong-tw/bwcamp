@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Applicant;
+use App\Models\SignInSignOut;
+use App\Services\ApplicantService;
 
-class SignController extends Controller
-{
+class SignController extends Controller {
+
+    protected $applicantService;
+    
+    public function __construct(ApplicantService $applicantService) {
+        $this->applicantService = $applicantService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -35,45 +42,50 @@ class SignController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request) {
+        $applicant = Applicant::find($request->applicant_id);
+        if($applicant->hasAlreadySigned($request->availability_id)) {
+            return "請勿重複簽到/退";
+        }
+        [, $signInSignOutObject] = $this->applicantService->generatesSignMessage($applicant);
+        // 如果現在還在簽到時間內，則抓出學員在簽到時間內的簽到資料
+        $isSigned = $applicant->hasSignedThisTime(now());
+        try {
+            SignInSignOut::create($request->all());
+        } catch (\Throwable $th) {
+            \Log::error($th);
+            return view('sign.home', compact('applicant', 'isSigned'))
+                    ->with('signInfo', $signInSignOutObject)
+                    ->with("message", [
+                        "status" => false, 
+                        "message" => "發生未預期的錯誤，請輔導員回報問題及目前頁面截圖"
+                    ])
+                    ->with("name", $applicant->name)
+                    ->with("mobile", $applicant->mobile);
+        }
+        return app()->call(SignController::class . "@search", [
+            "request" => $request, 
+            "applicant" => $applicant
+        ]);
     }
 
-    public function search(Request $request)
-    {
-        # code...
-        $group = substr($request->admitted_no, 0, 3);
-        $number = substr($request->admitted_no, 3, 2);
-        $applicant = Applicant::where('is_admitted', 1)->where('is_attend', 1)
-            ->where(function($query) use ($request){
-                $query->where('id', $request->query_str)
-                ->orWhere('name', 'like', '%' . $request->query_str . '%')
-                ->orWhere(\DB::raw("replace(mobile, '-', '')"), 'like', '%' . $request->query_str . '%')
-                ->orWhere(\DB::raw("replace(mobile, '(', '')"), 'like', '%' . $request->query_str . '%')
-                ->orWhere(\DB::raw("replace(mobile, ')', '')"), 'like', '%' . $request->query_str . '%')
-                ->orWhere(\DB::raw("replace(mobile, '（', '')"), 'like', '%' . $request->query_str . '%')
-                ->orWhere(\DB::raw("replace(mobile, '）', '')"), 'like', '%' . $request->query_str . '%');
-            })
-            ->where([['group', $group], ['number', $number]])
-            ->orderBy('id', 'desc')->first();
+    public function search(Request $request, $applicant = null) {
+        if($applicant) {
+            $request->request->add([
+                "name" => $applicant->name,
+                "mobile" => $applicant->mobile
+            ]);
+        }
+        $applicant = $this->applicantService->retriveApplicantForSignInSignOut($request);
         if (!$applicant) {
             return back()->withErrors('查無報名資料，請重新輸入或與輔導員回報');
         }
-        $message = null;
-        if ($applicant->batch->canSignNow()) {
-            $message = [
-                'status' => true,
-                'message' => '可報到時間：' . Carbon::parse($applicant->batch->canSignNow()->start)->format('H:i') . ' ~ ' . Carbon::parse($applicant->batch->canSignNow()->end)->format('H:i')
-            ];
-        } else {
-            $message = [
-                'status' => false,
-                'message' => '目前非報到時間，請稍後再試'
-            ];
-        }
+        [$message, $signInSignOutObject] = $this->applicantService->generatesSignMessage($applicant);
+        // 如果現在還在簽到時間內，則抓出學員在簽到時間內的簽到資料
+        $isSigned = $applicant->hasSignedThisTime(now());
         $request->flash();
-        return view('sign.home', compact('applicant', 'message'));
+        return view('sign.home', compact('applicant', 'message', 'isSigned'))
+                    ->with('signInfo', $signInSignOutObject);
     }
 
     /**
