@@ -92,7 +92,7 @@
                     @endforelse
                 </div>
                 <br>
-                <div class="h3"><a href="">學員簽到退系統</a></div>
+                <div class="h3"><a href="{{ route("sign_page.index") }}">學員簽到退系統</a></div>
             </div>
         </div>
     </body>
