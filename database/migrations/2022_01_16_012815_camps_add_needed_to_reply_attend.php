@@ -15,7 +15,7 @@ class CampsAddNeededToReplyAttend extends Migration
     {
         Schema::table('camps', function (Blueprint $table) {
             //
-            $table->boolean('need_reply_attend')->default(true)->after('admission_confirming_end');
+            $table->boolean('needed_to_reply_attend')->default(true)->after('admission_confirming_end');
         });
     }
 
@@ -28,7 +28,7 @@ class CampsAddNeededToReplyAttend extends Migration
     {
         Schema::table('camps', function (Blueprint $table) {
             //
-            $table->dropColumn('need_reply_attend');
+            $table->dropColumn('needed_to_reply_attend');
         });
     }
 }
