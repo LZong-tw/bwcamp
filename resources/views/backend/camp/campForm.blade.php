@@ -92,6 +92,13 @@
             </div>
         </div>
         <div class='row form-group'>
+            <label for='inputName' class='col-md-1 control-label'>是否需回覆參加</label>
+            <div class='col-md-6'>
+                <input type="radio" name="test" id="" required value="1" @if(isset($camp->needed_to_reply_attend) && $camp->needed_to_reply_attend) checked @endif> 是
+                <input type="radio" name="test" id="" required value="0" @if(isset($camp->needed_to_reply_attend) && !$camp->needed_to_reply_attend) checked @endif> 否
+            </div>
+        </div>
+        <div class='row form-group'>
             <label for='inputName' class='col-md-1 control-label'>後台報名結束日</label>
             <div class='col-md-6'>
                 <input type="date" name="final_registration_end" id="" class='form-control' value="{{ $camp->final_registration_end ?? "" }}">

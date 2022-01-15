@@ -124,8 +124,7 @@ class ApplicantService
     public function retriveApplicantForSignInSignOut($request) {
         // $group = substr($request->admitted_no, 0, 3);
         // $number = substr($request->admitted_no, 3, 2);
-        return Applicant::where('is_admitted', 1)
-                            ->where('is_attend', 1)
+        $applicant =  Applicant::where('is_admitted', 1)
                             ->where(function($query) use ($request){
                                 // $query->where('id', $request->query_str)
                                 // ->orWhere('name', 'like', '%' . $request->query_str . '%')
@@ -140,6 +139,10 @@ class ApplicantService
                             })
                             // ->where([['group', $group], ['number', $number]])
                             ->orderBy('id', 'desc')->first();
+        if($applicant->batch->camp->needed_to_reply_attend) {
+            return $applicant->where('is_attend', 1);
+        }
+        return $applicant;
     }
 
     public function generatesSignMessage($applicant) {

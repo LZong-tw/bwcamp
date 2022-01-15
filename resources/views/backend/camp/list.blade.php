@@ -28,6 +28,7 @@
             <th>報名結束日</th>
             <th>錄取公佈日</th>
             <th>回覆參加截止日</th>
+            <th>是否需回覆參加</th>
             <th>後台報名結束日</th>
             <th>繳費開始日</th>
             <th>繳費截止日</th>
@@ -54,6 +55,7 @@
                 <td>{{ $camp->registration_end }}</td>
                 <td>{{ $camp->admission_announcing_date }}</td>
                 <td>{{ $camp->admission_confirming_end }}</td>
+                <td>{{ $camp->needed_to_reply_attend }}</td>
                 <td>{{ $camp->final_registration_end }}</td>
                 <td>{{ $camp->payment_startdate }}</td>
                 <td>{{ $camp->payment_deadline }}</td>
