@@ -21,4 +21,24 @@ class BatchSignInAvailibility extends Model
     public function camp() {
         return $this->batch()->camp();
     }
+
+    public function isSignIn() {
+        return $this->type == "in";
+    }
+
+    public function signInfo() {
+        return $this->type == "out";
+    }
+    
+    public function isSignableAt($datetime) {
+        return $this->where([['start', '<=', $datetime], ['end', '>=', $datetime]])->first();
+    }
+
+    public function getStartTimeAttribute() {
+        return substr($this->start, 0, 16);
+    }
+
+    public function getEndTimeAttribute() {
+        return substr($this->end, 0, 16);
+    }
 }

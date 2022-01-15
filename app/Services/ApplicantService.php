@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use App\Models\Applicant;
+use Carbon\Carbon;
 
 class ApplicantService
 {
@@ -118,5 +119,44 @@ class ApplicantService
         }
         $applicant->payment_status = $status;
         return $applicant;
+    }
+
+    public function retriveApplicantForSignInSignOut($request) {
+        // $group = substr($request->admitted_no, 0, 3);
+        // $number = substr($request->admitted_no, 3, 2);
+        return Applicant::where('is_admitted', 1)
+                            ->where('is_attend', 1)
+                            ->where(function($query) use ($request){
+                                // $query->where('id', $request->query_str)
+                                // ->orWhere('name', 'like', '%' . $request->query_str . '%')
+                                $query->where('name', 'like', $request->name)
+                                      ->where(function ($query) use ($request) {
+                                           $query->where(\DB::raw("replace(mobile, '-', '')"), 'like', '%' . $request->mobile . '%')
+                                                ->orWhere(\DB::raw("replace(mobile, '(', '')"), 'like', '%' . $request->mobile . '%')
+                                                ->orWhere(\DB::raw("replace(mobile, ')', '')"), 'like', '%' . $request->mobile . '%')
+                                                ->orWhere(\DB::raw("replace(mobile, '（', '')"), 'like', '%' . $request->mobile . '%')
+                                                ->orWhere(\DB::raw("replace(mobile, '）', '')"), 'like', '%' . $request->mobile . '%');
+                                    });                    
+                            })
+                            // ->where([['group', $group], ['number', $number]])
+                            ->orderBy('id', 'desc')->first();
+    }
+
+    public function generatesSignMessage($applicant) {
+        $signInSignOutObject = $applicant->batch->canSignNow();
+        if ($signInSignOutObject) {
+            $str = $signInSignOutObject->isSignIn() ? "簽到" : "簽退";
+            $message = [
+                'status' => true,
+                'message' => '可' . $str . '時間：' . Carbon::parse($signInSignOutObject->start)->format('H:i') . ' ~ ' . Carbon::parse($signInSignOutObject->end)->format('H:i')
+            ];
+        } else {
+            $message = [
+                'status' => false,
+                'message' => '目前非簽到/退時間，僅供檢視記錄'
+            ];
+        }
+
+        return [$message, $signInSignOutObject];
     }
 }
