@@ -15,7 +15,7 @@ class Batch extends Model
     }
 
     public function sign_info($date = null) {
-        $relation = $this->hasMany(BatchSignInAvailibility::class, 'batch_id')->orderBy('id', 'desc');
+        $relation = $this->hasMany(BatchSignInAvailibility::class, 'batch_id')->orderBy('start', 'asc');
         if ($date) {
             $relation = $relation->where('start', 'like', "%{$date}%")->get();
         }
