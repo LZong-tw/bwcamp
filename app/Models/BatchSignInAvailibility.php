@@ -41,4 +41,8 @@ class BatchSignInAvailibility extends Model
     public function getEndTimeAttribute() {
         return substr($this->end, 0, 16);
     }
+
+    public function getSignTimeAttribute() {
+        return $this->getStartTimeAttribute() . " ~ " . substr($this->end, 10, 4);
+    }
 }
