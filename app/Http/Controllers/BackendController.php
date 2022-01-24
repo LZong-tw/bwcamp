@@ -13,6 +13,7 @@ use App\Models\Traffic;
 use Carbon\Carbon;
 use View;
 use App\Traits\EmailConfiguration;
+use SignInSignOut;
 
 class BackendController extends Controller {
     use EmailConfiguration;
@@ -362,6 +363,47 @@ class BackendController extends Controller {
             if($applicants){
                 // 參加者報到日期
                 $checkInDates = CheckIn::select('check_in_date')->whereIn('applicant_id', $applicants->pluck('sn'))->groupBy('check_in_date')->get();
+                if($checkInDates){
+                    $checkInDates = $checkInDates->toArray();
+                }
+                else{
+                    $checkInDates = array();
+                }
+                $checkInDates = \Arr::flatten($checkInDates);
+                foreach($checkInDates as $key => $checkInDate){
+                    unset($checkInDates[$key]);
+                    $checkInDates[(string)$checkInDate] = $checkInDate;
+                }
+                // 各梯次報到日期填充
+                $batches = Batch::whereIn('id', $applicants->pluck('batch_id'))->get();
+                foreach($batches as $batch){
+                    $date = Carbon::createFromFormat('Y-m-d', $batch->batch_start);
+                    $endDate = Carbon::createFromFormat('Y-m-d', $batch->batch_end);
+                    while(1){
+                        if($date > $endDate){
+                            break;
+                        }
+                        $str = $date->format('Y-m-d');                        
+                        if(!in_array($str, $checkInDates)){
+                            $checkInDates = array_merge($checkInDates, [$str => $str]);
+                        }
+                        $date->addDay();
+                    }
+                }
+                // 按陣列鍵值升冪排列           
+                ksort($checkInDates);
+                $checkInData = array();
+                // 將每人每日的報到資料按報到日期組合成一個陣列
+                foreach($checkInDates as $checkInDate => $v) {
+                    $checkInData[(string)$checkInDate] = array();
+                    $rawCheckInData = CheckIn::select('applicant_id')->where('check_in_date', $checkInDate)->whereIn('applicant_id', $applicants->pluck('sn'))->get();
+                    if($rawCheckInData){
+                        $checkInData[(string)$checkInDate] = $rawCheckInData->pluck('applicant_id')->toArray();
+                    }
+                }
+
+                // 參加者簽到退時間
+                $signTimes = SignInSignOut::select('check_in_date')->whereIn('applicant_id', $applicants->pluck('sn'))->groupBy('check_in_date')->get();
                 if($checkInDates){
                     $checkInDates = $checkInDates->toArray();
                 }
