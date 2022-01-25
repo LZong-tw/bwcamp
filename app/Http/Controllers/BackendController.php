@@ -401,47 +401,27 @@ class BackendController extends Controller {
                         $checkInData[(string)$checkInDate] = $rawCheckInData->pluck('applicant_id')->toArray();
                     }
                 }
-// 2022-01-20 09:09:43
-                // 參加者簽到退時間
-                $signTimes = SignInSignOut::whereIn('applicant_id', $applicants->pluck('sn'))->groupBy('availability_id')->get()->with('availability');
-                if($signTimes){
-                    $signTimes = $signTimes->toArray();
+                
+                // 簽到退時間
+                $signAvailabilities = $this->campFullData->allSignAvailabilities;
+                $signData = [];
+                $signDateTimesCols = [];
+                
+                if($signAvailabilities){
+                    foreach($signAvailabilities as $signAvailability){
+                        $signData[$signAvailability->id] = [
+                            'type'       => $signAvailability->type,
+                            'date'       => substr($signAvailability->start, 5, 5),
+                            'start'      => substr($signAvailability->start, 11, 5),
+                            'end'        => substr($signAvailability->end, 11, 5),
+                            'applicants' => $signAvailability->applicants->pluck('id')
+                        ];
+                        $str = $signAvailability->type == "in" ? "簽到時間：" : "簽退時間：";
+                        $signDateTimesCols["SIGN_" . $signAvailability->id] = $str . substr($signAvailability->start, 5, 5) . " " . substr($signAvailability->start, 11, 5) . " ~ " . substr($signAvailability->end, 11, 5);
+                    }
                 }
                 else{
-                    $signTimes = array();
-                }
-                $signTimes = \Arr::flatten($signTimes);
-                foreach($signTimes as $key => $signTimes){
-                    unset($signTimes[$key]);
-                    $signTimes[(string)$signTimes] = $signTimes;
-                }
-                
-                // 各梯次報到日期填充
-                $batches = Batch::whereIn('id', $applicants->pluck('batch_id'))->get();
-                foreach($batches as $batch){
-                    $date = Carbon::createFromFormat('Y-m-d', $batch->batch_start);
-                    $endDate = Carbon::createFromFormat('Y-m-d', $batch->batch_end);
-                    while(1){
-                        if($date > $endDate){
-                            break;
-                        }
-                        $str = $date->format('Y-m-d');                        
-                        if(!in_array($str, $checkInDates)){
-                            $checkInDates = array_merge($checkInDates, [$str => $str]);
-                        }
-                        $date->addDay();
-                    }
-                }
-                // 按陣列鍵值升冪排列           
-                ksort($checkInDates);
-                $checkInData = array();
-                // 將每人每日的報到資料按報到日期組合成一個陣列
-                foreach($checkInDates as $checkInDate => $v) {
-                    $checkInData[(string)$checkInDate] = array();
-                    $rawCheckInData = CheckIn::select('applicant_id')->where('check_in_date', $checkInDate)->whereIn('applicant_id', $applicants->pluck('sn'))->get();
-                    if($rawCheckInData){
-                        $checkInData[(string)$checkInDate] = $rawCheckInData->pluck('applicant_id')->toArray();
-                    }
+                    $signData = array();
                 }
             }
             
@@ -455,17 +435,27 @@ class BackendController extends Controller {
                 "Expires"             => "0"
             );
 
-            $callback = function() use($applicants, $checkInDates, $checkInData) {
+            $callback = function() use($applicants, $checkInDates, $checkInData, $signData, $signDateTimesCols) {
                 $file = fopen('php://output', 'w');
                 // 先寫入此三個字元使 Excel 能正確辨認編碼為 UTF-8
                 // http://jeiworld.blogspot.com/2009/09/phpexcelutf-8csv.html
                 fwrite($file, "\xEF\xBB\xBF");
-                if(!isset($checkInDates)){
-                    $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table));  
+                if((!isset($signData) || count($signData) == 0)) {
+                    if(!isset($checkInDates)) {
+                        $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table));
+                    }
+                    else {
+                        $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $checkInDates);  
+                    }  
                 }
-                else{                    
-                    $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $checkInDates);  
-                }  
+                else {
+                    if(!isset($checkInDates)) {
+                        $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $signDateTimesCols);
+                    }
+                    else {
+                        $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $checkInDates, $signDateTimesCols);  
+                    }  
+                }
                 // 2022 一般教師營需要
                 if($this->campFullData->table == "tcamp" && !$this->campFullData->variant) {
                     $pos = 44;                
@@ -497,6 +487,15 @@ class BackendController extends Controller {
                                 else{
                                     array_push($rows, '="-"');
                                 }
+                            }
+                        }
+                        elseif(str_contains($key, "SIGN_")){
+                            // 填充簽到資料Z
+                            if($signData[substr($key, 5)]['applicants']->contains($applicant->sn)){
+                                array_push($rows, '="✔️"');
+                            }
+                            else{
+                                array_push($rows, '="❌"');
                             }
                         }
                         else{       
