@@ -482,10 +482,10 @@ class BackendController extends Controller {
                             if(isset($checkInData)){
                                 // 填充報到資料
                                 if(in_array($applicant->sn, $checkInData[$key])){
-                                    array_push($rows, '="Ｏ"');
+                                    array_push($rows, '="⭕"');
                                 }
                                 else{
-                                    array_push($rows, '="-"');
+                                    array_push($rows, '="➖"');
                                 }
                             }
                         }
