@@ -19,7 +19,7 @@ class BatchSignAvailibilities extends Migration
                 $table->id();
                 $table->integer('batch_id');
                 $table->timestamp('start');
-                $table->timestamp('end');
+                $table->timestamp('end')->nullable();
                 $table->timestamps();
                 $table->softDeletes();
             });
