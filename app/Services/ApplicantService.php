@@ -139,7 +139,7 @@ class ApplicantService
                             })
                             // ->where([['group', $group], ['number', $number]])
                             ->orderBy('id', 'desc')->first();
-        if($applicant->batch->camp->needed_to_reply_attend) {
+        if($applicant?->batch?->camp?->needed_to_reply_attend) {
             return $applicant->where('is_attend', 1)->first();
         }
         return $applicant;
