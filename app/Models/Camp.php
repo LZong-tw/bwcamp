@@ -37,8 +37,12 @@ class Camp extends Model
         'cancellation_deadline' => 'date'
     ];
 
-    public function batchs(){
+    public function batchs() {
         return $this->hasMany('App\Models\Batch');
+    }
+
+    public function allSignAvailabilities() {
+        return $this->hasManyThrough(BatchSignInAvailibility::class, Batch::class);
     }
 
     // 決定當下的費用是原價或早鳥價
