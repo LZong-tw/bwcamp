@@ -13,6 +13,7 @@ use App\Models\Traffic;
 use Carbon\Carbon;
 use View;
 use App\Traits\EmailConfiguration;
+use App\Models\SignInSignOut;
 
 class BackendController extends Controller {
     use EmailConfiguration;
@@ -400,6 +401,28 @@ class BackendController extends Controller {
                         $checkInData[(string)$checkInDate] = $rawCheckInData->pluck('applicant_id')->toArray();
                     }
                 }
+                
+                // 簽到退時間
+                $signAvailabilities = $this->campFullData->allSignAvailabilities;
+                $signData = [];
+                $signDateTimesCols = [];
+                
+                if($signAvailabilities){
+                    foreach($signAvailabilities as $signAvailability){
+                        $signData[$signAvailability->id] = [
+                            'type'       => $signAvailability->type,
+                            'date'       => substr($signAvailability->start, 5, 5),
+                            'start'      => substr($signAvailability->start, 11, 5),
+                            'end'        => substr($signAvailability->end, 11, 5),
+                            'applicants' => $signAvailability->applicants->pluck('id')
+                        ];
+                        $str = $signAvailability->type == "in" ? "簽到時間：" : "簽退時間：";
+                        $signDateTimesCols["SIGN_" . $signAvailability->id] = $str . substr($signAvailability->start, 5, 5) . " " . substr($signAvailability->start, 11, 5) . " ~ " . substr($signAvailability->end, 11, 5);
+                    }
+                }
+                else{
+                    $signData = array();
+                }
             }
             
             $fileName = $this->campFullData->abbreviation . $query . Carbon::now()->format('YmdHis') . '.csv';
@@ -412,17 +435,27 @@ class BackendController extends Controller {
                 "Expires"             => "0"
             );
 
-            $callback = function() use($applicants, $checkInDates, $checkInData) {
+            $callback = function() use($applicants, $checkInDates, $checkInData, $signData, $signDateTimesCols) {
                 $file = fopen('php://output', 'w');
                 // 先寫入此三個字元使 Excel 能正確辨認編碼為 UTF-8
                 // http://jeiworld.blogspot.com/2009/09/phpexcelutf-8csv.html
                 fwrite($file, "\xEF\xBB\xBF");
-                if(!isset($checkInDates)){
-                    $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table));  
+                if((!isset($signData) || count($signData) == 0)) {
+                    if(!isset($checkInDates)) {
+                        $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table));
+                    }
+                    else {
+                        $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $checkInDates);  
+                    }  
                 }
-                else{                    
-                    $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $checkInDates);  
-                }  
+                else {
+                    if(!isset($checkInDates)) {
+                        $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $signDateTimesCols);
+                    }
+                    else {
+                        $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $checkInDates, $signDateTimesCols);  
+                    }  
+                }
                 // 2022 一般教師營需要
                 if($this->campFullData->table == "tcamp" && !$this->campFullData->variant) {
                     $pos = 44;                
@@ -454,6 +487,15 @@ class BackendController extends Controller {
                                 else{
                                     array_push($rows, '="-"');
                                 }
+                            }
+                        }
+                        elseif(str_contains($key, "SIGN_")){
+                            // 填充簽到資料Z
+                            if($signData[substr($key, 5)]['applicants']->contains($applicant->sn)){
+                                array_push($rows, '="✔️"');
+                            }
+                            else{
+                                array_push($rows, '="❌"');
                             }
                         }
                         else{       

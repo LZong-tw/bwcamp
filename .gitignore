@@ -15,6 +15,12 @@ yarn-error.log
 .vscode/
 *.Identifier
 
+.phpstorm.meta.php
+
+_ide_helper.php
+
+_ide_helper_models.php
+
 # Payment reconciliation secrets / samples
 /storage/payment_data/
 /payment flow/上海銀行轉檔程式/bank/Properties_正式.txt
