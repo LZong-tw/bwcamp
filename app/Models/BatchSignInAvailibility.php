@@ -21,6 +21,10 @@ class BatchSignInAvailibility extends Model
     public function camp() {
         return $this->batch()->camp();
     }
+    
+    public function applicants() {
+        return $this->hasManyThrough(Applicant::class, SignInSignOut::class, "availability_id", "id", "id", "applicant_id");
+    }
 
     public function isSignIn() {
         return $this->type == "in";
