@@ -13,7 +13,7 @@ use App\Models\Traffic;
 use Carbon\Carbon;
 use View;
 use App\Traits\EmailConfiguration;
-use SignInSignOut;
+use App\Models\SignInSignOut;
 
 class BackendController extends Controller {
     use EmailConfiguration;
@@ -401,20 +401,21 @@ class BackendController extends Controller {
                         $checkInData[(string)$checkInDate] = $rawCheckInData->pluck('applicant_id')->toArray();
                     }
                 }
-
+// 2022-01-20 09:09:43
                 // 參加者簽到退時間
-                $signTimes = SignInSignOut::select('check_in_date')->whereIn('applicant_id', $applicants->pluck('sn'))->groupBy('check_in_date')->get();
-                if($checkInDates){
-                    $checkInDates = $checkInDates->toArray();
+                $signTimes = SignInSignOut::whereIn('applicant_id', $applicants->pluck('sn'))->groupBy('availability_id')->get()->with('availability');
+                if($signTimes){
+                    $signTimes = $signTimes->toArray();
                 }
                 else{
-                    $checkInDates = array();
+                    $signTimes = array();
                 }
-                $checkInDates = \Arr::flatten($checkInDates);
-                foreach($checkInDates as $key => $checkInDate){
-                    unset($checkInDates[$key]);
-                    $checkInDates[(string)$checkInDate] = $checkInDate;
+                $signTimes = \Arr::flatten($signTimes);
+                foreach($signTimes as $key => $signTimes){
+                    unset($signTimes[$key]);
+                    $signTimes[(string)$signTimes] = $signTimes;
                 }
+                
                 // 各梯次報到日期填充
                 $batches = Batch::whereIn('id', $applicants->pluck('batch_id'))->get();
                 foreach($batches as $batch){
