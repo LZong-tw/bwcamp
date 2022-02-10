@@ -27,6 +27,8 @@ class CampDataService
     public function checkBoxToArray($request) {
         // 各營隊客製化欄位特殊處理
         // 大專營：參加過的福智活動
+        // 企業營：有興趣參加活動的類別、方便參加的時段
+        // 菁英營：適合聯絡時段
         if(isset($request->blisswisdom_type) && is_array($request->blisswisdom_type)) {
             $request->merge([
                 'blisswisdom_type' => implode("||/", $request->blisswisdom_type)
@@ -40,6 +42,11 @@ class CampDataService
         if(isset($request->is_child_blisswisdommed)) {
             $request->merge([
                 'is_child_blisswisdommed' => implode("||/", $request->is_child_blisswisdommed)
+            ]);
+        }
+        if(isset($request->contact_time)) {
+            $request->merge([
+                'contact_time' => implode("||/", $request->contact_time)
             ]);
         }
         if(isset($request->favored_event)) {
