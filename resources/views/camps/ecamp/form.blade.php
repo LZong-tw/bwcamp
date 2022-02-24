@@ -733,7 +733,7 @@
                             event.preventDefault();
                             event.stopPropagation();
                             console.log('yes');
-                            $('.favored_event .invalid-feedback').prop('display') = 1;
+                            {{-- $('.favored_event .invalid-feedback').prop('display') = 1; --}}
                         }
                         if (form.checkValidity() === false) {
                             event.preventDefault();

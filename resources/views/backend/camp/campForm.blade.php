@@ -54,6 +54,7 @@
                     <option value="">請選擇</option>
                     <option value="acamp" @if(isset($camp) && $camp->table == "acamp") selected @endif>卓青營</option>
                     <option value="ceocamp" @if(isset($camp) && $camp->table == "ceocamp") selected @endif>菁英營</option>
+                    <option value="ceovcamp" @if(isset($camp) && $camp->table == "ceovcamp") selected @endif>菁英營義工</option>
                     <option value="ecamp" @if(isset($camp) && $camp->table == "ecamp") selected @endif>企業營</option>
                     <option value="hcamp" @if(isset($camp) && $camp->table == "hcamp") selected @endif>快樂營</option>
                     <option value="tcamp" @if(isset($camp) && $camp->table == "tcamp") selected @endif>教師營</option>

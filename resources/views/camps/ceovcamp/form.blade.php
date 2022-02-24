@@ -8,7 +8,7 @@
     header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     $regions = ['台北', '桃園', '新竹', '台中', '雲嘉', '台南', '高雄'];
 @endphp
-@extends('camps.ceocamp.layout')
+@extends('camps.ceovcamp.layout')
 @section('content')
     @include('partials.schools_script')
     @include('partials.counties_areas_script')
@@ -56,94 +56,72 @@
     @endif
 
     <hr>
-    <h5 class='form-control-static'>推薦人(填表者)基本資料：</h5>
-    <br>
 
     <div class='row form-group required'>
-        <label class='col-md-2 control-label text-md-right text-info'>推薦人</label>
+        <label for='inputGroupPriority1' class='col-md-2 control-label text-md-right'>報名組別第1志願</label>
         <div class='col-md-10'>
-            <div class='row form-group required'>
-                <div class='col-md-2 text-info'>
-                    推薦人姓名：
-                </div>
-                <div class='col-md-10'>
-                    <input type='text' class='form-control' name="introducer_name" value=''>
-                </div>
-                <div class="invalid-feedback">
-                    請填寫本欄位
-                </div>
-            </div>
-            <div class='row form-group required'>
-                <div class='col-md-2 text-info'>
-                    推薦人廣論研討班別：
-                </div>
-                <div class='col-md-10'>
-                    <input type='text' class='form-control' name="introducer_participated" value=''>
-                </div>
-                <div class="invalid-feedback">
-                    請填寫本欄位
-                </div>
-            </div>
-            <div class='row form-group required'>
-                <div class='col-md-2 text-info'>
-                    推薦人手機號碼：
-                </div>
-                <div class='col-md-10'>
-                    <input type='tel' class='form-control' name="introducer_phone" value='' placeholder='格式：0912345678'>
-                </div>
-                <div class="invalid-feedback">
-                    請填寫手機號碼
-                </div>
-            </div>
-            <div class='row form-group required'>
-                <div class='col-md-2 text-info'>
-                    推薦人電子信箱：
-                </div>
-                <div class='col-md-10'>
-                    <input type='email' class='form-control' name="introducer_email" value='' placeholder='請務必填寫正確，以利營隊相關訊息通知'>
-                </div>
-                <div class="invalid-feedback">
-                    電子信箱格式不正確
-                </div>
-            </div>
-            <div class='row form-group required'>
-                <div class='col-md-2 text-info'>
-                    與被推薦人關係：
-                </div>
-                <div class='col-md-10'>
-                    <select name="introducer_relationship" class="form-control"> 
-                        <option value=''>- 請選擇 -</option>
-                        <option value='配偶'>親戚</option>
-                        <option value='父親'>同學</option>
-                        <option value='母親'>同事</option>
-                        <option value='兄弟'>朋友</option>
-                        <option value='姊妹'>工作相關</option>
-                        <option value='朋友'>社團</option>
-                        <option value='其他'>其他</option>
-                    </select>
-                </div>
+            <select required class='form-control' name='group_priority1' onChange=''>
+                <option value='' selected>- 請選擇 -</option>
+                <option value='教務組' >教務組</option>
+                <option value='行政組' >行政組</option>
+                <option value='秘書組' >秘書組</option>
+                <option value='關懷組' >關懷組</option>
+            </select>
+        </div>  
+    </div>
+
+    <div class='row form-group required'>
+        <label for='inputGroupPriority2' class='col-md-2 control-label text-md-right'>報名組別第2志願</label>
+        <div class='col-md-10'>
+            <select required class='form-control' name='group_priority2' onChange=''>
+                <option value='' selected>- 請選擇 -</option>
+                <option value='教務組' >教務組</option>
+                <option value='行政組' >行政組</option>
+                <option value='秘書組' >秘書組</option>
+                <option value='關懷組' >關懷組</option>
+                <option value='無' >無</option>
+            </select>
+        </div>  
+    </div>
+
+    <div class='row form-group required'>
+        <label for='inputGroupPriority3' class='col-md-2 control-label text-md-right'>報名組別第3志願</label>
+        <div class='col-md-10'>
+            <select required class='form-control' name='group_priority3' onChange=''>
+                <option value='' selected>- 請選擇 -</option>
+                <option value='教務組' >教務組</option>
+                <option value='行政組' >行政組</option>
+                <option value='秘書組' >秘書組</option>
+                <option value='關懷組' >關懷組</option>
+                <option value='無' >無</option>
+            </select>
+        </div>  
+    </div>
+
+    <div class='row form-group'> 
+    <label for='inputGroupPriorityOther' class='col-md-2 control-label text-md-right'>報名組別其它需求</label>
+        <div class='col-md-10'>
+            <input type=text required name='group_priority_other' value='' class='form-control' id='inputGroupPriorityOther' placeholder='若對報名組別有其它需求請在此填寫'>
+            <div class="invalid-feedback">
+                請填寫報名組別其它需求
             </div>
         </div>
     </div>
 
-    <hr>
-    <h5 class='form-control-static'>被推薦人(營隊學員)基本資料：</h5>
-    <br>
+    <div class='row form-group required'> 
+    <label for='inputLRClass' class='col-md-2 control-label text-md-right'>廣論研討班別</label>
+        <div class='col-md-10'>
+            <input type=text required name='lrclass' value='' class='form-control' id='inputLRClass'>
+            <div class="invalid-feedback">
+                請填寫廣論研討班別
+            </div>
+        </div>
+    </div>
 
     <div class='row form-group required'>
         <label for='inputName' class='col-md-2 control-label text-md-right'>中文姓名</label>
         <div class='col-md-10'>
             <input type='text' name='name' value='' class='form-control' id='inputName' placeholder='請填寫全名' required @if(isset($isModify) && $isModify) disabled @endif>
-        </div>
-        <div class="invalid-feedback">
-            請填寫姓名
-        </div>
-    </div>
-
-    <div class='row form-group'>
-        <label for='inputEngName' class='col-md-2 control-label text-md-right'>英文慣用名</label>
-        <div class='col-md-10'>
-            <input type='text' name='english_name' value='' class='form-control' id='inputEngName' placeholder='請填寫英文慣用名，如James、Michelle等，若無免填'>
         </div>
         <div class="invalid-feedback">
             請填寫姓名
@@ -232,130 +210,60 @@
         </div>
     </div>
 
-    <div class='row form-group'> 
-    <label for='inputLineID' class='col-md-2 control-label text-md-right'>LINE ID</label>
+    {{-- 日常交通方式 --}}
+    <div class='row form-group required'>
+        <label for='inputTransport' class='col-md-2 control-label text-md-right'>日常交通方式(多選)</label>
         <div class='col-md-10'>
-            <input type=text name='line' value='' class='form-control' id='inputLineID'>
+            <label><input type="checkbox" name=transport[] value='開車' > 開車</label> <br/>
+            <label><input type="checkbox" name=transport[] value='摩托車' > 摩托車</label> <br/>
+            <label><input type="checkbox" name=transport[] value='大眾運輸' > 大眾運輸</label> <br/>
+            <label><input type="checkbox" name=transport[] value='走路' > 走路</label> <br/>
+            <label>
+                <input type="checkbox" name=transport[] value='其它' id="transport_other_checkbox"> 其它：
+                <input type="text" name="transport_other" class="form-control" onclick="transport_other_checkbox.checked = true; this.required = true;">
+                <div class="invalid-feedback">
+                    請填寫本欄位
+                </div>
+            </label>
+            {{-- 其它 --}}
+        </div>
+    </div>
+
+    <div class='row form-group required'> 
+    <label for='inputExpertise' class='col-md-2 control-label text-md-right'>專長</label>
+        <div class='col-md-10'>
+            <input type=text required name='expertise' value='' class='form-control' id='inputExpertise'>
             <div class="invalid-feedback crumb">
-                請填寫LINE ID
+                請填寫專長
             </div>
         </div>
     </div>
 
+    {{-- 語言 --}}
     <div class='row form-group required'>
-        <label for='inputContactTime' class='col-md-2 control-label text-md-right'>適合聯絡時間<br>(可複選)</label>
+        <label for='inputLanguage' class='col-md-2 control-label text-md-right'>語言(多選)</label>
         <div class='col-md-10'>
-            <label><input type="checkbox" class="contact_time" name=contact_time[] value='上午0800-1200' > 上午0800-1200</label> <br/>
-            <label><input type="checkbox" class="contact_time" name=contact_time[] value='中午1200-1400' > 中午1200-1400</label> <br/>
-            <label><input type="checkbox" class="contact_time" name=contact_time[] value='下午1400-1700' > 下午1400-1700</label> <br/>
-            <label><input type="checkbox" class="contact_time" name=contact_time[] value='晚上1700-2100' > 晚上1700-2100</label> <br/>
-            <div class="invalid-feedback" id="contact_time-invalid">
-                請勾選適合聯絡時間
-            </div>
-        </div>
-    </div>
-    
-    <div class='row form-group'>
-        <label class='col-md-2 control-label text-md-right text-info'>代理人(秘書/特助)<br>(若無免填)</label>
-        <div class='col-md-10'>
-            <div class='row form-group'>
-                <div class='col-md-2 text-info'>
-                    代理人姓名：
-                </div>
-                <div class='col-md-10'>
-                    <input type='text'class='form-control' name="substitute_name" value='' required>
-                </div>
+            <label><input type="checkbox" name=language[] value='英文' > 英文</label> <br/>
+            <label><input type="checkbox" name=language[] value='日文' > 日文</label> <br/>
+            <label>
+                <input type="checkbox" name=language[] value='其它' id="language_other_checkbox"> 其它：
+                <input type="text" name="language_other" class="form-control" onclick="language_other_checkbox.checked = true; this.required = true;">
                 <div class="invalid-feedback">
                     請填寫本欄位
                 </div>
-            </div>
-
-            <div class='row form-group'>
-                <div class='col-md-2 text-info'>
-                    代理人聯絡電話：
-                </div>
-                <div class='col-md-10'>
-                    <input type='tel' class='form-control' name="substitute_mobile" value='' placeholder='手機格式：0912345678；市話格式：0225452546#520' required>
-                </div>
-                <div class="invalid-feedback">
-                    請填寫本欄位
-                </div>
-            </div>
-
-            <div class='row form-group'>
-                <div class='col-md-2 text-info'>
-                    代理人電子信箱：
-                </div>
-                <div class='col-md-10'>
-                    <input type='email' class='form-control' name="substitute_email" value='' placeholder='請務必填寫正確，以利營隊相關訊息通知'>
-                </div>
-                <div class="invalid-feedback">
-                    電子信箱格式不正確
-                </div>
-            </div>   
-   
-        </div>
-    </div>
-
-    <div class='row form-group'> 
-    <label for='inputMaritalStatus' class='col-md-2 control-label text-md-right'>婚姻狀況</label>
-        <div class='col-md-10'>
-            <input type=text required name='marital_status' value='' class='form-control' id='inputMaritalStatus'>
-            <div class="invalid-feedback">
-                請填寫婚姻狀況
-            </div>
-        </div>
-    </div>
-
-    <div class='row form-group'>
-        <label for='inputExceptionalConditions' class='col-md-2 control-label text-md-right'>被推薦人需要<br>特別關懷事項</label>
-        <div class='col-md-10'>
-            <textarea class='form-control' rows=2 name='exceptional_conditions' id=inputExceptionalConditions placeholder='例如：家庭狀況、是否有宗教信仰'></textarea>
-            <div class="invalid-feedback">
-                請填寫需要特別關懷事項
-            </div>
-        </div>
-    </div>
-
-
-    <div class='row form-group required'>
-        <label for='inputParticipationMode' class='col-md-2 control-label text-md-right'>參加營隊形式</label>
-        <div class='col-md-10'>
-            <label class=radio-inline>
-                <input type=radio required name='participation_mode' value=實體營隊 > 實體營隊
-                <div class="invalid-feedback">
-                    請選擇參加營隊形式
-                </div>
-            </label> 
-            <label class=radio-inline>
-                <input type=radio required name='participation_mode' value=線上營隊 > 線上營隊
-                <div class="invalid-feedback">
-                    &nbsp;
-                </div>
-            </label> 
-        </div>
-    </div>
-
-    <div class='row form-group'> 
-    <label for='inputReasonsOnline' class='col-md-2 control-label text-md-right'>選擇線上營隊原因</label>
-        <div class='col-md-10'>
-            <input type=text required name='reasons_online' value='' class='form-control' id='inputReasonsOnline' placeholder='若選線上營隊請簡述不參加實體營隊原因'>
-            <div class="invalid-feedback">
-                請填寫選擇線上營隊原因
-            </div>
+            </label>
+            {{-- 其它 --}}
         </div>
     </div>
 
     <hr>
-    <h5 class='form-control-static'>被推薦人(營隊學員)其它資訊及推薦理由：</h5>
-    <br>
 
     <div class='row form-group required'> 
-    <label for='inputUnit' class='col-md-2 control-label text-md-right'>被推薦人公司名稱</label>
+    <label for='inputUnit' class='col-md-2 control-label text-md-right'>公司名稱</label>
         <div class='col-md-10'>
             <input type=text required name='unit' value='' class='form-control' id='inputUnit'>
             <div class="invalid-feedback crumb">
-                請填寫被推薦人公司名稱
+                請填寫公司名稱
             </div>
         </div>
     </div>
@@ -477,7 +385,7 @@
         </div>
     </div>
 
-    <div class='row form-group required'>
+    <div class='row form-group'>
         <label for='inputOrgType' class='col-md-2 control-label text-md-right'>公司/組織形式</label>
         <div class='col-md-10'>
             <label class=radio-inline>
@@ -523,7 +431,7 @@
         </div>
     </div>
 
-    <div class='row form-group required'>
+    <div class='row form-group'>
         <label for='inputYearsOperation' class='col-md-2 control-label text-md-right'>公司經營年限</label>
         <div class='col-md-10'>
             <label class=radio-inline>
@@ -544,16 +452,6 @@
                     &nbsp;
                 </div>
             </label> 
-        </div>
-    </div>
-
-    <div class='row form-group required'>
-        <label for='inputReasonsRecommend' class='col-md-2 control-label text-md-right'>特別推薦理由或社會影響力說明</label>
-        <div class='col-md-10'>
-            <textarea class='form-control' rows=2 name='reasons_recommend' id=inputReasonsRecommend></textarea>
-            <div class="invalid-feedback">
-                請填寫特別推薦理由或社會影響力說明
-            </div>
         </div>
     </div>
 
