@@ -490,7 +490,7 @@ class BackendController extends Controller {
                             }
                         }
                         elseif(str_contains($key, "SIGN_")){
-                            // 填充簽到資料Z
+                            // 填充簽到資料
                             if($signData[substr($key, 5)]['applicants']->contains($applicant->sn)){
                                 array_push($rows, '="✔️"');
                             }
