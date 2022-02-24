@@ -14,6 +14,10 @@ class Batch extends Model
         return $this->belongsTo(Camp::class);
     }
 
+    public function applicants() {
+        return $this->hasMany(Applicant::class);
+    }
+
     public function sign_info($date = null) {
         $relation = $this->hasMany(BatchSignInAvailibility::class, 'batch_id')->orderBy('start', 'asc');
         if ($date) {
