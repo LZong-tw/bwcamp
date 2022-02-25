@@ -489,20 +489,35 @@
             btnCancelLabel: "再檢查一下",
             popout: true,
             onConfirm: function() {
-                        console.log($('.favored_event :checkbox:checked').length);
-                        if($('.favored_event :checkbox:checked').length < 1) {
+                        console.log($('.transport :checkbox:checked').length);
+                        if($('.transport :checkbox:checked').length < 1) {
                             document.Camp.checkValidity();
                             event.preventDefault();
                             event.stopPropagation();
                             $(".tips").removeClass('d-none');
-                            $('#favored_event-invalid').show();
+                            $('#transport-invalid').show();
                         }
                         else{
                             document.Camp.checkValidity();
                             event.preventDefault();
                             event.stopPropagation();
                             $(".tips").removeClass('d-none');
-                            $('#favored_event-invalid').hide();
+                            $('#transport-invalid').hide();
+                        }
+                        console.log($('.language :checkbox:checked').length);
+                        if($('.language :checkbox:checked').length < 1) {
+                            document.Camp.checkValidity();
+                            event.preventDefault();
+                            event.stopPropagation();
+                            $(".tips").removeClass('d-none');
+                            $('#language-invalid').show();
+                        }
+                        else{
+                            document.Camp.checkValidity();
+                            event.preventDefault();
+                            event.stopPropagation();
+                            $(".tips").removeClass('d-none');
+                            $('#language-invalid').hide();
                         }
                         if (document.Camp.checkValidity() === false) {
                             $(".tips").removeClass('d-none');
@@ -524,11 +539,11 @@
                 // Loop over them and prevent submission
                 var validation = Array.prototype.filter.call(forms, function(form) {
                     form.addEventListener('submit', function(event) {
-                        if($('.favored_event :checkbox:checked').length < 0) {
+                        if($('.transport :checkbox:checked').length < 1) {
                             event.preventDefault();
                             event.stopPropagation();
                             console.log('yes');
-                            {{-- $('.favored_event .invalid-feedback').prop('display') = 1; --}}
+                            {{-- $('.transport .invalid-feedback').prop('display') = 1; --}}
                         }
                         if (form.checkValidity() === false) {
                             event.preventDefault();
