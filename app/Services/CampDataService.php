@@ -29,6 +29,7 @@ class CampDataService
         // 大專營：參加過的福智活動
         // 企業營：有興趣參加活動的類別、方便參加的時段
         // 菁英營：適合聯絡時段
+        // 菁英營義工：交通方式、語言
         if(isset($request->blisswisdom_type) && is_array($request->blisswisdom_type)) {
             $request->merge([
                 'blisswisdom_type' => implode("||/", $request->blisswisdom_type)

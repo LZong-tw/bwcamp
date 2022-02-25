@@ -591,20 +591,20 @@
             btnCancelLabel: "再檢查一下",
             popout: true,
             onConfirm: function() {
-                        console.log($('.favored_event :checkbox:checked').length);
-                        if($('.favored_event :checkbox:checked').length < 1) {
+                        console.log($('.contact_time :checkbox:checked').length);
+                        if($('.contact_time :checkbox:checked').length < 1) {
                             document.Camp.checkValidity();
                             event.preventDefault();
                             event.stopPropagation();
                             $(".tips").removeClass('d-none');
-                            $('#favored_event-invalid').show();
+                            $('#contact_time-invalid').show();
                         }
                         else{
                             document.Camp.checkValidity();
                             event.preventDefault();
                             event.stopPropagation();
                             $(".tips").removeClass('d-none');
-                            $('#favored_event-invalid').hide();
+                            $('#contact_time-invalid').hide();
                         }
                         if (document.Camp.checkValidity() === false) {
                             $(".tips").removeClass('d-none');
@@ -626,11 +626,11 @@
                 // Loop over them and prevent submission
                 var validation = Array.prototype.filter.call(forms, function(form) {
                     form.addEventListener('submit', function(event) {
-                        if($('.favored_event :checkbox:checked').length < 0) {
+                        if($('.contact_time :checkbox:checked').length < 1) {
                             event.preventDefault();
                             event.stopPropagation();
                             console.log('yes');
-                            {{-- $('.favored_event .invalid-feedback').prop('display') = 1; --}}
+                            {{-- $('.contact_time .invalid-feedback').prop('display') = 1; --}}
                         }
                         if (form.checkValidity() === false) {
                             event.preventDefault();
