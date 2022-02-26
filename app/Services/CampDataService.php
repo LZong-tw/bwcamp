@@ -50,6 +50,16 @@ class CampDataService
                 'contact_time' => implode("||/", $request->contact_time)
             ]);
         }
+        if(isset($request->transport)) {
+            $request->merge([
+                'transport' => implode("||/", $request->transport)
+            ]);
+        }
+        if(isset($request->language)) {
+            $request->merge([
+                'language' => implode("||/", $request->language)
+            ]);
+        }
         if(isset($request->favored_event)) {
             $request->merge([
                 'favored_event' => implode("||/", $request->favored_event)
