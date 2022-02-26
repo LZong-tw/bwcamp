@@ -101,7 +101,7 @@
     <div class='row form-group'> 
     <label for='inputGroupPriorityOther' class='col-md-2 control-label text-md-right'>報名組別其它需求</label>
         <div class='col-md-10'>
-            <input type=text required name='group_priority_other' value='' class='form-control' id='inputGroupPriorityOther' placeholder='若對報名組別有其它需求請在此填寫'>
+            <input type='text' name='group_priority_other' value='' class='form-control' id='inputGroupPriorityOther' placeholder='若對報名組別有其它需求請在此填寫'>
             <div class="invalid-feedback">
                 請填寫報名組別其它需求
             </div>
@@ -111,7 +111,7 @@
     <div class='row form-group required'> 
     <label for='inputLRClass' class='col-md-2 control-label text-md-right'>廣論研討班別</label>
         <div class='col-md-10'>
-            <input type=text required name='lrclass' value='' class='form-control' id='inputLRClass'>
+            <input type='text' required name='lrclass' value='' class='form-control' id='inputLRClass'>
             <div class="invalid-feedback">
                 請填寫廣論研討班別
             </div>
@@ -210,6 +210,21 @@
         </div>
     </div>
 
+<script language='javascript'>
+        $('#inputEmail').bind("cut copy paste",function(e) {
+        e.preventDefault();
+        });
+    </script>
+    
+    <div class='row form-group required'>
+        <label for='inputEmail' class='col-md-2 control-label text-md-right'>確認電子信箱</label>
+        <div class='col-md-10'>
+            <input type='email' required name='emailConfirm' value='' class='form-control' id='inputEmailConfirm'>
+            {{-- data-match='#inputEmail' data-match-error='郵件不符合' placeholder='請再次填寫確認郵件填寫正確' --}}
+        </div>
+    </div>
+
+
     {{-- 日常交通方式 --}}
     <div class='row form-group required'>
         <label for='inputTransport' class='col-md-2 control-label text-md-right'>日常交通方式(多選)</label>
@@ -232,7 +247,7 @@
     <div class='row form-group required'> 
     <label for='inputExpertise' class='col-md-2 control-label text-md-right'>專長</label>
         <div class='col-md-10'>
-            <input type=text required name='expertise' value='' class='form-control' id='inputExpertise'>
+            <input type='text' required name='expertise' value='' class='form-control' id='inputExpertise'>
             <div class="invalid-feedback crumb">
                 請填寫專長
             </div>
@@ -290,7 +305,7 @@
     <div class='row form-group'> 
     <label for='inputIndustryOther' class='col-md-2 control-label text-md-right'>產業別:自填</label>
         <div class='col-md-10'>
-            <input type=text required name='industry_other' value='' class='form-control' id='inputIndustryOther' placeholder='產業別若選「其它」請自填'>
+            <input type='text' name='industry_other' value='' class='form-control' id='inputIndustryOther' placeholder='產業別若選「其它」請自填'>
             <div class="invalid-feedback">
                 產業別若選「其它」請自填
             </div>
@@ -300,7 +315,7 @@
     <div class='row form-group required'> 
     <label for='inputTitle' class='col-md-2 control-label text-md-right'>職稱</label>
         <div class='col-md-10'>
-            <input type=text required name='title' value='' maxlength="40" class='form-control' id='inputTitle'>
+            <input type='text' required name='title' value='' maxlength="40" class='form-control' id='inputTitle'>
             <div class="invalid-feedback">
                 請填寫職稱
             </div>
@@ -312,7 +327,7 @@
         <div class='col-md-10'>
             <select required class='form-control' name='job_property' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
-                <option value='經營/人資' >經營/人資</option>
+                <option value='經營/人資' >經營/人資</option >
                 <option value='行政/總務' >行政/總務</option>
                 <option value='法務' >法務</option>
                 <option value='財會/金融' >財會/金融</option>
@@ -338,7 +353,7 @@
     <div class='row form-group'> 
     <label for='inputJobPropertyOther' class='col-md-2 control-label text-md-right'>職務類型:自填</label>
         <div class='col-md-10'>
-            <input type=text required name='job_property_other' value='' class='form-control' id='inputJobPropertyOther' placeholder='職務類型若選「其它」請自填'>
+            <input type='text' name='job_property_other' value='' class='form-control' id='inputJobPropertyOther' placeholder='職務類型若選「其它」請自填'>
             <div class="invalid-feedback">
                 職務類型若選「其它」請自填
             </div>
@@ -348,7 +363,7 @@
     <div class='row form-group'>
         <label for='inputTelWork' class='col-md-2 control-label text-md-right'>公司電話</label>
         <div class='col-md-10'>
-            <input type=tel required name='phone_work' value='' class='form-control' id='inputTelWork' placeholder='格式：0225452546#520'>
+            <input type='tel' name='phone_work' value='' class='form-control' id='inputTelWork' placeholder='格式：0225452546#520'>
             <div class="invalid-feedback crumb">
                 請填寫公司電話
             </div>
@@ -358,7 +373,7 @@
     <div class='row form-group'> 
     <label for='inputEmployees' class='col-md-2 control-label text-md-right'>公司員工總數</label>
         <div class='col-md-10'>
-            <input type=number required name='employees' value='' class='form-control' id='inputEmployees'>
+            <input type='number' name='employees' value='' class='form-control' id='inputEmployees'>
             <div class="invalid-feedback crumb">
                 請填寫公司員工總數
             </div>
@@ -368,7 +383,7 @@
     <div class='row form-group'> 
     <label for='inputDirectManagedEmployees' class='col-md-2 control-label text-md-right'>所轄員工人數</label>
         <div class='col-md-10'>
-            <input type=number required name='direct_managed_employees' value='' class='form-control' id='inputDirectManagedEmployees'>
+            <input type='number' name='direct_managed_employees' value='' class='form-control' id='inputDirectManagedEmployees'>
             <div class="invalid-feedback crumb">
                 請填寫所轄員工人數
             </div>
@@ -378,7 +393,7 @@
     <div class='row form-group'> 
     <label for='inputCapital' class='col-md-2 control-label text-md-right'>資本額(新臺幣:元)</label>
         <div class='col-md-10'>
-            <input type=number required name='capital' value='' maxlength="40" class='form-control' id='inputTitle' placeholder='請填寫數字'>
+            <input type='number' name='capital' value='' maxlength="40" class='form-control' id='inputTitle' placeholder='請填寫數字'>
             <div class="invalid-feedback crumb">
                 請填寫資本額
             </div>
@@ -389,31 +404,31 @@
         <label for='inputOrgType' class='col-md-2 control-label text-md-right'>公司/組織形式</label>
         <div class='col-md-10'>
             <label class=radio-inline>
-                <input type=radio required name='org_type' value='私人公司' > 私人公司
+                <input type=radio name='org_type' value='私人公司' > 私人公司
                 <div class="invalid-feedback">
                     請選擇公司/組織形式
                 </div>
             </label> 
             <label class=radio-inline>
-                <input type=radio required name='org_type' value='專業領域(例醫生、作家⋯)' > 專業領域(例醫生、作家⋯)
+                <input type='radio' name='org_type' value='專業領域(例醫生、作家⋯)' > 專業領域(例醫生、作家⋯)
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
             </label> 
             <label class=radio-inline>
-                <input type=radio required name='org_type' value='政府部門/公營事業' > 政府部門/公營事業
+                <input type='radio' name='org_type' value='政府部門/公營事業' > 政府部門/公營事業
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
             </label> 
             <label class=radio-inline>
-                <input type=radio required name='org_type' value='非政府/非營利組織' > 非政府/非營利組織
+                <input type='radio' name='org_type' value='非政府/非營利組織' > 非政府/非營利組織
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
             </label> 
             <label class=radio-inline>
-                <input type=radio required name='org_type' value='其它' > 其它
+                <input type='radio' required name='org_type' value='其它' > 其它
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
@@ -424,7 +439,7 @@
     <div class='row form-group'> 
     <label for='inputOrgTypeOther' class='col-md-2 control-label text-md-right'>公司/組織形式:自填</label>
         <div class='col-md-10'>
-            <input type=text required name='org_type_other' value='' class='form-control' id='inputOrgTypeOther' placeholder='公司/組織形式若選「其它」請自填'>
+            <input type='text' name='org_type_other' value='' class='form-control' id='inputOrgTypeOther' placeholder='公司/組織形式若選「其它」請自填'>
             <div class="invalid-feedback">
                 公司/組織形式若選「其它」請自填
             </div>
@@ -435,25 +450,28 @@
         <label for='inputYearsOperation' class='col-md-2 control-label text-md-right'>公司經營年限</label>
         <div class='col-md-10'>
             <label class=radio-inline>
-                <input type=radio required name='years_operation' value='10年以上' > 10年以上
+                <input type='radio' name='years_operation' value='10年以上' > 10年以上
                 <div class="invalid-feedback">
                     請選擇公司經營年限
                 </div>
             </label> 
             <label class=radio-inline>
-                <input type=radio required name='years_operation' value='5年~10年' > 5年~10年
+                <input type='radio' name='years_operation' value='5年~10年' > 5年~10年
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
             </label> 
             <label class=radio-inline>
-                <input type=radio required name='years_operation' value='5年以下' > 5年以下
+                <input type='radio' name='years_operation' value='5年以下' > 5年以下
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
             </label> 
         </div>
     </div>
+
+    <input type='hidden' required name="portrait_agree" value='1'>
+    <input type='hidden' required name="profile_agree" value='1'>
 
     <div class="row form-group text-danger tips d-none">
         <div class='col-md-2'></div>

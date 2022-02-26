@@ -342,7 +342,10 @@
         </div>  
     </div>    
 
-    <p class='form-control-static text-danger'>連絡方式</p>
+    <hr>
+    <h5 class='form-control-static'>聯絡方式</h5>
+    <br>
+
     <div class='row form-group required'>
         <label for='inputCell' class='col-md-2 control-label text-md-right'>行動電話</label>
         <div class='col-md-10'>
@@ -417,7 +420,7 @@
     <div class='row form-group required'>
         <label for='inputAddress' class='col-md-2 control-label text-md-right'>通訊地址</label>
         <div class='col-md-2'>
-            <select name="county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value);"> 
+            <select required name="county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value);"> 
                 <option value=''>- 請先選縣市 -</option>
                 <option value='臺北市'>臺北市</option>
                 <option value='新北市'>新北市</option>
@@ -446,7 +449,7 @@
             </select>
         </div>
         <div class='col-md-2'>
-            <select name=subarea class='form-control' onChange='document.Camp.zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.address.value=MyAddress(document.Camp.county.value, this.options[this.options.selectedIndex].text);'>
+            <select required name=subarea class='form-control' onChange='document.Camp.zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.address.value=MyAddress(document.Camp.county.value, this.options[this.options.selectedIndex].text);'>
                 <option value=''>- 再選區鄉鎮 -</option>
             </select>
         </div>
@@ -482,7 +485,7 @@
                     關係：
                 </div>
                 <div class='col-md-10'>
-                    <select name="emergency_relationship" class="form-control"> 
+                    <select name="emergency_relationship" class="form-control" required> 
                         <option value=''>- 請選擇 -</option>
                         <option value='配偶'>配偶</option>
                         <option value='父親'>父親</option>
@@ -625,7 +628,7 @@
     <hr>
         
     <div class='row form-group required'>
-        <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>請問您有興趣參加活動的類別？（可複選）</label>
+        <label for='inputFavoredEvent' class='col-md-2 control-label text-md-right'>請問您有興趣參加活動的類別？（可複選）</label>
         <div class='col-md-10'>
             <label><input type="checkbox" class="favored_event" name=favored_event[] value='企業參訪' > 企業參訪</label> <br/>
             <label><input type="checkbox" class="favored_event" name=favored_event[] value='種樹活動' > 種樹活動</label> <br/>
@@ -645,7 +648,7 @@
     </div>
 
     <div class='row form-group required'>
-        <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>營隊結束後，若有後續課程開課，請問您比較方便參加的時段？（可複選）</label>
+        <label for='inputAvailableDay' class='col-md-2 control-label text-md-right'>營隊結束後，若有後續課程開課，請問您比較方便參加的時段？（可複選）</label>
         <div class='col-md-10'>
             <label><input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='週一' > 週一</label> <br/>
             <label><input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='週二' > 週二</label> <br/>
@@ -654,7 +657,7 @@
             <label><input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='週五' > 週五</label> <br/>
             <label><input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='週六' > 週六</label> <br/>
             <label><input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='週日' > 週日</label> <br/>
-            <div class="invalid-feedback">
+            <div class="invalid-feedback" id="after_camp_available_day-invalid">
                 請勾選項目
             </div>
         </div>
@@ -701,6 +704,20 @@
                             event.stopPropagation();
                             $(".tips").removeClass('d-none');
                             $('#favored_event-invalid').show();
+                        }
+                        else{
+                            document.Camp.checkValidity();
+                            event.preventDefault();
+                            event.stopPropagation();
+                            $(".tips").removeClass('d-none');
+                            $('#favored_event-invalid').hide();
+                        }
+                        if($('.after_camp_available_day :checkbox:checked').length < 1) {
+                            document.Camp.checkValidity();
+                            event.preventDefault();
+                            event.stopPropagation();
+                            $(".tips").removeClass('d-none');
+                            $('#after_camp_available_day-invalid').show();
                         }
                         else{
                             document.Camp.checkValidity();

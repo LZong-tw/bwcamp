@@ -62,23 +62,23 @@
     <div class='row form-group required'>
         <label class='col-md-2 control-label text-md-right text-info'>推薦人</label>
         <div class='col-md-10'>
-            <div class='row form-group required'>
+            <div class='row form-group'>
                 <div class='col-md-2 text-info'>
                     推薦人姓名：
                 </div>
                 <div class='col-md-10'>
-                    <input type='text' class='form-control' name="introducer_name" value=''>
+                    <input type='text' required class='form-control' name="introducer_name" value=''>
                 </div>
                 <div class="invalid-feedback">
                     請填寫本欄位
                 </div>
             </div>
-            <div class='row form-group required'>
+            <div class='row form-group'>
                 <div class='col-md-2 text-info'>
                     推薦人廣論研討班別：
                 </div>
                 <div class='col-md-10'>
-                    <input type='text' class='form-control' name="introducer_participated" value=''>
+                    <input type='text' required class='form-control' name="introducer_participated" value=''>
                 </div>
                 <div class="invalid-feedback">
                     請填寫本欄位
@@ -89,7 +89,7 @@
                     推薦人手機號碼：
                 </div>
                 <div class='col-md-10'>
-                    <input type='tel' class='form-control' name="introducer_phone" value='' placeholder='格式：0912345678'>
+                    <input type='tel' required class='form-control' name="introducer_phone" value='' placeholder='格式：0912345678'>
                 </div>
                 <div class="invalid-feedback">
                     請填寫手機號碼
@@ -100,7 +100,7 @@
                     推薦人電子信箱：
                 </div>
                 <div class='col-md-10'>
-                    <input type='email' class='form-control' name="introducer_email" value='' placeholder='請務必填寫正確，以利營隊相關訊息通知'>
+                    <input type='email' required class='form-control' name="introducer_email" value='' placeholder='請務必填寫正確，以利營隊相關訊息通知'>
                 </div>
                 <div class="invalid-feedback">
                     電子信箱格式不正確
@@ -111,7 +111,7 @@
                     與被推薦人關係：
                 </div>
                 <div class='col-md-10'>
-                    <select name="introducer_relationship" class="form-control"> 
+                    <select required name="introducer_relationship" class="form-control"> 
                         <option value=''>- 請選擇 -</option>
                         <option value='配偶'>親戚</option>
                         <option value='父親'>同學</option>
@@ -215,7 +215,7 @@
     <div class='row form-group required'>
         <label for='inputCell' class='col-md-2 control-label text-md-right'>手機號碼</label>
         <div class='col-md-10'>
-            <input type=tel required name='mobile' value='' class='form-control' id='inputCell' placeholder='格式：0912345678'>
+            <input type='tel' required name='mobile' value='' class='form-control' id='inputCell' placeholder='格式：0912345678'>
             <div class="invalid-feedback">
                 請填寫手機號碼
             </div>
@@ -232,10 +232,24 @@
         </div>
     </div>
 
+    <script language='javascript'>
+        $('#inputEmail').bind("cut copy paste",function(e) {
+        e.preventDefault();
+        });
+    </script>
+    
+    <div class='row form-group required'>
+        <label for='inputEmail' class='col-md-2 control-label text-md-right'>確認電子信箱</label>
+        <div class='col-md-10'>
+            <input type='email' required name='emailConfirm' value='' class='form-control' id='inputEmailConfirm'>
+            {{-- data-match='#inputEmail' data-match-error='郵件不符合' placeholder='請再次填寫確認郵件填寫正確' --}}
+        </div>
+    </div>
+
     <div class='row form-group'> 
     <label for='inputLineID' class='col-md-2 control-label text-md-right'>LINE ID</label>
         <div class='col-md-10'>
-            <input type=text name='line' value='' class='form-control' id='inputLineID'>
+            <input type='text' name='line' value='' class='form-control' id='inputLineID'>
             <div class="invalid-feedback crumb">
                 請填寫LINE ID
             </div>
@@ -263,7 +277,7 @@
                     代理人姓名：
                 </div>
                 <div class='col-md-10'>
-                    <input type='text'class='form-control' name="substitute_name" value='' required>
+                    <input type='text' class='form-control' name="substitute_name" value=''>
                 </div>
                 <div class="invalid-feedback">
                     請填寫本欄位
@@ -275,7 +289,7 @@
                     代理人聯絡電話：
                 </div>
                 <div class='col-md-10'>
-                    <input type='tel' class='form-control' name="substitute_mobile" value='' placeholder='手機格式：0912345678；市話格式：0225452546#520' required>
+                    <input type='tel' class='form-control' name="substitute_mobile" value='' placeholder='手機格式：0912345678；市話格式：0225452546#520'>
                 </div>
                 <div class="invalid-feedback">
                     請填寫本欄位
@@ -300,7 +314,7 @@
     <div class='row form-group'> 
     <label for='inputMaritalStatus' class='col-md-2 control-label text-md-right'>婚姻狀況</label>
         <div class='col-md-10'>
-            <input type=text required name='marital_status' value='' class='form-control' id='inputMaritalStatus'>
+            <input type='text' name='marital_status' value='' class='form-control' id='inputMaritalStatus'>
             <div class="invalid-feedback">
                 請填寫婚姻狀況
             </div>
@@ -322,13 +336,13 @@
         <label for='inputParticipationMode' class='col-md-2 control-label text-md-right'>參加營隊形式</label>
         <div class='col-md-10'>
             <label class=radio-inline>
-                <input type=radio required name='participation_mode' value=實體營隊 > 實體營隊
+                <input type='radio' required name='participation_mode' value=實體營隊 > 實體營隊
                 <div class="invalid-feedback">
                     請選擇參加營隊形式
                 </div>
             </label> 
             <label class=radio-inline>
-                <input type=radio required name='participation_mode' value=線上營隊 > 線上營隊
+                <input type='radio' required name='participation_mode' value=線上營隊 > 線上營隊
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
@@ -339,7 +353,7 @@
     <div class='row form-group'> 
     <label for='inputReasonsOnline' class='col-md-2 control-label text-md-right'>選擇線上營隊原因</label>
         <div class='col-md-10'>
-            <input type=text required name='reasons_online' value='' class='form-control' id='inputReasonsOnline' placeholder='若選線上營隊請簡述不參加實體營隊原因'>
+            <input type='text' name='reasons_online' value='' class='form-control' id='inputReasonsOnline' placeholder='若選線上營隊請簡述不參加實體營隊原因'>
             <div class="invalid-feedback">
                 請填寫選擇線上營隊原因
             </div>
@@ -382,7 +396,7 @@
     <div class='row form-group'> 
     <label for='inputIndustryOther' class='col-md-2 control-label text-md-right'>產業別:自填</label>
         <div class='col-md-10'>
-            <input type=text required name='industry_other' value='' class='form-control' id='inputIndustryOther' placeholder='產業別若選「其它」請自填'>
+            <input type='text' name='industry_other' value='' class='form-control' id='inputIndustryOther' placeholder='產業別若選「其它」請自填'>
             <div class="invalid-feedback">
                 產業別若選「其它」請自填
             </div>
@@ -430,7 +444,7 @@
     <div class='row form-group'> 
     <label for='inputJobPropertyOther' class='col-md-2 control-label text-md-right'>職務類型:自填</label>
         <div class='col-md-10'>
-            <input type=text required name='job_property_other' value='' class='form-control' id='inputJobPropertyOther' placeholder='職務類型若選「其它」請自填'>
+            <input type='text' name='job_property_other' value='' class='form-control' id='inputJobPropertyOther' placeholder='職務類型若選「其它」請自填'>
             <div class="invalid-feedback">
                 職務類型若選「其它」請自填
             </div>
@@ -440,7 +454,7 @@
     <div class='row form-group'>
         <label for='inputTelWork' class='col-md-2 control-label text-md-right'>公司電話</label>
         <div class='col-md-10'>
-            <input type=tel required name='phone_work' value='' class='form-control' id='inputTelWork' placeholder='格式：0225452546#520'>
+            <input type='tel' name='phone_work' value='' class='form-control' id='inputTelWork' placeholder='格式：0225452546#520'>
             <div class="invalid-feedback crumb">
                 請填寫公司電話
             </div>
@@ -450,7 +464,7 @@
     <div class='row form-group'> 
     <label for='inputEmployees' class='col-md-2 control-label text-md-right'>公司員工總數</label>
         <div class='col-md-10'>
-            <input type=number required name='employees' value='' class='form-control' id='inputEmployees'>
+            <input type='number' name='employees' value='' class='form-control' id='inputEmployees'>
             <div class="invalid-feedback crumb">
                 請填寫公司員工總數
             </div>
@@ -460,7 +474,7 @@
     <div class='row form-group'> 
     <label for='inputDirectManagedEmployees' class='col-md-2 control-label text-md-right'>所轄員工人數</label>
         <div class='col-md-10'>
-            <input type=number required name='direct_managed_employees' value='' class='form-control' id='inputDirectManagedEmployees'>
+            <input type='number' name='direct_managed_employees' value='' class='form-control' id='inputDirectManagedEmployees'>
             <div class="invalid-feedback crumb">
                 請填寫所轄員工人數
             </div>
@@ -470,7 +484,7 @@
     <div class='row form-group'> 
     <label for='inputCapital' class='col-md-2 control-label text-md-right'>資本額(新臺幣:元)</label>
         <div class='col-md-10'>
-            <input type=number required name='capital' value='' maxlength="40" class='form-control' id='inputTitle' placeholder='請填寫數字'>
+            <input type='number' name='capital' value='' maxlength="40" class='form-control' id='inputTitle' placeholder='請填寫數字'>
             <div class="invalid-feedback crumb">
                 請填寫資本額
             </div>
@@ -516,7 +530,7 @@
     <div class='row form-group'> 
     <label for='inputOrgTypeOther' class='col-md-2 control-label text-md-right'>公司/組織形式:自填</label>
         <div class='col-md-10'>
-            <input type=text required name='org_type_other' value='' class='form-control' id='inputOrgTypeOther' placeholder='公司/組織形式若選「其它」請自填'>
+            <input type='text' name='org_type_other' value='' class='form-control' id='inputOrgTypeOther' placeholder='公司/組織形式若選「其它」請自填'>
             <div class="invalid-feedback">
                 公司/組織形式若選「其它」請自填
             </div>
@@ -550,7 +564,7 @@
     <div class='row form-group required'>
         <label for='inputReasonsRecommend' class='col-md-2 control-label text-md-right'>特別推薦理由或社會影響力說明</label>
         <div class='col-md-10'>
-            <textarea class='form-control' rows=2 name='reasons_recommend' id=inputReasonsRecommend></textarea>
+            <textarea required class='form-control' rows=2 name='reasons_recommend' id=inputReasonsRecommend></textarea>
             <div class="invalid-feedback">
                 請填寫特別推薦理由或社會影響力說明
             </div>
@@ -563,6 +577,9 @@
             請檢查是否有未填寫或格式錯誤的欄位。
         </div>
     </div>
+    
+    <input type='hidden' required name="portrait_agree" value='1'>
+    <input type='hidden' required name="profile_agree" value='1'>
 
     <!--- 確認送出 -->
     <div class='row form-group'>

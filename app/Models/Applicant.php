@@ -36,6 +36,14 @@ class Applicant extends Model {
         return $this->hasOne(Acamp::class, 'applicant_id', 'id');
     }
 
+    public function ceocamp() {
+        return $this->hasOne(CEOcamp::class, 'applicant_id', 'id');
+    }
+
+    public function ceovcamp() {
+        return $this->hasOne(CEOVcamp::class, 'applicant_id', 'id');
+    }
+
     public function ecamp() {
         return $this->hasOne(Ecamp::class, 'applicant_id', 'id');
     }
