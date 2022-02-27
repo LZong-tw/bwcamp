@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CEOVcamp extends Model
+class Ceovcamp extends Model
 {
     //
     protected $table = 'ceovcamp';
