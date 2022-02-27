@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CEOcamp extends Model
+class Ceocamp extends Model
 {
     //
     protected $table = 'ceocamp';

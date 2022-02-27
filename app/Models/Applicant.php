@@ -37,11 +37,11 @@ class Applicant extends Model {
     }
 
     public function ceocamp() {
-        return $this->hasOne(CEOcamp::class, 'applicant_id', 'id');
+        return $this->hasOne(Ceocamp::class, 'applicant_id', 'id');
     }
 
     public function ceovcamp() {
-        return $this->hasOne(CEOVcamp::class, 'applicant_id', 'id');
+        return $this->hasOne(Ceovcamp::class, 'applicant_id', 'id');
     }
 
     public function ecamp() {
