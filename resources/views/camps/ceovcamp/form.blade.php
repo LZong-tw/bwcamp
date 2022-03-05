@@ -12,10 +12,11 @@
 @section('content')
     @include('partials.schools_script')
     @include('partials.counties_areas_script')
+{{--
     <div class='alert alert-info' role='alert'>
         您在本網站所填寫的個人資料，僅用於此次企業營的報名及活動聯絡之用。
     </div>
-
+--}}
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }}線上報名表</h4>
     </div>
@@ -66,38 +67,45 @@
                 <option value='行政組' >行政組</option>
                 <option value='秘書組' >秘書組</option>
                 <option value='關懷組' >關懷組</option>
+                <option value='資訊組' >資訊組</option>
             </select>
+            <div class="invalid-feedback">
+                請選擇報名組別第1志願
+            </div>
         </div>  
     </div>
 
-    <div class='row form-group required'>
+    <div class='row form-group'>
         <label for='inputGroupPriority2' class='col-md-2 control-label text-md-right'>報名組別第2志願</label>
         <div class='col-md-10'>
-            <select required class='form-control' name='group_priority2' onChange=''>
+            <select class='form-control' name='group_priority2' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
                 <option value='教務組' >教務組</option>
                 <option value='行政組' >行政組</option>
                 <option value='秘書組' >秘書組</option>
                 <option value='關懷組' >關懷組</option>
+                <option value='資訊組' >資訊組</option>
                 <option value='無' >無</option>
             </select>
         </div>  
     </div>
 
-    <div class='row form-group required'>
+    <div class='row form-group'>
         <label for='inputGroupPriority3' class='col-md-2 control-label text-md-right'>報名組別第3志願</label>
         <div class='col-md-10'>
-            <select required class='form-control' name='group_priority3' onChange=''>
+            <select class='form-control' name='group_priority3' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
                 <option value='教務組' >教務組</option>
                 <option value='行政組' >行政組</option>
                 <option value='秘書組' >秘書組</option>
                 <option value='關懷組' >關懷組</option>
+                <option value='資訊組' >資訊組</option>
                 <option value='無' >無</option>
             </select>
         </div>  
     </div>
 
+{{--
     <div class='row form-group'> 
     <label for='inputGroupPriorityOther' class='col-md-2 control-label text-md-right'>報名組別其它需求</label>
         <div class='col-md-10'>
@@ -107,6 +115,7 @@
             </div>
         </div>
     </div>
+--}}
 
     <div class='row form-group required'> 
     <label for='inputLRClass' class='col-md-2 control-label text-md-right'>廣論研討班別</label>
@@ -122,9 +131,9 @@
         <label for='inputName' class='col-md-2 control-label text-md-right'>中文姓名</label>
         <div class='col-md-10'>
             <input type='text' name='name' value='' class='form-control' id='inputName' placeholder='請填寫全名' required @if(isset($isModify) && $isModify) disabled @endif>
-        </div>
-        <div class="invalid-feedback">
-            請填寫姓名
+            <div class="invalid-feedback">
+                請填寫姓名
+            </div>
         </div>
     </div>
 
@@ -136,7 +145,7 @@
                     <input class="form-check-input" type="radio" name="gender" value="M" required @if(isset($isModify) && $isModify) disabled @endif>
                     男
                     <div class="invalid-feedback">
-                        未選擇性別
+                        請選擇性別
                     </div>
                 </label>
             </div>
@@ -205,12 +214,12 @@
         <div class='col-md-10'>
             <input type='email' required name='email' value='' class='form-control' id='inputEmail' placeholder='請務必填寫正確，以利營隊相關訊息通知'>
             <div class="invalid-feedback">
-                電子信箱格式不正確
+                未填電子信箱或格式不正確
             </div>
         </div>
     </div>
 
-<script language='javascript'>
+    <script language='javascript'>
         $('#inputEmail').bind("cut copy paste",function(e) {
         e.preventDefault();
         });
@@ -219,35 +228,67 @@
     <div class='row form-group required'>
         <label for='inputEmail' class='col-md-2 control-label text-md-right'>確認電子信箱</label>
         <div class='col-md-10'>
-            <input type='email' required name='emailConfirm' value='' class='form-control' id='inputEmailConfirm'>
+            <input type='email' required name='emailConfirm' value='' class='form-control' id='inputEmailConfirm' placeholder='請再次填寫(勿複製貼上)，確認電子信箱正確'>
             {{-- data-match='#inputEmail' data-match-error='郵件不符合' placeholder='請再次填寫確認郵件填寫正確' --}}
+            <div class="invalid-feedback">
+                未填電子信箱或格式不正確
+            </div>
         </div>
     </div>
 
+    <div class='row form-group'> 
+    <label for='inputLineID' class='col-md-2 control-label text-md-right'>LINE ID</label>
+        <div class='col-md-10'>
+            <input type='text' name='line' value='' class='form-control' id='inputLineID'>
+            <div class="invalid-feedback crumb">
+                請填寫LINE ID
+            </div>
+        </div>
+    </div>
+
+    <div class='row form-group'>
+        <label for='inputCadreExperiences' class='col-md-2 control-label text-md-right'>班級護持記錄</label>
+        <div class='col-md-10'>
+            <textarea class='form-control' rows=2 name='cadre_experiences' id=inputCadreExperiences placeholder='例如：18春991班副班長'></textarea>
+            <div class="invalid-feedback">
+                請填寫班級護持記錄
+            </div>
+        </div>
+    </div>
+
+    <div class='row form-group'>
+        <label for='inputVolunteerExpereiences' class='col-md-2 control-label text-md-right'>義工護持記錄</label>
+        <div class='col-md-10'>
+            <textarea class='form-control' rows=2 name='volunteer_experiences' id=inputVolunteerExpereiences placeholder='例如：2021年菁英營關懷組小組長、月光共學字幕校對義工'></textarea>
+            <div class="invalid-feedback">
+                請填寫義工護持記錄
+            </div>
+        </div>
+    </div>
 
     {{-- 日常交通方式 --}}
-    <div class='row form-group required'>
-        <label for='inputTransport' class='col-md-2 control-label text-md-right'>日常交通方式(多選)</label>
+    <div class='row form-group'>
+        <label for='inputTransport' class='col-md-2 control-label text-md-right'>日常交通方式<br>(多選)</label>
         <div class='col-md-10'>
             <label><input type="checkbox" name=transport[] value='開車' > 開車</label> <br/>
             <label><input type="checkbox" name=transport[] value='摩托車' > 摩托車</label> <br/>
             <label><input type="checkbox" name=transport[] value='大眾運輸' > 大眾運輸</label> <br/>
             <label><input type="checkbox" name=transport[] value='走路' > 走路</label> <br/>
             <label>
-                <input type="checkbox" name=transport[] value='其它' id="transport_other_checkbox"> 其它：
-                <input type="text" name="transport_other" class="form-control" onclick="transport_other_checkbox.checked = true; this.required = true;">
+                <input type="checkbox" name=transport[] value='其它' id="transport_other_checkbox" onclick="setTransportOther(this)"> 其它：
+                <input type="text" name="transport_other" id="transport_other_text" class="form-control" onclick="transport_other_checkbox.checked = true; this.required = true;">
                 <div class="invalid-feedback">
-                    請填寫本欄位
+                    請選擇日常交通方式，若選其它請填寫何種交通方式。
                 </div>
             </label>
             {{-- 其它 --}}
         </div>
     </div>
 
-    <div class='row form-group required'> 
+    <div class='row form-group'> 
     <label for='inputExpertise' class='col-md-2 control-label text-md-right'>專長</label>
         <div class='col-md-10'>
-            <input type='text' required name='expertise' value='' class='form-control' id='inputExpertise'>
+            <input type='text' name='expertise' value='' class='form-control' id='inputExpertise'>
             <div class="invalid-feedback crumb">
                 請填寫專長
             </div>
@@ -255,16 +296,19 @@
     </div>
 
     {{-- 語言 --}}
-    <div class='row form-group required'>
+    <div class='row form-group'>
         <label for='inputLanguage' class='col-md-2 control-label text-md-right'>語言(多選)</label>
         <div class='col-md-10'>
             <label><input type="checkbox" name=language[] value='英文' > 英文</label> <br/>
             <label><input type="checkbox" name=language[] value='日文' > 日文</label> <br/>
+            <label><input type="checkbox" name=language[] value='台語' > 台語</label> <br/>
+            <label><input type="checkbox" name=language[] value='客語' > 客語</label> <br/>
+            <label><input type="checkbox" name=language[] value='越南語' > 越南語</label> <br/>
             <label>
-                <input type="checkbox" name=language[] value='其它' id="language_other_checkbox"> 其它：
-                <input type="text" name="language_other" class="form-control" onclick="language_other_checkbox.checked = true; this.required = true;">
+                <input type="checkbox" name=language[] value='其它' id="language_other_checkbox" onclick="setLanguageOther(this)"> 其它：
+                <input type="text" name="language_other" id="language_other_text" class="form-control" onclick="language_other_checkbox.checked = true; this.required = true;">
                 <div class="invalid-feedback">
-                    請填寫本欄位
+                    請選擇語言，若選其它請填寫何種語言。
                 </div>
             </label>
             {{-- 其它 --}}
@@ -272,11 +316,13 @@
     </div>
 
     <hr>
+    <h5 class='form-control-static text-info'>說明：底下公司及職務相關欄位，若已退休，請填寫退休前資料</h5>
+    <br>
 
     <div class='row form-group required'> 
     <label for='inputUnit' class='col-md-2 control-label text-md-right'>公司名稱</label>
         <div class='col-md-10'>
-            <input type=text required name='unit' value='' class='form-control' id='inputUnit'>
+            <input type=text required name='unit' value='' class='form-control' id='inputUnit' placeholder='若已退休，請填寫退休前資料'>
             <div class="invalid-feedback crumb">
                 請填寫公司名稱
             </div>
@@ -299,9 +345,13 @@
                 <option value='廣告/傳播/出版' >廣告/傳播/出版</option>
                 <option value='其它' >其它</option>
             </select>
+            <div class="invalid-feedback crumb">
+                請選擇產業別
+            </div>
         </div>  
     </div>
-
+    
+{{--
     <div class='row form-group'> 
     <label for='inputIndustryOther' class='col-md-2 control-label text-md-right'>產業別:自填</label>
         <div class='col-md-10'>
@@ -311,11 +361,12 @@
             </div>
         </div>
     </div>
+--}}
 
     <div class='row form-group required'> 
     <label for='inputTitle' class='col-md-2 control-label text-md-right'>職稱</label>
         <div class='col-md-10'>
-            <input type='text' required name='title' value='' maxlength="40" class='form-control' id='inputTitle'>
+            <input type='text' required name='title' value='' maxlength="40" class='form-control' id='inputTitle' placeholder='若已退休，請填寫退休前資料'>
             <div class="invalid-feedback">
                 請填寫職稱
             </div>
@@ -327,7 +378,8 @@
         <div class='col-md-10'>
             <select required class='form-control' name='job_property' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
-                <option value='經營/人資' >經營/人資</option >
+                <option value='負責人/公司經營管理' >負責人/公司經營管理</option >
+                <option value='人資' >人資</option >
                 <option value='行政/總務' >行政/總務</option>
                 <option value='法務' >法務</option>
                 <option value='財會/金融' >財會/金融</option>
@@ -347,9 +399,13 @@
                 <option value='軍警消/保全' >軍警消/保全</option>
                 <option value='其它' >其它</option>
             </select>
+            <div class="invalid-feedback crumb">
+                請選擇職務類型
+            </div>
         </div>  
     </div>
 
+{{--
     <div class='row form-group'> 
     <label for='inputJobPropertyOther' class='col-md-2 control-label text-md-right'>職務類型:自填</label>
         <div class='col-md-10'>
@@ -359,6 +415,7 @@
             </div>
         </div>
     </div>
+--}}
 
     <div class='row form-group'>
         <label for='inputTelWork' class='col-md-2 control-label text-md-right'>公司電話</label>
@@ -428,7 +485,7 @@
                 </div>
             </label> 
             <label class=radio-inline>
-                <input type='radio' required name='org_type' value='其它' > 其它
+                <input type='radio' name='org_type' value='其它' > 其它
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
@@ -436,6 +493,7 @@
         </div>
     </div>
 
+{{--
     <div class='row form-group'> 
     <label for='inputOrgTypeOther' class='col-md-2 control-label text-md-right'>公司/組織形式:自填</label>
         <div class='col-md-10'>
@@ -445,14 +503,15 @@
             </div>
         </div>
     </div>
+--}}
 
     <div class='row form-group'>
-        <label for='inputYearsOperation' class='col-md-2 control-label text-md-right'>公司經營年限</label>
+        <label for='inputYearsOperation' class='col-md-2 control-label text-md-right'>公司成立幾年</label>
         <div class='col-md-10'>
             <label class=radio-inline>
                 <input type='radio' name='years_operation' value='10年以上' > 10年以上
                 <div class="invalid-feedback">
-                    請選擇公司經營年限
+                    請選擇公司成立幾年
                 </div>
             </label> 
             <label class=radio-inline>
@@ -470,8 +529,65 @@
         </div>
     </div>
 
-    <input type='hidden' required name="portrait_agree" value='1'>
-    <input type='hidden' required name="profile_agree" value='1'>
+    <!--- 同意書 -->
+    <div class='row form-group required'>
+        <label for='inputTerm' class='col-md-2 control-label text-md-right'>個人資料</label>
+        <div class='col-md-10 form-check'>
+            <p class='form-control-static text-danger'>
+            主辦單位於本次營隊取得之個人資料，於營隊期間及後續主辦單位舉辦之活動，作為訊息通知、行政處理等非營利目的之使用，不會提供給無關之其他私人單位使用。
+            </p>
+            <label class=radio-inline>
+                <input type='radio' required name="profile_agree" value='1' checked> 我同意
+                <div class="invalid-feedback">
+                    請圈選本欄位
+                </div>
+            </label>
+            <label class=radio-inline>
+                <input type='radio' required name="profile_agree" value='0' > 我不同意
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label>
+        </div>
+    </div>
+
+    <div class='row form-group required'>
+        <label for='inputTerm' class='col-md-2 control-label text-md-right'>肖像權</label>
+        <div class='col-md-10 form-check'>
+            <p class='form-control-static text-danger'>
+            主辦單位在營隊期間拍照/錄影之活動記錄，可使用於營隊及主辦單位的非營利教育推廣使用，並以網路方式推播。
+            </p>
+            <label class=radio-inline>
+                <input type='radio' required name="portrait_agree" value='1' checked> 我同意
+                <div class="invalid-feedback">
+                    請圈選本欄位
+                </div>
+            </label>
+            <label class=radio-inline>
+                <input type='radio' required name="portrait_agree" value='0' > 我不同意
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label>
+        </div>
+    </div>
+
+    <div class='row form-group'>
+        <label class='col-md-2 control-label text-md-right'>邀請人<br>(若無免填)</label>
+        <div class='col-md-10'>
+            <div class='row form-group'>
+                <div class='col-md-2'>
+                    姓名：
+                </div>
+                <div class='col-md-10'>
+                    <input type='text' class='form-control' name="introducer_name" value='' placeholder="若您今年是透過某位師兄師姊的邀請加入義工，請填寫他/她的姓名">
+                </div>
+                <div class="invalid-feedback">
+                    請填寫邀請人姓名
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="row form-group text-danger tips d-none">
         <div class='col-md-2'></div>
@@ -487,7 +603,7 @@
             {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態--}}
             @if(!isset($isModify) || $isModify)
                 <input type='button' class='btn btn-success' value='確認送出' data-toggle="confirmation">
-                <input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>
+                {{--<input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>--}}
                 <input type='reset' class='btn btn-danger' value='清除再來'>
             {{-- 以上皆非: 檢視資料狀態 --}}
             @else
@@ -507,6 +623,7 @@
             btnCancelLabel: "再檢查一下",
             popout: true,
             onConfirm: function() {
+                {{--
                         console.log($('.transport :checkbox:checked').length);
                         if($('.transport :checkbox:checked').length < 1) {
                             document.Camp.checkValidity();
@@ -537,6 +654,7 @@
                             $(".tips").removeClass('d-none');
                             $('#language-invalid').hide();
                         }
+                --}}
                         if (document.Camp.checkValidity() === false) {
                             $(".tips").removeClass('d-none');
                             event.preventDefault();
@@ -580,6 +698,7 @@
         * Ready functions.
         * Executes commands after the web page is loaded. 
         */
+{{--
         document.onreadystatechange = () => {
             if (document.readyState === 'complete') {
                 /**
@@ -610,6 +729,33 @@
                 }
             }
         };
+--}}
+
+        function setTransportOther(checkbox_ele) {
+            // 檢查 checkbox_ele 是否被勾選
+            //console.log(checkbox_ele.checked);
+            if(checkbox_ele.checked) {
+                // 被勾選: 把 transport_other_text required = true
+                document.getElementById("transport_other_text").required = true;
+            }
+            else {
+                // 否則:把 transport_other_text required = false
+                document.getElementById("transport_other_text").required = false;
+            }
+        }
+
+        function setLanguageOther(checkbox_ele) {
+            // 檢查 checkbox_ele 是否被勾選
+            //console.log(checkbox_ele.checked);
+            if(checkbox_ele.checked) {
+            // 被勾選: 把 language_other_text required = true
+                document.getElementById("language_other_text").required = true;
+            }
+            else {
+            // 否則:把 language_other_text required = false
+                document.getElementById("language_other_text").required = false;
+            }
+        }
 
         function showFields(){        
             rowIsEducating.innerHTML = "<div class='row form-group required'>" +
@@ -811,6 +957,7 @@
                 return val == "";
             }
         @endif
+
     </script>
     <style>
         .required .control-label::after {
