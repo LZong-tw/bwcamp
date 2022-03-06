@@ -1,6 +1,6 @@
 {{-- 
     參考頁面：https://bwfoce.org/ecamp/form/2020ep01.php
-    --}}
+--}}
 @php
     header("Cache-Control: no-cache, no-store, must-revalidate, post-check=0, pre-check=0", false);
     header("Pragma: no-cache");
@@ -10,7 +10,6 @@
 @endphp
 @extends('camps.ceovcamp.layout')
 @section('content')
-    @include('partials.schools_script')
     @include('partials.counties_areas_script')
 {{--
     <div class='alert alert-info' role='alert'>
@@ -22,7 +21,7 @@
     </div>
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
 @if(!isset($isModify) || $isModify)
-    <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form'>
+    <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form' enctype="multipart/form-data">
 {{-- 以上皆非: 檢視資料狀態 --}}
 @else
     <form action="{{ route("queryupdate", $applicant_batch_id) }}" method="post" class="d-inline">
@@ -69,9 +68,11 @@
                 <option value='關懷組' >關懷組</option>
                 <option value='資訊組' >資訊組</option>
             </select>
+        {{--
             <div class="invalid-feedback">
                 請選擇報名組別第1志願
             </div>
+        --}}
         </div>  
     </div>
 
@@ -299,8 +300,8 @@
     <div class='row form-group'>
         <label for='inputLanguage' class='col-md-2 control-label text-md-right'>語言(多選)</label>
         <div class='col-md-10'>
-            <label><input type="checkbox" name=language[] value='英文' > 英文</label> <br/>
-            <label><input type="checkbox" name=language[] value='日文' > 日文</label> <br/>
+            <label><input type="checkbox" name=language[] value='英語' > 英語</label> <br/>
+            <label><input type="checkbox" name=language[] value='日語' > 日語</label> <br/>
             <label><input type="checkbox" name=language[] value='台語' > 台語</label> <br/>
             <label><input type="checkbox" name=language[] value='客語' > 客語</label> <br/>
             <label><input type="checkbox" name=language[] value='越南語' > 越南語</label> <br/>
@@ -378,7 +379,7 @@
         <div class='col-md-10'>
             <select required class='form-control' name='job_property' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
-                <option value='負責人/公司經營管理' >負責人/公司經營管理</option >
+                <option value='負責人/公司經營管理' >負責人/公司經營管理</option>
                 <option value='人資' >人資</option >
                 <option value='行政/總務' >行政/總務</option>
                 <option value='法務' >法務</option>
@@ -573,22 +574,29 @@
     </div>
 
     <div class='row form-group'>
-        <label class='col-md-2 control-label text-md-right'>邀請人<br>(若無免填)</label>
+        <label for='inputIntroducerName' class='col-md-2 control-label text-md-right'>邀請人<br>(若無免填)</label>
         <div class='col-md-10'>
-            <div class='row form-group'>
-                <div class='col-md-2'>
-                    姓名：
-                </div>
-                <div class='col-md-10'>
-                    <input type='text' class='form-control' name="introducer_name" value='' placeholder="若您今年是透過某位師兄師姊的邀請加入義工，請填寫他/她的姓名">
-                </div>
-                <div class="invalid-feedback">
-                    請填寫邀請人姓名
-                </div>
+            <input type='text' name='introducer_name' value='' class='form-control' id='inputIntroducerName' placeholder='若您今年是透過某位師兄師姊的邀請加入義工，請填寫他/她的姓名'>
+            <div class="invalid-feedback">
+                請填寫邀請人姓名
             </div>
         </div>
     </div>
+{{--
+    <hr>
+    <h5 class='form-control-static text-info'>說明：請選擇正面、清楚、不戴帽、不戴墨鏡、不戴口罩的大頭照上傳</h5>
+    <br>
 
+    <div class='row form-group required'>
+        <label for='inputAvatar' class='col-md-2 control-label text-md-right'>大頭照</label>
+        <div class='col-md-10'>
+            <input type='file' required name='avatar' value='' class='form-control' id='inputAvatar'>
+            <div class="invalid-feedback">
+                請上傳大頭照
+            </div>
+        </div>
+    </div>
+--}}
     <div class="row form-group text-danger tips d-none">
         <div class='col-md-2'></div>
         <div class='col-md-10'>
@@ -603,8 +611,10 @@
             {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態--}}
             @if(!isset($isModify) || $isModify)
                 <input type='button' class='btn btn-success' value='確認送出' data-toggle="confirmation">
-                {{--<input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>--}}
+            {{--
+                <input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>
                 <input type='reset' class='btn btn-danger' value='清除再來'>
+            --}}
             {{-- 以上皆非: 檢視資料狀態 --}}
             @else
                 <input type="hidden" name="sn" value="{{ $applicant_id }}">
@@ -968,4 +978,4 @@
 @stop
 {{-- 
     參考頁面：https://bwfoce.org/ecamp/form/2020ep01.php
-    --}}
+--}}

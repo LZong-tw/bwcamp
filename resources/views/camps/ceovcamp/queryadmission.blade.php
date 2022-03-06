@@ -1,4 +1,4 @@
-@extends('camps.ceocamp.layout')
+@extends('camps.ceovcamp.layout')
 @section('content')
 @if($errors->any())
     @foreach ($errors->all() as $message)
@@ -7,7 +7,7 @@
         </div>
     @endforeach
 @endif
-<form method="post" action="{{ route("queryadmit", $batch_id) }}" name="QueryRegis" class="form-horizontal">
+<form method="post" action='{{ route("queryadmit", $batch_id) }}' name="QueryRegis" class="form-horizontal">
     @csrf
     <div class="page-header form-group">
         <h4>錄取查詢</h4>

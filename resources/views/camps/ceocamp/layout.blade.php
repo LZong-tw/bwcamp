@@ -46,7 +46,7 @@
                     {{-- <li class="nav-item active"> --}}
                     {{-- <span class="sr-only">(current)</span> --}}
                     <li class="nav-item">
-                        <a class="nav-link" href="https://bwfoce.org/ecamp">營隊資訊</a>
+                        <a class="nav-link" href="https://bwfoce.org/">營隊資訊</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('registration', $batch_id) }}">報名表單</a>

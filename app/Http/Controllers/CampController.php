@@ -17,6 +17,7 @@ use App\Mail\QueuedApplicantMail;
 use App\Jobs\SendApplicantMail;
 use View;
 use App\Traits\EmailConfiguration;
+use Intervention\Image\Facades\Image;
 
 class CampController extends Controller
 {
@@ -101,6 +102,19 @@ class CampController extends Controller
             $request = $this->campDataService->checkBoxToArray($request);
             $formData = $request->toArray();
             $formData = $this->campDataService->handelRegion($formData, $this->camp_data->table, $this->camp_data->id);
+            
+            try {
+                $imagePath = request()->file('avatar')->store("avatars");
+                $image = Image::make(storage_path("{$imagePath}"))->resize(800, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+                $image->save(storage_path("{$imagePath}"));
+                $formData['avatar'] = $imagePath;
+            }
+            catch(\Throwable $e) {
+                logger($e);
+            }
+
             $applicant = \DB::transaction(function () use ($formData) {
                 $applicant = Applicant::where('id', $formData['applicant_id'])->first();
                 $model = '\\App\\Models\\' . ucfirst($this->camp_data->table);
@@ -149,6 +163,19 @@ class CampController extends Controller
             $formData = $request->toArray();
             $formData['batch_id'] = isset($formData["set_batch_id"]) ? $formData["set_batch_id"] : $this->batch_id;
             $formData = $this->campDataService->handelRegion($formData, $this->camp_data->table, $this->camp_data->id);
+
+            try {
+                $imagePath = request()->file('avatar')->store("avatars");
+                $image = Image::make(storage_path("{$imagePath}"))->resize(800, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+                $image->save(storage_path("{$imagePath}"));
+                $formData['avatar'] = $imagePath;
+            }
+            catch(\Throwable $e) {
+                logger($e);
+            }
+
             // 報名資料開始寫入資料庫，使用 transaction 確保可以同時將資料寫入不同的表，
             // 或確保若其中一個步驟失敗，不會留下任何殘餘、未完整的資料（屍體）
             // $applicant 為最終報名資料
