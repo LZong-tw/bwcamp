@@ -16,7 +16,7 @@
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "intervention/image": "^2.7",
-        "laravel/framework": "^8.0",
+        "laravel/framework": "^8.83",
         "laravel/telescope": "^4.6",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.0",
@@ -25,7 +25,6 @@
         "sentry/sentry-laravel": "^2.10",
         "studio/laravel-totem": "^8.0"
     },
-    
     "require-dev": {
         "inspector-apm/inspector-laravel": "^4.7",
         "barryvdh/laravel-ide-helper": "^2.10",
@@ -35,11 +34,13 @@
         "nunomaduro/collision": "^5.0",
         "phpunit/phpunit": "^9.0"
     },
-    "repositories": [{ 
-        "type": "vcs", 
-        "url": "https://github.com/vladislavtkachenko/dompdf.git", 
-        "canonical": false 
-    }],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/vladislavtkachenko/dompdf.git",
+            "canonical": false
+        }
+    ],
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
