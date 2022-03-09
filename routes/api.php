@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FormFieldApiController;
+use App\Http\Controllers\ApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +21,4 @@ use App\Http\Controllers\FormFieldApiController;
 // });
 Route::post('getBatch', [FormFieldApiController::class, 'getBatch']);
 Route::post('getFieldData', [FormFieldApiController::class, 'getFieldData']);
+Route::post('getCampData', [ApiController::class, 'sendCampData']);
