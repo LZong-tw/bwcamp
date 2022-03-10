@@ -114,13 +114,12 @@ class CampController extends Controller
                 if(request()->hasFile('avatar')) {
                     $file = request()->file('avatar');
                     $name = $file->hashName();
-                    $result = $disk->put($path . $name, $request->file('avatar'));
                 }
                 if(request()->hasFile('avatar_re')) {
                     $file = request()->file('avatar_re');
                     $name = $file->hashName();
-                    $result = $disk->put($path . $name, $request->file('avatar_re'));
                 }
+                $result = $disk->put($path, $file);
 
                 if($result ?? false) {
                     $image = Image::make(storage_path($path . $name))->resize(800, null, function ($constraint) {
