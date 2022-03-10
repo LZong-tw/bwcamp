@@ -596,10 +596,10 @@
         </div>
     @else
         <h5 class='form-control-static text-primary'>請選擇正面、清楚、不戴帽、不戴墨鏡、不戴口罩的大頭照上傳</h5>
-        <div class='row form-group required'>
+        <div class='row form-group'>
             <label for='inputAvatar' class='col-md-2 control-label text-md-right'>大頭照</label>
             <div class='col-md-10'>
-                <input type='file' required name='avatar' value='' class='form-control' id='inputAvatar'>
+                <input type='file' name='avatar' value='' class='form-control' id='inputAvatar'>
                 <div class="invalid-feedback">
                     請上傳大頭照
                 </div>
