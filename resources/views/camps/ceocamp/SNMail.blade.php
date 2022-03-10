@@ -1,1 +1,1 @@
-您好，被推薦人 {{ $applicant->name }} 的報名序號為<span class="text-danger font-weight-bold">《 {{ $applicant->applicant_id }} 》</span>。
+您好，被推薦人 {{ $applicant->name }} 的報名序號為<span class="text-danger font-weight-bold">《 {{ $applicant->id }} 》</span>。
