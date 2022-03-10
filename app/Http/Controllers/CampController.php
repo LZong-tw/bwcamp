@@ -119,9 +119,9 @@ class CampController extends Controller
                     $file = request()->file('avatar_re');
                     $name = $file->hashName();
                 }
-                $result = $disk->put($path, $file);
-
-                if($result ?? false) {
+                
+                if($file ?? false) {
+                    $disk->put($path, $file);
                     $image = Image::make(storage_path($path . $name))->resize(800, null, function ($constraint) {
                         $constraint->aspectRatio();
                     });
