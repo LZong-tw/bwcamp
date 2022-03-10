@@ -107,6 +107,18 @@ return [
         'password' => env('HCAMP_MAIL_PASSWORD'),
     ],
 
+    'ceocamp' => [
+        'address' => env('CEOCAMP_MAIL_USERNAME', 'hello@example.com'),
+        'username' => env('CEOCAMP_MAIL_USERNAME'),
+        'password' => env('CEOCAMP_MAIL_PASSWORD'),
+    ],
+
+    'ceovcamp' => [
+        'address' => env('CEOVCAMP_MAIL_USERNAME', 'hello@example.com'),
+        'username' => env('CEOVCAMP_MAIL_USERNAME'),
+        'password' => env('CEOVCAMP_MAIL_PASSWORD'),
+    ],
+
     'ecamp' => [
         'address' => env('ECAMP_MAIL_USERNAME', 'hello@example.com'),
         'username' => env('ECAMP_MAIL_USERNAME'),

@@ -1,6 +1,3 @@
-{{-- 
-    參考頁面：https://bwfoce.org/ecamp/form/2020ep01.php
-    --}}
 @php
     header("Cache-Control: no-cache, no-store, must-revalidate, post-check=0, pre-check=0", false);
     header("Pragma: no-cache");
@@ -10,11 +7,13 @@
 @endphp
 @extends('camps.ceocamp.layout')
 @section('content')
-    @include('partials.schools_script')
     @include('partials.counties_areas_script')
+
+{{--
     <div class='alert alert-info' role='alert'>
         您在本網站所填寫的個人資料，僅用於此次企業營的報名及活動聯絡之用。
     </div>
+--}}
 
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }}線上報名表</h4>
@@ -59,71 +58,63 @@
     <h5 class='form-control-static'>推薦人(填表者)基本資料：</h5>
     <br>
 
-    <div class='row form-group required'>
-        <label class='col-md-2 control-label text-md-right text-info'>推薦人</label>
+    <div class='row form-group required' >
+        <label for='inputIntroducerName' class='col-md-2 control-label text-md-right text-info'>推薦人姓名</label>
         <div class='col-md-10'>
-            <div class='row form-group'>
-                <div class='col-md-2 text-info'>
-                    推薦人姓名：
-                </div>
-                <div class='col-md-10'>
-                    <input type='text' required class='form-control' name="introducer_name" value=''>
-                </div>
-                <div class="invalid-feedback">
-                    請填寫本欄位
-                </div>
-            </div>
-            <div class='row form-group'>
-                <div class='col-md-2 text-info'>
-                    推薦人廣論研討班別：
-                </div>
-                <div class='col-md-10'>
-                    <input type='text' required class='form-control' name="introducer_participated" value=''>
-                </div>
-                <div class="invalid-feedback">
-                    請填寫本欄位
-                </div>
-            </div>
-            <div class='row form-group required'>
-                <div class='col-md-2 text-info'>
-                    推薦人手機號碼：
-                </div>
-                <div class='col-md-10'>
-                    <input type='tel' required class='form-control' name="introducer_phone" value='' placeholder='格式：0912345678'>
-                </div>
-                <div class="invalid-feedback">
-                    請填寫手機號碼
-                </div>
-            </div>
-            <div class='row form-group required'>
-                <div class='col-md-2 text-info'>
-                    推薦人電子信箱：
-                </div>
-                <div class='col-md-10'>
-                    <input type='email' required class='form-control' name="introducer_email" value='' placeholder='請務必填寫正確，以利營隊相關訊息通知'>
-                </div>
-                <div class="invalid-feedback">
-                    電子信箱格式不正確
-                </div>
-            </div>
-            <div class='row form-group required'>
-                <div class='col-md-2 text-info'>
-                    與被推薦人關係：
-                </div>
-                <div class='col-md-10'>
-                    <select required name="introducer_relationship" class="form-control"> 
-                        <option value=''>- 請選擇 -</option>
-                        <option value='配偶'>親戚</option>
-                        <option value='父親'>同學</option>
-                        <option value='母親'>同事</option>
-                        <option value='兄弟'>朋友</option>
-                        <option value='姊妹'>工作相關</option>
-                        <option value='朋友'>社團</option>
-                        <option value='其他'>其他</option>
-                    </select>
-                </div>
+            <input type='text' required class='form-control' name='introducer_name' value='' id='inputIntroducerName'>
+            <div class="invalid-feedback">
+                請填寫推薦人姓名
             </div>
         </div>
+    </div>
+
+    <div class='row form-group required' >
+        <label for='inputIntroducerParticipated' class='col-md-2 control-label text-md-right text-info '>推薦人<br>廣論研討班別</label>
+        <div class='col-md-10'>
+            <input type='text' required class='form-control' name='introducer_participated' value='' id='inputIntroducerParticipated'>
+            <div class="invalid-feedback">
+            請填寫推薦人廣論研討班別
+            </div>
+        </div>
+    </div>
+
+    <div class='row form-group required'>
+        <label for='inputIntroducerPhone' class='col-md-2 control-label text-md-right text-info'>推薦人<br>手機號碼</label>
+        <div class='col-md-10'>
+            <input type='tel' required class='form-control' name='introducer_phone' value='' id='inputIntroducerPhone' placeholder='格式：0912345678'>
+            <div class="invalid-feedback">
+                請填寫手機號碼
+            </div>
+        </div>
+    </div>
+
+    <div class='row form-group required'>
+        <label for='inputIntroducerEmail' class='col-md-2 control-label text-md-right text-info'>推薦人<br>電子信箱</label>
+        <div class='col-md-10'>
+            <input type='email' required class='form-control' name='introducer_email' value='' id='inputIntroducerEmail' placeholder='請務必填寫正確，以利營隊相關訊息通知'>
+            <div class="invalid-feedback">
+                未填電子信箱或格式不正確
+            </div>
+        </div>
+    </div>
+
+    <div class='row form-group required'>
+        <label for='inputIntroducerRelationship' class='col-md-2 control-label text-md-right text-info'>與被推薦人<br>關係</label>
+        <div class='col-md-10'>
+            <select required class='form-control' name='introducer_relationship' onChange=''>
+                <option value=''>- 請選擇 -</option>
+                <option value='配偶'>親戚</option>
+                <option value='父親'>同學</option>
+                <option value='母親'>同事</option>
+                <option value='兄弟'>朋友</option>
+                <option value='姊妹'>工作相關</option>
+                <option value='朋友'>社團</option>
+                <option value='其他'>其他</option>
+            </select>
+            <div class="invalid-feedback">
+                    請選擇與被推薦人關係
+            </div>
+        </div>  
     </div>
 
     <hr>
@@ -134,9 +125,9 @@
         <label for='inputName' class='col-md-2 control-label text-md-right'>中文姓名</label>
         <div class='col-md-10'>
             <input type='text' name='name' value='' class='form-control' id='inputName' placeholder='請填寫全名' required @if(isset($isModify) && $isModify) disabled @endif>
-        </div>
-        <div class="invalid-feedback">
+            <div class="invalid-feedback">
             請填寫姓名
+            </div>
         </div>
     </div>
 
@@ -146,7 +137,7 @@
             <input type='text' name='english_name' value='' class='form-control' id='inputEngName' placeholder='請填寫英文慣用名，如James、Michelle等，若無免填'>
         </div>
         <div class="invalid-feedback">
-            請填寫姓名
+            請填寫英文慣用名
         </div>
     </div>
 
@@ -227,7 +218,7 @@
         <div class='col-md-10'>
             <input type='email' required name='email' value='' class='form-control' id='inputEmail' placeholder='請務必填寫正確，以利營隊相關訊息通知'>
             <div class="invalid-feedback">
-                電子信箱格式不正確
+                未填電子信箱或格式不正確
             </div>
         </div>
     </div>
@@ -243,9 +234,59 @@
         <div class='col-md-10'>
             <input type='email' required name='emailConfirm' value='' class='form-control' id='inputEmailConfirm'>
             {{-- data-match='#inputEmail' data-match-error='郵件不符合' placeholder='請再次填寫確認郵件填寫正確' --}}
+            <div class="invalid-feedback">
+                未填電子信箱或格式不正確
+            </div>
         </div>
     </div>
 
+    <div class='row form-group required'>
+        <label for='inputAddress' class='col-md-2 control-label text-md-right'>通訊地址</label>
+        <div class='col-md-2'>
+            <select name="county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value);"> 
+                <option value=''>- 請先選縣市 -</option>
+                <option value='臺北市'>臺北市</option>
+                <option value='新北市'>新北市</option>
+                <option value='基隆市'>基隆市</option>
+                <option value='宜蘭縣'>宜蘭縣</option>
+                <option value='花蓮縣'>花蓮縣</option>
+                <option value='桃園市'>桃園市</option>
+                <option value='新竹市'>新竹市</option>
+                <option value='新竹縣'>新竹縣</option>
+                <option value='苗栗縣'>苗栗縣</option>
+                <option value='臺中市'>臺中市</option>
+                <option value='彰化縣'>彰化縣</option>
+                <option value='南投縣'>南投縣</option>
+                <option value='雲林縣'>雲林縣</option>
+                <option value='嘉義市'>嘉義市</option>
+                <option value='嘉義縣'>嘉義縣</option>
+                <option value='臺南市'>臺南市</option>
+                <option value='高雄市'>高雄市</option>
+                <option value='屏東縣'>屏東縣</option>
+                <option value='臺東縣'>臺東縣</option>
+                <option value='澎湖縣'>澎湖縣</option>
+                <option value='金門縣'>金門縣</option>
+                <option value='連江縣'>連江縣</option>
+                <option value='南海諸島'>南海諸島</option>
+                <option value='其它'>其它</option>
+         
+            </select>
+        </div>
+        <div class='col-md-2'>
+            <select name=subarea class='form-control' onChange='document.Camp.zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.address.value=MyAddress(document.Camp.county.value, this.options[this.options.selectedIndex].text);'>
+                <option value=''>- 再選區鄉鎮 -</option>
+            </select>
+        </div>
+        <div class='col-md-1'>
+            <input readonly type=text name=zipcode value='' class='form-control'>
+        </div>
+        <div class='col-md-3'>
+            <input type='text' required name='address' value='' pattern=".{10,80}" class='form-control' placeholder='請填寫通訊地址'>
+            <div class="invalid-feedback">
+                請填寫通訊地址或檢查輸入的地址是否不齊全
+            </div>
+        </div>
+    </div>    
     <div class='row form-group'> 
     <label for='inputLineID' class='col-md-2 control-label text-md-right'>LINE ID</label>
         <div class='col-md-10'>
@@ -264,7 +305,7 @@
             <label><input type="checkbox" class="contact_time" name=contact_time[] value='下午1400-1700' > 下午1400-1700</label> <br/>
             <label><input type="checkbox" class="contact_time" name=contact_time[] value='晚上1700-2100' > 晚上1700-2100</label> <br/>
             <div class="invalid-feedback" id="contact_time-invalid">
-                請勾選適合聯絡時間
+                請勾選至少一個適合聯絡時間
             </div>
         </div>
     </div>
@@ -311,6 +352,9 @@
         </div>
     </div>
 
+
+
+{{--
     <div class='row form-group'> 
     <label for='inputMaritalStatus' class='col-md-2 control-label text-md-right'>婚姻狀況</label>
         <div class='col-md-10'>
@@ -320,6 +364,7 @@
             </div>
         </div>
     </div>
+--}}
 
     <div class='row form-group'>
         <label for='inputExceptionalConditions' class='col-md-2 control-label text-md-right'>被推薦人需要<br>特別關懷事項</label>
@@ -347,25 +392,32 @@
                     &nbsp;
                 </div>
             </label> 
+            <label class=radio-inline>
+                <input type='radio' required name='participation_mode' value=兩者皆可 > 兩者皆可
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label> 
         </div>
     </div>
 
     <div class='row form-group'> 
-    <label for='inputReasonsOnline' class='col-md-2 control-label text-md-right'>選擇線上營隊原因</label>
+    <label for='inputReasonsOnline' class='col-md-2 control-label text-md-right'>選擇上述<br>參加形式的原因</label>
         <div class='col-md-10'>
-            <input type='text' name='reasons_online' value='' class='form-control' id='inputReasonsOnline' placeholder='若選線上營隊請簡述不參加實體營隊原因'>
+            <input type='text' name='reasons_online' value='' class='form-control' id='inputReasonsOnline'>
             <div class="invalid-feedback">
-                請填寫選擇線上營隊原因
+                請填寫選擇上述參加形式的原因
             </div>
         </div>
     </div>
 
     <hr>
-    <h5 class='form-control-static'>被推薦人(營隊學員)其它資訊及推薦理由：</h5>
+    <h5 class='form-control-static'>被推薦人(營隊學員)其它資訊及推薦理由</h5>
+    <h6 class='form-control-static'>＊＊＊公司及職務相關欄位，若被推薦人已退休，請填寫退休前資料＊＊＊</h6>
     <br>
 
     <div class='row form-group required'> 
-    <label for='inputUnit' class='col-md-2 control-label text-md-right'>被推薦人公司名稱</label>
+    <label for='inputUnit' class='col-md-2 control-label text-md-right'>公司名稱</label>
         <div class='col-md-10'>
             <input type=text required name='unit' value='' class='form-control' id='inputUnit'>
             <div class="invalid-feedback crumb">
@@ -390,6 +442,9 @@
                 <option value='廣告/傳播/出版' >廣告/傳播/出版</option>
                 <option value='其它' >其它</option>
             </select>
+            <div class="invalid-feedback crumb">
+                請選擇產業別
+            </div>
         </div>  
     </div>
 
@@ -408,7 +463,7 @@
         <div class='col-md-10'>
             <input type=text required name='title' value='' maxlength="40" class='form-control' id='inputTitle'>
             <div class="invalid-feedback">
-                請填寫職稱
+                請填寫被推薦人職稱
             </div>
         </div>
     </div>
@@ -418,7 +473,8 @@
         <div class='col-md-10'>
             <select required class='form-control' name='job_property' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
-                <option value='經營/人資' >經營/人資</option>
+                <option value='負責人/公司經營管理' >負責人/公司經營管理</option>
+                <option value='人資' >人資</option>
                 <option value='行政/總務' >行政/總務</option>
                 <option value='法務' >法務</option>
                 <option value='財會/金融' >財會/金融</option>
@@ -438,6 +494,9 @@
                 <option value='軍警消/保全' >軍警消/保全</option>
                 <option value='其它' >其它</option>
             </select>
+            <div class="invalid-feedback crumb">
+                請選擇職務類型
+            </div>
         </div>  
     </div>
 
@@ -456,7 +515,7 @@
         <div class='col-md-10'>
             <input type='tel' name='phone_work' value='' class='form-control' id='inputTelWork' placeholder='格式：0225452546#520'>
             <div class="invalid-feedback crumb">
-                請填寫公司電話
+                請填寫被推薦人公司電話
             </div>
         </div>
     </div>
@@ -466,7 +525,7 @@
         <div class='col-md-10'>
             <input type='number' name='employees' value='' class='form-control' id='inputEmployees'>
             <div class="invalid-feedback crumb">
-                請填寫公司員工總數
+                請填寫被推薦人公司員工總數
             </div>
         </div>
     </div>
@@ -476,7 +535,7 @@
         <div class='col-md-10'>
             <input type='number' name='direct_managed_employees' value='' class='form-control' id='inputDirectManagedEmployees'>
             <div class="invalid-feedback crumb">
-                請填寫所轄員工人數
+                請填寫被推薦人所轄員工人數
             </div>
         </div>
     </div>
@@ -486,7 +545,7 @@
         <div class='col-md-10'>
             <input type='number' name='capital' value='' maxlength="40" class='form-control' id='inputTitle' placeholder='請填寫數字'>
             <div class="invalid-feedback crumb">
-                請填寫資本額
+                請填寫被推薦人公司資本額
             </div>
         </div>
     </div>
@@ -497,7 +556,7 @@
             <label class=radio-inline>
                 <input type=radio required name='org_type' value='私人公司' > 私人公司
                 <div class="invalid-feedback">
-                    請選擇公司/組織形式
+                    請選擇被推薦人公司/組織形式
                 </div>
             </label> 
             <label class=radio-inline>
@@ -538,12 +597,12 @@
     </div>
 
     <div class='row form-group required'>
-        <label for='inputYearsOperation' class='col-md-2 control-label text-md-right'>公司經營年限</label>
+        <label for='inputYearsOperation' class='col-md-2 control-label text-md-right'>公司成立幾年</label>
         <div class='col-md-10'>
             <label class=radio-inline>
                 <input type=radio required name='years_operation' value='10年以上' > 10年以上
                 <div class="invalid-feedback">
-                    請選擇公司經營年限
+                    請選擇被推薦人公司成立幾年
                 </div>
             </label> 
             <label class=radio-inline>
