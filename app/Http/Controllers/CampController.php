@@ -183,13 +183,17 @@ class CampController extends Controller
             $formData = $this->campDataService->handelRegion($formData, $this->camp_data->table, $this->camp_data->id);
 
             try {
+                $disk = \Storage::disk('local');
+                $path = 'avatars/';
                 if(request()->hasFile('avatar')) {
-                    $imagePath = request()->file('avatar')->store("avatars");
-                    $image = Image::make(storage_path("{$imagePath}"))->resize(800, null, function ($constraint) {
+                    $file = request()->file('avatar');
+                    $name = $file->hashName();
+                    $result = $disk->put($path, $file);
+                    $image = Image::make(storage_path($path . $name))->resize(800, null, function ($constraint) {
                         $constraint->aspectRatio();
                     });
-                    $image->save(storage_path("{$imagePath}"));
-                    $formData['avatar'] = $imagePath;
+                    $image->save(storage_path($path . $name));
+                    $formData['avatar'] = $path . $name;
                 }
             }
             catch(\Throwable $e) {
