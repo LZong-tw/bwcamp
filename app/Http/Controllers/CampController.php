@@ -97,6 +97,11 @@ class CampController extends Controller
         if($request->email != $request->emailConfirm){
             return view("errorPage")->with('error', '電子郵件不一致，請檢查是否輸入錯誤。');
         }
+
+        if (!file_exists(storage_path("avatars"))) {
+            mkdir(storage_path("avatars"), 777, true);
+        }
+        
         // 修改資料
         if(isset($request->applicant_id)){
             $request = $this->campDataService->checkBoxToArray($request);
