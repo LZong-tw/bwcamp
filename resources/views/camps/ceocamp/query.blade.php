@@ -13,7 +13,7 @@
         <h4>報名資料查詢</h4>
     </div>
     <div class='row form-group'>
-        <label for='inputName' class='col-md-2'>姓名</label>
+        <label for='inputName' class='col-md-2'>被推薦人姓名</label>
         <div class='col-md-10'>
             <input type='text' name='name' class='form-control' id='inputName' placeholder='' value='{{ old('name') }}' required>
         </div>
@@ -52,7 +52,7 @@
         <h4>報名資料修改</h4>
     </div>
     <div class='row form-group'>
-        <label for='inputName' class='col-md-2'>姓名</label>
+        <label for='inputName' class='col-md-2'>被推薦人姓名</label>
         <div class='col-md-10'>
             <input type='text' name='name' class='form-control' id='inputName' placeholder='' value='{{ old('name') }}' required>
         </div>
@@ -91,7 +91,7 @@
     </div>
 
     <div class="row form-group">
-        <label for='inputName2' class='col-md-2'>姓名</label>
+        <label for='inputName2' class='col-md-2'>被推薦人姓名</label>
         <div class='col-md-10'>
         <input type='text' name="name" class='form-control' id='inputName2' placeholder=''>
         </div>

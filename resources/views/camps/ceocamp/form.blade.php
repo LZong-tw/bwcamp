@@ -16,7 +16,7 @@
 --}}
 
     <div class='page-header form-group'>
-        <h4>{{ $camp_data->fullName }}線上報名表</h4>
+        <h4>{{ $camp_data->fullName }}線上推薦報名表</h4>
     </div>
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
 @if(!isset($isModify) || $isModify)
@@ -240,7 +240,7 @@
         </div>
     </div>
 
-    <div class='row form-group required'>
+    <div class='row form-group'>
         <label for='inputAddress' class='col-md-2 control-label text-md-right'>通訊地址</label>
         <div class='col-md-2'>
             <select name="county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value);"> 
@@ -281,7 +281,7 @@
             <input readonly type=text name=zipcode value='' class='form-control'>
         </div>
         <div class='col-md-3'>
-            <input type='text' required name='address' value='' pattern=".{10,80}" class='form-control' placeholder='請填寫通訊地址'>
+            <input type='text' name='address' value='' pattern=".{10,80}" class='form-control' placeholder='請填寫通訊地址'>
             <div class="invalid-feedback">
                 請填寫通訊地址或檢查輸入的地址是否不齊全
             </div>
@@ -300,10 +300,10 @@
     <div class='row form-group required'>
         <label for='inputContactTime' class='col-md-2 control-label text-md-right'>適合聯絡時間<br>(可複選)</label>
         <div class='col-md-10'>
-            <label><input type="checkbox" class="contact_time" name=contact_time[] value='上午0800-1200' > 上午0800-1200</label> <br/>
-            <label><input type="checkbox" class="contact_time" name=contact_time[] value='中午1200-1400' > 中午1200-1400</label> <br/>
-            <label><input type="checkbox" class="contact_time" name=contact_time[] value='下午1400-1700' > 下午1400-1700</label> <br/>
-            <label><input type="checkbox" class="contact_time" name=contact_time[] value='晚上1700-2100' > 晚上1700-2100</label> <br/>
+            <label><input type="checkbox" class="contact_time" name=contact_time[] value='上午' > 上午</label> <br/>
+            <label><input type="checkbox" class="contact_time" name=contact_time[] value='中午' > 中午</label> <br/>
+            <label><input type="checkbox" class="contact_time" name=contact_time[] value='下午' > 下午</label> <br/>
+            <label><input type="checkbox" class="contact_time" name=contact_time[] value='晚上' > 晚上</label> <br/>
             <div class="invalid-feedback" id="contact_time-invalid">
                 請勾選至少一個適合聯絡時間
             </div>
@@ -376,7 +376,15 @@
         </div>
     </div>
 
+    <input type='hidden' required name="participation_mode" value='實體營隊'>
+    
+<!--
+    request from 主辦單位：
+    請先隱藏此欄位，並預設為實體。
+    原因是，日前菁英營決議以實體方式為主，故等實體推薦人數到一定數量後，才來考慮開放推薦線上。
+-->
 
+{{--
     <div class='row form-group required'>
         <label for='inputParticipationMode' class='col-md-2 control-label text-md-right'>參加營隊形式</label>
         <div class='col-md-10'>
@@ -410,6 +418,7 @@
             </div>
         </div>
     </div>
+--}}
 
     <hr>
     <h5 class='form-control-static'>被推薦人(營隊學員)其它資訊及推薦理由</h5>
@@ -419,7 +428,7 @@
     <div class='row form-group required'> 
     <label for='inputUnit' class='col-md-2 control-label text-md-right'>公司名稱</label>
         <div class='col-md-10'>
-            <input type=text required name='unit' value='' class='form-control' id='inputUnit'>
+            <input type=text required name='unit' value='' class='form-control' id='inputUnit' placeholder='若已退休，請填寫退休前資料'>
             <div class="invalid-feedback crumb">
                 請填寫被推薦人公司名稱
             </div>
@@ -461,7 +470,7 @@
     <div class='row form-group required'> 
     <label for='inputTitle' class='col-md-2 control-label text-md-right'>職稱</label>
         <div class='col-md-10'>
-            <input type=text required name='title' value='' maxlength="40" class='form-control' id='inputTitle'>
+            <input type=text required name='title' value='' maxlength="40" class='form-control' id='inputTitle' placeholder='若已退休，請填寫退休前資料'>
             <div class="invalid-feedback">
                 請填寫被推薦人職稱
             </div>
@@ -630,6 +639,31 @@
         </div>
     </div>
 
+    <!--- 同意書 -->
+    <div class='row form-group required'>
+        <label for='inputTerm' class='col-md-2 control-label text-md-right'>個人資料</label>
+        <div class='col-md-10 form-check'>
+            <p class='form-control-static text-danger'>
+            主辦單位於本次營隊取得之個人資料，於營隊期間及後續主辦單位舉辦之活動，作為訊息通知、行政處理等非營利目的之使用，不會提供給無關之其他私人單位使用。
+            </p>
+            <label class=radio-inline>
+                <input type='radio' required name="profile_agree" value='1' checked> 經被推薦人同意
+                <div class="invalid-feedback">
+                    請圈選本欄位
+                </div>
+            </label>
+            <label class=radio-inline>
+                <input type='radio' required name="profile_agree" value='0' > 被推薦人不同意
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label>
+        </div>
+    </div>
+
+    <!-- 隱藏肖像權，先預設為0 -->
+    <input type='hidden' required name="portrait_agree" value='0'>
+
     <div class="row form-group text-danger tips d-none">
         <div class='col-md-2'></div>
         <div class='col-md-10'>
@@ -637,8 +671,6 @@
         </div>
     </div>
     
-    <input type='hidden' required name="portrait_agree" value='1'>
-    <input type='hidden' required name="profile_agree" value='1'>
 
     <!--- 確認送出 -->
     <div class='row form-group'>
@@ -647,9 +679,11 @@
             {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態--}}
             @if(!isset($isModify) || $isModify)
                 <input type='button' class='btn btn-success' value='確認送出' data-toggle="confirmation">
+            {{--
                 <input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>
                 <input type='reset' class='btn btn-danger' value='清除再來'>
-            {{-- 以上皆非: 檢視資料狀態 --}}
+            --}}
+                {{-- 以上皆非: 檢視資料狀態 --}}
             @else
                 <input type="hidden" name="sn" value="{{ $applicant_id }}">
                 <input type="hidden" name="isModify" value="1">

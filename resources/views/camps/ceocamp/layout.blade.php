@@ -45,9 +45,11 @@
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                     {{-- <li class="nav-item active"> --}}
                     {{-- <span class="sr-only">(current)</span> --}}
+                {{--
                     <li class="nav-item">
                         <a class="nav-link" href="https://bwfoce.org/">營隊資訊</a>
                     </li>
+                --}}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('registration', $batch_id) }}">報名表單</a>
                     </li>
@@ -59,12 +61,14 @@
                             <a class="nav-link" href="{{ route("queryadmitGET", $batch_id) }}">錄取查詢</a>
                         </li>
                     @endif --}}
+                {{--
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url("downloads/ecamp2021/2021企業營課表.jpg") }}">課程表</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url("downloads/ecamp2021/2021企業營報名簡章_R3.pdf") }}">報名簡章下載</a>
                     </li>
+                --}}
                 </ul>
             </div>
         </div>

@@ -10,7 +10,7 @@
         </div>
         <div class="card-body">
             <p class="card-text">
-                恭喜您已完成{{ $camp_data->fullName }}網路報名程序。
+                恭喜您已完成{{ $camp_data->fullName }}網路推薦報名程序。
                 @include('camps.ecamp.successMessages')
             </p>
             <form action="{{ route("queryview", $applicant->batch_id) }}" method="post" class="d-inline">
@@ -18,7 +18,9 @@
                 <input type="hidden" name="sn" value="{{ $applicant->id }}">
                 <button class="btn btn-primary">檢視報名資料</button>
             </form>
+            {{--
             <a href="{{ $camp_data->site_url }}" class="btn btn-primary">回營隊首頁</a>
+            --}}
         </div>
     </div>
 @stop
