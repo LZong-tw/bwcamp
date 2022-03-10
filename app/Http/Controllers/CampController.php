@@ -113,12 +113,12 @@ class CampController extends Controller
                 $path = 'avatars/';
                 if(request()->hasFile('avatar')) {
                     $file = request()->file('avatar');
-                    $name = $file->hashName() . '.' . $file->extension();
+                    $name = $file->hashName();
                     $result = $disk->put($path . $name, $request->file('avatar'));
                 }
                 if(request()->hasFile('avatar_re')) {
-                    $name = request()->file('avatar_re');
-                    $name = $file->hashName() . '.' . $file->extension();
+                    $file = request()->file('avatar_re');
+                    $name = $file->hashName();
                     $result = $disk->put($path . $name, $request->file('avatar_re'));
                 }
 
