@@ -48,8 +48,8 @@ class SendApplicantMail implements ShouldQueue
         if ($this->campOrVariant == 'ceocamp') {
             // 代填人 / 推薦人
             \Mail::to($applicant->introducer_email)->send(new \App\Mail\IntroducerMail($applicant->id, $this->campOrVariant, $this->isGetSN));
-            $table = $camp->table;
-            $camp_related_data = $table::where('applicant_id', $applicant->id)->first();
+            $model = '\\App\\Models\\' . ucfirst($camp->table);
+            $camp_related_data = $model::where('applicant_id', $applicant->id)->first();
             if ($camp_related_data->substitute_email) {
                 // 秘書
                 \Mail::to($camp_related_data->substitute_email)->send(new \App\Mail\SubstituteMail($applicant->id, $this->campOrVariant, $this->isGetSN));
@@ -62,7 +62,7 @@ class SendApplicantMail implements ShouldQueue
      *
      * @return array
      */
-    public function middleware() {
-        return [new WithoutOverlapping($this->applicant->batch->camp->id)];
-    }
+    // public function middleware() {
+    //      return [new WithoutOverlapping($this->applicant->batch->camp->id)];
+    // }
 }
