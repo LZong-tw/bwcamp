@@ -104,12 +104,19 @@ class CampController extends Controller
             $formData = $this->campDataService->handelRegion($formData, $this->camp_data->table, $this->camp_data->id);
             
             try {
-                $imagePath = request()->file('avatar')->store("avatars");
-                $image = Image::make(storage_path("{$imagePath}"))->resize(800, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                });
-                $image->save(storage_path("{$imagePath}"));
-                $formData['avatar'] = $imagePath;
+                if(request()->hasFile('avatar')) {
+                    $imagePath = request()->file('avatar')->store("avatars");
+                }
+                if(request()->hasFile('avatar_re')) {
+                    $imagePath = request()->file('avatar_re')->store("avatars");
+                }
+                if($imagePath ?? false) {
+                    $image = Image::make(storage_path("{$imagePath}"))->resize(800, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+                    $image->save(storage_path("{$imagePath}"));
+                    $formData['avatar'] = $imagePath;
+                }
             }
             catch(\Throwable $e) {
                 logger($e);
@@ -165,12 +172,14 @@ class CampController extends Controller
             $formData = $this->campDataService->handelRegion($formData, $this->camp_data->table, $this->camp_data->id);
 
             try {
-                $imagePath = request()->file('avatar')->store("avatars");
-                $image = Image::make(storage_path("{$imagePath}"))->resize(800, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                });
-                $image->save(storage_path("{$imagePath}"));
-                $formData['avatar'] = $imagePath;
+                if(request()->hasFile('avatar')) {
+                    $imagePath = request()->file('avatar')->store("avatars");
+                    $image = Image::make(storage_path("{$imagePath}"))->resize(800, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+                    $image->save(storage_path("{$imagePath}"));
+                    $formData['avatar'] = $imagePath;
+                }
             }
             catch(\Throwable $e) {
                 logger($e);

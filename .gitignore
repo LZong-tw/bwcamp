@@ -12,6 +12,7 @@ npm-debug.log
 yarn-error.log
 .vscode/launch.json
 /storage/attachment
+/storage/avatars
 .vscode/
 *.Identifier
 

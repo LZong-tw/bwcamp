@@ -44,7 +44,17 @@ class SendApplicantMail implements ShouldQueue
         $this->campOrVariant = $camp->variant ? $camp->variant : $camp->table;
         // 動態載入電子郵件設定
         $this->setEmail($this->campOrVariant);
-        \Mail::to($applicant->email)->send(new \App\Mail\QueuedApplicantMail($applicant->id, $this->campOrVariant, $this->isGetSN));        
+        \Mail::to($applicant->email)->send(new \App\Mail\QueuedApplicantMail($applicant->id, $this->campOrVariant, $this->isGetSN));
+        if ($this->campOrVariant == 'ceocamp') {
+            // 代填人 / 推薦人
+            \Mail::to($applicant->introducer_email)->send(new \App\Mail\IntroducerMail($applicant->id, $this->campOrVariant, $this->isGetSN));
+            $table = $camp->table;
+            $camp_related_data = $table::where('applicant_id', $applicant->id)->first();
+            if ($camp_related_data->substitute_email) {
+                // 秘書
+                \Mail::to($camp_related_data->substitute_email)->send(new \App\Mail\SubstituteMail($applicant->id, $this->campOrVariant, $this->isGetSN));
+            }
+        }     
     }
 
     /**

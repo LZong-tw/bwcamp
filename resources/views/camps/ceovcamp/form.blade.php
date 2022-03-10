@@ -586,14 +586,35 @@
     <hr>
 
     @if(isset($applicant_data))
-        <h6 class='form-control-static text-info'>您已於報名時成功上傳大頭照，為隱私考量，故不在此顯示。</h6>
-        <h5 class="text-warning">若需更換，請在此重新選擇新照片。</h5>
-        <div class='row form-group'>
-            <label for='inputAvatar' class='col-md-2 control-label text-md-right'>重新上傳大頭照</label>
-            <div class='col-md-10'>
-                <input type='file' name='avatar_re' value='' class='form-control' id='inputAvatar'>
-            </div>
-        </div>
+        @if($isModify)
+            @if(!$applicant_raw_data->avatar)
+                <h5 class='form-control-static text-primary'>請選擇正面、清楚、不戴帽、不戴墨鏡、不戴口罩的大頭照上傳</h5>
+                <div class='row form-group'>
+                    <label for='inputAvatar' class='col-md-2 control-label text-md-right'>大頭照</label>
+                    <div class='col-md-10'>
+                        <input type='file' name='avatar' value='' class='form-control' id='inputAvatar'>
+                        <div class="invalid-feedback">
+                            請上傳大頭照
+                        </div>
+                    </div>
+                </div>
+            @else
+                <h6 class='form-control-static text-info'>您已於報名時成功上傳大頭照，為隱私考量，故不在此顯示。</h6>
+                <h5 class="text-warning">若需更換，請在此重新選擇新照片。</h5>
+                <div class='row form-group'>
+                    <label for='inputAvatar' class='col-md-2 control-label text-md-right'>重新上傳大頭照</label>
+                    <div class='col-md-10'>
+                        <input type='file' name='avatar_re' value='' class='form-control' id='inputAvatar'>
+                    </div>
+                </div>
+            @endif
+        @else
+            @if(!$applicant_raw_data->avatar)
+                <h6 class='form-control-static text-info'>未上傳大頭照。</h6>
+            @else
+                <h6 class='form-control-static text-info'>您已於報名時成功上傳大頭照，為隱私考量，故不在此顯示。</h6>
+            @endif
+        @endif
     @else
         <h5 class='form-control-static text-primary'>請選擇正面、清楚、不戴帽、不戴墨鏡、不戴口罩的大頭照上傳</h5>
         <div class='row form-group'>
