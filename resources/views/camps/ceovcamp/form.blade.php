@@ -771,7 +771,6 @@
             }
         };
 --}}
-
         function setTransportOther(checkbox_ele) {
             // 檢查 checkbox_ele 是否被勾選
             //console.log(checkbox_ele.checked);

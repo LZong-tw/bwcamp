@@ -658,7 +658,7 @@
             <label><input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='週六' > 週六</label> <br/>
             <label><input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='週日' > 週日</label> <br/>
             <div class="invalid-feedback" id="after_camp_available_day-invalid">
-                請勾選項目
+                請勾選方便參加後續課程的時段
             </div>
         </div>
     </div>
@@ -699,6 +699,7 @@
             onConfirm: function() {
                         console.log($('.favored_event :checkbox:checked').length);
                         if($('.favored_event :checkbox:checked').length < 1) {
+                            console.log('length<1');
                             document.Camp.checkValidity();
                             event.preventDefault();
                             event.stopPropagation();
@@ -706,6 +707,7 @@
                             $('#favored_event-invalid').show();
                         }
                         else{
+                            console.log('length>=1');
                             document.Camp.checkValidity();
                             event.preventDefault();
                             event.stopPropagation();
@@ -769,6 +771,7 @@
         * Ready functions.
         * Executes commands after the web page is loaded. 
         */
+{{--
         document.onreadystatechange = () => {
             if (document.readyState === 'complete') {
                 /**
@@ -799,7 +802,7 @@
                 }
             }
         };
-
+--}}
         function showFields(){        
             rowIsEducating.innerHTML = "<div class='row form-group required'>" +
                 "    <label for='inputSchoolOrCourse' class='col-md-2 control-label text-md-right'>任職機關/任教學程</label>" +

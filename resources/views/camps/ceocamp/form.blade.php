@@ -103,12 +103,12 @@
         <div class='col-md-10'>
             <select required class='form-control' name='introducer_relationship' onChange=''>
                 <option value=''>- 請選擇 -</option>
-                <option value='配偶'>親戚</option>
-                <option value='父親'>同學</option>
-                <option value='母親'>同事</option>
-                <option value='兄弟'>朋友</option>
-                <option value='姊妹'>工作相關</option>
-                <option value='朋友'>社團</option>
+                <option value='親戚'>親戚</option>
+                <option value='同學'>同學</option>
+                <option value='同事'>同事</option>
+                <option value='朋友'>朋友</option>
+                <option value='工作相關'>工作相關</option>
+                <option value='社團'>社團</option>
                 <option value='其他'>其他</option>
             </select>
             <div class="invalid-feedback">
@@ -759,6 +759,7 @@
         * Ready functions.
         * Executes commands after the web page is loaded. 
         */
+{{-- 
         document.onreadystatechange = () => {
             if (document.readyState === 'complete') {
                 /**
@@ -789,7 +790,7 @@
                 }
             }
         };
-
+--}}
         function showFields(){        
             rowIsEducating.innerHTML = "<div class='row form-group required'>" +
                 "    <label for='inputSchoolOrCourse' class='col-md-2 control-label text-md-right'>任職機關/任教學程</label>" +
