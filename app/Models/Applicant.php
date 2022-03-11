@@ -11,7 +11,13 @@ class Applicant extends Model {
 
     //
     protected $fillable = [
-        'batch_id', 'name', 'gender', 'region', 'avatar', 'birthyear', 'birthmonth', 'birthday', 'nationality', 'idno', 'is_foreigner', 'is_allow_notified', 'mobile', 'phone_home', 'phone_work', 'fax', 'line', 'wechat', 'email', 'zipcode', 'address', 'emergency_name', 'emergency_relationship', 'emergency_mobile', 'emergency_phone_home', 'emergency_phone_work', 'emergency_fax', 'introducer_name', 'introducer_relationship', 'introducer_phone', 'introducer_participated', 'portrait_agree', 'profile_agree', 'expectation', 'tax_id_no', 'age_range'
+        'batch_id', 'name', 'english_name', 'region', 'avatar','gender', 
+        'birthyear', 'birthmonth', 'birthday', 'age_range', 'nationality', 'idno', 
+        'is_foreigner', 'is_allow_notified', 'mobile', 'phone_home', 'phone_work',
+        'fax', 'line', 'wechat', 'email', 'zipcode', 'address',
+        'emergency_name', 'emergency_relationship', 'emergency_mobile', 'emergency_phone_home', 'emergency_phone_work', 'emergency_fax',
+        'introducer_name', 'introducer_relationship', 'introducer_phone', 'introducer_email', 'introducer_participated', 
+        'portrait_agree', 'profile_agree', 'expectation', 'tax_id_no'
     ];
 
     protected $guarded = [];

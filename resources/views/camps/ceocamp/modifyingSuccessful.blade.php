@@ -17,7 +17,9 @@
                 <input type="hidden" name="sn" value="{{ $applicant->id }}">
                 <button class="btn btn-primary">檢視報名資料</button>
             </form>
+            {{--
             <a href="{{ $camp_data->site_url }}" class="btn btn-primary">回營隊首頁</a>
+            --}}
         </div>
     </div>
 @stop
