@@ -62,11 +62,11 @@
         <div class='col-md-10'>
             <select required class='form-control' name='group_priority1' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
-                <option value='教務組' >教務組</option>
-                <option value='行政組' >行政組</option>
-                <option value='秘書組' >秘書組</option>
                 <option value='關懷組' >關懷組</option>
+                <option value='行政組' >行政組</option>
                 <option value='資訊組' >資訊組</option>
+                <option value='秘書組' >秘書組</option>
+                <option value='教務組' >教務組</option>
             </select>
         {{--
             <div class="invalid-feedback">
@@ -447,7 +447,7 @@
             </div>
         </div>
     </div>
-
+{{--
     <div class='row form-group'> 
     <label for='inputCapital' class='col-md-2 control-label text-md-right'>資本額(新臺幣:元)</label>
         <div class='col-md-10'>
@@ -494,7 +494,6 @@
         </div>
     </div>
 
-{{--
     <div class='row form-group'> 
     <label for='inputOrgTypeOther' class='col-md-2 control-label text-md-right'>公司/組織形式:自填</label>
         <div class='col-md-10'>
@@ -504,7 +503,6 @@
             </div>
         </div>
     </div>
---}}
 
     <div class='row form-group'>
         <label for='inputYearsOperation' class='col-md-2 control-label text-md-right'>公司成立幾年</label>
@@ -529,6 +527,7 @@
             </label> 
         </div>
     </div>
+--}}
 
     <!--- 同意書 -->
     <div class='row form-group required'>
