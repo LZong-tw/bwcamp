@@ -71,7 +71,7 @@
                         </p>
                         <form action="{{ route("downloadPaymentForm", $applicant->batch_id) }}" method="post" name="downloadPaymentForm">
                             @csrf
-                            <input type="hidden" name="applicant_id" value="{{ $applicant->applicant_id }}">
+                            <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
                             <button class="btn btn-success" onclick="this.innerText = '正在產生繳費聯'; this.disabled = true; document.downloadPaymentForm.submit();">下載繳費聯</button>
                         </form>
                     </div>
@@ -85,12 +85,12 @@
                         <div class="card-body">
                             <form action="{{ route("downloadCheckInNotification", $applicant->batch_id) }}" method="post" name="downloadCheckInNotification">
                                 @csrf
-                                <input type="hidden" name="applicant_id" value="{{ $applicant->applicant_id }}">
+                                <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
                                 <button class="btn btn-primary" onclick="this.innerText = '正在產生報到通知單'; this.disabled = true; document.downloadCheckInNotification.submit();">報到通知單</button>
                             </form>
                             <form action="{{ route("downloadCheckInQRcode", $applicant->batch_id) }}" method="post" name="downloadCheckInQRcode">
                                 @csrf
-                                <input type="hidden" name="applicant_id" value="{{ $applicant->applicant_id }}">
+                                <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
                                 <button class="btn btn-success" onclick="this.innerText = '正在產生 QR code 報到單'; this.disabled = true; document.downloadCheckInQRcode.submit();">QR Code 報到單</button>
                             </form>
                         </div>
