@@ -1,7 +1,7 @@
 {{ $applicant->name }} 您好：<br>
 <br>
-    恭喜您已完成{{ $applicant->batch->camp->fullName }}網路報名程序。<br>
-    請記下您的<span class="text-danger font-weight-bold">《 報名序號：{{ $applicant->id }} 》</span>作為日後查詢使用。<br>
+    恭喜您已完成{{ $applicant->batch->camp->fullName }}網路報名程序，
+    請記下您的《 報名序號：{{ $applicant->id }} 》作為日後查詢使用。<br>
     <!-- 錄取名單將於 {{ $applicant->batch->camp->admission_announcing_date }} 後陸續以E-mail通知。<br>
     <br>
     洽詢電話：(週一至週五10:00~17:30)<br>
