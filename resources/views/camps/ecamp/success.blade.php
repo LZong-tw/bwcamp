@@ -10,7 +10,7 @@
         </div>
         <div class="card-body">
             <p class="card-text">
-                恭喜您已完成{{ $camp_data->fullName }}網路報名程序。<br>
+                恭喜您已完成{{ $camp_data->fullName }}網路報名程序，
                 @include('camps.ecamp.successMessages')
             </p>
             <form action="{{ route("queryview", $applicant->batch_id) }}" method="post" class="d-inline">
