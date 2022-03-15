@@ -56,6 +56,7 @@
     @endif
 
     <hr>
+    <h5 class='form-control-static text-info'>說明：我們非常重視您的志願選擇，但也會考量營隊人力需求來分配組別，尚請多多理解。感恩！</h5>
 
     <div class='row form-group required'>
         <label for='inputGroupPriority1' class='col-md-2 control-label text-md-right'>報名組別第1志願</label>
@@ -67,6 +68,7 @@
                 <option value='資訊組' >資訊組</option>
                 <option value='秘書組' >秘書組</option>
                 <option value='教務組' >教務組</option>
+                <option value='依營隊需求安排' >依營隊需求安排</option>
             </select>
         {{--
             <div class="invalid-feedback">
@@ -81,11 +83,11 @@
         <div class='col-md-10'>
             <select class='form-control' name='group_priority2' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
-                <option value='教務組' >教務組</option>
-                <option value='行政組' >行政組</option>
-                <option value='秘書組' >秘書組</option>
                 <option value='關懷組' >關懷組</option>
+                <option value='行政組' >行政組</option>
                 <option value='資訊組' >資訊組</option>
+                <option value='秘書組' >秘書組</option>
+                <option value='教務組' >教務組</option>
                 <option value='無' >無</option>
             </select>
         </div>  
@@ -96,11 +98,11 @@
         <div class='col-md-10'>
             <select class='form-control' name='group_priority3' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
-                <option value='教務組' >教務組</option>
-                <option value='行政組' >行政組</option>
-                <option value='秘書組' >秘書組</option>
                 <option value='關懷組' >關懷組</option>
+                <option value='行政組' >行政組</option>
                 <option value='資訊組' >資訊組</option>
+                <option value='秘書組' >秘書組</option>
+                <option value='教務組' >教務組</option>
                 <option value='無' >無</option>
             </select>
         </div>  
@@ -286,6 +288,7 @@
         </div>
     </div>
 
+{{--
     <div class='row form-group'> 
     <label for='inputExpertise' class='col-md-2 control-label text-md-right'>專長</label>
         <div class='col-md-10'>
@@ -293,6 +296,27 @@
             <div class="invalid-feedback crumb">
                 請填寫專長
             </div>
+        </div>
+    </div>
+--}}
+
+    {{-- 專長 --}}
+    <div class='row form-group'>
+        <label for='inputExpertise' class='col-md-2 control-label text-md-right'>專長(多選)</label>
+        <div class='col-md-10'>
+            <label><input type="checkbox" name=expertise[] value='插花' > 插花</label> <br/>
+            <label><input type="checkbox" name=expertise[] value='攝影' > 攝影</label> <br/>
+            <label><input type="checkbox" name=expertise[] value='視覺設計' > 視覺設計</label> <br/>
+            <label><input type="checkbox" name=expertise[] value='電腦文書處理' > 電腦文書處理</label> <br/>
+            <label><input type="checkbox" name=expertise[] value='程式開發' > 程式開發</label> <br/>
+            <label>
+                <input type="checkbox" name=expertise[] value='其它' id="expertise_other_checkbox" onclick="setExpertiseOther(this)"> 其它：
+                <input type="text" name="expertise_other" id="expertise_other_text" class="form-control" onclick="expertise_other_checkbox.checked = true; this.required = true;">
+                <div class="invalid-feedback">
+                    請選擇專長，若選其它請填寫何種專長。
+                </div>
+            </label>
+            {{-- 其它 --}}
         </div>
     </div>
 
@@ -416,7 +440,6 @@
             </div>
         </div>
     </div>
---}}
 
     <div class='row form-group'>
         <label for='inputTelWork' class='col-md-2 control-label text-md-right'>公司電話</label>
@@ -427,6 +450,7 @@
             </div>
         </div>
     </div>
+--}}
 
     <div class='row form-group'> 
     <label for='inputEmployees' class='col-md-2 control-label text-md-right'>公司員工總數</label>
