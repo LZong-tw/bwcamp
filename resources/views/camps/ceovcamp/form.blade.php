@@ -807,6 +807,19 @@
             }
         }
 
+        function setExpertiseOther(checkbox_ele) {
+            // 檢查 checkbox_ele 是否被勾選
+            //console.log(checkbox_ele.checked);
+            if(checkbox_ele.checked) {
+                // 被勾選: 把 transport_other_text required = true
+                document.getElementById("expertise_other_text").required = true;
+            }
+            else {
+                // 否則:把 transport_other_text required = false
+                document.getElementById("expertise_other_text").required = false;
+            }
+        }
+
         function setLanguageOther(checkbox_ele) {
             // 檢查 checkbox_ele 是否被勾選
             //console.log(checkbox_ele.checked);
