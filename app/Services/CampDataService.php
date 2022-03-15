@@ -55,6 +55,11 @@ class CampDataService
                 'transport' => implode("||/", $request->transport)
             ]);
         }
+        if(isset($request->expertise)) {
+            $request->merge([
+                'expertise' => implode("||/", $request->expertise)
+            ]);
+        }
         if(isset($request->language)) {
             $request->merge([
                 'language' => implode("||/", $request->language)
