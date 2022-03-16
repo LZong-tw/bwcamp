@@ -4,12 +4,12 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name='description' content='「翻轉人生從心出發」邀請您報名參加企業主管生命成長營。' />
+    <meta name='description' content='邀請您報名菁英營義工。' />
     <meta name='author' content='福智文教基金會'>
-    <meta property='og:url' content='https://bwfoce.org/ecamp/'/>
+    <meta property='og:url' content='https://bwfoce.org/'/>
     <meta property='og:title' content='{{ $camp_data->abbreviation }}'/>
-    <meta property='og:description' content='「翻轉人生從心出發」邀請您報名參加企業主管生命成長營。' />
-    <meta property='og:image' content='https://static.wixstatic.com/media/34bfb2_1956e0b840104604a0631f16100edf97~mv2.jpg/v1/fill/w_2236,h_1094,al_c,q_90,usm_0.66_1.00_0.01/34bfb2_1956e0b840104604a0631f16100edf97~mv2.jpg'/>
+    <meta property='og:description' content='邀請您報名菁英營義工。' />
+    {{-- <meta property='og:image' content=''/> --}}
     {{-- <link rel='icon' href='/camp/favicon.ico'> --}}
     <title> {{ $camp_data->fullName }} </title>
     <!-- Bootstrap core CSS -->
