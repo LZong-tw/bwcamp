@@ -2,17 +2,12 @@
 <br>
     恭喜您已完成{{ $applicant->batch->camp->fullName }}網路報名程序，
     請記下您的《 報名序號：{{ $applicant->id }} 》作為日後查詢使用。<br>
-    <!-- 錄取名單將於 {{ $applicant->batch->camp->admission_announcing_date }} 後陸續以E-mail通知。<br>
+    <!-- 錄取名單將於 {{ $applicant->batch->camp->admission_announcing_date }} 後陸續以E-mail通知。<br>-->
     <br>
-    洽詢電話：(週一至週五10:00~17:30)<br>
-    　台北 (02)2545-2787(分機507,510企業營報名組)<br>
-    　桃園 (03)275-6133(分機1325陳先生)<br>
-    　新竹 (03)532-5566(分機246張小姐)<br>
-    　台中 (04)3706-9300(分機621200,621201企業營報名組)<br>
-    　雲嘉 (05)2833-940(分機305楊小姐)<br>
-    　台南 (06)264-6831(分機316 或 0933-296506陳姿縈)<br>
-    　高雄 (07)281-9498 或 (07)976-9341(分機404)<br>
-    電子郵件：ceo.camp@blisswisdom.org<br>
-    <br>-->
+    洽詢電話：<br>
+    　北區 0917-282-082(秘書組長王雅倫)<br>
+    電子郵件：<br>
+    　ceo.camp@blisswisdom.org<br>
+    <br>
     <br>
 <blockquote>財團法人福智文教基金會  敬啟</blockquote>

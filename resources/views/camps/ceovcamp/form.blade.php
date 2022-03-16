@@ -304,11 +304,12 @@
     <div class='row form-group'>
         <label for='inputExpertise' class='col-md-2 control-label text-md-right'>專長(多選)</label>
         <div class='col-md-10'>
-            <label><input type="checkbox" name=expertise[] value='插花' > 插花</label> <br/>
+            <label><input type="checkbox" name=expertise[] value='插花/花藝' > 插花/花藝</label> <br/>
             <label><input type="checkbox" name=expertise[] value='攝影' > 攝影</label> <br/>
             <label><input type="checkbox" name=expertise[] value='視覺設計' > 視覺設計</label> <br/>
             <label><input type="checkbox" name=expertise[] value='電腦文書處理' > 電腦文書處理</label> <br/>
-            <label><input type="checkbox" name=expertise[] value='程式開發' > 程式開發</label> <br/>
+            <label><input type="checkbox" name=expertise[] value='影音多媒體' > 影音多媒體</label> <br/>
+            <label><input type="checkbox" name=expertise[] value='程式開發/網頁設計' > 程式開發/網頁設計</label> <br/>
             <label>
                 <input type="checkbox" name=expertise[] value='其它' id="expertise_other_checkbox" onclick="setExpertiseOther(this)"> 其它：
                 <input type="text" name="expertise_other" id="expertise_other_text" class="form-control" onclick="expertise_other_checkbox.checked = true; this.required = true;">
