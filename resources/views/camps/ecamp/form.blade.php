@@ -1,6 +1,6 @@
 {{-- 
     參考頁面：https://bwfoce.org/ecamp/form/2020ep01.php
-    --}}
+--}}
 @php
     header("Cache-Control: no-cache, no-store, must-revalidate, post-check=0, pre-check=0", false);
     header("Pragma: no-cache");
@@ -628,7 +628,7 @@
     <hr>
         
     <div class='row form-group required'>
-        <label for='inputFavoredEvent' class='col-md-2 control-label text-md-right'>請問您有興趣參加活動的類別？（可複選）</label>
+        <label for='inputFavoredEvent' class='col-md-2 control-label text-md-right'>請問您有興趣參加活動的類別？(可複選)</label>
         <div class='col-md-10'>
             <label><input type="checkbox" class="favored_event" name=favored_event[] value='企業參訪' > 企業參訪</label> <br/>
             <label><input type="checkbox" class="favored_event" name=favored_event[] value='種樹活動' > 種樹活動</label> <br/>
@@ -642,13 +642,13 @@
             <label><input type="checkbox" class="favored_event" name=favored_event[] value='親子講座' > 親子講座</label> <br/>
             <label><input type="checkbox" class="favored_event" name=favored_event[] value='樂齡活動' > 樂齡活動</label> <br/>          
             <div class="invalid-feedback" id="favored_event-invalid">
-                請勾選項目
+                請勾選有興趣參加活動的類別
             </div>
         </div>
     </div>
 
     <div class='row form-group required'>
-        <label for='inputAvailableDay' class='col-md-2 control-label text-md-right'>營隊結束後，若有後續課程開課，請問您比較方便參加的時段？（可複選）</label>
+        <label for='inputAvailableDay' class='col-md-2 control-label text-md-right'>營隊結束後，若有後續課程開課，請問您比較方便參加的時段？(可複選)</label>
         <div class='col-md-10'>
             <label><input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='週一' > 週一</label> <br/>
             <label><input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='週二' > 週二</label> <br/>
@@ -697,9 +697,9 @@
             btnCancelLabel: "再檢查一下",
             popout: true,
             onConfirm: function() {
-                        console.log($('.favored_event :checkbox:checked').length);
-                        if($('.favored_event :checkbox:checked').length < 1) {
-                            console.log('length<1');
+                        //console.log($('.favored_event').filter(':checked').length);
+                        //console.log($('.after_camp_available_day').filter(':checked').length);
+                        if($('.favored_event').filter(':checked').length < 1) {
                             document.Camp.checkValidity();
                             event.preventDefault();
                             event.stopPropagation();
@@ -707,14 +707,13 @@
                             $('#favored_event-invalid').show();
                         }
                         else{
-                            console.log('length>=1');
                             document.Camp.checkValidity();
                             event.preventDefault();
                             event.stopPropagation();
                             $(".tips").removeClass('d-none');
                             $('#favored_event-invalid').hide();
                         }
-                        if($('.after_camp_available_day :checkbox:checked').length < 1) {
+                        if($('.after_camp_available_day').filter(':checked').length < 1) {
                             document.Camp.checkValidity();
                             event.preventDefault();
                             event.stopPropagation();
@@ -726,9 +725,11 @@
                             event.preventDefault();
                             event.stopPropagation();
                             $(".tips").removeClass('d-none');
-                            $('#favored_event-invalid').hide();
+                            $('#after_camp_available_day-invalid').hide();
                         }
-                        if (document.Camp.checkValidity() === false) {
+                        if ((document.Camp.checkValidity() === false) 
+                                || ($('.favored_event').filter(':checked').length < 1)
+                                || ($('.after_camp_available_day').filter(':checked').length < 1)) {
                             $(".tips").removeClass('d-none');
                             event.preventDefault();
                             event.stopPropagation();
@@ -1013,4 +1014,4 @@
 @stop
 {{-- 
     參考頁面：https://bwfoce.org/ecamp/form/2020ep01.php
-    --}}
+--}}
