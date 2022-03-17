@@ -701,8 +701,8 @@
             btnCancelLabel: "再檢查一下",
             popout: true,
             onConfirm: function() {
-                        console.log($('.contact_time :checkbox:checked').length);
-                        if($('.contact_time :checkbox:checked').length < 1) {
+                        //console.log($('.contact_time').filter(':checked').length);
+                        if($('.contact_time').filter(':checked').length < 1) {
                             document.Camp.checkValidity();
                             event.preventDefault();
                             event.stopPropagation();
@@ -716,7 +716,7 @@
                             $(".tips").removeClass('d-none');
                             $('#contact_time-invalid').hide();
                         }
-                        if (document.Camp.checkValidity() === false) {
+                        if ((document.Camp.checkValidity() === false) || ($('.contact_time').filter(':checked').length < 1)) {
                             $(".tips").removeClass('d-none');
                             event.preventDefault();
                             event.stopPropagation();
