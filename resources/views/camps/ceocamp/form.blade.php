@@ -532,9 +532,9 @@
     <div class='row form-group'> 
     <label for='inputEmployees' class='col-md-2 control-label text-md-right'>公司員工總數</label>
         <div class='col-md-10'>
-            <input type='number' name='employees' value='' class='form-control' id='inputEmployees'>
+            <input type='number' name='employees' value='' class='form-control' id='inputEmployees' placeholder='請填寫數字，勿填「非數字」'>
             <div class="invalid-feedback crumb">
-                請填寫被推薦人公司員工總數
+                請填寫數字，勿填「非數字」，如不確定可填大約人數
             </div>
         </div>
     </div>
@@ -542,9 +542,9 @@
     <div class='row form-group'> 
     <label for='inputDirectManagedEmployees' class='col-md-2 control-label text-md-right'>所轄員工人數</label>
         <div class='col-md-10'>
-            <input type='number' name='direct_managed_employees' value='' class='form-control' id='inputDirectManagedEmployees'>
+            <input type='number' name='direct_managed_employees' value='' class='form-control' id='inputDirectManagedEmployees' placeholder='請填寫數字，勿填「非數字」'>
             <div class="invalid-feedback crumb">
-                請填寫被推薦人所轄員工人數
+                請填寫數字，勿填「非數字」，如不確定可填大約人數
             </div>
         </div>
     </div>
@@ -552,9 +552,9 @@
     <div class='row form-group'> 
     <label for='inputCapital' class='col-md-2 control-label text-md-right'>資本額(新臺幣:元)</label>
         <div class='col-md-10'>
-            <input type='number' name='capital' value='' maxlength="40" class='form-control' id='inputTitle' placeholder='請填寫數字'>
+            <input type='number' name='capital' value='' maxlength="40" class='form-control' id='inputTitle' placeholder='請填寫數字，勿填「非數字」'>
             <div class="invalid-feedback crumb">
-                請填寫被推薦人公司資本額
+                請填寫數字，勿填「非數字」，如不確定可填大約金額
             </div>
         </div>
     </div>
