@@ -455,7 +455,7 @@
         <div class='col-md-10'>
             <input type='number' name='employees' value='' class='form-control' id='inputEmployees' placeholder='請填寫數字，勿填「非數字」'>
             <div class="invalid-feedback crumb">
-                請填寫數字，勿填「非數字」，如不確定可填大約人數。
+                請填寫數字，勿填「非數字」，如不確定可填大約人數
             </div>
         </div>
     </div>
@@ -465,7 +465,7 @@
         <div class='col-md-10'>
             <input type='number' name='direct_managed_employees' value='' class='form-control' id='inputDirectManagedEmployees' placeholder='請填寫數字，勿填「非數字」'>
             <div class="invalid-feedback crumb">
-                請填寫數字，勿填「非數字」，如不確定可填大約人數。
+                請填寫數字，勿填「非數字」，如不確定可填大約人數
             </div>
         </div>
     </div>
