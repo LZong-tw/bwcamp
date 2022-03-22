@@ -65,10 +65,10 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url("downloads/ecamp2021/2021企業營課表.jpg") }}">課程表</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url("downloads/ecamp2021/2021企業營報名簡章_R3.pdf") }}">報名簡章下載</a>
-                    </li>
                 --}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url("downloads/ceocamp2022/2022菁英營學員推薦表v2.docx") }}">學員推薦表WORD檔下載</a>
+                    </li>
                 </ul>
             </div>
         </div>

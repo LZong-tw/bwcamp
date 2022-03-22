@@ -9,7 +9,7 @@
     <meta property='og:url' content='https://bwfoce.org/ecamp/'/>
     <meta property='og:title' content='{{ $camp_data->abbreviation }}'/>
     <meta property='og:description' content='「翻轉人生從心出發」邀請您報名參加企業主管生命成長營。' />
-    <meta property='og:image' content='https://static.wixstatic.com/media/34bfb2_1956e0b840104604a0631f16100edf97~mv2.jpg/v1/fill/w_2236,h_1094,al_c,q_90,usm_0.66_1.00_0.01/34bfb2_1956e0b840104604a0631f16100edf97~mv2.jpg'/>
+    <meta property='og:image' content='https://static.wixstatic.com/media/8822b2_42442909881444a99904caa63bb7e659~mv2.png/v1/fill/w_2274,h_640,al_c,usm_0.66_1.00_0.01,enc_auto/8822b2_42442909881444a99904caa63bb7e659~mv2.png'/>
     {{-- <link rel='icon' href='/camp/favicon.ico'> --}}
     <title> {{ $camp_data->fullName }} </title>
     <!-- Bootstrap core CSS -->
