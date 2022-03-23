@@ -118,7 +118,7 @@ class CampDataService
         return $camps;
     }
 
-    public function handelRegion($formData, $camp, $camp_id = null){
+    public function handleRegion($formData, $camp, $camp_id = null){
         // 報名者分區
         if($camp == "ycamp"){
             // 大專營
@@ -296,9 +296,8 @@ class CampDataService
 
             $formData["region"] = $region;
         }
-        // else if($camp == "ecamp"){
-
-        // }
+        //else if($camp == "ecamp"){
+        //}
         return $formData;
     }
 }
