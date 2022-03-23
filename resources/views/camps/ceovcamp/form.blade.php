@@ -3,7 +3,7 @@
     header("Pragma: no-cache");
     header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
     header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
-    $regions = ['台北', '桃園', '新竹', '台中', '雲嘉', '台南', '高雄'];
+    $regions = ['北區', '竹區', '中區', '高區'];
 @endphp
 @extends('camps.ceovcamp.layout')
 @section('content')
