@@ -38,9 +38,16 @@ class QueuedApplicantMail extends Mailable
         });
         $this->applicant = Applicant::find($this->applicant_id);
         $this->campData = $this->applicant->batch->camp;
-        if(!$this->isGetSN){
-            return $this->subject($this->applicant->batch->camp->abbreviation . '報名完成')
+        
+        if(!$this->isGetSN) {
+            if ($this->camp == 'ceocamp') {
+                return $this->subject($this->applicant->batch->camp->abbreviation . '推薦報名完成')
                     ->view('camps.' . $this->applicant->batch->camp->table . ".applicantMail");
+            }
+            else {
+                return $this->subject($this->applicant->batch->camp->abbreviation . '報名完成')
+                    ->view('camps.' . $this->applicant->batch->camp->table . ".applicantMail");
+            }
         }
         else{
             return $this->subject($this->applicant->batch->camp->abbreviation . '序號查詢')

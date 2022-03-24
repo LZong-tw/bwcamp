@@ -5,9 +5,8 @@
     <!-- 錄取名單將於 {{ $applicant->batch->camp->admission_announcing_date }} 後陸續以E-mail通知。<br> -->
     <br>
     洽詢電話：<br>
-    　北區 陳惠南0989-026-085<br>
-    　　　 陳美蒨0958-367-318<br>
+    　北區 陳惠南 0989-026-085<br>
+    　　　 陳美蒨 0958-367-318<br>
     電子郵件：ceo.camp@blisswisdom.org<br>
-    <br>
     <br>
 <blockquote>財團法人福智文教基金會  敬啟</blockquote>
