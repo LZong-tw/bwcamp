@@ -6,7 +6,7 @@
     header("Pragma: no-cache");
     header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
     header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
-    $regions = ['北區', '桃園', '新竹', '中區', '雲嘉', '台南', '高區'];
+    $regions = ['台北', '桃園', '新竹', '中區', '雲嘉', '台南', '高區'];
 @endphp
 @extends('camps.ecamp.layout')
 @section('content')

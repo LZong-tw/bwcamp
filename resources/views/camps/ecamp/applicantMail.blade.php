@@ -2,7 +2,7 @@
 <br>
     感謝您報名{{ $applicant->batch->camp->fullName }}，報名手續已完成，
     請記下您的《 報名序號：{{ $applicant->id }} 》作為日後查詢使用。<br>
-    {{ $applicant->batch->camp->admission_announcing_date }} ({{ $admission_announcing_date_Weekday }}) 以後將以E-mail通知您營隊後續訊息。<br>
+    {{ $applicant->batch->camp->admission_announcing_date }} 以後將以E-mail通知您營隊後續訊息。<br>
     <br>
     若對營隊相關訊息有任何問題或建議，歡迎洽詢各區服務電話：<br>
     洽詢電話：(週一至週五10:00~17:30)<br>
