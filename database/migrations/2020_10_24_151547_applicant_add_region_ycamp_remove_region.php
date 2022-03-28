@@ -14,12 +14,16 @@ class ApplicantAddRegionYcampRemoveRegion extends Migration
     public function up()
     {
         //
-        Schema::table('applicants', function (Blueprint $table) {
-            $table->string('region', 8)->nullable()->after('is_admitted');
-        });
-        Schema::table('ycamp', function (Blueprint $table) {
-            $table->dropColumn('region');
-        });
+        if(!Schema::hasColumn('applicants', 'region')) {
+            Schema::table('applicants', function (Blueprint $table) {
+                $table->string('region', 8)->nullable()->after('is_admitted');
+            });
+        }
+        if(Schema::hasColumn('ycamp', 'region')) {
+            Schema::table('ycamp', function (Blueprint $table) {
+                $table->dropColumn('region');
+            });
+        }
     }
 
     /**

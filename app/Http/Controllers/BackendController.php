@@ -262,7 +262,13 @@ class BackendController extends Controller {
                 $applicants = $query->get();
             }
             elseif($request->region == '其他'){
-                $applicants = $query->whereNotIn('region', ['台北', '桃園', '新竹', '台中', '雲嘉', '台南', '高雄'])->get();
+                if ($this->campFullData->table == 'ceocamp' || $this->campFullData->table == 'ceovcamp') {
+                    $applicants = $query->whereNotIn('region', ['北區', '竹區', '中區', '高區'])->get();
+                } elseif ($this->campFullData->table == 'ecamp') {
+                    $applicants = $query->whereNotIn('region', ['台北', '桃園', '新竹', '中區', '雲嘉', '台南', '高區'])->get();
+                } else {
+                    $applicants = $query->whereNotIn('region', ['台北', '桃園', '新竹', '台中', '雲嘉', '台南', '高雄'])->get();
+                }
             }
             else{
                 $applicants = $query->where('region', $request->region)->get();
@@ -733,6 +739,31 @@ class BackendController extends Controller {
             ->groupBy($camp . '.traffic_return')->get();
         return view('backend.in_camp.traffic_list', compact('batches', 'applicants', 'traffic_depart', 'traffic_return', 'camp'));
     }
+
+    public function showAttendeePhoto() {
+        $batches = Batch::where('camp_id', $this->camp_id)->get()->all();
+        foreach($batches as &$batch){
+            $batch->regions = Applicant::select('region')
+                ->where('batch_id', $batch->id)
+                ->where('is_admitted', 1)
+                ->whereNotNull('group')
+                ->whereNotNull('number')
+                ->groupBy('region')->showSql()->get();
+            dd($batch->regions);
+            foreach($batch->regions as &$region){
+                $region->groups = Applicant::select('group', \DB::raw('count(*) as count, SUM(case when is_attend = 1 then 1 else 0 end) as attend_sum, SUM(case when is_attend = 0 then 1 else 0 end) as not_attend_sum'))
+                    ->where('batch_id', $batch->id)
+                    ->where('region', $region->region)
+                    ->where('is_admitted', 1)
+                    ->whereNotNull('group')
+                    ->whereNotNull('number')
+                    ->groupBy('group')->get();
+                $region->region = $region->region ?? "其他";
+            }
+        }
+        return view('backend.in_camp.attendeePhoto')->with('batches', $batches);
+    }
+    
     
     public function showAccountingPage() {
         $constraints = function ($query) {

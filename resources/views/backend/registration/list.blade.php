@@ -31,6 +31,23 @@
                     <input class="btn btn-primary" type=submit name=region value='中部'>&nbsp;
                     <input class="btn btn-primary" type=submit name=region value='南部'>&nbsp;
                     <input class="btn btn-primary" type=submit name=region value='金馬'>&nbsp;
+                @elseif($campFullData->table == "ceocamp" || $campFullData->table == "ceovcamp")
+                    <input class="btn btn-primary" type=submit name=region value='全區'>&nbsp;
+                    <input class="btn btn-primary" type=submit name=region value='北區'>&nbsp;
+                    <input class="btn btn-primary" type=submit name=region value='竹區'>&nbsp;
+                    <input class="btn btn-primary" type=submit name=region value='中區'>&nbsp;
+                    <input class="btn btn-primary" type=submit name=region value='高區'>&nbsp;
+                    <input class="btn btn-primary" type=submit name=region value='其他'>&nbsp;
+                @elseif($campFullData->table == "ecamp")
+                    <input class="btn btn-primary" type=submit name=region value='全區'>&nbsp;
+                    <input class="btn btn-primary" type=submit name=region value='台北'>&nbsp;
+                    <input class="btn btn-primary" type=submit name=region value='桃園'>&nbsp;
+                    <input class="btn btn-primary" type=submit name=region value='新竹'>&nbsp;
+                    <input class="btn btn-primary" type=submit name=region value='中區'>&nbsp;
+                    <input class="btn btn-primary" type=submit name=region value='雲嘉'>&nbsp;
+                    <input class="btn btn-primary" type=submit name=region value='台南'>&nbsp;
+                    <input class="btn btn-primary" type=submit name=region value='高區'>&nbsp;
+                    <input class="btn btn-primary" type=submit name=region value='其他'>&nbsp;
                 @else
                     <input class="btn btn-primary" type=submit name=region value='全區'>&nbsp;
                     <input class="btn btn-primary" type=submit name=region value='台北'>&nbsp;
