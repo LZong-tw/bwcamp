@@ -17,13 +17,13 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "intervention/image": "^2.7",
         "laravel/framework": "^8.83",
-        "laravel/telescope": "^4.7",
+        "laravel/telescope": "^4.8",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
         "milon/barcode": "^8.0",
         "rap2hpoutre/laravel-log-viewer": "^1.7",
         "sentry/sentry-laravel": "^2.11",
-        "studio/laravel-totem": "^8.3"
+        "studio/laravel-totem": "^8.4"
     },
     "require-dev": {
         "inspector-apm/inspector-laravel": "^4.7",
