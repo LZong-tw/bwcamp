@@ -6,7 +6,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name='description' content='邀請您推薦報名參加菁英營。' />
     <meta name='author' content='福智文教基金會'>
-    <meta property='og:url' content='https://bwfoce.org'/>
+    <meta property='og:url' content='http://bwfoce.org/ceocamp'/>
     <meta property='og:title' content='{{ $camp_data->abbreviation }}'/>
     <meta property='og:description' content='邀請您推薦報名參加菁英營。' />
     {{-- <meta property='og:image' content='https://static.wixstatic.com/media/34bfb2_1956e0b840104604a0631f16100edf97~mv2.jpg/v1/fill/w_2236,h_1094,al_c,q_90,usm_0.66_1.00_0.01/34bfb2_1956e0b840104604a0631f16100edf97~mv2.jpg'/> --}}
@@ -45,11 +45,9 @@
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                     {{-- <li class="nav-item active"> --}}
                     {{-- <span class="sr-only">(current)</span> --}}
-                {{--
                     <li class="nav-item">
-                        <a class="nav-link" href="https://bwfoce.org/">營隊資訊</a>
+                        <a class="nav-link" href="http://bwfoce.org/ceocamp">營隊資訊</a>
                     </li>
-                --}}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('registration', $batch_id) }}">報名表單</a>
                     </li>
@@ -61,13 +59,14 @@
                             <a class="nav-link" href="{{ route("queryadmitGET", $batch_id) }}">錄取查詢</a>
                         </li>
                     @endif --}}
-                {{--
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url("downloads/ecamp2021/2021企業營課表.jpg") }}">課程表</a>
+                    <a class="nav-link" href="https://bwfoceec.wixsite.com/ecamp/課程介紹">課程介紹</a>
                     </li>
-                --}}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url("downloads/ceocamp2022/2022菁英營學員推薦表v2.docx") }}">學員推薦表WORD檔下載</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url("downloads/ceocamp2022/2022菁英營學員推薦表v2.pdf") }}">學員推薦表PDF檔下載</a>
                     </li>
                 </ul>
             </div>
