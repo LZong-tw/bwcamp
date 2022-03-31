@@ -741,29 +741,30 @@ class BackendController extends Controller {
     }
 
     public function showAttendeePhoto() {
-        $batches = Batch::where('camp_id', $this->camp_id)->get()->all();
-        foreach($batches as &$batch){
-            $batch->regions = Applicant::select('region')
-                ->where('batch_id', $batch->id)
-                ->where('is_admitted', 1)
-                ->whereNotNull('group')
-                ->whereNotNull('number')
-                ->groupBy('region')->showSql()->get();
-            dd($batch->regions);
-            foreach($batch->regions as &$region){
-                $region->groups = Applicant::select('group', \DB::raw('count(*) as count, SUM(case when is_attend = 1 then 1 else 0 end) as attend_sum, SUM(case when is_attend = 0 then 1 else 0 end) as not_attend_sum'))
-                    ->where('batch_id', $batch->id)
-                    ->where('region', $region->region)
-                    ->where('is_admitted', 1)
-                    ->whereNotNull('group')
-                    ->whereNotNull('number')
-                    ->groupBy('group')->get();
-                $region->region = $region->region ?? "其他";
-            }
+        ini_set('max_execution_time', 1200);
+        $batches = Batch::where("camp_id", $this->campFullData->id)->get();
+        $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
+                        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+                        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+                        ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
+                        ->where('camps.id', $this->campFullData->id)->withTrashed();
+        $applicants = $query->get();
+        if(auth()->user()->getPermission(false)->role->level <= 2){
         }
-        return view('backend.in_camp.attendeePhoto')->with('batches', $batches);
+        else if(auth()->user()->getPermission(true, $this->campFullData->id)->level > 2){
+            $constraint = auth()->user()->getPermission(true, $this->campFullData->id)->region;
+            $batch = Batch::where('camp_id', $this->campFullData->id)->where('name', 'like', '%' . $constraint . '%')->first();
+            $applicants = $applicants->filter(function ($applicant) use ($constraint, $batch) {
+                if($batch){
+                    return $applicant->region == $constraint || $applicant->batch_id == $batch->id;
+                }
+                return $applicant->region == $constraint;
+            });
+        }
+        return view('backend.in_camp.attendeePhoto')
+                ->with('applicants', $applicants)
+                ->with('batches', $batches);
     }
-    
     
     public function showAccountingPage() {
         $constraints = function ($query) {

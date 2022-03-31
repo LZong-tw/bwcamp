@@ -22,7 +22,8 @@ _ide_helper.php
 
 _ide_helper_models.php
 
-storage/avatars/
+composer.json
+composer.lock
 
 # Payment reconciliation secrets / samples
 /storage/payment_data/
