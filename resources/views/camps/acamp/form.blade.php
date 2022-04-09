@@ -1,6 +1,6 @@
 {{-- 
     參考頁面：http://youngone.bwyouth.org/2020/form/index.php
-    --}}
+--}}
 <?
 header("Cache-Control: no-cache, no-store, must-revalidate, post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
@@ -9,11 +9,10 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 ?>
 @extends('camps.acamp.layout')
 @section('content')
-    @include('partials.schools_script')
     @include('partials.counties_areas_script')
     <div class='alert alert-info' role='alert'>
-        {{-- 您在本網站所填寫的個人資料，僅用於此次{{ $camp_data->abbreviation }}的報名及活動聯絡之用。 --}}
-        報名時間(2021年6月6日)已經截止，您的報名將列為備取名單(若錄取將另外通知)
+        您在本網站所填寫的個人資料，僅用於此次{{ $camp_data->abbreviation }}的報名及活動聯絡之用。
+        {{-- 報名時間(2021年6月6日)已經截止，您的報名將列為備取名單(若錄取將另外通知)--}}
     </div>
 
     <div class='page-header form-group'>
@@ -52,6 +51,31 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     @endif
+    
+    <div class='row form-group required'>
+        <label for='inputParticipationMode' class='col-md-2 control-label text-md-right'>參加地點</label>
+        <div class='col-md-10'>
+            <label class=radio-inline>
+                <input type='radio' required name='participation_mode' value=東吳大學 > 東吳大學
+                <div class="invalid-feedback">
+                    請選擇參加地點
+                </div>
+            </label> 
+            <label class=radio-inline>
+                <input type='radio' required name='participation_mode' value=東吳大學 > 東吳大學
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label> 
+            <label class=radio-inline>
+                <input type='radio' required name='participation_mode' value=上班地點附近 > 上班地點附近
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label> 
+        </div>
+    </div>
+
     <div class='row form-group required'>
         <label for='inputName' class='col-md-2 control-label text-md-right'>姓名</label>
         <div class='col-md-10'>
@@ -457,7 +481,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputSource' class='col-md-2 control-label text-md-right'>您如何得知此營隊？(單選，最主要管道)</label>
         <div class='col-md-10'>
-                <select name="way" class="form-control"> 
+                <select required name="way" class="form-control"> 
                         <option value=''>- 請選擇 -</option>
                         <option value='網路、fb'>網路、fb</option>
                         <option value='朋友同事'>朋友同事</option>
@@ -512,17 +536,17 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 
     {{-- 動機 --}}
     <div class='row form-group required'>
-        <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>報名探索營的動機（可複選）</label>
+        <label for='inputMotivation' class='col-md-2 control-label text-md-right'>報名探索營的動機（可複選）</label>
         <div class='col-md-10'>
-            <label><input type="checkbox" name=motivation[] value='自我提升' > 自我提升</label> <br/>
-            <label><input type="checkbox" name=motivation[] value='紓壓釋放' > 紓壓釋放</label> <br/>
-            <label><input type="checkbox" name=motivation[] value='交朋友' > 交朋友</label> <br/>
-            <label><input type="checkbox" name=motivation[] value='認識福智' > 認識福智</label> <br/>
+            <label><input type="checkbox" class="motivation" name=motivation[] value='自我提升' > 自我提升</label> <br/>
+            <label><input type="checkbox" class="motivation" name=motivation[] value='紓壓釋放' > 紓壓釋放</label> <br/>
+            <label><input type="checkbox" class="motivation" name=motivation[] value='交朋友' > 交朋友</label> <br/>
+            <label><input type="checkbox" class="motivation" name=motivation[] value='認識福智' > 認識福智</label> <br/>
             <label>
-                <input type="checkbox" name=motivation[] value='其它' id="motivation_other_checkbox"> 其它：
-                <input type="text" name="motivation_other" class="form-control" onclick="motivation_other_checkbox.checked = true; this.required = true;">
-                <div class="invalid-feedback">
-                    請填寫本欄位
+                <input type="checkbox" name=motivation[] value='其它' id="motivation_other_checkbox" onclick="setMotivationOther(this)"> 其它：
+                <input type="text" name="motivation_other" id="motivation_other_text" class="form-control" onclick="motivation_other_checkbox.checked = true; this.required = true;">
+                <div class="invalid-feedback" id="motivation-invalid">
+                    請選擇報名動機，若選其它請自行填寫。
                 </div>
             </label> 
             {{-- 其他 --}}
@@ -530,19 +554,19 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
     {{-- 曾參與 --}}
     <div class='row form-group required'>
-        <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>曾參與福智文教基金會所舉辦的營隊或課程（可複選）</label>
+        <label for='inputBlisswisdomType' class='col-md-2 control-label text-md-right'>曾參與福智文教基金會所舉辦的營隊或課程（可複選）</label>
         <div class='col-md-10'>
-            <label><input type="checkbox" name=blisswisdom_type[] value='否' > 否</label> <br/>
-            <label><input type="checkbox" name=blisswisdom_type[] value='大專營' > 大專營</label> <br/>
-            <label><input type="checkbox" name=blisswisdom_type[] value='教師營' > 教師營</label> <br/>
-            <label><input type="checkbox" name=blisswisdom_type[] value='企業營' > 企業營</label> <br/>
-            <label><input type="checkbox" name=blisswisdom_type[] value='卓越青年營' > 卓越青年營(卓青營)</label> <br/>
-            <label><input type="checkbox" name=blisswisdom_type[] value='廣論研討班' > 廣論研討班</label> <br/>
+            <label><input type="checkbox" class="blisswisdom_type" name=blisswisdom_type[] value='否' > 否</label> <br/>
+            <label><input type="checkbox" class="blisswisdom_type" name=blisswisdom_type[] value='大專營' > 大專營</label> <br/>
+            <label><input type="checkbox" class="blisswisdom_type" name=blisswisdom_type[] value='教師營' > 教師營</label> <br/>
+            <label><input type="checkbox" class="blisswisdom_type" name=blisswisdom_type[] value='企業營' > 企業營</label> <br/>
+            <label><input type="checkbox" class="blisswisdom_type" name=blisswisdom_type[] value='卓越青年營' > 卓越青年營(卓青營)</label> <br/>
+            <label><input type="checkbox" class="blisswisdom_type" name=blisswisdom_type[] value='廣論研討班' > 廣論研討班</label> <br/>
             <label>
-                <input type="checkbox" name=blisswisdom_type[] value='其它' id="blisswisdom_type_other_checkbox"> 其它：
-                <input type="text" name="blisswisdom_type_other" class="form-control" onclick="blisswisdom_type_other_checkbox.checked = true; this.required = true;">
-                <div class="invalid-feedback">
-                    請填寫本欄位
+                <input type="checkbox" name=blisswisdom_type[] value='其它' id="blisswisdom_type_other_checkbox" onclick="setBlisswidomTypeOther(this)"> 其它：
+                <input type="text" name="blisswisdom_type_other" id="blisswisdom_type_other_text" class="form-control" onclick="blisswisdom_type_other_checkbox.checked = true; this.required = true;">
+                <div class="invalid-feedback" id="blisswisdom_type-invalid">
+                    請選擇曾參與的營隊或課程，若選其它請自行填寫。
                 </div>
             </label>
             {{-- 其他 --}}
@@ -619,7 +643,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     與報名者關係：
                 </div>
                 <div class='col-md-10'>
-                    <select name="emergency_relationship" class="form-control"> 
+                    <select required name="emergency_relationship" class="form-control"> 
                         <option value=''>- 請選擇 -</option>
                         <option value='配偶'>配偶</option>
                         <option value='父親'>父親</option>
@@ -825,17 +849,49 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             btnCancelLabel: "再檢查一下",
             popout: true,
             onConfirm: function() {
-                        if (document.Camp.checkValidity() === false) {
-                            $(".tips").removeClass('d-none');
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        else{
-                            $(".tips").addClass('d-none');
-                            document.Camp.submit();
-                        }
-                        document.Camp.classList.add('was-validated');
-                    }
+                console.log($('.motivation').filter(':checked').length);
+                console.log($('.blisswisdom_type').filter(':checked').length);
+                if($('.motivation').filter(':checked').length < 1) {
+                    document.Camp.checkValidity();
+                    event.preventDefault();
+                    event.stopPropagation();
+                    $(".tips").removeClass('d-none');
+                    $('#motivation-invalid').show();
+                }
+                else{
+                    document.Camp.checkValidity();
+                    event.preventDefault();
+                    event.stopPropagation();
+                    $(".tips").removeClass('d-none');
+                    $('#motivation-invalid').hide();
+                }
+                if($('.blisswisdom_type').filter(':checked').length < 1) {
+                    document.Camp.checkValidity();
+                    event.preventDefault();
+                    event.stopPropagation();
+                    $(".tips").removeClass('d-none');
+                    $('#blisswisdom_type-invalid').show();
+                }
+                else{
+                    document.Camp.checkValidity();
+                    event.preventDefault();
+                    event.stopPropagation();
+                    $(".tips").removeClass('d-none');
+                    $('#blisswisdom_type-invalid').hide();
+                }
+                if (document.Camp.checkValidity() === false 
+                    || ($('.motivation').filter(':checked').length < 1)
+                    || ($('.blisswisdom_type').filter(':checked').length < 1 )) {
+                    $(".tips").removeClass('d-none');
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                else{
+                    $(".tips").addClass('d-none');
+                    document.Camp.submit();
+                }
+                document.Camp.classList.add('was-validated');
+            }
         });
         (function() {
             'use strict';
@@ -862,6 +918,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         * Ready functions.
         * Executes commands after the web page is loaded. 
         */
+{{--
         document.onreadystatechange = () => {
             if (document.readyState === 'complete') {
                 document.getElementById('motivation_other_checkbox').addEventListener("change", function(){
@@ -870,7 +927,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 document.getElementById('blisswisdom_type_other_checkbox').addEventListener("change", function(){
                     document.Camp.blisswisdom_type_other.required = document.getElementById('blisswisdom_type_other_checkbox').checked;
                 });
-
                 /**
                 * 是否在學校或教育單位任職，勾選後顯示/隱藏任職單位相關欄位。
                 */
@@ -899,6 +955,32 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 }
             }
         };
+--}}
+        function setMotivationOther(checkbox_ele) {
+            // 檢查 checkbox_ele 是否被勾選
+            //console.log(checkbox_ele.checked);
+            if(checkbox_ele.checked) {
+            // 被勾選: 把 language_other_text required = true
+                document.getElementById("motivation_other_text").required = true;
+            }
+            else {
+            // 否則:把 language_other_text required = false
+                document.getElementById("motivation_other_text").required = false;
+            }
+        }
+
+        function setBlisswisdomTypeOther(checkbox_ele) {
+            // 檢查 checkbox_ele 是否被勾選
+            //console.log(checkbox_ele.checked);
+            if(checkbox_ele.checked) {
+            // 被勾選: 把 language_other_text required = true
+                document.getElementById("blisswisdom_type_other_text").required = true;
+            }
+            else {
+            // 否則:把 language_other_text required = false
+                document.getElementById("blisswisdom_type_other_text").required = false;
+            }
+        }
 
         function showFields(){        
             rowIsEducating.innerHTML = "<div class='row form-group required'>" +
@@ -1110,4 +1192,4 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 @stop
 {{-- 
     參考頁面：https://bwfoce.org/ecamp/form/2020ep01.php
-    --}}
+--}}
