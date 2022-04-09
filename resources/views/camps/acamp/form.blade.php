@@ -12,7 +12,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     @include('partials.counties_areas_script')
     <div class='alert alert-info' role='alert'>
         您在本網站所填寫的個人資料，僅用於此次{{ $camp_data->abbreviation }}的報名及活動聯絡之用。
-        {{-- 報名時間(2021年6月6日)已經截止，您的報名將列為備取名單(若錄取將另外通知)--}}
+        @if(now()->gt($batch->camp->registration_end) && (!isset($isModify) || !$isModify))
+            <br><span class="text-danger">報名時間({{ $batch->camp->registration_end }})已經截止，您的報名將列為備取名單(若錄取將另外通知)</span>
+        @endif
     </div>
 
     <div class='page-header form-group'>
@@ -62,7 +64,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 </div>
             </label> 
             <label class=radio-inline>
-                <input type='radio' required name='participation_mode' value=東吳大學 > 東吳大學
+                <input type='radio' required name='participation_mode' value=住家附近 > 住家附近
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
