@@ -26,6 +26,10 @@ class Applicant extends Model {
         return $this->belongsTo(Batch::class);
     }
 
+    public function camp() {
+        return $this->hasOneThrough(Camp::class, Batch::class, 'id', 'id', 'batch_id', 'camp_id');
+    }
+
     public function getBatch() {
         return $this->belongsTo(Batch::class, 'batch_id', 'id');
     }
