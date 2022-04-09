@@ -12,7 +12,7 @@ class QueuedApplicantMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $applicant, $applicant_id, $camp, $campData, $isGetSN;
+    public $applicant, $applicant_id, $camp, $campData, $camp_data, $admission_announcing_date_Weekday, $isGetSN;
 
     /**
      * Create a new message instance.
@@ -38,6 +38,8 @@ class QueuedApplicantMail extends Mailable
         });
         $this->applicant = Applicant::find($this->applicant_id);
         $this->campData = $this->applicant->batch->camp;
+        $this->camp_data = $this->campData;
+        $this->admission_announcing_date_Weekday = \Carbon\Carbon::create($this->campData->admission_announcing_date)->locale(\App::getLocale())->isoFormat("dddd");
         
         if(!$this->isGetSN) {
             if ($this->camp == 'ceocamp') {
