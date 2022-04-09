@@ -697,49 +697,49 @@
             btnCancelLabel: "再檢查一下",
             popout: true,
             onConfirm: function() {
-                        //console.log($('.favored_event').filter(':checked').length);
-                        //console.log($('.after_camp_available_day').filter(':checked').length);
-                        if($('.favored_event').filter(':checked').length < 1) {
-                            document.Camp.checkValidity();
-                            event.preventDefault();
-                            event.stopPropagation();
-                            $(".tips").removeClass('d-none');
-                            $('#favored_event-invalid').show();
-                        }
-                        else{
-                            document.Camp.checkValidity();
-                            event.preventDefault();
-                            event.stopPropagation();
-                            $(".tips").removeClass('d-none');
-                            $('#favored_event-invalid').hide();
-                        }
-                        if($('.after_camp_available_day').filter(':checked').length < 1) {
-                            document.Camp.checkValidity();
-                            event.preventDefault();
-                            event.stopPropagation();
-                            $(".tips").removeClass('d-none');
-                            $('#after_camp_available_day-invalid').show();
-                        }
-                        else{
-                            document.Camp.checkValidity();
-                            event.preventDefault();
-                            event.stopPropagation();
-                            $(".tips").removeClass('d-none');
-                            $('#after_camp_available_day-invalid').hide();
-                        }
-                        if ((document.Camp.checkValidity() === false) 
-                                || ($('.favored_event').filter(':checked').length < 1)
-                                || ($('.after_camp_available_day').filter(':checked').length < 1)) {
-                            $(".tips").removeClass('d-none');
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        else{
-                            $(".tips").addClass('d-none');
-                            document.Camp.submit();
-                        }
-                        document.Camp.classList.add('was-validated');
-                    }
+                console.log($('.favored_event').filter(':checked').length);
+                console.log($('.after_camp_available_day').filter(':checked').length);
+                if($('.favored_event').filter(':checked').length < 1) {
+                    document.Camp.checkValidity();
+                    event.preventDefault();
+                    event.stopPropagation();
+                    $(".tips").removeClass('d-none');
+                    $('#favored_event-invalid').show();
+                }
+                else{
+                    document.Camp.checkValidity();
+                    event.preventDefault();
+                    event.stopPropagation();
+                    $(".tips").removeClass('d-none');
+                    $('#favored_event-invalid').hide();
+                }
+                if($('.after_camp_available_day').filter(':checked').length < 1) {
+                    document.Camp.checkValidity();
+                    event.preventDefault();
+                    event.stopPropagation();
+                    $(".tips").removeClass('d-none');
+                    $('#after_camp_available_day-invalid').show();
+                }
+                else{
+                    document.Camp.checkValidity();
+                    event.preventDefault();
+                    event.stopPropagation();
+                    $(".tips").removeClass('d-none');
+                    $('#after_camp_available_day-invalid').hide();
+                }
+                if ((document.Camp.checkValidity() === false) 
+                    || ($('.favored_event').filter(':checked').length < 1)
+                    || ($('.after_camp_available_day').filter(':checked').length < 1)) {
+                    $(".tips").removeClass('d-none');
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                else{
+                    $(".tips").addClass('d-none');
+                    document.Camp.submit();
+                }
+                document.Camp.classList.add('was-validated');
+            }
         });
         (function() {
             'use strict';
