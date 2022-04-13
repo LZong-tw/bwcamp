@@ -47,6 +47,7 @@ return [
     ],
 
     'acamp' => [
+        "participation_mode" => "參加地點",
         "birthyear" => "出生年", 
         "birthmonth" => "出生月", 
         //"birthday" => "出生日", 

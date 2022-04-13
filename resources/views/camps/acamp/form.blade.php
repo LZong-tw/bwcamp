@@ -64,13 +64,37 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 </div>
             </label> 
             <label class=radio-inline>
-                <input type='radio' required name='participation_mode' value=住家附近 > 住家附近
+                <input type='radio' required name='participation_mode' value=桃區 > 桃區
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
             </label> 
             <label class=radio-inline>
-                <input type='radio' required name='participation_mode' value=上班地點附近 > 上班地點附近
+                <input type='radio' required name='participation_mode' value=竹區 > 竹區
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label> 
+            <label class=radio-inline>
+                <input type='radio' required name='participation_mode' value=中區 > 中區
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label> 
+            <label class=radio-inline>
+                <input type='radio' required name='participation_mode' value=雲嘉 > 雲嘉
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label> 
+            <label class=radio-inline>
+                <input type='radio' required name='participation_mode' value=台南 > 台南
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label> 
+            <label class=radio-inline>
+                <input type='radio' required name='participation_mode' value=高屏 > 高屏
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
