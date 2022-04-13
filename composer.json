@@ -17,12 +17,12 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "intervention/image": "^2.7",
         "laravel/framework": "^8.83",
-        "laravel/telescope": "^4.7",
+        "laravel/telescope": "^4.8",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
         "milon/barcode": "^8.0",
         "rap2hpoutre/laravel-log-viewer": "^1.7",
-        "sentry/sentry-laravel": "^2.11"
+        "sentry/sentry-laravel": "^2.12"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.12",
