@@ -61,7 +61,7 @@
     @endif
 
     <hr>
-    <h5 class='form-control-static'>推薦人(填表者)基本資料：</h5>
+    <h5 class='form-control-static'>推薦人基本資料：</h5>
     <br>
 
     <div class='row form-group required' >
