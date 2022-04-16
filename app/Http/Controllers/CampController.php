@@ -319,7 +319,7 @@ class CampController extends Controller
         else{
             $applicant = $applicant->where('birthyear', ltrim($request->birthyear, '0'))
             ->where('birthmonth', ltrim($request->birthmonth, '0'));
-            if($campTable == 'acamp'){
+            if($campTable == 'acamp' || $campTable == 'ceocamp'){
                 $applicant = $applicant->withTrashed()->first();
             }
             else{

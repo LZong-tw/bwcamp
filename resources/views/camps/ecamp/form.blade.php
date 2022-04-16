@@ -69,7 +69,7 @@
         <div class='col-md-10'>
             <div class="form-check form-check-inline">
                 <label class="form-check-label" for="M">
-                    <input class="form-check-input" type="radio" name="gender" value="M" required @if(isset($isModify) && $isModify) disabled @endif>
+                    <input class="form-check-input" type="radio" name="gender" value="M">
                     男
                     <div class="invalid-feedback">
                         未選擇性別
@@ -78,7 +78,7 @@
             </div>
             <div class="form-check form-check-inline">
                 <label class="form-check-label" for="F">
-                    <input class="form-check-input" type="radio" name="gender" value="F" required @if(isset($isModify) && $isModify) disabled @endif>
+                    <input class="form-check-input" type="radio" name="gender" value="F">
                     女
                     <div class="invalid-feedback">
                         &nbsp;

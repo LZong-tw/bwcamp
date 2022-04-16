@@ -210,8 +210,8 @@ return [
         "expectation" => "對活動的期望",
         "portrait_agree" => "肖像權", 
         "profile_agree" => "個人資料允許", 
+        "after_camp_available_day" => "有興趣活動",
         "favored_event" => "後續課程時間",
-        "after_camp_available_day" => "有興趣活動"
     ],
 
     'hcamp' => [

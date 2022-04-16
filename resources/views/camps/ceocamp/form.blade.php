@@ -17,7 +17,13 @@
 
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }}線上推薦報名表</h4>
+        若您在填寫表格時遇到困難，請洽詢：<br>
+        北區：陳惠南 0989-026-085、陳美蒨 0958-367-368<br>
+        中區：鄭博仁 0934-130-338、陳儀棻 0981-589-762、林瑛娜 0928-384-825<br>
+        竹區：李雪貞 0933-112-571
     </div>
+
+
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
 @if(!isset($isModify) || $isModify)
     <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form'>
@@ -89,16 +95,6 @@
     </div>
 
     <div class='row form-group required'>
-        <label for='inputIntroducerEmail' class='col-md-2 control-label text-md-right text-info'>推薦人<br>電子信箱</label>
-        <div class='col-md-10'>
-            <input type='email' required class='form-control' name='introducer_email' value='' id='inputIntroducerEmail' placeholder='請務必填寫正確，以利營隊相關訊息通知'>
-            <div class="invalid-feedback">
-                未填電子信箱或格式不正確
-            </div>
-        </div>
-    </div>
-
-    <div class='row form-group required'>
         <label for='inputIntroducerRelationship' class='col-md-2 control-label text-md-right text-info'>與被推薦人<br>關係</label>
         <div class='col-md-10'>
             <select required class='form-control' name='introducer_relationship' onChange=''>
@@ -117,8 +113,33 @@
         </div>  
     </div>
 
+    <div class='row form-group'>
+        <label for='inputIntroducerEmail' class='col-md-2 control-label text-md-right text-info'>推薦人<br>電子信箱</label>
+        <div class='col-md-10'>
+            <input type='email' required class='form-control' name='introducer_email' value='' id='inputIntroducerEmail'>
+            <div class="invalid-feedback">
+                未填電子信箱或格式不正確
+            </div>
+        </div>
+    </div>
+
+    <hr>
+    <h5 class='form-control-static'>推薦理由：</h5>
+    <br>
+
+    <div class='row form-group required'>
+        <label for='inputReasonsRecommend' class='col-md-2 control-label text-md-right'>特別推薦理由或社會影響力說明</label>
+        <div class='col-md-10'>
+            <textarea required class='form-control' rows=2 name='reasons_recommend' id=inputReasonsRecommend></textarea>
+            <div class="invalid-feedback">
+                請填寫特別推薦理由或社會影響力說明
+            </div>
+        </div>
+    </div>
+
     <hr>
     <h5 class='form-control-static'>被推薦人(營隊學員)基本資料：</h5>
+    <h6>＊＊若有需要，可下載<a href="{{ url("downloads/ceocamp2022/2022菁英營學員推薦表v2.docx") }}">學員推薦表WORD檔</a>或<a href="{{ url("downloads/ceocamp2022/2022菁英營學員推薦表v2.pdf") }}">學員推薦表PDF檔</a>， 請被推薦人提供資料，做為填寫此表單的依據。＊＊</h6>
     <br>
 
     <div class='row form-group required'>
@@ -190,7 +211,7 @@
                 <div class="col-md-1">
                     月
                 </div>
-                <div class="col-md-3">
+                {{--<div class="col-md-3">
                     <input type='number' required class='form-control' name='birthday' min=1 max=31 value='' placeholder=''>
                     <div class="invalid-feedback">
                         未填寫或日期不正確
@@ -198,7 +219,7 @@
                 </div>
                 <div class="col-md-1">
                     日
-                </div>
+                </div>--}}
             </div>
         </div>
     </div>
@@ -309,7 +330,8 @@
             </div>
         </div>
     </div>
-    
+
+{{--
     <div class='row form-group'>
         <label class='col-md-2 control-label text-md-right text-info'>代理人(秘書/特助)<br>(若無免填)</label>
         <div class='col-md-10'>
@@ -347,14 +369,10 @@
                 <div class="invalid-feedback">
                     電子信箱格式不正確
                 </div>
-            </div>   
-   
+            </div>      
         </div>
     </div>
 
-
-
-{{--
     <div class='row form-group'> 
     <label for='inputMaritalStatus' class='col-md-2 control-label text-md-right'>婚姻狀況</label>
         <div class='col-md-10'>
@@ -364,7 +382,6 @@
             </div>
         </div>
     </div>
---}}
 
     <div class='row form-group'>
         <label for='inputExceptionalConditions' class='col-md-2 control-label text-md-right'>被推薦人需要<br>特別關懷事項</label>
@@ -375,6 +392,7 @@
             </div>
         </div>
     </div>
+--}}
 
     <input type='hidden' required name="participation_mode" value='實體營隊'>
     
@@ -421,8 +439,8 @@
 --}}
 
     <hr>
-    <h5 class='form-control-static'>被推薦人(營隊學員)其它資訊及推薦理由</h5>
-    <h6 class='form-control-static'>＊＊＊公司及職務相關欄位，若被推薦人已退休，請填寫退休前資料＊＊＊</h6>
+    <h5 class='form-control-static'>被推薦人(營隊學員)其它資訊</h5>
+    <h6 class='form-control-static'>＊＊公司及職務相關欄位，若被推薦人已退休，請填寫退休前資料＊＊</h6>
     <br>
 
     <div class='row form-group required'> 
@@ -457,6 +475,7 @@
         </div>  
     </div>
 
+{{--
     <div class='row form-group'> 
     <label for='inputIndustryOther' class='col-md-2 control-label text-md-right'>產業別:自填</label>
         <div class='col-md-10'>
@@ -466,6 +485,7 @@
             </div>
         </div>
     </div>
+--}}
 
     <div class='row form-group required'> 
     <label for='inputTitle' class='col-md-2 control-label text-md-right'>職稱</label>
@@ -509,6 +529,7 @@
         </div>  
     </div>
 
+{{--
     <div class='row form-group'> 
     <label for='inputJobPropertyOther' class='col-md-2 control-label text-md-right'>職務類型:自填</label>
         <div class='col-md-10'>
@@ -528,6 +549,7 @@
             </div>
         </div>
     </div>
+--}}
 
     <div class='row form-group'> 
     <label for='inputEmployees' class='col-md-2 control-label text-md-right'>公司員工總數</label>
@@ -595,6 +617,7 @@
         </div>
     </div>
 
+{{--
     <div class='row form-group'> 
     <label for='inputOrgTypeOther' class='col-md-2 control-label text-md-right'>公司/組織形式:自填</label>
         <div class='col-md-10'>
@@ -604,8 +627,9 @@
             </div>
         </div>
     </div>
+--}}
 
-    <div class='row form-group required'>
+    <div class='row form-group'>
         <label for='inputYearsOperation' class='col-md-2 control-label text-md-right'>公司成立幾年</label>
         <div class='col-md-10'>
             <label class=radio-inline>
@@ -626,16 +650,6 @@
                     &nbsp;
                 </div>
             </label> 
-        </div>
-    </div>
-
-    <div class='row form-group required'>
-        <label for='inputReasonsRecommend' class='col-md-2 control-label text-md-right'>特別推薦理由或社會影響力說明</label>
-        <div class='col-md-10'>
-            <textarea required class='form-control' rows=2 name='reasons_recommend' id=inputReasonsRecommend></textarea>
-            <div class="invalid-feedback">
-                請填寫特別推薦理由或社會影響力說明
-            </div>
         </div>
     </div>
 
