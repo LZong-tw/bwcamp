@@ -773,6 +773,29 @@ class BackendController extends Controller {
      * @throws \Psr\Container\NotFoundExceptionInterface 
      * @throws \Psr\Container\ContainerExceptionInterface 
      */
+
+    public function exportAttendeePhotoWithBreifInfoToPDF() {        
+        $batches = Batch::where("camp_id", $this->campFullData->id)->get();
+        $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
+                        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+                        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+                        ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
+                        ->where('camps.id', $this->campFullData->id)->withTrashed();
+        $applicants = $query->get();
+        if(auth()->user()->getPermission(false)->role->level <= 2){
+        }
+        else if(auth()->user()->getPermission(true, $this->campFullData->id)->level > 2){
+            $constraint = auth()->user()->getPermission(true, $this->campFullData->id)->region;
+            $batch = Batch::where('camp_id', $this->campFullData->id)->where('name', 'like', '%' . $constraint . '%')->first();
+            $applicants = $applicants->filter(function ($applicant) use ($constraint, $batch) {
+                if($batch){
+                    return $applicant->region == $constraint || $applicant->batch_id == $batch->id;
+                }
+                return $applicant->region == $constraint;
+            });
+        }
+        \PDF::loadView('backend.in_camp.attendeePhoto', compact('applicants', 'batches'))->download(Carbon::now()->format('YmdHis') . $applicant->batch->camp->table . '學員 / 義工名冊.pdf');
+    }
     
     public function showAccountingPage() {
         $constraints = function ($query) {
