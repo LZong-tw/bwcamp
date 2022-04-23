@@ -796,7 +796,7 @@ class BackendController extends Controller {
                 return $applicant->region == $constraint;
             });
         }
-        return \PDF::loadView('backend.in_camp.attendeePhoto', compact('applicants', 'batches'))->download(Carbon::now()->format('YmdHis') . $this->campFullData->table . '學員 / 義工名冊.pdf');
+        return \PDF::loadView('backend.in_camp.attendeePhoto', compact('applicants', 'batches'))->download(Carbon::now()->format('YmdHis') . $this->campFullData->table . '義工名冊.pdf');
     }
     
     public function showAccountingPage() {

@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ asset("css/backend.css") }}">
 <style>
     .card-link{
         color: #3F86FB!important;
@@ -48,4 +50,3 @@
         @endforelse
     </table>
 @endif
-@endsection
