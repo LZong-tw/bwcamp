@@ -774,7 +774,9 @@ class BackendController extends Controller {
      * @throws \Psr\Container\ContainerExceptionInterface 
      */
 
-    public function exportAttendeePhotoWithBreifInfoToPDF() {        
+    public function exportAttendeePhotoWithBreifInfoToPDF() {   
+        ini_set('max_execution_time', -1);     
+        ini_set("memory_limit",-1);
         $batches = Batch::where("camp_id", $this->campFullData->id)->get();
         $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
                         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
@@ -794,7 +796,7 @@ class BackendController extends Controller {
                 return $applicant->region == $constraint;
             });
         }
-        \PDF::loadView('backend.in_camp.attendeePhoto', compact('applicants', 'batches'))->download(Carbon::now()->format('YmdHis') . $applicant->batch->camp->table . '學員 / 義工名冊.pdf');
+        return \PDF::loadView('backend.in_camp.attendeePhoto', compact('applicants', 'batches'))->download(Carbon::now()->format('YmdHis') . $this->campFullData->table . '學員 / 義工名冊.pdf');
     }
     
     public function showAccountingPage() {

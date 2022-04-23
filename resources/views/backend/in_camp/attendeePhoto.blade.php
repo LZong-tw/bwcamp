@@ -1,6 +1,3 @@
-@extends('backend.master')
-@section('content')
-@include('..partials.counties_areas_script')
 <style>
     .card-link{
         color: #3F86FB!important;
