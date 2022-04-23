@@ -1,5 +1,5 @@
 <style>
-    table, table.table td{
+    table, table.table td, table.table th{
         border: 1px solid black;
         border-collapse: collapse;
         /* padding: 10px; */
