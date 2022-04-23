@@ -1,11 +1,9 @@
-<link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
-<link rel="stylesheet" href="{{ asset("css/backend.css") }}">
 <style>
-    .card-link{
-        color: #3F86FB!important;
-    }
-    .card-link:hover{
-        color: #33B2FF!important;
+    table, table.table td{
+        border: 1px solid black;
+        border-collapse: collapse;
+        /* padding: 10px; */
+        position:relative;
     }
 </style>
 @if(isset($applicants))
