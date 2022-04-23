@@ -30,7 +30,7 @@
                 <td>{{ $applicant->sn }}</td>
                 <td>{{ $applicant->name }}</td>
                 @if($applicant->avatar)
-                <td><img src = "{{ url($applicant->avatar) }}" width=80 alt="{{ $applicant->name }}"></td>
+                <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($u->avatar)) }}" width=80 alt="{{ $applicant->name }}"></td>
                 @else
                 <td>no photo</td>
                 @endif
