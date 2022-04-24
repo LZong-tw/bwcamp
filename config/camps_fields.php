@@ -207,7 +207,6 @@ return [
         "sn" => "報名序號",
         "bName" => "梯次",
         "group" => "組別", 
-        "number" => "座號", 
         "region" => "區域", 
         "applied_at" => "報名日期", 
         "name" => "姓名", 
