@@ -764,7 +764,7 @@ class BackendController extends Controller {
         }
 
         if($request->download) {
-            return \PDF::loadView('backend.in_camp.attendeePhoto', compact('applicants', 'batches'))->download(Carbon::now()->format('YmdHis') . $this->campFullData->table . '義工名冊.pdf');
+            return \PDF::loadView('backend.in_camp.attendeePhotoPDF', compact('applicants', 'batches'))->download(Carbon::now()->format('YmdHis') . $this->campFullData->table . '義工名冊.pdf');
         }
 
         return view('backend.in_camp.attendeePhoto')
