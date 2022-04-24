@@ -767,16 +767,15 @@ class BackendController extends Controller {
     }
 
     /**
-     * todo: 下載學員名單 w/ 大頭照：先在主機端 render 好 PDF，再直接吐給客戶端
+     * 下載學員名單 w/ 大頭照：先在主機端 render 好 PDF，再直接吐給客戶端
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Symfony\Component\HttpFoundation\StreamedResponse 
      * @throws \Illuminate\Contracts\Container\BindingResolutionException 
      * @throws \Psr\Container\NotFoundExceptionInterface 
      * @throws \Psr\Container\ContainerExceptionInterface 
      */
-
     public function exportAttendeePhotoWithBreifInfoToPDF() {   
         ini_set('max_execution_time', -1);     
-        ini_set("memory_limit",-1);
+        ini_set("memory_limit", -1);
         $batches = Batch::where("camp_id", $this->campFullData->id)->get();
         $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
                         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')

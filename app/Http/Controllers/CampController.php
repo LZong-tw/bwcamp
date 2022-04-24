@@ -182,11 +182,6 @@ class CampController extends Controller
             $formData['batch_id'] = isset($formData["set_batch_id"]) ? $formData["set_batch_id"] : $this->batch_id;
             $formData = $this->campDataService->handleRegion($formData, $this->camp_data->table, $this->camp_data->id);
 
-            //override batch_id for ycamp, batch_id == 66
-            if ($this->camp_data->table == "ycamp" && $this->batch_id >= 66 && $this->batch_id <= 72)  {
-                $formData = $this->campDataService->handleBatch($formData);
-            }
-            //dd($formData["batch_id"]);
             try {
                 $disk = \Storage::disk('local');
                 $path = 'avatars/';
