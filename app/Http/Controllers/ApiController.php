@@ -18,15 +18,12 @@ class ApiController extends Controller
         $camp = $request->camp;
         $year = $request->year;
 
-        $data = Camp::with(
-            'batchs', 'batchs.applicants', 'batchs.applicants.checkInData', 'batchs.applicants.signData'
-        )
-        ->where('table', $camp)
-        ->where(function($query) use ($year) {
-            $query->where('fullName', 'like', '%' . $year . '%')
-                  ->orWhere('registration_start', 'like', '%' . $year . '%');
-        })
-        ->first();
+        $data = Camp::with('batchs', 'batchs.applicants', 'batchs.applicants.checkInData', 'batchs.applicants.signData')
+                        ->where('table', $camp)
+                        ->where(function($query) use ($year) {
+                            $query->where('fullName', 'like', '%' . $year . '%')
+                                ->orWhere('registration_start', 'like', '%' . $year . '%');
+                        })->first();
 
         return response()->json([
             'camp' => $camp,
