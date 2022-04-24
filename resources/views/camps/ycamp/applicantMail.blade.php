@@ -2,7 +2,7 @@
 <br>
     感謝您報名{{ $applicant->batch->camp->fullName }}，報名手續已完成，<br>
     請記下您的報名序號： <strong>{{ $applicant->id }}</strong> 作為日後查詢使用。<br>
-    錄取名單將於 {{ $campData->admission_announcing_date }} 於網站公佈：http://bwyouth.org/camp <br>
+    錄取名單將於 5/30，6/15，7/5 分三波於營隊官網 http://bwyouth.org/camp 公佈，請自行上網查詢。 <br>
     <br>
     洽詢電話：(週一 ~ 週五 上午10時 ~ 下午5時) <br>
     台北：02-2545-3788 #541<br>

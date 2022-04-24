@@ -34,25 +34,18 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <span class='text-danger'>＊必填</span>
         </div>
     </div>
+
+    @if(isset($applicant_data))
     <div class='row form-group'>
         <label for='inputBatch' class='col-md-2 control-label text-md-right'>營隊梯次</label>
         <div class='col-md-10'>
-            @if(isset($applicant_data))
-                {{--
                 <h3>{{ $applicant_raw_data->batch->name . '梯' }} {{ $applicant_raw_data->batch->batch_start }} ~ {{ $applicant_raw_data->batch->batch_end }} </h3>
-                --}}
-                <h3>線上 {{ $applicant_raw_data->batch->batch_start }} ~ {{ $applicant_raw_data->batch->batch_end }} </h3>
+                {{-- <h3>線上 {{ $applicant_raw_data->batch->batch_start }} ~ {{ $applicant_raw_data->batch->batch_end }} </h3> --}}
                 <input type='hidden' name='applicant_id' value='{{ $applicant_id }}'>
-            @else
-                {{--
-                <h3>{{ $batch->name . '梯' }} {{ $batch->batch_start }} ~ {{ $batch->batch_end }}
-                <a href='https://bwyouth.wixsite.com/camp2021'><span class='text-danger'>點此報名別梯</span></a>
-                </h3>
-                --}}                
-                <h3>線上 {{ $batch->batch_start }} ~ {{ $batch->batch_end }}</h3>                
-            @endif
         </div>
     </div>
+    @endif
+
     @if(isset($isModify))
         <div class='row form-group'>
             <label for='inputBatch' class='col-md-2 control-label text-md-right'>報名日期</label>
@@ -524,7 +517,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </label>
         </div>
     </div>
-
+{{--
     <!--- 錄取通知  -->
     <div class='row form-group'>
         <label for='inputNotice' class='col-md-2 control-label text-md-right'>錄取通知方式</label>
@@ -535,7 +528,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </p>
         </div>
     </div>
-
+--}}
     <!--- 父母親資料  -->
     <div class='row form-group'>
         <div class='col-md-12' id=parent>
