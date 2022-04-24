@@ -108,7 +108,7 @@ class CampDataService
         $camps = array();
         foreach($permission as $p){
             if($p->level == 1) {
-                $camps = Camp::all();
+                $camps = Camp::all()->reverse();
                 break;
             }
             else if($p->level >= 2 && $p->level <= 4) {
