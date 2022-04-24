@@ -740,40 +740,7 @@ class BackendController extends Controller {
         return view('backend.in_camp.traffic_list', compact('batches', 'applicants', 'traffic_depart', 'traffic_return', 'camp'));
     }
 
-    public function showAttendeePhoto() {
-        ini_set('max_execution_time', 1200);
-        $batches = Batch::where("camp_id", $this->campFullData->id)->get();
-        $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
-                        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
-                        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
-                        ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
-                        ->where('camps.id', $this->campFullData->id)->withTrashed();
-        $applicants = $query->get();
-        if(auth()->user()->getPermission(false)->role->level <= 2){
-        }
-        else if(auth()->user()->getPermission(true, $this->campFullData->id)->level > 2){
-            $constraint = auth()->user()->getPermission(true, $this->campFullData->id)->region;
-            $batch = Batch::where('camp_id', $this->campFullData->id)->where('name', 'like', '%' . $constraint . '%')->first();
-            $applicants = $applicants->filter(function ($applicant) use ($constraint, $batch) {
-                if($batch){
-                    return $applicant->region == $constraint || $applicant->batch_id == $batch->id;
-                }
-                return $applicant->region == $constraint;
-            });
-        }
-        return view('backend.in_camp.attendeePhoto')
-                ->with('applicants', $applicants)
-                ->with('batches', $batches);
-    }
-
-    /**
-     * 下載學員名單 w/ 大頭照：先在主機端 render 好 PDF，再直接吐給客戶端
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Symfony\Component\HttpFoundation\StreamedResponse 
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException 
-     * @throws \Psr\Container\NotFoundExceptionInterface 
-     * @throws \Psr\Container\ContainerExceptionInterface 
-     */
-    public function exportAttendeePhotoWithBreifInfoToPDF() {   
+    public function showAttendeePhoto(Request $request) {
         ini_set('max_execution_time', -1);     
         ini_set("memory_limit", -1);
         $batches = Batch::where("camp_id", $this->campFullData->id)->get();
@@ -795,7 +762,14 @@ class BackendController extends Controller {
                 return $applicant->region == $constraint;
             });
         }
-        return \PDF::loadView('backend.in_camp.attendeePhoto', compact('applicants', 'batches'))->download(Carbon::now()->format('YmdHis') . $this->campFullData->table . '義工名冊.pdf');
+
+        if($request->download) {
+            return \PDF::loadView('backend.in_camp.attendeePhoto', compact('applicants', 'batches'))->download(Carbon::now()->format('YmdHis') . $this->campFullData->table . '義工名冊.pdf');
+        }
+
+        return view('backend.in_camp.attendeePhoto')
+                ->with('applicants', $applicants)
+                ->with('batches', $batches);
     }
     
     public function showAccountingPage() {

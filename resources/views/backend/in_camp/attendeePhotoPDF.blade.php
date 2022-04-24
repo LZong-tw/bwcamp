@@ -1,17 +1,14 @@
-@extends('backend.master')
-@section('content')
-@include('..partials.counties_areas_script')
 <style>
-    .card-link{
-        color: #3F86FB!important;
-    }
-    .card-link:hover{
-        color: #33B2FF!important;
+    table, table.table td, table.table th{
+        border: 1px solid black;
+        border-collapse: collapse;
+        /* padding: 10px; */
+        position:relative;
     }
 </style>
 @if(isset($applicants))
     <h3>義工名冊：</h3>
-    共 {{ $applicants->count() }} 筆資料 <a href="{{ route("showAttendeePhoto") }}?download=1" target="_blank" rel="noopener noreferrer" class="btn btn-primary">將本頁下載為 PDF</a>
+    共 {{ $applicants->count() }} 筆資料
     <table class="table table-bordered table-hover">
         <thead>
             <tr>
@@ -51,4 +48,3 @@
         @endforelse
     </table>
 @endif
-@endsection
