@@ -300,4 +300,16 @@ class CampDataService
         //}
         return $formData;
     }
+
+    public function handleBatch($formData) {
+        if ($formData["region"] == "台北") $formData["batch_id"] = 66;
+        elseif ($formData["region"] == "桃園") $formData["batch_id"] = 67;
+        elseif ($formData["region"] == "新竹") $formData["batch_id"] = 68;
+        elseif ($formData["region"] == "台中") $formData["batch_id"] = 69;
+        elseif ($formData["region"] == "雲嘉") $formData["batch_id"] = 70;
+        elseif ($formData["region"] == "台南") $formData["batch_id"] = 71;
+        elseif ($formData["region"] == "高雄") $formData["batch_id"] = 72;
+        else $formData["batch_id"] = 66; //「其它」先放到北區囉。
+        return $formData;
+    }
 }
