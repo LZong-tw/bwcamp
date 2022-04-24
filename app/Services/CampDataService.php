@@ -214,8 +214,15 @@ class CampDataService
                 $formData["region"] = '雲嘉';
             }
             // 2021 年特殊需求：梯次即學校區域
-            if(Carbon::now()->year == 2021 && $formData["region"] != "海外") {
-                $formData["batch_id"] = Batch::where('camp_id', $camp_id)->where('name', $formData["region"])->first()->id;
+            // 2022 年特殊需求：梯次即學校區域
+            $special_years = [2021, 2022];
+            if(in_array(Carbon::now()->year, $special_years)) {
+                if($formData["region"] != "海外") {
+                    $formData["batch_id"] = Batch::where('camp_id', $camp_id)->where('name', $formData["region"])->first()?->id;
+                }
+                else {
+                    $formData["batch_id"] = Batch::where('camp_id', $camp_id)->where('name', '台北')->first()?->id;
+                }
             }
         }
         else if($camp == "tcamp" && isset($formData["unit_county"])){
@@ -298,18 +305,7 @@ class CampDataService
         }
         //else if($camp == "ecamp"){
         //}
-        return $formData;
-    }
 
-    public function handleBatch($formData) {
-        if ($formData["region"] == "台北") $formData["batch_id"] = 66;
-        elseif ($formData["region"] == "桃園") $formData["batch_id"] = 67;
-        elseif ($formData["region"] == "新竹") $formData["batch_id"] = 68;
-        elseif ($formData["region"] == "台中") $formData["batch_id"] = 69;
-        elseif ($formData["region"] == "雲嘉") $formData["batch_id"] = 70;
-        elseif ($formData["region"] == "台南") $formData["batch_id"] = 71;
-        elseif ($formData["region"] == "高雄") $formData["batch_id"] = 72;
-        else $formData["batch_id"] = 66; //「其它」先放到北區囉。
         return $formData;
     }
 }
