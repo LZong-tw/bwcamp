@@ -640,19 +640,19 @@
         <label for='inputYearsOperation' class='col-md-2 control-label text-md-right'>公司成立幾年</label>
         <div class='col-md-10'>
             <label class=radio-inline>
-                <input type=radio required name='years_operation' value='10年以上' > 10年以上
+                <input type=radio name='years_operation' value='10年以上' > 10年以上
                 <div class="invalid-feedback">
                     請選擇被推薦人公司成立幾年
                 </div>
             </label> 
             <label class=radio-inline>
-                <input type=radio required name='years_operation' value='5年~10年' > 5年~10年
+                <input type=radio name='years_operation' value='5年~10年' > 5年~10年
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
             </label> 
             <label class=radio-inline>
-                <input type=radio required name='years_operation' value='5年以下' > 5年以下
+                <input type=radio name='years_operation' value='5年以下' > 5年以下
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
