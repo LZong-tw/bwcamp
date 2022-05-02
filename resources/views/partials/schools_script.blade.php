@@ -18,7 +18,7 @@
     }
 
     if (cityname == '臺北市')
-    {   document.Camp.sname.options[ctr] = new Option ("陽明交大", "國立陽明交通大學陽明校區") ;
+    {   document.Camp.sname.options[ctr] = new Option ("陽明交大", "國立陽明交通大學臺北校區") ;
         ctr = ctr + 1;
     }
 
@@ -83,7 +83,7 @@
     }
 
     if (cityname == '臺北市')
-    {   document.Camp.sname.options[ctr] = new Option ("銘傳大學", "銘傳大學") ;
+    {   document.Camp.sname.options[ctr] = new Option ("銘傳大學", "銘傳大學臺北校區") ;
         ctr = ctr + 1;
     }
 
@@ -151,12 +151,6 @@
     {   document.Camp.sname.options[ctr] = new Option ("臺灣警專", "臺灣警察專科學校") ;
         ctr = ctr + 1;
     }
-
-    //臺北只有推廣教育中心，先移除
-    /*if (cityname == '臺北市')
-    {   document.Camp.sname.options[ctr] = new Option ("稻江學院", "稻江科技暨管理學院") ;
-        ctr = ctr + 1;
-    }*/
 
     if (cityname == '臺北市')
     {   document.Camp.sname.options[ctr] = new Option ("--高中--", "高中校名：") ;
@@ -450,7 +444,7 @@
     }
 
     if (cityname == '新竹市')
-    {   document.Camp.sname.options[ctr] = new Option ("陽明交大", "國立陽明交通大學交大校區") ;
+    {   document.Camp.sname.options[ctr] = new Option ("陽明交大", "國立陽明交通大學新竹校區") ;
         ctr = ctr + 1;
     }
 
@@ -465,7 +459,7 @@
     }
 
     if (cityname == '新竹市')
-    {   document.Camp.sname.options[ctr] = new Option ("元培科大", "元培科技大學") ;
+    {   document.Camp.sname.options[ctr] = new Option ("元培科大", "元培醫事科技大學") ;
         ctr = ctr + 1;
     }
 
@@ -481,12 +475,7 @@
     }
 
     if (cityname == '苗栗縣')
-    {   document.Camp.sname.options[ctr] = new Option ("育達科大", "育達商業科技大學") ;
-        ctr = ctr + 1;
-    }
-
-    if (cityname == '苗栗縣')
-    {   document.Camp.sname.options[ctr] = new Option ("亞太創意", "亞太創意技術學院") ;
+    {   document.Camp.sname.options[ctr] = new Option ("育達科大", "育達科技大學") ;
         ctr = ctr + 1;
     }
 
@@ -511,12 +500,6 @@
         ctr = ctr + 1;
     }
 
-    //?
-    /*if (cityname == '臺中市')
-    {   document.Camp.sname.options[ctr] = new Option ("體育大學", "國立臺灣體育大學(臺中)") ;
-        ctr = ctr + 1;
-    }*/
-
     if (cityname == '臺中市')
     {   document.Camp.sname.options[ctr] = new Option ("臺灣體大", "國立臺灣體育運動大學") ;
         ctr = ctr + 1;
@@ -526,12 +509,6 @@
     {   document.Camp.sname.options[ctr] = new Option ("臺中科大", "國立臺中科技大學") ;
         ctr = ctr + 1;
     }
-
-    //留「國立臺中科技大學」就好
-    /*if (cityname == '臺中市')
-    {   document.Camp.sname.options[ctr] = new Option ("中護健康", "國立臺中科技大學中護健康學院") ;
-        ctr = ctr + 1;
-    }*/
 
     if (cityname == '臺中市')
     {   document.Camp.sname.options[ctr] = new Option ("東海大學", "東海大學") ;
@@ -695,12 +672,7 @@
     }
 
     if (cityname == '嘉義縣')
-    {   document.Camp.sname.options[ctr] = new Option ("吳鳳學院", "吳鳳技術學院") ;
-        ctr = ctr + 1;
-    }
-
-    if (cityname == '嘉義縣')
-    {   document.Camp.sname.options[ctr] = new Option ("稻江學院", "稻江科技暨管理學院") ;
+    {   document.Camp.sname.options[ctr] = new Option ("吳鳳科大", "吳鳳科技大學") ;
         ctr = ctr + 1;
     }
 
@@ -813,17 +785,12 @@
     }
 
     if (cityname == '臺南市')
-    {   document.Camp.sname.options[ctr] = new Option ("南榮科大", "南榮科技大學") ;
-        ctr = ctr + 1;
-    }
-
-    if (cityname == '臺南市')
     {   document.Camp.sname.options[ctr] = new Option ("敏惠醫專", "敏惠醫護管理專科學校") ;
         ctr = ctr + 1;
     }
 
     if (cityname == '臺南市')
-    {   document.Camp.sname.options[ctr] = new Option ("交通大學", "國立交通大學臺南校區") ;
+    {   document.Camp.sname.options[ctr] = new Option ("陽明交大", "國立陽明交通大學臺南校區") ;
         ctr = ctr + 1;
     }
 
@@ -950,11 +917,6 @@
     }
 
     if (cityname == '高雄市')
-    {   document.Camp.sname.options[ctr] = new Option ("高美醫專", "高美醫護管理專科學校") ;
-        ctr = ctr + 1;
-    }
-
-    if (cityname == '高雄市')
     {   document.Camp.sname.options[ctr] = new Option ("陸軍官校", "陸軍軍官學校") ;
         ctr = ctr + 1;
     }
@@ -990,22 +952,10 @@
         ctr = ctr + 1;
     }
 
-    //2014年停辦
-    /*if (cityname == '屏東縣')
-    {   document.Camp.sname.options[ctr] = new Option ("永達學院", "永達技術學院") ;
-        ctr = ctr + 1;
-    }*/
-
     if (cityname == '屏東縣')
     {   document.Camp.sname.options[ctr] = new Option ("美和科大", "美和科技大學") ;
         ctr = ctr + 1;
     }
-
-    //2014停辦
-    /*if (cityname == '屏東縣')
-    {   document.Camp.sname.options[ctr] = new Option ("高鳳數位", "高鳳數位內容學院") ;
-        ctr = ctr + 1;
-    }*/
 
     if (cityname == '屏東縣')
     {   document.Camp.sname.options[ctr] = new Option ("慈惠醫專", "慈惠醫護管理專科學校") ;
@@ -1023,12 +973,6 @@
         ctr = ctr + 1;
     }
 
-    //2008年併入東華大學
-    /*if (cityname == '花蓮縣')
-    {   document.Camp.sname.options[ctr] = new Option ("花蓮教大", "國立花蓮教育大學") ;
-        ctr = ctr + 1;
-    }*/
-
     if (cityname == '花蓮縣')
     {   document.Camp.sname.options[ctr] = new Option ("慈濟大學", "慈濟大學") ;
         ctr = ctr + 1;
@@ -1041,11 +985,6 @@
 
     if (cityname == '花蓮縣')
     {   document.Camp.sname.options[ctr] = new Option ("慈濟科大", "慈濟科技大學") ;
-        ctr = ctr + 1;
-    }
-
-    if (cityname == '花蓮縣')
-    {   document.Camp.sname.options[ctr] = new Option ("臺灣觀光", "臺灣觀光學院") ;
         ctr = ctr + 1;
     }
 
