@@ -58,10 +58,10 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <label for='inputName' class='col-md-2 control-label text-md-right'>姓名</label>
         <div class='col-md-10'>
             <input type='text' name='name' value='' class='form-control' id='inputName' placeholder='請填寫全名' required @if(isset($isModify) && $isModify) disabled @endif>
-        </div>
-        <div class="invalid-feedback">
-            請填寫姓名
-        </div>
+            <div class="invalid-feedback">
+                請填寫姓名
+            </div>
+       </div>
     </div>
 
     <div class="row form-group required">
@@ -92,26 +92,29 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputNationName' class='col-md-2 control-label text-md-right'>國籍</label>
         <div class='col-md-2'>
-        <select class='form-control' name='nationality' id='inputNationName'>
-            <option value='美國' >美國</option>
-            <option value='加拿大' >加拿大</option>
-            <option value='澳大利亞' >澳大利亞</option>
-            <option value='紐西蘭' >紐西蘭</option>
-            <option value='中國' >中國</option>
-            <option value='香港' >香港</option>
-            <option value='澳門' >澳門</option>
-            <option value='台灣' selected>台灣</option>
-            <option value='韓國' >韓國</option>
-            <option value='日本' >日本</option>
-            <option value='蒙古' >蒙古</option>
-            <option value='新加坡' >新加坡</option>
-            <option value='馬來西亞' >馬來西亞</option>
-            <option value='菲律賓' >菲律賓</option>
-            <option value='印尼' >印尼</option>
-            <option value='泰國' >泰國</option>
-            <option value='越南' >越南</option>
-            <option value='其它' >其它</option>
-        </select>
+            <select required class='form-control' name='nationality' id='inputNationName'>
+                <option value='美國' >美國</option>
+                <option value='加拿大' >加拿大</option>
+                <option value='澳大利亞' >澳大利亞</option>
+                <option value='紐西蘭' >紐西蘭</option>
+                <option value='中國' >中國</option>
+                <option value='香港' >香港</option>
+                <option value='澳門' >澳門</option>
+                <option value='台灣' selected>台灣</option>
+                <option value='韓國' >韓國</option>
+                <option value='日本' >日本</option>
+                <option value='蒙古' >蒙古</option>
+                <option value='新加坡' >新加坡</option>
+                <option value='馬來西亞' >馬來西亞</option>
+                <option value='菲律賓' >菲律賓</option>
+                <option value='印尼' >印尼</option>
+                <option value='泰國' >泰國</option>
+                <option value='越南' >越南</option>
+                <option value='其它' >其它</option>
+            </select>
+            <div class="invalid-feedback">
+                    請選擇國籍
+            </div>
         </div>
     </div>
 
@@ -164,9 +167,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputEmail' class='col-md-2 control-label text-md-right'>電子郵件</label>
         <div class='col-md-10'>
-            <input type='email' required name='email' value='' class='form-control' id='inputEmail' placeholder='請務必填寫正確，方便系統發送確認信' @if(isset($isModify) && $isModify) disabled @endif>
+            <input type='email' required name='email' value='' class='form-control' id='inputEmail' placeholder='請務必填寫正確，以利營隊相關訊息通知' @if(isset($isModify) && $isModify) disabled @endif>
             <div class="invalid-feedback">
-                郵件不正確
+                未填電子信箱或格式不正確
             </div>
         </div>
     </div>
@@ -180,8 +183,11 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputEmail' class='col-md-2 control-label text-md-right'>確認電子郵件</label>
         <div class='col-md-10'>
-            <input type='email' required  name='emailConfirm' value='' class='form-control' id='inputEmailConfirm' @if(isset($isModify) && $isModify) disabled @endif>
+            <input type='email' required  name='emailConfirm' value='' class='form-control' id='inputEmailConfirm' placeholder='請再次填寫(勿複製貼上)，確認電子信箱正確' @if(isset($isModify) && $isModify) disabled @endif>
             {{-- data-match='#inputEmail' data-match-error='郵件不符合' placeholder='請再次填寫確認郵件填寫正確' --}}
+            <div class="invalid-feedback">
+                未填電子信箱或格式不正確
+            </div>
         </div>
     </div>
 
@@ -342,6 +348,11 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 
     <div class='row form-group required'>
         <label for='inputAddress' class='col-md-2 control-label text-md-right'>通訊地址</label>
+        <label class='col-md-10 form-control-static text-info'>請填寫暑假期間能收到教材包的地址，並確認地址正確性，否則可能導致教材包延遲寄達或被退貨。</label>
+    </div>
+
+    <div class='row form-group'>
+        <div class='col-md-2'></div>
         <div class='col-md-2'>
             <select name="county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value);"> 
                 <option value=''>請選縣市...</option>
@@ -380,7 +391,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <input readonly type=text name=zipcode value='' class='form-control'>
         </div>
         <div class='col-md-3'>
-            <input type=text required  name='address' value='' pattern=".{10,80}" class='form-control' placeholder='海外請自行填寫國家及區域'>
+            <input type=text required name='address' value='' pattern=".{10,80}" class='form-control' placeholder='海外請自行填寫國家及區域'>
             <div class="invalid-feedback">
                 請填寫通訊地址或檢查輸入的地址是否不齊全
             </div>
@@ -390,7 +401,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputSource' class='col-md-2 control-label text-md-right'>您如何得知此活動？</label>
         <div class='col-md-10'>
-            <p class='form-control-static text-danger'>單選，請選最主要管道。</p>
+            <p class='form-control-static text-info'>單選，請選最主要管道。</p>
             <label class=radio-inline>
                 <input type=radio required name='way' value=FB > FB
                 <div class="invalid-feedback">
@@ -464,9 +475,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <label for='inputClub' class='col-md-2 control-label text-md-right'>您曾參與的學校社團活動及擔任職務？</label>
         <div class='col-md-10'>
             <textarea class=form-control rows=2 required  name='club' id=inputClub></textarea>
-        </div>
-        <div class="invalid-feedback">
-            請填寫本欄位
+            <div class="invalid-feedback">
+                請填寫本欄位
+            </div>
         </div>
     </div>
 
@@ -474,9 +485,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <label for='inputGoal' class='col-md-2 control-label text-md-right'>你這一生最想追求或完成的目標是什麼？</label>
         <div class='col-md-10'>
             <textarea class=form-control rows=2 required  name='goal' id=inputGoal></textarea>
-        </div>
-        <div class="invalid-feedback">
-            請填寫本欄位
+            <div class="invalid-feedback">
+                請填寫本欄位
+            </div>
         </div>
     </div>
 
@@ -484,9 +495,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <label for='inputExpect' class='col-md-2 control-label text-md-right'>您對這次活動的期望？</label>
         <div class='col-md-10'>
             <textarea class='form-control' rows=2 required  name='expectation' id=inputExpect></textarea>
-        </div>
-        <div class="invalid-feedback">
-            請填寫本欄位
+            <div class="invalid-feedback">
+                請填寫本欄位
+            </div>
         </div>
     </div>
 

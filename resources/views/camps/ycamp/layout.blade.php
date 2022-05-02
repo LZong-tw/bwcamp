@@ -4,12 +4,12 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name='description' content='擁抱世界，成為帶給世界溫暖與希望的人。邀請你報名參加大專青年生命成長營，1/16-19@大仁科技大學。' />
+    <meta name='description' content='向生命更深的維度啟航，成為帶給世界溫暖與希望的人。' />
     <meta name='author' content='福智文教基金會'>
-    <meta property='og:url' content='http://youth.blisswisdom.org/camp/winter/'/>
+    <meta property='og:url' content='http://bwfoce.org/ycamp/'/>
     <meta property='og:title' content='{{ $camp_data->abbreviation }}'/>
-    <meta property='og:description' content='擁抱世界，成為帶給世界溫暖與希望的人。邀請你報名參加大專青年生命成長營，1/16-19@大仁科技大學。' />
-    <meta property='og:image' content='http://youth.blisswisdom.org/camp/media/2016Wbanner.png'/>
+    <meta property='og:description' content='向生命更深的維度啟航，成為帶給世界溫暖與希望的人。' />
+    {{-- <meta property='og:image' content='http://youth.blisswisdom.org/camp/media/2016Wbanner.png'/> --}}
     {{-- <link rel='icon' href='/camp/favicon.ico'> --}}
     <title> {{ $camp_data->fullName }} </title>
     <!-- Bootstrap core CSS -->
