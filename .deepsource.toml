@@ -4,6 +4,20 @@ version = 1
 name = "php"
 enabled = true
 
+  [analyzers.meta]
+  bootstrap_files = ["public/index.php"]
+
 [[analyzers]]
 name = "javascript"
+enabled = true
+
+  [analyzers.meta]
+  plugins = ["vue"]
+
+[[transformers]]
+name = "php-cs-fixer"
+enabled = true
+
+[[transformers]]
+name = "prettier"
 enabled = true
