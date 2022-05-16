@@ -264,6 +264,8 @@ class BackendController extends Controller {
             elseif($request->region == '其他'){
                 if ($this->campFullData->table == 'ceocamp' || $this->campFullData->table == 'ceovcamp') {
                     $applicants = $query->whereNotIn('region', ['北區', '竹區', '中區', '高區'])->get();
+                } elseif ($this->campFullData->table == 'acamp') {
+                    $applicants = $query->whereNotIn('region', ['北苑', '北區', '基隆', '桃區', '竹區', '中區', '雲嘉', '台南', '高屏'])->get();
                 } elseif ($this->campFullData->table == 'ecamp') {
                     $applicants = $query->whereNotIn('region', ['台北', '桃園', '新竹', '中區', '雲嘉', '台南', '高區'])->get();
                 } else {
