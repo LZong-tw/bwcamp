@@ -303,8 +303,62 @@ class CampDataService
 
             $formData["region"] = $region;
         }
-        //else if($camp == "ecamp"){
-        //}
+        else if($camp == "acamp"){
+            $region = "";
+            $taipei = array ("臺北市", "新北市", "宜蘭縣", "花蓮縣", "金門縣", "連江縣");
+            $keelung = array ("基隆市", "新北市汐止區", "新北市瑞芳區", "新北市平溪區", "新北市貢寮區", "新北市雙溪區");
+            $taoyuan = array ("桃園市");
+            $hsinchu = array ("新竹市", "新竹縣");
+            $taichung = array ("苗栗縣","臺中市", "彰化縣", "南投縣");
+            $yunchia = array ("雲林縣", "嘉義市", "嘉義縣");
+            $tainan = array ("臺南市");
+            $kaohsiung = array ("高雄市", "屏東縣", "澎湖縣", "臺東縣", "南海諸島");
+            
+            //用「後續課程地點」來決定分區的參考地點; 「皆可」則使用「上班附近」
+            if ($formData["class_location"] == "住家附近") {
+                $addr = $formData["address"];
+            }
+            else {
+                $addr = $formData["unit_address"];
+            }
+            
+            //先做區域大分區
+            foreach($taipei as $ele){
+                if(strpos($addr, $ele) !== false) { $region = "北區"; }
+            }
+            //基隆要在北區後面，因為新北市有幾個區需override成基隆
+            foreach($keelung as $ele){
+                if(strpos($addr, $ele) !== false) { $region = "基隆"; }
+            }
+            foreach($taoyuan as $ele){
+                if(strpos($addr, $ele) !== false) { $region = "桃區"; }
+            }
+            foreach($hsinchu as $ele){
+                if(strpos($addr, $ele) !== false) { $region = "竹區"; }
+            }
+            foreach($taichung as $ele){
+                if(strpos($addr, $ele) !== false) { $region = "中區"; }
+            }
+            foreach($yunchia as $ele){
+                if(strpos($addr, $ele) !== false) { $region = "雲嘉"; }
+            }
+            foreach($tainan as $ele){
+                if(strpos($addr, $ele) !== false) { $region = "台南"; }
+            }
+            foreach($kaohsiung as $ele){
+                if(strpos($addr, $ele) !== false) { $region = "高屏"; }
+            }
+            
+            //「北區」裡的主管/儲訓幹部/專門技術人員改成「北苑」
+            if(($region == "北區") && 
+                (($formData["is_manager"] == 1) || ($formData["is_cadre"] == 1) || ($formData["is_technical_staff"] == 1))) {
+                $region = "北苑";            
+            }
+
+            if($region == "") { $region = "其他"; }
+        } 
+
+        $formData["region"] = $region;
 
         return $formData;
     }
