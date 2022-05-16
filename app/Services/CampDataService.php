@@ -356,9 +356,9 @@ class CampDataService
             }
 
             if($region == "") { $region = "其他"; }
+            
+            $formData["region"] = $region;
         } 
-
-        $formData["region"] = $region;
 
         return $formData;
     }
