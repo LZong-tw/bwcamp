@@ -133,9 +133,6 @@ return [
         "never_attend_any_stay_over_tcamps" => "未曾參加過住宿型福智教師生命成長營",
         "portrait_agree" => "肖像權", 
         "profile_agree" => "個人資料允許", 
-        "emergency_name" => "緊急聯絡人", 
-        "emergency_relationship" => "緊急聯絡人關係", 
-        "emergency_mobile" => "緊急聯絡人手機", 
         "introducer_name" => "推薦人", 
         "introducer_relationship" => "推薦人關係", 
         "introducer_phone" => "推薦人電話" 
