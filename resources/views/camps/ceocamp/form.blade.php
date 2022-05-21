@@ -407,9 +407,19 @@
     request from 主辦單位：
     請先隱藏此欄位，並預設為實體。
     原因是，日前菁英營決議以實體方式為主，故等實體推薦人數到一定數量後，才來考慮開放推薦線上。
+    2022/5/21:只有北區開此選項。
 -->
 
-{{--
+@php
+    $is_north = FALSE;
+    if(isset($applicant_data)) {
+        if(\Str::contains($applicant_raw_data->batch->name, "北區")) {$is_north = TRUE;}
+    } else {
+        if(\Str::contains($batch->name, "北區")) {$is_north = TRUE;}
+    }
+@endphp
+
+@if($is_north)
     <div class='row form-group required'>
         <label for='inputParticipationMode' class='col-md-2 control-label text-md-right'>參加營隊形式</label>
         <div class='col-md-10'>
@@ -431,6 +441,12 @@
                     &nbsp;
                 </div>
             </label> 
+            <label class=radio-inline>
+                <input type='radio' required name='participation_mode' value=待確認 > 待確認
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label> 
         </div>
     </div>
 
@@ -443,7 +459,7 @@
             </div>
         </div>
     </div>
---}}
+@endif
 
     <hr>
     <h5 class='form-control-static'>被推薦人(營隊學員)其它資訊</h5>
