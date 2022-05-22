@@ -112,7 +112,7 @@
             </div>
             --}}
         <!--第二波錄取公告為6/19，6/20之後未錄取就是真的不錄取了-->
-        @elseif(\Carbon\Carbon::now() >= \Carbon\Carbon::createFromFormat("Y-m-d", "2022-05-20"))
+        @elseif(\Carbon\Carbon::now() >= \Carbon\Carbon::createFromFormat("Y-m-d", "2022-06-20"))
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
