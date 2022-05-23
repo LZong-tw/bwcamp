@@ -179,7 +179,9 @@ return [
         "org_type_other" => "公司組織形式:自填",
         "years_operation" => "公司成立幾年",
         "reasons_recommend" => "特別推薦理由",
-        "profile_agree" => "個人資料允許"
+        "profile_agree" => "個人資料允許",
+        "participation_mode" => "參加營隊形式",
+        "reasons_online" => "選擇上述參加形式的原因"
     ],
 
     'ceovcamp' => [
