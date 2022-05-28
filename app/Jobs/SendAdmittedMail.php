@@ -10,8 +10,9 @@ use Illuminate\Queue\SerializesModels;
 use App\Services\ApplicantService;
 use App\Traits\EmailConfiguration;
 use Illuminate\Queue\Middleware\WithoutOverlapping;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 
-class SendAdmittedMail implements ShouldQueue
+class SendAdmittedMail implements ShouldQueue, ShouldBeUnique
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, EmailConfiguration;
 
@@ -60,5 +61,25 @@ class SendAdmittedMail implements ShouldQueue
      */
     public function middleware() {
         return [new WithoutOverlapping($this->applicant->batch->camp->id)];
+    }
+
+    /**
+     * The unique ID of the job.
+     *
+     * @return string
+     */
+    public function uniqueId()
+    {
+        return $this->product->id;
+    }
+
+    /**
+     * Determine the time at which the job should timeout.
+     *
+     * @return \DateTime
+     */
+    public function retryUntil()
+    {
+        return now()->addMinutes(60);
     }
 }
