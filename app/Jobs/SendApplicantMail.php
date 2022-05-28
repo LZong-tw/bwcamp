@@ -38,7 +38,6 @@ class SendApplicantMail implements ShouldQueue
         //
         sleep(3);
         ini_set('memory_limit', -1);
-        ini_set('max_execution_time', 180);
         $applicant = $this->applicant;
         $camp = $applicant->batch->camp;
         $this->campOrVariant = $camp->variant ? $camp->variant : $camp->table;

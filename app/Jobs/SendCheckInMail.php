@@ -37,7 +37,6 @@ class SendCheckInMail implements ShouldQueue
         //
         sleep(10);
         ini_set('memory_limit', -1);
-        ini_set('max_execution_time', 180);
         if($this->applicant->batch->camp->table == 'coupon'){
             $qr_code = \DNS2D::getBarcodePNG('{"coupon_code":"' . $this->applicant->name . '"}', 'QRCODE');
             $pdf = \App::make('dompdf.wrapper');
