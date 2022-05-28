@@ -38,7 +38,6 @@ class SendNotAdmittedMail implements ShouldQueue
         //
         sleep(10);
         ini_set('memory_limit', -1);
-        ini_set('max_execution_time', 180);
         $applicant = $this->applicant;
         // 動態載入電子郵件設定
         $this->setEmail($applicant->batch->camp->table, $applicant->batch->camp->variant);

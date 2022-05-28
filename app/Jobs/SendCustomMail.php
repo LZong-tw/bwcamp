@@ -50,7 +50,6 @@ class SendCustomMail implements ShouldQueue
         //
         sleep(10);
         ini_set('memory_limit', -1);
-        ini_set('max_execution_time', 180);
         \Mail::to($this->receiver)->send(new \App\Mail\CustomMail($this->subject, $this->content, $this->attachment, $this->receiver->batch->camp->variant ?? $this->receiver->batch->camp->table));
     }
 }
