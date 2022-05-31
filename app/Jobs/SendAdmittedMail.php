@@ -70,7 +70,7 @@ class SendAdmittedMail implements ShouldQueue, ShouldBeUnique
      */
     public function uniqueId()
     {
-        return $this->product->id;
+        return $this->applicant->batch->camp->id;
     }
 
     /**
