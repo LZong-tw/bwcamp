@@ -601,13 +601,39 @@
     </div>
 
     <div class='row form-group'> 
-    <label for='inputCapital' class='col-md-2 control-label text-md-right'>資本額(新臺幣:元)</label>
+    <label for='inputCapital' class='col-md-2 control-label text-md-right'>資本額(新臺幣)</label>
         <div class='col-md-10'>
-            <input type='number' name='capital' value='' maxlength="40" class='form-control' id='inputTitle' placeholder='請填寫數字，勿填「非數字」'>
+            <input type='number' name='capital' value='' maxlength="40" class='form-control' id='inputTitle' placeholder='請填寫數字，勿填「非數字」。請記得選單位。'>
             <div class="invalid-feedback crumb">
                 請填寫數字，勿填「非數字」，如不確定可填大約金額
             </div>
         </div>
+    </div>
+
+    <div class='row form-group'>
+        <label for='inputCapitalUnit' class='col-md-2 control-label text-md-right'>資本額單位</label>
+        <div class='col-md-10'>
+            <label class=radio-inline>
+                <input type=radio name='capital_unit' value='元' checked> 元
+                <div class="invalid-feedback">
+                    請選擇資本額單位
+                </div>
+            </label> 
+            <label class=radio-inline>
+                <input type=radio name='capital_unit' value='萬元' > 萬元
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label> 
+            <label class=radio-inline>
+                <input type=radio name='capital_unit' value='億元' > 億元
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label> 
+        </div>
+        <div class='col-md-2'></div>
+        <div class='col-md-10'>〔資本額填寫說明〕如資本額為500萬元，請在資本額欄位填寫500，單位選「萬元」；如資本額為1000億元，請在資本額欄位填寫1000，單位選「億元」。</div>
     </div>
 
     <div class='row form-group required'>

@@ -175,6 +175,7 @@ return [
         "employees" => "公司員工總數", 
         "direct_managed_employees" => "所轄員工人數", 
         "capital" => "資本額", 
+        "capital_unit" => "資本額單位", 
         "org_type" => "公司組織形式", 
         "org_type_other" => "公司組織形式:自填",
         "years_operation" => "公司成立幾年",
