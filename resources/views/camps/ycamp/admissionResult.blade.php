@@ -8,6 +8,7 @@
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }}</h4>
     </div>
+<!--
     @if($applicant->is_admitted)
         <div class="card">
             <div class="card-header">
@@ -19,6 +20,7 @@
         </div>
         <br>
     @endif
+-->
     <div class="card">
         <div class="card-header">
             錄取查詢
@@ -26,13 +28,21 @@
         <div class="card-body">
             @if($applicant->is_admitted)
                 <p class="card-text">親愛的 {{ $applicant->name }} 同學您好</p>
-                <p class="card-text indent">非常恭喜您錄取「{{ $camp_data->fullName }}」，您的錄取編號為：{{ $applicant->group }}{{ $applicant->number }}。</p>
-                <p class="card-text indent">期待與你共享這場心靈饗宴！請詳閱以下相關訊息，祝福您活動收穫滿滿。</p>
+                <p class="card-text indent">非常恭喜您錄取「{{ $camp_data->fullName }}」！</p>
+                <p class="card-text indent">
+                錄取編號：{{ $applicant->group }}{{ $applicant->number }}<br>
+                營隊場次：{{ $applicant->batch->name }} <br>
+                營隊日期：{{ $applicant->batch->batch_start }} ~ {{ $applicant->batch->batch_end }} <br>
+                </p>
+                <p class="card-text indent">期待與您共享這場心靈饗宴！請詳閱以下相關訊息，祝福您營隊收穫滿滿。</p>
+
                 <p class="card-text">
-                    <h4>營隊資訊</h4>
-                        <div class="ml-4 mb-2 text-danger">本次營隊因應疫情改為線上舉辦。</div>
-                        <div class="ml-4 mb-2">營隊期間：2021/8/14~15 (六、日) 9:30~17:30  共 2天</div>
-                    <h4>營隊場次：{{ $applicant->batch->name }}</h4>
+                    <h5>營隊相關訊息</h5>
+                        <div class="ml-0 mb-2">1.因應疫情，營隊改為線上舉辦。</div>
+                        <div class="ml-0 mb-2">2.經錄取後，敬請全程參與本活動。全程參與者，發給研習證明文件。</div>
+                        <div class="ml-0 mb-2">3.有任何問題，請Email至<a href="mailto:youth@blisswisdom.org">youth@blisswisdom.org</a>，或於<a href="https://www.facebook.com/bwyouth" target="_blank" rel="noopener noreferrer">福智青年粉專</a>留言</div>
+                    
+<!--
                     <h4>確認參加</h4>
                     <div class="ml-4 mb-2">請回覆確認參加。</div>
                     @if(!isset($applicant->is_attend))
@@ -54,12 +64,11 @@
                             <input class="btn btn-success" type="submit" value="確認參加">
                         @endif
                     </form>
+-->
                 </p>
-                <p class="card-text indent">錄取學員敬請全程參與本活動。全程參與者，發給研習證明文件。</p>
-                <p class="card-text indent">有任何問題，請Email至<a href="mailto:youth@blisswisdom.org">youth@blisswisdom.org</a>，或於<a href="https://www.facebook.com/bwyouth" target="_blank" rel="noopener noreferrer">福智青年粉專</a>留言</p>
                 <p class="card-text text-right">財團法人福智文教基金會 敬啟</p>
                 <p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
-            @elseif($applicant->created_at->gte(\Carbon\Carbon::parse('2021-06-15 00:00:00')))
+            @elseif($applicant->created_at->gte(\Carbon\Carbon::parse('2022-05-31 00:00:00')))
                 <p class="card-text">親愛的 {{ $applicant->name }} 同學您好</p>
                 <p class="card-text indent">感謝您報名「{{ $camp_data->fullName }}」，錄取作業正在進行中，請稍後再進行錄取查詢。感謝您的耐心等待！</p>
                 <p class="card-text text-right">財團法人福智文教基金會 敬啟</p>
@@ -70,7 +79,7 @@
                 <p class="card-text text-right">財團法人福智文教基金會 敬啟</p>
                 <p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
                 </p>
-                {{--
+<!--
                 <p class="card-text">親愛的 {{ $applicant->name }} 同學您好</p>
                 <p class="card-text indent">感謝您報名「{{ $camp_data->fullName }}」，依報名資格規範，很抱歉於此活動未能錄取您。</p>
                 <p class="card-text indent">福智文教基金會尚有各項精彩活動與課程，竭誠歡迎您的參與！</p>
@@ -79,7 +88,7 @@
                 <p class="card-text text-right">財團法人福智文教基金會 敬啟</p>
                 <p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
                 </p>
-                --}}
+-->
             @endif
             <input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>
             <a href="{{ $camp_data->site_url }}" class="btn btn-primary">回營隊首頁</a>
