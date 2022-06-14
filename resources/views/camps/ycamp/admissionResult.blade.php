@@ -38,9 +38,8 @@
 
                 <p class="card-text">
                     <h5>營隊相關訊息</h5>
-                        <div class="ml-0 mb-2">1.因應疫情，營隊改為線上舉辦。</div>
-                        <div class="ml-0 mb-2">2.經錄取後，敬請全程參與本活動。全程參與者，發給研習證明文件。</div>
-                        <div class="ml-0 mb-2">3.有任何問題，請Email至<a href="mailto:youth@blisswisdom.org">youth@blisswisdom.org</a>，或於<a href="https://www.facebook.com/bwyouth" target="_blank" rel="noopener noreferrer">福智青年粉專</a>留言</div>
+                        <div class="ml-0 mb-2">1.經錄取後，敬請全程參與本活動。全程參與者，發給研習證明文件。</div>
+                        <div class="ml-0 mb-2">2.有任何問題，請Email至<a href="mailto:youth@blisswisdom.org">youth@blisswisdom.org</a>，或於<a href="https://www.facebook.com/bwyouth" target="_blank" rel="noopener noreferrer">福智青年粉專</a>留言</div>
                     
 <!--
                     <h4>確認參加</h4>
