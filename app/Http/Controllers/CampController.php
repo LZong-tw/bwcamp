@@ -380,6 +380,7 @@ class CampController extends Controller
 
     public function campQueryAdmission(Request $request) {
         $campTable = $this->camp_data->table;
+        $camp = $this->camp_data;
         $applicant = null;
         if($request->name != null && $request->sn != null) {
             $applicant = Applicant::select('applicants.*', $campTable . '.*', 'applicants.id as applicant_id')
@@ -388,7 +389,7 @@ class CampController extends Controller
                 ->where('name', $request->name)
                 ->withTrashed()->first();
         }
-        if($applicant) {
+        if($applicant && $applicant->batch->camp->id == $camp->id) {
             $applicant = $this->applicantService->checkPaymentStatus($applicant);
             return view('camps.' . $campTable . ".admissionResult")->with('applicant', $applicant);
         }
