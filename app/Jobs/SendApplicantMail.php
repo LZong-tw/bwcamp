@@ -53,15 +53,26 @@ class SendApplicantMail implements ShouldQueue
                 // 秘書
                 \Mail::to($camp_related_data->substitute_email)->send(new \App\Mail\SubstituteMail($applicant->id, $this->campOrVariant, $this->isGetSN));
             }
-        }     
+        }
     }
 
     /**
-     * Get the middleware the job should pass through.
+     * The unique ID of the job.
      *
-     * @return array
+     * @return string
      */
-    // public function middleware() {
-    //      return [new WithoutOverlapping($this->applicant->batch->camp->id)];
-    // }
+    public function uniqueId()
+    {
+        return $this->applicant->id;
+    }
+
+    /**
+     * Determine the time at which the job should timeout.
+     *
+     * @return \DateTime
+     */
+    public function retryUntil()
+    {
+        return now()->addMinutes(60);
+    }
 }

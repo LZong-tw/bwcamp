@@ -61,4 +61,24 @@ class SendCheckInMail implements ShouldQueue
     public function middleware() {
         return [new WithoutOverlapping($this->applicant->batch->camp->id)];
     }
+
+    /**
+     * The unique ID of the job.
+     *
+     * @return string
+     */
+    public function uniqueId()
+    {
+        return $this->applicant->id;
+    }
+
+    /**
+     * Determine the time at which the job should timeout.
+     *
+     * @return \DateTime
+     */
+    public function retryUntil()
+    {
+        return now()->addMinutes(60);
+    }
 }
