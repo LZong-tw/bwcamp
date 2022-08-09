@@ -225,6 +225,7 @@ class CheckInController extends Controller {
         // 照梯次取報名人 
         $applicantsCount = 0;
         $allApplicants = null;
+        $checkedInApplicants = null;
         foreach($batches as $key => $batch){
             $allApplicants = Applicant::where(\DB::raw("fee - deposit"), "<=", 0)
                                 ->where("batch_id", $batch->id)
