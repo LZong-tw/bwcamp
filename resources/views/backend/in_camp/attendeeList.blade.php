@@ -20,7 +20,7 @@
         <a href="{{ route("showAttendeePhoto", $campFullData->id) }}?download=1" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">設定小組別/職務</a>
     </p>
     瀏覽組別：
-    <input type="checkbox" name="show_all" onclick=""> 全關懷組
+    <button class="btn btn-primary btn-sm" onclick="" value="all"> 全關懷組 </button>
     &nbsp;&nbsp;
     <input type="checkbox" name="no_group" onclick=""> 未分小組
     &nbsp;&nbsp;
@@ -43,9 +43,9 @@
     <button type="submit" class="btn btn-secondary btn-sm" onclick="">選定</button>
     <br>
     每頁顯示：
-    <input type="checkbox" name="show50" onclick=""> 50筆
+    <input type="radio" name="show" onclick="" value="50"> 50筆
     &nbsp;&nbsp;
-    <input type="checkbox" name="show100" onclick=""> 100筆
+    <input type="radio" name="show" onclick="" value="100"> 100筆
     &nbsp;&nbsp;
     <button type="submit" class="btn btn-secondary btn-sm" onclick="">選定</button>
     <br>
@@ -59,7 +59,7 @@
     </p>
     <table class="table table-bordered table-hover">
         <thead>
-            <tr style="background-color:slateblue;color:white;">
+            <tr class="bg-primary text-white">
                 <th>組別</th>
                 <th>職務</th>
                 <th>照片</th>
