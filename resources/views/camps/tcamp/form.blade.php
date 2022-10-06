@@ -104,6 +104,17 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class='row form-group required'>
+        <label for='inputBirth' class='col-md-2 control-label text-md-right'>出生年(西元)</label>
+        <div class='col-md-10' id='inputBirth'>
+            <input required type='number' class='form-control' name='birthyear' min=1940 max='{{ \Carbon\Carbon::now()->subYears(16)->year }}' value='' placeholder=''>
+            <div class="invalid-feedback">
+                未填寫或日期不正確
+            </div>
+        </div>
+    </div>
+
+<!--
+    <div class='row form-group required'>
         <label for='inputBirth' class='col-md-2 control-label text-md-right'>年齡層</label>
         <div class='col-md-10'>
             <select required class='form-control' name='age_range' placeholder=''>
@@ -134,7 +145,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </select>
         </div>
     </div>
-
+-->
     <div class='row form-group required'>
         <label for='inputBirth' class='col-md-2 control-label text-md-right'>研習時數申請</label>
         <div class='col-md-10'>
@@ -162,15 +173,15 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     </div>
-
-{{--    <div class='row form-group required'>
+{{--
+    <div class='row form-group required'>
         <label for='inputIsForeigner' class='col-md-2 control-label text-md-right'>海外身份</label>
         <div class='col-md-10'>
             <input type='checkbox' name='is_foreigner' value='' class='form-control' id='inputIsForeigner' placeholder='' required @if(isset($isModify) && $isModify) disabled @endif>
             （若勾選「海外身份」，「身份證字號」請填護照號碼）
         </div>
-    </div>--}}
-
+    </div>
+--}}
     @if(!$camp_data->variant)
         <div class='row form-group required'>
             <label for='inputHasLicense' class='col-md-2 control-label text-md-right'>是否有教師證</label>
@@ -260,8 +271,8 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <utcamp-title></utcamp-title>
         </span>
     @endif
-    <p class='form-control-static text-danger'>連絡方式</p>
-    <p class="form-control-static text-danger">＊因需寄發教材資料及通知，請務必填寫正確</p>
+    <h5 class='form-control-static'>連絡方式</h5>
+    <!--<p class="form-control-static text-danger">＊因需寄發教材資料及通知，請務必填寫正確</p>-->
     <div class='row form-group required'>
         <label for='inputCell' class='col-md-2 control-label text-md-right'>行動電話</label>
         <div class='col-md-10'>
@@ -276,6 +287,16 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <label for='inputTelHome' class='col-md-2 control-label text-md-right'>家中電話</label>
         <div class='col-md-10'>
             <input type=tel  name='phone_home' value='' class='form-control' id='inputTelHome' placeholder='格式：0225452546'>
+        </div>
+    </div>
+
+    <div class='row form-group'> 
+        <label for='inputLineID' class='col-md-2 control-label text-md-right'>LINE ID</label>
+        <div class='col-md-10'>
+            <input type=text name='line' value='' class='form-control' id='inputLineID'>
+            <div class="invalid-feedback crumb">
+                請填寫LINE ID
+            </div>
         </div>
     </div>
 
@@ -335,12 +356,12 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     </div>
-
+<!--
     <div class='row form-group m-0'>
         <div class="col-md-2 m-0"></div>
         <p class="form-control-static text-danger font-weight-bold m-0">＊因需寄發教材資料，請務必填寫詳細</p>
     </div>
-
+-->
     <div class='row form-group required'>
         <label for='inputAddress' class='col-md-2 control-label text-md-right'>通訊地址</label>
         <div class='col-md-2'>
@@ -387,25 +408,156 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     </div>
-    
-    <div class='row form-group'>
-        <label for='inputExpect' class='col-md-2 control-label text-md-right'>我對這次活動的期望</label>
+
+    <div class='row form-group required'>
+        <label class='col-md-2 control-label text-md-right'>緊急聯絡人</label>
         <div class='col-md-10'>
-            <textarea class='form-control' rows=2 name='expectation' id=inputExpect></textarea>
-            {{-- <div class="invalid-feedback">
-                請填寫本欄位
-            </div> --}}
+            <div class='row form-group'>
+                <div class='col-md-2'>
+                    姓名：
+                </div>
+                <div class='col-md-10'>
+                    <input type='text'class='form-control' name="emergency_name" value='' required>
+                </div>
+                <div class="invalid-feedback">
+                    請填寫本欄位
+                </div>
+            </div>
+
+            <div class='row form-group'>
+                <div class='col-md-2'>
+                    關係：
+                </div>
+                <div class='col-md-10'>
+                    <select name="emergency_relationship" class="form-control" required> 
+                        <option value=''>- 請選擇 -</option>
+                        <option value='配偶'>配偶</option>
+                        <option value='父親'>父親</option>
+                        <option value='母親'>母親</option>
+                        <option value='兄弟'>兄弟</option>
+                        <option value='姊妹'>姊妹</option>
+                        <option value='朋友'>朋友</option>
+                        <option value='同事'>同事</option>
+                        <option value='子女'>子女</option>
+                        <option value='其他'>其他</option>
+                    </select>
+                </div>
+            </div>   
+            <div class='row form-group'>
+                <div class='col-md-2'>
+                    聯絡電話：
+                </div>
+                <div class='col-md-10'>
+                    <input type='tel' class='form-control' name="emergency_mobile" value='' required>
+                </div>
+                <div class="invalid-feedback">
+                    請填寫本欄位
+                </div>
+            </div>   
         </div>
     </div>
 
-    <!--- 福智活動 -->
+    <div class='row form-group'>
+        <label class='col-md-2 control-label text-md-right'>介紹人<br>(若無免填)</label>
+        <div class='col-md-10'>
+            <div class='row form-group'>
+                <div class='col-md-2'>
+                    姓名：
+                </div>
+                <div class='col-md-10'>
+                    <input type='text' class='form-control' name="introducer_name" value=''>
+                </div>
+                <div class="invalid-feedback">
+                    請填寫本欄位
+                </div>
+            </div>
+
+            <div class='row form-group'>
+                <div class='col-md-2'>
+                    關係：
+                </div>
+                <div class='col-md-10'>
+                    <select name="introducer_relationship" class="form-control"> 
+                        <option value=''>- 請選擇 -</option>
+                        <option value='配偶'>配偶</option>
+                        <option value='父親'>父親</option>
+                        <option value='母親'>母親</option>
+                        <option value='兄弟'>兄弟</option>
+                        <option value='姊妹'>姊妹</option>
+                        <option value='朋友'>朋友</option>
+                        <option value='同事'>同事</option>
+                        <option value='子女'>子女</option>
+                        <option value='其他'>其他</option>
+                    </select>
+                </div>
+            </div>   
+            <div class='row form-group'>
+                <div class='col-md-2'>
+                    聯絡電話：
+                </div>
+                <div class='col-md-10'>
+                    <input type='tel' class='form-control' name="introducer_phone" value=''>
+                </div>
+                <div class="invalid-feedback">
+                    請填寫本欄位
+                </div>
+            </div>
+            <div class='row form-group'>
+                <div class='col-md-2'>
+                    福智班別：
+                </div>
+                <div class='col-md-10'>
+                    <input type='text'class='form-control' name="introducer_participated" value=''>
+                </div>
+                <div class="invalid-feedback">
+                    請填寫本欄位
+                </div>
+            </div>   
+        </div>
+    </div>    
+    
+    <!-- 有點複雜的「是否參加過福智活動」的調查
+        「之前是否曾參加過「福智教師生命成長營」」項目，
+        借用之前"never_attend_any_stay_over_tcamps"欄位，（是：1）（否：0）。
+    -->
     @if($camp_data->variant ?? null == 'utcamp')
         <span id="utcamp-is-blisswisdom">
             <utcamp-is-blisswisdom></utcamp-is-blisswisdom>
         </span>        
     @else
         <div class='row form-group'>
-            <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>是否參加過福智的活動</label>
+            <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>之前是否曾參加過「福智教師生命成長營」</label>
+            <div class='col-md-10'>
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label">
+                        <input type="radio" name="never_attend_any_stay_over_tcamps" value='1' onclick="toggleTcampYear(1)"> 是
+                        <div class="invalid-feedback">
+                            請選擇項目
+                        </div>
+                    </label> 
+                </div>
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label">
+                        <input type="radio" name="never_attend_any_stay_over_tcamps" value='0' onclick="toggleTcampYear(0)"> 否
+                        <div class="invalid-feedback">
+                            &nbsp;
+                        </div>
+                    </label> 
+                </div>
+            </div>
+        </div> 
+        <div class='row form-group required' style="display: none;" id="tcamp_year_row">
+            <label for='inputTcampYear' class='col-md-2 control-label text-md-right'>參加年度(西元)</label>
+            <div class='col-md-10' id='inputTcampYear'>
+                <input required type='number' class='form-control' name='tcamp_year' min=1993 max='{{ \Carbon\Carbon::now()->year }}' value='' placeholder='大約年度即可'>
+                <div class="invalid-feedback">
+                    未填寫或日期不正確
+                </div>
+            </div>
+        </div>
+   
+        <div class='row form-group'>
+            <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>是否參加過福智「其它」的活動</label>
             <div class='col-md-10'>
                 <div class="form-check form-check-inline">
                     <label class="form-check-label">
@@ -424,21 +576,19 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     </label> 
                 </div>
             </div>
-        </div>        
+        </div>
+
+        
         <div class='row form-group required' style="display: none;" id="complement_row">
             <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>參加過福智的活動</label>
             <div class='col-md-10'>
-                <div class="form-check form-check-inline col-md-12 p-0">
-                    <span class="col-md-2">廣論班：</span><input type="text" class="form-control" name="blisswisdom_type_complement[0]" placeholder="請填寫廣論班別，範例：北21春001班">
-                    <div class="invalid-feedback">
-                        請至少填寫一欄
-                    </div>
-                </div>
-                <div class="form-check form-check-inline col-md-12 p-0">
-                    <span class="col-md-2">其他：</span><input type="text" class="form-control" name="blisswisdom_type_complement[1]">
-                    <div class="invalid-feedback">
-                        請至少填寫一欄
-                    </div>
+                <label><input type="checkbox" name=blisswisdom_type[] value='廣論班' > 廣論班</label> <br/>
+                <label><input type="checkbox" name=blisswisdom_type[] value='校園減塑點亮計畫' > 校園減塑點亮計畫</label> <br/>
+                <label><input type="checkbox" name=blisswisdom_type[] value='幸福教育學等研習課程' > 幸福教育學等研習課程</label> <br/>
+                <label><input type="checkbox" name=blisswisdom_type[] value='其他' onchange="toggleBTCrequired()"> 其他</label> <br>
+                <input type=text class='form-control' name="blisswisdom_type_complement" value='' id="blisswisdom_type_complement">
+                <div class="invalid-feedback">
+                    請填寫活動
                 </div>
             </div>
         </div> 
@@ -453,7 +603,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <label><input type="checkbox" name=info_source[] value='福智文教基金會官網' > 福智文教基金會官網</label> <br/>
             @if(!isset($camp_data->variant) || $camp_data->variant != 'utcamp')
                 <label><input type="checkbox" name=info_source[] value='幸福心學堂 Online 臉書' > 幸福心學堂 Online 臉書</label> <br/>
-                <label><input type="checkbox" name=info_source[] value='哈特麥臉書' > 哈特麥臉書</label> <br/>
+                <!--<label><input type="checkbox" name=info_source[] value='哈特麥臉書' > 哈特麥臉書</label> <br/>-->
             @endif
             <label><input type="checkbox" name=info_source[] value='自行搜尋' > 自行搜尋</label>
         </div>
@@ -463,10 +613,17 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <div class='row form-group'>
             <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>對哪些活動有興趣（可複選） </label>
             <div class='col-md-10'>
-                <label><input type="checkbox" name=interesting[] value='心靈成長講座' > 心靈成長講座</label> <br/>
-                <label><input type="checkbox" name=interesting[] value='教材教法工作坊' > 教材教法工作坊</label> <br/>
-                <label><input type="checkbox" name=interesting[] value='淨灘淨山' > 淨灘淨山</label> <br/>
+                <label><input type="checkbox" name=interesting[] value='親子教育' > 親子教育</label> <br/>
+                <label><input type="checkbox" name=interesting[] value='婚姻經營' > 婚姻經營</label> <br/>
+                <label><input type="checkbox" name=interesting[] value='班級經營' > 班級經營</label> <br/>
+                <label><input type="checkbox" name=interesting[] value='情緒管理' > 情緒管理</label> <br/>
+                <label><input type="checkbox" name=interesting[] value='環保淨灘' > 環保淨灘</label> <br/>
                 <label><input type="checkbox" name=interesting[] value='農場體驗' > 農場體驗</label> <br/>
+                <label><input type="checkbox" name=interesting[] value='種樹活動' > 種樹活動</label> <br/>
+                <label><input type="checkbox" name=interesting[] value='藝文活動' > 藝文活動</label> <br/>
+                <label><input type="checkbox" name=interesting[] value='樂齡活動' > 樂齡活動</label> <br/>
+                <label><input type="checkbox" name=interesting[] value='正念靜心' > 正念靜心</label> <br/>
+                <label><input type="checkbox" name=interesting[] value='儒學與生活' > 儒學與生活</label> <br/>
                 <label><input type="checkbox" name=interesting[] value='其他' onchange="toggleICrequired()"> 其他</label> <br>
                 <input type=text class='form-control' name="interesting_complement" value='' id="interesting_complement">
                 <div class="invalid-feedback">
@@ -475,21 +632,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
         
-        <div class='row form-group required'>
-            <label for='inputTerm' class='col-md-2 control-label text-md-right'></label>
-            <div class='col-md-10 form-check'>
-                <label>
-                    <p class='form-control-static text-danger mb-0'>
-                        <input type='radio' required name="never_attend_any_stay_over_tcamps" value='1'> 
-                        我未曾參加過福智教師生命成長營——住宿型
-                    </p>
-                </label>  
-                <input type='radio' class='d-none' name="never_attend_any_stay_over_tcamps" value='0'>
-                <div class="invalid-feedback mt-0">
-                    請圈選本欄位
-                </div>
-            </div>
-        </div>
     @else
         <div class='row form-group'>
             <label class='col-md-2 control-label text-md-right'>推薦人</label>
@@ -528,13 +670,23 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     @endif
 
+    <div class='row form-group'>
+        <label for='inputExpect' class='col-md-2 control-label text-md-right'>我對這次活動的期望</label>
+        <div class='col-md-10'>
+            <textarea class='form-control' rows=2 name='expectation' id=inputExpect></textarea>
+            {{-- <div class="invalid-feedback">
+                請填寫本欄位
+            </div> --}}
+        </div>
+    </div>
+
     <!--- 同意書 -->
     <div class='row form-group required'>
         <label for='inputTerm' class='col-md-2 control-label text-md-right'>肖像權</label>
         <div class='col-md-10 form-check'>
             <p class='form-control-static text-danger mb-0'>
                 <label>
-                    <input type='radio' required name="portrait_agree" value='1'>
+                    <input type='radio' required name="portrait_agree" value='1' onclick="showPortraitAgree">
                     我同意主辦單位在營隊期間拍照、錄影之活動記錄，使用於營隊及主辦單位的非營利教育推廣使用，並以網路方式推播。
                 </label>
             </p>
@@ -688,11 +840,15 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             if (document.readyState === 'complete') {
             }
         };
-
+        //toggle interesting_complement required or not
         function toggleICrequired() {
             document.getElementById('interesting_complement').required = !document.getElementById('interesting_complement').required ? true : false;
         }
-
+        //toggle blisswisdom_type_complement required or not
+        function toggleBTCrequired() {
+            document.getElementById('blisswisdom_type_complement').required = !document.getElementById('blisswisdom_type_complement').required ? true : false;
+        }
+        //??
         function toggleComplement(val) {
             let blisswisdom_type_complements = $('input').filter(function() {
                                                             return this.name.match(/blisswisdom_type_complement\[\d\]/);
@@ -706,6 +862,19 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             else {
                 $("#complement_row").hide();
             }
+        }
+        function toggleTcampYear(val) {
+            if(val) { 
+                $("#tcamp_year_row").show();
+                document.getElementById('inputTcampYear').required = true;
+            }
+            else {
+                $("#tcamp_year_row").hide();
+                document.getElementById('inputTcampYear').required = false;
+            }
+        }
+        function showPortraitAgree() {
+            alert("I am an alert box!");
         }
 
         function id_setRequired(ele) {

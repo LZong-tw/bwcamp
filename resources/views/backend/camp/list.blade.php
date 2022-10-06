@@ -20,7 +20,7 @@
             <th>ID</th>
             <th>全名</th>
             <th>簡稱</th>
-            <th>網站網址</th>
+            <!-- <th>網站網址</th> -->
             <th>圖示</th>
             <th>資料表名稱</th>
             <th>Variant</th>
@@ -47,7 +47,7 @@
                 <td>{{ $camp->id }}</td>
                 <td>{{ $camp->fullName }}</td>
                 <td>{{ $camp->abbreviation }}</td>
-                <td><a href="{{ $camp->site_url }}" target="_blank">{{ $camp->site_url }}</a></td>
+                <!-- <td><a href="{{ $camp->site_url }}" target="_blank">{{ $camp->site_url }}</a></td> -->
                 <td>{{ $camp->icon }}</td>
                 <td>{{ $camp->table }}</td>
                 <td>{{ $camp->variant }}</td>
@@ -69,7 +69,9 @@
                 <td>{{ $camp->updated_at }}</td>
                 <td>
                     <a href="{{ route("showBatch", $camp->id) }}" class="btn btn-success" target="_blank">梯次列表</a>
-                    <a href="{{ route("showModifyCamp", $camp->id) }}" class="btn btn-primary">修改</a></td>
+                    <a href="{{ route("showModifyCamp", $camp->id) }}" class="btn btn-primary">編輯營隊</a>
+                    <a href="{{ route("showModifyOrg", $camp->id) }}" class="btn btn-warning">編輯組織</a>
+                </td>
             </tr>
         @endforeach
     </table>
