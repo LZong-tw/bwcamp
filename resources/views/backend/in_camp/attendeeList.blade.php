@@ -1,6 +1,9 @@
 @extends('backend.master')
 @section('content')
 @include('..partials.counties_areas_script')
+<link rel="stylesheet" href="{{ asset('bootstrap-table/bootstrap-table.min.css') }}">
+<script defer src="{{ asset('bootstrap-table/bootstrap-table.min.js') }}"></script>
+<script defer src="{{ asset('bootstrap-table/locale/bootstrap-table-zh-TW.min.js') }}"></script>
 <style>
     .card-link{
         color: #3F86FB!important;
