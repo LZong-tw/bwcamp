@@ -204,5 +204,21 @@
         @else
             <input type="submit" class="btn btn-success" value="確認修改">
         @endif
+
+        <table class="table table-bordered">
+            <tr>
+                <th>營隊名稱</th>
+                <th>組別</th>
+                <th>職務名稱</th>
+            </tr>
+            @foreach($camp_orgs as $camp_org)
+                <tr>
+                    <td>{{ $camp_org->camp_id }}</td>
+                    <td>{{ $camp_org->group }}</td>
+                    <td>{{ $camp_org->position }}</td>
+                    <td><a href="{{ route("showModifyBatch", [$camp->id, $batch->id]) }}" class="btn btn-primary">修改</a></td>
+                </tr>
+            @endforeach
+        </table>
     </form>
 @endsection
