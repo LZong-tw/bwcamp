@@ -30,16 +30,18 @@ class CampDataService
         // 企業營：有興趣參加活動的類別、方便參加的時段
         // 菁英營：適合聯絡時段
         // 菁英營義工：交通方式、語言
+        // 教師營：得知管道、參加過的福智活動(選項)、有興趣的主題(選項)、營隊後方便參加時間
         if(isset($request->blisswisdom_type) && is_array($request->blisswisdom_type)) {
             $request->merge([
                 'blisswisdom_type' => implode("||/", $request->blisswisdom_type)
             ]);
         }
+        /*
         if(isset($request->blisswisdom_type_complement)) {
             $request->merge([
                 'blisswisdom_type_complement' => implode("||/", $request->blisswisdom_type_complement)
             ]);
-        }
+        }*/
         if(isset($request->is_child_blisswisdommed)) {
             $request->merge([
                 'is_child_blisswisdommed' => implode("||/", $request->is_child_blisswisdommed)
