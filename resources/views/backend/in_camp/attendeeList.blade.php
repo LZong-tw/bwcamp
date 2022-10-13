@@ -16,7 +16,7 @@
     }
 </style>
 @if(isset($applicants))
-    <h3>2022北區企業菁英生命成長營 >> 瀏覽關懷組義工名單</h3>
+    <h3>{{ $fullName }} >> 瀏覽{{ strpos($tablename, 'vcamp')?'義工':'學員' }}名單</h3>
     <p align="right">
         <a href="{{ route("showAttendeePhoto", $campFullData->id) }}?download=1" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">匯出資料</a>
         &nbsp;&nbsp;
