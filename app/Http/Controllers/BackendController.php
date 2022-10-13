@@ -803,7 +803,9 @@ class BackendController extends Controller {
 
         return view('backend.in_camp.attendeeList')
                 ->with('applicants', $applicants)
-                ->with('batches', $batches);
+                ->with('batches', $batches)
+                ->with('tablename', $this->campFullData->table)
+                ->with('fullName', $this->campFullData->fullName);
     }
     
     public function showAccountingPage() {
