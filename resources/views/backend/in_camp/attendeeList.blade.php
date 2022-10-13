@@ -60,17 +60,17 @@
         &nbsp;
         <button type="submit" class="btn btn-secondary btn-sm" onclick="">下一頁</button>
     </p>
-    <table class="table table-bordered table-hover">
+    <table class="table table-bordered table-hover" data-toggle="table">
         <thead>
-            <tr class="bg-primary text-white">
-                <th>組別</th>
+            <tr class="bg-success text-white">
+                <th data-field="group" data-sortable="true">組別</th>
                 <th>職務</th>
                 <th>照片</th>
                 <th>姓名</th>
-                <th>性別</th>
-                <th>年齡</th>
-                <th>班別</th>
-                <th>產業別</th>
+                <th data-field="gender" data-sortable="true">性別</th>
+                <th data-field="birthyear" data-sortable="true">年齡</th>
+                <th data-field="lrclass" data-sortable="true">班別</th>
+                <th data-field="industry" data-sortable="true">產業別</th>
                 <th>公司名稱</th>
                 <th>職稱</th>
                 @if($campFullData->table == "tcamp")
@@ -86,7 +86,7 @@
         </thead>
         @forelse ($applicants as $applicant)
             <tr>
-                <td>{{ $applicant->group . $applicant->number }}</td>
+                <td>{{ $applicant->group }}</td>
                 <td></td>
                 @if($applicant->avatar)
                 <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($applicant->avatar)) }}" width=80 alt="{{ $applicant->name }}"></td>
@@ -94,7 +94,7 @@
                 <td>no photo</td>
                 @endif
                 <td>{{ $applicant->name }}</td>
-                <td>{{ $applicant->gender }}</td>
+                <td>{{ ($applicant->gender=='M')?'男':'女' }}</td>
                 <td>{{ date("Y")-$applicant->birthyear }}</td>
                 <td>{{ $applicant->lrclass }}</td>
                 <td>{{ $applicant->industry }}</td>
