@@ -19,12 +19,16 @@
     <h3>{{ $fullName }} >> 瀏覽{{ ($is_vcamp) ? '義工' : '學員' }}名單</h3>
     <p align="right">
         <a href="{{ route("showAttendeePhoto", $campFullData->id) }}?download=1" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">匯出資料</a>
-        &nbsp;&nbsp;
-        <a href="{{ route("showAttendeePhoto", $campFullData->id) }}?download=1" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">設定小組別/職務</a>
+        @if($is_vcamp)
+            &nbsp;&nbsp;
+            <a href="{{ route("showAttendeePhoto", $campFullData->id) }}?download=1" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">設定小組別/職務</a>
+        @endif
     </p>
     瀏覽組別：
-    <button class="btn btn-primary btn-sm" onclick="" value="all"> 全關懷組 </button>
-    &nbsp;&nbsp;
+    @if($is_vcamp)
+        <button class="btn btn-primary btn-sm" onclick="" value="all"> 全關懷組 </button>
+        &nbsp;&nbsp;
+    @endif
     <input type="checkbox" name="no_group" onclick=""> 未分小組
     &nbsp;&nbsp;
     <input type="checkbox" name="group001" onclick=""> 第1組
