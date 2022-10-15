@@ -77,6 +77,8 @@
                         <td>no photo</td>
                     @elseif($key == "gender")
                         <td>{{ $applicant->gender_zh_tw }}</td>
+                    @elseif(!$applicant->$key)
+                        <td>開發中</td>
                     @else
                         <td>{{ $applicant->$key }}</td>
                     @endif
