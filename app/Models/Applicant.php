@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Traffic;
@@ -11,12 +12,12 @@ class Applicant extends Model {
 
     //
     protected $fillable = [
-        'batch_id', 'name', 'english_name', 'region', 'avatar','gender', 
-        'birthyear', 'birthmonth', 'birthday', 'age_range', 'nationality', 'idno', 
+        'batch_id', 'name', 'english_name', 'region', 'avatar','gender',
+        'birthyear', 'birthmonth', 'birthday', 'age_range', 'nationality', 'idno',
         'is_foreigner', 'is_allow_notified', 'mobile', 'phone_home', 'phone_work',
         'fax', 'line', 'wechat', 'email', 'zipcode', 'address',
         'emergency_name', 'emergency_relationship', 'emergency_mobile', 'emergency_phone_home', 'emergency_phone_work', 'emergency_fax',
-        'introducer_name', 'introducer_relationship', 'introducer_phone', 'introducer_email', 'introducer_participated', 
+        'introducer_name', 'introducer_relationship', 'introducer_phone', 'introducer_email', 'introducer_participated',
         'portrait_agree', 'profile_agree', 'expectation', 'tax_id_no'
     ];
 
@@ -37,7 +38,7 @@ class Applicant extends Model {
     public function checkInData() {
         return $this->hasMany(CheckIn::class);
     }
-    
+
     public function traffic() {
         return $this->hasOne(Traffic::class, 'applicant_id', 'id');
     }
@@ -69,7 +70,7 @@ class Applicant extends Model {
     public function ycamp() {
         return $this->hasOne(Ycamp::class, 'applicant_id', 'id');
     }
-    
+
     public function signData($orderBy = "desc") {
         return $this->hasMany(SignInSignOut::class)->orderBy('id', $orderBy);
     }
@@ -90,5 +91,17 @@ class Applicant extends Model {
 
     public function hasAlreadySigned($availability_id) {
         return $this->signData()->whereAvailabilityId($availability_id)->first();
+    }
+
+    public function getBirthdateAttribute() {
+        return Carbon::parse("{$this->birthyear}-{$this->birthmonth}-{$this->birthday}");
+    }
+
+    public function getAgeAttribute() {
+        return $this->birthdate->diff(now())->format('%y');
+    }
+
+    public function getGenderZhTwAttribute() {
+        return $this->gender == 'M' ? '男' : '女';
     }
 }
