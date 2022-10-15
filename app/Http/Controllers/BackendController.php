@@ -39,7 +39,7 @@ class BackendController extends Controller {
             View::share('camp_data', $this->camp_data);
             if($this->camp_data->table == 'ycamp' || $this->camp_data->table == 'acamp'){
                 if($this->camp_data->admission_confirming_end && Carbon::now()->gt($this->camp_data->admission_confirming_end)){
-                    $this->has_attend_data = true; 
+                    $this->has_attend_data = true;
                 }
             }
             // 動態載入電子郵件設定
@@ -53,7 +53,7 @@ class BackendController extends Controller {
             View::share('campFullData', $this->campFullData);
             if($this->campFullData->table == 'ycamp' || $this->campFullData->table == 'acamp'){
                 if($this->campFullData->admission_confirming_end && Carbon::now()->gt($this->campFullData->admission_confirming_end)){
-                    $this->has_attend_data = true; 
+                    $this->has_attend_data = true;
                 }
             }
             // 動態載入電子郵件設定
@@ -61,7 +61,7 @@ class BackendController extends Controller {
         }
         if(\Str::contains(url()->current(), "campManage")){
             $this->middleware('admin');
-        }     
+        }
     }
 
     /**
@@ -104,7 +104,7 @@ class BackendController extends Controller {
                     $candidate = $this->applicantService->Mandarization($candidate);
                     $error = "報名序號重複。";
                     return view('backend.registration.showCandidate', compact('candidate', 'error'));
-                }                
+                }
                 $candidate->is_admitted = 1;
                 $candidate->group = $group;
                 $candidate->number = $number;
@@ -153,7 +153,7 @@ class BackendController extends Controller {
                 $skip = false;
                 $groupAndNumber = $this->applicantService->groupAndNumberSeperator($request->admittedSN[$key]);
                 $group = $groupAndNumber['group'];
-                $number = $groupAndNumber['number'];                
+                $number = $groupAndNumber['number'];
                 $check = Applicant::select('applicants.*')
                 ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
                 ->where('group', 'like', $group)->where('number', 'like', $number)
@@ -163,7 +163,7 @@ class BackendController extends Controller {
                     array_push($error, $candidate->name . "，錄取序號" . $request->admittedSN[$key] . "重複，沒有針對此人執行任何動作。");
                     $skip = true;
                 }
-                if(!$skip){                    
+                if(!$skip){
                     $candidate->is_admitted = 1;
                     $candidate->group = $group;
                     $candidate->number = $number;
@@ -210,7 +210,7 @@ class BackendController extends Controller {
                 $applicant->number = "-";
             }
         }
-        
+
         return view('backend.registration.showBatchCandidate', compact('applicants'));
     }
 
@@ -222,12 +222,12 @@ class BackendController extends Controller {
         if($candidate){
             $candidate = $this->applicantService->Mandarization($candidate);
         }
-        
+
         if(isset($request->change)){
             $batches = Batch::where('camp_id', $this->campFullData->id)->get();
             return view('backend.registration.changeBatchOrRegionForm', compact('candidate', 'batches'));
         }
-        
+
         if(\Str::contains(request()->headers->get('referer'), 'accounting')){
             $candidate = $this->applicantService->checkPaymentStatus($candidate);
             return view('backend.modifyAccounting', ['applicant' => $candidate]);
@@ -292,7 +292,7 @@ class BackendController extends Controller {
             }
             else{
                 $applicants = $applicants->where('school_or_course',  $request->school_or_course);
-            }                            
+            }
             $applicants = $applicants->withTrashed()->get();
             $query = $request->school_or_course;
         }
@@ -310,7 +310,7 @@ class BackendController extends Controller {
         elseif(isset($request->batch)){
             $applicants = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
                         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
-                        ->join('camps', 'camps.id', '=', 'batchs.camp_id')                        
+                        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                         ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
                         ->where('camps.id', $this->campFullData->id)
                         ->where('batchs.name', $request->batch)
@@ -391,14 +391,14 @@ class BackendController extends Controller {
                         if($date > $endDate){
                             break;
                         }
-                        $str = $date->format('Y-m-d');                        
+                        $str = $date->format('Y-m-d');
                         if(!in_array($str, $checkInDates)){
                             $checkInDates = array_merge($checkInDates, [$str => $str]);
                         }
                         $date->addDay();
                     }
                 }
-                // 按陣列鍵值升冪排列           
+                // 按陣列鍵值升冪排列
                 ksort($checkInDates);
                 $checkInData = array();
                 // 將每人每日的報到資料按報到日期組合成一個陣列
@@ -409,12 +409,12 @@ class BackendController extends Controller {
                         $checkInData[(string)$checkInDate] = $rawCheckInData->pluck('applicant_id')->toArray();
                     }
                 }
-                
+
                 // 簽到退時間
                 $signAvailabilities = $this->campFullData->allSignAvailabilities;
                 $signData = [];
                 $signDateTimesCols = [];
-                
+
                 if($signAvailabilities){
                     foreach($signAvailabilities as $signAvailability){
                         $signData[$signAvailability->id] = [
@@ -432,7 +432,7 @@ class BackendController extends Controller {
                     $signData = array();
                 }
             }
-            
+
             $fileName = $this->campFullData->abbreviation . $query . Carbon::now()->format('YmdHis') . '.csv';
             $headers = array(
                 "Content-Encoding"    => "Big5",
@@ -453,20 +453,20 @@ class BackendController extends Controller {
                         $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table));
                     }
                     else {
-                        $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $checkInDates);  
-                    }  
+                        $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $checkInDates);
+                    }
                 }
                 else {
                     if(!isset($checkInDates)) {
                         $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $signDateTimesCols);
                     }
                     else {
-                        $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $checkInDates, $signDateTimesCols);  
-                    }  
+                        $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $checkInDates, $signDateTimesCols);
+                    }
                 }
                 // 2022 一般教師營需要
                 if($this->campFullData->table == "tcamp" && !$this->campFullData->variant) {
-                    $pos = 44;                
+                    $pos = 44;
                     $columns = array_merge(array_slice($columns, 0, $pos), ["lamrim" => "廣論班"], array_slice($columns, $pos));
                 }
                 fputcsv($file, $columns);
@@ -477,7 +477,7 @@ class BackendController extends Controller {
                         // 2022 一般教師營需要
                         if($v == "廣論班" && $this->campFullData->table == "tcamp" && !$this->campFullData->variant) {
                             $lamrim = \explode("||/", $applicant->blisswisdom_type_complement)[0];
-                            if(!$lamrim || $lamrim == ""){                                
+                            if(!$lamrim || $lamrim == ""){
                                 array_push($rows, '="無"');
                             }
                             else{
@@ -506,7 +506,7 @@ class BackendController extends Controller {
                                 array_push($rows, '="❌"');
                             }
                         }
-                        else{       
+                        else{
                             array_push($rows, '="' . $applicant[$key] . '"');
                         }
                     }
@@ -530,8 +530,8 @@ class BackendController extends Controller {
             $candidate->batch_id = $request->batch;
             $candidate->region = $request->region;
             $candidate->save();
-            $message = "梯次 / 區域修改完成。";      
-            $batches = Batch::where('camp_id', $this->campFullData->id)->get();      
+            $message = "梯次 / 區域修改完成。";
+            $batches = Batch::where('camp_id', $this->campFullData->id)->get();
             return view('backend.registration.changeBatchOrRegionForm', compact('candidate', 'message', 'batches'));
         }
         else{
@@ -601,7 +601,7 @@ class BackendController extends Controller {
                     ->where(function($query){
                             // 只檢查 0
                             $query->where('is_admitted', 0);
-                    })                        
+                    })
                     ->orderBy('applicants.id', 'asc')
                     ->get();
         }
@@ -647,7 +647,7 @@ class BackendController extends Controller {
                 "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
                 "Expires"             => "0"
             );
-            
+
             $template = $request->template ?? 0;
 
             $callback = function() use($applicants, $template) {
@@ -661,8 +661,8 @@ class BackendController extends Controller {
                     }
                 }
                 else{
-                    $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table));  
-                }  
+                    $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table));
+                }
                 fputcsv($file, $columns);
 
                 foreach ($applicants as $applicant) {
@@ -743,7 +743,7 @@ class BackendController extends Controller {
     }
 
     public function showAttendeePhoto(Request $request) {
-        ini_set('max_execution_time', -1);     
+        ini_set('max_execution_time', -1);
         ini_set("memory_limit", -1);
         $batches = Batch::where("camp_id", $this->campFullData->id)->get();
         $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
@@ -775,7 +775,7 @@ class BackendController extends Controller {
     }
 
     public function showAttendeeList(Request $request) {
-        ini_set('max_execution_time', -1);     
+        ini_set('max_execution_time', -1);
         ini_set("memory_limit", -1);
         $batches = Batch::where("camp_id", $this->campFullData->id)->get();
         $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
@@ -784,7 +784,7 @@ class BackendController extends Controller {
                         ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
                         ->where('camps.id', $this->campFullData->id)->withTrashed();
         $applicants = $query->get();
-        if(auth()->user()->getPermission(false)->role->level <= 2){
+        if (auth()->user()->getPermission(false)->role->level <= 2) {
         }
         else if(auth()->user()->getPermission(true, $this->campFullData->id)->level > 2){
             $constraint = auth()->user()->getPermission(true, $this->campFullData->id)->region;
@@ -797,17 +797,20 @@ class BackendController extends Controller {
             });
         }
 
-        if($request->download) {
+        if ($request->download) {
             return \PDF::loadView('backend.in_camp.attendeePhotoPDF', compact('applicants', 'batches'))->download(Carbon::now()->format('YmdHis') . $this->campFullData->table . '義工名冊.pdf');
         }
+
+        $columns_zhtw = config('camps_fields.display.' . $this->campFullData->table);
 
         return view('backend.in_camp.attendeeList')
                 ->with('applicants', $applicants)
                 ->with('batches', $batches)
                 ->with('is_vcamp', strpos($this->campFullData->table, 'vcamp'))
+                ->with('columns_zhtw', $columns_zhtw)
                 ->with('fullName', $this->campFullData->fullName);
     }
-    
+
     public function showAccountingPage() {
         $constraints = function ($query) {
             $query->where('id', $this->camp_id);
@@ -838,17 +841,17 @@ class BackendController extends Controller {
                 // 先寫入此三個字元使 Excel 能正確辨認編碼為 UTF-8
                 // http://jeiworld.blogspot.com/2009/09/phpexcelutf-8csv.html
                 fwrite($file, "\xEF\xBB\xBF");
-                $columns = ["id" => "銷帳流水序號", 
-                            "cbname" => "營隊梯次", 
-                            "aName" => "姓名", 
-                            "shouldPay" => "應繳金額", 
-                            "amount" => "實繳金額", 
-                            "accounting_sn" => "銷帳流水號", 
-                            "accounting_no" => "銷帳編號", 
-                            "paid_at" => "繳費日期", 
-                            "creditted_at" => "入帳日期", 
+                $columns = ["id" => "銷帳流水序號",
+                            "cbname" => "營隊梯次",
+                            "aName" => "姓名",
+                            "shouldPay" => "應繳金額",
+                            "amount" => "實繳金額",
+                            "accounting_sn" => "銷帳流水號",
+                            "accounting_no" => "銷帳編號",
+                            "paid_at" => "繳費日期",
+                            "creditted_at" => "入帳日期",
                             "name" => "繳費管道",
-                            "mobile" => "手機號碼"];    
+                            "mobile" => "手機號碼"];
                 fputcsv($file, $columns);
 
                 foreach ($accountings as $accounting) {
@@ -924,7 +927,7 @@ class BackendController extends Controller {
         }
         else if($request->target == 'group') { // 梯次組別錄取人士
             $receivers = Applicant::select('batch_id', 'email')->where('is_admitted', 1)->where('group', '=', $request->group_no)->where('batch_id', $request->batch_id)->get();
-        }        
+        }
         $files = array();
         for($i  = 0; $i < 3; $i++){
             if ($request->hasFile('attachment' . $i) && $request->file('attachment' . $i)->isValid()) {

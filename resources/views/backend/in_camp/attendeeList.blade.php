@@ -16,7 +16,7 @@
     }
 </style>
 @if(isset($applicants))
-    <h3>{{ $fullName }} >> 瀏覽{{ ($is_vcamp)?'義工':'學員' }}名單</h3>
+    <h3>{{ $fullName }} >> 瀏覽{{ ($is_vcamp) ? '義工' : '學員' }}名單</h3>
     <p align="right">
         <a href="{{ route("showAttendeePhoto", $campFullData->id) }}?download=1" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">匯出資料</a>
         &nbsp;&nbsp;
@@ -63,70 +63,24 @@
     <table class="table table-bordered table-hover" data-toggle="table">
         <thead>
             <tr class="bg-success text-white">
-                <th data-field="group" data-sortable="true">組別</th>
-                @if($is_vcamp)
-                <th>職務</th>
-                <th>照片</th>
-                @endif
-                <th>姓名</th>
-                <th data-field="gender" data-sortable="true">性別</th>
-                <th data-field="birthyear" data-sortable="true">年齡</th>
-                @if($is_vcamp)
-                <th data-field="lrclass" data-sortable="true">班別</th>
-                @endif
-                <th data-field="industry" data-sortable="true">產業別</th>
-                <th>公司名稱</th>
-                <th>職稱</th>
-                @if($is_vcamp)
-                <th>義工護持紀錄</th>
-                <th>班級護持紀錄</th>
-                <th>專長</th>
-                <th>交通方式</th>
-                <th>手機號碼</th>
-                @else
-                <th>推薦人</th>
-                <th>關懷員</th>
-                <th>參加意願</th>
-                <th data-field="participation_mode" data-sortable="true">參加形式</th>
-                <th>推薦理由</th>
-                <th>關懷紀錄</th>
-                @endif
+                @foreach ($columns_zhtw as $key => $item)
+                    <th data-field="{{ $key }}" data-sortable="{{ $item['sort'] }}">{{ $item['name'] }}</th>
+                @endforeach
             </tr>
         </thead>
         @forelse ($applicants as $applicant)
-            <tr>
-                <td>{{ $applicant->group }}</td>
-                @if($is_vcamp)
-                    <td></td>
-                    @if($applicant->avatar)
-                    <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($applicant->avatar)) }}" width=80 alt="{{ $applicant->name }}"></td>
+        <tr>
+            @foreach ($columns_zhtw as $key => $item)
+                    @if($key == "avatar" && $applicant->avatar)
+                        <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($applicant->avatar)) }}" width=80 alt="{{ $applicant->name }}"></td>
+                    @elseif($key == "avatar" && !$applicant->avatar)
+                        <td>no photo</td>
+                    @elseif($key == "gender")
+                        <td>{{ $applicant->gender_zh_tw }}</td>
                     @else
-                    <td>no photo</td>
+                        <td>{{ $applicant->$key }}</td>
                     @endif
-                @endif
-                <td>{{ $applicant->name }}</td>
-                <td>{{ ($applicant->gender=='M')?'男':'女' }}</td>
-                <td>{{ date("Y")-$applicant->birthyear }}</td>
-                @if($is_vcamp)
-                <td>{{ $applicant->lrclass }}</td>
-                @endif
-                <td>{{ $applicant->industry }}</td>
-                <td>{{ $applicant->unit }}</td>
-                <td>{{ $applicant->title }}</td>
-                @if($is_vcamp)
-                <td>{{ $applicant->cadre_experiences }}</td>
-                <td>{{ $applicant->volunteer_experiences }}</td>
-                <td>{{ $applicant->expertise }}</td>
-                <td>{{ $applicant->transport }}</td>
-                <td>{{ $applicant->mobile }}</td>
-                @else
-                <td>{{ $applicant->introducer_name }}</td>
-                <td></td>
-                <td></td>
-                <td>{{ $applicant->participation_mode }}</td>
-                <td>{{ $applicant->reasons_recommend }}</td>
-                <td></td>
-                @endif
+                @endforeach
             </tr>
         @empty
             查詢的條件沒有資料
