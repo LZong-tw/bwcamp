@@ -198,27 +198,11 @@
             <div class='col-md-6'>
                 <input type="date" name="early_bird_last_day" id="" class='form-control' value="{{ $camp->early_bird_last_day ?? "" }}">
             </div>
-        </div>        
+        </div>
         @if($action == "建立")
-            <input type="submit" class="btn btn-success" value="建立營隊">
+            <input type="submit" class="btn btn-success" value="確認建立">
         @else
             <input type="submit" class="btn btn-success" value="確認修改">
         @endif
-
-        <table class="table table-bordered">
-            <tr>
-                <th>營隊名稱</th>
-                <th>組別</th>
-                <th>職務名稱</th>
-            </tr>
-            @foreach($camp_orgs as $camp_org)
-                <tr>
-                    <td>{{ $camp_org->camp_id }}</td>
-                    <td>{{ $camp_org->group }}</td>
-                    <td>{{ $camp_org->position }}</td>
-                    <td><a href="{{ route("showModifyBatch", [$camp->id, $batch->id]) }}" class="btn btn-primary">修改</a></td>
-                </tr>
-            @endforeach
-        </table>
     </form>
 @endsection

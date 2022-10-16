@@ -13,7 +13,7 @@ class Camp extends Model
      * @var array
      */
     protected $fillable = [
-        'fullName', 'test', 'abbreviation', 'site_url', 'icon', 'table', 'variant', 'registration_start', 'registration_end', 'admission_announcing_date', 'admission_confirming_end','needed_to_reply_attend' , 'final_registration_end', 'payment_startdate', 'payment_deadline', 'fee', 'has_early_bird', 'early_bird_fee', 'early_bird_last_day', 'modifying_deadline', 'cancellation_deadline', 'access_start', 'access_end'
+        'fullName', 'test', 'abbreviation', 'site_url', 'icon', 'table', 'year', 'variant', 'mode', 'registration_start', 'registration_end', 'admission_announcing_date', 'admission_confirming_end','needed_to_reply_attend' , 'final_registration_end', 'payment_startdate', 'payment_deadline', 'fee', 'has_early_bird', 'early_bird_fee', 'early_bird_last_day', 'modifying_deadline', 'cancellation_deadline', 'access_start', 'access_end'
     ];
 
     protected $guarded = [];
@@ -39,6 +39,10 @@ class Camp extends Model
 
     public function batchs() {
         return $this->hasMany('App\Models\Batch');
+    }
+
+    public function organizations() {
+        return $this->hasMany(CampOrg::class);
     }
 
     public function allSignAvailabilities() {
