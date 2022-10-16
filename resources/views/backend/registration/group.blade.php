@@ -3,7 +3,7 @@
     <div>
         <h2 class="d-inline-block">{{ $campFullData->abbreviation }} {{ $batch->name }} {{ request()->group }}組 組別名單</h2>
         <a href="{{ route('showGroup', [$campFullData->id, $batch->id, request()->group]) }}?download=1" class="btn btn-primary d-inline-block" style="margin-bottom: 14px">下載名單</a>
-        <a href="{{ route('showGroup' [$campFullData->id, $batch->id, request()->group]) }}?download=1&template=1" class="btn btn-secondary d-inline-block" style="margin-bottom: 14px">下載名單樣板</a>
+        <a href="{{ route('showGroup', [$campFullData->id, $batch->id, request()->group]) }}?download=1&template=1" class="btn btn-secondary d-inline-block" style="margin-bottom: 14px">下載名單樣板</a>
     </div>
     <form action="" method="post" name="sendEmailByGroup">
     <table class="table table-bordered">
@@ -23,11 +23,11 @@
                     <th>就讀學校</th>
                     <th>就讀科系所 / 年級</th>
                     <th>行動電話</th>
-                    <th>家中電話</th>           
-                @endif  			
-                <th>分區</th>  
+                    <th>家中電話</th>
+                @endif
+                <th>分區</th>
                 <th>已繳費</th>
-                <th>選取<br>全選<input type="checkbox" name="selectAll" onclick="toggler()"></th> 			
+                <th>選取<br>全選<input type="checkbox" name="selectAll" onclick="toggler()"></th>
             </tr>
         </thead>
         @foreach ($applicants as $applicant)
@@ -66,8 +66,8 @@
         </div>
     @endif
     @if(auth()->user()->getPermission()->level <= 2)
-        <button type="submit" class="btn btn-success" style="margin-bottom: 15px" onclick="this.innerText = '處理中'; this.disabled = true; document.sendEmailByGroup.action='{{ route(\'sendAdmittedMail\', $camp_id) }}'; document.sendEmailByGroup.submit();">寄送錄取通知信</button>
-        <button type="submit" class="btn btn-info float-right" style="margin-bottom: 15px" onclick="this.innerText = '處理中'; this.disabled = true; document.sendEmailByGroup.action='{{ route(\'sendCheckInMail\', $camp_id) }}';document.sendEmailByGroup.submit();">寄送報到通知信</button>
+        <button type="submit" class="btn btn-success" style="margin-bottom: 15px" onclick="this.innerText = '處理中'; this.disabled = true; document.sendEmailByGroup.action='{{ route('sendAdmittedMail', $camp_id) }}'; document.sendEmailByGroup.submit();">寄送錄取通知信</button>
+        <button type="submit" class="btn btn-info float-right" style="margin-bottom: 15px" onclick="this.innerText = '處理中'; this.disabled = true; document.sendEmailByGroup.action='{{ route('sendCheckInMail', $camp_id) }}';document.sendEmailByGroup.submit();">寄送報到通知信</button>
     @endif
 </form>
 <script>
