@@ -10,7 +10,7 @@ class CampOrg extends Model
     protected $table = 'camp_org';
     
     protected $fillable = [
-        'group', 'position'
+        'camp_id', 'section', 'position'
     ];
 
     protected $guarded = [];

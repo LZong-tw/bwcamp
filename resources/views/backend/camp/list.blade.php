@@ -69,8 +69,8 @@
                 <td>{{ $camp->updated_at }}</td>
                 <td>
                     <a href="{{ route("showBatch", $camp->id) }}" class="btn btn-success" target="_blank">梯次列表</a>
+                    <a href="{{ route("showOrgs", $camp->id) }}" class="btn btn-warning">組織列表</a>
                     <a href="{{ route("showModifyCamp", $camp->id) }}" class="btn btn-primary">編輯營隊</a>
-                    <a href="{{ route("showModifyOrg", $camp->id) }}" class="btn btn-warning">編輯組織</a>
                 </td>
             </tr>
         @endforeach

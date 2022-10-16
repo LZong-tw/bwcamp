@@ -1,0 +1,33 @@
+@extends('backend.master')
+@section('content')
+    <style>
+        .card-link{
+            color: #3F86FB!important;
+        }
+        .card-link:hover{
+            color: #33B2FF!important;
+        }
+        /* customize */
+        .form-group.required .control-label:after {
+            content: "＊";
+            color: red;
+        }
+    </style>
+    <h2>{{ $camp->abbreviation }} 修改組織/職務 </h2>
+    <form action="{{ route("modifyOrg", [$camp->id, $org->id]) }}" method="POST">
+        @csrf
+        <div class='row form-group'>
+            <label for='inputSec' class='col-md-1 control-label'>大組名稱</label>
+            <div class='col-md-6'>
+                <input type="string" name="section" id="" class='form-control' value="{{ $org->section ?? "" }}">
+            </div>
+        </div>
+        <div class='row form-group'>
+            <label for='inputPos' class='col-md-1 control-label'>職務名稱</label>
+            <div class='col-md-6'>
+                <input type="string" name="position" id="" class='form-control' value="{{ $org->position ?? "" }}">
+            </div>
+        </div>
+        <input type="submit" class="btn btn-success" value="修改組織/職務">
+    </form>
+@endsection

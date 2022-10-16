@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Camp;
+use App\Models\CampOrg;
 use App\Models\Batch;
 use App\Models\Role;
 
@@ -120,24 +121,20 @@ class AdminController extends BackendController{
     }
 
     public function campManagement(){
-        $camps = Camp::all();
+        $camps = Camp::orderBy('id', 'desc')->get();
         return view('backend.camp.list', compact('camps'));
-    }
-
-    public function showAddCamp(){
-        return view('backend.camp.campForm', ["action" => "建立", "actionURL" => route("addCamp")]);
-    }
-
-    public function showModifyCamp($camp_id){
-        $camp = Camp::find($camp_id);
-        return view('backend.camp.campForm', ["action" => "修改", "actionURL" => null, "camp" => $camp]);
     }
 
     public function addCamp(Request $request){
         $formData = $request->toArray();
         $camp = Camp::create($formData);
-        \Session::flash('message', $camp->name . " 新增成功。");
+        $campName = $formData["abbreviation"];
+        \Session::flash('message', $campName . " 新增成功。");
         return redirect()->route("campManagement");
+    }
+
+    public function showAddCamp(){
+        return view('backend.camp.campForm', ["action" => "建立", "actionURL" => route("addCamp")]);
     }
 
     public function modifyCamp(Request $request, $camp_id){
@@ -149,15 +146,10 @@ class AdminController extends BackendController{
         return redirect()->route("campManagement");
     }
 
-    public function showBatch($camp_id){
+    public function showModifyCamp($camp_id){
         $camp = Camp::find($camp_id);
-        $batches = $camp->batchs;
-        return view('backend.camp.batchList', compact('camp', 'batches'));
-    }
-
-    public function showAddBatch($camp_id){
-        $camp = Camp::find($camp_id);
-        return view('backend.camp.addBatch', ["camp" => $camp]);
+        $camp_orgs = $camp->organizations;
+        return view('backend.camp.campForm', ["action" => "修改", "actionURL" => null, "camp" => $camp]);
     }
 
     public function addBatches(Request $request, $camp_id){
@@ -178,12 +170,17 @@ class AdminController extends BackendController{
         return redirect()->route("showBatch", $camp_id);
     }
 
-    public function showModifyBatch($camp_id, $batch_id){
+    public function showAddBatch($camp_id){
         $camp = Camp::find($camp_id);
-        $batch = Batch::find($batch_id);
-        return view('backend.camp.modifyBatch', compact("camp", "batch"));
+        return view('backend.camp.addBatch', ["camp" => $camp]);
     }
 
+    public function showBatch($camp_id){
+        $camp = Camp::find($camp_id);
+        $batches = $camp->batchs;
+        return view('backend.camp.batchList', compact('camp', 'batches'));
+    }
+  
     public function modifyBatch(Request $request, $camp_id, $batch_id){
         $formData = $request->toArray();
         $batch = Batch::find($batch_id);
@@ -192,4 +189,69 @@ class AdminController extends BackendController{
         \Session::flash('message', $campName . " " . $batch->name . " 修改成功。");
         return redirect()->route("showBatch", $camp_id);
     }
+
+    public function showModifyBatch($camp_id, $batch_id){
+        $camp = Camp::find($camp_id);
+        $batch = Batch::find($batch_id);
+        return view('backend.camp.modifyBatch', compact("camp", "batch"));
+    }
+
+    public function addOrgs(Request $request, $camp_id){
+        $formData = $request->toArray();
+        $newSet = array();
+
+        $sections = count($formData['section']);
+        foreach($formData as $key => $field) {
+            if ($key == 'section') {
+                for($i = 0; $i < $sections; $i++) {
+                    $newSet[$i][0]['camp_id'] = $camp_id; 
+                    $newSet[$i][0][$key] = $field[$i];
+                    $newSet[$i][0]['position'] = 'root';
+                    CampOrg::create($newSet[$i][0]);
+                }
+            }
+        }
+        foreach($formData as $key => $field) {
+            if ($key == 'position') {
+                for($i = 0; $i < $sections; $i++) {
+                    $positions = count($field[$i]);
+                    for($j = 0; $j < $positions; $j++) {                    
+                        $newSet[$i][$j+1]['camp_id'] = $camp_id; 
+                        $newSet[$i][$j+1]['section'] = $newSet[$i][0]['section'];
+                        $newSet[$i][$j+1][$key] = $field[$i][$j];
+                        CampOrg::create($newSet[$i][$j+1]);
+                    }
+                }
+            }
+        }
+        \Session::flash('message', " 組織新增成功。");
+        return redirect()->route("showOrgs", $camp_id);
+    }
+    
+    public function showAddOrgs($camp_id){
+        $camp = Camp::find($camp_id);
+        return view('backend.camp.addOrgs', ["camp" => $camp]);
+    }
+
+    public function modifyOrg(Request $request, $camp_id, $org_id){
+        $formData = $request->toArray();
+        $org = CampOrg::find($org_id);
+        $org->update($formData);
+        $campName = Camp::find($camp_id)->abbreviation;
+        \Session::flash('message', $campName . " 組織修改成功。");
+        return redirect()->route("showOrgs", $camp_id);
+    }
+
+    public function showModifyOrg($camp_id, $org_id){
+        $camp = Camp::find($camp_id);
+        $org = CampOrg::find($org_id);
+        return view('backend.camp.modifyOrg', compact("camp", "org"));
+    }
+    
+    public function showOrgs($camp_id){
+        $camp = Camp::find($camp_id);
+        $orgs = $camp->organizations;
+        return view('backend.camp.orgList', compact('camp', 'orgs'));
+    }
+
 }
