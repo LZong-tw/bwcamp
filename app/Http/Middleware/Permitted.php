@@ -14,6 +14,9 @@ class Permitted
      * @return mixed
      */
     public function handle($request, Closure $next) {
+        /**
+         * todo: Request resolver: 檢查目前使用者是否可以取得目標資源
+         */
         $userPermission = auth()->user()->getPermission('all');
         foreach($userPermission as $p){
             if($p->level == 1) {
