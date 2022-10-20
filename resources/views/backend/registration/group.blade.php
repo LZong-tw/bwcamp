@@ -23,11 +23,11 @@
                     <th>就讀學校</th>
                     <th>就讀科系所 / 年級</th>
                     <th>行動電話</th>
-                    <th>家中電話</th>           
-                @endif  			
-                <th>分區</th>  
+                    <th>家中電話</th>
+                @endif
+                <th>分區</th>
                 <th>已繳費</th>
-                <th>選取<br>全選<input type="checkbox" name="selectAll" onclick="toggler()"></th> 			
+                <th>選取<br>全選<input type="checkbox" name="selectAll" onclick="toggler()"></th>
             </tr>
         </thead>
         @foreach ($applicants as $applicant)

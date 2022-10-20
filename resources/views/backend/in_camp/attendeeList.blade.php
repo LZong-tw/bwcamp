@@ -49,6 +49,7 @@
     &nbsp;&nbsp;
     <button type="submit" class="btn btn-secondary btn-sm" onclick="">選定</button>
     <br>
+<!--
     每頁顯示：
     <input type="radio" name="show" onclick="" value="50"> 50筆
     &nbsp;&nbsp;
@@ -64,7 +65,14 @@
         &nbsp;
         <button type="submit" class="btn btn-secondary btn-sm" onclick="">下一頁</button>
     </p>
-    <table class="table table-bordered table-hover" data-toggle="table">
+-->
+    <table class="table table-bordered table-hover"
+    data-toggle="table"
+    data-pagination="true"
+    data-pagination-v-align="both"
+    data-page-list="[50, 100]"
+    data-pagination-pre-text="上一頁"
+    data-pagination-next-text="下一頁">
         <thead>
             <tr class="bg-success text-white">
                 @foreach ($columns_zhtw as $key => $item)
@@ -92,6 +100,7 @@
             查詢的條件沒有資料
         @endforelse
     </table>
+<!--
     <p align="right">
         第1頁/共2頁
         &nbsp;&nbsp;
@@ -99,5 +108,6 @@
         &nbsp;
         <button type="submit" class="btn btn-secondary btn-sm" onclick="">下一頁</button>
     </p>
+-->
 @endif
 @endsection
