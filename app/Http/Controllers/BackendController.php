@@ -657,7 +657,7 @@ class BackendController extends Controller {
                 fwrite($file, "\xEF\xBB\xBF");
                 if($template){
                     if($this->campFullData->table == 'tcamp'){
-                        $columns = ["name" => "姓名", "idno" => "身分證字號", "unit_county" => "服務單位所在縣市", "unit" => "服務單位"];
+                        $columns = ["name" => "姓名", "idno" => "身分證字號", "unit_county" => "服務單位所在縣市", "unit" => "服務單位", "workshop_credit_type" => "研習時數類型"];
                     }
                 }
                 else{
