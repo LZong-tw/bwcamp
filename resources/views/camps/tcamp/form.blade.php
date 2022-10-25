@@ -13,8 +13,8 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     @include('partials.counties_areas_script')
     @if(!$camp_data->variant)
         <div class="alert alert-warning">
-            <h5>報名期間：110年11月1日(一) 起至110年12月5日(日)止</h5>
-            <h5>研習時間：111年1月26日(三)至111年1月27(四)止</h5>
+            <h5>報名期間：111年11月01日(二)起至111年12月04日(日)止</h5>
+            <h5>研習時間：112年01月31日(二)起至112年02月01日(三)止</h5>
             <h5>研習時數：凡參加研習者依規定核發研習時數或數位研習證書</h5>
             <h6>主辦單位：財團法人福智文教基金會</h6>
             <h6>協辦單位：福智學校財團法人、基隆市七堵區瑪陵國民小學、屏東縣立大路關國民中小學</h6>
@@ -721,13 +721,12 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <div class='col-md-10 form-check'>
             <p class='form-control-static text-primary mb-0'>
                 <label>
-                    <input type='radio' required name="portrait_agree" value='1'>
-                    我同意主辦單位在
+                    <input type='radio' required name='portrait_agree' value='1'>
+                    我同意主辦單位在營隊期間拍照、錄影之活動記錄，使用於營隊及主辦單位的非營利教育推廣使用，並以網路方式推播。
                     <!-- Button trigger modal -->
                     <button type="button" class="text-primary" data-toggle="modal" data-target="#exampleModalCenter">
-                    營隊期間拍照、錄影之活動記錄
+                    (同意書詳細內容)
                     </button>
-                    ，使用於營隊及主辦單位的非營利教育推廣使用，並以網路方式推播。
                 </label>
             </p>
             <input type='radio' class='d-none' name="portrait_agree" value='0'> 
@@ -748,10 +747,13 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     </button>
                 </div>
                 <div class="modal-body">
-                    同意書內容在這裡
+本人 現謹同意並授權以下參與財團法人福智文教基金會（下稱「基金會」）所舉辦之「教師生命成長營」，活動期間以文字、拍照及錄影音方式記錄過程中含有 本人之文字、影音、圖像、資料、心得分享等（下稱「本標的」），並同意接受下列之方式轉讓基金會：<br>
+1. 本人同意將本標的之完整著作財產權無償轉讓予基金會。<br>
+2. 本人之肖像權無償授權給基金會、其相關單位及基金會轉授權之第三方於教育推廣或非營利目的使用。（詳福智文教基金會網站：https://bwfoce.org/）<br>
+上述說明您皆瞭解後，請點選同意。
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">同意</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">關閉回報名頁</button>
                     <!--<button type="button" class="btn btn-secondary">Save changes</button> -->
                 </div>
             </div>
