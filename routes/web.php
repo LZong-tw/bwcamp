@@ -158,6 +158,8 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
     Route::get("/writeMail", "BackendController@writeCustomMail")->name("writeMail");
     Route::post("/customMail/send", "BackendController@sendCustomMail")->name("sendMail");
     Route::get("/customMail/selectMailTarget", "BackendController@selectMailTarget")->name("selectMailTarget");
+    Route::get("/permissionScopes", "PermissionController@showPermissionScope")->name("permissionScopes");
+    Route::get("/roles", "PermissionController@showRoles")->name("roles");
     Route::resource("sign", SignBackendController::class)
             ->names([
                 "index" => "sign_back",
