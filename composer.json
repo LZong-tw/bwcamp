@@ -22,6 +22,7 @@
         "laravel/ui": "^4.0",
         "milon/barcode": "^9.0",
         "rap2hpoutre/laravel-log-viewer": "^2.2",
+        "santigarcor/laratrust": "^7.1",
         "sentry/sentry-laravel": "^3.0"
     },
     "require-dev": {
