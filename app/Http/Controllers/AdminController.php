@@ -8,15 +8,15 @@ use App\Models\CampOrg;
 use App\Models\Batch;
 use App\Models\Role;
 
-class AdminController extends BackendController{
+class AdminController extends BackendController {
     public function userlist(){
         return view('backend.user.list', ['users' => \App\User::all()]);
     }
 
     public function userAddRole($user_id){
         $user = \App\User::find($user_id);
-        return view('backend.user.userAddRole', 
-        ['user' => $user, 
+        return view('backend.user.userAddRole',
+        ['user' => $user,
         'roles_available' => \App\Models\Role::whereNotIn('id', $user->role_relations->pluck('role_id'))->get()]);
     }
 
@@ -180,7 +180,7 @@ class AdminController extends BackendController{
         $batches = $camp->batchs;
         return view('backend.camp.batchList', compact('camp', 'batches'));
     }
-  
+
     public function modifyBatch(Request $request, $camp_id, $batch_id){
         $formData = $request->toArray();
         $batch = Batch::find($batch_id);
@@ -204,7 +204,7 @@ class AdminController extends BackendController{
         foreach($formData as $key => $field) {
             if ($key == 'section') {
                 for($i = 0; $i < $sections; $i++) {
-                    $newSet[$i][0]['camp_id'] = $camp_id; 
+                    $newSet[$i][0]['camp_id'] = $camp_id;
                     $newSet[$i][0][$key] = $field[$i];
                     $newSet[$i][0]['position'] = 'root';
                     CampOrg::create($newSet[$i][0]);
@@ -215,8 +215,8 @@ class AdminController extends BackendController{
             if ($key == 'position') {
                 for($i = 0; $i < $sections; $i++) {
                     $positions = count($field[$i]);
-                    for($j = 0; $j < $positions; $j++) {                    
-                        $newSet[$i][$j+1]['camp_id'] = $camp_id; 
+                    for($j = 0; $j < $positions; $j++) {
+                        $newSet[$i][$j+1]['camp_id'] = $camp_id;
                         $newSet[$i][$j+1]['section'] = $newSet[$i][0]['section'];
                         $newSet[$i][$j+1][$key] = $field[$i][$j];
                         CampOrg::create($newSet[$i][$j+1]);
@@ -227,7 +227,7 @@ class AdminController extends BackendController{
         \Session::flash('message', " 組織新增成功。");
         return redirect()->route("showOrgs", $camp_id);
     }
-    
+
     public function showAddOrgs($camp_id){
         $camp = Camp::find($camp_id);
         return view('backend.camp.addOrgs', ["camp" => $camp]);
@@ -247,7 +247,7 @@ class AdminController extends BackendController{
         $org = CampOrg::find($org_id);
         return view('backend.camp.modifyOrg', compact("camp", "org"));
     }
-    
+
     public function showOrgs($camp_id){
         $camp = Camp::find($camp_id);
         $orgs = $camp->organizations;
