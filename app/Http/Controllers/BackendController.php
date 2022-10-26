@@ -657,7 +657,7 @@ class BackendController extends Controller {
                 fwrite($file, "\xEF\xBB\xBF");
                 if($template){
                     if($this->campFullData->table == 'tcamp'){
-                        $columns = ["name" => "姓名", "idno" => "身分證字號", "unit_county" => "服務單位所在縣市", "unit" => "服務單位"];
+                        $columns = ["name" => "姓名", "idno" => "身分證字號", "unit_county" => "服務單位所在縣市", "unit" => "服務單位", "workshop_credit_type" => "研習時數類型"];
                     }
                 }
                 else{
@@ -801,12 +801,56 @@ class BackendController extends Controller {
             return \PDF::loadView('backend.in_camp.attendeePhotoPDF', compact('applicants', 'batches'))->download(Carbon::now()->format('YmdHis') . $this->campFullData->table . '義工名冊.pdf');
         }
 
+        /*
+        瀏覽義工
+        $this->campFullData->table = 'ceovcamp'
+        [p. 6]
+        return view('backend.in_camp.attendeeList')
+                ->with('is_vcamp', 1)
+                ->with('is_care', 0)
+                ->with('is_ingroup', 0)
+                ->with('groupName', '')
+
+        [p. 9]
+        return view('backend.in_camp.attendeeList')
+                ->with('is_vcamp', 1)
+                ->with('is_care', 1)
+                ->with('is_ingroup', 0)
+                ->with('groupName', '')
+
+        瀏覽學員
+        $this->campFullData->table = 'ceocamp'
+        [p. 14]
+        return view('backend.in_camp.attendeeList')
+                ->with('is_vcamp', 0)
+                ->with('is_care', 0)
+                ->with('is_ingroup', 0)
+                ->with('groupName', '')
+
+        [p. 15]
+        return view('backend.in_camp.attendeeList')
+                ->with('is_vcamp', 0)
+                ->with('is_care', 1)
+                ->with('is_ingroup', 0)
+                ->with('groupName', '')
+
+        [p. 17]
+        return view('backend.in_camp.attendeeList')
+                ->with('is_vcamp', 0)
+                ->with('is_care', 1)
+                ->with('is_ingroup', 1)
+                ->with('groupName', '第1組')
+
+        */
         $columns_zhtw = config('camps_fields.display.' . $this->campFullData->table);
 
         return view('backend.in_camp.attendeeList')
                 ->with('applicants', $applicants)
                 ->with('batches', $batches)
                 ->with('is_vcamp', strpos($this->campFullData->table, 'vcamp'))
+                ->with('is_care', 0)
+                ->with('is_ingroup', 0)
+                ->with('groupName', '')
                 ->with('columns_zhtw', $columns_zhtw)
                 ->with('fullName', $this->campFullData->fullName);
     }
