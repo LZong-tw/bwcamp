@@ -19,3 +19,5 @@ yarn-error.log
 _ide_helper.php
 _ide_helper_models.php
 public/phpMyAdmin/*
+
+storage/fonts/installed-fonts.json
