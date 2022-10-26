@@ -25,7 +25,7 @@ class UserController extends Controller
     {
         $this->validate(request(), [
             'name' => 'required',
-            'password' => 'required|confirmed'
+            'password' => 'required|confirmed|string|min:8',
         ]);
 
         auth()->user()->update([
