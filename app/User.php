@@ -3,13 +3,14 @@
 namespace App;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Laratrust\Traits\LaratrustUserTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Traits\EmailConfiguration;
 
 class User extends Authenticatable
 {
-    use Notifiable, EmailConfiguration;
+    use Notifiable, EmailConfiguration, LaratrustUserTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -37,7 +38,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    
+
     public function getPermission($top = false, $camp_id = null, $function_id = null) {
         if(!$top){
             $hasRole = \App\Models\RoleUser::join('roles', 'roles.id', '=', 'role_user.role_id')->where('user_id', $this->id)->orderBy('level', 'asc')->get();
@@ -56,7 +57,7 @@ class User extends Authenticatable
                 return \App\Models\Role::whereIn('id', $this->role_relations->pluck('role_id'))->orderBy('level', 'desc')->get();
             }
         }
-        
+
     }
 
     public function role_relations(){
