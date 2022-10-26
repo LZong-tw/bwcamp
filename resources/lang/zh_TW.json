@@ -11,8 +11,10 @@
     "Reset Password": "重設密碼",
     "Send Password Reset Link": "寄送密碼重設連結",
     "Confirm Password": "確認密碼",
+    "Confirm NewPassword": "確認新密碼",
     "Name": "顯示名稱",
     "Dashboard": "帳號功能",
     "Profile": "個人資料",
+    "Profile updated!": "個人資料已更新！",
     "You are logged in!": "您已成功登入"
 }
