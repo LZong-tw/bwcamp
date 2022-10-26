@@ -378,11 +378,11 @@ return [
             ],
             "carer_name" => [
                 "name" => "關懷員",
-                "sort" => 0,
+                "sort" => 1,
             ],
             "willing_to_attend" => [
                 "name" => "參加意願",
-                "sort" => 0,
+                "sort" => 1,
             ],
             "attending_form" => [
                 "name" => "參加形式",
@@ -405,7 +405,7 @@ return [
             ],
             "job" => [
                 "name" => "職務",
-                "sort" => 0,
+                "sort" => 1,
             ],
             "avatar" => [
                 "name" => "照片",

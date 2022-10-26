@@ -69,6 +69,7 @@
                 <div class="top-right links">
                     @auth
                         <a href="{{ url('/home') }}">{{ Auth::user()->name }}</a>
+                        <a href="{{ route('profile') }}">{{ __('Profile') }}</a>
                     @else
                         <a href="{{ route('login') }}?rstr{{ \Str::random() }}={{ \Str::random() }}">{{ __('Login') }}</a>
 
