@@ -106,10 +106,11 @@ Route::group(["prefix" => "backend/campManage"], function(){
     Route::get("/batchList/{camp_id}/{batch_id}/modify", [AdminController::class, "showModifyBatch"])->name("showModifyBatch");
     //Camp Organization
     Route::post("/orgList/{camp_id}/add", [AdminController::class, "addOrgs"])->name("addOrgs");
-    Route::get("/orgList/{camp_id}/add", [AdminController::class, "showAddOrgs"])->name("showAddOrgs");
+    Route::get("/orgList/{camp_id}/{org_id}/add", [AdminController::class, "showAddOrgs"])->name("showAddOrgs");
     Route::get("/orgList/{camp_id}", [AdminController::class, "showOrgs"])->name("showOrgs");
     Route::post("/orgList/{camp_id}/{org_id}/modify", [AdminController::class, "modifyOrg"])->name("modifyOrg");
     Route::get("/orgList/{camp_id}/{org_id}/modify", [AdminController::class, "showModifyOrg"])->name("showModifyOrg");
+    Route::post("/orgList/remove", [AdminController::class, "removeOrg"])->name("removeOrg");
 });
 
 Route::group(["prefix" => "backend/{camp_id}", ], function () {
