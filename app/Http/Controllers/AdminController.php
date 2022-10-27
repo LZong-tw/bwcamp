@@ -127,7 +127,7 @@ class AdminController extends BackendController{
 
     public function addCamp(Request $request){
         $formData = $request->toArray();
-        $camp = Camp::create($formData);
+        Camp::create($formData);
         $campName = $formData["abbreviation"];
         \Session::flash('message', $campName . " 新增成功。");
         return redirect()->route("campManagement");
@@ -198,16 +198,29 @@ class AdminController extends BackendController{
 
     public function addOrgs(Request $request, $camp_id){
         $formData = $request->toArray();
+        $camp = Camp::find($camp_id);
+        $orgs = $camp->organizations;   //existing orgs
         $newSet = array();
+        $is_exist = false;
 
         $sections = count($formData['section']);
         foreach($formData as $key => $field) {
             if ($key == 'section') {
                 for($i = 0; $i < $sections; $i++) {
+                    $sec_tg = $field[$i];
                     $newSet[$i][0]['camp_id'] = $camp_id; 
-                    $newSet[$i][0][$key] = $field[$i];
+                    $newSet[$i][0]['section'] = $sec_tg;
                     $newSet[$i][0]['position'] = 'root';
-                    CampOrg::create($newSet[$i][0]);
+                    $is_exist = false;  //init
+                    foreach($orgs as $org) {
+                        if ($org->section == $sec_tg) {
+                            $is_exist = true;   //once find match, break
+                            break;
+                        }
+                    }
+                    if ($is_exist == false) {
+                        CampOrg::create($newSet[$i][0]);
+                    }
                 }
             }
         }
@@ -215,11 +228,21 @@ class AdminController extends BackendController{
             if ($key == 'position') {
                 for($i = 0; $i < $sections; $i++) {
                     $positions = count($field[$i]);
-                    for($j = 0; $j < $positions; $j++) {                    
+                    for($j = 0; $j < $positions; $j++) {    
+                        $sec_tg = $newSet[$i][0]['section'];              
                         $newSet[$i][$j+1]['camp_id'] = $camp_id; 
-                        $newSet[$i][$j+1]['section'] = $newSet[$i][0]['section'];
-                        $newSet[$i][$j+1][$key] = $field[$i][$j];
-                        CampOrg::create($newSet[$i][$j+1]);
+                        $newSet[$i][$j+1]['section'] = $sec_tg;
+                        $newSet[$i][$j+1]['position'] = $field[$i][$j];
+                        $is_exist = false;
+                        foreach($orgs as $org) {
+                            if (($org->section == $sec_tg) && ($org->position == $field[$i][$j])) {
+                                $is_exist = true;   //once find match, break
+                                break;
+                            }
+                        }
+                        if ($is_exist == false) {
+                            CampOrg::create($newSet[$i][$j+1]);
+                        }
                     }
                 }
             }
@@ -228,17 +251,39 @@ class AdminController extends BackendController{
         return redirect()->route("showOrgs", $camp_id);
     }
     
-    public function showAddOrgs($camp_id){
+    public function showAddOrgs($camp_id, $org_id){
         $camp = Camp::find($camp_id);
-        return view('backend.camp.addOrgs', ["camp" => $camp]);
+        $orgs = $camp->organizations;
+        $orgs = $orgs->sortByDesc('section');
+        if ($org_id == 0) {
+            $sec_tg = "null";
+        }
+        else {
+            $org_tg = CampOrg::find($org_id);   
+            $sec_tg = $org_tg->section; //找到要新增的sec
+        }
+        return view('backend.camp.addOrgs', compact("camp", "orgs", "sec_tg"));
     }
 
     public function modifyOrg(Request $request, $camp_id, $org_id){
         $formData = $request->toArray();
-        $org = CampOrg::find($org_id);
-        $org->update($formData);
-        $campName = Camp::find($camp_id)->abbreviation;
-        \Session::flash('message', $campName . " 組織修改成功。");
+        $camp = Camp::find($camp_id);
+        $org_tg = CampOrg::find($org_id);   //找到要被修改的org
+        $sec_tg = $org_tg->section;     //修改前大組名稱
+        $is_root = ($formData['position'] == 'root')? true:false;    //是否修改大組名稱
+
+        if ($is_root) {
+            $orgs = $camp->organizations;   //找到所有orgs
+            foreach ($orgs as $org) {
+                if ($org->section == $sec_tg) { //如果大組名稱=要被修改的大組名稱
+                    $formData['position'] = $org->position;
+                    $org->update($formData);
+                }
+            }
+        } else {
+            $org_tg->update($formData);     //修改職務only
+        }
+        \Session::flash('message', $camp->abbreviation . " 組織修改成功。");
         return redirect()->route("showOrgs", $camp_id);
     }
 
@@ -251,7 +296,21 @@ class AdminController extends BackendController{
     public function showOrgs($camp_id){
         $camp = Camp::find($camp_id);
         $orgs = $camp->organizations;
+        $orgs = $orgs->sortByDesc('section');
         return view('backend.camp.orgList', compact('camp', 'orgs'));
     }
+
+    public function removeOrg(Request $request){
+        $result = \App\Models\CampOrg::find($request->org_id)->delete();
+        if($result){
+            \Session::flash('message', "職務刪除成功。");
+            return back();
+        }
+        else{
+            \Session::flash('error', "職務刪除失敗。");
+            return back();
+        }
+    }
+
 
 }
