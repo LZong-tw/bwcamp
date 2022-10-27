@@ -127,7 +127,7 @@ class AdminController extends BackendController{
 
     public function addCamp(Request $request){
         $formData = $request->toArray();
-        Camp::create($formData);
+        $camp = Camp::create($formData);
         $campName = $formData["abbreviation"];
         \Session::flash('message', $campName . " 新增成功。");
         return redirect()->route("campManagement");
