@@ -38,6 +38,9 @@ Route::get("password/reset", "Auth\ForgotPasswordController@showLinkRequestForm"
 Route::post("password/email", "Auth\ForgotPasswordController@sendResetLinkEmail")->name("password.email");
 Route::get("password/reset/{token}", "Auth\ResetPasswordController@showResetForm")->name("password.reset");
 Route::post("password/reset", "Auth\ResetPasswordController@reset")->name("password.update");
+
+Route::get("profile/", "Auth\UserController@showDashboard")->name("profile");
+Route::post("profile/update", "Auth\UserController@updateProfile")->name("profile.update");
 /****************************************************************************/
 
 Route::get("/home", "HomeController@index")->name("home");
@@ -156,6 +159,8 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
     Route::get("/writeMail", "BackendController@writeCustomMail")->name("writeMail");
     Route::post("/customMail/send", "BackendController@sendCustomMail")->name("sendMail");
     Route::get("/customMail/selectMailTarget", "BackendController@selectMailTarget")->name("selectMailTarget");
+    Route::get("/permissionScopes", "PermissionController@showPermissionScope")->name("permissionScopes");
+    Route::get("/roles", "PermissionController@showRoles")->name("roles");
     Route::resource("sign", SignBackendController::class)
             ->names([
                 "index" => "sign_back",
