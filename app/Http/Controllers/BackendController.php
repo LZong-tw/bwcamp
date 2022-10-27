@@ -806,6 +806,10 @@ class BackendController extends Controller {
             $this->campFullData->table = 'ceovcamp';
             $columns_zhtw = config('camps_fields.display.' . $this->campFullData->table);
             return view('backend.in_camp.attendeeList')
+                    ->with('applicants', $applicants)
+                    ->with('batches', $batches)
+                    ->with('columns_zhtw', $columns_zhtw)
+                    ->with('fullName', $this->campFullData->fullName)
                     ->with('is_vcamp', 1)
                     ->with('is_care', 0)
                     ->with('is_ingroup', 0)
@@ -816,6 +820,10 @@ class BackendController extends Controller {
             $this->campFullData->table = 'ceovcamp';
             $columns_zhtw = config('camps_fields.display.' . $this->campFullData->table);
             return view('backend.in_camp.attendeeList')
+                    ->with('applicants', $applicants)
+                    ->with('batches', $batches)
+                    ->with('columns_zhtw', $columns_zhtw)
+                    ->with('fullName', $this->campFullData->fullName)
                     ->with('is_vcamp', 1)
                     ->with('is_care', 1)
                     ->with('is_ingroup', 0)
@@ -827,6 +835,10 @@ class BackendController extends Controller {
             $this->campFullData->table = 'ceocamp';
             $columns_zhtw = config('camps_fields.display.' . $this->campFullData->table);
             return view('backend.in_camp.attendeeList')
+                    ->with('applicants', $applicants)
+                    ->with('batches', $batches)
+                    ->with('columns_zhtw', $columns_zhtw)
+                    ->with('fullName', $this->campFullData->fullName)
                     ->with('is_vcamp', 0)
                     ->with('is_care', 0)
                     ->with('is_ingroup', 0)
@@ -837,6 +849,10 @@ class BackendController extends Controller {
             $this->campFullData->table = 'ceocamp';
             $columns_zhtw = config('camps_fields.display.' . $this->campFullData->table);
             return view('backend.in_camp.attendeeList')
+                    ->with('applicants', $applicants)
+                    ->with('batches', $batches)
+                    ->with('columns_zhtw', $columns_zhtw)
+                    ->with('fullName', $this->campFullData->fullName)
                     ->with('is_vcamp', 0)
                     ->with('is_care', 1)
                     ->with('is_ingroup', 0)
@@ -847,6 +863,10 @@ class BackendController extends Controller {
             $this->campFullData->table = 'ceocamp';
             $columns_zhtw = config('camps_fields.display.' . $this->campFullData->table);
             return view('backend.in_camp.attendeeList')
+                    ->with('applicants', $applicants)
+                    ->with('batches', $batches)
+                    ->with('columns_zhtw', $columns_zhtw)
+                    ->with('fullName', $this->campFullData->fullName)
                     ->with('is_vcamp', 0)
                     ->with('is_care', 1)
                     ->with('is_ingroup', 1)
