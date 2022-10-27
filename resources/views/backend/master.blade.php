@@ -20,6 +20,12 @@
     <script type='text/javascript'>
         google.charts.load('current', {'packages':['corechart','table'], 'language':'zh_TW'});
     </script>
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
+    <!-- Popper.JS -->
+    <script src="{{ asset('js/popper_1.14.0.min.js') }}"></script>
+    <!-- Bootstrap JS -->
+    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
     <style>
         .card-link{
             color: #3F86FB!important;
@@ -179,13 +185,26 @@
                             </li>
                         </ul>
                     </li>
+                    <li>
+                        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">營隊資訊</a>
+                        <ul class="collapse list-unstyled show" id="pageSubmenu">
+                            <li>
+                                <a href="{{ route("roles", $campFullData->id) }}">職務表</a>
+                            </li>
+                        </ul>
+                        <ul class="collapse list-unstyled show" id="pageSubmenu">
+                            <li>
+                                <a href="{{ route("permissionScopes", $campFullData->id) }}">職務適用範圍</a>
+                            </li>
+                        </ul>
+                    </li>
                 @else
                     <li class="active">
                         <a class="" href="">未選擇營隊</a>
                     </li>
                 @endif
             </ul>
-            
+
             <ul class="list-unstyled CTAs">
                 <li>
                     <a href="{{ route("home") }}">{{ Auth::user()->name }}</a>
@@ -282,13 +301,6 @@
             @yield('content')
         </div>
     </div>
-
-    <!-- jQuery CDN - Slim version (=without AJAX) -->
-    <script src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
-    <!-- Popper.JS -->
-    <script src="{{ asset('js/popper_1.14.0.min.js') }}"></script>
-    <!-- Bootstrap JS -->
-    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $('#sidebarCollapse').on('click', function () {

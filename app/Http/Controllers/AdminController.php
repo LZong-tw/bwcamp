@@ -8,15 +8,15 @@ use App\Models\CampOrg;
 use App\Models\Batch;
 use App\Models\Role;
 
-class AdminController extends BackendController{
+class AdminController extends BackendController {
     public function userlist(){
         return view('backend.user.list', ['users' => \App\User::all()]);
     }
 
     public function userAddRole($user_id){
         $user = \App\User::find($user_id);
-        return view('backend.user.userAddRole', 
-        ['user' => $user, 
+        return view('backend.user.userAddRole',
+        ['user' => $user,
         'roles_available' => \App\Models\Role::whereNotIn('id', $user->role_relations->pluck('role_id'))->get()]);
     }
 
@@ -180,7 +180,7 @@ class AdminController extends BackendController{
         $batches = $camp->batchs;
         return view('backend.camp.batchList', compact('camp', 'batches'));
     }
-  
+
     public function modifyBatch(Request $request, $camp_id, $batch_id){
         $formData = $request->toArray();
         $batch = Batch::find($batch_id);
@@ -292,7 +292,7 @@ class AdminController extends BackendController{
         $org = CampOrg::find($org_id);
         return view('backend.camp.modifyOrg', compact("camp", "org"));
     }
-    
+
     public function showOrgs($camp_id){
         $camp = Camp::find($camp_id);
         $orgs = $camp->organizations;
