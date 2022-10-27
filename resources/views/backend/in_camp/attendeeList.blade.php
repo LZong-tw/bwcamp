@@ -110,7 +110,7 @@
 -->
     <table class="table table-bordered table-hover"
     data-toggle="table"
-    data-pagination="true"
+    data-pagination="@if($applicants->total() < 50) false @else true @endif"
     data-pagination-loop="false"
     data-pagination-v-align="both"
     data-page-list="[50, 100]"
