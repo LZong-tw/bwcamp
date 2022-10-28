@@ -563,7 +563,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 </div>
                 <div class="form-check form-check-inline">
                     <label class="form-check-label">
-                        <input type="radio" name="never_attend_any_stay_over_tcamps" value='0' onclick="toggleTcampYear(0)"> 否
+                        <input type="radio" name="is_attend_tcamp" value='0' onclick="toggleTcampYear(0)"> 否
                         <div class="invalid-feedback">
                             &nbsp;
                         </div>
@@ -574,7 +574,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <div class='row form-group required' style="display: none;" id="tcamp_year_row">
             <label for='inputTcampYear' class='col-md-2 control-label text-md-right'>參加年度(西元)</label>
             <div class='col-md-10' id='inputTcampYear'>
-                <input required type='number' class='form-control' name='tcamp_year' min=1993 max='{{ \Carbon\Carbon::now()->year }}' value='' placeholder='大約年度即可'>
+                <input type='number' class='form-control' name='tcamp_year' min=1993 max='{{ \Carbon\Carbon::now()->year }}' value='' placeholder='大約年度即可'>
                 <div class="invalid-feedback">
                     未填寫參加年度，或格式不正確
                 </div>
@@ -722,12 +722,12 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <p class='form-control-static text-primary mb-0'>
                 <label>
                     <input type='radio' required name='portrait_agree' value='1'>
-                    我同意
-                    {{--主辦單位在營隊期間拍照、錄影之活動記錄，使用於營隊及主辦單位的非營利教育推廣使用，並以網路方式推播。--}}
+                    我同意主辦方就所報名之
                     <!-- Button trigger modal -->
                     <button type="button" class="text-primary" data-toggle="modal" data-target="#exampleModalCenter">
-                    請點選以查看「同意書詳細內容」
+                    活動或課程進行期間內所採訪或拍攝或攝影
                     </button>
+                    之文字與影像進行合理範圍內之招生或使用（官網活動花絮等）。
                 </label>
             </p>
             <input type='radio' class='d-none' name="portrait_agree" value='0'> 
