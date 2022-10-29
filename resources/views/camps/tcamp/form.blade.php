@@ -16,8 +16,10 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <h5>報名期間：111年11月01日(二)起至111年12月04日(日)止</h5>
             <h5>研習時間：112年01月31日(二)起至112年02月01日(三)止</h5>
             <h5>研習時數：凡參加研習者依規定核發研習時數或數位研習證書</h5>
+            <!--h6>指導單位：教育部生命教育中心</h6-->
             <h6>主辦單位：財團法人福智文教基金會</h6>
-            <h6>協辦單位：福智學校財團法人、基隆市七堵區瑪陵國民小學、屏東縣立大路關國民中小學</h6>
+            <h6>合辦單位：國立臺中教育大學通識教育中心、桃園市立內壢高級中等學校</h6>
+            <h6>協辦單位：國立高雄科技大學、明新科技大學、臺南市立大成國民中學、福智學校財團法人、基隆市瑪陵國民小學、屏東縣立大路關國民中小學、全臺福智青年社</h6>
         </div>
     @endif
     <div class='alert alert-info' role='alert'>
@@ -25,7 +27,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class='page-header form-group'>
-        <h4>{{ $camp_data->fullName }}線上報名表</h4>
+        <h4>{{ $camp_data->fullName }} {{ $batch->name }}場 線上報名表</h4>
     </div>
 <span id="tcamp-layout">
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
