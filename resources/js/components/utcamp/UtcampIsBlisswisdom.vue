@@ -71,8 +71,8 @@ export default {
     },
     mounted() {
         if (this.doPopulate) {
-            this.getFieldData(this, "isBlisswisdom", "tcamp").then(
-                this.getFieldData(this, "blisswisdomType", "tcamp")
+            this.getFieldData(this, "isBlisswisdom", "utcamp").then(
+                this.getFieldData(this, "blisswisdomType", "utcamp")
             );
         }
     },

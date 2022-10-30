@@ -300,9 +300,9 @@ export default {
     mounted() {
         if (this.doPopulate) {
             let self = this;
-            this.getFieldData(this, "unitCounty", "tcamp").then(() => {
+            this.getFieldData(this, "unitCounty", "utcamp").then(() => {
                 self.unit_area = self.unit_county;
-                self.getFieldData(this, "unit", "tcamp").then(() => {
+                self.getFieldData(this, "unit", "utcamp").then(() => {
                     self.schools.forEach((item) => {
                         if (item && item.abbreviation == self.unit) {
                             self.selected = item;
