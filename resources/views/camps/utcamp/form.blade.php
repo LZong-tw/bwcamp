@@ -172,7 +172,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 服務系所/部門
             </label>
             <div class="col-md-10">
-                <input type="text" required name="school_or_course" class='form-control' value="">                    
+                <input type="text" required name="department" class='form-control' value="">                    
                 <div class="invalid-feedback crumb">
                     請輸入服務系所/部門
                 </div>     
@@ -236,7 +236,12 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <label><input type="checkbox" name=info_source[] value='學校公文' > 學校公文</label> <br/>
             <label><input type="checkbox" name=info_source[] value='宣傳海報/小卡' > 宣傳海報/小卡</label> <br/>
             <label><input type="checkbox" name=info_source[] value='福智文教基金會官網' > 福智文教基金會官網</label> <br/>
-            <label><input type="checkbox" name=info_source[] value='自行搜尋' > 自行搜尋</label>
+            <label><input type="checkbox" name=info_source[] value='自行搜尋' > 自行搜尋</label> <br/>
+            <label><input type="checkbox" name=info_source[] value='其他' onchange="toggleISOrequired()"> 其它</label> <br>
+                <input type=text class='form-control' name="info_source_other" value='' id="info_source_other">
+                <div class="invalid-feedback">
+                    請填寫其它管道
+                </div>
         </div>
     </div>
 
@@ -322,12 +327,12 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <p class='form-control-static text-primary mb-0'>
                 <label>
                     <input type='radio' required name='portrait_agree' value='1'>
-                    我同意
-                    {{--主辦單位在營隊期間拍照、錄影之活動記錄，使用於營隊及主辦單位的非營利教育推廣使用，並以網路方式推播。--}}
+                    我同意主辦方就所報名之
                     <!-- Button trigger modal -->
                     <button type="button" class="text-primary" data-toggle="modal" data-target="#exampleModalCenter">
-                    請點選以查看「同意書詳細內容」
+                    活動或課程進行期間內所採訪或拍攝或攝影
                     </button>
+                    之文字與影像進行合理範圍內之招生或使用（官網活動花絮等）。
                 </label>
             </p>
             <input type='radio' class='d-none' name="portrait_agree" value='0'> 
@@ -504,9 +509,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             if (document.readyState === 'complete') {
             }
         };
-        //toggle interesting_complement required or not
-        function toggleICrequired() {
-            document.getElementById('interesting_complement').required = !document.getElementById('interesting_complement').required ? true : false;
+        //toggle info_source_other required or not
+        function toggleISOrequired() {
+            document.getElementById('info_source_other').required = !document.getElementById('info_source_other').required ? true : false;
         }
         //toggle blisswisdom_type_complement required or not
         function toggleBTCrequired() {
