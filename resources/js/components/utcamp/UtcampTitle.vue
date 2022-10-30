@@ -109,7 +109,7 @@
                         pattern=".{2,40}"
                         placeholder="若為兼任行政主管，亦請於此填寫職稱"
                         :disabled="this.inputEnabled === false"
-                        :value="this.doPopulate === true ? title : null"
+                        :value="title"
                     />
                     <div class="invalid-feedback crumb" id="title">
                         請填寫職稱
