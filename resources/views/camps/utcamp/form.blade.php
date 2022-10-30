@@ -15,7 +15,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }} {{ $batch->name }} 線上報名表</h4>
     </div>
-<span id="tcamp-layout">
+<span id="utcamp-layout">
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
 @if((!isset($isModify) && $batch->is_appliable) || (isset($isModify) && $isModify))
     <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form'>
@@ -137,9 +137,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <select required class='form-control' name='workshop_credit_type' placeholder='' onchange="id_setRequired(this)">
                 <option value="">- 請選擇 -</option>
                 <option value="不申請">不申請</option>
-                @if(!$camp_data->variant)
-                    <option value="一般教師研習時數">一般教師研習時數</option>
-                @endif
+                <!--<option value="一般教師研習時數">一般教師研習時數</option>-->
                 <option value="公務員研習時數">公務員研習時數</option>
                 <option value="基金會研習數位證明書">基金會研習數位證明書</option>
             </select>

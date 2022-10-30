@@ -6,10 +6,10 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name='description' content='「教育是人類升沈的樞紐」邀請您報名參加教師生命成長營。' />
     <meta name='author' content='福智文教基金會'>
-    <meta property='og:url' content='http://youth.blisswisdom.org/camp/winter/'/>
+    <meta property='og:url' content='http://bwfoce.org/2023tcamp'/>
     <meta property='og:title' content='{{ $camp_data->abbreviation }}'/>
     <meta property='og:description' content='「教育是人類升沈的樞紐」邀請您報名參加教師生命成長營。' />
-    <meta property='og:image' content='http://youth.blisswisdom.org/camp/media/2016Wbanner.png'/>
+    <meta property='og:image' content='http://bwfoce.org/2023tcamp'/>
     {{-- <link rel='icon' href='/camp/favicon.ico'> --}}
     <title> {{ $camp_data->fullName }} </title>
     <!-- Bootstrap core CSS -->
@@ -47,7 +47,7 @@
                     {{-- <span class="sr-only">(current)</span> --}}
                     @if(!$camp_data->variant)
                         <li class="nav-item">
-                            <a class="nav-link" href="https://bwfoce.wixsite.com/website-4">營隊資訊</a>
+                            <a class="nav-link" href="https://bwfoce.wixsite.com/2023gtcamp">營隊資訊</a>
                         </li>
                     @else
                         <li class="nav-item">
@@ -70,10 +70,12 @@
                     @endif
                     @if(!$camp_data->variant)
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url("downloads/tcamp2022/2022第30屆教師生命成長營課程表.pdf") }}">課程表</a>
+                            <!--<a class="nav-link" href="{{ url("downloads/tcamp2022/2022第30屆教師生命成長營課程表.pdf") }}">課程表</a>-->
+                            <a class="nav-link" href="https://bwfoce.wixsite.com/2023gtcamp">課程表</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url("downloads/tcamp2022/2022教師生命成長營簡章(網頁版)1109F.pdf") }}">報名簡章下載</a>
+                            <!--<a class="nav-link" href="{{ url("downloads/tcamp2022/2022教師生命成長營簡章(網頁版)1109F.pdf") }}">報名簡章下載</a>-->
+                            <a class="nav-link" href="https://bwfoce.wixsite.com/2023gtcamp">報名須知</a>
                         </li>
                     @else
                         <li class="nav-item">
