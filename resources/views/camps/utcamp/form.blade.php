@@ -119,7 +119,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputEducation' class='col-md-2 control-label text-md-right'>最高學歷</label>
         <div class='col-md-10'>
-            <select name="education" class="form-control" required> 
+            <select name="education" class="form-control" required>
                 <option value=''>- 請選擇 -</option>
                 <option value='高中職'>高中職</option>
                 <option value='大專'>大專</option>
@@ -156,7 +156,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     </div>
-    
+
     <div class='row form-group'>
         <label class = 'col-md-2'></label>
         <label class = 'col-md-10 text-primary'>若您的服務學校/單位不在下面選單中，請在「行政區」選「其他」，即可自填服務學校/單位。</label>
@@ -165,17 +165,17 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     {{-- 大專教師營 --}}
         <div id="utcamp-unit-and-batch-section" class="m-0 p-0">
             <utcamp-unit-and-batch-section></utcamp-unit-and-batch-section>
-        </div>      
+        </div>
 
         <div class="row form-group required">
             <label for="inputSchoolOrCourse" class="col-md-2 control-label text-md-right">
                 服務系所/部門
             </label>
             <div class="col-md-10">
-                <input type="text" required name="department" class='form-control' value="">                    
+                <input type="text" required name="department" class='form-control' value="">
                 <div class="invalid-feedback crumb">
                     請輸入服務系所/部門
-                </div>     
+                </div>
             </div>
         </div>
         <span id="utcamp-title" class="m-0 p-0">
@@ -217,7 +217,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         e.preventDefault();
         });
     </script>
-    
+
     <div class='row form-group required'>
         <label for='inputEmail' class='col-md-2 control-label text-md-right'>確認電子郵件</label>
         <div class='col-md-10'>
@@ -228,7 +228,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     </div>
-    
+
     <div class='row form-group'>
         <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>如何得知報名訊息(可複選)</label>
         <div class='col-md-10'>
@@ -265,7 +265,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     關係：
                 </div>
                 <div class='col-md-10'>
-                    <select name="introducer_relationship" class="form-control"> 
+                    <select name="introducer_relationship" class="form-control">
                         <option value=''>- 請選擇 -</option>
                         <option value='配偶'>配偶</option>
                         <option value='學生'>學生</option>
@@ -276,14 +276,14 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         <option value='其他'>其他</option>
                     </select>
                 </div>
-            </div>    
+            </div>
         </div>
     </div>
 
     <!-----是否參加過福智舉辦活動----->
     <span id="utcamp-is-blisswisdom">
             <utcamp-is-blisswisdom></utcamp-is-blisswisdom>
-    </span>        
+    </span>
     <!-----是否參加過福智舉辦活動----->
 
     <div class='row form-group required'>
@@ -335,13 +335,13 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     之文字與影像進行合理範圍內之招生或使用（官網活動花絮等）。
                 </label>
             </p>
-            <input type='radio' class='d-none' name="portrait_agree" value='0'> 
+            <input type='radio' class='d-none' name="portrait_agree" value='0'>
             <div class="invalid-feedback mt-0">
                 請圈選本欄位
             </div>
         </div>
     </div>
-                
+
     <!-- Modal：同意書互動視窗 -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -370,10 +370,10 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <label for='inputTerm' class='col-md-2 control-label text-md-right'>個人資料</label>
         <div class='col-md-10'>
             <p class='form-control-static text-primary mb-0'>
-                <label>                
+                <label>
                     <input type='radio' required name='profile_agree' value='1'>
                     我同意主辦單位於本次營隊取得我的個人資料，於營隊期間及後續主辦單位舉辦之活動，作為訊息通知、行政處理等非營利目的之使用，不會提供給無關之其他私人單位使用。
-                </label> 
+                </label>
             </p>
             <input type='radio' class='d-none' name='profile_agree' value='0'>
             <div class="invalid-feedback mt-0">
@@ -408,8 +408,8 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
     </form>
 </span>
-            
-    <script>        
+
+    <script>
         $('[data-toggle="confirmation"]').confirmation({
             rootSelector: '[data-toggle=confirmation]',
             title: "敬請再次確認資料填寫無誤。",
@@ -433,7 +433,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         //     let totalFilled = 0;
                         //     for (var i = 0; i < blisswisdom_type_complements.length; i++) {
                         //         if(blisswisdom_type_complements[i].value) {
-                        //             totalFilled++; 
+                        //             totalFilled++;
                         //         }
                         //     }
                         //     if(totalFilled == 0 && document.getElementById("complement_row").style.display != "none") {
@@ -499,11 +499,11 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     }, false);
                 });
             }, false);
-        })();     
+        })();
 
         /**
         * Ready functions.
-        * Executes commands after the web page is loaded. 
+        * Executes commands after the web page is loaded.
         */
         document.onreadystatechange = () => {
             if (document.readyState === 'complete') {
@@ -519,13 +519,14 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         }
         //??
         function toggleComplement(val) {
-            let blisswisdom_type_complements = $('input').filter(function() {
-                                                            return this.name.match(/blisswisdom_type_complement\[\d\]/);
-                                                        });
+            let blisswisdom_type_complements =
+                    $('input').filter(function() {
+                        return this.name.match(/blisswisdom_type_complement\[\d\]/);
+                    });
             for (var i = 0; i < blisswisdom_type_complements.length; i++) {
                 blisswisdom_type_complements[i].required = val;
             }
-            if(val) { 
+            if(val) {
                 $("#complement_row").show();
             }
             else {
@@ -533,7 +534,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             }
         }
         function toggleTcampYear(val) {
-            if(val) { 
+            if(val) {
                 $("#tcamp_year_row").show();
                 document.getElementById('inputTcampYear').required = true;
             }
@@ -568,9 +569,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 let inputs = document.getElementsByTagName('input');
                 let selects = document.getElementsByTagName('select');
                 let textareas = document.getElementsByTagName('textarea');
-                let complementPivot = 0;                
-                let complementData = applicant_data["blisswisdom_type_complement"] ? applicant_data["blisswisdom_type_complement"].split("||/") : null; 
-                // console.log(inputs); 
+                let complementPivot = 0;
+                let complementData = applicant_data["blisswisdom_type_complement"] ? applicant_data["blisswisdom_type_complement"].split("||/") : null;
+                // console.log(inputs);
                 for (var i = 0; i < inputs.length; i++){
                     if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox"){
                         if(inputs[i].type == "radio"){
@@ -583,7 +584,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         }
                         else if(inputs[i].type == "checkbox"){
                             let checkboxes = document.getElementsByName(inputs[i].name);
-                            let deArray = inputs[i].name.slice(0, -2); 
+                            let deArray = inputs[i].name.slice(0, -2);
                             if(applicant_data[deArray]){
                                 let checkedValues = applicant_data[deArray].split("||/");
                                 for( j = 0; j < checkboxes.length; j++ ) {
@@ -596,7 +597,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                             }
                         }
                         else if(applicant_data[inputs[i].name]){
-                            inputs[i].value = applicant_data[inputs[i].name]; 
+                            inputs[i].value = applicant_data[inputs[i].name];
                         }
                     }
                     else if(inputs[i].type == "text" && (inputs[i].name == 'blisswisdom_type_complement[]' || inputs[i].name == 'blisswisdom_type_complement[0]' || inputs[i].name == 'blisswisdom_type_complement[1]')){
@@ -605,7 +606,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         complementPivot++;
                     }
                     else if(inputs[i].type == "text"){
-                        inputs[i].value = applicant_data[inputs[i].name]; 
+                        inputs[i].value = applicant_data[inputs[i].name];
                     }
                     if(inputs[i].name == 'emailConfirm'){
                         inputs[i].value = applicant_data['email'];
@@ -613,18 +614,18 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 }
                 for (var i = 0; i < selects.length; i++){
                     if(typeof applicant_data[selects[i].name] !== "undefined"){
-                        selects[i].value = applicant_data[selects[i].name]; 
+                        selects[i].value = applicant_data[selects[i].name];
                     }
                 }
                 for (var i = 0; i < textareas.length; i++){
                     if(typeof applicant_data[textareas[i].name] !== "undefined"){
-                        textareas[i].value = applicant_data[textareas[i].name]; 
+                        textareas[i].value = applicant_data[textareas[i].name];
                     }
                 }
 
                 @if(!$isModify)
                     for (var i = 0; i < inputs.length; i++){
-                        if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox" || inputs[i].name == 'emailConfirm' || inputs[i].name == "blisswisdom_type[]" || inputs[i].name == "blisswisdom_type_complement[]" 
+                        if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox" || inputs[i].name == 'emailConfirm' || inputs[i].name == "blisswisdom_type[]" || inputs[i].name == "blisswisdom_type_complement[]"
                         || inputs[i].name == "blisswisdom_type_complement[0]" || inputs[i].name == "blisswisdom_type_complement[1]"){
                             inputs[i].disabled = true;
                         }
@@ -650,6 +651,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         }
     </style>
 @stop
-{{-- 
+{{--
     參考頁面：https://youth.blisswisdom.org/camp/winter/form/index_addto.php
     --}}
