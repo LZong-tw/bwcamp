@@ -25,10 +25,11 @@
             <th>允許前台報名</th>
             <th>是否延後截止報名</th>
             <th>報名延後截止日 </th>
-            <th>地點名</th>
-            <th>地點</th>
             <th>報到日</th>
+            <th>地點</th>
+            <th>地址</th>
             <th>電話</th>
+            <th>學員組數</th>
             <th>建立日期</th>
             <th>更新日期</th>
             <th>動作</th>
@@ -43,10 +44,11 @@
                 <td>{{ $batch->is_appliable }}</td>
                 <td>{{ $batch->is_late_registration_end }}</td>
                 <td>{{ $batch->late_registration_end }}</td>
+                <td>{{ $batch->check_in_day }}</td>
                 <td>{{ $batch->locationName }}</td>
                 <td>{{ $batch->location }}</td>
-                <td>{{ $batch->check_in_day }}</td>
                 <td>{{ $batch->tel }}</td>
+                <td>{{ $batch->num_groups }}</td>
                 <td>{{ $batch->created_at }}</td>
                 <td>{{ $batch->updated_at }}</td>
                 <td><a href="{{ route("showModifyBatch", [$camp->id, $batch->id]) }}" class="btn btn-primary">修改</a></td>
