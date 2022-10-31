@@ -197,6 +197,7 @@ class AdminController extends BackendController {
     }
 
     public function addOrgs(Request $request, $camp_id){
+        //dd($request);
         $formData = $request->toArray();
         $camp = Camp::find($camp_id);
         $orgs = $camp->organizations;   //existing orgs
@@ -206,11 +207,15 @@ class AdminController extends BackendController {
         $sections = count($formData['section']);
         foreach($formData as $key => $field) {
             if ($key == 'section') {
+                $j = 0;
                 for($i = 0; $i < $sections; $i++) {
-                    $sec_tg = $field[$i];
-                    $newSet[$i][0]['camp_id'] = $camp_id; 
-                    $newSet[$i][0]['section'] = $sec_tg;
-                    $newSet[$i][0]['position'] = 'root';
+                    while(!isset($field[$j])) {
+                        $j = $j+1;  //skip non-exist idx
+                    }
+                    $sec_tg = $field[$j];
+                    $newSet[$j][0]['camp_id'] = $camp_id; 
+                    $newSet[$j][0]['section'] = $sec_tg;
+                    $newSet[$j][0]['position'] = 'root';
                     $is_exist = false;  //init
                     foreach($orgs as $org) {
                         if ($org->section == $sec_tg) {
@@ -219,31 +224,37 @@ class AdminController extends BackendController {
                         }
                     }
                     if ($is_exist == false) {
-                        CampOrg::create($newSet[$i][0]);
+                        CampOrg::create($newSet[$j][0]);
                     }
+                    $j = $j+1;
                 }
             }
         }
         foreach($formData as $key => $field) {
             if ($key == 'position') {
+                $j = 0;
                 for($i = 0; $i < $sections; $i++) {
-                    $positions = count($field[$i]);
-                    for($j = 0; $j < $positions; $j++) {    
-                        $sec_tg = $newSet[$i][0]['section'];              
-                        $newSet[$i][$j+1]['camp_id'] = $camp_id; 
-                        $newSet[$i][$j+1]['section'] = $sec_tg;
-                        $newSet[$i][$j+1]['position'] = $field[$i][$j];
+                    while(!isset($field[$j])) {
+                        $j = $j+1;  //skip non-exist idx
+                    }
+                    $positions = count($field[$j]);
+                    for($k = 0; $k < $positions; $k++) {    
+                        $sec_tg = $newSet[$j][0]['section'];              
+                        $newSet[$j][$k+1]['camp_id'] = $camp_id; 
+                        $newSet[$j][$k+1]['section'] = $sec_tg;
+                        $newSet[$j][$k+1]['position'] = $field[$j][$k];
                         $is_exist = false;
                         foreach($orgs as $org) {
-                            if (($org->section == $sec_tg) && ($org->position == $field[$i][$j])) {
+                            if (($org->section == $sec_tg) && ($org->position == $field[$j][$k])) {
                                 $is_exist = true;   //once find match, break
                                 break;
                             }
                         }
                         if ($is_exist == false) {
-                            CampOrg::create($newSet[$i][$j+1]);
+                            CampOrg::create($newSet[$j][$k+1]);
                         }
                     }
+                    $j = $j+1;
                 }
             }
         }
@@ -301,7 +312,12 @@ class AdminController extends BackendController {
     }
 
     public function removeOrg(Request $request){
-        $result = \App\Models\CampOrg::find($request->org_id)->delete();
+        //刪除大組：找到（同camp_id）&（同section）的全刪掉
+        if ($request->org_position == 'root') {
+            $result = \App\Models\CampOrg::where('camp_id', $request->camp_id)->where('section', $request->org_section)->delete();
+        } else {    //刪除職務：刪除此org_id就好
+            $result = \App\Models\CampOrg::find($request->org_id)->delete();
+        }
         if($result){
             \Session::flash('message', "職務刪除成功。");
             return back();
@@ -311,6 +327,5 @@ class AdminController extends BackendController {
             return back();
         }
     }
-
 
 }

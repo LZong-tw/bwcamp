@@ -15,6 +15,7 @@
             {{ \Session::get('message') }}
         </div>
     @endif
+
     <table class="table table-bordered">
         <tr>
             <th>ID</th>
@@ -27,18 +28,25 @@
         @foreach($orgs as $org)
             <tr>
                 <td>{{ $org->id }}</td>
-                <td>{{ $org->section }}</td>
+                @if($org->position == 'root')
+                <td class="font-weight-bold">{{ $org->section }}</td>
+                @else
+                <td class="text-muted">{{ $org->section }}</td>
+                @endif
                 @if($org->position == 'root')
                     <td>（大組）</td>
                     <td>
                         <a href="{{ route('showModifyOrg', [$camp->id, $org->id]) }}" class="btn btn-primary">修改</a>
                     </td>
                     <td>
-                        <!--<form action="{{ route("removeOrg") }}" method="post">
+                        <form action="{{ route("removeOrg") }}" method="post">
                             @csrf
                             <input type="hidden" name="org_id" value="{{ $org->id }}">
+                            <input type="hidden" name="org_section" value="{{ $org->section }}">
+                            <input type="hidden" name="org_position" value="{{ $org->position }}">
+                            <input type="hidden" name="camp_id" value="{{ $camp->id }}">
                             <input type="submit" class="btn btn-danger" value="刪除">
-                        </form>-->
+                        </form>
                     </td>
                     <td>
                         <a href="{{ route('showAddOrgs', [$camp->id, $org->id]) }}" class="btn btn-success">新增職務</a>
@@ -50,6 +58,9 @@
                         <form action="{{ route("removeOrg") }}" method="post">
                             @csrf
                             <input type="hidden" name="org_id" value="{{ $org->id }}">
+                            <input type="hidden" name="org_section" value="{{ $org->section }}">
+                            <input type="hidden" name="org_position" value="{{ $org->position }}">
+                            <input type="hidden" name="camp_id" value="{{ $camp->id }}">
                             <input type="submit" class="btn btn-danger" value="刪除">
                         </form>
                     </td>
