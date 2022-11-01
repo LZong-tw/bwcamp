@@ -66,7 +66,7 @@
                         <a class="nav-link" href="{{ url("downloads/utcamp2023/2022第30屆教師生命成長營大專教職員梯-活動簡章_含課表_R5.pdf") }}">課程表</a>
                     </li> --}}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url("downloads/utcamp2023/2023第31屆教師生命成長營大專教職員梯-活動簡章_含課表紙本報名表.docx") }}">報名簡章(含課表)下載</a>
+                        <a class="nav-link" href="{{ url("downloads/utcamp2023/2023第31屆教師生命成長營大專教職員梯-活動簡章_含課表紙本報名表_R2.docx") }}">報名簡章(含課表)下載</a>
                     </li>
                 </ul>
             </div>
