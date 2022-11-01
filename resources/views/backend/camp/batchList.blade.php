@@ -17,22 +17,22 @@
     @endif
     <table class="table table-bordered">
         <tr>
-            <th>ID</th>
-            <th>梯次名</th>
-            <th>錄取編號前綴</th>
-            <th>梯次開始日</th>
-            <th>梯次結束日</th>
-            <th>允許前台報名</th>
-            <th>是否延後截止報名</th>
-            <th>報名延後截止日 </th>
-            <th>報到日</th>
-            <th>地點</th>
-            <th>地址</th>
-            <th>電話</th>
-            <th>學員組數</th>
-            <th>建立日期</th>
-            <th>更新日期</th>
-            <th>動作</th>
+            <th scope="col" class="text-nowrap">ID</th>
+            <th scope="col" class="text-nowrap">梯次<br>名稱</th>
+            <th scope="col" class="text-nowrap">錄取<br>編號<br>前綴</th>
+            <th scope="col" class="text-nowrap">梯次<br>開始日</th>
+            <th scope="col" class="text-nowrap">梯次<br>結束日</th>
+            <th scope="col" class="text-nowrap">允許<br>前台<br>報名</th>
+            <th scope="col" class="text-nowrap">是否延後<br>截止報名</th>
+            <th scope="col" class="text-nowrap">報名<br>延後<br>截止日 </th>
+            <th scope="col" class="text-nowrap">報到日</th>
+            <th scope="col" class="text-nowrap">地點</th>
+            <th scope="col" class="text-nowrap">地址</th>
+            <th scope="col" class="text-nowrap">電話</th>
+            <th scope="col" class="text-nowrap">學員組數</th>
+            <th scope="col" class="text-nowrap">建立日期</th>
+            <th scope="col" class="text-nowrap">更新日期</th>
+            <th scope="col" class="text-nowrap">動作</th>
         </tr>
         @foreach($batches as $batch)
             <tr>
