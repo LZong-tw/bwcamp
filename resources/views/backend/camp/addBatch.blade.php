@@ -18,13 +18,13 @@
         @csrf
         <table class="table table-bordered table-hover" id="form">
             <tr>
-                <th scope="col" class="text-nowrap">名稱</th>
-                <th scope="col" class="text-nowrap">錄取編號<br>前綴</th>
-                <th scope="col" class="text-nowrap">梯次開始日</th>
-                <th scope="col" class="text-nowrap">梯次結束日</th>
+                <th scope="col" class="text-nowrap">梯次<br>名稱</th>
+                <th scope="col" class="text-nowrap">錄取<br>編號<br>前綴</th>
+                <th scope="col" class="text-nowrap">梯次<br>開始日</th>
+                <th scope="col" class="text-nowrap">梯次<br>結束日</th>
                 <th scope="col" class="text-nowrap">允許前台<br>報名</th>
                 <th scope="col" class="text-nowrap">是否延後<br>截止報名</th>
-                <th scope="col" class="text-nowrap">報名延後截止日</th>
+                <th scope="col" class="text-nowrap">報名延後<br>截止日</th>
                 <th scope="col" class="text-nowrap">報到日</th>
                 <th scope="col" class="text-nowrap">地點</th>
                 <th scope="col" class="text-nowrap">地址</th>

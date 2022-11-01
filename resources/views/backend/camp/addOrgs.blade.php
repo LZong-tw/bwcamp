@@ -48,7 +48,7 @@
         <table class="table table-bordered table-hover" id="org">
             <tr>
                 <th>大組名稱</th>
-                <th>新增/刪除大組</th>
+                <th>新增或刪除行</th>
                 <th>職務名稱</th>
             </tr>
             <tr class="align-middle">
