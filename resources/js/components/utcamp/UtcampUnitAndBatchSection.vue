@@ -277,9 +277,9 @@ export default {
     },
     computed: {
         toggleTaichungComponent() {
-            if (this.selected && this.selected.is_taichung == 1) {
-                return "row-Is-Taichung";
-            }
+            //if (this.selected && this.selected.is_taichung == 1) {
+            //    return "row-Is-Taichung";
+            //}
             return null;
         },
         filtered_schools() {
