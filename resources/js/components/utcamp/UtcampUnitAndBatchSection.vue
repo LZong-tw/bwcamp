@@ -21,6 +21,7 @@
                     <option value="新竹縣">新竹縣</option>
                     <option value="苗栗縣">苗栗縣</option>
                     <option value="臺中市">臺中市</option>
+                    <option value="彰化市">彰化市</option>
                     <option value="彰化縣">彰化縣</option>
                     <option value="南投縣">南投縣</option>
                     <option value="雲林縣">雲林縣</option>

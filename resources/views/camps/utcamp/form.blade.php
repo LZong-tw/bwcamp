@@ -280,11 +280,11 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-    <!-----是否參加過福智舉辦活動----->
+    <!-----是否參加過福智舉辦活動-----
     <span id="utcamp-is-blisswisdom">
             <utcamp-is-blisswisdom></utcamp-is-blisswisdom>
     </span>
-    <!-----是否參加過福智舉辦活動----->
+    -----是否參加過福智舉辦活動----->
 
     <div class='row form-group required'>
         <label for='inputEmail' class='col-md-2 control-label text-md-right'>願意收到福智文教基金會電子報</label>
