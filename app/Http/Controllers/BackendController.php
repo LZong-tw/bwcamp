@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\CampDataService;
 use App\Services\ApplicantService;
+use App\Services\BackendService;
 use App\Models\Camp;
 use App\Models\Applicant;
 use App\Models\Batch;
@@ -18,18 +19,30 @@ use App\Models\SignInSignOut;
 class BackendController extends Controller {
     use EmailConfiguration;
 
-    protected $campDataService, $applicantService, $batch_id, $camp_data, $batch, $has_attend_data;
+    protected $campDataService;
+    protected $applicantService;
+    protected $backendService;
+    protected $batch_id;
+    protected $camp_data;
+    protected $batch;
+    protected $has_attend_data;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(CampDataService $campDataService, ApplicantService $applicantService, Request $request) {
+    public function __construct(
+        CampDataService $campDataService,
+        ApplicantService $applicantService,
+        BackendService $backendService,
+        Request $request
+    ) {
         $this->middleware('auth');
         $this->campDataService = $campDataService;
         $this->applicantService = $applicantService;
-        if($request->route()->parameter('batch_id')){
+        $this->backendService = $backendService;
+        if ($request->route()->parameter('batch_id')) {
             // 營隊資料，存入 view 全域
             $this->batch_id = $request->route()->parameter('batch_id');
             $this->camp_data = $this->campDataService->getCampData($this->batch_id)['camp_data'];
@@ -37,8 +50,11 @@ class BackendController extends Controller {
             View::share('batch', $this->batch);
             View::share('batch_id', $this->batch_id);
             View::share('camp_data', $this->camp_data);
-            if($this->camp_data->table == 'ycamp' || $this->camp_data->table == 'acamp'){
-                if($this->camp_data->admission_confirming_end && Carbon::now()->gt($this->camp_data->admission_confirming_end)){
+            if ($this->camp_data->table == 'ycamp' || $this->camp_data->table == 'acamp') {
+                if (
+                    $this->camp_data->admission_confirming_end &&
+                    Carbon::now()->gt($this->camp_data->admission_confirming_end)
+                ) {
                     $this->has_attend_data = true;
                 }
             }
@@ -105,7 +121,7 @@ class BackendController extends Controller {
                     $error = "報名序號重複。";
                     return view('backend.registration.showCandidate', compact('candidate', 'error'));
                 }
-                $candidate->is_admitted = 1;
+                $candidate = $this->backendService->setAdmitted($candidate, 1);
                 $candidate->group = $group;
                 $candidate->number = $number;
                 $candidate = $this->applicantService->fillPaymentData($candidate);
@@ -164,7 +180,7 @@ class BackendController extends Controller {
                     $skip = true;
                 }
                 if(!$skip){
-                    $candidate->is_admitted = 1;
+                    $candidate = $this->backendService->setAdmitted($candidate, 1);
                     $candidate->group = $group;
                     $candidate->number = $number;
                     $candidate = $this->applicantService->fillPaymentData($candidate);
