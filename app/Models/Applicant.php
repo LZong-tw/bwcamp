@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Traffic;
 
 class Applicant extends Model {
@@ -98,6 +99,11 @@ class Applicant extends Model {
         return $this->signData()->whereAvailabilityId($availability_id)->first();
     }
 
+    public function groupRelation()
+    {
+        return $this->belongsTo(ApplicantsGroup::class);
+    }
+
     public function getBirthdateAttribute() {
         return Carbon::parse("{$this->birthyear}-{$this->birthmonth}-{$this->birthday}");
     }
@@ -108,5 +114,25 @@ class Applicant extends Model {
 
     public function getGenderZhTwAttribute() {
         return $this->gender == 'M' ? '男' : '女';
+    }
+
+    /**
+     * Get applicant's group by app version.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function group(): Attribute
+    {
+        if ($this->camp()->first()->created_at->lt(Carbon::create(2022, 11, 1))) {
+            return Attribute::make(
+                get: fn () => $this->group_legacy,
+                set: fn ($value) => $this->group_legacy = $value,
+            );
+        }
+
+        return Attribute::make(
+            get: fn () => $this->groupRelation(),
+            set: fn ($value) => $this->groupRelation()->associate($value),
+        );
     }
 }

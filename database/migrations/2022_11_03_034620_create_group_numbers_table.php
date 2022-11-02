@@ -13,9 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('{{ table }}', function (Blueprint $table) {
+        Schema::create('group_numbers', function (Blueprint $table) {
             $table->id();
+            $table->integer('group_id');
+            $table->integer('applicant_id');
+            $table->integer('number');
             $table->timestamps();
+
+            $table->unique(['group_id', 'applicant_id', 'number']);
         });
     }
 
@@ -26,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('{{ table }}');
+        Schema::dropIfExists('group_numbers');
     }
 };
