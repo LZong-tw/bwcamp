@@ -123,7 +123,7 @@ class Applicant extends Model {
      */
     protected function group(): Attribute
     {
-        if ($this->camp()->first()->created_at->lt(Carbon::create(2022, 11, 1))) {
+        if ($this->camp()?->first()?->created_at->lt(Carbon::create(2022, 11, 1))) {
             return Attribute::make(
                 get: fn () => $this->group_legacy,
                 set: fn ($value) => $this->group_legacy = $value,
