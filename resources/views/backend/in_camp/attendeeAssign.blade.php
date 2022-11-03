@@ -20,6 +20,11 @@
     option{
         text-align: center;
     }
+    mark{
+        background-color: rgb(255, 180, 255);
+        padding: 0;
+    }
+
 </style>
 @if(isset($applicants))
     <h3 class="font-weight-bold">{{ $fullName }} >> 設定{{ ($is_vcamp && $is_care) ? '關懷組' : '' }}{{ (!$is_vcamp && $is_care) ? '關懷員' : '' }}{{ ($is_vcamp) ? '義工組別/職務' : '' }}{{ (!$is_vcamp && !$is_care) ? '學員組別' : '' }}
@@ -76,7 +81,6 @@
         <button type="submit" class="btn btn-secondary btn-sm" onclick="">選定</button>
         <br>
     @endif
-
 <!--
     每頁顯示：
     <input type="radio" name="show" onclick="" value="50"> 50筆
@@ -95,6 +99,7 @@
     </p>
 -->
     <span class="text-danger font-weight-bold">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         @if($is_vcamp)
             <button type="submit" class="btn btn-success btn-sm" onclick=""> << 返回義工名單</button>
             &nbsp;&nbsp;
@@ -165,6 +170,9 @@
 
     <table class="table table-bordered table-hover"
     data-toggle="table"
+    data-search="true"
+    data-search-highlight="true"
+    data-search-align="left"
     data-pagination="true"
     data-smart-display="false"
     data-pagination-loop="false"
