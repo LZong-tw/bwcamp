@@ -77,7 +77,7 @@
                 <input type="text" name="icon" id="" class='form-control' value="{{ $camp->icon ?? "" }}">
             </div>
         </div>
-        <div class='row form-group required'>
+        <div class='row form-group'>
             <label for='inputName' class='col-md-2 control-label'>Variant</label>
             <div class='col-md-6'>
                 <input type="text" name="variant" id="" class='form-control' value="{{ $camp->variant ?? "" }}">
@@ -193,7 +193,7 @@
                 <input type="number" name="early_bird_fee" id="" class='form-control' value="{{ $camp->early_bird_fee ?? "0" }}">
             </div>
         </div>
-        
+
         <div class='row form-group'>
             <label for='inputName' class='col-md-2 control-label'>早鳥最後一日</label>
             <div class='col-md-6'>
