@@ -17,6 +17,11 @@
     .dropdown-toggle::after{
         display: none !important;
     }
+    mark{
+        background-color: rgb(255, 180, 255);
+        padding: 0;
+    }
+
 </style>
 @if(isset($applicants))
     <h3 class="font-weight-bold">{{ $fullName }} >> 瀏覽{{ ($is_vcamp && $is_care) ? '關懷組' : '' }}{{ ($is_vcamp) ? '義工' : '學員' }}名單
@@ -118,6 +123,9 @@
 -->
     <table class="table table-bordered table-hover"
     data-toggle="table"
+    data-search="true"
+    data-search-highlight="true"
+    data-search-align="left"
     data-pagination="true"
     data-smart-display="false"
     data-pagination-loop="false"
