@@ -123,6 +123,7 @@
 -->
     <table class="table table-bordered table-hover"
     data-toggle="table"
+    data-show-columns-search="true"
     data-search="true"
     data-search-highlight="true"
     data-search-align="left"
