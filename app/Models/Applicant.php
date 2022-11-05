@@ -104,6 +104,16 @@ class Applicant extends Model {
         return $this->belongsTo(ApplicantsGroup::class);
     }
 
+    public function numberRelation()
+    {
+        return $this->belongsTo(GroupNumber::class);
+    }
+
+    public function carer()
+    {
+        return $this->belongsToMany(\App\User::class, 'carer_applicant_xrefs', 'applicant_id', 'user_id');
+    }
+
     public function getBirthdateAttribute() {
         return Carbon::parse("{$this->birthyear}-{$this->birthmonth}-{$this->birthday}");
     }
@@ -133,6 +143,26 @@ class Applicant extends Model {
         return Attribute::make(
             get: fn () => $this->groupRelation(),
             set: fn ($value) => $this->groupRelation()->associate($value),
+        );
+    }
+
+    /**
+     * Get applicant's number by app version.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function number(): Attribute
+    {
+        if ($this->camp()?->first()?->created_at->lt(Carbon::create(2022, 11, 1))) {
+            return Attribute::make(
+                get: fn () => $this->number_legacy,
+                set: fn ($value) => $this->number_legacy = $value,
+            );
+        }
+
+        return Attribute::make(
+            get: fn () => $this->numberRelation(),
+            set: fn ($value) => $this->numberRelation()->associate($value),
         );
     }
 }

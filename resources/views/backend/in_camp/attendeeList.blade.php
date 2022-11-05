@@ -154,10 +154,8 @@
                     @elseif($key == "gender")
                         <td>{{ $applicant->gender_zh_tw }}</td>
                     @elseif(!$is_vcamp && !$is_care && $key == "caring_logs")
-                    @elseif(!$applicant->$key)
-                        <td>開發中</td>
                     @else
-                        <td>{{ $applicant->$key }}</td>
+                        <td>{{ $applicant->$key ?? "-" }}</td>
                     @endif
                 @endforeach
             </tr>
