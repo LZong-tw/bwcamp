@@ -170,8 +170,9 @@
 
     <table class="table table-bordered table-hover"
     data-toggle="table"
-    data-search="true"
+    data-show-columns="true"
     data-show-columns-search="true"
+    data-search="true"
     data-search-highlight="true"
     data-search-align="left"
     data-pagination="true"
