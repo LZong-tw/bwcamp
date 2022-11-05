@@ -314,10 +314,10 @@ return [
         "special_condition" => "特殊狀況",
         "traffic_depart" => "去程交通",
         "traffic_return" => "回程交通",
-        // "branch_or_classroom_belongs_to" => "", 
-        // "class_type" => "", 
-        // "parent_lamrim_class" => "", 
-        // "is_recommended_by_reading_class" => "", 
+        // "branch_or_classroom_belongs_to" => "",
+        // "class_type" => "",
+        // "parent_lamrim_class" => "",
+        // "is_recommended_by_reading_class" => "",
         "is_lamrim" => "父母是否參加廣論班",
         "is_child_blisswisdommed" => "孩子曾在的福智文教系統",
     ],
@@ -406,7 +406,7 @@ return [
                 "name" => "推薦人",
                 "sort" => 0,
             ],
-            "carer_name" => [
+            "carer" => [
                 "name" => "關懷員",
                 "sort" => 1,
             ],
