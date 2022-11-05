@@ -103,6 +103,6 @@
         <button type="submit" class="btn btn-secondary btn-sm" onclick="">選定</button>
         <br>
     @endif
-    <x-table.applicant-list :columns="$columns_zhtw" :applicants="$applicants"/>
+    <x-table.applicant-list :columns="$columns_zhtw" :$applicants />
 @endif
 @endsection
