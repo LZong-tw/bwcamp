@@ -34,18 +34,20 @@ class ApplicantService
      * @param 報名者座號
      * @return 一個報名者 model
      */
-    public function fetchApplicantData($camp_id, $table, $id, $group, $number){
+    public function fetchApplicantData($camp_id, $table, $id, $group = null, $number = null) {
         return Applicant::select('applicants.*')
             ->join($table, 'applicants.id', '=', $table . '.applicant_id')
             ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
             ->join('camps', 'camps.id', '=', 'batchs.camp_id')
             ->where('camps.id', $camp_id)
             ->where(function ($query) use ($id, $group, $number) {
-                $query->where('applicants.id', $id)
-                ->orWhere(function ($query) use ($group, $number) {
-                    $query->where('group', 'like', $group);
-                    $query->where('number', 'like', $number);
-                });
+                $query->where('applicants.id', $id);
+                if ($group != null && $number != null) {
+                    $query->orWhere(function ($query) use ($group, $number) {
+                        $query->where('group', 'like', $group);
+                        $query->where('number', 'like', $number);
+                    });
+                }
             })->first();
     }
 
