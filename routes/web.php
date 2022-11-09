@@ -5,6 +5,7 @@ use App\Http\Controllers\CampController;
 use App\Http\Controllers\CheckInController;
 use App\Http\Controllers\StatController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BackendController;
 use App\Http\Controllers\SignController as ArrayedSignController;
 
 /*
@@ -117,6 +118,11 @@ Route::group(["prefix" => "backend/campManage"], function(){
 });
 
 Route::group(["prefix" => "backend/{camp_id}", ], function () {
+    Route::group(["prefix" => "IOI"], function () {
+        Route::get("/learner", [BackendController::class, "showLearners"])->name("showLearners");
+        Route::get("/volunteer", [BackendController::class, "showVolunteers"])->name("showVolunteers");
+        Route::get("/carer", [BackendController::class, "showCarers"])->name("showCarers");
+    });
     Route::get("/", "BackendController@campIndex")->name("campIndex");
     Route::get("/logs", "\Rap2hpoutre\LaravelLogViewer\LogViewerController@index")->middleware("permitted")->name("logs");
     Route::get("/registration/admission", "BackendController@admission")->name("admissionGET");

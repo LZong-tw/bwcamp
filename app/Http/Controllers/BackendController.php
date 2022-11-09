@@ -821,7 +821,7 @@ class BackendController extends Controller {
         if($request->input('page') == 6) {
             $this->campFullData->table = 'ceovcamp';
             $columns_zhtw = config('camps_fields.display.' . $this->campFullData->table);
-            return view('backend.in_camp.attendeeList')
+            return view('backend.integrated_operation_interface.attendeeList')
                     ->with('applicants', $applicants)
                     ->with('batches', $batches)
                     ->with('columns_zhtw', $columns_zhtw)
@@ -911,7 +911,8 @@ class BackendController extends Controller {
 
         $columns_zhtw = config('camps_fields.display.' . $this->campFullData->table);
 
-        return view('backend.in_camp.attendeeList')
+        return view('backend.integrated_operating_interface.attendeeList')
+        // return view('backend.in_camp.attendeeList')
                 ->with('applicants', $applicants)
                 ->with('batches', $batches)
                 ->with('is_vcamp', strpos($this->campFullData->table, 'vcamp'))
@@ -1015,6 +1016,43 @@ class BackendController extends Controller {
                 ->with('batches', $batches)
                 ->with('is_vcamp', strpos($this->campFullData->table, 'vcamp'))
                 ->with('is_care', 0)
+                ->with('is_ingroup', 0)
+                ->with('groupName', '')
+                ->with('columns_zhtw', $columns_zhtw)
+                ->with('fullName', $this->campFullData->fullName);
+    }
+
+    public function showLearners(Request $request) {
+        ini_set('max_execution_time', -1);
+        ini_set("memory_limit", -1);
+        $batches = Batch::where("camp_id", $this->campFullData->id)->get();
+        $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
+                        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+                        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+                        ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
+                        ->where('camps.id', $this->campFullData->id)->withTrashed();
+        $applicants = $query->get();
+        if (auth()->user()->getPermission(false)->role->level <= 2) {
+        }
+        else if(auth()->user()->getPermission(true, $this->campFullData->id)->level > 2){
+            $constraint = auth()->user()->getPermission(true, $this->campFullData->id)->region;
+            $batch = Batch::where('camp_id', $this->campFullData->id)->where('name', 'like', '%' . $constraint . '%')->first();
+            $applicants = $applicants->filter(function ($applicant) use ($constraint, $batch) {
+                if($batch){
+                    return $applicant->region == $constraint || $applicant->batch_id == $batch->id;
+                }
+                return $applicant->region == $constraint;
+            });
+        }
+
+        $columns_zhtw = config('camps_fields.display.' . $this->campFullData->table);
+
+        return view('backend.integrated_operating_interface.theList')
+                ->with('applicants', $applicants)
+                ->with('batches', $batches)
+                ->with('is_vcamp', strpos($this->campFullData->table, 'vcamp'))
+                ->with('is_care', 0)
+                ->with('is_careV', 0)
                 ->with('is_ingroup', 0)
                 ->with('groupName', '')
                 ->with('columns_zhtw', $columns_zhtw)

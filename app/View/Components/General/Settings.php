@@ -1,13 +1,11 @@
 <?php
 
-namespace App\View\Components\Table;
+namespace App\View\Components\General;
 
 use Illuminate\View\Component;
 
-class ApplicantList extends Component
+class Settings extends Component
 {
-    public $columns;
-    public $applicants;
     public $is_vcamp;
     public $is_care;
 
@@ -16,10 +14,9 @@ class ApplicantList extends Component
      *
      * @return void
      */
-    public function __construct($columns, $applicants, $is_vcamp = false, $is_care = false)
+    public function __construct($is_vcamp = false, $is_care = false)
     {
-        $this->columns = $columns;
-        $this->applicants = $applicants;
+        //
         $this->is_vcamp = $is_vcamp;
         $this->is_care = $is_care;
     }
@@ -31,6 +28,6 @@ class ApplicantList extends Component
      */
     public function render()
     {
-        return view('components.table.applicant-list');
+        return view('components.general.settings');
     }
 }

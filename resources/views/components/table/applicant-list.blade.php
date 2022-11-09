@@ -17,6 +17,7 @@
         <caption></caption>
         <thead>
             <tr class="bg-success text-white">
+                <th></th>
                 @foreach ($columns as $key => $item)
                     @if(!$is_vcamp && !$is_care && $key == "caring_logs")
                     @else
@@ -27,6 +28,7 @@
         </thead>
         @forelse ($applicants as $applicant)
             <tr>
+                <td class="text-center"><input type="checkbox" name="applicants[]" id="" value="{{ $applicant->id }}"></td>
                 @foreach ($columns as $key => $item)
                     @if($key == "avatar" && $applicant->avatar)
                         <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($applicant->avatar)) }}" width=80 alt="{{ $applicant->name }}"></td>
