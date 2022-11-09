@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\CampDataService;
 use App\Services\ApplicantService;
+use App\Services\BackendService;
 use App\Models\Camp;
 use App\Models\Applicant;
 use App\Models\Batch;
@@ -18,18 +19,30 @@ use App\Models\SignInSignOut;
 class BackendController extends Controller {
     use EmailConfiguration;
 
-    protected $campDataService, $applicantService, $batch_id, $camp_data, $batch, $has_attend_data;
+    protected $campDataService;
+    protected $applicantService;
+    protected $backendService;
+    protected $batch_id;
+    protected $camp_data;
+    protected $batch;
+    protected $has_attend_data;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(CampDataService $campDataService, ApplicantService $applicantService, Request $request) {
+    public function __construct(
+        CampDataService $campDataService,
+        ApplicantService $applicantService,
+        BackendService $backendService,
+        Request $request
+    ) {
         $this->middleware('auth');
         $this->campDataService = $campDataService;
         $this->applicantService = $applicantService;
-        if($request->route()->parameter('batch_id')){
+        $this->backendService = $backendService;
+        if ($request->route()->parameter('batch_id')) {
             // 營隊資料，存入 view 全域
             $this->batch_id = $request->route()->parameter('batch_id');
             $this->camp_data = $this->campDataService->getCampData($this->batch_id)['camp_data'];
@@ -37,8 +50,11 @@ class BackendController extends Controller {
             View::share('batch', $this->batch);
             View::share('batch_id', $this->batch_id);
             View::share('camp_data', $this->camp_data);
-            if($this->camp_data->table == 'ycamp' || $this->camp_data->table == 'acamp'){
-                if($this->camp_data->admission_confirming_end && Carbon::now()->gt($this->camp_data->admission_confirming_end)){
+            if ($this->camp_data->table == 'ycamp' || $this->camp_data->table == 'acamp') {
+                if (
+                    $this->camp_data->admission_confirming_end &&
+                    Carbon::now()->gt($this->camp_data->admission_confirming_end)
+                ) {
                     $this->has_attend_data = true;
                 }
             }
@@ -105,7 +121,7 @@ class BackendController extends Controller {
                     $error = "報名序號重複。";
                     return view('backend.registration.showCandidate', compact('candidate', 'error'));
                 }
-                $candidate->is_admitted = 1;
+                $candidate = $this->backendService->setAdmitted($candidate, 1);
                 $candidate->group = $group;
                 $candidate->number = $number;
                 $candidate = $this->applicantService->fillPaymentData($candidate);
@@ -164,7 +180,7 @@ class BackendController extends Controller {
                     $skip = true;
                 }
                 if(!$skip){
-                    $candidate->is_admitted = 1;
+                    $candidate = $this->backendService->setAdmitted($candidate, 1);
                     $candidate->group = $group;
                     $candidate->number = $number;
                     $candidate = $this->applicantService->fillPaymentData($candidate);
@@ -805,7 +821,7 @@ class BackendController extends Controller {
         if($request->input('page') == 6) {
             $this->campFullData->table = 'ceovcamp';
             $columns_zhtw = config('camps_fields.display.' . $this->campFullData->table);
-            return view('backend.in_camp.attendeeList')
+            return view('backend.integrated_operation_interface.attendeeList')
                     ->with('applicants', $applicants)
                     ->with('batches', $batches)
                     ->with('columns_zhtw', $columns_zhtw)
@@ -895,7 +911,8 @@ class BackendController extends Controller {
 
         $columns_zhtw = config('camps_fields.display.' . $this->campFullData->table);
 
-        return view('backend.in_camp.attendeeList')
+        return view('backend.integrated_operating_interface.attendeeList')
+        // return view('backend.in_camp.attendeeList')
                 ->with('applicants', $applicants)
                 ->with('batches', $batches)
                 ->with('is_vcamp', strpos($this->campFullData->table, 'vcamp'))
@@ -999,6 +1016,43 @@ class BackendController extends Controller {
                 ->with('batches', $batches)
                 ->with('is_vcamp', strpos($this->campFullData->table, 'vcamp'))
                 ->with('is_care', 0)
+                ->with('is_ingroup', 0)
+                ->with('groupName', '')
+                ->with('columns_zhtw', $columns_zhtw)
+                ->with('fullName', $this->campFullData->fullName);
+    }
+
+    public function showLearners(Request $request) {
+        ini_set('max_execution_time', -1);
+        ini_set("memory_limit", -1);
+        $batches = Batch::where("camp_id", $this->campFullData->id)->get();
+        $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
+                        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+                        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+                        ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
+                        ->where('camps.id', $this->campFullData->id)->withTrashed();
+        $applicants = $query->get();
+        if (auth()->user()->getPermission(false)->role->level <= 2) {
+        }
+        else if(auth()->user()->getPermission(true, $this->campFullData->id)->level > 2){
+            $constraint = auth()->user()->getPermission(true, $this->campFullData->id)->region;
+            $batch = Batch::where('camp_id', $this->campFullData->id)->where('name', 'like', '%' . $constraint . '%')->first();
+            $applicants = $applicants->filter(function ($applicant) use ($constraint, $batch) {
+                if($batch){
+                    return $applicant->region == $constraint || $applicant->batch_id == $batch->id;
+                }
+                return $applicant->region == $constraint;
+            });
+        }
+
+        $columns_zhtw = config('camps_fields.display.' . $this->campFullData->table);
+
+        return view('backend.integrated_operating_interface.theList')
+                ->with('applicants', $applicants)
+                ->with('batches', $batches)
+                ->with('is_vcamp', strpos($this->campFullData->table, 'vcamp'))
+                ->with('is_care', 0)
+                ->with('is_careV', 0)
                 ->with('is_ingroup', 0)
                 ->with('groupName', '')
                 ->with('columns_zhtw', $columns_zhtw)

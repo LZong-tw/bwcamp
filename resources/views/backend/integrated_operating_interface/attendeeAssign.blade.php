@@ -17,6 +17,9 @@
     .dropdown-toggle::after{
         display: none !important;
     }
+    option{
+        text-align: center;
+    }
     mark{
         background-color: rgb(255, 180, 255);
         padding: 0;
@@ -24,37 +27,12 @@
 
 </style>
 @if(isset($applicants))
-    <h3 class="font-weight-bold">{{ $fullName }} >> 瀏覽{{ ($is_vcamp && $is_care) ? '關懷組' : '' }}{{ ($is_vcamp) ? '義工' : '學員' }}名單
+    <h3 class="font-weight-bold">{{ $fullName }} >> 設定{{ ($is_vcamp && $is_care) ? '關懷組' : '' }}{{ (!$is_vcamp && $is_care) ? '關懷員' : '' }}{{ ($is_vcamp) ? '義工組別/職務' : '' }}{{ (!$is_vcamp && !$is_care) ? '學員組別' : '' }}
         @if($is_ingroup && $groupName)
             >> {{ $groupName }}
         @endif
-        @if($is_careV)
-            >> 關懷員{{ Auth::user()->name }}
-        @endif
     </h3>
-    <p align="right">
-        <a href="{{ route("showAttendeePhoto", $campFullData->id) }}?download=1" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">匯出資料</a>
-        @if($is_ingroup)
-            @if(!$is_careV)
-                &nbsp;&nbsp;
-                <a href="{{ route("showAttendeePhoto", $campFullData->id) }}?download=1" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">設定關懷員</a>
-            @endif
-        @elseif(!$is_vcamp)
-            &nbsp;&nbsp;
-            <a href="{{ route("showAttendeePhoto", $campFullData->id) }}?download=1" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">新增學員</a>
-            @if($is_care)
-                &nbsp;&nbsp;
-                <a href="{{ route("showAttendeePhoto", $campFullData->id) }}?download=1" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">設定組別</a>
-            @endif
-        @elseif($is_vcamp)
-            @if(!$is_care)
-                &nbsp;&nbsp;
-                <a href="{{ route("showAttendeePhoto", $campFullData->id) }}?download=1" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">新增義工</a>
-            @endif
-            &nbsp;&nbsp;
-            <a href="{{ route("showAttendeePhoto", $campFullData->id) }}?download=1" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">設定組別/職務</a>
-        @endif
-    </p>
+    <br>
     @if($is_ingroup)
     @else
         <span class="font-weight-bold">瀏覽組別：</span>
@@ -103,7 +81,6 @@
         <button type="submit" class="btn btn-secondary btn-sm" onclick="">選定</button>
         <br>
     @endif
-
 <!--
     每頁顯示：
     <input type="radio" name="show" onclick="" value="50"> 50筆
@@ -121,23 +98,94 @@
         <button type="submit" class="btn btn-secondary btn-sm" onclick="">下一頁</button>
     </p>
 -->
+    <span class="text-danger font-weight-bold">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        @if($is_vcamp)
+            <button type="submit" class="btn btn-success btn-sm" onclick=""> << 返回義工名單</button>
+            &nbsp;&nbsp;
+            將所選義工設定為{{ ($is_vcamp && $is_care) ? '第' : '' }}
+        @else
+            <button type="submit" class="btn btn-success btn-sm" onclick=""> << 返回學員名單</button>
+            &nbsp;&nbsp;
+        @endif
+
+        @if($is_vcamp && !$is_care)
+            <select required name='volunteer_group' onChange=''>
+                <option value=''>- 請選擇 -</option>
+                <option value='秘書'>秘書</option>
+                <option value='資訊'>資訊</option>
+                <option value='關懷'>關懷</option>
+                <option value='教務'>教務</option>
+                <option value='行政'>行政</option>
+            </select>
+            組
+            <select required name='volunteer_work' onChange=''>
+                <option value=''>- 請選擇 -</option>
+                <option value='總護持'>總護持</option>
+                <option value='副總護持'>副總護持</option>
+                <option value='文書'>文書</option>
+                <option value='大組長'>大組長</option>
+                <option value='副大組長'>副大組長</option>
+            </select>
+            職務
+        @else
+            @if(!$is_vcamp && $is_care)
+                將所選學員之關懷員設定為
+                <select required name='attendee_care' onChange=''>
+                    <option value=''>- 請選擇 -</option>
+                    <option value='楊圓滿'>楊圓滿</option>
+                    <option value='陳莊嚴'>陳莊嚴</option>
+                </select>
+            @else
+                @if(!$is_vcamp)
+                    將所選學員設定為第
+                @endif
+                <select required name='attendee_group' onChange=''>
+                    <option value=''>- 請選擇 -</option>
+                    <option value='1'>1</option>
+                    <option value='2'>2</option>
+                    <option value='3'>3</option>
+                    <option value='4'>4</option>
+                    <option value='5'>5</option>
+                    <option value='6'>6</option>
+                    <option value='7'>7</option>
+                    <option value='8'>8</option>
+                </select>
+                組
+            @endif
+
+            @if($is_vcamp)
+                <select required name='attendee_work' onChange=''>
+                    <option value=''>- 請選擇 -</option>
+                    <option value='小組長'>小組長</option>
+                    <option value='副小組長'>副小組長</option>
+                    <option value='組員'>組員</option>
+                </select>
+                職務
+            @endif
+        @endif
+        &nbsp;&nbsp;
+        <button type="submit" class="btn btn-danger btn-sm" onclick="">儲存</button>
+    </span>
+
     <table class="table table-bordered table-hover"
-        data-toggle="table"
-        data-show-columns="true"
-        data-show-columns-search="true"
-        data-search="true"
-        data-search-highlight="true"
-        data-search-align="left"
-        data-pagination="true"
-        data-smart-display="false"
-        data-pagination-loop="false"
-        data-pagination-v-align="both"
-        data-page-list="[10, 50, 100]"
-        data-pagination-pre-text="上一頁"
-        data-pagination-next-text="下一頁">
-        <caption></caption>
+    data-toggle="table"
+    data-show-columns="true"
+    data-show-columns-search="true"
+    data-search="true"
+    data-search-highlight="true"
+    data-search-align="left"
+    data-pagination="true"
+    data-smart-display="false"
+    data-pagination-loop="false"
+    data-pagination-v-align="both"
+    data-page-list="[10, 50, 100]"
+    data-click-to-select="true"
+    data-pagination-pre-text="上一頁"
+    data-pagination-next-text="下一頁">
         <thead>
             <tr class="bg-success text-white">
+                <th data-field="state" data-checkbox="true"></th>
                 @foreach ($columns_zhtw as $key => $item)
                     @if(!$is_vcamp && !$is_care && $key == "caring_logs")
                     @else
@@ -148,6 +196,7 @@
         </thead>
         @forelse ($applicants as $applicant)
             <tr>
+                <td></td>
                 @foreach ($columns_zhtw as $key => $item)
                     @if($key == "avatar" && $applicant->avatar)
                         <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($applicant->avatar)) }}" width=80 alt="{{ $applicant->name }}"></td>
@@ -156,8 +205,10 @@
                     @elseif($key == "gender")
                         <td>{{ $applicant->gender_zh_tw }}</td>
                     @elseif(!$is_vcamp && !$is_care && $key == "caring_logs")
+                    @elseif(!$applicant->$key)
+                        <td>開發中</td>
                     @else
-                        <td>{{ $applicant->$key ?? "-" }}</td>
+                        <td>{{ $applicant->$key }}</td>
                     @endif
                 @endforeach
             </tr>

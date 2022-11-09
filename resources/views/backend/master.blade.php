@@ -46,7 +46,18 @@
                 <p>功能列表 <a href="javascript: toggleAll();"><small>全部收合/展開</small></a></p>
                 @if(isset($campFullData))
                     <li>
-                        <a href="{{ route("showAttendeeList", $campFullData->id) }}">綜合操作介面</a>
+                        <a href="#integratedOperatingInterface" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">綜合操作介面</a>
+                        <ul class="collapse list-unstyled show" id="integratedOperatingInterface">
+                            <li>
+                                <a href="{{ route("showLearners", $campFullData->id) }}">學員名單</a>
+                            </li>
+                            <li>
+                                <a href="{{ route("showVolunteers", $campFullData->id) }}">義工名單</a>
+                            </li>
+                            <li>
+                                <a href="{{ route("showCarers", $campFullData->id) }}">關懷員名單</a>
+                            </li>
+                        </ul>
                     </li>
                     <li>
                         <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">統計資料</a>
