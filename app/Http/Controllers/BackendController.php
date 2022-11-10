@@ -821,7 +821,7 @@ class BackendController extends Controller {
         if($request->input('page') == 6) {
             $this->campFullData->table = 'ceovcamp';
             $columns_zhtw = config('camps_fields.display.' . $this->campFullData->table);
-            return view('backend.integrated_operation_interface.attendeeList')
+            return view('backend.in_camp.attendeeList')
                     ->with('applicants', $applicants)
                     ->with('batches', $batches)
                     ->with('columns_zhtw', $columns_zhtw)
@@ -911,8 +911,7 @@ class BackendController extends Controller {
 
         $columns_zhtw = config('camps_fields.display.' . $this->campFullData->table);
 
-        return view('backend.integrated_operating_interface.attendeeList')
-        // return view('backend.in_camp.attendeeList')
+        return view('backend.in_camp.attendeeList')
                 ->with('applicants', $applicants)
                 ->with('batches', $batches)
                 ->with('is_vcamp', strpos($this->campFullData->table, 'vcamp'))
