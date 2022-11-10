@@ -60,7 +60,7 @@ class CampController extends Controller
         if($now->lt($registration_start)){
             return '<div style="margin: atuo;">距離開始報名日，還有 <br><img src="http://s.mmgo.io/t/B7Aj" alt="motionmailapp.com" /></div>';
         }
-        
+
     }
 
     public function campRegistration(Request $request) {
@@ -76,9 +76,9 @@ class CampController extends Controller
         }
         else{
             $registration_end = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $this->camp_data->registration_end . "23:59:59");
-        }  
+        }
         $final_registration_end = $this->camp_data->final_registration_end ? \Carbon\Carbon::createFromFormat("Y-m-d", $this->camp_data->final_registration_end)->endOfDay() : \Carbon\Carbon::today();
-        if($today > $registration_end && !isset($request->isBackend)){            
+        if($today > $registration_end && !isset($request->isBackend)){
             return view('camps.' . $this->camp_data->table . '.outdated');
         }
         elseif(isset($request->isBackend) && $today > $final_registration_end){
@@ -101,13 +101,13 @@ class CampController extends Controller
         if (!file_exists(storage_path("avatars"))) {
             mkdir(storage_path("avatars"), 777, true);
         }
-        
+
         // 修改資料
-        if(isset($request->applicant_id)){
+        if (isset($request->applicant_id)) {
             $request = $this->campDataService->checkBoxToArray($request);
             $formData = $request->toArray();
             $formData = $this->campDataService->handleRegion($formData, $this->camp_data->table, $this->camp_data->id);
-            
+
             try {
                 $disk = \Storage::disk('local');
                 $path = 'avatars/';
@@ -119,7 +119,7 @@ class CampController extends Controller
                     $file = request()->file('avatar_re');
                     $name = $file->hashName();
                 }
-                
+
                 if($file ?? false) {
                     $disk->put($path, $file);
                     $image = Image::make(storage_path($path . $name))->resize(800, null, function ($constraint) {
@@ -159,18 +159,17 @@ class CampController extends Controller
             return view('camps.' . $this->camp_data->table . '.modifyingSuccessful', ['applicant' => $applicant]);
         }
         // 營隊報名
-        else{
+        else {
             $applicant = Applicant::select('applicants.*')
                 ->join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')
                 ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                 ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                 ->where('camps.id', $this->camp_data->id)
-                ->where('batch_id', $this->batch_id)
                 ->where('applicants.name', $request->name)
                 ->where('email', $request->email)
                 ->withTrashed()->first();
-            if($applicant){
-                if($applicant->trashed()){
+            if ($applicant) {
+                if ($applicant->trashed()) {
                     $applicant->restore();
                 }
                 return view('camps.' . $this->camp_data->table . '.success',
@@ -208,13 +207,13 @@ class CampController extends Controller
                 $applicant = Applicant::create($formData);
                 $formData['applicant_id'] = $applicant->id;
                 $model = '\\App\\Models\\' . ucfirst($this->camp_data->table);
-                $model::create($formData);       
+                $model::create($formData);
                 if($controller->camp_data->table == 'hcamp'){
                     $applicant = $controller->applicantService->fillPaymentData($applicant);
                     $applicant->save();
                 }
                 return $applicant;
-            });     
+            });
             // 寄送報名資料
             try{
                 // Mail::to($applicant)->send(new ApplicantMail($applicant, $this->camp_data));
@@ -224,7 +223,7 @@ class CampController extends Controller
                 logger($e);
             }
         }
-        
+
         return view('camps.' . $this->camp_data->table . '.success')->with('applicant', $applicant);
     }
 
@@ -236,7 +235,7 @@ class CampController extends Controller
      * 查詢/修改報名資料
      * 如果從 query 頁選擇查詢報名資料，則可跨梯次查詢資料，但無法再按下修改資料
      * 如果從 query 頁選擇修改報名資料，則可跨梯次修改資料
-     * 
+     *
      */
     public function campViewRegistrationData(Request $request) {
         $applicant = null;
@@ -403,7 +402,7 @@ class CampController extends Controller
     }
 
     public function downloadPaymentForm(Request $request) {
-        ini_set('memory_limit', -1);        
+        ini_set('memory_limit', -1);
         $applicant = Applicant::find($request->applicant_id);
         $applicant = $this->applicantService->checkIfPaidEarlyBird($applicant);
         $applicant->save();
