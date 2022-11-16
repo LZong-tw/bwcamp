@@ -149,7 +149,7 @@ class CampDataService
                     "金門縣",
                     "海外"
             );
-            
+
             $value2 = array (
                     "請選擇",
                     "臺北市",
@@ -175,7 +175,7 @@ class CampDataService
                     "金門縣",
                     "海外"
             );
-            
+
             $value3 = array (
                     "",
                     "台北",
@@ -201,17 +201,17 @@ class CampDataService
                     "台北",
                     "海外"
             );
-            
+
             for($i = 1; $i < count ( $value1 ); $i ++) {
                 if ($formData["school_location"] == $value1 [$i]) {
                     $formData["region"] = $value3 [$i];
                 }
             }
-            
+
             if ($formData["school"] == '長庚大學' or $formData["school"] == '長庚科技大學林口校區' or $formData["school"] == '長庚科大' or $formData["school"] == '國立體育大學') {
                 $formData["region"] = '台北';
             }
-            
+
             if ($formData["school"] == '國立臺南藝術大學' or $formData["school"] == '台灣首府大學' or $formData["school"] == '南榮技術學院' or $formData["school"] == '敏惠醫護管理專校' or $formData["school"] == '真理大學麻豆校區') {
                 $formData["region"] = '雲嘉';
             }
@@ -233,6 +233,7 @@ class CampDataService
             $central = array ("臺中市", "彰化縣", "南投縣");
             $chiayi = array ("嘉義縣", "嘉義市", "雲林縣");
             $south = array ("高雄市", "屏東縣", "澎湖縣", "臺東縣", "南海諸島");
+            $MiauLiInHsinChu = collect(["興華國中", "興華高中", "信義國小", "蟠桃國小", "建國國小", "信德國小", "新興國小", "后庄國小", "斗煥國小", "僑善國小", "尖山國小", "永貞國小", "六合國小", "頭份國小", "建國國中", "文英國中", "頭份國中", "大同高中", "君毅高中", "山佳國小", "新南國小", "竹興國小", "海口國小", "頂埔國小", "大埔國小", "照南國小", "竹南國小", "照南國中", "竹南國中", "大同國中", "君毅國中"]);
 
             foreach($north as $ele){
                 if(strpos($formData["unit_county"], $ele) !== false) $region = "台北";
@@ -252,6 +253,11 @@ class CampDataService
 
             if($formData["unit_county"] == "苗栗縣"){
                 if(isset($formData["unit_district"]) && ($formData["unit_district"] == "頭份鎮" || $formData["unit_district"] == "竹南鎮")) {
+                    $region = "新竹";
+                }
+                elseif($MiauLiInHsinChu->first(function ($item) use ($formData) {
+                    return str_contains($formData["unit_name"], $item);
+                })) {
                     $region = "新竹";
                 }
                 else{
@@ -315,7 +321,7 @@ class CampDataService
             $yunchia = array ("雲林縣", "嘉義市", "嘉義縣");
             $tainan = array ("臺南市");
             $kaohsiung = array ("高雄市", "屏東縣", "澎湖縣", "臺東縣", "南海諸島");
-            
+
             //用「後續課程地點」來決定分區的參考地點; 「皆可」則使用「上班附近」
             if ($formData["class_location"] == "住家附近") {
                 $addr = $formData["address"];
@@ -323,7 +329,7 @@ class CampDataService
             else {
                 $addr = $formData["unit_address"];
             }
-            
+
             //先做區域大分區
             foreach($taipei as $ele){
                 if(strpos($addr, $ele) !== false) { $region = "北區"; }
@@ -350,17 +356,17 @@ class CampDataService
             foreach($kaohsiung as $ele){
                 if(strpos($addr, $ele) !== false) { $region = "高屏"; }
             }
-            
+
             //「北區」裡的主管/儲訓幹部/專門技術人員改成「北苑」
-            if(($region == "北區") && 
+            if(($region == "北區") &&
                 (($formData["is_manager"] == 1) || ($formData["is_cadre"] == 1) || ($formData["is_technical_staff"] == 1))) {
-                $region = "北苑";            
+                $region = "北苑";
             }
 
             if($region == "") { $region = "其他"; }
-            
+
             $formData["region"] = $region;
-        } 
+        }
 
         return $formData;
     }
