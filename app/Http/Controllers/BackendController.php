@@ -10,6 +10,7 @@ use App\Models\Camp;
 use App\Models\Applicant;
 use App\Models\Batch;
 use App\Models\CheckIn;
+use App\Models\ContactLog;
 use App\Models\Traffic;
 use Carbon\Carbon;
 use View;
@@ -790,6 +791,54 @@ class BackendController extends Controller {
                 ->with('batches', $batches);
     }
 
+    public function queryAttendee(Request $request) {
+        ini_set('max_execution_time', -1);
+        ini_set("memory_limit", -1);
+        $batches = Batch::where("camp_id", $this->campFullData->id)->get();
+        $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
+                        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+                        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+                        ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
+                        ->where('camps.id', $this->campFullData->id)->withTrashed();
+        $applicants = $query->get();
+        if(auth()->user()->getPermission(false)->role->level <= 2){
+        }
+        else if(auth()->user()->getPermission(true, $this->campFullData->id)->level > 2){
+            $constraint = auth()->user()->getPermission(true, $this->campFullData->id)->region;
+            $batch = Batch::where('camp_id', $this->campFullData->id)->where('name', 'like', '%' . $constraint . '%')->first();
+            $applicants = $applicants->filter(function ($applicant) use ($constraint, $batch) {
+                if($batch){
+                    return $applicant->region == $constraint || $applicant->batch_id == $batch->id;
+                }
+                return $applicant->region == $constraint;
+            });
+        }
+        
+        return view('backend.in_camp.queryAttendee')
+                ->with('applicants', $applicants)
+                ->with('batches', $batches);
+    }
+
+    public function showAttendeeInfo(Request $request) {
+        ini_set('max_execution_time', -1);
+        ini_set("memory_limit", -1);
+        $camp = $this->campFullData;
+        $batches = Batch::where("camp_id", $this->campFullData->id)->get();
+        $groupAndNumber = $this->applicantService->groupAndNumberSeperator($request->snORadmittedSN);
+        $group = $groupAndNumber['group'];
+        $number = $groupAndNumber['number'];
+        $applicant = $this->applicantService->fetchApplicantData($this->campFullData->id, $this->campFullData->table, $request->snORadmittedSN, $group, $number);
+        if($applicant){
+            $applicant = $this->applicantService->Mandarization($applicant);
+        }
+        //$applicant->id = 1? why?
+        //$applicant->applicant_id 才會是對的
+        $contactlog = ContactLog::where("applicant_id", $applicant->applicant_id)->orderByDesc
+        ('id')->first();
+        $contactlog = $this->backendService->setTakenByName($contactlog);
+        return view('backend.in_camp.attendeeInfo', compact('camp','batches','applicant','contactlog'));    
+    }
+
     public function showAttendeeList(Request $request) {
         ini_set('max_execution_time', -1);
         ini_set("memory_limit", -1);
@@ -1190,4 +1239,87 @@ class BackendController extends Controller {
         }
         return view("backend.other.mailSent", ['message' => '已成功將自定郵件送入任務佇列。']);
     }
+
+    public function addContactLog(Request $request, $camp_id){
+        $formData = $request->toArray();
+        $applicant_id = $formData['applicant_id'];
+        $applicant = Applicant::find($applicant_id);
+        if ($formData['todo'] == 'show') {
+            //dd($applicant);
+            $todo = 'add';
+            return view('backend.in_camp.addContactLog', compact("camp_id","applicant","todo"));
+        } else if ($formData['todo'] == 'add') {
+            //dd($formData);
+            //$applicant = Applicant::find($applicant_id);
+            //$contactlog = $applicant->contactlog;
+            $newSet['applicant_id'] = $applicant_id;
+            $newSet['notes'] = $formData['notes'];
+            $newSet['takenby_id'] = auth()->user()->id;
+
+            ContactLog::create($newSet);
+            \Session::flash('message', "關懷記錄新增成功。");
+            return redirect()->route("showContactLogs", [$camp_id, $applicant->id]);
+        } else {
+            //modify
+            //dd($formData);
+            $contactlog_id = $formData['contactlog_id'];
+            $contactlog = ContactLog::find($contactlog_id);
+            $contactlog->update($formData);
+            \Session::flash('message', "關懷記錄修改成功。");
+            return redirect()->route("showContactLogs", [$camp_id, $applicant->id]);
+        }
+    }
+    
+    public function showAddContactLogs($camp_id, $applicant_id){
+        //dd($applicant_id);
+        $applicant = Applicant::find($applicant_id);
+        //$contactlogs = $applicant->contactlog->sortByDesc('id');
+        $todo = 'add';
+        return view('backend.in_camp.addContactLog', compact("camp_id","applicant","todo"));
+    }
+
+    public function modifyContactLog(Request $request, $camp_id, $contactlog_id){
+        $formData = $request->toArray();
+        $contactlog_id = $formData['contactlog_id'];
+        $contactlog = ContactLog::find($contactlog_id);
+        $applicant_id = $contactlog->applicant_id;
+        $contactlog->update($formData);
+        \Session::flash('message', "關懷記錄修改成功。");
+        return redirect()->route("showContactLogs", [$camp_id, $applicant_id]);
+    }
+
+    public function showModifyContactLog($camp_id, $contactlog_id){
+        //$applicant = Applicant::find($applicant_id);
+        $contactlog = ContactLog::find($contactlog_id);
+        $applicant = Applicant::find($contactlog->applicant_id);
+        $todo = 'modify';
+        return view('backend.in_camp.addContactLog', compact("camp_id","applicant","contactlog","todo"));
+    //    return view('backend.in_camp.modifyContactLog', compact("applicant", "contactlog"));
+    }
+
+    public function showContactLogs(Request $request, $camp_id, $applicant_id){
+        $formData = $request->toArray();
+        //$applicant_id = $formData['applicant_id'];
+        $applicant = Applicant::find($applicant_id);
+        $contactlogs = $applicant->contactlog->sortByDesc('id');
+        //dd($contactlogs);
+        foreach($contactlogs as $contactlog) {
+            $contactlog = $this->backendService->setTakenByName($contactlog);
+        }
+        return view('backend.in_camp.contactLogList', compact('camp_id', 'applicant', 'contactlogs'));
+    }
+
+    public function removeContactLog(Request $request){
+        $result = \App\Models\ContactLog::find($request->contactlog_id)->delete();
+
+        if($result){
+            \Session::flash('message', "記錄刪除成功。");
+            return back();
+        }
+        else{
+            \Session::flash('error', "記錄刪除失敗。");
+            return back();
+        }
+    }
+
 }

@@ -35,7 +35,7 @@ class ApplicantService
      * @return 一個報名者 model
      */
     public function fetchApplicantData($camp_id, $table, $id, $group = null, $number = null) {
-        return Applicant::select('applicants.*')
+        return Applicant::select('applicants.*', $table . '.*')
             ->join($table, 'applicants.id', '=', $table . '.applicant_id')
             ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
             ->join('camps', 'camps.id', '=', 'batchs.camp_id')
@@ -44,8 +44,8 @@ class ApplicantService
                 $query->where('applicants.id', $id);
                 if ($group != null && $number != null) {
                     $query->orWhere(function ($query) use ($group, $number) {
-                        $query->where('group', 'like', $group);
-                        $query->where('number', 'like', $number);
+                        $query->where('group_legacy', 'like', $group);
+                        $query->where('number_legacy', 'like', $number);
                     });
                 }
             })->first();
