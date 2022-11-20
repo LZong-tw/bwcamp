@@ -147,6 +147,18 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
     Route::get("/inCamp/attendeePhoto", "BackendController@showAttendeePhoto")->name("showAttendeePhoto");
     Route::get("/inCamp/attendeeList", "BackendController@showAttendeeList")->name("showAttendeeList");
     Route::get("/inCamp/attendeeAssign", "BackendController@showAttendeeAssign")->name("showAttendeeAssign");
+
+    Route::get("/inCamp/queryAttendee", "BackendController@queryAttendee")->name("queryAttendee");
+    Route::post("/inCamp/attendeeInfo", "BackendController@showAttendeeInfo")->name("showAttendeeInfo");
+
+    //Contact Log
+    Route::post("/contactLog/add", [BackendController::class, "addContactLog"])->name("addContactLog");
+    Route::get("/contactLog/{applicant_id}/add", [BackendController::class, "showAddContactLogs"])->name("showAddContactLogs");
+    Route::get("/contactLog/{applicant_id}", [BackendController::class, "showContactLogs"])->name("showContactLogs");
+    Route::post("/contactLog/modify", [BackendController::class, "modifyContactLog"])->name("modifyContactLog");
+    Route::get("/contactLog/{log_id}/modify", [BackendController::class, "showModifyContactLog"])->name("showModifyContactLog");
+    Route::post("/contactLog/remove", [BackendController::class, "removeContactLog"])->name("removeContactLog");
+
     Route::get("/registration/groupAttendList", "BackendController@showGroupAttendList")->name("showGroupAttendList");
     Route::get("/statistics/appliedDate", [StatController::class, "appliedDateStat"])->name("appliedDateStat");
     Route::get("/statistics/gender", [StatController::class, "genderStat"])->name("genderStat");

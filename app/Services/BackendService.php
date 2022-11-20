@@ -4,6 +4,8 @@ namespace App\Services;
 use App\Models\Applicant;
 use App\Models\ApplicantsGroup;
 use Carbon\Carbon;
+use App\Models\ContactLog;
+use App\User;
 
 class BackendService
 {
@@ -29,5 +31,12 @@ class BackendService
         $applicant->save();
         $applicant->refresh();
         return $applicant;
+    }
+
+    public function setTakenByName(ContactLog $contactlog): ContactLog
+    {
+        $takenby = User::find($contactlog->takenby_id);
+        $contactlog->takenby_name = $takenby->name;
+        return $contactlog;
     }
 }

@@ -8,7 +8,7 @@
             color: #33B2FF!important;
         }
     </style>
-    <h2 class="d-inline-block">{{ $camp->abbreviation }} 組織列表</h2>
+    <h2 class="d-inline-block">{{ $camp->abbreviation }} 組織列表　</h2>
     <a href="{{ route("showAddOrgs", [$camp->id, 0]) }}" class="btn btn-success d-inline-block" style="margin-bottom: 10px">批次新增組織</a>
     @if(\Session::has('message'))
         <div class='alert alert-success' role='alert'>

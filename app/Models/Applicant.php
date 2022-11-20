@@ -89,6 +89,10 @@ class Applicant extends Model {
         return $this->hasMany(SignInSignOut::class)->whereType('out');
     }
 
+    public function contactlog() {
+        return $this->hasMany(ContactLog::class);
+    }
+
     public function hasSignedThisTime($datetime) {
         return $this->signData()->whereHas('referencedAvailability', function ($q) use ($datetime) {
             $q->where([['start', '<=', $datetime], ['end', '>=', $datetime]]);
