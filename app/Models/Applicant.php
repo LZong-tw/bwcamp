@@ -23,12 +23,7 @@ class Applicant extends Model {
     ];
 
     protected $guarded = [];
-
-    public function FunctionName(Type $var = null)
-    {
-        # code...
-    }
-
+    
     public function batch() {
         return $this->belongsTo(Batch::class);
     }
