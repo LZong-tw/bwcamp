@@ -26,7 +26,7 @@ class ApplicantService
 
     /**
      * 取得報名者完整資料
-     * 
+     *
      * @param 營隊 ID
      * @param 營隊資料表
      * @param 報名者 ID
@@ -35,7 +35,8 @@ class ApplicantService
      * @return 一個報名者 model
      */
     public function fetchApplicantData($camp_id, $table, $id, $group = null, $number = null) {
-        return Applicant::select('applicants.*', $table . '.*')
+        return Applicant::select('applicants.*')
+        // 在這裡加上其他表的欄位的話，會造成其他地方的功能出問題，因這邊是 applicant 的資料，其他地方已在使用 applicant->id 做為資料傳遞使用了
             ->join($table, 'applicants.id', '=', $table . '.applicant_id')
             ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
             ->join('camps', 'camps.id', '=', 'batchs.camp_id')
@@ -70,10 +71,10 @@ class ApplicantService
 
     /**
      * 錄取後，自動生成轉帳資料
-     * 
+     *
      * 使用 Camp 的 set_fee 和 set_payment_deadline，
      * 由 Camp model 本身判斷該提取早鳥價或原價
-     * 
+     *
      * @param 一個報名者 model
      * @param 營隊完整資料
      * @return 一個報名者 model
@@ -87,7 +88,7 @@ class ApplicantService
         $data["繳費期限"] = $candidate->batch->camp->set_payment_deadline ?? "000000";
         $data["銷帳編號"] = $data["銷帳流水號前1碼"] . str_pad($candidate->id, 5, '0', STR_PAD_LEFT);
         $candidate->fee = $candidate->batch->camp->set_fee ?? 0;
-        $paymentFlow = new PaymentflowService($data);        
+        $paymentFlow = new PaymentflowService($data);
         $candidate->store_first_barcode = $paymentFlow->getStoreFirstBarcode();
         $candidate->store_second_barcode = $paymentFlow->getStoreSecondBarcode();
         $candidate->store_third_barcode = $paymentFlow->getStoreThirdBarcode($candidate->fee);
@@ -99,17 +100,17 @@ class ApplicantService
     }
 
     public function checkPaymentStatus($applicant){
-        $applicant->showCheckInInfo = 0;     
+        $applicant->showCheckInInfo = 0;
         if($applicant->deposit == 0){
-            $status = "未繳費";         
+            $status = "未繳費";
             if($applicant->fee == 0){
                 $status = "無費用";
-                $applicant->showCheckInInfo = 1;     
-            }   
+                $applicant->showCheckInInfo = 1;
+            }
         }
         elseif($applicant->fee - $applicant->deposit > 0){
             $status = "已繳部分金額，尚餘" . ($applicant->fee - $applicant->deposit) . "元";
-            $applicant->showCheckInInfo = 1;     
+            $applicant->showCheckInInfo = 1;
         }
         elseif($applicant->fee - $applicant->deposit < 0){
             $status = "已繳費，溢繳" . ($applicant->deposit - $applicant->fee) . "元";
@@ -137,7 +138,7 @@ class ApplicantService
                                                 ->orWhere(\DB::raw("replace(mobile, ')', '')"), 'like', '%' . $request->mobile . '%')
                                                 ->orWhere(\DB::raw("replace(mobile, '（', '')"), 'like', '%' . $request->mobile . '%')
                                                 ->orWhere(\DB::raw("replace(mobile, '）', '')"), 'like', '%' . $request->mobile . '%');
-                                    });                    
+                                    });
                             })
                             // ->where([['group', $group], ['number', $number]])
                             ->orderBy('id', 'desc')->first();
