@@ -102,8 +102,8 @@ class BackendController extends Controller {
             $candidate = Applicant::find($request->id);
             if($request->get("clear") == "清除錄取序號"){
                 $candidate->is_admitted = 0;
-                $candidate->group = null;
-                $candidate->number = null;
+                $candidate->groupRelation()->delete();
+                $candidate->numberRelation()->delete();
                 $candidate->save();
                 $message = "錄取序號已清除。";
             }
@@ -179,17 +179,24 @@ class BackendController extends Controller {
                 $number = $groupAndNumber['number'];
                 $check = Applicant::select('applicants.*')
                 ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
-                ->where('group', 'like', $group)->where('number', 'like', $number)
-                ->whereIn("batch_id", $batches)->first();
+                ->whereIn("batch_id", $batches)
+                ->whereHas('numberRelation', function ($query) use ($number) {
+                    $query->where('number', $number);
+                })
+                ->whereHas('groupRelation', function ($query) use ($group) {
+                    $query->where('alias', $group);
+                })
+                ->first();
                 $candidate = Applicant::find($id);
                 if($check){
                     array_push($error, $candidate->name . "，錄取序號" . $request->admittedSN[$key] . "重複，沒有針對此人執行任何動作。");
                     $skip = true;
                 }
-                if(!$skip){
+                if (!$skip)
+                {
                     $candidate = $this->backendService->setAdmitted($candidate, 1);
-                    $candidate->group = $group;
-                    $candidate->number = $number;
+                    $candidate = $this->backendService->setGroup($candidate, $group);
+                    $candidate = $this->backendService->setNumber($candidate, $number);
                     $candidate = $this->applicantService->fillPaymentData($candidate);
                     $applicant = $candidate->save();
                     array_push($message, $candidate->name . "，錄取序號" . $request->admittedSN[$key] . "錄取完成。");
