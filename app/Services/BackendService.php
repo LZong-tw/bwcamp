@@ -19,9 +19,9 @@ class BackendService
 
     public function processGroup(Applicant $applicant, string $group): Applicant
     {
-        $applicant->group = $group;
-        $applicant->save();
-        $applicant->refresh();
+        if($applicant->batch->groups->count() < $applicant->batch->num_groups) {
+
+        }
         return $applicant;
     }
 
