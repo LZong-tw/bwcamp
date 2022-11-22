@@ -133,14 +133,8 @@ class Applicant extends Model {
      */
     protected function group(): Attribute
     {
-        if ($this->camp()?->first()?->created_at->lt(Carbon::create(2022, 11, 1))) {
-            return Attribute::make(
-                get: fn () => $this->group_legacy,
-            );
-        }
-
         return Attribute::make(
-            get: fn () => $this->groupRelation()->first(),
+            get: fn () => $this->groupRelation()->first() ?? $this->group_legacy,
             set: fn ($value) => $value,
         );
     }
@@ -152,14 +146,8 @@ class Applicant extends Model {
      */
     protected function number(): Attribute
     {
-        if ($this->camp()?->first()?->created_at->lt(Carbon::create(2022, 11, 1))) {
-            return Attribute::make(
-                get: fn () => $this->number_legacy,
-            );
-        }
-
         return Attribute::make(
-            get: fn () => $this->numberRelation()->first(),
+            get: fn () => $this->numberRelation()->first() ?? $this->number_legacy,
             set: fn ($value) => $value,
         );
     }
