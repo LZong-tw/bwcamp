@@ -48,6 +48,14 @@ class ApplicantService
                         $query->where('group_legacy', 'like', $group);
                         $query->where('number_legacy', 'like', $number);
                     });
+                    $query->orWhere(function ($query) use ($group, $number) {
+                        $query->whereHas('groupRelation', function ($query) use ($group) {
+                            $query->where('alias', 'like', $group);
+                        });
+                        $query->whereHas('numberRelation', function ($query) use ($number) {
+                            $query->where('number', 'like', $number);
+                        });
+                    });
                 }
             })->first();
     }
