@@ -116,10 +116,10 @@ class BackendController extends Controller {
                 ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                 ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                 ->where('camps.id', $this->campFullData->id)
-                ->whereHas('number', function ($query) use ($number) {
+                ->whereHas('numberRelation', function ($query) use ($number) {
                     $query->where('alias', $number);
                 })
-                ->whereHas('group', function ($query) use ($group) {
+                ->whereHas('groupRelation', function ($query) use ($group) {
                     $query->where('alias', $group);
                 })
                 ->first();
