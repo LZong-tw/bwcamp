@@ -21,8 +21,8 @@
                 分區：{{ $candidate->region }} <br>
             @endif
             @if(isset($candidate->group) && isset($candidate->number))
-                錄取序號：{{ $candidate->group.$candidate->number }} <br>
-            @endif            
+                錄取序號：{{ $candidate->group->alias.$candidate->number->number }} <br>
+            @endif
             <form target="_blank" action="{{ route("queryview", $candidate->batch_id) }}" method="post" class="d-inline">
                 @csrf
                 <input type="hidden" name="sn" value="{{ $candidate->id }}">
@@ -41,7 +41,7 @@
                 <br><br>
                 <input type="submit" class="btn btn-warning" value="修改錄取序號">
                 <input type="submit" name="clear" class="btn btn-danger" value="清除錄取序號" onclick="document.getElementById('admittedSN').required = false;">
-            @else    
+            @else
                 輸入正取序號(共五碼)：<input type="text" name="admittedSN" class="form-control" placeholder="" value="{{ $candidate->getBatch->admission_suffix }}" pattern=".{5}" required>
                 <br>
                 <input type="submit" class="btn btn-success" value="確認錄取">
