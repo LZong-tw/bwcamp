@@ -23,7 +23,7 @@ class Applicant extends Model {
     ];
 
     protected $guarded = [];
-    
+
     public function batch() {
         return $this->belongsTo(Batch::class);
     }
@@ -100,12 +100,12 @@ class Applicant extends Model {
 
     public function groupRelation()
     {
-        return $this->belongsTo(ApplicantsGroup::class);
+        return $this->belongsTo(ApplicantsGroup::class, 'group_id', 'id');
     }
 
     public function numberRelation()
     {
-        return $this->belongsTo(GroupNumber::class);
+        return $this->belongsTo(GroupNumber::class, 'number_id', 'id');
     }
 
     public function carer()
