@@ -14,6 +14,7 @@ class Applicant extends Model {
     //
     protected $fillable = [
         'batch_id', 'name', 'english_name', 'region', 'avatar','gender',
+        'group_id', 'number_id', 'is_admitted', 'is_paid', 'is_attended',
         'birthyear', 'birthmonth', 'birthday', 'age_range', 'nationality', 'idno',
         'is_foreigner', 'is_allow_notified', 'mobile', 'phone_home', 'phone_work',
         'fax', 'line', 'wechat', 'email', 'zipcode', 'address',
@@ -135,13 +136,12 @@ class Applicant extends Model {
         if ($this->camp()?->first()?->created_at->lt(Carbon::create(2022, 11, 1))) {
             return Attribute::make(
                 get: fn () => $this->group_legacy,
-                set: fn ($value) => $this->group_legacy = $value,
             );
         }
 
         return Attribute::make(
-            get: fn () => $this->groupRelation(),
-            set: fn ($value) => $this->groupRelation()->associate($value),
+            get: fn () => $this->groupRelation()->first(),
+            set: fn ($value) => $value,
         );
     }
 
@@ -155,13 +155,12 @@ class Applicant extends Model {
         if ($this->camp()?->first()?->created_at->lt(Carbon::create(2022, 11, 1))) {
             return Attribute::make(
                 get: fn () => $this->number_legacy,
-                set: fn ($value) => $this->number_legacy = $value,
             );
         }
 
         return Attribute::make(
-            get: fn () => $this->numberRelation(),
-            set: fn ($value) => $this->numberRelation()->associate($value),
+            get: fn () => $this->numberRelation()->first(),
+            set: fn ($value) => $value,
         );
     }
 }

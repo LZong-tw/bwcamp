@@ -36,14 +36,16 @@ class BackendService
     public function setGroup(Applicant $applicant, string $group = null): Applicant
     {
         $group = $this->processGroup($applicant, $group);
-        $applicant->group = $group;
+        $applicant->groupRelation()->associate($group);
+        $applicant->save();
+        $applicant->refresh();
         return $applicant;
     }
 
     public function processNumber(Applicant $applicant, string $number = null): GroupNumber
     {
         $number = GroupNumber::firstOrCreate([
-            'group_id' => $applicant->group->id,
+            'group_id' => $applicant->group_id,
             'applicant_id' => $applicant->id,
             'number' => $number,
         ]);
@@ -53,7 +55,9 @@ class BackendService
     public function setNumber(Applicant $applicant, string $number = null): Applicant
     {
         $number = $this->processNumber($applicant, $number);
-        $applicant->number = $number;
+        $applicant->numberRelation()->associate($number);
+        $applicant->save();
+        $applicant->refresh();
         return $applicant;
     }
 

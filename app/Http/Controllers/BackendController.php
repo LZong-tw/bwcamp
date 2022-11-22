@@ -128,11 +128,10 @@ class BackendController extends Controller {
                     $error = "報名序號重複。";
                     return view('backend.registration.showCandidate', compact('candidate', 'error'));
                 }
-                $candidate = $this->backendService->setAdmitted($candidate, 1);
-                $candidate = $this->backendService->setGroup($candidate, $group);
-                $candidate = $this->backendService->setNumber($candidate, $number);
-                $candidate = $this->applicantService->fillPaymentData($candidate);
-                $candidate->save();
+                $this->backendService->setAdmitted($candidate, 1);
+                $this->backendService->setGroup($candidate, $group);
+                $this->backendService->setNumber($candidate, $number);
+                $this->applicantService->fillPaymentData($candidate);
                 $message = "錄取完成。";
             }
             $candidate = $this->applicantService->Mandarization($candidate);
@@ -194,9 +193,9 @@ class BackendController extends Controller {
                 }
                 if (!$skip)
                 {
-                    $candidate = $this->backendService->setAdmitted($candidate, 1);
-                    $candidate = $this->backendService->setGroup($candidate, $group);
-                    $candidate = $this->backendService->setNumber($candidate, $number);
+                    $this->backendService->setAdmitted($candidate, 1);
+                    $this->backendService->setGroup($candidate, $group);
+                    $this->backendService->setNumber($candidate, $number);
                     $candidate = $this->applicantService->fillPaymentData($candidate);
                     $applicant = $candidate->save();
                     array_push($message, $candidate->name . "，錄取序號" . $request->admittedSN[$key] . "錄取完成。");

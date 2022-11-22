@@ -10,7 +10,7 @@ class GroupNumber extends Model
     protected $fillable = [
         'group_id',
         'applicant_id',
-        'alias',
+        'number',
     ];
 
     public function group()
