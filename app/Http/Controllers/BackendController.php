@@ -115,8 +115,14 @@ class BackendController extends Controller {
                 ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
                 ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                 ->join('camps', 'camps.id', '=', 'batchs.camp_id')
-                ->where('group', 'like', $group)->where('number', 'like', $number)
-                ->where('camps.id', $this->campFullData->id)->first();
+                ->where('camps.id', $this->campFullData->id)
+                ->whereHas('number', function ($query) use ($number) {
+                    $query->where('alias', $number);
+                })
+                ->whereHas('group', function ($query) use ($group) {
+                    $query->where('alias', $group);
+                })
+                ->first();
                 if($check){
                     $candidate = $this->applicantService->Mandarization($candidate);
                     $error = "報名序號重複。";
