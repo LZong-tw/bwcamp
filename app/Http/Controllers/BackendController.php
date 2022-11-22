@@ -123,8 +123,8 @@ class BackendController extends Controller {
                     return view('backend.registration.showCandidate', compact('candidate', 'error'));
                 }
                 $candidate = $this->backendService->setAdmitted($candidate, 1);
-                $candidate->group = $group;
-                $candidate->number = $number;
+                $candidate = $this->backendService->setGroup($candidate, $group);
+                $candidate = $this->backendService->setNumber($candidate, $number);
                 $candidate = $this->applicantService->fillPaymentData($candidate);
                 $candidate->save();
                 $message = "錄取完成。";
@@ -813,7 +813,7 @@ class BackendController extends Controller {
                 return $applicant->region == $constraint;
             });
         }
-        
+
         return view('backend.in_camp.queryAttendee')
                 ->with('applicants', $applicants)
                 ->with('batches', $batches);
@@ -836,7 +836,7 @@ class BackendController extends Controller {
         $contactlog = ContactLog::where("applicant_id", $applicant->applicant_id)->orderByDesc
         ('id')->first();
         $contactlog = $this->backendService->setTakenByName($contactlog);
-        return view('backend.in_camp.attendeeInfo', compact('camp','batches','applicant','contactlog'));    
+        return view('backend.in_camp.attendeeInfo', compact('camp','batches','applicant','contactlog'));
     }
 
     public function showAttendeeList(Request $request) {
@@ -1269,7 +1269,7 @@ class BackendController extends Controller {
             return redirect()->route("showContactLogs", [$camp_id, $applicant->id]);
         }
     }
-    
+
     public function showAddContactLogs($camp_id, $applicant_id){
         //dd($applicant_id);
         $applicant = Applicant::find($applicant_id);
