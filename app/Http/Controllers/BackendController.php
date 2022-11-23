@@ -102,7 +102,7 @@ class BackendController extends Controller {
             $candidate = Applicant::find($request->id);
             if($request->get("clear") == "清除錄取序號"){
                 $candidate->is_admitted = 0;
-                $candidate->groupRelation()->delete();
+                $candidate->groupRelation()->detach();
                 $candidate->numberRelation()->delete();
                 $candidate->save();
                 $message = "錄取序號已清除。";
