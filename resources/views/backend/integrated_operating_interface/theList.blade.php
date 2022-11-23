@@ -2,6 +2,7 @@
 @section('content')
 @include('..partials.counties_areas_script')
 <link rel="stylesheet" href="{{ asset('bootstrap-table/bootstrap-table.min.css') }}">
+<script src="{{ asset('js/axios.min.js') }}"></script>
 <script defer src="{{ asset('bootstrap-table/bootstrap-table.min.js') }}"></script>
 <script defer src="{{ asset('bootstrap-table/locale/bootstrap-table-zh-TW.min.js') }}"></script>
 <style>
@@ -28,7 +29,7 @@
         @if($isSetting ?? false) 設定
         @else 瀏覽 @endif
         {{ ($is_vcamp && $is_care) ? '關懷組' : '' }}
-        {{ ($is_vcamp) ? '義工' : '學員' }}名單
+        {{ ($is_vcamp) ? '義工' : '學員' }}名單 @foreach ($batches as $batch) <a href='?batch={{ $batch->id }}'>{{ $batch->name }}梯</a> @endforeach
         @if($is_ingroup && $groupName)
             >> {{ $groupName }}
         @endif

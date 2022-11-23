@@ -14,6 +14,10 @@ class Batch extends Model
         return $this->belongsTo(Camp::class);
     }
 
+    public function groups() {
+        return $this->hasMany(ApplicantsGroup::class);
+    }
+
     public function applicants() {
         return $this->hasMany(Applicant::class);
     }
