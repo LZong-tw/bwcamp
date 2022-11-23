@@ -20,17 +20,32 @@ class BackendService
 
     public function processGroup(Applicant $applicant, string $group = null): ApplicantsGroup
     {
-        // todo: 營隊學員組別檢查，如果組別未達設定，即自動補足
-        if ($applicant->batch->num_groups && ($applicant->batch->groups->count() < $applicant->batch->num_groups))
+        if ($applicant->batch->num_groups && ($applicant->batch->groups->count() <= $applicant->batch->num_groups))
         {
-
+            $group = ApplicantsGroup::first([
+                'batch_id' => $applicant->batch_id,
+                'alias' => $group,
+            ]);
+            if ($group) {
+                return $group;
+            } elseif ($applicant->batch->groups->count() + 1 > $applicant->batch->num_groups) {
+                throw new \Exception('組別已滿');
+            } else {
+                $group = new ApplicantsGroup();
+                $group->batch_id = $applicant->batch_id;
+                $group->alias = $group;
+                $group->save();
+                return $group;
+            }
+        }
+        elseif (!$applicant->batch->num_groups) {
+            return ApplicantsGroup::firstOrCreate([
+                'batch_id' => $applicant->batch_id,
+                'alias' => $group,
+            ]);
         }
 
-        $group = ApplicantsGroup::firstOrCreate([
-            'batch_id' => $applicant->batch_id,
-            'alias' => $group,
-        ]);
-        return $group;
+        throw new \Exception('組別處理發生異常狀況');
     }
 
     public function setGroup(Applicant $applicant, string $group = null): Applicant
