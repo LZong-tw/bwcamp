@@ -34,7 +34,7 @@ class ApplicantService
      * @param 報名者座號
      * @return 一個報名者 model
      */
-    public function fetchApplicantData($camp_id, $table, $id, $group = null, $number = null) {
+    public function fetchApplicantData($camp_id, $table, $id = null, $group = null, $number = null) {
         return Applicant::select('applicants.*')
         // 在這裡加上其他表的欄位的話，會造成其他地方的功能出問題，因這邊是 applicant 的資料，其他地方已在使用 applicant->id 做為資料傳遞使用了
             ->join($table, 'applicants.id', '=', $table . '.applicant_id')
@@ -42,8 +42,10 @@ class ApplicantService
             ->join('camps', 'camps.id', '=', 'batchs.camp_id')
             ->where('camps.id', $camp_id)
             ->where(function ($query) use ($id, $group, $number) {
-                $query->where('applicants.id', $id);
-                if ($group != null && $number != null) {
+                if ($id) {
+                    $query->where('applicants.id', $id);
+                }
+                if ($group && $number) {
                     $query->orWhere(function ($query) use ($group, $number) {
                         $query->where('group_legacy', 'like', $group);
                         $query->where('number_legacy', 'like', $number);

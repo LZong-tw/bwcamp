@@ -41,16 +41,8 @@
                 @if(!$is_vcamp)
                     將所選學員設定為第
                 @endif
-                <select required name='attendee_group' onChange=''>
+                <select required name='attendee_group' onChange='' id="learnerGroups">
                     <option value=''>- 請選擇 -</option>
-                    <option value='1'>1</option>
-                    <option value='2'>2</option>
-                    <option value='3'>3</option>
-                    <option value='4'>4</option>
-                    <option value='5'>5</option>
-                    <option value='6'>6</option>
-                    <option value='7'>7</option>
-                    <option value='8'>8</option>
                 </select>
                 組
             @endif
@@ -66,6 +58,56 @@
             @endif
         @endif
         &nbsp;&nbsp;
-        <button type="submit" class="btn btn-danger btn-sm" onclick="">儲存</button>
+        <button type="submit" class="btn btn-danger btn-sm" onclick="setGroup()">儲存</button>
     </span>
 </div>
+
+<script>
+     (function() {
+        axios({
+            method: 'get',
+            url: '/semi-api/getBatchGroups',
+            params: {
+                camp_id: {{ request()->route('camp_id') }},
+                batch_id: {{ request()->input('batch') ?? $batches->first()->id }},
+            },
+            responseType: 'json'
+        })
+        .then(function (response) {
+            if (Object.keys(response.data).length === 0) {
+                console.log(response.data);
+                {{-- 特殊處理 --}}
+            }
+            else {
+                let groups = Object.entries(response.data);
+                let select = document.getElementById('learnerGroups');
+                for (let i = 0; i < groups.length; i++) {
+                    let option = document.createElement('option');
+                    option.value = groups[i][1]['id'];
+                    option.text = groups[i][1]['alias'];
+                    select.appendChild(option);
+                }
+            }
+        });
+    })();
+
+    function setGroup() {
+        axios({
+            method: 'post',
+            url: '/semi-api/setGroup',
+            data: {
+                applicant_ids: window.applicant_ids,
+                group_id: document.getElementsByName('attendee_group')[0].value
+            },
+            responseType: 'json'
+        })
+        .then(function (response) {
+            if (response.data.status === 'success') {
+                window.location.reload();
+            }
+            else {
+                console.log(response.data);
+            }
+        });
+    }
+</script>
