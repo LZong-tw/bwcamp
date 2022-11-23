@@ -20,8 +20,7 @@ class BackendService
 
     public function processGroup(Applicant $applicant, string $group = null): ApplicantsGroup
     {
-        if ($applicant->batch->num_groups && ($applicant->batch->groups->count() <= $applicant->batch->num_groups))
-        {
+        if ($applicant->batch->num_groups && ($applicant->batch->groups->count() <= $applicant->batch->num_groups)) {
             $group = ApplicantsGroup::first([
                 'batch_id' => $applicant->batch_id,
                 'alias' => $group,
