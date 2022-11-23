@@ -3,10 +3,13 @@ namespace App\Services;
 
 use App\Models\Applicant;
 use App\Models\ApplicantsGroup;
+use App\Models\Batch;
+use App\Models\Camp;
 use Carbon\Carbon;
 use App\Models\ContactLog;
 use App\Models\GroupNumber;
 use App\User;
+use Illuminate\Support\Collection;
 
 class BackendService
 {
@@ -18,24 +21,39 @@ class BackendService
         return $applicant;
     }
 
+    public function groupsCreation(Batch $batch): bool
+    {
+        for ($i = 0; $i < $batch->num_groups; $i++) {
+            if ($this->checkBatchCanAddMoreGroup($batch)) {
+                $group = ApplicantsGroup::firstOrCreate([
+                    'batch_id' => $batch->id,
+                    'alias' => "第" . __($i) . "組",
+                ]);
+            }
+        }
+        return true;
+    }
+
+    public function checkBatchCanAddMoreGroup(Batch $batch): bool
+    {
+        return ($batch->groups?->count() ?? 0) < ($batch->num_groups ?? 9999);
+    }
+
     public function processGroup(Applicant $applicant, string $group = null): ApplicantsGroup
     {
-        if ($applicant->batch->num_groups && ($applicant->batch->groups->count() <= $applicant->batch->num_groups)) {
-            $group = ApplicantsGroup::first([
+        if ($applicant->batch->num_groups && $this->checkBatchCanAddMoreGroup($applicant->batch)) {
+            $group = ApplicantsGroup::firstOrCreate([
                 'batch_id' => $applicant->batch_id,
                 'alias' => $group,
             ]);
             if ($group) {
                 return $group;
-            } elseif ($applicant->batch->groups->count() + 1 > $applicant->batch->num_groups) {
-                throw new \Exception('組別已滿');
-            } else {
-                $group = new ApplicantsGroup();
-                $group->batch_id = $applicant->batch_id;
-                $group->alias = $group;
-                $group->save();
-                return $group;
             }
+        } elseif ($applicant->batch->num_groups && !$this->checkBatchCanAddMoreGroup($applicant->batch)) {
+            $group = ApplicantsGroup::firstOrFail([
+                'batch_id' => $applicant->batch_id,
+                'alias' => $group,
+            ]);
         }
         elseif (!$applicant->batch->num_groups) {
             return ApplicantsGroup::firstOrCreate([
@@ -50,10 +68,28 @@ class BackendService
     public function setGroup(Applicant $applicant, string $group = null): Applicant
     {
         $group = $this->processGroup($applicant, $group);
+        if (!$applicant->is_admitted) {
+            $this->setAdmitted($applicant, true);
+        }
         $applicant->groupRelation()->associate($group);
         $applicant->save();
         $applicant->refresh();
         return $applicant;
+    }
+
+    public function setGroupNew(array $applicants, string $groupId): bool
+    {
+        foreach ($applicants as $applicant) {
+            $applicant = Applicant::findOrFail($applicant);
+            $group = ApplicantsGroup::findOrFail($groupId);
+            if (!$applicant->is_admitted) {
+                $this->setAdmitted($applicant, true);
+            }
+            $applicant->groupRelation()->associate($group);
+            $applicant->save();
+            $applicant->refresh();
+        }
+        return true;
     }
 
     public function processNumber(Applicant $applicant, string $number = null): GroupNumber
@@ -90,5 +126,10 @@ class BackendService
         $applicant->save();
         $applicant->refresh();
         return $applicant;
+    }
+
+    public function getBatchGroups(Camp $camp): Collection | null
+    {
+        return $camp->batchs()->with('groups')->get() ?? null;
     }
 }

@@ -28,14 +28,18 @@
         </thead>
         @forelse ($applicants as $applicant)
             <tr>
-                <td class="text-center"><input type="checkbox" name="applicants[]" id="" value="{{ $applicant->id }}"></td>
+                <td class="text-center">
+                    <input type="checkbox" name="applicants[]" class="applicants_selector" value="{{ $applicant->sn }}"  id="{{ $applicant->sn }}" onclick="applicant_triggered(this.id)">
+                </td>
                 @foreach ($columns as $key => $item)
                     @if($key == "avatar" && $applicant->avatar)
                         <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($applicant->avatar)) }}" width=80 alt="{{ $applicant->name }}"></td>
                     @elseif($key == "avatar" && !$applicant->avatar)
                         <td>no photo</td>
-                    @elseif($key == "gender")
-                        <td>{{ $applicant->gender_zh_tw }}</td>
+                        @elseif($key == "gender")
+                            <td>{{ $applicant->gender_zh_tw }}</td>
+                    @elseif($key == "group")
+                        <td>{{ $applicant->group?->alias ?? "--" }}</td>
                     @elseif(!$is_vcamp && !$is_care && $key == "caring_logs")
                     @else
                         <td>{{ $applicant->$key ?? "-" }}</td>
@@ -47,3 +51,19 @@
         @endforelse
     </table>
 </div>
+
+<script>
+    window.applicant_ids = [];
+    (function() {
+    })();
+
+    function applicant_triggered(id) {
+        if ($("#" + id).is(":checked")) {
+            window.applicant_ids.push(id);
+        } else {
+            window.applicant_ids = window.applicant_ids.filter(function(value, index, arr){
+                return value != id;
+            });
+        }
+    }
+</script>

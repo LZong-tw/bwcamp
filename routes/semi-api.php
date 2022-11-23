@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FormFieldApiController;
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\SemiApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,3 +23,6 @@ use App\Http\Controllers\ApiController;
 Route::post('getBatch', [FormFieldApiController::class, 'getBatch']);
 Route::post('getFieldData', [FormFieldApiController::class, 'getFieldData']);
 Route::post('getCampData', [ApiController::class, 'sendCampData']);
+Route::get('groupCreation', [SemiApiController::class, 'groupCreation']);
+Route::get('getBatchGroups', [SemiApiController::class, 'getBatchGroups']);
+Route::post('setGroup', [SemiApiController::class, 'setGroup']);
