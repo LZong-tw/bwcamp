@@ -67,4 +67,14 @@ class BackendService
         $contactlog->takenby_name = $takenby->name;
         return $contactlog;
     }
+
+    public function removeAdmittedNumber(Applicant $applicant): Applicant
+    {
+        $applicant->groupRelation()->dissociate();
+        $applicant->numberRelation()->delete();
+        $applicant->numberRelation()->dissociate();
+        $applicant->save();
+        $applicant->refresh();
+        return $applicant;
+    }
 }
