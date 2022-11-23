@@ -109,18 +109,12 @@ class BackendController extends Controller {
                 $groupAndNumber = $this->applicantService->groupAndNumberSeperator($request->admittedSN);
                 $group = $groupAndNumber['group'];
                 $number = $groupAndNumber['number'];
-                $check = Applicant::select('applicants.*')
-                ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
-                ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
-                ->join('camps', 'camps.id', '=', 'batchs.camp_id')
-                ->where('camps.id', $this->campFullData->id)
-                ->whereHas('numberRelation', function ($query) use ($number) {
-                    $query->where('number', $number);
-                })
-                ->whereHas('groupRelation', function ($query) use ($group) {
-                    $query->where('alias', $group);
-                })
-                ->first();
+                $check = $this->applicantService->fetchApplicantData(
+                    $this->campFullData->id,
+                    $this->campFullData->table,
+                    group: $group,
+                    number: $number,
+                );
                 if($check){
                     $candidate = $this->applicantService->Mandarization($candidate);
                     $error = "報名序號重複。";
