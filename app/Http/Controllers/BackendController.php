@@ -112,8 +112,8 @@ class BackendController extends Controller {
                 $check = $this->applicantService->fetchApplicantData(
                     $this->campFullData->id,
                     $this->campFullData->table,
-                    number: $number,
                     group: $group,
+                    number: $number,
                 );
                 if($check){
                     $candidate = $this->applicantService->Mandarization($candidate);
