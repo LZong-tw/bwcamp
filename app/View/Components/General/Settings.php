@@ -2,25 +2,22 @@
 
 namespace App\View\Components\General;
 
+use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 
 class Settings extends Component
 {
-    public $is_vcamp;
-    public $is_care;
-    public $batches;
-
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($batches, $is_vcamp = false, $is_care = false)
-    {
+    public function __construct(
+        public Collection $batches,
+        public bool $is_vcamp = false,
+        public bool $is_care = false
+    ) {
         //
-        $this->is_vcamp = $is_vcamp;
-        $this->is_care = $is_care;
-        $this->batches = $batches;
     }
 
     /**

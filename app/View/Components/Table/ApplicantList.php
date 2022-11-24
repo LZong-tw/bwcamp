@@ -2,27 +2,22 @@
 
 namespace App\View\Components\Table;
 
+use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 
 class ApplicantList extends Component
 {
-    public $columns;
-    public $applicants;
-    public $is_vcamp;
-    public $is_care;
-
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($columns, $applicants, $is_vcamp = false, $is_care = false)
-    {
-        $this->columns = $columns;
-        $this->applicants = $applicants;
-        $this->is_vcamp = $is_vcamp;
-        $this->is_care = $is_care;
-    }
+    public function __construct(
+        public array|null $columns,
+        public Collection|null $applicants,
+        public bool $is_vcamp = false,
+        public bool $is_care = false
+    ) { }
 
     /**
      * Get the view / contents that represent the component.
