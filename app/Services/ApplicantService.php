@@ -59,7 +59,9 @@ class ApplicantService
                         });
                     });
                 }
-            })->first();
+                $query->orWhere('applicants.name', $id);
+            })
+            ->first();
     }
 
     public function checkIfPaidEarlyBird($applicant) {
