@@ -49,6 +49,7 @@
         <br>
     @endif
     <x-general.settings :$is_vcamp :$is_care :$batches />
+    <x-general.search-component :columns="$columns_zhtw" />
     <x-table.applicant-list :columns="$columns_zhtw" :$applicants :$is_vcamp :$is_care/>
 @endif
 @endsection
