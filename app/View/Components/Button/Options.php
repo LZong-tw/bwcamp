@@ -6,21 +6,17 @@ use Illuminate\View\Component;
 
 class Options extends Component
 {
-    public $is_ingroup;
-    public $is_vcamp;
-    public $is_care;
-
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($is_ingroup = false, $is_vcamp = false, $is_care = false)
-    {
+    public function __construct(
+        public bool $is_ingroup = false,
+        public bool $is_vcamp = false,
+        public bool $is_care = false
+    ) {
         //
-        $this->is_ingroup = $is_ingroup;
-        $this->is_vcamp = $is_vcamp;
-        $this->is_care = $is_care;
     }
 
     /**

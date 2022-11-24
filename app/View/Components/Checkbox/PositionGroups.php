@@ -6,17 +6,14 @@ use Illuminate\View\Component;
 
 class PositionGroups extends Component
 {
-    public $is_care;
-
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($is_care)
+    public function __construct(public bool $is_care)
     {
         //
-        $this->is_care = $is_care;
     }
 
     /**
