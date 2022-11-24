@@ -48,7 +48,7 @@
         @endif
         <br>
     @endif
-    <x-general.settings :$is_vcamp :$is_care />
+    <x-general.settings :$is_vcamp :$is_care :$batches />
     <x-table.applicant-list :columns="$columns_zhtw" :$applicants :$is_vcamp :$is_care/>
 @endif
 @endsection

@@ -6,19 +6,17 @@ use Illuminate\View\Component;
 
 class Settings extends Component
 {
-    public $is_vcamp;
-    public $is_care;
-
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($is_vcamp = false, $is_care = false)
-    {
+    public function __construct(
+        public $is_vcamp = false,
+        public $is_care = false,
+        public $batches = $batches,
+    ) {
         //
-        $this->is_vcamp = $is_vcamp;
-        $this->is_care = $is_care;
     }
 
     /**
