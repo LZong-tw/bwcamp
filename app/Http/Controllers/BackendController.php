@@ -236,10 +236,10 @@ class BackendController extends Controller {
     }
 
     public function showCandidate(Request $request){
-        $groupAndNumber = $this->applicantService->groupAndNumberSeperator($request->snORadmittedSN);
+        $groupAndNumber = $this->applicantService->groupAndNumberSeperator($request->snORadmittedSNorName);
         $group = $groupAndNumber['group'];
         $number = $groupAndNumber['number'];
-        $candidate = $this->applicantService->fetchApplicantData($this->campFullData->id, $this->campFullData->table, $request->snORadmittedSN, $group, $number);
+        $candidate = $this->applicantService->fetchApplicantData($this->campFullData->id, $this->campFullData->table, $request->snORadmittedSNorName, $group, $number);
         if($candidate){
             $candidate = $this->applicantService->Mandarization($candidate);
         }
