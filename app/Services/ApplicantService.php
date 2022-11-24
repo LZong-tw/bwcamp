@@ -59,7 +59,7 @@ class ApplicantService
                         });
                     });
                 }
-                $query->orWhere('applicants.name', $id);
+                $query->orWhere('applicants.name', 'like', '%' . $id . '%');
             })
             ->first();
     }
