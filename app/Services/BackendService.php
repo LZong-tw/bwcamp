@@ -36,7 +36,10 @@ class BackendService
 
     public function checkBatchCanAddMoreGroup(Batch $batch): bool
     {
-        return ($batch->groups?->count() ?? 0) < ($batch->num_groups ?? 9999);
+        if (!$batch->num_groups) {
+            throw new \Exception("梯次沒有設定組數");
+        }
+        return ($batch->groups?->count() ?? 0) < $batch->num_groups;
     }
 
     public function processGroup(Applicant $applicant, string $group = null): ApplicantsGroup
