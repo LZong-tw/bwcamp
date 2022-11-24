@@ -33,7 +33,7 @@
                 <b>職務類型</b>：{{$applicant->job_property}}<br>
                 </td>
                 <td>
-                <b>報名序號</b>：{{$applicant->id}}<br>
+                <b>報名序號</b>：{{$applicant->applicant_id}}<br>
                 <b>所屬組別</b>：{{$applicant->group}}<br>
                 <b>關懷員</b>：<br>
                 <b>參加形式</b>：{{$applicant->participation_mode}}<br>

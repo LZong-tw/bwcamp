@@ -15,7 +15,7 @@
         <p>
             <h5>{{ $candidate->name }}({{ $candidate->gender }})</h5>
             梯次：{{ $candidate->batch->name }} <br>
-            報名序號：{{ $candidate->id }} <br>
+            報名序號：{{ $candidate->applicant_id }} <br>
             報名日期：{{ $candidate->created_at }} <br>
             @if($candidate->region)
                 分區：{{ $candidate->region }} <br>
@@ -25,16 +25,16 @@
             @endif
             <form target="_blank" action="{{ route("queryview", $candidate->batch_id) }}" method="post" class="d-inline">
                 @csrf
-                <input type="hidden" name="sn" value="{{ $candidate->id }}">
+                <input type="hidden" name="sn" value="{{ $candidate->applicant_id }}">
                 <input type="hidden" name="name" value="{{ $candidate->name }}">
                 <input type="hidden" name="isBackend" value="目前為後台檢視狀態。">
                 <button class="btn btn-info" style="margin-top: 10px">檢視報名資料</button>
             </form>
-            <a href="{{ route('showPaymentForm', [$campFullData->id, $candidate->id]) }}" class="btn btn-primary" target="_blank" style="margin-top: 10px">顯示繳費單</a>
+            <a href="{{ route('showPaymentForm', [$campFullData->id, $candidate->applicant_id]) }}" class="btn btn-primary" target="_blank" style="margin-top: 10px">顯示繳費單</a>
         </p>
         <form action="{{ route("admission", $campFullData->id) }}" method="post" class="form-horizontal">
             @csrf
-            <input type="hidden" name="id" value="{{ $candidate->id }}">
+            <input type="hidden" name="id" value="{{ $candidate->applicant_id }}">
             @if(isset($candidate->group) && isset($candidate->number))
                 輸入正取序號(共五碼)：<input type="text" name="admittedSN" class="form-control" placeholder="請確認錄取梯次前綴後再送出修改" pattern=".{5}" required id="admittedSN">
                 本梯次正取序號前綴：{{ $candidate->getBatch->admission_suffix }}
