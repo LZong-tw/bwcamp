@@ -256,7 +256,7 @@ class CampDataService
                     $region = "新竹";
                 }
                 elseif($MiauLiInHsinChu->first(function ($item) use ($formData) {
-                    return str_contains($formData["unit_name"], $item);
+                    return str_contains($formData["unit"], $item);
                 })) {
                     $region = "新竹";
                 }
