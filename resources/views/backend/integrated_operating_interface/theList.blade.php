@@ -42,13 +42,13 @@
     @else
         <span class="font-weight-bold">瀏覽組別：</span>
         @if($is_vcamp && !$is_care)
-            <x-checkbox.position-groups :$is_care />
+            <x-checkbox.position-groups :isCare="$is_care" />
         @else
             <x-checkbox.caring-groups />
         @endif
         <br>
     @endif
-    <x-general.settings :$is_vcamp :$is_care :$batches />
+    <x-general.settings :isVcamp="$is_vcamp" :isCare="$is_care" :$batches />
     <x-table.applicant-list :columns="$columns_zhtw" :$applicants :$is_vcamp :$is_care/>
 @endif
 @endsection
