@@ -8,14 +8,15 @@
             color: #33B2FF!important;
         }
     </style>
-    <h2 class="d-inline-block">{{ $camp->abbreviation }} 組織列表　</h2>
-    <a href="{{ route("showAddOrgs", [$camp->id, 0]) }}" class="btn btn-success d-inline-block" style="margin-bottom: 10px">批次新增組織</a>
+    <h2 class="d-inline-block">{{ $camp->abbreviation }} 組織列表　</h2><br>
     @if(\Session::has('message'))
         <div class='alert alert-success' role='alert'>
             {{ \Session::get('message') }}
         </div>
     @endif
+    <br>
 
+    
     <table class="table table-bordered">
         <tr>
             <th>ID</th>
@@ -69,4 +70,41 @@
             </tr>
         @endforeach
     </table>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <a href="{{ route("showAddOrgs", [$camp->id, 0]) }}" class="btn btn-success d-inline-block" style="margin-bottom: 10px">批次新增組織</a>    
+            </div>
+            <div class="col-md-9">
+            </div>
+        </div>
+    </div>
+    <hr>
+    <form action="{{ route('copyOrgs', $camp->id) }}" method="post">
+        @csrf
+        <div class="container">
+            <div class="row">
+                <h5>複製現有營隊組織</h5>
+            </div>
+            <div class="row">
+                <div class="col-md-2 text-md-right">
+                    選擇要複製的營隊
+                </div>
+                <div class="col-md-8">
+                    <select class='form-control' name='camp2copy' id='inputCamp2Copy'>
+                    @foreach($camp_list as $item)
+                    @if($item->id != $camp->id)
+                    <option value='{{$item->id}}'> {{$item->id}} {{$item->fullName}} </option>
+                    @endif
+                    @endforeach
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-primary">複製</button><br>
+                </div>
+            </div>
+        </div>
+    </form>
+    <br>
 @endsection
