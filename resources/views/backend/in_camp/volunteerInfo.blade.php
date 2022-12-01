@@ -122,7 +122,7 @@
                 @else
                 <b>無關懷記錄</b>
                 @endif
-                <a href="{{ route('showContactLogs', [$camp->id, $applicant->id]) }}" class="btn btn-secondary float-right">更多關懷記錄</a><br><br>
+                <a href="{{ route('showContactLogs', [$camp->id, $applicant->applicant_id]) }}" class="btn btn-secondary float-right">更多關懷記錄</a><br><br>
             </div>
         </div>
     </div>
