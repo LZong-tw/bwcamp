@@ -14,7 +14,7 @@
     <h5>{{ $camp->fullName }}>>個人詳細資料>>{{ $applicant->name }}</h5>
 
     <!-- 修改學員資料,使用報名網頁 -->
-    <form action="{{ route('queryupdate', $batch->id) }}" method="post">
+    <form target="_blank" action="{{ route('queryupdate', $batch->id) }}" method="post">
         @csrf
         <input type="hidden" name="sn" value="{{ $applicant->applicant_id }}">
         <input type="hidden" name="name" value="{{ $applicant->name }}">
@@ -126,7 +126,7 @@
                 @else
                 <b>無關懷記錄</b>
                 @endif
-                <a href="{{ route('showContactLogs', [$camp->id, $applicant->id]) }}" class="btn btn-secondary float-right">更多關懷記錄</a><br><br>
+                <a href="{{ route('showContactLogs', [$camp->id, $applicant->applicant_id]) }}" class="btn btn-secondary float-right">更多關懷記錄</a><br><br>
             </div>
         </div>
     </div>
