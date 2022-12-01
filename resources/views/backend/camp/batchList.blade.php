@@ -51,7 +51,14 @@
                 <td>{{ $batch->num_groups }}</td>
                 <td>{{ $batch->created_at }}</td>
                 <td>{{ $batch->updated_at }}</td>
-                <td><a href="{{ route("showModifyBatch", [$camp->id, $batch->id]) }}" class="btn btn-primary">修改</a></td>
+                <td>
+                    <a href="{{ route("showModifyBatch", [$camp->id, $batch->id]) }}" class="btn btn-primary">修改</a>
+                    <form action="{{ route('copyBatch', $camp->id) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="batch_id" value="{{ $batch->id }}">
+                        <input type="submit" class="btn btn-success float-right" value="複製">
+                    </form>
+                </td>
             </tr>
         @endforeach
     </table>

@@ -90,7 +90,7 @@
             </div>
         </div>
         <div class='row form-group'>
-            <label for='inputNumGroups' class='col-md-1 control-label'>電話</label>
+            <label for='inputNumGroups' class='col-md-1 control-label'>學員組數</label>
             <div class='col-md-6'>
                 <input type="number" name="num_groups" id="" class='form-control' value="{{ $batch->num_groups ?? "" }}">
             </div>
