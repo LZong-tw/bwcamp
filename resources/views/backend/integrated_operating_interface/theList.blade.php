@@ -37,7 +37,10 @@
             >> 關懷員{{ Auth::user()->name }}
         @endif
     </h3>
-    <x-button.options :$is_vcamp :$is_care/>
+    @if($isSetting ?? false)
+    @else
+        <x-button.options :isIngroup="$is_ingroup" :isVcamp="$is_vcamp" :isCare="$is_care" :isCareV="$is_careV"/>
+    @endif
     @if($is_ingroup)
     @else
         <span class="font-weight-bold">瀏覽組別：</span>
@@ -48,7 +51,9 @@
         @endif
         <br>
     @endif
-    <x-general.settings :isVcamp="$is_vcamp" :isCare="$is_care" :$batches />
-    <x-table.applicant-list :columns="$columns_zhtw" :$applicants :$is_vcamp :$is_care/>
+    @if($isSetting ?? false)
+        <x-general.settings :isIngroup="$is_ingroup" :isVcamp="$is_vcamp" :isCare="$is_care" :$batches />
+    @endif
+    <x-table.applicant-list :columns="$columns_zhtw" :$applicants :isSetting="$isSetting" :isVcamp="$is_vcamp" :isCare="$is_care"/>
 @endif
 @endsection

@@ -1121,6 +1121,12 @@ class BackendController extends Controller {
                 return $applicant->region == $constraint;
             });
         }
+        if($request->isSetting==1) {
+            $isSetting = 1;
+        }
+        else {
+            $isSetting = 0;
+        } 
 
         $columns_zhtw = config('camps_fields.display.' . $this->campFullData->table);
 
@@ -1128,7 +1134,8 @@ class BackendController extends Controller {
                 ->with('applicants', $applicants)
                 ->with('batches', $batches)
                 ->with('is_vcamp', strpos($this->campFullData->table, 'vcamp'))
-                ->with('is_care', 0)
+                ->with('isSetting', $isSetting)
+                ->with('is_care', 1)
                 ->with('is_careV', 0)
                 ->with('is_ingroup', 0)
                 ->with('groupName', '')
