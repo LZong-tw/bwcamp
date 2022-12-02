@@ -17,9 +17,11 @@
         <caption></caption>
         <thead>
             <tr class="bg-success text-white">
-                <th></th>
+                @if($isSetting ?? false)
+                    <th></th>
+                @endif
                 @foreach ($columns as $key => $item)
-                    @if(!$is_vcamp && !$is_care && $key == "caring_logs")
+                    @if(!$isVcamp && !$isCare && $key == "caring_logs")
                     @else
                         <th data-field="{{ $key }}" data-sortable="{{ $item['sort'] }}">{{ $item['name'] }}</th>
                     @endif
@@ -28,9 +30,11 @@
         </thead>
         @forelse ($applicants as $applicant)
             <tr>
-                <td class="text-center">
-                    <input type="checkbox" name="applicants[]" class="applicants_selector" value="{{ $applicant->sn }}"  id="{{ $applicant->sn }}" onclick="applicant_triggered(this.id)">
-                </td>
+                @if($isSetting ?? false)
+                    <td class="text-center">
+                        <input type="checkbox" name="applicants[]" class="applicants_selector" value="{{ $applicant->sn }}"  id="{{ $applicant->sn }}" onclick="applicant_triggered(this.id)">
+                    </td>
+                @endif
                 @foreach ($columns as $key => $item)
                     @if($key == "avatar" && $applicant->avatar)
                         <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($applicant->avatar)) }}" width=80 alt="{{ $applicant->name }}"></td>
@@ -40,7 +44,7 @@
                             <td>{{ $applicant->gender_zh_tw }}</td>
                     @elseif($key == "group")
                         <td>{{ $applicant->group?->alias ?? "--" }}</td>
-                    @elseif(!$is_vcamp && !$is_care && $key == "caring_logs")
+                    @elseif(!$isVcamp && !$isCare && $key == "caring_logs")
                     @else
                         <td>{{ $applicant->$key ?? "-" }}</td>
                     @endif

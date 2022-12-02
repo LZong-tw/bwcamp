@@ -15,8 +15,9 @@ class ApplicantList extends Component
     public function __construct(
         public array|null $columns,
         public Collection|null $applicants,
-        public bool $is_vcamp = false,
-        public bool $is_care = false
+        public bool $isSetting = false,
+        public bool $isVcamp = false,
+        public bool $isCare = false
     ) { }
 
     /**

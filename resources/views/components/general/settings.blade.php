@@ -2,11 +2,11 @@
     <!-- Live as if you were to die tomorrow. Learn as if you were to live forever. - Mahatma Gandhi -->
     <span class="text-danger font-weight-bold">
         @if($isVcamp)
-            <button type="submit" class="btn btn-success btn-sm" onclick=""> << 返回義工名單</button>
+            <button type="submit" class="btn btn-success btn-sm" onclick="javascript:self.location='?isSetting=0';"> << 返回義工名單</button>
             &nbsp;&nbsp;
             將所選義工設定為{{ ($isVcamp && $isCare) ? '第' : '' }}
         @else
-            <button type="submit" class="btn btn-success btn-sm" onclick=""> << 返回學員名單</button>
+            <button type="submit" class="btn btn-success btn-sm" onclick="javascript:self.location='?isSetting=0';"> << 返回學員名單</button>
             &nbsp;&nbsp;
         @endif
 
@@ -30,7 +30,7 @@
             </select>
             職務
         @else
-            @if(!$isVcamp && $isCare)
+            @if(!$isVcamp && $isCare && $isIngroup)
                 將所選學員之關懷員設定為
                 <select required name='attendee_care' onChange=''>
                     <option value=''>- 請選擇 -</option>

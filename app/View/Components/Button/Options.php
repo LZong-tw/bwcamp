@@ -12,9 +12,10 @@ class Options extends Component
      * @return void
      */
     public function __construct(
-        public bool $is_ingroup = false,
-        public bool $is_vcamp = false,
-        public bool $is_care = false
+        public bool $isIngroup = false,
+        public bool $isVcamp = false,
+        public bool $isCare = false,
+        public bool $isCareV = false
     ) {
         //
     }
