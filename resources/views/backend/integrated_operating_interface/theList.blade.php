@@ -47,7 +47,7 @@
         @if($is_vcamp && !$is_care)
             <x-checkbox.position-groups :isCare="$is_care" />
         @else
-            <x-checkbox.caring-groups />
+            <x-checkbox.caring-groups :$batches />
         @endif
         <br>
     @endif
