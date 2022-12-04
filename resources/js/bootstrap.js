@@ -1,4 +1,8 @@
-window._ = require('lodash');
+import _ from 'lodash';
+window._ = _;
+import $ from 'jquery';
+window.$ = $;
+window.jQuery = $;
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -6,12 +10,10 @@ window._ = require('lodash');
  * code may be modified to fit the specific needs of your application.
  */
 
-try {
-    window.Popper = require('popper.js').default;
-    window.$ = window.jQuery = require('jquery');
-
-    require('bootstrap');
-} catch (e) {}
+import * as bootstrap from 'bootstrap';
+import * as Popover from './popover';
+import * as Confirmation from './confirmation';
+window.Popper = Popover.default;
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -19,7 +21,8 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = require('axios');
+import axios from 'axios';
+window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 

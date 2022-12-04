@@ -156,7 +156,7 @@
         </div>
     </span>
 </template>
-<script>
+<script type="module">
 import { watch, ref, onMounted, provide, inject, getCurrentInstance } from "vue";
 
 export default {
@@ -173,13 +173,13 @@ export default {
             }
             window.doThing = true;
         });
-        
+
         provide("setEnabled", function (ele) {
                 if (window.doThing && window.inputEnabled === false && ele) {
                     ele.disabled = true;
                 }
             });
-        
+
         provide("allDescendants", function (node, setEnabled, callback) {
                 if(node && node.childNodes) {
                     // console.log(node.childNodes);
