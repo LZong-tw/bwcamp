@@ -212,9 +212,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-    <script language='javascript'>
+    <script type="module">
         $('#inputEmail').bind("cut copy paste",function(e) {
-        e.preventDefault();
+            e.preventDefault();
         });
     </script>
 
@@ -409,7 +409,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </form>
 </span>
 
-    <script>
+    <script type="module">
         $('[data-toggle="confirmation"]').confirmation({
             rootSelector: '[data-toggle=confirmation]',
             title: "敬請再次確認資料填寫無誤。",

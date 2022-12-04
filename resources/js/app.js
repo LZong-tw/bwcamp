@@ -3,16 +3,10 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
-
-import "./bootstrap";
+import './bootstrap';
+import '../sass/app.scss';
 import { mixin } from "./mixin";
-
-window.Vue = require("vue").default;
-Vue.config.compilerOptions.whitespace = "condense";
-
-if (process.env.NODE_ENV == "development") {
-    Vue.__VUE_PROD_DEVTOOLS__ = true;
-}
+import * as Vue from "vue";
 
 /**
  * The following block of code may be used to automatically register your
@@ -47,6 +41,7 @@ import isEducatingSection from "./components/tcamp/IsEducatingSection.vue";
 import utcampUnitAndBatchSection from "./components/utcamp/UtcampUnitAndBatchSection.vue";
 import utcampTitle from "./components/utcamp/UtcampTitle.vue";
 import utcampIsBlisswisdom from "./components/utcamp/UtcampIsBlisswisdom.vue";
+import ioiSearch from "./components/backend/IoiSearch.vue";
 
 window.onload = () => {
     let currentPage = window.location.href.split("/").pop();
@@ -109,6 +104,15 @@ window.onload = () => {
             },
         });
         utcIsBlisswisdom.mount("#utcamp-is-blisswisdom");
+    }
+
+    if ($("#ioi-search").length) {
+        const ioiSearchComponent = Vue.createApp({
+            components: {
+                ioiSearch,
+            },
+        });
+        ioiSearchComponent.mount("#ioi-search");
     }
 };
 
