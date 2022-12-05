@@ -32,7 +32,6 @@ export default defineConfig({
     resolve: {
         alias: {
             "@": path.resolve(__dirname, "resources/sass"),
-            // vue: "@vue/compat",
             vue: "vue/dist/vue.esm-bundler.js",
             '~bootstrap': path.resolve(__dirname, 'node_modules/bootstrap'),
             $: 'jquery',

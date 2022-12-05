@@ -5,6 +5,7 @@
 <script src="{{ asset('js/axios.min.js') }}"></script>
 <script defer src="{{ asset('bootstrap-table/bootstrap-table.min.js') }}"></script>
 <script defer src="{{ asset('bootstrap-table/locale/bootstrap-table-zh-TW.min.js') }}"></script>
+@vite(['resources/js/app.js'])
 <style>
     .card-link{
         color: #3F86FB!important;
