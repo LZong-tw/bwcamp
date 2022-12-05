@@ -45,7 +45,7 @@
 
     <form action="{{ route("addOrgs", $camp->id) }}" method="POST">
         @csrf
-        <table class="table table-bordered table-hover" id="org">
+        <table class="table table-bordered" id="org">
             <tr>
                 <th>大組名稱</th>
                 <th>新增或刪除行</th>
@@ -67,7 +67,7 @@
                 <td class="align-middle">-</td>
                 @endif
                 <td class="align-middle">
-                    <table class="table table-bordered table-hover" id="sec0">
+                    <table class="table table-bordered" id="sec0">
                         <tr>
                             <td>
                                 <input type="text" name="position[0][]" id="" class="form-control" required>
@@ -125,7 +125,7 @@
                         <a href="#" class="btn btn-danger" onclick="this.parentNode.parentNode.remove()">Ｘ</a>
                     </td>   
                     <td class="align-middle">  
-                        <table class="table table-bordered table-hover" id="sec`;
+                        <table class="table table-bordered" id="sec`;
             let sec_ele3 =`">
                             <tr>
                                 <td>

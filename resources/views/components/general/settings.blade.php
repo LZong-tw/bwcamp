@@ -1,16 +1,16 @@
 <div>
     <!-- Live as if you were to die tomorrow. Learn as if you were to live forever. - Mahatma Gandhi -->
     <span class="text-danger font-weight-bold">
-        @if($is_vcamp)
-            <button type="submit" class="btn btn-success btn-sm" onclick=""> << 返回義工名單</button>
+        @if($isVcamp)
+            <button type="submit" class="btn btn-success btn-sm" onclick="javascript:self.location='?isSetting=0';"> << 返回義工名單</button>
             &nbsp;&nbsp;
-            將所選義工設定為{{ ($is_vcamp && $is_care) ? '第' : '' }}
+            將所選義工設定為{{ ($isVcamp && $isCare) ? '第' : '' }}
         @else
-            <button type="submit" class="btn btn-success btn-sm" onclick=""> << 返回學員名單</button>
+            <button type="submit" class="btn btn-success btn-sm" onclick="javascript:self.location='?isSetting=0';"> << 返回學員名單</button>
             &nbsp;&nbsp;
         @endif
 
-        @if($is_vcamp && !$is_care)
+        @if($isVcamp && !$isCare)
             <select required name='volunteer_group' onChange=''>
                 <option value=''>- 請選擇 -</option>
                 <option value='秘書'>秘書</option>
@@ -30,7 +30,7 @@
             </select>
             職務
         @else
-            @if(!$is_vcamp && $is_care)
+            @if(!$isVcamp && $isCare && $isIngroup)
                 將所選學員之關懷員設定為
                 <select required name='attendee_care' onChange=''>
                     <option value=''>- 請選擇 -</option>
@@ -38,7 +38,7 @@
                     <option value='陳莊嚴'>陳莊嚴</option>
                 </select>
             @else
-                @if(!$is_vcamp)
+                @if(!$isVcamp)
                     將所選學員設定為第
                 @endif
                 <select required name='attendee_group' onChange='' id="learnerGroups">
@@ -47,7 +47,7 @@
                 組
             @endif
 
-            @if($is_vcamp)
+            @if($isVcamp)
                 <select required name='attendee_work' onChange=''>
                     <option value=''>- 請選擇 -</option>
                     <option value='小組長'>小組長</option>

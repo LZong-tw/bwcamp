@@ -57,6 +57,9 @@
                             <li>
                                 <a href="{{ route("showCarers", $campFullData->id) }}">關懷員名單</a>
                             </li>
+                            <li>
+                                <a href="{{route('queryAttendee', $campFullData->id) }}">測試</a>
+                            </li>
                         </ul>
                     </li>
                     <li>
@@ -185,9 +188,6 @@
                             </li>
                             <li>
                                 <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">現場手動繳費<br>修改繳費資料</a>
-                            </li>
-                            <li>
-                                <a href="{{route('queryAttendee', $campFullData->id) }}">測試</a>
                             </li>
                         </ul>
                     </li>

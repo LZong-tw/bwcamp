@@ -39,7 +39,7 @@
         <div class='row form-group required'>
             <label for='inputName' class='col-md-2 control-label'>年度(西元)</label>
             <div class="col-md-6">
-                <input type='number' required class='form-control' name='year' min='{{ \Carbon\Carbon::now()->subYears(5)->year }}' max='{{ \Carbon\Carbon::now()->addYears(5)->year }}' value='' placeholder=''>
+                <input type='number' required class='form-control' name='year' min='{{ \Carbon\Carbon::now()->subYears(5)->year }}' max='{{ \Carbon\Carbon::now()->addYears(5)->year }}' value={{ $camp->year ?? "" }} placeholder=''>
                 <div class="invalid-feedback">
                     未填寫或日期不正確
                 </div>

@@ -37,14 +37,17 @@
             >> 關懷員{{ Auth::user()->name }}
         @endif
     </h3>
-    <x-button.options :$is_vcamp :$is_care/>
+    @if($isSetting ?? false)
+    @else
+        <x-button.options :isIngroup="$is_ingroup" :isVcamp="$is_vcamp" :isCare="$is_care" :isCareV="$is_careV"/>
+    @endif
     @if($is_ingroup)
     @else
         <span class="font-weight-bold">瀏覽組別：</span>
         @if($is_vcamp && !$is_care)
-            <x-checkbox.position-groups :$is_care />
+            <x-checkbox.position-groups :isCare="$is_care" />
         @else
-            <x-checkbox.caring-groups />
+            <x-checkbox.caring-groups :$batches />
         @endif
         <br>
     @endif

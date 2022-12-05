@@ -2,6 +2,7 @@
 
 namespace App\View\Components\Checkbox;
 
+use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 
 class CaringGroups extends Component
@@ -11,7 +12,7 @@ class CaringGroups extends Component
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(public Collection $batches)
     {
         //
     }

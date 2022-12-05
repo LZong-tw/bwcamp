@@ -116,6 +116,7 @@ class BackendController extends Controller {
                     number: $number,
                 );
                 if($check){
+                    $candidate = $check;
                     $candidate = $this->applicantService->Mandarization($candidate);
                     $error = "報名序號重複。";
                     return view('backend.registration.showCandidate', compact('candidate', 'error'));
@@ -126,6 +127,11 @@ class BackendController extends Controller {
                 $this->applicantService->fillPaymentData($candidate);
                 $message = "錄取完成。";
             }
+            $candidate = $this->applicantService->fetchApplicantData(
+                $this->campFullData->id,
+                $this->campFullData->table,
+                idOrName: $candidate->id,
+            );
             $candidate = $this->applicantService->Mandarization($candidate);
             return view('backend.registration.showCandidate', compact('candidate', 'message'));
         }
@@ -827,7 +833,8 @@ class BackendController extends Controller {
         ini_set('max_execution_time', -1);
         ini_set("memory_limit", -1);
         $camp = $this->campFullData;
-        $batches = Batch::where("camp_id", $this->campFullData->id)->get();
+        //one camp, multiple batches
+        //$batches = Batch::where("camp_id", $this->campFullData->id)->get();
         $groupAndNumber = $this->applicantService->groupAndNumberSeperator($request->snORadmittedSN);
         $group = $groupAndNumber['group'];
         $number = $groupAndNumber['number'];
@@ -837,10 +844,34 @@ class BackendController extends Controller {
         }
         //$applicant->id = 1? why?
         //$applicant->applicant_id 才會是對的
+        $batch = Batch::find($applicant->batch_id);
         $contactlog = ContactLog::where("applicant_id", $applicant->applicant_id)->orderByDesc
         ('id')->first();
-        $contactlog = $this->backendService->setTakenByName($contactlog);
-        return view('backend.in_camp.attendeeInfo', compact('camp','batches','applicant','contactlog'));
+        if(isset($contactlog)) {
+            $contactlog = $this->backendService->setTakenByName($contactlog);
+        }
+
+        //
+        if(isset($applicant->favored_event)) {
+            $applicant->favored_event_split = explode("||/",$applicant->favored_event);
+        }
+        if(isset($applicant->expertise)) {
+            $applicant->expertise_split = explode("||/",$applicant->expertise);
+        }
+        if(isset($applicant->language)) {
+            $applicant->language_split = explode("||/",$applicant->language);
+        }
+        if(isset($applicant->after_camp_available_day)) {
+            $applicant->after_camp_available_day_split = explode("||/",$applicant->after_camp_available_day);
+        }
+        //dd($applicant);
+        if($camp->table == "ceovcamp") {
+            return view('backend.in_camp.volunteerInfo', compact('camp','batch','applicant','contactlog'));
+        } elseif($camp->table == "ceocamp") {
+            return view('backend.in_camp.attendeeInfoCeocamp', compact('camp','batch','applicant','contactlog'));
+        } else {
+            return view('backend.in_camp.attendeeInfoEcamp', compact('camp','batch','applicant','contactlog'));
+        }
     }
 
     public function showAttendeeList(Request $request) {
@@ -1096,6 +1127,12 @@ class BackendController extends Controller {
                 return $applicant->region == $constraint;
             });
         }
+        if($request->isSetting==1) {
+            $isSetting = 1;
+        }
+        else {
+            $isSetting = 0;
+        }
 
         $columns_zhtw = config('camps_fields.display.' . $this->campFullData->table);
 
@@ -1103,7 +1140,8 @@ class BackendController extends Controller {
                 ->with('applicants', $applicants)
                 ->with('batches', $batches)
                 ->with('is_vcamp', strpos($this->campFullData->table, 'vcamp'))
-                ->with('is_care', 0)
+                ->with('isSetting', $isSetting)
+                ->with('is_care', 1)
                 ->with('is_careV', 0)
                 ->with('is_ingroup', 0)
                 ->with('groupName', '')
@@ -1307,8 +1345,10 @@ class BackendController extends Controller {
         $applicant = Applicant::find($applicant_id);
         $contactlogs = $applicant->contactlog->sortByDesc('id');
         //dd($contactlogs);
-        foreach($contactlogs as $contactlog) {
-            $contactlog = $this->backendService->setTakenByName($contactlog);
+        if(isset($contactlogs)) {
+            foreach($contactlogs as $contactlog) {
+                $contactlog = $this->backendService->setTakenByName($contactlog);
+            }
         }
         return view('backend.in_camp.contactLogList', compact('camp_id', 'applicant', 'contactlogs'));
     }
