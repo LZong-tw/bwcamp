@@ -116,6 +116,7 @@ class BackendController extends Controller {
                     number: $number,
                 );
                 if($check){
+                    $candidate = $check;
                     $candidate = $this->applicantService->Mandarization($candidate);
                     $error = "報名序號重複。";
                     return view('backend.registration.showCandidate', compact('candidate', 'error'));
@@ -126,6 +127,11 @@ class BackendController extends Controller {
                 $this->applicantService->fillPaymentData($candidate);
                 $message = "錄取完成。";
             }
+            $candidate = $this->applicantService->fetchApplicantData(
+                $this->campFullData->id,
+                $this->campFullData->table,
+                idOrName: $candidate->id,
+            );
             $candidate = $this->applicantService->Mandarization($candidate);
             return view('backend.registration.showCandidate', compact('candidate', 'message'));
         }
@@ -844,7 +850,7 @@ class BackendController extends Controller {
         if(isset($contactlog)) {
             $contactlog = $this->backendService->setTakenByName($contactlog);
         }
-        
+
         //
         if(isset($applicant->favored_event)) {
             $applicant->favored_event_split = explode("||/",$applicant->favored_event);
@@ -1126,7 +1132,7 @@ class BackendController extends Controller {
         }
         else {
             $isSetting = 0;
-        } 
+        }
 
         $columns_zhtw = config('camps_fields.display.' . $this->campFullData->table);
 
