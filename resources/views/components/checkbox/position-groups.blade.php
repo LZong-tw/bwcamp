@@ -1,6 +1,6 @@
 <div>
     <!-- It is quality rather than quantity that matters. - Lucius Annaeus Seneca -->
-    @if($is_care)
+    @if($isCare)
         <button class="btn btn-primary btn-sm" onclick="" value="all"> 全關懷組 </button>
     @else
         <button class="btn btn-primary btn-sm" onclick="" value="all"> 所有義工 </button>

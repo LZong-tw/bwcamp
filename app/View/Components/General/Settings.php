@@ -14,8 +14,9 @@ class Settings extends Component
      */
     public function __construct(
         public Collection $batches,
-        public bool $is_vcamp = false,
-        public bool $is_care = false
+        public bool $isIngroup = false,
+        public bool $isVcamp = false,
+        public bool $isCare = false
     ) {
         //
     }

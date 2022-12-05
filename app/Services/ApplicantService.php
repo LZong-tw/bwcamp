@@ -34,16 +34,16 @@ class ApplicantService
      * @param 報名者座號
      * @return 一個報名者 model
      */
-    public function fetchApplicantData($camp_id, $table, $id = null, $group = null, $number = null) {
-        return Applicant::select('applicants.*')
-        // 在這裡加上其他表的欄位的話，會造成其他地方的功能出問題，因這邊是 applicant 的資料，其他地方已在使用 applicant->id 做為資料傳遞使用了
+    public function fetchApplicantData($camp_id, $table, $idOrName = null, $group = null, $number = null) {
+        return Applicant::select('applicants.*', $table . '.*')
             ->join($table, 'applicants.id', '=', $table . '.applicant_id')
             ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
             ->join('camps', 'camps.id', '=', 'batchs.camp_id')
             ->where('camps.id', $camp_id)
-            ->where(function ($query) use ($id, $group, $number) {
-                if ($id) {
-                    $query->where('applicants.id', $id);
+            ->where(function ($query) use ($idOrName, $group, $number) {
+                if ($idOrName) {
+                    $query->where('applicants.id', $idOrName);
+                    $query->orWhere('applicants.name', 'like', '%' . $idOrName . '%');
                 }
                 if ($group && $number) {
                     $query->orWhere(function ($query) use ($group, $number) {
@@ -59,7 +59,6 @@ class ApplicantService
                         });
                     });
                 }
-                $query->orWhere('applicants.name', 'like', '%' . $id . '%');
             })
             ->first();
     }

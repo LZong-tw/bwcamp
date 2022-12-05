@@ -7,6 +7,7 @@ use App\Models\Camp;
 use App\Models\CampOrg;
 use App\Models\Batch;
 use App\Models\Role;
+use Carbon\Carbon;
 
 class AdminController extends BackendController {
     public function userlist(){
@@ -149,7 +150,7 @@ class AdminController extends BackendController {
     public function showModifyCamp($camp_id){
         $camp = Camp::find($camp_id);
         $camp_orgs = $camp->organizations;
-        return view('backend.camp.campForm', ["action" => "修改", "actionURL" => null, "camp" => $camp]);
+        return view('backend.camp.campForm', ["action" => "修改", "actionURL" => route("modifyCamp", $camp->id), "camp" => $camp]);
     }
 
     public function addBatches(Request $request, $camp_id){
@@ -167,6 +168,17 @@ class AdminController extends BackendController {
             Batch::create($newSet[$i]);
         }
         \Session::flash('message', " 梯次新增成功。");
+        return redirect()->route("showBatch", $camp_id);
+    }
+
+    public function copyBatch(Request $request, $camp_id){
+        $formData = $request->toArray();
+        //$newSet = array();
+        $batch = Batch::find($formData['batch_id']);
+        $newBatch = $batch->replicate();
+        $newBatch->created_at = Carbon::now();
+        $newBatch->save();
+        \Session::flash('message', " 梯次複製成功。");
         return redirect()->route("showBatch", $camp_id);
     }
 
@@ -276,6 +288,22 @@ class AdminController extends BackendController {
         return view('backend.camp.addOrgs', compact("camp", "orgs", "sec_tg"));
     }
 
+    public function copyOrgs(Request $request, $camp_id){
+        $formData = $request->toArray();
+        $newSet = array();
+        $camp2copy_id = $formData['camp2copy'];
+        $orgs2copy = CampOrg::where('camp_id', $camp2copy_id)->get();
+        //dd($orgs2copy);
+        foreach ($orgs2copy as $org) {
+            $newOrg = $org->replicate();
+            $newOrg->camp_id = $camp_id;
+            $newOrg->created_at = Carbon::now();
+            $newOrg->save();
+        }
+        \Session::flash('message', "組織複製成功。");
+        return redirect()->route("showOrgs", $camp_id);
+    }
+
     public function modifyOrg(Request $request, $camp_id, $org_id){
         $formData = $request->toArray();
         $camp = Camp::find($camp_id);
@@ -308,7 +336,11 @@ class AdminController extends BackendController {
         $camp = Camp::find($camp_id);
         $orgs = $camp->organizations;
         $orgs = $orgs->sortByDesc('section');
-        return view('backend.camp.orgList', compact('camp', 'orgs'));
+        //permission??
+        $permission = auth()->user()->getPermission('all');
+        $camp_list = Camp::where('table', $camp->table)->get();
+        //dd($camp_list);
+        return view('backend.camp.orgList', compact('camp', 'orgs', 'camp_list'));
     }
 
     public function removeOrg(Request $request){

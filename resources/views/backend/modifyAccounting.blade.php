@@ -15,7 +15,7 @@
         <p>
             <h5>{{ $applicant->name }}({{ $applicant->gender }})</h5>
             梯次：{{ $applicant->batch->name }} <br>
-            報名序號：{{ $applicant->id }} <br>
+            報名序號：{{ $applicant->applicant_id }} <br>
             分區：{{ $applicant->region }} <br>
             錄取序號：{{ $applicant->group.$applicant->number }} <br>
             應繳金額：{{ $applicant->fee ?? 0 }} <br>
@@ -25,7 +25,7 @@
         @if(!$applicant->showCheckInInfo || $applicant->deposit > $applicant->fee)
             <form action="{{ route("modifyAccounting", $campFullData->id) }}" method="post" class="form-horizontal">
                 @csrf
-                <input type="hidden" name="id" value="{{ $applicant->id }}">
+                <input type="hidden" name="id" value="{{ $applicant->applicant_id }}">
                 確認報名序號或錄取序號：<input type="text" class="form-control" name="double_check" placeholder="輸入報名序號或錄取序號" required><br>
                 <input type="submit" class="btn btn-success" value="後台繳費 / 繳費金額調整">
             </form>

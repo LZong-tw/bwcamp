@@ -19,7 +19,7 @@
     @if(isset($applicants))
         <form action="{{ route("batchAdmission", $campFullData->id) }}" method="post">
             @csrf
-            <table class="table table-bordered"> 
+            <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th>報名序號</th>
@@ -31,7 +31,7 @@
                 </thead>
                 @foreach ($applicants as $applicant)
                     <tr>
-                        <td>{{ $applicant->id }}</td>
+                        <td>{{ $applicant->applicant_id }}</td>
                         <td>
                             {{ $applicant->name }}({{ $applicant->gender }})
                         </td>

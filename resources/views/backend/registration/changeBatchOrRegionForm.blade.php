@@ -14,7 +14,7 @@
         @endif
         <p>
             <h5>{{ $candidate->name }}({{ $candidate->gender }})</h5>
-            報名序號：{{ $candidate->id }} <br>
+            報名序號：{{ $candidate->applicant_id }} <br>
             區域：{{ $candidate->region }} <br>
             梯次：
             @foreach ($batches as $batch)
@@ -22,7 +22,7 @@
             @endforeach <br>
             <form target="_blank" action="{{ route("queryview", $candidate->batch_id) }}" method="post" class="d-inline">
                 @csrf
-                <input type="hidden" name="sn" value="{{ $candidate->id }}">
+                <input type="hidden" name="sn" value="{{ $candidate->applicant_id }}">
                 <input type="hidden" name="name" value="{{ $candidate->name }}">
                 <input type="hidden" name="isBackend" value="目前為後台檢視狀態。">
                 <button class="btn btn-info" style="margin-top: 10px">檢視報名資料</button>
@@ -30,7 +30,7 @@
         </p>
         <form action="{{ route("changeBatchOrRegion", $campFullData->id) }}" method="post" class="form-horizontal">
             @csrf
-            <input type="hidden" name="id" value="{{ $candidate->id }}">
+            <input type="hidden" name="id" value="{{ $candidate->applicant_id }}">
             梯次：
             <select class="form-control" name=batch size=1>
                 @foreach ($batches as $batch)

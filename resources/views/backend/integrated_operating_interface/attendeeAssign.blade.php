@@ -129,7 +129,7 @@
             </select>
             職務
         @else
-            @if(!$is_vcamp && $is_care)
+            @if(!$is_vcamp && $is_care && $is_ingroup)
                 將所選學員之關懷員設定為
                 <select required name='attendee_care' onChange=''>
                     <option value=''>- 請選擇 -</option>

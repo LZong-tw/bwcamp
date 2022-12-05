@@ -1,24 +1,46 @@
-<div>
+<div id="checkboxGroups">
     <!-- Very little is needed to make a happy life. - Marcus Aurelius -->
     <button class="btn btn-primary btn-sm" onclick="" value="all"> 所有學員 </button>
     &nbsp;&nbsp;
-    <input type="checkbox" name="no_group" onclick=""> 未分組
+    <input type="checkbox" name="no_group" onclick=""> 未分組 </input>
     &nbsp;&nbsp;
-    <input type="checkbox" name="group001" onclick=""> 第1組
-    &nbsp;&nbsp;
-    <input type="checkbox" name="group002" onclick=""> 第2組
-    &nbsp;&nbsp;
-    <input type="checkbox" name="group003" onclick=""> 第3組
-    &nbsp;&nbsp;
-    <input type="checkbox" name="group004" onclick=""> 第4組
-    &nbsp;&nbsp;
-    <input type="checkbox" name="group005" onclick=""> 第5組
-    &nbsp;&nbsp;
-    <input type="checkbox" name="group006" onclick=""> 第6組
-    &nbsp;&nbsp;
-    <input type="checkbox" name="group007" onclick=""> 第7組
-    &nbsp;&nbsp;
-    <input type="checkbox" name="group008" onclick=""> 第8組
-    &nbsp;&nbsp;
-    <button type="submit" class="btn btn-secondary btn-sm" onclick="">選定</button>
 </div>
+
+<script>
+     (function() {
+        axios({
+            method: 'get',
+            url: '/semi-api/getBatchGroups',
+            params: {
+                camp_id: {{ request()->route('camp_id') }},
+                batch_id: {{ request()->input('batch') ?? $batches->first()->id }},
+            },
+            responseType: 'json'
+        })
+        .then(function (response) {
+            if (Object.keys(response.data).length === 0) {
+                console.log(response.data);
+                {{-- 特殊處理 --}}
+            }
+            else {
+                let groups = Object.entries(response.data);
+                let div = document.getElementById('checkboxGroups');
+                for (let i = 0; i < groups.length; i++) {
+                    let input = document.createElement('input');
+                    input.type = 'checkbox';
+                    input.value = groups[i][1]['id'];
+                    let label = document.createElement('label');
+                    label.textContent = '\u00a0' + groups[i][1]['alias'] + '\u00a0\u00a0\u00a0';
+                    div.appendChild(input);
+                    div.appendChild(label);
+                }
+                let button = document.createElement('button');
+                button.type = 'submit';
+                button.className = 'btn btn-secondary btn-sm';
+                button.textContent = '選定';
+                div.appendChild(button);
+            }
+        });
+    })();
+
+</script>
