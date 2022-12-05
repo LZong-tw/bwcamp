@@ -115,7 +115,16 @@ class Applicant extends Model {
     }
 
     public function getBirthdateAttribute() {
-        return Carbon::parse("{$this->birthyear}-{$this->birthmonth}-{$this->birthday}");
+        return match ($this->birthyear && $this->birthmonth && $this->birthday) {
+            true => Carbon::parse("{$this->birthyear}-{$this->birthmonth}-{$this->birthday}"),
+            false => match ($this->birthyear && $this->birthmonth) {
+                true => Carbon::parse("{$this->birthyear}-{$this->birthmonth}"),
+                false => match ($this->birthyear) {
+                    true => Carbon::parse("{$this->birthyear}"),
+                    false => null,
+                },
+            },
+        };
     }
 
     public function getAgeAttribute() {
