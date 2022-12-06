@@ -32,10 +32,10 @@ class ApplicantService
      * @param 報名者 ID
      * @param 報名者組別
      * @param 報名者座號
-     * @return 一個報名者 model
+     * @return \App\Models\Applicant
      */
     public function fetchApplicantData($camp_id, $table, $idOrName = null, $group = null, $number = null) {
-        return Applicant::select('applicants.*', $table . '.*')
+        $applicant = Applicant::select('applicants.*', $table . '.*')
             ->join($table, 'applicants.id', '=', $table . '.applicant_id')
             ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
             ->join('camps', 'camps.id', '=', 'batchs.camp_id')
@@ -61,6 +61,8 @@ class ApplicantService
                 }
             })
             ->first();
+        $applicant->id = $applicant->applicant_id;
+        return $applicant;
     }
 
     public function checkIfPaidEarlyBird($applicant) {
