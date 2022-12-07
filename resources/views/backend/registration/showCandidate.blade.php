@@ -21,7 +21,7 @@
                 分區：{{ $candidate->region }} <br>
             @endif
             @if(isset($candidate->group) && isset($candidate->number))
-                錄取序號：{{ $candidate->group->alias.$candidate->number->number }} <br>
+                錄取序號：{{ $candidate->group.$candidate->number }} <br>
             @endif
             <form target="_blank" action="{{ route("queryview", $candidate->batch_id) }}" method="post" class="d-inline">
                 @csrf
