@@ -61,7 +61,9 @@ class ApplicantService
                 }
             })
             ->first();
-        $applicant->id = $applicant?->applicant_id ?? null;
+        if ($applicant) {
+            $applicant->id = $applicant->applicant_id;
+        }
         return $applicant;
     }
 
