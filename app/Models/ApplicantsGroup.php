@@ -11,4 +11,8 @@ class ApplicantsGroup extends Model
         'batch_id',
         'alias',
     ];
+
+    public function applicants() {
+        return $this->hasMany(Applicant::class, 'group_id', 'id');
+    }
 }

@@ -18,14 +18,14 @@
                     <table class="table table-bordered">
                         <thead><tr class="bg-primary text-white"><th colspan="2">{{ $region->region }}</th></tr></thead>
                         @php
-                            $count = 0;    
+                            $count = 0;
                         @endphp
-                        @foreach ($region->groups as $group)
+                        @foreach ($region->groups as $groupRepresentativeApplicant)
                             <tr>
-                                <td><a href="{{ route("showGroup", [$campFullData->id, $batch->id, $group->group]) }}" class="card-link">{{ $group->group }}</a></td>
-                                <td>{{ $group->count }}</td>
+                                <td><a href="{{ route("showGroup", [$campFullData->id, $batch->id, $groupRepresentativeApplicant->group->alias]) }}" class="card-link">{{ $groupRepresentativeApplicant->group->alias }}</a></td>
+                                <td>{{ $groupRepresentativeApplicant->groupApplicantsCount }}</td>
                                 @php
-                                    $count = $count + $group->count;
+                                    $count = $count + $groupRepresentativeApplicant->groupApplicantsCount;
                                 @endphp
                             </tr>
                         @endforeach

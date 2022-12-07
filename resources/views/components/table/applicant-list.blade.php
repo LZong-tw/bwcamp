@@ -42,8 +42,6 @@
                         <td>no photo</td>
                         @elseif($key == "gender")
                             <td>{{ $applicant->gender_zh_tw }}</td>
-                    @elseif($key == "group")
-                        <td>{{ $applicant->group?->alias ?? "--" }}</td>
                     @elseif(!$isVcamp && !$isCare && $key == "caring_logs")
                     @else
                         <td>{{ $applicant->$key ?? "-" }}</td>
