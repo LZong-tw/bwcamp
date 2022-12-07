@@ -2,9 +2,7 @@
 <template>
     <span>
         <div class="row form-group required">
-            <label for="inputFuzhi" class="col-md-2 control-label text-md-right"
-                >是否參加過福智的活動</label
-            >
+            <label for="inputFuzhi" class="col-md-2 control-label text-md-right">是否參加過福智的活動</label>
             <div class="col-md-10">
                 <div class="form-check form-check-inline">
                     <label class="form-check-label">

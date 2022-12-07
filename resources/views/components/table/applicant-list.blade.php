@@ -1,4 +1,4 @@
-<div>
+<div class="mt-2">
     <!-- Nothing worth having comes easy. - Theodore Roosevelt -->
     <table class="table table-bordered table-hover"
         data-toggle="table"

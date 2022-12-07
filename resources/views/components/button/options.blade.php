@@ -1,6 +1,6 @@
 <div>
     <!-- Always remember that you are absolutely unique. Just like everyone else. - Margaret Mead -->
-    <p align="right">
+    <p align="right" style="float: right;">
         <a href="{{ route("showAttendeePhoto", $campFullData->id) }}?download=1" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">匯出資料</a>
         @if($isIngroup)
             @if(!$isCareV)

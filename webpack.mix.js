@@ -44,11 +44,10 @@ mix.js("resources/js/app.js", "public/js")
                 },
             ],
         },
-        // Not working.
-        // plugins: [
-        //     new webpack.DefinePlugin({
-        //         __VUE_PROD_DEVTOOLS__: true,
-        //     }),
-        // ],
+        devServer: {
+            allowedHosts: [
+                'bw.camp',
+            ],
+        },
     })
     .disableNotifications();
