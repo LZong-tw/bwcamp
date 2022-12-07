@@ -12,16 +12,18 @@ class BatchSignInAvailibility extends Model
     //
     protected $table = "batch_sign_availibilities";
 
+    public $resourceNameInMandarin = '梯次簽到資料';
+
     protected $fillable = ["batch_id", "start", "end", "type"];
 
     public function batch() {
         return $this->belongsTo(Batch::class);
     }
-    
+
     public function camp() {
         return $this->batch()->camp();
     }
-    
+
     public function applicants() {
         return $this->hasManyThrough(Applicant::class, SignInSignOut::class, "availability_id", "id", "id", "applicant_id");
     }
@@ -33,7 +35,7 @@ class BatchSignInAvailibility extends Model
     public function signInfo() {
         return $this->type == "out";
     }
-    
+
     public function isSignableAt($datetime) {
         return $this->where([['start', '<=', $datetime], ['end', '>=', $datetime]])->first();
     }

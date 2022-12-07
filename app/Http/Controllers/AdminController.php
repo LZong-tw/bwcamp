@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Permission;
 use Illuminate\Http\Request;
 use App\Models\Camp;
 use App\Models\CampOrg;
 use App\Models\Batch;
 use App\Models\Role;
 use Carbon\Carbon;
+use Illuminate\Container\Container;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\File;
 
 class AdminController extends BackendController {
     public function userlist(){
@@ -225,7 +230,7 @@ class AdminController extends BackendController {
                         $j = $j+1;  //skip non-exist idx
                     }
                     $sec_tg = $field[$j];
-                    $newSet[$j][0]['camp_id'] = $camp_id; 
+                    $newSet[$j][0]['camp_id'] = $camp_id;
                     $newSet[$j][0]['section'] = $sec_tg;
                     $newSet[$j][0]['position'] = 'root';
                     $is_exist = false;  //init
@@ -250,9 +255,9 @@ class AdminController extends BackendController {
                         $j = $j+1;  //skip non-exist idx
                     }
                     $positions = count($field[$j]);
-                    for($k = 0; $k < $positions; $k++) {    
-                        $sec_tg = $newSet[$j][0]['section'];              
-                        $newSet[$j][$k+1]['camp_id'] = $camp_id; 
+                    for($k = 0; $k < $positions; $k++) {
+                        $sec_tg = $newSet[$j][0]['section'];
+                        $newSet[$j][$k+1]['camp_id'] = $camp_id;
                         $newSet[$j][$k+1]['section'] = $sec_tg;
                         $newSet[$j][$k+1]['position'] = $field[$j][$k];
                         $is_exist = false;
@@ -273,7 +278,7 @@ class AdminController extends BackendController {
         \Session::flash('message', " 組織新增成功。");
         return redirect()->route("showOrgs", $camp_id);
     }
-    
+
     public function showAddOrgs($camp_id, $org_id){
         $camp = Camp::find($camp_id);
         $orgs = $camp->organizations;
@@ -282,7 +287,7 @@ class AdminController extends BackendController {
             $sec_tg = "null";
         }
         else {
-            $org_tg = CampOrg::find($org_id);   
+            $org_tg = CampOrg::find($org_id);
             $sec_tg = $org_tg->section; //找到要新增的sec
         }
         return view('backend.camp.addOrgs', compact("camp", "orgs", "sec_tg"));
@@ -340,7 +345,8 @@ class AdminController extends BackendController {
         $permission = auth()->user()->getPermission('all');
         $camp_list = Camp::where('table', $camp->table)->get();
         //dd($camp_list);
-        return view('backend.camp.orgList', compact('camp', 'orgs', 'camp_list'));
+        $models = $this->backendService->getAvailableModels();
+        return view('backend.camp.orgList', compact('camp', 'orgs', 'camp_list', 'models'));
     }
 
     public function removeOrg(Request $request){

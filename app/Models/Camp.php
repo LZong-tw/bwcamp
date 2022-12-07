@@ -16,6 +16,8 @@ class Camp extends Model
         'fullName', 'test', 'abbreviation', 'site_url', 'icon', 'table', 'year', 'variant', 'mode', 'registration_start', 'registration_end', 'admission_announcing_date', 'admission_confirming_end','needed_to_reply_attend' , 'final_registration_end', 'payment_startdate', 'payment_deadline', 'fee', 'has_early_bird', 'early_bird_fee', 'early_bird_last_day', 'modifying_deadline', 'cancellation_deadline', 'access_start', 'access_end'
     ];
 
+    public $resourceNameInMandarin = '營隊管理';
+
     protected $guarded = [];
 
     /**
@@ -24,7 +26,7 @@ class Camp extends Model
      * @var array
      */
     protected $hidden = [
-        
+
     ];
 
     /**
@@ -55,12 +57,12 @@ class Camp extends Model
             $early_bird_last_day = Carbon::createFromFormat('Y-m-d', $this->early_bird_last_day);
             if($this->has_early_bird && Carbon::today()->lte($early_bird_last_day)){
                 return $this->early_bird_fee;
-            }        
+            }
             else{
                 return $this->fee;
             }
         }
-        // 或根本沒早鳥 
+        // 或根本沒早鳥
         return $this->fee;
     }
 
@@ -68,16 +70,16 @@ class Camp extends Model
     public function getSetPaymentDeadlineAttribute(){
         if($this->has_early_bird){
             $early_bird_last_day = Carbon::createFromFormat('Y-m-d', $this->early_bird_last_day);
-            if(Carbon::today()->lte($early_bird_last_day) && 
+            if(Carbon::today()->lte($early_bird_last_day) &&
                 ($this->attributes['table'] == 'tcamp' || $this->attributes['table'] == 'hcamp')){
                 return $early_bird_last_day->subYears(1911)->format('ymd');
             }
             else{
-                return $this->payment_deadline; 
+                return $this->payment_deadline;
             }
         }
         else{
-            return $this->payment_deadline; 
+            return $this->payment_deadline;
         }
     }
 

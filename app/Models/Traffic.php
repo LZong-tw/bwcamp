@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Traffic extends Model {
-    
+
     //
     protected $fillable = [
     ];
+
+    public $resourceNameInMandarin = '交通資料';
 
     protected $guarded = [];
 

@@ -7,6 +7,11 @@ use App\Http\Controllers\StatController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BackendController;
 use App\Http\Controllers\SignController as ArrayedSignController;
+use App\Http\Controllers\LaratrustController;
+use App\Http\Controllers\Auth\PermissionController;
+use App\Http\Controllers\Auth\RolesController;
+use App\Http\Controllers\Auth\LaratrustPermissionsController;
+use App\Http\Controllers\Auth\RolesAssignmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -125,6 +130,13 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
         Route::get("/volunteer", [BackendController::class, "showVolunteers"])->name("showVolunteers");
         Route::get("/carer", [BackendController::class, "showCarers"])->name("showCarers");
     });
+    Route::resource('/permissions', LaratrustPermissionsController::class, ['as' => 'laratrustCustom'])
+        ->only(['index', 'create', 'store', 'edit', 'update']);
+    Route::resource('/roles', RolesController::class, ['as' => 'laratrustCustom']);
+    Route::resource('/roles-assignment', RolesAssignmentController::class, ['as' => 'laratrustCustom'])
+        ->only(['index', 'edit', 'update']);
+    Route::group(["prefix" => "{batch_id}"], function () {
+    });
     Route::get("/", "BackendController@campIndex")->name("campIndex");
     Route::get("/logs", "\Rap2hpoutre\LaravelLogViewer\LogViewerController@index")->middleware("permitted")->name("logs");
     Route::get("/registration/admission", "BackendController@admission")->name("admissionGET");
@@ -180,8 +192,8 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
     Route::get("/writeMail", "BackendController@writeCustomMail")->name("writeMail");
     Route::post("/customMail/send", "BackendController@sendCustomMail")->name("sendMail");
     Route::get("/customMail/selectMailTarget", "BackendController@selectMailTarget")->name("selectMailTarget");
-    Route::get("/permissionScopes", "PermissionController@showPermissionScope")->name("permissionScopes");
-    Route::get("/roles", "PermissionController@showRoles")->name("roles");
+    Route::get("/permissionScopes", [PermissionController::class, "showPermissionScope"])->name("permissionScopes");
+//    Route::get("/roles", [PermissionController::class, "showRoles"])->name("roles");
     Route::resource("sign", SignBackendController::class)
             ->names([
                 "index" => "sign_back",

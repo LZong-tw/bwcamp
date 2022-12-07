@@ -13,6 +13,8 @@ class GroupNumber extends Model
         'number',
     ];
 
+    public $resourceNameInMandarin = '學員座號';
+
     public function group()
     {
         return $this->belongsTo(ApplicantsGroup::class);

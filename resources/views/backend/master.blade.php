@@ -206,12 +206,17 @@
                         <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">營隊資訊</a>
                         <ul class="collapse list-unstyled show" id="pageSubmenu">
                             <li>
-                                <a href="{{ route("roles", $campFullData->id) }}">職務表</a>
+{{--                                <a href="{{ route("roles", $campFullData->id) }}">職務表</a>--}}
                             </li>
                         </ul>
                         <ul class="collapse list-unstyled show" id="pageSubmenu">
                             <li>
-                                <a href="{{ route("permissionScopes", $campFullData->id) }}">職務適用範圍</a>
+{{--                                <a href="{{ route("permissionScopes", $campFullData->id) }}">職務適用範圍</a>--}}
+                            </li>
+                        </ul>
+                        <ul class="collapse list-unstyled show" id="pageSubmenu">
+                            <li>
+                                <a href="{{ route("laratrustCustom.roles-assignment.index", $campFullData->id) }}" target="_blank">職務設定</a>
                             </li>
                         </ul>
                     </li>

@@ -7,4 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class CarerApplicantXref extends Model
 {
     //
+    public $resourceNameInMandarin = '指派關懷員';
 }

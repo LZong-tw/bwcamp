@@ -10,6 +10,7 @@ use App\Models\ContactLog;
 use App\Models\GroupNumber;
 use App\User;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\File;
 
 class BackendService
 {
@@ -134,5 +135,22 @@ class BackendService
     public function getBatchGroups(Camp $camp): Collection | null
     {
         return $camp->batchs()->with('groups')->get() ?? null;
+    }
+
+    public function getAvailableModels()
+    {
+        $models = collect(File::allFiles(app_path('Models')))
+            ->map(function ($item) {
+                $path = $item->getRelativePathName();
+                $class = sprintf('\%s%s',
+                    'App\Models\\',
+                    strtr(substr($path, 0, strrpos($path, '.')), '/', '\\'));
+                $model = new $class;
+                return collect([
+                    'class' => $class,
+                    'name' => $model->resourceNameInMandarin
+                ]);
+            });
+        return $models;
     }
 }

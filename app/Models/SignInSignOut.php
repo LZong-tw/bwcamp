@@ -13,6 +13,8 @@ class SignInSignOut extends Model
     //
     protected $fillable = ["applicant_id", "availability_id"];
 
+    public $resourceNameInMandarin = '簽到簽退資料';
+
     protected $table = "sign_in_sign_out";
 
     public function applicant() {
