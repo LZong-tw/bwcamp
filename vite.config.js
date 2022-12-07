@@ -7,9 +7,16 @@ import requireTransform from 'vite-plugin-require-transform';
 export default defineConfig({
     plugins: [
         requireTransform({}),
-        laravel([
-            'resources/js/app.js',
-        ]),
+        laravel({
+            input: [
+                'resources/js/app.js'
+            ],
+            refresh: [
+                'app/**',
+                'routes/**',
+                'resources/**',
+            ],
+        }),
         vue({
             template: {
                 transformAssetUrls: {
