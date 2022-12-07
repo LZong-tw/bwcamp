@@ -13,6 +13,7 @@ class NewGroupNumberSeeder extends Seeder
     {
         ini_set('memory_limit', -1);
     }
+    
     public function run()
     {
         Applicant::where('group_legacy', '!=', null)->chunkById(5, function ($applicants) {
