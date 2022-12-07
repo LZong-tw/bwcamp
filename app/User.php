@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Facades\Config;
 use Laratrust\Traits\LaratrustUserTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -39,6 +40,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public $resourceNameInMandarin = '義工';
+
     public function getPermission($top = false, $camp_id = null, $function_id = null) {
         if(!$top){
             $hasRole = \App\Models\RoleUser::join('roles', 'roles.id', '=', 'role_user.role_id')->where('user_id', $this->id)->orderBy('level', 'asc')->get();
@@ -61,6 +64,16 @@ class User extends Authenticatable
     }
 
     public function role_relations(){
+        return $this->hasMany('App\Models\RoleUser');
+    }
+
+    /**
+     * Many-to-Many relations with Role.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function roles()
+    {
         return $this->hasMany('App\Models\RoleUser');
     }
 

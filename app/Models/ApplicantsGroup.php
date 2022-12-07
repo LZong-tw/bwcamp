@@ -12,6 +12,8 @@ class ApplicantsGroup extends Model
         'alias',
     ];
 
+    public $resourceNameInMandarin = '學員組別';
+
     public function applicants() {
         return $this->hasMany(Applicant::class, 'group_id', 'id');
     }

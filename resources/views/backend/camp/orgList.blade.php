@@ -16,7 +16,7 @@
     @endif
     <br>
 
-    
+
     <table class="table table-bordered">
         <tr>
             <th>ID</th>
@@ -74,7 +74,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-3">
-                <a href="{{ route("showAddOrgs", [$camp->id, 0]) }}" class="btn btn-success d-inline-block" style="margin-bottom: 10px">批次新增組織</a>    
+                <a href="{{ route("showAddOrgs", [$camp->id, 0]) }}" class="btn btn-success d-inline-block" style="margin-bottom: 10px">批次新增組織</a>
             </div>
             <div class="col-md-9">
             </div>
@@ -106,5 +106,4 @@
             </div>
         </div>
     </form>
-    <br>
 @endsection

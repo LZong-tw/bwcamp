@@ -8,6 +8,8 @@ class RoleUser extends Model
 {
     protected $table = 'role_user';
 
+    public $resourceNameInMandarin = '指派角色';
+
     public function role_data()
     {
         return $this->belongsTo(Role::class, 'role_id', 'id');

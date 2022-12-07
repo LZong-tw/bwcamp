@@ -8,7 +8,9 @@ class Ceocamp extends Model
 {
     //
     protected $table = 'ceocamp';
-    
+
+    public $resourceNameInMandarin = '菁英營特殊欄位';
+
     protected $fillable = [
         'applicant_id', 'unit', 'title', 'job_property', 'job_property_other',
         'employees', 'direct_managed_employees', 'capital', 'capital_unit', 'industry', 'industry_other',
