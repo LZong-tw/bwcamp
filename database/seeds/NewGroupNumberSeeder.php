@@ -11,7 +11,7 @@ class NewGroupNumberSeeder extends Seeder
 {
     public function __construct(public BackendService $backendService)
     {
-        memory_limit(-1);
+        ini_set('memory_limit', -1);
     }
     public function run()
     {
