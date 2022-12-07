@@ -5,6 +5,7 @@
 <script src="{{ asset('js/axios.min.js') }}"></script>
 <script defer src="{{ asset('bootstrap-table/bootstrap-table.min.js') }}"></script>
 <script defer src="{{ asset('bootstrap-table/locale/bootstrap-table-zh-TW.min.js') }}"></script>
+@vite(['resources/js/app.js'])
 <style>
     .card-link{
         color: #3F86FB!important;
@@ -51,9 +52,8 @@
         @endif
         <br>
     @endif
-    @if($isSetting ?? false)
-        <x-general.settings :isIngroup="$is_ingroup" :isVcamp="$is_vcamp" :isCare="$is_care" :$batches />
-    @endif
-    <x-table.applicant-list :columns="$columns_zhtw" :$applicants :isSetting="$isSetting" :isVcamp="$is_vcamp" :isCare="$is_care"/>
+    <x-general.settings :$is_vcamp :$is_care :$batches />
+    <x-general.search-component :columns="$columns_zhtw" />
+    <x-table.applicant-list :columns="$columns_zhtw" :$applicants :$is_vcamp :$is_care/>
 @endif
 @endsection
