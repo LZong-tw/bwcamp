@@ -134,7 +134,7 @@ class Applicant extends Model {
     protected function group(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->groupRelation()->first() ?? $this->group_legacy,
+            get: fn () => $this->groupRelation()->first()?->alias,
             set: fn ($value) => $value,
         );
     }
@@ -147,7 +147,7 @@ class Applicant extends Model {
     protected function number(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->numberRelation()->first() ?? $this->number_legacy,
+            get: fn () => $this->numberRelation()->first()?->number,
             set: fn ($value) => $value,
         );
     }
