@@ -213,8 +213,10 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <script type="module">
-        $('#inputEmail').bind("cut copy paste",function(e) {
-            e.preventDefault();
+        window.addEventListener("load", function() {
+            $('#inputEmail').bind("cut copy paste",function(e) {
+                e.preventDefault();
+            });
         });
     </script>
 
@@ -410,52 +412,54 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 </span>
 
     <script type="module">
-        $('[data-toggle="confirmation"]').confirmation({
-            rootSelector: '[data-toggle=confirmation]',
-            title: "敬請再次確認資料填寫無誤。",
-            btnOkLabel: "正確無誤，送出",
-            btnCancelLabel: "再檢查一下",
-            popout: true,
-            onConfirm: function() {
-                        let isValid = document.Camp.checkValidity();
-                        console.log(123);
-                        if(document.Camp.title) {
-                            if(document.Camp.title.value == '' && document.Camp.title.disabled) {
-                                document.Camp.title.classList.add("is-invalid");
-                                isValid = false;
+        window.addEventListener("load", function() {
+            $('[data-toggle="confirmation"]').confirmation({
+                rootSelector: '[data-toggle=confirmation]',
+                title: "敬請再次確認資料填寫無誤。",
+                btnOkLabel: "正確無誤，送出",
+                btnCancelLabel: "再檢查一下",
+                popout: true,
+                onConfirm: function() {
+                            let isValid = document.Camp.checkValidity();
+                            console.log(123);
+                            if(document.Camp.title) {
+                                if(document.Camp.title.value == '' && document.Camp.title.disabled) {
+                                    document.Camp.title.classList.add("is-invalid");
+                                    isValid = false;
+                                }
                             }
-                        }
 
-                        // let blisswisdom_type_complements = $('input').filter(function() {
-                        //                                         return this.name.match(/blisswisdom_type_complement\[\d\]/);
-                        //                                     });
-                        // if(blisswisdom_type_complements) {
-                        //     let totalFilled = 0;
-                        //     for (var i = 0; i < blisswisdom_type_complements.length; i++) {
-                        //         if(blisswisdom_type_complements[i].value) {
-                        //             totalFilled++;
-                        //         }
-                        //     }
-                        //     if(totalFilled == 0 && document.getElementById("complement_row").style.display != "none") {
-                        //         console.log(blisswisdom_type_complements);
-                        //         for (var i = 0; i < blisswisdom_type_complements.length; i++) {
-                        //             blisswisdom_type_complements[i].classList.add("is-invalid");
-                        //             console.log(blisswisdom_type_complements[i].value);
-                        //         }
-                        //         isValid = false;
-                        //     }
-                        // }
-                        if (isValid === false) {
-                            $(".tips").removeClass('d-none');
-                            event.preventDefault();
-                            event.stopPropagation();
+                            // let blisswisdom_type_complements = $('input').filter(function() {
+                            //                                         return this.name.match(/blisswisdom_type_complement\[\d\]/);
+                            //                                     });
+                            // if(blisswisdom_type_complements) {
+                            //     let totalFilled = 0;
+                            //     for (var i = 0; i < blisswisdom_type_complements.length; i++) {
+                            //         if(blisswisdom_type_complements[i].value) {
+                            //             totalFilled++;
+                            //         }
+                            //     }
+                            //     if(totalFilled == 0 && document.getElementById("complement_row").style.display != "none") {
+                            //         console.log(blisswisdom_type_complements);
+                            //         for (var i = 0; i < blisswisdom_type_complements.length; i++) {
+                            //             blisswisdom_type_complements[i].classList.add("is-invalid");
+                            //             console.log(blisswisdom_type_complements[i].value);
+                            //         }
+                            //         isValid = false;
+                            //     }
+                            // }
+                            if (isValid === false) {
+                                $(".tips").removeClass('d-none');
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            else{
+                                $(".tips").addClass('d-none');
+                                document.Camp.submit();
+                            }
+                            document.Camp.classList.add('was-validated');
                         }
-                        else{
-                            $(".tips").addClass('d-none');
-                            document.Camp.submit();
-                        }
-                        document.Camp.classList.add('was-validated');
-                    }
+            });
         });
         (function() {
             'use strict';
