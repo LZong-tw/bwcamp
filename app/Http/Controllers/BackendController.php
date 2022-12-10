@@ -634,6 +634,7 @@ class BackendController extends Controller {
                 ->where('batch_id', $batch->id)
                 ->where(function ($query) {
                     // 只檢查 0
+                    // todo: 需確認是否有營隊有「明確指定不錄取」才寄未錄取信的需求
                     $query->where('is_admitted', 0)->orWhereNull('is_admitted');
                 })
                 ->orderBy('applicants.id', 'asc')
