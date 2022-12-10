@@ -625,17 +625,20 @@ class BackendController extends Controller {
     }
 
     public function showNotAdmitted() {
-        $batches = Batch::where('camp_id', $this->camp_id)->get()->all();
-        collect($batches)->each(fn($batch) => $batch->applicants = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
-            ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
-            ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
-            ->where('batch_id', $batch->id)
-            ->where(function ($query) {
-                // 只檢查 0
-                $query->where('is_admitted', 0)->orWhereNull('is_admitted');
-            })
-            ->orderBy('applicants.id', 'asc')
-            ->get());
+        $batches = Batch::where('camp_id', $this->camp_id)->get();
+        $batches->each(
+            fn($batch) =>
+                $batch->applicants = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
+                ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
+                ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+                ->where('batch_id', $batch->id)
+                ->where(function ($query) {
+                    // 只檢查 0
+                    $query->where('is_admitted', 0)->orWhereNull('is_admitted');
+                })
+                ->orderBy('applicants.id', 'asc')
+                ->get()
+        );
         return view('backend.registration.notAdmitted')->with('batches', $batches);
     }
 
