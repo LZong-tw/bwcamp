@@ -388,6 +388,33 @@ class CampController extends Controller
                 ->where('name', $request->name)
                 ->withTrashed()->first();
         }
+        //for 2023大專教師營
+        if ($campTable == 'utcamp') {
+            if (strpos($applicant->group,'B') !== false) {
+                $applicant->xsession = '桃園場';
+                $applicant->xaddr = '桃園市中壢區成章四街120號';
+            } elseif (strpos($applicant->group,'C') !== false) {
+                $applicant->xsession = '新竹場';
+                $applicant->xaddr = '新竹縣新豐鄉新興路1號';
+            } elseif (strpos($this->applicant->group,'D') !== false) {
+                $applicant->xsession = '台中場';
+                $applicant->xaddr = '台中市西區民生路227號';
+            } elseif (strpos($this->applicant->group,'E') !== false) {
+                $applicant->xsession = '雲林場';
+                $applicant->xaddr = '雲林縣斗六市慶生路6號';
+            } elseif (strpos($this->applicant->group,'F') !== false) {
+                $applicant->xsession = '台南場';
+                $applicant->xaddr = '台南市東區大學路1號';
+            } elseif (strpos($this->applicant->group,'G') !== false) {
+                $applicant->xsession = '高雄場';
+                $applicant->xaddr = '高雄市新興區中正四路53號12樓之7';
+            } else {
+                $applicant->xsession = '台北場';
+                $applicant->xaddr = '台北市南京東路四段165號九樓 福智學堂';
+            }
+            //dd($applicant);
+        }
+
         if($applicant && $applicant->batch->camp->id == $camp->id) {
             $applicant = $this->applicantService->checkPaymentStatus($applicant);
             return view('camps.' . $campTable . ".admissionResult")->with('applicant', $applicant);
