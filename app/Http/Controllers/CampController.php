@@ -382,41 +382,42 @@ class CampController extends Controller
         $camp = $this->camp_data;
         $applicant = null;
         if($request->name != null && $request->sn != null) {
-            $applicant = Applicant::select('applicants.*', $campTable . '.*', 'applicants.id as applicant_id')
+            $applicant = Applicant::with('batch', 'camp')
+                ->select('applicants.*', $campTable . '.*', 'applicants.id as applicant_id')
                 ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
                 ->where('applicants.id', $request->sn)
                 ->where('name', $request->name)
                 ->withTrashed()->first();
         }
-        //for 2023大專教師營
-        if ($campTable == 'utcamp') {
-            if (strpos($applicant->group,'B') !== false) {
-                $applicant->xsession = '桃園場';
-                $applicant->xaddr = '桃園市中壢區成章四街120號';
-            } elseif (strpos($applicant->group,'C') !== false) {
-                $applicant->xsession = '新竹場';
-                $applicant->xaddr = '新竹縣新豐鄉新興路1號';
-            } elseif (strpos($applicant->group,'D') !== false) {
-                $applicant->xsession = '台中場';
-                $applicant->xaddr = '台中市西區民生路227號';
-            } elseif (strpos($applicant->group,'E') !== false) {
-                $applicant->xsession = '雲林場';
-                $applicant->xaddr = '雲林縣斗六市慶生路6號';
-            } elseif (strpos($applicant->group,'F') !== false) {
-                $applicant->xsession = '台南場';
-                $applicant->xaddr = '台南市東區大學路1號';
-            } elseif (strpos($applicant->group,'G') !== false) {
-                $applicant->xsession = '高雄場';
-                $applicant->xaddr = '高雄市新興區中正四路53號12樓之7';
-            } else {
-                $applicant->xsession = '台北場';
-                $applicant->xaddr = '台北市南京東路四段165號九樓 福智學堂';
-            }
-            //dd($applicant);
-        }
 
-        if($applicant && $applicant->batch->camp->id == $camp->id) {
+        if($applicant && $applicant->camp->id == $camp->id) {
             $applicant = $this->applicantService->checkPaymentStatus($applicant);
+            //for 2023大專教師營
+            if ($applicant->camp->table == 'utcamp') {
+                $group = $applicant->group;
+                if (str_contains($group, 'B')) {
+                    $applicant->xsession = '桃園場';
+                    $applicant->xaddr = '桃園市中壢區成章四街120號';
+                } elseif (str_contains($group, 'C')) {
+                    $applicant->xsession = '新竹場';
+                    $applicant->xaddr = '新竹縣新豐鄉新興路1號';
+                } elseif (str_contains($group, 'D')) {
+                    $applicant->xsession = '台中場';
+                    $applicant->xaddr = '台中市西區民生路227號';
+                } elseif (str_contains($group, 'E')) {
+                    $applicant->xsession = '雲林場';
+                    $applicant->xaddr = '雲林縣斗六市慶生路6號';
+                } elseif (str_contains($group, 'F')) {
+                    $applicant->xsession = '台南場';
+                    $applicant->xaddr = '台南市東區大學路1號';
+                } elseif (str_contains($group, 'G')) {
+                    $applicant->xsession = '高雄場';
+                    $applicant->xaddr = '高雄市新興區中正四路53號12樓之7';
+                } else {
+                    $applicant->xsession = '台北場';
+                    $applicant->xaddr = '台北市南京東路四段165號九樓 福智學堂';
+                }
+            }
             return view('camps.' . $campTable . ".admissionResult")->with('applicant', $applicant);
         }
         else{
