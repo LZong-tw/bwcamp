@@ -18,6 +18,8 @@ class SendAdmittedMail implements ShouldQueue, ShouldBeUnique
 
     protected $applicant;
 
+    protected $tries = 512;
+
     /**
      * Create a new job instance.
      *
@@ -79,7 +81,7 @@ class SendAdmittedMail implements ShouldQueue, ShouldBeUnique
             $paymentFile = \PDF::loadView('camps.' . $applicant->batch->camp->table . '.paymentFormPDF', compact('applicant'))->download();
             \Mail::to($applicant->email)->send(new \App\Mail\AdmittedMail($applicant, $applicant->batch->camp, $paymentFile));
         }
-        
+
     }
 
     /**
