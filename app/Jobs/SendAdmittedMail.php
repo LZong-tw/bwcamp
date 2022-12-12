@@ -18,7 +18,7 @@ class SendAdmittedMail implements ShouldQueue, ShouldBeUnique
 
     protected $applicant;
 
-    protected $tries = 512;
+    protected $tries = 255;
 
     /**
      * Create a new job instance.
@@ -62,6 +62,10 @@ class SendAdmittedMail implements ShouldQueue, ShouldBeUnique
      * @return array
      */
     public function middleware() {
+        if(!$this->applicant) {
+            \Sentry\captureException(new \Exception('SendAdmittedMail: Applicant not found'));
+            return [];
+        }
         return [new WithoutOverlapping($this->applicant->batch->camp->id)];
     }
 
