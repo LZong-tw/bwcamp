@@ -396,16 +396,16 @@ class CampController extends Controller
             } elseif (strpos($applicant->group,'C') !== false) {
                 $applicant->xsession = '新竹場';
                 $applicant->xaddr = '新竹縣新豐鄉新興路1號';
-            } elseif (strpos($this->applicant->group,'D') !== false) {
+            } elseif (strpos($applicant->group,'D') !== false) {
                 $applicant->xsession = '台中場';
                 $applicant->xaddr = '台中市西區民生路227號';
-            } elseif (strpos($this->applicant->group,'E') !== false) {
+            } elseif (strpos($applicant->group,'E') !== false) {
                 $applicant->xsession = '雲林場';
                 $applicant->xaddr = '雲林縣斗六市慶生路6號';
-            } elseif (strpos($this->applicant->group,'F') !== false) {
+            } elseif (strpos($applicant->group,'F') !== false) {
                 $applicant->xsession = '台南場';
                 $applicant->xaddr = '台南市東區大學路1號';
-            } elseif (strpos($this->applicant->group,'G') !== false) {
+            } elseif (strpos($applicant->group,'G') !== false) {
                 $applicant->xsession = '高雄場';
                 $applicant->xaddr = '高雄市新興區中正四路53號12樓之7';
             } else {
