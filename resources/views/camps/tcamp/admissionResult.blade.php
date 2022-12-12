@@ -37,7 +37,7 @@
                                         <td><h6>組別</h6></td>
                                     </tr>
                                     <tr>
-                                        <td>{{ $applicant->batch->name }}</td>
+                                        <td>{{ $applicant->region }}</td>
                                         <td>{{ $applicant->name }}</td>
                                         <td><u>{{ $applicant->group }}{{ $applicant->number }}</u></td>
                                         <td><u>{{ $applicant->group }}</u></td>
