@@ -17,8 +17,8 @@
     <tr>
         <td>報名序號：{{ $applicant->id }}</td>
         <td>姓名：{{ $applicant->name }}</td>
-        <td>錄取編號：<u>{{ $applicant->xgroup }}{{ $applicant->xnumber }}</u></td>
-        <td>組別：<u>{{ $applicant->xgroup }}</u></td>
+        <td>錄取編號：<u>{{ $applicant->group }}{{ $applicant->number }}</u></td>
+        <td>組別：<u>{{ $applicant->group }}</u></td>
     </tr>
 </table>
     歡迎您參加「2023第31屆教師生命成長營-大專教職員梯 {{ $applicant->xsession }}」，誠摯地期待與您共享這場心靈饗宴，希望您能獲得豐盛的收穫。請詳閱以下相關訊息，祝福您營隊收穫滿滿：<br>
