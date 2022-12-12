@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\PermissionController;
 use App\Http\Controllers\Auth\RolesController;
 use App\Http\Controllers\Auth\LaratrustPermissionsController;
 use App\Http\Controllers\Auth\RolesAssignmentController;
+use Studio\Totem\Totem;
 
 /*
 |--------------------------------------------------------------------------
@@ -129,6 +130,10 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
         Route::get("/learner", [BackendController::class, "showLearners"])->name("showLearners");
         Route::get("/volunteer", [BackendController::class, "showVolunteers"])->name("showVolunteers");
         Route::get("/carer", [BackendController::class, "showCarers"])->name("showCarers");
+    });
+    Totem::auth(function($request) {
+        // return true / false . For e.g.
+        return Auth::check();
     });
     Route::resource('/permissions', LaratrustPermissionsController::class, ['as' => 'laratrustCustom'])
         ->only(['index', 'create', 'store', 'edit', 'update']);
