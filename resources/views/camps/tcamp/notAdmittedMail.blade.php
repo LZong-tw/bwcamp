@@ -19,14 +19,6 @@
 @else
     <h2 class="center">2023第31屆教師生命成長營 報名結果通知單</h2>
 @endif
-<table width="100%" style="table-layout:fixed; border: 0;">
-    <tr>
-        @if(!$applicant->batch->camp->variant)
-            <td>場次：幼小中高場(1/26-27)</td>
-        @endif
-        <td>姓名：{{ $applicant->name }}</td>
-    </tr>
-</table>
 @if($applicant->batch->camp->variant == "utcamp")
     未錄取信測試
 @else
