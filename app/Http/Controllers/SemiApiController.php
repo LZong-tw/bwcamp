@@ -44,4 +44,28 @@ class SemiApiController extends Controller
         });
         return response()->json(true);
     }
+
+    public function getCampOrganizations(Request $request)
+    {
+        $campId = $request->input('camp_id');
+        $orgs = $this->backendService
+                    ->getCampOrganizations(Camp::findOrFail($campId));
+        $orgs = $orgs->filter(function ($org) {
+            return $org->position != 'root';
+        });
+        return response()->json($orgs);
+    }
+
+    public function getCampVolunteers(Request $request)
+    {
+        // todo: 臨時性，待更完整
+        $campId = $request->input('camp_id');
+        $camp = Camp::findOrFail($campId);
+        $theVcamp = Camp::with(['batchs', 'batchs.applicants'])
+                    ->where('table', 'like', '%vcamp%')
+                    ->where('table', 'like', '%' . str_replace('camp', '', $camp->table) . '%')
+                    ->where('year', $camp->year)
+                    ->first();
+        return response()->json($theVcamp);
+    }
 }

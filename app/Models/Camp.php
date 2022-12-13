@@ -43,6 +43,10 @@ class Camp extends Model
         return $this->hasMany('App\Models\Batch');
     }
 
+    public function applicants() {
+        return $this->hasManyThrough(Applicant::class, Batch::class);
+    }
+
     public function organizations() {
         return $this->hasMany(CampOrg::class);
     }
