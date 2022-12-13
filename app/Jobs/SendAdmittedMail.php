@@ -18,7 +18,7 @@ class SendAdmittedMail implements ShouldQueue, ShouldBeUnique
 
     protected $applicant;
 
-    protected $tries = 255;
+    protected $tries = 400;
 
     /**
      * Create a new job instance.
