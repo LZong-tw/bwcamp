@@ -153,4 +153,9 @@ class BackendService
             });
         return $models;
     }
+
+    public function getCampOrganizations(Camp $camp): Collection | null
+    {
+        return $camp->organizations ?? null;
+    }
 }
