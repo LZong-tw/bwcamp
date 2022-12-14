@@ -43,7 +43,7 @@ class RolesController extends BackendController
     public function index($camp_id)
     {
         return view('vendor.laratrust.panel.roles.index', [
-            'roles' => $this->rolesModel::withCount('permissions')
+            'roles' => $this->rolesModel::where('camp_id', $camp_id)->withCount('permissions')
                 ->simplePaginate(50),
         ]);
     }

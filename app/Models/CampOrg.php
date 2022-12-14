@@ -3,12 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Laratrust\Traits\LaratrustTeamTrait;
-//use Laratrust\Contracts\LaratrustTeamInterface;
+use Laratrust\Models\LaratrustRole;
+use Laratrust\Traits\LaratrustRoleTrait;
 
-class CampOrg extends Model //implements LaratrustTeamInterface
+class CampOrg extends LaratrustRole
 {
-//    use LaratrustTeamTrait;
+    use LaratrustRoleTrait;
 
     //
     protected $table = 'camp_org';
@@ -20,4 +20,9 @@ class CampOrg extends Model //implements LaratrustTeamInterface
     ];
 
     protected $guarded = [];
+
+    public function camp()
+    {
+        return $this->belongsTo(Camp::class);
+    }
 }

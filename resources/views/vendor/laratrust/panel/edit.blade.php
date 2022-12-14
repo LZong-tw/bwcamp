@@ -55,12 +55,21 @@
                             <select x-model="resource" name="resource" id="" class='form-select' required>
                                 <option value="">請選擇</option>
                                 @foreach($modelsAvailable as $key => $availableModel)
-                                    <option value="{{ $availableModel['class'] }}" >{{ $availableModel["name"] }}</option>
+                                    <option value="{{ $availableModel['class'] }}" @if($model?->resource == $availableModel['class']) selected @endif>{{ $availableModel["name"] }}</option>
                                 @endforeach
                             </select>
                         @else
                             資源不存在或發生錯誤，請洽營隊窗口
                         @endif
+                    </label>
+
+                    <label class="block my-4">
+                        <div class="text-gray-700">範圍</div>
+                        <input type="radio" name="range" id="" value="na" @if($model?->range == 'na' || !$model) checked @endif> 不指定
+                        <input type="radio" name="range" id="" value="person" @if($model?->range == 'person') checked @endif> 限個別學員
+                        <input type="radio" name="range" id="" value="learner_group" @if($model?->range == 'small_group') checked @endif> 限學員小組
+                        <input type="radio" name="range" id="" value="volunteer_large_group" @if($model?->range == 'large_group') checked @endif> 限義工大組
+                        <input type="radio" name="range" id="" value="all" @if($model?->range == 'all') checked @endif> 全部
                     </label>
 
                     <label class="block my-4">

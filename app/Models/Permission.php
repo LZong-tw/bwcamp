@@ -9,6 +9,6 @@ class Permission extends LaratrustPermission
 {
     use LaratrustPermissionTrait;
     public $guarded = [];
-    public $fillable = ['name', 'display_name', 'description'];
+    public $fillable = ['name', 'display_name', 'description', 'action', 'resource', 'range'];
     public $resourceNameInMandarin = '權限';
 }

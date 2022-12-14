@@ -62,6 +62,7 @@ class LaratrustPermissionsController extends BackendController
             'action'       => 'required|string',
             'display_name' => 'required|string',
             'description'  => 'nullable|string',
+            'range' => 'required|string',
         ]);
 
         $data['name'] = $data['resource'] . "." . $data['action'];
@@ -92,6 +93,9 @@ class LaratrustPermissionsController extends BackendController
         $data = $request->validate([
             'display_name' => 'nullable|string',
             'description' => 'nullable|string',
+            'resource' => 'required|string',
+            'action' => 'required|string',
+            'range' => 'required|string',
         ]);
 
         $permission->update($data);

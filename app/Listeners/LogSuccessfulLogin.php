@@ -33,13 +33,11 @@ class LogSuccessfulLogin
         foreach($event->user->getPermission('all') as $role){
             $levels .= $role->level . ", ";
             $camp_ids .= $role->camp_id . ", ";
-            $function_ids .= $role->function_id . ", ";
         }
         session(
             [
                 'levels' => $levels,
                 'camp_ids' => $camp_ids,
-                'function_ids' => $function_ids,
             ]
         );
     }
