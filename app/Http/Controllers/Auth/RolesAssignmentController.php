@@ -56,6 +56,9 @@ class RolesAssignmentController extends BackendController
             'modelKey' => $modelKey,
             'users' => $userModel::query()
                 ->withCount(['roles', 'permissions'])
+                ->whereHas('roles', function ($query) use ($camp_id) {
+                    $query->where('camp_id', $camp_id);
+                })
                 ->simplePaginate(50),
         ]);
     }

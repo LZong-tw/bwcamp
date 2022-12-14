@@ -20,6 +20,8 @@
               <th class="th">Id</th>
               <th class="th">系統名稱</th>
               <th class="th">顯示名稱</th>
+              <th class="th">可操作資源</th>
+              <th class="th">範圍</th>
               <th class="th">Description</th>
               <th class="th"></th>
             </tr>
@@ -36,6 +38,21 @@
               <td class="td text-sm leading-5 text-gray-900">
                 {{$permission->display_name}}
               </td>
+                <td class="td text-sm leading-5 text-gray-900">
+                    {{$permission->resource}}
+                </td>
+                <td class="td text-sm leading-5 text-gray-900">
+                    {{
+                        match ($permission->range) {
+                            'na' => '未指定',
+                            'person' => '限個別學員',
+                            'learner_group' => '限學員小組',
+                            'volunteer_large_group' => '限義工大組',
+                            'all' => '全部',
+                            default => '未知',
+                        }
+                    }}
+                </td>
               <td class="td text-sm leading-5 text-gray-900">
                 {{$permission->description}}
               </td>

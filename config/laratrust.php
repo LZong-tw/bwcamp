@@ -73,7 +73,7 @@ return [
     |
     */
     'user_models' => [
-        'users' => \App\User::class,
+        'users' => \App\Models\User::class,
     ],
 
     /*
@@ -88,7 +88,7 @@ return [
     */
     'models' => [
 
-        'role' => \App\Models\Role::class,
+        'role' => \App\Models\CampOrg::class,
 
         'permission' => \App\Models\Permission::class,
 
@@ -107,8 +107,7 @@ return [
     |
     */
     'tables' => [
-
-        'roles' => 'roles',
+        'roles' => 'camp_org',
 
         'permissions' => 'permissions',
 
@@ -117,11 +116,11 @@ return [
          */
         'teams' => 'teams',
 
-        'role_user' => 'role_user',
+        'role_user' => 'org_user',
 
         'permission_user' => 'permission_user',
 
-        'permission_role' => 'permission_role',
+        'permission_role' => 'org_permission',
     ],
 
     /*
@@ -141,7 +140,7 @@ return [
         /**
          * Role foreign key on Laratrust's role_user and permission_role tables.
          */
-        'role' => 'role_id',
+        'role' => 'org_id',
 
         /**
          * Role foreign key on Laratrust's permission_user and permission_role tables.
@@ -213,7 +212,7 @@ return [
         | Please check the docs to see what you need to do in case you have the package already configured.
         |
         */
-        'enabled' => true,
+        'enabled' => false,
 
         /*
         |--------------------------------------------------------------------------

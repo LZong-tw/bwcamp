@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RoleUser extends Model
+class OrgUser extends Model
 {
-    protected $table = 'role_user';
+    protected $table = 'org_user';
 
-    public $resourceNameInMandarin = '-廢棄-';
+    public $resourceNameInMandarin = '指派職務';
 
     public function role_data()
     {

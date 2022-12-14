@@ -35,7 +35,7 @@
                 <td>{{ $role->id }}</td>
                 <td>{{ $role->name }}</td>
                 <td>{{ $role->level }}</td>
-                <td><a href="{{ route("campIndex", $role->camp_id ?? "") }}" class="card-link" target="_blank">{{ $role->camp->abbreviation ?? "" }}</a></td>
+                <td><a href="{{ route("campIndex", $role->camp_id ?? "") }}" class="card-link" target="_blank">{{ \App\Models\Camp::find($role->camp_id)->abbreviation ?? "" }}</a></td>
                 <td>{{ $role->region }}</td>
                 <td>
                     @if($role->level > 1)

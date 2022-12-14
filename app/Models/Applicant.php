@@ -23,7 +23,7 @@ class Applicant extends Model {
         'portrait_agree', 'profile_agree', 'expectation', 'tax_id_no'
     ];
 
-    public $resourceNameInMandarin = '一般學員 / 一般義工資料';
+    public $resourceNameInMandarin = '一般學員資料';
 
     protected $guarded = [];
 
