@@ -1,8 +1,8 @@
 <div id="checkboxGroups">
     <!-- Very little is needed to make a happy life. - Marcus Aurelius -->
-    <button class="btn btn-primary btn-sm" onclick="" value="all"> 所有學員 </button>
+    <button class="btn btn-primary btn-sm" onclick="check_all('groupsname')" value="all"> 所有學員 </button>
     &nbsp;&nbsp;
-    <input type="checkbox" name="no_group" onclick=""> 未分組 </input>
+    <input type="checkbox" name="groupsname" onclick="" value="-1"> 未分組 </input>
     &nbsp;&nbsp;
 </div>
 
@@ -28,6 +28,7 @@
                 for (let i = 0; i < groups.length; i++) {
                     let input = document.createElement('input');
                     input.type = 'checkbox';
+                    input.name = 'groupsname';
                     input.value = groups[i][1]['id'];
                     let label = document.createElement('label');
                     label.textContent = '\u00a0' + groups[i][1]['alias'] + '\u00a0\u00a0\u00a0';
@@ -43,4 +44,10 @@
         });
     })();
 
+    function check_all(cname) {
+        let checkboxes = document.getElementsByName(cname);
+        for (let i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = true;
+        }
+    }
 </script>

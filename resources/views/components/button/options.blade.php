@@ -1,7 +1,7 @@
 <div>
     <!-- Always remember that you are absolutely unique. Just like everyone else. - Margaret Mead -->
     <p align="right" style="float: right;">
-        <a href="{{ route("showAttendeePhoto", $campFullData->id) }}?download=1" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">匯出資料</a>
+        <a href="{{ route("showLearners", $campFullData->id) }}?download=1" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">匯出資料</a>
         @if($isIngroup)
             @if(!$isCareV)
                 &nbsp;&nbsp;
@@ -9,7 +9,7 @@
             @endif
         @elseif(!$isVcamp)
             &nbsp;&nbsp;
-            <a href="{{ route("showAttendeePhoto", $campFullData->id) }}?download=1" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">新增學員</a>
+            <a href="{{ route("showLearners", $campFullData->id) }}?download=1" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">新增學員</a>
             @if($isCare)
                 &nbsp;&nbsp;
                 <a href="?isSetting=1" class="btn btn-danger mb-3">設定組別</a>
