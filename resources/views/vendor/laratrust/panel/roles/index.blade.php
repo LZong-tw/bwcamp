@@ -16,7 +16,7 @@
           <thead>
             <tr>
               <th class="th">Id</th>
-              <th class="th">顯示名稱</th>
+              <th class="th">職務名稱</th>
               <th class="th">系統名稱</th>
               <th class="th"># 權限</th>
               <th class="th"></th>
