@@ -39,7 +39,7 @@
                 @if($type === 'role')
                     <label class="block mt-4">
                         <span class="text-gray-700">職務名稱</span>
-                        {{ $model->section . ' ' . $model->position }}
+                        <div class="mt-1 block w-full">{{ $model->display_name ?? $model->section . ' ' . $model->position }}</div>
                     </label>
                 @endif
 
