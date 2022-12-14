@@ -1147,6 +1147,175 @@ class BackendController extends Controller {
             $isSetting = 0;
         }
 
+        if(isset($request->download)) {
+            if($applicants){
+                // 參加者報到日期
+                $checkInDates = CheckIn::select('check_in_date')->whereIn('applicant_id', $applicants->pluck('sn'))->groupBy('check_in_date')->get();
+                if($checkInDates){
+                    $checkInDates = $checkInDates->toArray();
+                }
+                else{
+                    $checkInDates = array();
+                }
+                $checkInDates = \Arr::flatten($checkInDates);
+                foreach($checkInDates as $key => $checkInDate){
+                    unset($checkInDates[$key]);
+                    $checkInDates[(string)$checkInDate] = $checkInDate;
+                }
+                // 各梯次報到日期填充
+                $batches = Batch::whereIn('id', $applicants->pluck('batch_id'))->get();
+                foreach($batches as $batch){
+                    $date = Carbon::createFromFormat('Y-m-d', $batch->batch_start);
+                    $endDate = Carbon::createFromFormat('Y-m-d', $batch->batch_end);
+                    while(1){
+                        if($date > $endDate){
+                            break;
+                        }
+                        $str = $date->format('Y-m-d');
+                        if(!in_array($str, $checkInDates)){
+                            $checkInDates = array_merge($checkInDates, [$str => $str]);
+                        }
+                        $date->addDay();
+                    }
+                }
+                // 按陣列鍵值升冪排列
+                ksort($checkInDates);
+                $checkInData = array();
+                // 將每人每日的報到資料按報到日期組合成一個陣列
+                foreach($checkInDates as $checkInDate => $v) {
+                    $checkInData[(string)$checkInDate] = array();
+                    $rawCheckInData = CheckIn::select('applicant_id')->where('check_in_date', $checkInDate)->whereIn('applicant_id', $applicants->pluck('sn'))->get();
+                    if($rawCheckInData){
+                        $checkInData[(string)$checkInDate] = $rawCheckInData->pluck('applicant_id')->toArray();
+                    }
+                }
+
+                // 簽到退時間
+                $signAvailabilities = $this->campFullData->allSignAvailabilities;
+                $signData = [];
+                $signDateTimesCols = [];
+
+                if($signAvailabilities){
+                    foreach($signAvailabilities as $signAvailability){
+                        $signData[$signAvailability->id] = [
+                            'type'       => $signAvailability->type,
+                            'date'       => substr($signAvailability->start, 5, 5),
+                            'start'      => substr($signAvailability->start, 11, 5),
+                            'end'        => substr($signAvailability->end, 11, 5),
+                            'applicants' => $signAvailability->applicants->pluck('id')
+                        ];
+                        $str = $signAvailability->type == "in" ? "簽到時間：" : "簽退時間：";
+                        $signDateTimesCols["SIGN_" . $signAvailability->id] = $str . substr($signAvailability->start, 5, 5) . " " . substr($signAvailability->start, 11, 5) . " ~ " . substr($signAvailability->end, 11, 5);
+                    }
+                }
+                else{
+                    $signData = array();
+                }
+            }
+
+            $fileName = $this->campFullData->abbreviation . Carbon::now()->format('YmdHis') . '.csv';
+            $headers = array(
+                "Content-Encoding"    => "Big5",
+                "Content-type"        => "text/csv; charset=big5",
+                "Content-Disposition" => "attachment; filename=$fileName",
+                "Pragma"              => "no-cache",
+                "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+                "Expires"             => "0"
+            );
+
+            $callback = function() use($applicants, $checkInDates, $checkInData, $signData, $signDateTimesCols) {
+                $file = fopen('php://output', 'w');
+                // 先寫入此三個字元使 Excel 能正確辨認編碼為 UTF-8
+                // http://jeiworld.blogspot.com/2009/09/phpexcelutf-8csv.html
+                fwrite($file, "\xEF\xBB\xBF");
+                if((!isset($signData) || count($signData) == 0)) {
+                    if(!isset($checkInDates)) {
+                        $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table));
+                    }
+                    else {
+                        $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $checkInDates);
+                    }
+                }
+                else {
+                    if(!isset($checkInDates)) {
+                        $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $signDateTimesCols);
+                    }
+                    else {
+                        $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $checkInDates, $signDateTimesCols);
+                    }
+                }
+                // 2022 一般教師營需要
+                if($this->campFullData->table == "tcamp" && !$this->campFullData->variant) {
+                    $pos = 44;
+                    $columns = array_merge(array_slice($columns, 0, $pos), ["lamrim" => "廣論班"], array_slice($columns, $pos));
+                }
+                // 移除義工的 工作資訊和其他資訊 欄位標題
+                if(strpos($this->campFullData->table, "vcamp")) {
+                    unset($columns["group_priority1"]);
+                    unset($columns["group_priority2"]);
+                    unset($columns["group_priority3"]);
+                    unset($columns["employees"]);
+                    unset($columns["direct_managed_employees"]);
+                    unset($columns["profile_agree"]);
+                    unset($columns["portrait_agree"]);
+                } else {
+                }
+                fputcsv($file, $columns);
+
+                foreach ($applicants as $applicant) {
+                    $rows = array();
+                    foreach($columns as $key => $v){
+                        // 移除義工的 工作資訊和其他資訊 欄位內容
+                        if(strpos($this->campFullData->table, "vcamp")) {
+                            if($key == "group_priority1" || $key == "group_priority2" || $key == "group_priority3" || $key == "employees" || $key == "direct_managed_employees" || $key == "profile_agree" || $key == "portrait_agree") {
+                                continue;
+                            }
+                        } else {
+                        }
+                        // 2022 一般教師營需要
+                        if($v == "廣論班" && $this->campFullData->table == "tcamp" && !$this->campFullData->variant) {
+                            $lamrim = \explode("||/", $applicant->blisswisdom_type_complement)[0];
+                            if(!$lamrim || $lamrim == ""){
+                                array_push($rows, '="無"');
+                            }
+                            else{
+                                array_push($rows, '="' . $lamrim . '"');
+                            }
+                            continue;
+                        }
+                        // 使用正規表示式抓出日期欄
+                        if(preg_match('/\d\d\d\d-\d\d-\d\d/', $key)){
+                            if(isset($checkInData)){
+                                // 填充報到資料
+                                if(in_array($applicant->sn, $checkInData[$key])){
+                                    array_push($rows, '="⭕"');
+                                }
+                                else{
+                                    array_push($rows, '="➖"');
+                                }
+                            }
+                        }
+                        elseif(str_contains($key, "SIGN_")){
+                            // 填充簽到資料
+                            if($signData[substr($key, 5)]['applicants']->contains($applicant->sn)){
+                                array_push($rows, '="✔️"');
+                            }
+                            else{
+                                array_push($rows, '="❌"');
+                            }
+                        }
+                        else{
+                            array_push($rows, '="' . $applicant[$key] . '"');
+                        }
+                    }
+                    fputcsv($file, $rows);
+                }
+
+                fclose($file);
+            };
+            return response()->stream($callback, 200, $headers);
+        }
+
         $columns_zhtw = config('camps_fields.display.' . $this->campFullData->table);
 
         return view('backend.integrated_operating_interface.theList')
@@ -1158,6 +1327,94 @@ class BackendController extends Controller {
                 ->with('is_careV', 0)
                 ->with('is_ingroup', 0)
                 ->with('groupName', '')
+                ->with('columns_zhtw', $columns_zhtw)
+                ->with('fullName', $this->campFullData->fullName);
+    }
+
+    public function showVolunteers(Request $request) {
+        ini_set('max_execution_time', -1);
+        ini_set("memory_limit", -1);
+        $batches = Batch::where("camp_id", $this->campFullData->id)->get();
+        $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
+                        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+                        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+                        ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
+                        ->where('camps.id', $this->campFullData->id)->withTrashed();
+        $applicants = $query->get();
+        if (auth()->user()->getPermission(false)->role->level <= 2) {
+        }
+        else if(auth()->user()->getPermission(true, $this->campFullData->id)->level > 2){
+            $constraint = auth()->user()->getPermission(true, $this->campFullData->id)->region;
+            $batch = Batch::where('camp_id', $this->campFullData->id)->where('name', 'like', '%' . $constraint . '%')->first();
+            $applicants = $applicants->filter(function ($applicant) use ($constraint, $batch) {
+                if($batch){
+                    return $applicant->region == $constraint || $applicant->batch_id == $batch->id;
+                }
+                return $applicant->region == $constraint;
+            });
+        }
+        if($request->isSetting==1) {
+            $isSetting = 1;
+        }
+        else {
+            $isSetting = 0;
+        }
+
+        $columns_zhtw = config('camps_fields.display.' . $this->campFullData->table);
+
+        return view('backend.integrated_operating_interface.theList')
+                ->with('applicants', $applicants)
+                ->with('batches', $batches)
+                ->with('is_vcamp', strpos($this->campFullData->table, 'vcamp'))
+                ->with('isSetting', $isSetting)
+                ->with('is_care', 1)
+                ->with('is_careV', 0)
+                ->with('is_ingroup', 0)
+                ->with('groupName', '')
+                ->with('columns_zhtw', $columns_zhtw)
+                ->with('fullName', $this->campFullData->fullName);
+    }
+
+    public function showCarers(Request $request) {
+        ini_set('max_execution_time', -1);
+        ini_set("memory_limit", -1);
+        $batches = Batch::where("camp_id", $this->campFullData->id)->get();
+        $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
+                        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+                        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+                        ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
+                        ->where('camps.id', $this->campFullData->id)->withTrashed();
+        $applicants = $query->get();
+        if (auth()->user()->getPermission(false)->role->level <= 2) {
+        }
+        else if(auth()->user()->getPermission(true, $this->campFullData->id)->level > 2){
+            $constraint = auth()->user()->getPermission(true, $this->campFullData->id)->region;
+            $batch = Batch::where('camp_id', $this->campFullData->id)->where('name', 'like', '%' . $constraint . '%')->first();
+            $applicants = $applicants->filter(function ($applicant) use ($constraint, $batch) {
+                if($batch){
+                    return $applicant->region == $constraint || $applicant->batch_id == $batch->id;
+                }
+                return $applicant->region == $constraint;
+            });
+        }
+        if($request->isSetting==1) {
+            $isSetting = 1;
+        }
+        else {
+            $isSetting = 0;
+        }
+
+        $columns_zhtw = config('camps_fields.display.' . $this->campFullData->table);
+
+        return view('backend.integrated_operating_interface.theList')
+                ->with('applicants', $applicants)
+                ->with('batches', $batches)
+                ->with('is_vcamp', strpos($this->campFullData->table, 'vcamp'))
+                ->with('isSetting', $isSetting)
+                ->with('is_care', 1)
+                ->with('is_careV', 1)
+                ->with('is_ingroup', 1)
+                ->with('groupName', '第1組')
                 ->with('columns_zhtw', $columns_zhtw)
                 ->with('fullName', $this->campFullData->fullName);
     }
