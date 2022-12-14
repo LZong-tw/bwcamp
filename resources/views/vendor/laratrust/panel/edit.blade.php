@@ -36,19 +36,26 @@
                     @enderror
                 </label>
 
-                <label class="block my-4">
-                    <span class="text-gray-700">顯示名稱</span>
-                    <input
-                        class="form-input mt-1 block w-full"
-                        name="display_name"
-                        placeholder="權限名稱"
-                        x-model="displayName"
-                        autocomplete="on"
-                        required
-                    >
-                </label>
+                @if($type === 'role')
+                    <label class="block mt-4">
+                        <span class="text-gray-700">職務名稱</span>
+                        {{ $model->section . ' ' . $model->position }}
+                    </label>
+                @endif
 
                 @if($type == 'permission')
+                    <label class="block my-4">
+                        <span class="text-gray-700">顯示名稱</span>
+                        <input
+                            class="form-input mt-1 block w-full"
+                            name="display_name"
+                            placeholder="顯示名稱"
+                            x-model="displayName"
+                            autocomplete="on"
+                            required
+                        >
+                    </label>
+
                     <label class="block my-4">
                         <div class="text-gray-700">可操作資源</div>
                         @if($modelsAvailable ?? false)
