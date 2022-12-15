@@ -1367,7 +1367,7 @@ class BackendController extends Controller {
                 ->with('batches', $batches)
                 ->with('is_vcamp', strpos($this->campFullData->table, 'vcamp'))
                 ->with('isSetting', $isSetting)
-                ->with('is_care', 1)
+                ->with('is_care', 0)
                 ->with('is_careV', 0)
                 ->with('is_ingroup', 0)
                 ->with('groupName', '')
