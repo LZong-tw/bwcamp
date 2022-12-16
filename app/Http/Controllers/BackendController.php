@@ -683,6 +683,7 @@ class BackendController extends Controller {
         }
         $applicants = $applicants->sortBy([
                                     ['groupRelation.alias', 'asc'],
+                                    ['numberRelation.number', 'asc'],
                                     ['is_paid', 'desc']
                                 ]);
         if(isset($request->download)){
