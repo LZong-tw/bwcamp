@@ -280,7 +280,7 @@ class AdminController extends BackendController {
     }
 
     public function showAddOrgs($camp_id, $org_id){
-        $orgs = $this->backendService->getCampOrganizations(Camp::findOrFail($camp_id));
+        $orgs = $this->backendService->getCampOrganizations($this->camp_data);
         $orgs = $orgs->sortByDesc('section');
         if ($org_id == 0) {
             $sec_tg = "null";
@@ -289,7 +289,7 @@ class AdminController extends BackendController {
             $org_tg = CampOrg::find($org_id);
             $sec_tg = $org_tg->section; //找到要新增的sec
         }
-        return view('backend.camp.addOrgs', compact("camp", "orgs", "sec_tg"));
+        return view('backend.camp.addOrgs', compact("orgs", "sec_tg"))->with('camp', $this->camp_data);
     }
 
     public function copyOrgs(Request $request, $camp_id){
