@@ -15,6 +15,7 @@ class CampOrg extends LaratrustRole
 
     public $resourceNameInMandarin = '營隊組織';
 
+    // todo: 要再加上梯次和地區
     protected $fillable = [
         'camp_id', 'section', 'position', 'description'
     ];
