@@ -610,11 +610,16 @@ class BackendController extends Controller {
         foreach($batches as &$batch){
             $batch->regions = Applicant::select('region')->where('batch_id', $batch->id)->where('is_admitted', 1)->whereNotNull('group_id')->whereNotNull('number_id')->groupBy('region')->get();
             foreach($batch->regions as &$region){
-                $region->groups = Applicant::select('group_id', \DB::raw('count(*) as groupApplicantsCount'))->where('batch_id', $batch->id)->where('region', $region->region)->where('is_admitted', 1)->where(function($query){
-                    if($this->has_attend_data){
-                        $query->where('is_attend', 1);
-                    }
-                })->whereNotNull('group_id')->whereNotNull('number_id')->groupBy('group_id')->get();
+                $region->groups = Applicant::select('group_id', \DB::raw('count(*) as groupApplicantsCount'))
+                    ->where('batch_id', $batch->id)
+                    ->where('region', $region->region)
+                    ->where('is_admitted', 1)
+                    ->where(function($query){
+                        if($this->has_attend_data){
+                            $query->where('is_attend', 1);
+                        }
+                    })->whereNotNull('group_id')->whereNotNull('number_id')
+                    ->groupBy('group_id')->get();
                 $region->groups->each(function (&$applicant) {
                     $applicant->group = $applicant->group;
                 });
@@ -647,22 +652,22 @@ class BackendController extends Controller {
         $batch_id = $request->route()->parameter('batch_id');
         $group = $request->route()->parameter('group');
         $applicants = Applicant::with('groupRelation', 'numberRelation')
-            ->whereHas('groupRelation', function($query) use ($group){
-                $query->where('alias', $group);
-            })
-            ->whereHas('numberRelation', function($query){
-                $query->whereNotNull('number');
-            })
-            ->select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
-            ->join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')
-            ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
-            ->where('batch_id', $batch_id)
-            ->where(function($query) use ($request){
-                if($this->has_attend_data && !$request->showAttend){
-                    $query->where('is_attend', 1);
-                }
-            })
-            ->get();
+                        ->whereHas('groupRelation', function($query) use ($group){
+                            $query->where('alias', $group);
+                        })
+                        ->whereHas('numberRelation', function($query){
+                            $query->whereNotNull('number');
+                        })
+                        ->select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
+                        ->join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')
+                        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+                        ->where('batch_id', $batch_id)
+                        ->where(function($query) use ($request){
+                            if($this->has_attend_data && !$request->showAttend){
+                                $query->where('is_attend', 1);
+                            }
+                        })
+                        ->get();
         foreach($applicants as $applicant){
             if($applicant->fee > 0){
                 if($applicant->fee - $applicant->deposit <= 0){
@@ -676,7 +681,10 @@ class BackendController extends Controller {
                 $applicant->is_paid = "無費用";
             }
         }
-        $applicants = $applicants->sortByDesc('is_paid');
+        $applicants = $applicants->sortBy([
+                                    ['groupRelation.alias', 'asc'],
+                                    ['is_paid', 'desc']
+                                ]);
         if(isset($request->download)){
             $fileName = $this->campFullData->abbreviation . $group . "組名單" . Carbon::now()->format('YmdHis') . '.csv';
             $headers = array(
@@ -697,7 +705,7 @@ class BackendController extends Controller {
                 fwrite($file, "\xEF\xBB\xBF");
                 if($template){
                     if($this->campFullData->table == 'tcamp'){
-                        $columns = ["name" => "姓名", "idno" => "身分證字號", "unit_county" => "服務單位所在縣市", "unit" => "服務單位", "workshop_credit_type" => "研習時數類型"];
+                        $columns = ["錄取序號" => "admitted_no", "name" => "姓名", "idno" => "身分證字號", "unit_county" => "服務單位所在縣市", "unit" => "服務單位", "workshop_credit_type" => "研習時數類型"];
                     }
                 }
                 else{
@@ -708,6 +716,12 @@ class BackendController extends Controller {
                 foreach ($applicants as $applicant) {
                     $rows = array();
                     foreach($columns as $key => $v){
+                        if($key == "錄取序號"){
+                            $rows[] = $applicant->group . $applicant->number;
+                        }
+                        else{
+                            $rows[] = $applicant->$v;
+                        }
                         array_push($rows, '="' . $applicant[$key] . '"');
                     }
                     fputcsv($file, $rows);
