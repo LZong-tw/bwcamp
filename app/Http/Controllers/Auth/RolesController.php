@@ -72,7 +72,10 @@ class RolesController extends BackendController
         $data = $request->validate([
             'name' => 'required|string|unique:roles,name',
             'display_name' => 'nullable|string',
-            'description' => 'nullable|string',
+            'description'  => 'nullable|string',
+            'resource'     => 'required|string',
+            'range'        => 'required|string',
+            'action'       => 'required|string',
         ]);
 
         $role = $this->rolesModel::create($data);
@@ -121,7 +124,10 @@ class RolesController extends BackendController
 
         $data = $request->validate([
             'display_name' => 'nullable|string',
-            'description' => 'nullable|string',
+            'description'  => 'nullable|string',
+            'resource'     => 'required|string',
+            'range'        => 'required|string',
+            'action'       => 'required|string',
         ]);
 
         $role->update($data);
