@@ -16,7 +16,7 @@ class CampOrg extends LaratrustRole
     public $resourceNameInMandarin = '營隊組織';
 
     protected $fillable = [
-        'camp_id', 'section', 'position'
+        'camp_id', 'section', 'position', 'description'
     ];
 
     protected $guarded = [];
