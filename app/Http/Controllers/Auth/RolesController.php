@@ -73,6 +73,7 @@ class RolesController extends BackendController
             'name' => 'required|string|unique:roles,name',
             'display_name' => 'nullable|string',
             'description' => 'nullable|string',
+            'permissions' => 'nullable|array',
         ]);
 
         $role = $this->rolesModel::create($data);
@@ -122,6 +123,7 @@ class RolesController extends BackendController
         $data = $request->validate([
             'display_name' => 'nullable|string',
             'description' => 'nullable|string',
+            'permissions' => 'nullable|array',
         ]);
 
         $role->update($data);
