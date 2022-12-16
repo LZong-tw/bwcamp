@@ -74,8 +74,8 @@
                         <div class="text-gray-700">範圍</div>
                         <input type="radio" name="range" id="" value="na" @if($model?->range == 'na' || !$model) checked @endif> 不指定
                         <input type="radio" name="range" id="" value="person" @if($model?->range == 'person') checked @endif> 限個別學員
-                        <input type="radio" name="range" id="" value="learner_group" @if($model?->range == 'small_group') checked @endif> 限學員小組
-                        <input type="radio" name="range" id="" value="volunteer_large_group" @if($model?->range == 'large_group') checked @endif> 限義工大組
+                        <input type="radio" name="range" id="" value="learner_group" @if($model?->range == 'learner_group') checked @endif> 限學員小組
+                        <input type="radio" name="range" id="" value="volunteer_large_group" @if($model?->range == 'volunteer_large_group') checked @endif> 限義工大組
                         <input type="radio" name="range" id="" value="all" @if($model?->range == 'all') checked @endif> 全部
                     </label>
 
