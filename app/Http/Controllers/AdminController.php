@@ -289,7 +289,7 @@ class AdminController extends BackendController {
             $org_tg = CampOrg::find($org_id);
             $sec_tg = $org_tg->section; //找到要新增的sec
         }
-        return view('backend.camp.addOrgs', compact("orgs", "sec_tg"))->with('camp', $this->camp_data);
+        return view('backend.camp.addOrgs', compact("orgs", "sec_tg"))->with('camp', $this->campFullData);
     }
 
     public function copyOrgs(Request $request, $camp_id){
