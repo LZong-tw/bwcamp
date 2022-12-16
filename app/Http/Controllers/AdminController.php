@@ -280,7 +280,7 @@ class AdminController extends BackendController {
     }
 
     public function showAddOrgs($camp_id, $org_id){
-        $orgs = $this->backendService->getCampOrganizations($this->camp_data);
+        $orgs = $this->backendService->getCampOrganizations($this->campFullData);
         $orgs = $orgs->sortByDesc('section');
         if ($org_id == 0) {
             $sec_tg = "null";
