@@ -717,13 +717,14 @@ class BackendController extends Controller {
                 foreach ($applicants as $applicant) {
                     $rows = array();
                     foreach($columns as $key => $v){
+                        $data = null;
                         if($key == "admitted_no"){
-                            $rows[] = $applicant->group . $applicant->number;
+                            $data = $applicant->group . $applicant->number;
                         }
                         else{
-                            $rows[] = $applicant->$v;
+                            $data = $applicant->$key;
                         }
-                        array_push($rows, '="' . $applicant[$key] . '"');
+                        array_push($rows, '="' . $data . '"');
                     }
                     fputcsv($file, $rows);
                 }
