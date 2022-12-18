@@ -724,7 +724,7 @@ class BackendController extends Controller {
                         else{
                             $data = $applicant->$key;
                         }
-                        array_push($rows, '="' . $data . '"');
+                        $rows[] = '="' . $data . '"';
                     }
                     fputcsv($file, $rows);
                 }
