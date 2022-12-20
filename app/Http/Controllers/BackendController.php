@@ -1568,6 +1568,18 @@ class BackendController extends Controller {
         return view("backend.other.mailSent", ['message' => '已成功將自定郵件送入任務佇列。']);
     }
 
+    public function editRemark(Request $request, $camp_id){
+        $formData = $request->toArray();
+        $applicant_id = $formData['applicant_id'];
+        $applicant = Applicant::find($applicant_id);
+        $applicant->remark=$formData['remark'];
+        //dd($applicant_id);
+        $applicant = Applicant::find($applicant_id);
+        $applicant->update($formData);
+        \Session::flash('message', "備註修改成功。");
+        return back();
+    }
+
     public function addContactLog(Request $request, $camp_id){
         $formData = $request->toArray();
         $applicant_id = $formData['applicant_id'];

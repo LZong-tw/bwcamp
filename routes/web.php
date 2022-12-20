@@ -164,7 +164,8 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
 
     Route::get("/inCamp/queryAttendee", "BackendController@queryAttendee")->name("queryAttendee");
     Route::post("/inCamp/attendeeInfo", "BackendController@showAttendeeInfo")->name("showAttendeeInfo");
-
+    //Remark
+    Route::post("/remark/edit", [BackendController::class, "editRemark"])->name("editRemark");
     //Contact Log
     Route::post("/contactLog/add", [BackendController::class, "addContactLog"])->name("addContactLog");
     Route::get("/contactLog/{applicant_id}/add", [BackendController::class, "showAddContactLogs"])->name("showAddContactLogs");

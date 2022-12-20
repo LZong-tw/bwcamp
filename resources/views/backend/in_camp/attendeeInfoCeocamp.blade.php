@@ -103,6 +103,15 @@
                     {{ $event }}<br>
                 @endforeach
                 @endif
+                <a href="#" class="btn btn-info" onclick="">備註</a><br>
+                <form action="{{ route('editRemark', $camp->id) }}" method="POST">
+                    @csrf
+                    <br>
+                    <textarea class=form-control rows=5 required name='remark' id="remark" readonly onclick='enableEditRemark()'>{{ $applicant->remark }}</textarea>
+                    <br>
+                    <input type="hidden" name="applicant_id" value="{{ $applicant->applicant_id }}">
+                    <input type="submit" class="btn btn-primary float-right" name="editremark" id="editremark" value="確認編輯" disabled>
+                </form>
             </div>
             <div class="col-md-8">
                 <a href="#" class="btn btn-info" onclick="">關懷記錄</a><br>
@@ -128,4 +137,11 @@
         </div>
     </div>
 @endif
+<script>
+        function enableEditRemark(){
+            document.getElementById("remark").readOnly=false;
+            document.getElementById("editremark").disabled=false;
+        }
+</script>
+
 @endsection
