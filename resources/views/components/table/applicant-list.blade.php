@@ -23,7 +23,7 @@
                 @foreach ($columns as $key => $item)
                     @if(!$isVcamp && !$isCare && $key == "caring_logs")
                     @else
-                        <th data-field="{{ $key }}" data-sortable="{{ $item['sort'] }}">{{ $item['name'] }}</th>
+                        <th class="text-center" data-field="{{ $key }}" data-sortable="{{ $item['sort'] }}">{{ $item['name'] }}</th>
                     @endif
                 @endforeach
             </tr>
@@ -40,9 +40,24 @@
                         <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($applicant->avatar)) }}" width=80 alt="{{ $applicant->name }}"></td>
                     @elseif($key == "avatar" && !$applicant->avatar)
                         <td>no photo</td>
-                        @elseif($key == "gender")
-                            <td>{{ $applicant->gender_zh_tw }}</td>
+                    @elseif($key == "gender")
+                        <td>{{ $applicant->gender_zh_tw }}</td>
                     @elseif(!$isVcamp && !$isCare && $key == "caring_logs")
+                    @elseif($key == "reasons_recommend")
+                        <td>
+                            {{ Str::limit($applicant->$key, 100,'...') ?? "-" }}
+                        </td>
+                    @elseif(!$isSetting && $key == "caring_logs")
+                        <td>
+                            {{ Str::limit($applicant->$key, 100,'...') ?? "-" }}
+                            <div>
+                                <a href="{{ route('addContactLog', $campFullData->id) }}">⊕新增關懷紀錄</a>
+                                @if($applicant->$key)
+                                    &nbsp;&nbsp;
+                                    <a href="{{ route('showContactLogs', [$campFullData->id, $applicant->id]) }}">🔍看更多</a>
+                                @endif
+                            </div>
+                        </td>
                     @else
                         <td>{{ $applicant->$key ?? "-" }}</td>
                     @endif
