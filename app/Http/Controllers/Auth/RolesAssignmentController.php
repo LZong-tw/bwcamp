@@ -77,7 +77,7 @@ class RolesAssignmentController extends BackendController
             ->with(['roles', 'permissions:id,name'])
             ->findOrFail($modelId);
 
-        $roles = $this->rolesModel::orderBy('id')->get(['id', 'name', 'display_name'])
+        $roles = $this->rolesModel::orderBy('id')->get(['id', 'section', 'position', 'display_name'])
             ->map(function ($role) use ($user) {
                 $role->assigned = $user->roles
                 ->pluck('role_id')
