@@ -28,7 +28,7 @@
                 @endforeach
             </tr>
         </thead>
-        @forelse ($applicants as $applicant)
+        @forelse ($applicants as &$applicant)
             <tr>
                 @if($isSetting ?? false)
                     <td class="text-center">
@@ -36,6 +36,9 @@
                     </td>
                 @endif
                 @foreach ($columns as $key => $item)
+                    @php
+                        $applicant->age = $applicant->age;
+                    @endphp
                     @if($key == "avatar" && $applicant->avatar)
                         <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($applicant->avatar)) }}" width=80 alt="{{ $applicant->name }}"></td>
                     @elseif($key == "name")
@@ -74,9 +77,9 @@
 </div>
 
 <script>
+    window.applicant_ids = [];
     window.columns = @json($columns);
     window.theData = @json($applicants);
-    window.applicant_ids = [];
     (function() {
     })();
 
