@@ -868,8 +868,6 @@ class BackendController extends Controller {
                                                 $this->campFullData->id,
                                                 $this->campFullData->table,
                                                 $request->snORadmittedSN,
-                                                $group,
-                                                $number
                                             );
         if($applicant){
             $applicant = $this->applicantService->Mandarization($applicant);
