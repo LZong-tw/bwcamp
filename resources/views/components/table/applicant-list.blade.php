@@ -70,6 +70,8 @@
 </div>
 
 <script>
+    window.columns = @json($columns);
+    window.theData = @json($applicants);
     window.applicant_ids = [];
     (function() {
     })();
