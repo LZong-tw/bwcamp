@@ -9,6 +9,13 @@
         color: #33B2FF!important;
     }
 </style>
+@if($errors->any())
+    @foreach ($errors->all() as $message)
+        <div class='alert alert-danger' role='alert'>
+            {{ $message }}
+        </div>
+    @endforeach
+@endif
 @if(isset($applicant))
     <h4>學員關懷系統</h4>
     <h5>{{ $camp->fullName }}>>個人詳細資料>>{{ $applicant->name }}</h5>
