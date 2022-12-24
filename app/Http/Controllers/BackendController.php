@@ -267,10 +267,10 @@ class BackendController extends Controller {
 
     public function showRegistration() {
         $user_batch_or_region = null;
-        if($this->campFullData->table == 'ecamp' && auth()->user()->getPermission('all')->first()->level > 2){
-            $user_batch_or_region = Batch::where('camp_id', $this->campFullData->id)->where('name', 'like', '%' . auth()->user()->getPermission(true, $this->campFullData->id)->region . '%')->first();
-            $user_batch_or_region = $user_batch_or_region ?? "empty";
-        }
+//        if($this->campFullData->table == 'ecamp' && auth()->user()->getPermission('all')->first()->level > 2){
+//            $user_batch_or_region = Batch::where('camp_id', $this->campFullData->id)->where('name', 'like', '%' . auth()->user()->getPermission(true, $this->campFullData->id)->region . '%')->first();
+//            $user_batch_or_region = $user_batch_or_region ?? "empty";
+//        }
         return view('backend.registration.registration', compact('user_batch_or_region'));
     }
 
