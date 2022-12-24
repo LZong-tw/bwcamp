@@ -53,12 +53,12 @@
                         </td>
                     @elseif(!$isSetting && $key == "contactlog")
                         <td>
-                            {{ Str::limit($applicant->contactlog, 100,'...') ?? "-" }}
+                            {{ Str::limit($applicant->contactlog?->sortByDesc('id')->first(), 50,'...') ?? "-" }}
                             <div>
                                 <a href="{{ route('showAttendeeInfoGET', $campFullData->id) }}?snORadmittedSN={{ $applicant->applicant_id }}#new" target="_blank">⊕新增關懷紀錄</a>
                                 @if($applicant->contactlog)
                                     &nbsp;&nbsp;
-                                    <a href="{{ route('showContactLogs', [$campFullData->id, $applicant->id]) }}">🔍看更多</a>
+                                    <a href="{{ route('showContactLogs', [$campFullData->id, $applicant->id]) }}" target="_blank">🔍看更多</a>
                                 @endif
                             </div>
                         </td>
