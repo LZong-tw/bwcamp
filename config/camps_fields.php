@@ -377,54 +377,67 @@ return [
             "group" => [
                 "name" => "組別",
                 "sort" => 1,
+                "for_query" => 1,
             ],
             "name" => [
                 "name" => "姓名",
                 "sort" => 0,
+                "for_query" => 1,
             ],
             "gender" => [
                 "name" => "性別",
                 "sort" => 1,
+                "for_query" => 1,
             ],
             "age" => [
                 "name" => "年齡",
                 "sort" => 1,
+                "for_query" => 1,
             ],
             "industry" => [
                 "name" => "產業別",
                 "sort" => 1,
+                "for_query" => 1,
             ],
             "unit" => [
                 "name" => "公司名稱",
                 "sort" => 0,
+                "for_query" => 0,
             ],
             "title" => [
                 "name" => "職稱",
                 "sort" => 0,
+                "for_query" => 0,
             ],
             "introducer_name" => [
                 "name" => "推薦人",
                 "sort" => 0,
+                "for_query" => 1,
             ],
             "carer" => [
                 "name" => "關懷員",
                 "sort" => 1,
+                "for_query" => 0,
             ],
             "willing_to_attend" => [
                 "name" => "參加意願",
                 "sort" => 1,
+                "for_query" => 0,
             ],
             "attending_form" => [
                 "name" => "參加形式",
                 "sort" => 1,
+                "for_query" => 1,
             ],
             "reasons_recommend" => [
                 "name" => "推薦理由",
                 "sort" => 0,
+                "for_query" => 0,
             ],
             "contactlog" => [
                 "name" => "關懷紀錄",
                 "sort" => 0,
+                "for_query" => 0,
             ],
         ],
 
@@ -432,133 +445,170 @@ return [
             "group" => [
                 "name" => "組別",
                 "sort" => 1,
+                "for_query" => 1,
             ],
             "job" => [
                 "name" => "職務",
                 "sort" => 1,
+                "for_query" => 1,
             ],
             "avatar" => [
                 "name" => "照片",
                 "sort" => 0,
+                "for_query" => 1,
             ],
             "name" => [
                 "name" => "姓名",
                 "sort" => 0,
+                "for_query" => 1,
             ],
             "gender" => [
                 "name" => "性別",
                 "sort" => 1,
+                "for_query" => 1,
             ],
             "age" => [
                 "name" => "年齡",
                 "sort" => 1,
+                "for_query" => 1,
             ],
             "lrclass" => [
                 "name" => "班別",
                 "sort" => 1,
+                "for_query" => 1,
             ],
             "industry" => [
                 "name" => "產業別",
                 "sort" => 1,
+                "for_query" => 1,
             ],
             "unit" => [
                 "name" => "公司名稱",
                 "sort" => 0,
+                "for_query" => 1,
             ],
             "title" => [
                 "name" => "職稱",
                 "sort" => 0,
+                "for_query" => 1,
             ],
             "volunteer_experiences" => [
                 "name" => "義工護持記錄",
                 "sort" => 0,
+                "for_query" => 1,
             ],
             "cadre_experiences" => [
                 "name" => "班級護持記錄",
                 "sort" => 0,
+                "for_query" => 1,
             ],
             "expertise" => [
                 "name" => "專長",
                 "sort" => 0,
+                "for_query" => 1,
             ],
             "transport" => [
                 "name" => "交通方式",
                 "sort" => 0,
+                "for_query" => 1,
             ],
             "mobile" => [
                 "name" => "手機號碼",
                 "sort" => 0,
+                "for_query" => 1,
             ],
         ],
 
         'ecamp' => [
+            "id" => [
+                "name" => "報名序號",
+                "sort" => 1,
+                "for_query" => 0,
+            ],
             "group" => [
                 "name" => "組別",
                 "sort" => 1,
+                "for_query" => 1,
             ],
             "region" => [
                 "name" => "區域",
                 "sort" => 1,
+                "for_query" => 1,
             ],
             "name" => [
                 "name" => "姓名",
                 "sort" => 0,
+                "for_query" => 1,
             ],
             "gender" => [
                 "name" => "生理性別",
                 "sort" => 1,
+                "for_query" => 0,
             ],
             //            "age" => [
             //                "name" => "年齡",
             //                "sort" => 1,
+            //                "for_query" => 0,
             //            ],
             "birthdate" => [
                 "name" => "出生年月日",
                 "sort" => 1,
+                "for_query" => 0,
             ],
             "unit" => [
                 "name" => "服務單位",
                 "sort" => 1,
+                "for_query" => 1,
             ],
             "unit_location" => [
                 "name" => "服務單位所在地",
                 "sort" => 1,
+                "for_query" => 1,
             ],
             "title" => [
                 "name" => "職稱",
                 "sort" => 0,
+                "for_query" => 1,
             ],
             "industry" => [
                 "name" => "產業別",
                 "sort" => 1,
+                "for_query" => 1,
             ],
             "mobile" => [
                 "name" => "手機",
                 "sort" => 0,
+                "for_query" => 0,
             ],
             "email" => [
                 "name" => "Email",
                 "sort" => 1,
+                "for_query" => 0,
             ],
             "zipcode" => [
                 "name" => "郵遞區號",
                 "sort" => 1,
+                "for_query" => 1,
             ],
             "address" => [
                 "name" => "地址",
                 "sort" => 1,
+                "for_query" => 1,
             ],
             "introducer_name" => [
                 "name" => "介紹人",
                 "sort" => 1,
+                "for_query" => 1,
             ],
             "after_camp_available_day" => [
                 "name" => "後續課程時間",
                 "sort" => 1,
+                "for_query" => 1,
             ],
             "contactlog" => [
                 "name" => "關懷紀錄",
                 "sort" => 0,
+                "for_query" => 0,
             ],
         ],
     ]
