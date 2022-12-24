@@ -51,12 +51,12 @@
                         <td>
                             {{ Str::limit($applicant->$key, 100,'...') ?? "-" }}
                         </td>
-                    @elseif(!$isSetting && $key == "caring_logs")
+                    @elseif(!$isSetting && $key == "contactlog")
                         <td>
-                            {{ Str::limit($applicant->$key, 100,'...') ?? "-" }}
+                            {{ Str::limit($applicant->contactlog, 100,'...') ?? "-" }}
                             <div>
                                 <a href="{{ route('showAttendeeInfoGET', $campFullData->id) }}?snORadmittedSN={{ $applicant->applicant_id }}#new" target="_blank">⊕新增關懷紀錄</a>
-                                @if($applicant->$key)
+                                @if($applicant->contactlog)
                                     &nbsp;&nbsp;
                                     <a href="{{ route('showContactLogs', [$campFullData->id, $applicant->id]) }}">🔍看更多</a>
                                 @endif
