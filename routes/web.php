@@ -127,6 +127,7 @@ Route::group(["prefix" => "backend/campManage"], function(){
 Route::group(["prefix" => "backend/{camp_id}", ], function () {
     Route::group(["prefix" => "IOI"], function () {
         Route::get("/learner", [BackendController::class, "showLearners"])->name("showLearners");
+        Route::post("/learner", [BackendController::class, "showLearners"])->name("showLearnersPOST");
         Route::get("/volunteer", [BackendController::class, "showVolunteers"])->name("showVolunteers");
         Route::get("/carer", [BackendController::class, "showCarers"])->name("showCarers");
     });

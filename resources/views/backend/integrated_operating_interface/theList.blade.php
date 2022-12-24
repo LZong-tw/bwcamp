@@ -54,8 +54,8 @@
     @endif
     @if($isSetting ?? false)
         <x-general.settings :isIngroup="$is_ingroup" :isVcamp="$isShowVolunteers" :isCare="$is_care" :$batches />
+        <x-general.search-component :columns="$columns_zhtw" />
     @endif
-    <x-general.search-component :columns="$columns_zhtw" />
     <x-table.applicant-list :columns="$columns_zhtw" :$applicants :is_vcamp="$isShowVolunteers" :$is_care :$isSetting/>
 @endif
 @endsection
