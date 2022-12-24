@@ -1,4 +1,5 @@
 <div class="mt-2">
+    @if ($queryStr ?? false) 查詢條件：{{ $queryStr }} @endif
     <!-- Nothing worth having comes easy. - Theodore Roosevelt -->
     <table class="table table-bordered table-hover"
         data-toggle="table"
@@ -55,12 +56,12 @@
                         <td>
                             {{ Str::limit($applicant->$key, 100,'...') ?? "-" }}
                         </td>
-                    @elseif(!$isSetting && $key == "contactlog")
+                    @elseif($key == "contactlog")
                         <td>
                             {{ Str::limit($applicant->contactlog?->sortByDesc('id')->first()?->notes, 50,'...') ?? "-" }}
                             <div>
                                 <a href="{{ route('showAttendeeInfoGET', $campFullData->id) }}?snORadmittedSN={{ $applicant->id }}#new" target="_blank">⊕新增關懷紀錄</a>
-                                @if(count($applicant->contactlog))
+                                @if(count($applicant->contactlog) && !$isSetting)
                                     &nbsp;&nbsp;
                                     <a href="{{ route('showContactLogs', [$campFullData->id, $applicant->id]) }}" target="_blank">🔍看更多</a>
                                 @endif
@@ -79,6 +80,7 @@
 
 <script>
     window.applicant_ids = [];
+    window.csrf_token = "{{ csrf_token() }}";
     window.columns = @json($columns);
     window.theData = @json($applicants);
     (function() {

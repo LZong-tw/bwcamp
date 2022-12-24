@@ -1,5 +1,6 @@
 <template>
-    <form action="" method="post">
+    <form method="post">
+        <input type="hidden" name="_token" :value="csrf_token">
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
@@ -29,7 +30,7 @@
             </tr>
         </table>
         <div class="input-group mt-2">
-            <button type="submit" class="btn btn-success ml-3">送出</button>
+            <button type="submit" class="btn btn-success ml-3" @click="submitForm">送出</button>
         </div>
     </form>
 </template>
@@ -43,6 +44,7 @@ export default {
             columns: window.columns,
             theData: window.theData,
             originalData: window.theData,
+            csrf_token: window.csrf_token,
             orFields: [],
             andFields: [],
         };
@@ -67,6 +69,7 @@ export default {
         },
         toggleData(id) {
             this.columns[id].show = !this.columns[id].show;
+            this.toggleColumns(id);
             if (this.columns[id].show) {
                 let table = document.createElement("table");
                 this.theData.forEach((item, key) => {
@@ -74,27 +77,14 @@ export default {
                         return;
                     }
                     if (item[id]) {
-                        // if (key == 0) {
-                        //     let tr_1 = document.createElement("tr");
-                        //     let td_1 = document.createElement("td");
-                        //     let text = document.createElement("input");
-                        //     text.setAttribute("type", "text");
-                        //     text.setAttribute("placeholder", "搜尋");
-                        //     text.setAttribute("class", "form-control");
-                        //     text.setAttribute("id", "search" + id);
-                        //     text.setAttribute("onkeyup", "window.vueComponent.filterSearch(" + id + ")");
-                        //     text.setAttribute("value", window.vueComponent.$data.search[id]);
-                        //     td_1.appendChild(text);
-                        //     tr_1.appendChild(td_1);
-                        //     table.appendChild(tr_1);
-                        // }
                         let tr = document.createElement("tr");
                         tr.setAttribute("id", "tr" + id + "key" + key);
                         let td = document.createElement("td");
                         let checkbox = document.createElement("input");
-                        checkbox.type = "checkbox";
-                        checkbox.name = "value[" + id +"][" + key + "]";
-                        checkbox.onclick = window.vueComponent.toggleCheckbox(id, key);
+                        checkbox.setAttribute("onclick", 'window.vueComponent.toggleCheckbox(this)');
+                        checkbox.setAttribute("type", "checkbox");
+                        checkbox.setAttribute("name", id + "[]");
+                        checkbox.setAttribute("value", item[id]);
                         td.appendChild(checkbox);
                         td.innerHTML += item[id];
                         tr.appendChild(td);
@@ -110,8 +100,54 @@ export default {
                 $("#searchField" + id).addClass("d-none");
             }
         },
-        toggleCheckbox(id, key) {
-            // this.
+        toggleCheckbox(ele) {
+            // let nameSplit = ele.name.split(".");
+            // nameSplit.pop();
+            // if (ele.checked) {
+            //     let val = [];
+            //     val[nameSplit] = ele.value;
+            //     this.orFields.push(val);
+            // } else {
+            //     this.orFields = this.orFields.filter((item, key) => {
+            //         return item[nameSplit][key] != ele.value;
+            //     });
+            // }
+            // console.table(this.orFields);
+        },
+        toggleColumns(ele) {
+            // let nameSplit = ele.name.split(".");
+            // nameSplit.pop();
+            // if (ele.checked) {
+            //     let val = [];
+            //     val[nameSplit] = ele.value;
+            //     this.andFields.push(val);
+            // } else {
+            //     this.andFields = this.andFields.filter((item, key) => {
+            //         return item[nameSplit][key] != ele.value;
+            //     });
+            // }
+            // console.table(this.andFields);
+        },
+        submitForm() {
+            let data = {
+                orFields: this.orFields,
+                // andFields: this.andFields,
+            };
+            const form = document.createElement('form');
+            form.method = "POST";
+            form.action = '/learner';
+            const csrf = document.createElement('input');
+            csrf.type = 'hidden';
+            csrf.name = "_token";
+            csrf.value = window.csrf_token;
+            form.appendChild(csrf);
+            const hiddenField = document.createElement('input');
+            hiddenField.type = 'hidden';
+            hiddenField.name = "orFields";
+            hiddenField.value = this.orFields;
+            form.appendChild(hiddenField);
+            document.body.appendChild(form);
+            form.submit();
         }
     },
     mounted() {
