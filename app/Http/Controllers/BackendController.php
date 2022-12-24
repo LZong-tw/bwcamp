@@ -1380,7 +1380,7 @@ class BackendController extends Controller {
             $isSetting = 0;
         }
 
-        $columns_zhtw = config('camps_fields.display.' . $this->campFullData->table);
+        $columns_zhtw = config('camps_fields.display.ceovcamp');
 
         return view('backend.integrated_operating_interface.theList')
                 ->with('applicants', $applicants)
