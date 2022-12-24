@@ -394,25 +394,9 @@ return [
                 "name" => "產業別",
                 "sort" => 1,
             ],
-            "unit" => [
-                "name" => "公司名稱",
-                "sort" => 0,
-            ],
-            "title" => [
-                "name" => "職稱",
-                "sort" => 0,
-            ],
             "introducer_name" => [
                 "name" => "推薦人",
                 "sort" => 0,
-            ],
-            "carer" => [
-                "name" => "關懷員",
-                "sort" => 1,
-            ],
-            "willing_to_attend" => [
-                "name" => "參加意願",
-                "sort" => 1,
             ],
             "attending_form" => [
                 "name" => "參加形式",
@@ -496,49 +480,45 @@ return [
                 "name" => "組別",
                 "sort" => 1,
             ],
+            "region" => [
+                "name" => "區域",
+                "sort" => 1,
+            ],
             "name" => [
                 "name" => "姓名",
                 "sort" => 0,
-            ],
-            "gender" => [
-                "name" => "性別",
-                "sort" => 1,
-            ],
-            "age" => [
-                "name" => "年齡",
-                "sort" => 1,
             ],
             "industry" => [
                 "name" => "產業別",
                 "sort" => 1,
             ],
             "unit" => [
-                "name" => "公司名稱",
-                "sort" => 0,
+                "name" => "服務單位",
+                "sort" => 1,
+            ],
+            "unit_location" => [
+                "name" => "服務單位所在地",
+                "sort" => 1,
             ],
             "title" => [
                 "name" => "職稱",
                 "sort" => 0,
             ],
-            "introducer_name" => [
-                "name" => "推薦人",
-                "sort" => 0,
-            ],
-            "carer_name" => [
-                "name" => "關懷員",
-                "sort" => 0,
-            ],
-            "willing_to_attend" => [
-                "name" => "參加意願",
-                "sort" => 0,
-            ],
-            "attending_form" => [
-                "name" => "參加形式",
+            "zipcode" => [
+                "name" => "郵遞區號",
                 "sort" => 1,
             ],
-            "reasons_recommend" => [
-                "name" => "推薦理由",
-                "sort" => 0,
+            "address" => [
+                "name" => "地址",
+                "sort" => 1,
+            ],
+            "introducer_name" => [
+                "name" => "介紹人",
+                "sort" => 1,
+            ],
+            "after_camp_available_day" => [
+                "name" => "後續課程時間",
+                "sort" => 1,
             ],
             "caring_logs" => [
                 "name" => "關懷紀錄",
