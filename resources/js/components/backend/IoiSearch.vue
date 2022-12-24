@@ -6,6 +6,7 @@
                     <th v-for="(item, key) in columns"
                         :key="key"
                         @click="toggleData(key)"
+                        v-show="key != 'contactlog'"
                         class="alert-primary">
                         {{ item.name }}
                     </th>
@@ -13,6 +14,7 @@
             </thead>
             <tr class="border-0">
                 <td v-for="(item, key) in columns"
+                    v-show="key != 'contactlog'"
                     :key="key"
                     :id="key"
                     class="border-0">
@@ -22,7 +24,7 @@
                 <td v-for="(item, key) in columns"
                     class="border-0 d-none" :id="'searchField' + key">
                     <input type="text" name="" :placeholder="'搜尋' + item.name" class="form-control"
-                           :id="'search' + key" :value="search[key]" @keydown="filterSearch(key)">
+                           :id="'search' + key" :value="search[key]" @keyup="filterSearch(key)">
                 </td>
             </tr>
         </table>
@@ -48,6 +50,7 @@ export default {
     methods: {
         filterSearch(column) {
             let search = $(`#search${column}`).val();
+            console.log(search);
             this.search[column] = search;
             this.theData = this.originalData;
             this.theData = this.theData.filter((item) => {
@@ -112,6 +115,8 @@ export default {
         }
     },
     mounted() {
+        // console.table(this.theData);
+        // console.table(this.columns);
         window.vueComponent = this;
         for (let key in this.theData[0]) {
             this.search[key] = "";
