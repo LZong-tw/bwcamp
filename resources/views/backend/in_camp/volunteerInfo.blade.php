@@ -86,7 +86,7 @@
                 <b>報名第一志願：</b>{{$applicant->group_priority1}}<br>
                 <b>報名第二志願：</b>{{$applicant->group_priority2}}<br>
                 <b>報名第三志願：</b>{{$applicant->group_priority3}}<br>
-                <b>同意個資使用</b>：@if($applicant->profile_agree) 是 @else 否 
+                <b>同意個資使用</b>：@if($applicant->profile_agree) 是 @else 否
                 @endif<br>
                 <b>同意肖像權使用</b>：@if($applicant->portrait_agree) 是 @else 否 @endif<br>
             </div>
@@ -112,6 +112,7 @@
                     <br>
                     <input type="hidden" name="applicant_id" value="{{ $applicant->applicant_id }}">
                     <input type="hidden" name="todo" value="add">
+                    <a id="new"></a>
                     <input type="submit" class="btn btn-primary float-right" value="新增關懷記錄">
                 </form>
                 <br><br><hr>

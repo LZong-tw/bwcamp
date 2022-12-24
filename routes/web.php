@@ -163,6 +163,7 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
     Route::get("/inCamp/attendeeAssign", "BackendController@showAttendeeAssign")->name("showAttendeeAssign");
 
     Route::get("/inCamp/queryAttendee", "BackendController@queryAttendee")->name("queryAttendee");
+    Route::get("/inCamp/attendeeInfo", "BackendController@showAttendeeInfo")->name("showAttendeeInfoGET");
     Route::post("/inCamp/attendeeInfo", "BackendController@showAttendeeInfo")->name("showAttendeeInfo");
     //Remark
     Route::post("/remark/edit", [BackendController::class, "editRemark"])->name("editRemark");

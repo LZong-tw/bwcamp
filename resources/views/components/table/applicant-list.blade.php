@@ -38,6 +38,10 @@
                 @foreach ($columns as $key => $item)
                     @if($key == "avatar" && $applicant->avatar)
                         <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($applicant->avatar)) }}" width=80 alt="{{ $applicant->name }}"></td>
+                    @elseif($key == "name")
+                        <td>
+                            <a href="{{ route('showAttendeeInfoGET', $campFullData->id) }}?snORadmittedSN={{ $applicant->applicant_id }}" target="_blank">{{ $applicant->name }}</a>
+                        </td>
                     @elseif($key == "avatar" && !$applicant->avatar)
                         <td>no photo</td>
                     @elseif($key == "gender")
@@ -51,7 +55,7 @@
                         <td>
                             {{ Str::limit($applicant->$key, 100,'...') ?? "-" }}
                             <div>
-                                <a href="{{ route('addContactLog', $campFullData->id) }}">⊕新增關懷紀錄</a>
+                                <a href="{{ route('showAttendeeInfoGET', $campFullData->id) }}?snORadmittedSN={{ $applicant->applicant_id }}#new" target="_blank">⊕新增關懷紀錄</a>
                                 @if($applicant->$key)
                                     &nbsp;&nbsp;
                                     <a href="{{ route('showContactLogs', [$campFullData->id, $applicant->id]) }}">🔍看更多</a>

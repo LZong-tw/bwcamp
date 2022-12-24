@@ -867,12 +867,16 @@ class BackendController extends Controller {
         $groupAndNumber = $this->applicantService->groupAndNumberSeperator($request->snORadmittedSN);
         $group = $groupAndNumber['group'];
         $number = $groupAndNumber['number'];
-        $applicant = $this->applicantService->fetchApplicantData($this->campFullData->id, $this->campFullData->table, $request->snORadmittedSN, $group, $number);
+        $applicant = $this->applicantService->fetchApplicantData(
+                                                $this->campFullData->id,
+                                                $this->campFullData->table,
+                                                $request->snORadmittedSN,
+                                                $group,
+                                                $number
+                                            );
         if($applicant){
             $applicant = $this->applicantService->Mandarization($applicant);
         }
-        //$applicant->id = 1? why?
-        //$applicant->applicant_id 才會是對的
         $batch = Batch::find($applicant->batch_id);
         $contactlog = ContactLog::where("applicant_id", $applicant->applicant_id)->orderByDesc
         ('id')->first();
@@ -1337,7 +1341,7 @@ class BackendController extends Controller {
         return view('backend.integrated_operating_interface.theList')
                 ->with('applicants', $applicants)
                 ->with('batches', $batches)
-                ->with('is_vcamp', strpos($this->campFullData->table, 'vcamp'))
+                ->with('isShowVolunteers', 0)
                 ->with('isSetting', $isSetting)
                 ->with('is_care', 1)
                 ->with('is_careV', 0)
@@ -1381,7 +1385,7 @@ class BackendController extends Controller {
         return view('backend.integrated_operating_interface.theList')
                 ->with('applicants', $applicants)
                 ->with('batches', $batches)
-                ->with('is_vcamp', strpos($this->campFullData->table, 'vcamp'))
+                ->with('isShowVolunteers', 1)
                 ->with('isSetting', $isSetting)
                 ->with('is_care', 0)
                 ->with('is_careV', 0)
@@ -1425,7 +1429,7 @@ class BackendController extends Controller {
         return view('backend.integrated_operating_interface.theList')
                 ->with('applicants', $applicants)
                 ->with('batches', $batches)
-                ->with('is_vcamp', strpos($this->campFullData->table, 'vcamp'))
+                ->with('isShowVolunteers', 1)
                 ->with('isSetting', $isSetting)
                 ->with('is_care', 1)
                 ->with('is_careV', 1)
