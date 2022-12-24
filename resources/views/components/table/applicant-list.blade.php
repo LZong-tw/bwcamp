@@ -53,7 +53,7 @@
                         </td>
                     @elseif(!$isSetting && $key == "contactlog")
                         <td>
-                            {{ Str::limit($applicant->contactlog?->sortByDesc('id')->first()->notes, 50,'...') ?? "-" }}
+                            {{ Str::limit($applicant->contactlog?->sortByDesc('id')->first()?->notes, 50,'...') ?? "-" }}
                             <div>
                                 <a href="{{ route('showAttendeeInfoGET', $campFullData->id) }}?snORadmittedSN={{ $applicant->applicant_id }}#new" target="_blank">⊕新增關懷紀錄</a>
                                 @if(count($applicant->contactlog))
