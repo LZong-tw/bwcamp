@@ -64,7 +64,6 @@ class ApplicantService
         if ($applicant) {
             $applicant->id = $applicant->applicant_id;
         }
-        dd($applicant);
         return $applicant;
     }
 
