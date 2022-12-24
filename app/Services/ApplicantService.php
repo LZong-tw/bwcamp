@@ -35,7 +35,7 @@ class ApplicantService
      * @return \App\Models\Applicant
      */
     public function fetchApplicantData($camp_id, $table, $idOrName = null, $group = null, $number = null) {
-        $applicant = Applicant::select('applicants.id as id', $table . '.id as ""')
+        $applicant = Applicant::select('applicants.*', $table . '.*', $table . '.id as ""')
             ->join($table, 'applicants.id', '=', $table . '.applicant_id')
             ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
             ->join('camps', 'camps.id', '=', 'batchs.camp_id')
@@ -64,6 +64,7 @@ class ApplicantService
         if ($applicant) {
             $applicant->id = $applicant->applicant_id;
         }
+        dd($applicant);
         return $applicant;
     }
 
