@@ -422,7 +422,7 @@ return [
                 "name" => "推薦理由",
                 "sort" => 0,
             ],
-            "caring_logs" => [
+            "contactlog" => [
                 "name" => "關懷紀錄",
                 "sort" => 0,
             ],
@@ -556,7 +556,7 @@ return [
                 "name" => "後續課程時間",
                 "sort" => 1,
             ],
-            "caring_logs" => [
+            "contactlog" => [
                 "name" => "關懷紀錄",
                 "sort" => 0,
             ],
