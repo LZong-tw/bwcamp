@@ -864,9 +864,6 @@ class BackendController extends Controller {
         $camp = $this->campFullData;
         //one camp, multiple batches
         //$batches = Batch::where("camp_id", $this->campFullData->id)->get();
-        $groupAndNumber = $this->applicantService->groupAndNumberSeperator($request->snORadmittedSN);
-        $group = $groupAndNumber['group'];
-        $number = $groupAndNumber['number'];
         $applicant = $this->applicantService->fetchApplicantData(
                                                 $this->campFullData->id,
                                                 $this->campFullData->table,
