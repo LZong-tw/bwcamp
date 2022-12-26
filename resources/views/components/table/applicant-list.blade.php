@@ -43,6 +43,14 @@
                     @elseif($key == "gender")
                         <td>{{ $applicant->gender_zh_tw }}</td>
                     @elseif(!$isVcamp && !$isCare && $key == "caring_logs")
+                    @elseif($key == "is_attend")
+                        @if($applicant->$key == 1)
+                            <td>是</td>
+                        @elseif($applicant->$key === 0)
+                            <td>否</td>
+                        @else
+                            <td>未定</td>
+                        @endif
                     @elseif($key == "reasons_recommend")
                         <td>
                             {{ Str::limit($applicant->$key, 100,'...') ?? "-" }}

@@ -410,11 +410,11 @@ return [
                 "name" => "關懷員",
                 "sort" => 1,
             ],
-            "willing_to_attend" => [
+            "is_attend" => [
                 "name" => "參加意願",
                 "sort" => 1,
             ],
-            "attending_form" => [
+            "participation_mode" => [
                 "name" => "參加形式",
                 "sort" => 1,
             ],
@@ -528,11 +528,11 @@ return [
                 "name" => "關懷員",
                 "sort" => 0,
             ],
-            "willing_to_attend" => [
+            "is_attend" => [
                 "name" => "參加意願",
                 "sort" => 0,
             ],
-            "attending_form" => [
+            "participation_mode" => [
                 "name" => "參加形式",
                 "sort" => 1,
             ],
