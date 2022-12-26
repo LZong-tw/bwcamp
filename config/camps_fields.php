@@ -419,12 +419,12 @@ return [
                 "sort" => 1,
                 "for_query" => 0,
             ],
-            "willing_to_attend" => [
+            "is_attend" => [
                 "name" => "參加意願",
                 "sort" => 1,
                 "for_query" => 0,
             ],
-            "attending_form" => [
+            "participation_mode" => [
                 "name" => "參加形式",
                 "sort" => 1,
                 "for_query" => 1,
@@ -595,8 +595,8 @@ return [
                 "sort" => 1,
                 "for_query" => 1,
             ],
-            "introducer_name" => [
-                "name" => "介紹人",
+            "participation_mode" => [
+                "name" => "參加形式",
                 "sort" => 1,
                 "for_query" => 1,
             ],
