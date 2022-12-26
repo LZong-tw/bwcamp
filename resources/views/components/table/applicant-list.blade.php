@@ -1,4 +1,5 @@
 <div class="mt-2">
+    @if ($queryStr ?? false) 查詢條件：{{ $queryStr }} @endif
     <!-- Nothing worth having comes easy. - Theodore Roosevelt -->
     <table class="table table-bordered table-hover"
         data-toggle="table"
@@ -28,7 +29,7 @@
                 @endforeach
             </tr>
         </thead>
-        @forelse ($applicants as $applicant)
+        @forelse ($applicants as &$applicant)
             <tr>
                 @if($isSetting ?? false)
                     <td class="text-center">
@@ -36,8 +37,16 @@
                     </td>
                 @endif
                 @foreach ($columns as $key => $item)
+                    @php
+                        $applicant->age = $applicant->age;
+                        $applicant->group = $applicant->groupRelation?->alias;
+                    @endphp
                     @if($key == "avatar" && $applicant->avatar)
                         <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($applicant->avatar)) }}" width=80 alt="{{ $applicant->name }}"></td>
+                    @elseif($key == "name")
+                        <td>
+                            <a href="{{ route('showAttendeeInfoGET', $campFullData->id) }}?snORadmittedSN={{ $applicant->applicant_id }}" target="_blank">{{ $applicant->name }}</a>
+                        </td>
                     @elseif($key == "avatar" && !$applicant->avatar)
                         <td>no photo</td>
                     @elseif($key == "gender")
@@ -55,14 +64,14 @@
                         <td>
                             {{ Str::limit($applicant->$key, 100,'...') ?? "-" }}
                         </td>
-                    @elseif(!$isSetting && $key == "caring_logs")
+                    @elseif($key == "contactlog")
                         <td>
-                            {{ Str::limit($applicant->$key, 100,'...') ?? "-" }}
+                            {{ Str::limit($applicant->contactlog?->sortByDesc('id')->first()?->notes, 50,'...') ?? "-" }}
                             <div>
-                                <a href="{{ route('addContactLog', $campFullData->id) }}">⊕新增關懷紀錄</a>
-                                @if($applicant->$key)
+                                <a href="{{ route('showAttendeeInfoGET', $campFullData->id) }}?snORadmittedSN={{ $applicant->id }}#new" target="_blank">⊕新增關懷紀錄</a>
+                                @if(count($applicant->contactlog) && !$isSetting)
                                     &nbsp;&nbsp;
-                                    <a href="{{ route('showContactLogs', [$campFullData->id, $applicant->id]) }}">🔍看更多</a>
+                                    <a href="{{ route('showContactLogs', [$campFullData->id, $applicant->id]) }}" target="_blank">🔍看更多</a>
                                 @endif
                             </div>
                         </td>
@@ -79,6 +88,9 @@
 
 <script>
     window.applicant_ids = [];
+    window.csrf_token = "{{ csrf_token() }}";
+    window.columns = @json($columns);
+    window.theData = @json($applicants);
     (function() {
     })();
 

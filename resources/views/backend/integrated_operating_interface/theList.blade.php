@@ -29,8 +29,8 @@
     <h3 class="font-weight-bold">{{ $fullName }} >>
         @if($isSetting ?? false) 設定
         @else 瀏覽 @endif
-        {{ ($is_vcamp && $is_care) ? '關懷組' : '' }}
-        {{ ($is_vcamp) ? '義工' : '學員' }}名單 @foreach ($batches as $batch) <a href='?batch={{ $batch->id }}'>{{ $batch->name }}梯</a> @endforeach
+        {{ ($isShowVolunteers && $is_care) ? '關懷組' : '' }}
+        {{ ($isShowVolunteers) ? '義工' : '學員' }}名單 @foreach ($batches as $batch) <a href='?batch={{ $batch->id }}'>{{ $batch->name }}梯</a> @endforeach
         @if($is_ingroup && $groupName)
             >> {{ $groupName }}
         @endif
@@ -40,12 +40,12 @@
     </h3>
     @if($isSetting ?? false)
     @else
-        <x-button.options :isIngroup="$is_ingroup" :isVcamp="$is_vcamp" :isCare="$is_care" :isCareV="$is_careV"/>
+        <x-button.options :isIngroup="$is_ingroup" :isVcamp="$isShowVolunteers" :isCare="$is_care" :isCareV="$is_careV"/>
     @endif
     @if($is_ingroup)
     @else
         <span class="font-weight-bold">瀏覽組別：</span>
-        @if($is_vcamp && !$is_care)
+        @if($isShowVolunteers && !$is_care)
             <x-checkbox.position-groups :isCare="$is_care" />
         @else
             <x-checkbox.caring-groups :$batches />
@@ -53,9 +53,9 @@
         <br>
     @endif
     @if($isSetting ?? false)
-        <x-general.settings :isIngroup="$is_ingroup" :isVcamp="$is_vcamp" :isCare="$is_care" :$batches />
+        <x-general.settings :isIngroup="$is_ingroup" :isVcamp="$isShowVolunteers" :isCare="$is_care" :$batches />
+        <x-general.search-component :columns="$columns_zhtw" />
     @endif
-    <x-general.search-component :columns="$columns_zhtw" />
-    <x-table.applicant-list :columns="$columns_zhtw" :$applicants :$is_vcamp :$is_care :$isSetting/>
+    <x-table.applicant-list :columns="$columns_zhtw" :$applicants :is_vcamp="$isShowVolunteers" :$is_care :$isSetting/>
 @endif
 @endsection

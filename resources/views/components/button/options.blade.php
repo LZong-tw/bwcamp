@@ -17,7 +17,7 @@
         @elseif($isVcamp)
             @if(!$isCare)
                 &nbsp;&nbsp;
-                <a href="{{ route("showRegistration", $campFullData->id) }}" rel="noopener noreferrer" class="btn btn-danger mb-3">新增義工</a>
+{{--                <a href="{{ route("showRegistration", $campFullData->id) }}" rel="noopener noreferrer" class="btn btn-danger mb-3">新增義工</a>--}}
             @endif
             &nbsp;&nbsp;
             <a href="?isSetting=1" class="btn btn-danger mb-3">設定組別/職務</a>

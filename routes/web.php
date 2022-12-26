@@ -127,6 +127,7 @@ Route::group(["prefix" => "backend/campManage"], function(){
 Route::group(["prefix" => "backend/{camp_id}", ], function () {
     Route::group(["prefix" => "IOI"], function () {
         Route::get("/learner", [BackendController::class, "showLearners"])->name("showLearners");
+        Route::post("/learner", [BackendController::class, "showLearners"])->name("showLearnersPOST");
         Route::get("/volunteer", [BackendController::class, "showVolunteers"])->name("showVolunteers");
         Route::get("/carer", [BackendController::class, "showCarers"])->name("showCarers");
     });
@@ -163,6 +164,7 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
     Route::get("/inCamp/attendeeAssign", "BackendController@showAttendeeAssign")->name("showAttendeeAssign");
 
     Route::get("/inCamp/queryAttendee", "BackendController@queryAttendee")->name("queryAttendee");
+    Route::get("/inCamp/attendeeInfo", "BackendController@showAttendeeInfo")->name("showAttendeeInfoGET");
     Route::post("/inCamp/attendeeInfo", "BackendController@showAttendeeInfo")->name("showAttendeeInfo");
     //Remark
     Route::post("/remark/edit", [BackendController::class, "editRemark"])->name("editRemark");
