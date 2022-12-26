@@ -422,7 +422,7 @@ return [
                 "name" => "推薦理由",
                 "sort" => 0,
             ],
-            "caring_logs" => [
+            "contactlog" => [
                 "name" => "關懷紀錄",
                 "sort" => 0,
             ],
@@ -496,37 +496,53 @@ return [
                 "name" => "組別",
                 "sort" => 1,
             ],
+            "region" => [
+                "name" => "區域",
+                "sort" => 1,
+            ],
             "name" => [
                 "name" => "姓名",
                 "sort" => 0,
             ],
             "gender" => [
-                "name" => "性別",
+                "name" => "生理性別",
                 "sort" => 1,
             ],
-            "age" => [
-                "name" => "年齡",
-                "sort" => 1,
-            ],
-            "industry" => [
-                "name" => "產業別",
+            //            "age" => [
+            //                "name" => "年齡",
+            //                "sort" => 1,
+            //            ],
+            "birthdate" => [
+                "name" => "出生年月日",
                 "sort" => 1,
             ],
             "unit" => [
-                "name" => "公司名稱",
-                "sort" => 0,
+                "name" => "服務單位",
+                "sort" => 1,
+            ],
+            "unit_location" => [
+                "name" => "服務單位所在地",
+                "sort" => 1,
             ],
             "title" => [
                 "name" => "職稱",
                 "sort" => 0,
             ],
-            "introducer_name" => [
-                "name" => "推薦人",
+            "industry" => [
+                "name" => "產業別",
+                "sort" => 1,
+            ],
+            "mobile" => [
+                "name" => "手機",
                 "sort" => 0,
             ],
-            "carer_name" => [
-                "name" => "關懷員",
-                "sort" => 0,
+            "email" => [
+                "name" => "Email",
+                "sort" => 1,
+            ],
+            "zipcode" => [
+                "name" => "郵遞區號",
+                "sort" => 1,
             ],
             "is_attend" => [
                 "name" => "參加意願",
@@ -536,11 +552,11 @@ return [
                 "name" => "參加形式",
                 "sort" => 1,
             ],
-            "reasons_recommend" => [
-                "name" => "推薦理由",
-                "sort" => 0,
+            "after_camp_available_day" => [
+                "name" => "後續課程時間",
+                "sort" => 1,
             ],
-            "caring_logs" => [
+            "contactlog" => [
                 "name" => "關懷紀錄",
                 "sort" => 0,
             ],

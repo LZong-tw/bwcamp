@@ -267,10 +267,10 @@ class BackendController extends Controller {
 
     public function showRegistration() {
         $user_batch_or_region = null;
-        if($this->campFullData->table == 'ecamp' && auth()->user()->getPermission('all')->first()->level > 2){
-            $user_batch_or_region = Batch::where('camp_id', $this->campFullData->id)->where('name', 'like', '%' . auth()->user()->getPermission(true, $this->campFullData->id)->region . '%')->first();
-            $user_batch_or_region = $user_batch_or_region ?? "empty";
-        }
+//        if($this->campFullData->table == 'ecamp' && auth()->user()->getPermission('all')->first()->level > 2){
+//            $user_batch_or_region = Batch::where('camp_id', $this->campFullData->id)->where('name', 'like', '%' . auth()->user()->getPermission(true, $this->campFullData->id)->region . '%')->first();
+//            $user_batch_or_region = $user_batch_or_region ?? "empty";
+//        }
         return view('backend.registration.registration', compact('user_batch_or_region'));
     }
 
@@ -864,15 +864,14 @@ class BackendController extends Controller {
         $camp = $this->campFullData;
         //one camp, multiple batches
         //$batches = Batch::where("camp_id", $this->campFullData->id)->get();
-        $groupAndNumber = $this->applicantService->groupAndNumberSeperator($request->snORadmittedSN);
-        $group = $groupAndNumber['group'];
-        $number = $groupAndNumber['number'];
-        $applicant = $this->applicantService->fetchApplicantData($this->campFullData->id, $this->campFullData->table, $request->snORadmittedSN, $group, $number);
+        $applicant = $this->applicantService->fetchApplicantData(
+                                                $this->campFullData->id,
+                                                $this->campFullData->table,
+                                                $request->snORadmittedSN,
+                                            );
         if($applicant){
             $applicant = $this->applicantService->Mandarization($applicant);
         }
-        //$applicant->id = 1? why?
-        //$applicant->applicant_id 才會是對的
         $batch = Batch::find($applicant->batch_id);
         $contactlog = ContactLog::where("applicant_id", $applicant->applicant_id)->orderByDesc
         ('id')->first();
@@ -1137,12 +1136,56 @@ class BackendController extends Controller {
     public function showLearners(Request $request) {
         ini_set('max_execution_time', -1);
         ini_set("memory_limit", -1);
+        if ($request->isMethod("post")) {
+            $queryStr = "";
+            $payload = $request->all();
+            foreach ($payload as $key => &$value) {
+                if (!is_array($value)) {
+                    unset($payload[$key]);
+                }
+            }
+            $count = 0;
+            foreach ($payload as $key => $parameters) {
+                if (is_array($parameters)) {
+                    foreach ($parameters as $index => $parameter) {
+                        if ($index == 0) {
+                            $queryStr .= " (";
+                        }
+                        if (is_numeric($parameter)) {
+                            if ($key == 'age') {
+                                $year = now()->subYears($parameter)->format('Y');
+                                $queryStr .= "birthyear = " . $year;
+                            } else {
+                                $queryStr .= $key . "=" . $parameter;
+                            }
+                        }
+                        else if (is_string($parameter)) {
+                            if ($key == 'name') { $key = 'applicants.name'; }
+                            $queryStr .= $key . " like '%" . $parameter . "%'";
+                        }
+                        if ($index != count($parameters) - 1) {
+                            $queryStr .= " or ";
+                        }
+                        else {
+                            $queryStr .= ") ";
+                        }
+                    }
+                    $count++;
+                }
+                if ($count <= count($payload) - 1) {
+                    $queryStr .= " and ";
+                }
+            }
+        }
         $batches = Batch::where("camp_id", $this->campFullData->id)->get();
-        $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
+        $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", $this->campFullData->table . ".id as ''", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
                         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                         ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
                         ->where('camps.id', $this->campFullData->id)->withTrashed();
+        if ($request->isMethod("post")) {
+            $query = $query->where(\DB::raw($queryStr), 1);
+        }
         $applicants = $query->get();
         if (auth()->user()->getPermission(false)->role->level <= 2) {
         }
@@ -1337,25 +1380,71 @@ class BackendController extends Controller {
         return view('backend.integrated_operating_interface.theList')
                 ->with('applicants', $applicants)
                 ->with('batches', $batches)
-                ->with('is_vcamp', strpos($this->campFullData->table, 'vcamp'))
+                ->with('isShowVolunteers', 0)
                 ->with('isSetting', $isSetting)
                 ->with('is_care', 1)
                 ->with('is_careV', 0)
                 ->with('is_ingroup', 0)
                 ->with('groupName', '')
                 ->with('columns_zhtw', $columns_zhtw)
-                ->with('fullName', $this->campFullData->fullName);
+                ->with('fullName', $this->campFullData->fullName)
+                ->with('queryStr', $queryStr ?? '');
     }
 
     public function showVolunteers(Request $request) {
         ini_set('max_execution_time', -1);
         ini_set("memory_limit", -1);
+        if ($request->isMethod("post")) {
+            $queryStr = "";
+            $payload = $request->all();
+            foreach ($payload as $key => &$value) {
+                if (!is_array($value)) {
+                    unset($payload[$key]);
+                }
+            }
+            $count = 0;
+            foreach ($payload as $key => $parameters) {
+                if (is_array($parameters)) {
+                    foreach ($parameters as $index => $parameter) {
+                        if ($index == 0) {
+                            $queryStr .= " (";
+                        }
+                        if (is_numeric($parameter)) {
+                            if ($key == 'age') {
+                                $year = now()->subYears($parameter)->format('Y');
+                                $queryStr .= "birthyear = " . $year;
+                            }
+                            else {
+                                $queryStr .= $key . "=" . $parameter;
+                            }
+                        }
+                        else if (is_string($parameter)) {
+                            if ($key == 'name') { $key = 'applicants.name'; }
+                            $queryStr .= $key . " like '%" . $parameter . "%'";
+                        }
+                        if ($index != count($parameters) - 1) {
+                            $queryStr .= " or ";
+                        }
+                        else {
+                            $queryStr .= ") ";
+                        }
+                    }
+                    $count++;
+                }
+                if ($count <= count($payload) - 1) {
+                    $queryStr .= " and ";
+                }
+            }
+        }
         $batches = Batch::where("camp_id", $this->campFullData->id)->get();
-        $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
+        $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", $this->campFullData->table . ".id as ''", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
                         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                         ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
                         ->where('camps.id', $this->campFullData->id)->withTrashed();
+        if ($request->isMethod("post")) {
+            $query = $query->where(\DB::raw($queryStr), 1);
+        }
         $applicants = $query->get();
         if (auth()->user()->getPermission(false)->role->level <= 2) {
         }
@@ -1376,30 +1465,76 @@ class BackendController extends Controller {
             $isSetting = 0;
         }
 
-        $columns_zhtw = config('camps_fields.display.' . $this->campFullData->table);
+        $columns_zhtw = config('camps_fields.display.ceovcamp');
 
         return view('backend.integrated_operating_interface.theList')
                 ->with('applicants', $applicants)
                 ->with('batches', $batches)
-                ->with('is_vcamp', strpos($this->campFullData->table, 'vcamp'))
+                ->with('isShowVolunteers', 1)
                 ->with('isSetting', $isSetting)
                 ->with('is_care', 0)
                 ->with('is_careV', 0)
                 ->with('is_ingroup', 0)
                 ->with('groupName', '')
                 ->with('columns_zhtw', $columns_zhtw)
-                ->with('fullName', $this->campFullData->fullName);
+                ->with('fullName', $this->campFullData->fullName)
+                ->with('queryStr', $queryStr ?? '');
     }
 
     public function showCarers(Request $request) {
         ini_set('max_execution_time', -1);
         ini_set("memory_limit", -1);
+        if ($request->isMethod("post")) {
+            $queryStr = "";
+            $payload = $request->all();
+            foreach ($payload as $key => &$value) {
+                if (!is_array($value)) {
+                    unset($payload[$key]);
+                }
+            }
+            $count = 0;
+            foreach ($payload as $key => $parameters) {
+                if (is_array($parameters)) {
+                    foreach ($parameters as $index => $parameter) {
+                        if ($index == 0) {
+                            $queryStr .= " (";
+                        }
+                        if (is_numeric($parameter)) {
+                            if ($key == 'age') {
+                                $year = now()->subYears($parameter)->format('Y');
+                                $queryStr .= "birthyear = " . $year;
+                            }
+                            else {
+                                $queryStr .= $key . "=" . $parameter;
+                            }
+                        }
+                        else if (is_string($parameter)) {
+                            if ($key == 'name') { $key = 'applicants.name'; }
+                            $queryStr .= $key . " like '%" . $parameter . "%'";
+                        }
+                        if ($index != count($parameters) - 1) {
+                            $queryStr .= " or ";
+                        }
+                        else {
+                            $queryStr .= ") ";
+                        }
+                    }
+                    $count++;
+                }
+                if ($count <= count($payload) - 1) {
+                    $queryStr .= " and ";
+                }
+            }
+        }
         $batches = Batch::where("camp_id", $this->campFullData->id)->get();
-        $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
+        $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", $this->campFullData->table . ".id as ''", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
                         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                         ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
                         ->where('camps.id', $this->campFullData->id)->withTrashed();
+        if ($request->isMethod("post")) {
+            $query = $query->where(\DB::raw($queryStr), 1);
+        }
         $applicants = $query->get();
         if (auth()->user()->getPermission(false)->role->level <= 2) {
         }
@@ -1425,14 +1560,15 @@ class BackendController extends Controller {
         return view('backend.integrated_operating_interface.theList')
                 ->with('applicants', $applicants)
                 ->with('batches', $batches)
-                ->with('is_vcamp', strpos($this->campFullData->table, 'vcamp'))
+                ->with('isShowVolunteers', 1)
                 ->with('isSetting', $isSetting)
                 ->with('is_care', 1)
                 ->with('is_careV', 1)
                 ->with('is_ingroup', 1)
                 ->with('groupName', '第1組')
                 ->with('columns_zhtw', $columns_zhtw)
-                ->with('fullName', $this->campFullData->fullName);
+                ->with('fullName', $this->campFullData->fullName)
+                ->with('queryStr', $queryStr ?? '');
     }
 
     public function showAccountingPage() {

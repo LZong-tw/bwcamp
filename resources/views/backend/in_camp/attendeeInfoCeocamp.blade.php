@@ -9,6 +9,13 @@
         color: #33B2FF!important;
     }
 </style>
+@if($errors->any())
+    @foreach ($errors->all() as $message)
+        <div class='alert alert-danger' role='alert'>
+            {{ $message }}
+        </div>
+    @endforeach
+@endif
 @if(isset($applicant))
     <h4>學員關懷系統</h4>
     <h5>{{ $camp->fullName }}>>個人詳細資料>>{{ $applicant->name }}</h5>
@@ -86,7 +93,7 @@
                 <b>資本額</b>：{{$applicant->capital}} {{$applicant->capital_unit}}<br>
                 <b>公司/組織形式</b>：{{$applicant->org_type}}<br>
                 <b>公司成立幾年</b>：{{$applicant->years_operation}}<br>
-                <b>同意個資使用</b>：@if($applicant->profile_agree) 是 @else 否 
+                <b>同意個資使用</b>：@if($applicant->profile_agree) 是 @else 否
                 @endif<br>
                 <b>同意肖像權使用</b>：@if($applicant->portrait_agree) 是 @else 否 @endif<br>
             </div>
@@ -122,6 +129,7 @@
                     <br>
                     <input type="hidden" name="applicant_id" value="{{ $applicant->applicant_id }}">
                     <input type="hidden" name="todo" value="add">
+                    <a id="new"></a>
                     <input type="submit" class="btn btn-primary float-right" value="新增關懷記錄">
                 </form>
                 <br><br><hr>

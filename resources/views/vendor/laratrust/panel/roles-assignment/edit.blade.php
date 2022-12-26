@@ -42,7 +42,7 @@
                                 {!! $role->assigned && !$role->isRemovable ? 'onclick="return false;"' : '' !!}
                             >
                             <span class="ml-2 {!! $role->assigned && !$role->isRemovable ? 'text-gray-600' : '' !!}">
-                {{$role->display_name ?? $role->name}}
+                {{$role->display_name ?? $role->section . " " . $role->position }}
               </span>
                         </label>
                     @endforeach
