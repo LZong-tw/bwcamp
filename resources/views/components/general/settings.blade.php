@@ -11,22 +11,12 @@
         @endif
 
         @if($isVcamp && !$isCare)
-            <select required name='volunteer_group' onChange=''>
+            <select required name="volunteer_group" onChange="getPosition(this)" id="volunteerGroups">
                 <option value=''>- 請選擇 -</option>
-                <option value='秘書'>秘書</option>
-                <option value='資訊'>資訊</option>
-                <option value='關懷'>關懷</option>
-                <option value='教務'>教務</option>
-                <option value='行政'>行政</option>
             </select>
             組
-            <select required name='volunteer_work' onChange=''>
+            <select required name='volunteer_work' onChange='' id="volunteerWorks">
                 <option value=''>- 請選擇 -</option>
-                <option value='總護持'>總護持</option>
-                <option value='副總護持'>副總護持</option>
-                <option value='文書'>文書</option>
-                <option value='大組長'>大組長</option>
-                <option value='副大組長'>副大組長</option>
             </select>
             職務
         @else
@@ -89,6 +79,31 @@
                 }
             }
         });
+
+        axios({
+            method: 'get',
+            url: '/semi-api/getCampOrganizations',
+            params: {
+                camp_id: {{ request()->route('camp_id') }},
+            },
+            responseType: 'json'
+        })
+        .then(function (response) {
+            if (Object.keys(response.data).length === 0) {
+                console.log(response.data);
+                {{-- 特殊處理 --}}
+            }
+            else {
+                let organizations = Object.entries(response.data);
+                let select = document.getElementById('volunteerGroups');
+                for (let i = 0; i < organizations.length; i++) {
+                    let option = document.createElement('option');
+                    option.value = organizations[i][1]['id'];
+                    option.text = organizations[i][1]['section'];
+                    select.appendChild(option);
+                }
+            }
+        });
     })();
 
     function setGroup() {
@@ -107,6 +122,40 @@
             }
             else {
                 console.log(response.data);
+            }
+        });
+    }
+
+    function getPosition(theselect) {
+        axios({
+            method: 'get',
+            url: '/semi-api/getCampPositions',
+            params: {
+                camp_id: {{ request()->route('camp_id') }},
+                section: theselect.options[theselect.selectedIndex].text,
+            },
+            responseType: 'json'
+        })
+        .then(function (response) {
+            if (Object.keys(response.data).length === 0) {
+                console.log(response.data);
+                {{-- 特殊處理 --}}
+            }
+            else {
+                let positions = Object.entries(response.data);
+                let select = document.getElementById('volunteerWorks');
+
+                select.innerHTML = "";
+                let optionzero = document.createElement('option');
+                optionzero.value = "";
+                optionzero.text = "- 請選擇 -";
+                select.appendChild(optionzero);
+                for (let i = 0; i < positions.length; i++) {
+                    let option = document.createElement('option');
+                    option.value = positions[i][1]['id'];
+                    option.text = positions[i][1]['position'];
+                    select.appendChild(option);
+                }
             }
         });
     }
