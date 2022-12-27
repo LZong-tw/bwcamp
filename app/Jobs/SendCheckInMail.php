@@ -47,7 +47,7 @@ class SendCheckInMail implements ShouldQueue
             $pdf = \App::make('dompdf.wrapper');
             $pdf->loadHTML($this->applicant->batch->camp->fullName . ' QR code 報到單<br>梯次：' . $this->applicant->batch->name . '<br>錄取序號：' . $this->applicant->group . $this->applicant->number . '<br>姓名：' . $this->applicant->name . '<br><img src="data:image/png;base64,' . $qr_code . '" alt="barcode" height="200px"/>')->setPaper('a6');
         }
-        $attachment = isset($pdf) ? $pdf->stream() : null;
+        $attachment = isset($pdf) ? $pdf->output() : null;
         // 動態載入電子郵件設定
         $this->setEmail($this->applicant->batch->camp->table, $this->applicant->batch->camp->variant);
         \Mail::to($this->applicant->email)->send(new \App\Mail\CheckInMail($this->applicant, $attachment));
