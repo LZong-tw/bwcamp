@@ -1151,29 +1151,61 @@ class BackendController extends Controller {
                         if ($index == 0) {
                             $queryStr .= " (";
                         }
-                        if (is_numeric($parameter)) {
-                            if ($key == 'age') {
+                        if (is_numeric($parameter) && $key != 'name') {
+                            if ($key == 'age' && !$request->ceocamp_sets_learner) {
                                 $year = now()->subYears($parameter)->format('Y');
                                 $queryStr .= "birthyear = " . $year;
                             } else {
                                 $queryStr .= $key . "=" . $parameter;
                             }
                         }
-                        else if (is_string($parameter)) {
-                            if ($key == 'name') { $key = 'applicants.name'; }
+                        elseif ($key == "group_id" && $parameter == "na") {
+                            $queryStr .= "group_id = '' or group_id is null";
+                        }
+                        elseif ($key == "age") {
+                            $parameter = str_replace("age", "timestampdiff(year, concat(birthyear, '-01-01'), curdate())", $parameter);
+                            $queryStr .= $parameter;
+                        }
+                        elseif (is_string($parameter) && $key == 'name') {
+                            if (!$request->ceocamp_sets_learner) {
+                                $key = 'applicants.name';
+                                $queryStr .= $key . " like '%" . $parameter . "%'";
+                            }
+                            elseif ($parameter) {
+                                $queryStr .= $index . " like '%" . $parameter . "%'";
+                            }
+                        }
+                        elseif (is_string($parameter)) {
                             $queryStr .= $key . " like '%" . $parameter . "%'";
                         }
-                        if ($index != count($parameters) - 1) {
-                            $queryStr .= " or ";
-                        }
-                        else {
-                            $queryStr .= ") ";
+                        if (!is_string($index)) {
+                            if ($index != count($parameters) - 1) {
+                                if ($key != "age" && !$request->ceocamp_sets_learner) {
+                                    $queryStr .= " or (";
+                                }
+                                else {
+                                    $queryStr .= " or ";
+                                }
+                            }
+                            else{
+                                $queryStr .= ") ";
+                            }
                         }
                     }
                     $count++;
                 }
                 if ($count <= count($payload) - 1) {
-                    $queryStr .= " and ";
+                    if ($request->ceocamp_sets_learner) {
+                        if ($key != 'name' || $key != 'age') {
+                            $queryStr .= " and ";
+                        }
+                        else {
+                            $queryStr .= ") and ";
+                        }
+                    }
+                    else {
+                        $queryStr .= " and ";
+                    }
                 }
             }
         }
@@ -1184,7 +1216,13 @@ class BackendController extends Controller {
                         ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
                         ->where('camps.id', $this->campFullData->id)->withTrashed();
         if ($request->isMethod("post")) {
-            $query = $query->where(\DB::raw($queryStr), 1);
+            if (!$request->ceocamp_sets_learner) {
+                $query = $query->whereRaw(\DB::raw($queryStr . "and 1=1") );
+            }
+            else {
+                $query = $query->whereRaw(\DB::raw($queryStr . "and 1=1") );
+            }
+            $request->flash();
         }
         $applicants = $query->get();
         if (auth()->user()->getPermission(false)->role->level <= 2) {
@@ -1389,7 +1427,8 @@ class BackendController extends Controller {
                 ->with('columns_zhtw', $columns_zhtw)
                 ->with('fullName', $this->campFullData->fullName)
                 ->with('queryStr', $queryStr ?? '')
-                ->with('groups', $this->campFullData->groups);
+                ->with('groups', $this->campFullData->groups)
+                ->withInput($request->all());
     }
 
     public function showVolunteers(Request $request) {
