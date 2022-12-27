@@ -22,7 +22,7 @@
                     <th></th>
                 @endif
                 @foreach ($columns as $key => $item)
-                    @if(!$isVcamp && !$isCare && $key == "caring_logs")
+                    @if(!$isVcamp && !$isCare && $key == "contactlog")
                     @else
                         <th class="text-center" data-field="{{ $key }}" data-sortable="{{ $item['sort'] }}">{{ $item['name'] }}</th>
                     @endif
@@ -40,6 +40,7 @@
                     @php
                         $applicant->age = $applicant->age;
                         $applicant->group = $applicant->groupRelation?->alias;
+                        $applicant->job = $applicant->groupOrgRelation?->position;
                     @endphp
                     @if($key == "avatar" && $applicant->avatar)
                         <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($applicant->avatar)) }}" width=80 alt="{{ $applicant->name }}"></td>
@@ -51,7 +52,9 @@
                         <td>no photo</td>
                     @elseif($key == "gender")
                         <td>{{ $applicant->gender_zh_tw }}</td>
-                    @elseif(!$isVcamp && !$isCare && $key == "caring_logs")
+                    @elseif($isVcamp && $key == "group" && isset($applicant->groupOrgRelation->section))
+                        <td>{{ $applicant->groupOrgRelation?->section }}</td>
+                    @elseif(!$isVcamp && !$isCare && $key == "contactlog")
                     @elseif($key == "is_attend")
                         @if($applicant->$key == 1)
                             <td>是</td>

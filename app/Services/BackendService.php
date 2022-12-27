@@ -5,6 +5,7 @@ use App\Models\Applicant;
 use App\Models\ApplicantsGroup;
 use App\Models\Batch;
 use App\Models\Camp;
+use App\Models\CampOrg;
 use Carbon\Carbon;
 use App\Models\ContactLog;
 use App\Models\GroupNumber;
@@ -90,6 +91,21 @@ class BackendService
                 $this->setAdmitted($applicant, true);
             }
             $applicant->groupRelation()->associate($group);
+            $applicant->save();
+            $applicant->refresh();
+        }
+        return true;
+    }
+
+    public function setGroupOrgNew(array $applicants, string $groupId): bool
+    {
+        foreach ($applicants as $applicant) {
+            $applicant = Applicant::findOrFail($applicant);
+            $groupOrg = CampOrg::findOrFail($groupId);
+            if (!$applicant->is_admitted) {
+                $this->setAdmitted($applicant, true);
+            }
+            $applicant->groupOrgRelation()->associate($groupOrg);
             $applicant->save();
             $applicant->refresh();
         }
