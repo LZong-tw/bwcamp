@@ -51,6 +51,11 @@ class Camp extends Model
         return $this->hasMany(CampOrg::class);
     }
 
+    public function groups()
+    {
+        return $this->hasManyThrough(ApplicantsGroup::class, Batch::class);
+    }
+
     public function allSignAvailabilities() {
         return $this->hasManyThrough(BatchSignInAvailibility::class, Batch::class);
     }

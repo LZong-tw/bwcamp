@@ -44,7 +44,6 @@
     @endif
     @if($is_ingroup)
     @else
-        <span class="font-weight-bold">瀏覽組別：</span>
         @if($isShowVolunteers && !$is_care)
             <x-checkbox.position-groups :isCare="$is_care" />
         @else
@@ -54,7 +53,7 @@
     @endif
     @if($isSetting ?? false)
         <x-general.settings :isIngroup="$is_ingroup" :isVcamp="$isShowVolunteers" :isCare="$is_care" :$batches />
-        <x-general.search-component :columns="$columns_zhtw" />
+        <x-general.search-component :columns="$columns_zhtw" :camp="$campFullData" :$groups/>
     @endif
     <x-table.applicant-list :columns="$columns_zhtw" :$applicants :isVcamp="$isShowVolunteers" :isCare="$is_care" :$isSetting/>
 @endif
