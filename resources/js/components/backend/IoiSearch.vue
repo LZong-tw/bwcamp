@@ -7,7 +7,7 @@
                     <th v-for="(item, key) in columns"
                         :key="key"
                         @click="toggleData(key)"
-                        v-show="key != 'contactlog'"
+                        v-show="key != 'contactlog' && item.for_query"
                         class="alert-primary">
                         {{ item.name }}
                     </th>
@@ -15,7 +15,7 @@
             </thead>
             <tr class="border-0">
                 <td v-for="(item, key) in columns"
-                    v-show="key != 'contactlog'"
+                    v-show="key != 'contactlog' && item.for_query"
                     :key="key"
                     :id="key"
                     class="border-0">

@@ -28,7 +28,7 @@ class CheckInController extends Controller {
         $this->campDataService = $campDataService;
         $this->applicantService = $applicantService;
         if($this->camp->table == 'ycamp' || $this->camp->table == 'acamp'){
-            $this->has_attend_data = true; 
+            $this->has_attend_data = true;
         }
         View::share('camp', $this->camp);
     }
@@ -72,14 +72,14 @@ class CheckInController extends Controller {
     }
 
     public function checkIn(Request $request) {
-        if(CheckIn::where('applicant_id', $request->applicant_id)->where('check_in_date', Carbon::today()->format('Y-m-d'))->first()){            
-            return back()->withErrors(['無法重複報到。']);  
+        if(CheckIn::where('applicant_id', $request->applicant_id)->where('check_in_date', Carbon::today()->format('Y-m-d'))->first()){
+            return back()->withErrors(['無法重複報到。']);
         }
         else{
             $applicant = Applicant::find($request->applicant_id);
             if($applicant->deposit - $applicant->fee < 0){
-                return back()->withErrors([$applicant->name . '未繳費，無法報到。']);      
-            }     
+                return back()->withErrors([$applicant->name . '未繳費，無法報到。']);
+            }
             $checkin = new CheckIn;
             $checkin->applicant_id = $request->applicant_id;
             $checkin->checker_id = \Auth()->user()->id;
@@ -108,26 +108,26 @@ class CheckInController extends Controller {
                 ]);
             }
             $str = $resultStr[$pivot][0] . '：' . $applicant->batch->name . '<br>' . $dataStr[$pivot][2] . '：' . $applicant->group . $applicant->number . '<br>' . $dataStr[$pivot][3] . '：' . $applicant->name;
-            if($applicant->deposit - $applicant->fee < 0){   
+            if($applicant->deposit - $applicant->fee < 0){
                 return response()->json([
                     'msg' => $str . '<h4 class="text-danger">未繳費，無法報到</h4>'
-                ]);  
-            }     
+                ]);
+            }
             if($pivot == 1){
                 $hasCheckedIn = CheckIn::where('applicant_id', $applicant->id)->first();
             }
             else{
                 $hasCheckedIn = CheckIn::where('applicant_id', $request->applicant_id)->where('check_in_date', Carbon::today()->format('Y-m-d'))->first();
             }
-            if($hasCheckedIn){  
+            if($hasCheckedIn){
                 if($pivot == 1){
                     return response()->json([
                         'msg' => $str . '<h4 class="text-warning">已於 ' . $hasCheckedIn->created_at . ' 兌換，無法重複使用</h4>'
-                    ]);      
-                }          
+                    ]);
+                }
                 return response()->json([
                     'msg' => $str . '<h4 class="text-warning">已報到完成，無法重複報到</h4>'
-                ]);  
+                ]);
             }
             else{
                 $checkin = new CheckIn;
@@ -138,20 +138,20 @@ class CheckInController extends Controller {
                 if($pivot == 1){
                     return response()->json([
                         'msg' => $str . '<h4 class="text-success">兌換完成</h4>'
-                    ]);      
-                } 
+                    ]);
+                }
                 return response()->json([
                     'msg' => $str . '<h4 class="text-success">報到完成</h4>'
                 ]);
-            }  
+            }
         }
         catch(\Exception $e){
             logger($e);
             if($pivot == 1){
                 return response()->json([
                     'msg' => '<h4 class="text-danger">發生未預期錯誤，無法完成兌換程序</h4>'
-                ]);      
-            } 
+                ]);
+            }
             return response()->json([
                 'msg' => '<h4 class="text-danger">發生未預期錯誤，無法完成報到程序</h4>'
             ]);
@@ -169,13 +169,13 @@ class CheckInController extends Controller {
                             }
                         })
                         ->where(\DB::raw('fee - deposit'), '<=', 0)
-                        ->whereNotNull('group')
-                        ->where('group', '<>', '')
+                        ->whereNotNull('group_id')
+                        ->where('group_id', '<>', '')
                         ->where([['batch_start', '<=', Carbon::today()], ['batch_end', '>=', Carbon::today()]])
                         ->count();
             return response()->json([
                 'msg' => $checkedInCount . ' / ' . ($applicants - $checkedInCount)
-            ]);  
+            ]);
         }
         catch(\Exception $e){
             return response()->json([
@@ -213,7 +213,7 @@ class CheckInController extends Controller {
         }
         $checkedInCount = $checkedInData->count();
         $applicantsCount = $allApplicants->count();
-        return view('checkIn.detailedStat', compact('allApplicants', 'checkedInApplicants', 'batchArray', 'checkedInCount', 'applicantsCount'));  
+        return view('checkIn.detailedStat', compact('allApplicants', 'checkedInApplicants', 'batchArray', 'checkedInCount', 'applicantsCount'));
     }
 
     public function detailedStatOptimized(Request $request) {
@@ -222,7 +222,7 @@ class CheckInController extends Controller {
         // 取得梯次
         $batches = Batch::where("camp_id", $this->camp->id)->where([['batch_start', '<=', Carbon::today()], ['batch_end', '>=', Carbon::today()]])->get();
         $batchArray = array();
-        // 照梯次取報名人 
+        // 照梯次取報名人
         $applicantsCount = 0;
         $allApplicants = null;
         $checkedInApplicants = null;
@@ -246,15 +246,15 @@ class CheckInController extends Controller {
             $applicantsCount += $allApplicants;
         }
         $checkedInCount = $checkedInData->count();
-        return view('checkIn.detailedStat', compact('allApplicants', 'checkedInApplicants', 'batchArray', 'checkedInCount', 'applicantsCount'));  
+        return view('checkIn.detailedStat', compact('allApplicants', 'checkedInApplicants', 'batchArray', 'checkedInCount', 'applicantsCount'));
     }
 
     public function uncheckIn(Request $request) {
-        if(CheckIn::where('applicant_id', $request->applicant_id)->where('check_in_date', $request->check_in_date)->first()->delete()){   
-            \Session::flash('message', "報消報到成功。");       
+        if(CheckIn::where('applicant_id', $request->applicant_id)->where('check_in_date', $request->check_in_date)->first()->delete()){
+            \Session::flash('message', "報消報到成功。");
         }
         else{
-            return back()->withErrors(['取消報到過程發生未知錯誤。']);  
+            return back()->withErrors(['取消報到過程發生未知錯誤。']);
         }
         return back();
     }
