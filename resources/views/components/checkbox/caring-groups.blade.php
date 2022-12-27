@@ -1,8 +1,8 @@
 <div id="checkboxGroups">
     <!-- Very little is needed to make a happy life. - Marcus Aurelius -->
-    <button class="btn btn-primary btn-sm" onclick="check_all('groupsname')" value="all"> 所有學員 </button>
-    &nbsp;&nbsp;
-    <input type="checkbox" name="groupsname" onclick="" value="-1"> 未分組 </input>
+{{--    <button class="btn btn-primary btn-sm" onclick="check_all('groupsname')" value="all"> 所有學員 </button>--}}
+{{--    &nbsp;&nbsp;--}}
+{{--    <input type="checkbox" name="groupsname" onclick="" value="-1"> 未分組 </input>--}}
     &nbsp;&nbsp;
 </div>
 

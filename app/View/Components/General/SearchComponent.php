@@ -2,7 +2,9 @@
 
 namespace App\View\Components\General;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\Component;
+use App\Models\Camp;
 
 class SearchComponent extends Component
 {
@@ -13,6 +15,8 @@ class SearchComponent extends Component
      */
     public function __construct(
         public array $columns,
+        public Camp|null $camp,
+        public Collection|null $groups,
     ) { }
 
     /**

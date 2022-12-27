@@ -1388,7 +1388,8 @@ class BackendController extends Controller {
                 ->with('groupName', '')
                 ->with('columns_zhtw', $columns_zhtw)
                 ->with('fullName', $this->campFullData->fullName)
-                ->with('queryStr', $queryStr ?? '');
+                ->with('queryStr', $queryStr ?? '')
+                ->with('groups', $this->campFullData->groups);
     }
 
     public function showVolunteers(Request $request) {
