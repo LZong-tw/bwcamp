@@ -26,6 +26,7 @@ Route::post('getCampData', [ApiController::class, 'sendCampData']);
 Route::get('groupCreation', [SemiApiController::class, 'groupCreation']);
 Route::get('getBatchGroups', [SemiApiController::class, 'getBatchGroups']);
 Route::post('setGroup', [SemiApiController::class, 'setGroup']);
+Route::post('setGroupOrg', [SemiApiController::class, 'setGroupOrg']);
 Route::get('getCampOrganizations', [SemiApiController::class, 'getCampOrganizations']);
 Route::get('getCampPositions', [SemiApiController::class, 'getCampPositions']);
 Route::get('getCampVolunteers', [SemiApiController::class, 'getCampVolunteers']);

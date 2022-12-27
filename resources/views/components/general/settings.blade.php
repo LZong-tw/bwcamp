@@ -48,7 +48,11 @@
             @endif
         @endif
         &nbsp;&nbsp;
-        <button type="submit" class="btn btn-danger btn-sm" onclick="setGroup()">儲存</button>
+        @if($isVcamp && !$isCare)
+            <button type="submit" class="btn btn-danger btn-sm" onclick="setGroupOrg()">儲存</button>
+        @else
+            <button type="submit" class="btn btn-danger btn-sm" onclick="setGroup()">儲存</button>
+        @endif
     </span>
 </div>
 
@@ -113,6 +117,26 @@
             data: {
                 applicant_ids: window.applicant_ids,
                 group_id: document.getElementsByName('attendee_group')[0].value
+            },
+            responseType: 'json'
+        })
+        .then(function (response) {
+            if (response.data.status === 'success') {
+                window.location.reload();
+            }
+            else {
+                console.log(response.data);
+            }
+        });
+    }
+
+    function setGroupOrg() {
+        axios({
+            method: 'post',
+            url: '/semi-api/setGroupOrg',
+            data: {
+                applicant_ids: window.applicant_ids,
+                group_id: document.getElementsByName('volunteer_work')[0].value
             },
             responseType: 'json'
         })

@@ -106,6 +106,11 @@ class Applicant extends Model {
         return $this->belongsTo(ApplicantsGroup::class, 'group_id', 'id');
     }
 
+    public function groupOrgRelation()
+    {
+        return $this->belongsTo(CampOrg::class, 'group_id', 'id');
+    }
+
     public function numberRelation()
     {
         return $this->belongsTo(GroupNumber::class, 'number_id', 'id');
