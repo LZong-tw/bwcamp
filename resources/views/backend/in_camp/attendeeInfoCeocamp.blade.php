@@ -67,13 +67,13 @@
         <div class="row">
             <div class="col-md-4">
                 <a href="#" class="btn btn-warning" onclick="">聯絡方式</a><br><br>
-                <b>手機號碼</b>：{{$applicant->mobile}}<br>
-                <b>公司電話</b>：{{$applicant->phone_work}}<br>
-                <b>電子信箱</b>：{{$applicant->email}}<br>
-                <b>LineID</b>：{{$applicant->line}}<br>
+                <b>手機號碼</b>：<a href="tel:{{$applicant->mobile}}">{{$applicant->mobile}}</a><br>
+                <b>公司電話</b>：<a href="tel:{{$applicant->phone_work}}">{{$applicant->phone_work}}</a><br>
+                <b>電子信箱</b>：<a href="mailto:{{$applicant->email}}">{{$applicant->email}}</a><br>
+                <b>LineID</b>：<a href="https://line.me/ti/p/~{{$applicant->line}}">{{$applicant->line}}</a><br>
                 <b>代理人</b>：{{$applicant->substitute_name}}<br>
-                <b>代理人電話</b>：{{$applicant->substitute_phone}}<br>
-                <b>代理人電子信箱</b>：{{$applicant->substitute_email}}<br>
+                <b>代理人電話</b>：<a href="tel:{{$applicant->substitute_phone}}">{{$applicant->substitute_phone}}</a><br>
+                <b>代理人電子信箱</b>：<a href="mailto:{{$applicant->substitute_email}}">{{$applicant->substitute_email}}</a><br>
                 <b>適合聯絡時段</b>：{{$applicant->contact_time}}<br>
                 <b>地址</b>：{{$applicant->address}}<br>
             </div>
@@ -81,8 +81,8 @@
                 <a href="#" class="btn btn-warning" onclick="">推薦人資訊</a><br><br>
                 <b>推薦人</b>：{{$applicant->introducer_name}}<br>
                 <b>廣論班別</b>：{{$applicant->introducer_participated}}<br>
-                <b>手機號碼</b>：{{$applicant->introducer_phone}}<br>
-                <b>電子信箱</b>：{{$applicant->introducer_email}}<br>
+                <b>手機號碼</b>：<a href="tel:{{$applicant->introducer_phone}}">{{$applicant->introducer_phone}}</a><br>
+                <b>電子信箱</b>：<a href="mailto:{{$applicant->introducer_email}}">{{$applicant->introducer_email}}</a><br>
                 <b>與推薦人關係</b>：{{$applicant->introducer_relationship}}<br>
                 <b>特別推薦理由或社會影響力說明</b>：<br>{{$applicant->reasons_recommend}}<br>
             </div>

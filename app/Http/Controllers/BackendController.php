@@ -879,7 +879,14 @@ class BackendController extends Controller {
             $contactlog = $this->backendService->setTakenByName($contactlog);
         }
 
-        //
+        /*
+        foreach ($applicant as $column => $value) {
+            if (str_contains($column, "||/")) {
+                $newKey = $column . "_split";
+                $applicant->$newKey = explode("||/", $value);
+            }
+        }
+        */
         if(isset($applicant->favored_event)) {
             $applicant->favored_event_split = explode("||/",$applicant->favored_event);
         }
@@ -897,8 +904,10 @@ class BackendController extends Controller {
             return view('backend.in_camp.volunteerInfo', compact('camp','batch','applicant','contactlog'));
         } elseif($camp->table == "ceocamp") {
             return view('backend.in_camp.attendeeInfoCeocamp', compact('camp','batch','applicant','contactlog'));
-        } else {
+        } elseif($camp->table == "ecamp") {
             return view('backend.in_camp.attendeeInfoEcamp', compact('camp','batch','applicant','contactlog'));
+        } else {
+            return view('backend.in_camp.attendeeInfo', compact('camp','batch','applicant','contactlog'));
         }
     }
 
@@ -1749,9 +1758,8 @@ class BackendController extends Controller {
         $applicant_id = $formData['applicant_id'];
         $applicant = Applicant::find($applicant_id);
         $applicant->remark=$formData['remark'];
-        //dd($applicant_id);
-        $applicant = Applicant::find($applicant_id);
-        $applicant->update($formData);
+        //dd($applicant->remark);
+        $applicant->save();
         \Session::flash('message', "備註修改成功。");
         return back();
     }
