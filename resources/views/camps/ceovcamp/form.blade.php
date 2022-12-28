@@ -17,6 +17,18 @@
         <h4>{{ $camp_data->fullName }}線上報名表</h4>
     </div>
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
+
+<hr>
+    <h5>
+    @if(!isset($isModify) || $isModify)
+    <a href="{{ route('query', 49) }}" class="text-info">查詢並使用 *2022年菁英營* 報名資料</a>
+    <br>
+    <a href="{{ route('query', 49) }}" class="text-info">查詢並使用 *2022年菁英營義工* 報名資料</a>
+    @else
+    使用此資料報名2023年菁英營義工
+    @endif
+    </h5>
+<hr>
 @if(!isset($isModify) || $isModify)
     <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form' enctype="multipart/form-data">
 {{-- 以上皆非: 檢視資料狀態 --}}
