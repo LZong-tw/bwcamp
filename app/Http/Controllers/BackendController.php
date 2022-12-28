@@ -1137,7 +1137,7 @@ class BackendController extends Controller {
         ini_set('max_execution_time', -1);
         ini_set("memory_limit", -1);
         if ($request->isMethod("post")) {
-            $queryStr = "";
+            $queryStr = null;
             $payload = $request->all();
             foreach ($payload as $key => &$value) {
                 if (!is_array($value)) {
@@ -1145,10 +1145,23 @@ class BackendController extends Controller {
                 }
             }
             $count = 0;
+            $next_need_to_add_and = 0;
+            $directly_skipped_this_parameter = 0;
             foreach ($payload as $key => $parameters) {
                 if (is_array($parameters)) {
                     foreach ($parameters as $index => $parameter) {
-                        if ($index == 0) {
+                        if (($parameter == '' || $parameter == null) && !$next_need_to_add_and) {
+                            $next_need_to_add_and = 1;
+                            continue;
+                        }
+                        elseif ($index == 0) {
+                            if ($next_need_to_add_and && ($parameter != '' || $parameter != null)) {
+                                $queryStr .= " AND ";
+                                $next_need_to_add_and = 0;
+                            }
+                            else {
+                                $directly_skipped_this_parameter = 1;
+                            }
                             $queryStr .= " (";
                         }
                         if (is_numeric($parameter) && $key != 'name') {
@@ -1196,12 +1209,22 @@ class BackendController extends Controller {
                 }
                 if ($count <= count($payload) - 1) {
                     if ($request->ceocamp_sets_learner) {
-                        if ($key != 'name' || $key != 'age') {
+                        if (
+                            (isset($payload["name"]) && ($payload["name"]['applicants.name'] == '' || $payload["name"]['applicants.name'] == null)) &&
+                            (isset($payload["name"]) && ($payload["name"]['introducer_name'] == '' || $payload["name"]['introducer_name'] == null))
+                        ) {
+                            $queryStr .= "";
+                        }
+                        elseif ($key != 'name' || $key != 'age') {
                             $queryStr .= " and ";
                         }
                         else {
                             $queryStr .= ") and ";
                         }
+                    }
+                    elseif($directly_skipped_this_parameter) {
+                        $queryStr .= "";
+                        $directly_skipped_this_parameter = 0;
                     }
                     else {
                         $queryStr .= " and ";
@@ -1215,12 +1238,15 @@ class BackendController extends Controller {
                         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                         ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
                         ->where('camps.id', $this->campFullData->id)->withTrashed();
+        if ($request->batch_id) {
+            $query->where('batchs.id', $request->batch_id);
+        }
         if ($request->isMethod("post")) {
             if (!$request->ceocamp_sets_learner) {
-                $query = $query->whereRaw(\DB::raw($queryStr . "and 1=1") );
+                $query = $query->whereRaw(\DB::raw($queryStr) . "1=1");
             }
             else {
-                $query = $query->whereRaw(\DB::raw($queryStr . "and 1=1") );
+                $query = $query->whereRaw(\DB::raw($queryStr));
             }
             $request->flash();
         }
@@ -1418,6 +1444,7 @@ class BackendController extends Controller {
         return view('backend.integrated_operating_interface.theList')
                 ->with('applicants', $applicants)
                 ->with('batches', $batches)
+                ->with('current_batch', Batch::find($request->batch_id))
                 ->with('isShowVolunteers', 0)
                 ->with('isSetting', $isSetting)
                 ->with('is_care', 1)
@@ -1426,7 +1453,7 @@ class BackendController extends Controller {
                 ->with('groupName', '')
                 ->with('columns_zhtw', $columns_zhtw)
                 ->with('fullName', $this->campFullData->fullName)
-                ->with('queryStr', $queryStr ?? '')
+                ->with('queryStr', $queryStr ?? null)
                 ->with('groups', $this->campFullData->groups)
                 ->withInput($request->all());
     }
