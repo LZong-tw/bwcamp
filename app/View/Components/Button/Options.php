@@ -2,6 +2,7 @@
 
 namespace App\View\Components\Button;
 
+use App\Models\Batch;
 use Illuminate\View\Component;
 
 class Options extends Component
@@ -15,7 +16,8 @@ class Options extends Component
         public bool $isIngroup = false,
         public bool $isVcamp = false,
         public bool $isCare = false,
-        public bool $isCareV = false
+        public bool $isCareV = false,
+        public Batch|null $currentBatch = null,
     ) {
         //
     }
