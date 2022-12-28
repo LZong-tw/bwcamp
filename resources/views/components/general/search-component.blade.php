@@ -1,3 +1,4 @@
+@if($isCare)
 <div class="jumbotron mt-3 p-4" id="ioi-search">
     <!-- Happiness is not something readymade. It comes from your own actions. - Dalai Lama -->
     <div class="alert-primary mb-3 border border-secondary rounded col-8 py-2">
@@ -80,4 +81,5 @@
         </form>
     @endif
 </div>
+@endif
 

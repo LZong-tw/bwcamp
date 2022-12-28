@@ -447,7 +447,7 @@ return [
                 "sort" => 1,
                 "for_query" => 1,
             ],
-            "job" => [
+            "position" => [
                 "name" => "職務",
                 "sort" => 1,
                 "for_query" => 1,

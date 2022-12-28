@@ -8,6 +8,10 @@ class OrgUser extends Model
 {
     protected $table = 'org_user';
 
+    protected $fillable = [
+        'org_id', 'user_id', 'user_type'
+    ];
+
     public $resourceNameInMandarin = '指派職務';
 
     public function role_data()
