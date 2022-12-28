@@ -1146,100 +1146,13 @@ class BackendController extends Controller {
         ini_set('max_execution_time', -1);
         ini_set("memory_limit", -1);
         if ($request->isMethod("post")) {
-            $queryStr = null;
             $payload = $request->all();
             foreach ($payload as $key => &$value) {
                 if (!is_array($value)) {
                     unset($payload[$key]);
                 }
             }
-            $count = 0;
-            $next_need_to_add_and = 0;
-            $directly_skipped_this_parameter = 0;
-            foreach ($payload as $key => $parameters) {
-                if (is_array($parameters)) {
-                    foreach ($parameters as $index => $parameter) {
-                        if (($parameter == '' || $parameter == null) && !$next_need_to_add_and) {
-                            $next_need_to_add_and = 1;
-                            continue;
-                        }
-                        elseif ($index == 0) {
-                            if ($next_need_to_add_and && ($parameter != '' || $parameter != null)) {
-                                $queryStr .= " AND ";
-                                $next_need_to_add_and = 0;
-                            }
-                            else {
-                                $directly_skipped_this_parameter = 1;
-                            }
-                            $queryStr .= " (";
-                        }
-                        if (is_numeric($parameter) && $key != 'name') {
-                            if ($key == 'age' && !$request->ceocamp_sets_learner) {
-                                $year = now()->subYears($parameter)->format('Y');
-                                $queryStr .= "birthyear = " . $year;
-                            } else {
-                                $queryStr .= $key . "=" . $parameter;
-                            }
-                        }
-                        elseif ($key == "group_id" && $parameter == "na") {
-                            $queryStr .= "group_id = '' or group_id is null";
-                        }
-                        elseif ($key == "age") {
-                            $parameter = str_replace("age", "timestampdiff(year, concat(birthyear, '-01-01'), curdate())", $parameter);
-                            $queryStr .= $parameter;
-                        }
-                        elseif (is_string($parameter) && $key == 'name') {
-                            if (!$request->ceocamp_sets_learner) {
-                                $key = 'applicants.name';
-                                $queryStr .= $key . " like '%" . $parameter . "%'";
-                            }
-                            elseif ($parameter) {
-                                $queryStr .= $index . " like '%" . $parameter . "%'";
-                            }
-                        }
-                        elseif (is_string($parameter)) {
-                            $queryStr .= $key . " like '%" . $parameter . "%'";
-                        }
-                        if (!is_string($index)) {
-                            if ($index != count($parameters) - 1) {
-                                if ($key != "age" && !$request->ceocamp_sets_learner) {
-                                    $queryStr .= " or (";
-                                }
-                                else {
-                                    $queryStr .= " or ";
-                                }
-                            }
-                            else{
-                                $queryStr .= ") ";
-                            }
-                        }
-                    }
-                    $count++;
-                }
-                if ($count <= count($payload) - 1) {
-                    if ($request->ceocamp_sets_learner) {
-                        if (
-                            (isset($payload["name"]) && ($payload["name"]['applicants.name'] == '' || $payload["name"]['applicants.name'] == null)) &&
-                            (isset($payload["name"]) && ($payload["name"]['introducer_name'] == '' || $payload["name"]['introducer_name'] == null))
-                        ) {
-                            $queryStr .= "";
-                        }
-                        elseif ($key != 'name' || $key != 'age') {
-                            $queryStr .= " and ";
-                        }
-                        else {
-                            $queryStr .= ") and ";
-                        }
-                    }
-                    elseif($directly_skipped_this_parameter) {
-                        $queryStr .= "";
-                        $directly_skipped_this_parameter = 0;
-                    }
-                    else {
-                        $queryStr .= " and ";
-                    }
-                }
-            }
+            $queryStr = $this->backendService->queryStringParser($payload, $request);
         }
         $batches = Batch::where("camp_id", $this->campFullData->id)->get();
         $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", $this->campFullData->table . ".id as ''", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
@@ -1470,6 +1383,9 @@ class BackendController extends Controller {
     public function showVolunteers(Request $request) {
         ini_set('max_execution_time', -1);
         ini_set("memory_limit", -1);
+        if (!$this->campFullData->vcamp) {
+            return "<h1>尚未設定對應之義工營。</h1>";
+        }
         if ($request->isMethod("post")) {
             $queryStr = "";
             $payload = $request->all();
@@ -1512,16 +1428,19 @@ class BackendController extends Controller {
                 }
             }
         }
-        $batches = Batch::where("camp_id", $this->campFullData->id)->get();
-        $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", $this->campFullData->table . ".id as ''", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
+        $batches = Batch::where("camp_id", $this->campFullData->vcamp->id)->get();
+        $query = Applicant::select("applicants.*", $this->campFullData->vcamp->table . ".*", $this->campFullData->vcamp->table . ".id as ''", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
                         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
-                        ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
-                        ->where('camps.id', $this->campFullData->id)->withTrashed();
+                        ->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id')
+                        ->where('camps.id', $this->campFullData->vcamp->id)->withTrashed();
         if ($request->isMethod("post")) {
             $query = $query->where(\DB::raw($queryStr), 1);
         }
         $applicants = $query->get();
+        $registeredUsers = \App\Models\User::with('roles')->whereHas('roles', function ($query) {
+            $query->where('camp_id', $this->campFullData->id);
+        })->get();
         if (auth()->user()->getPermission(false)->role->level <= 2) {
         }
         else if(auth()->user()->getPermission(true, $this->campFullData->id)->level > 2){
@@ -1545,7 +1464,9 @@ class BackendController extends Controller {
 
         return view('backend.integrated_operating_interface.theList')
                 ->with('applicants', $applicants)
+                ->with('onlyRegisteredVolunteers', $registeredUsers)
                 ->with('batches', $batches)
+                ->with('current_batch', Batch::find($request->batch_id))
                 ->with('isShowVolunteers', 1)
                 ->with('isSetting', $isSetting)
                 ->with('is_care', 0)

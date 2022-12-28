@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\Models\ContactLog;
 use App\Models\GroupNumber;
 use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 
@@ -173,5 +174,98 @@ class BackendService
     public function getCampOrganizations(Camp $camp): Collection | null
     {
         return $camp->organizations ?? null;
+    }
+
+    public function queryStringParser(array $payload, Request $request): string | null
+    {
+        $queryStr = null;
+        $count = 0;
+        $next_need_to_add_and = 0;
+        $directly_skipped_this_parameter = 0;
+        foreach ($payload as $key => $parameters) {
+            if (is_array($parameters)) {
+                foreach ($parameters as $index => $parameter) {
+                    if (($parameter == '' || $parameter == null) && !$next_need_to_add_and) {
+                        $next_need_to_add_and = 1;
+                        continue;
+                    }
+                    elseif ($index == 0) {
+                        if ($next_need_to_add_and && ($parameter != '' || $parameter != null)) {
+                            $queryStr .= " AND ";
+                            $next_need_to_add_and = 0;
+                        }
+                        else {
+                            $directly_skipped_this_parameter = 1;
+                        }
+                        $queryStr .= " (";
+                    }
+                    if (is_numeric($parameter) && $key != 'name') {
+                        if ($key == 'age' && !$request->ceocamp_sets_learner) {
+                            $year = now()->subYears($parameter)->format('Y');
+                            $queryStr .= "birthyear = " . $year;
+                        } else {
+                            $queryStr .= $key . "=" . $parameter;
+                        }
+                    }
+                    elseif ($key == "group_id" && $parameter == "na") {
+                        $queryStr .= "group_id = '' or group_id is null";
+                    }
+                    elseif ($key == "age") {
+                        $parameter = str_replace("age", "timestampdiff(year, concat(birthyear, '-01-01'), curdate())", $parameter);
+                        $queryStr .= $parameter;
+                    }
+                    elseif (is_string($parameter) && $key == 'name') {
+                        if (!$request->ceocamp_sets_learner) {
+                            $key = 'applicants.name';
+                            $queryStr .= $key . " like '%" . $parameter . "%'";
+                        }
+                        elseif ($parameter) {
+                            $queryStr .= $index . " like '%" . $parameter . "%'";
+                        }
+                    }
+                    elseif (is_string($parameter)) {
+                        $queryStr .= $key . " like '%" . $parameter . "%'";
+                    }
+                    if (!is_string($index)) {
+                        if ($index != count($parameters) - 1) {
+                            if ($key != "age" && !$request->ceocamp_sets_learner) {
+                                $queryStr .= " or (";
+                            }
+                            else {
+                                $queryStr .= " or ";
+                            }
+                        }
+                        else{
+                            $queryStr .= ") ";
+                        }
+                    }
+                }
+                $count++;
+            }
+            if ($count <= count($payload) - 1) {
+                if ($request->ceocamp_sets_learner) {
+                    if (
+                        (isset($payload["name"]) && ($payload["name"]['applicants.name'] == '' || $payload["name"]['applicants.name'] == null)) &&
+                        (isset($payload["name"]) && ($payload["name"]['introducer_name'] == '' || $payload["name"]['introducer_name'] == null))
+                    ) {
+                        $queryStr .= "";
+                    }
+                    elseif ($key != 'name' || $key != 'age') {
+                        $queryStr .= " and ";
+                    }
+                    else {
+                        $queryStr .= ") and ";
+                    }
+                }
+                elseif($directly_skipped_this_parameter) {
+                    $queryStr .= "";
+                    $directly_skipped_this_parameter = 0;
+                }
+                else {
+                    $queryStr .= " and ";
+                }
+            }
+        }
+        return $queryStr;
     }
 }
