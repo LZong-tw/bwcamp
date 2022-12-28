@@ -1474,7 +1474,8 @@ class BackendController extends Controller {
                 ->with('is_ingroup', 0)
                 ->with('groupName', '')
                 ->with('columns_zhtw', $columns_zhtw)
-                ->with('fullName', $this->campFullData->fullName)
+                ->with('fullName', $this->campFullData->vcamp->fullName)
+                ->with('groups', $this->campFullData->vcamp->roles)
                 ->with('queryStr', $queryStr ?? '');
     }
 

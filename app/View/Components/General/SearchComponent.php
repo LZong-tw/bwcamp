@@ -20,6 +20,7 @@ class SearchComponent extends Component
         public Collection|null $groups,
         public Batch|null  $currentBatch = null,
         public string|null $queryStr = null,
+        public bool|null $isCare = null,
     ) { }
 
     /**

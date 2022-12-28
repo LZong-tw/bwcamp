@@ -33,14 +33,12 @@
             <tr>
                 @if($isSetting ?? false)
                     <td class="text-center">
-                        <input type="checkbox" name="applicants[]" class="applicants_selector" value="{{ $applicant->sn }}"  id="{{ $applicant->sn }}" onclick="applicant_triggered(this.id)">
+                        <input type="checkbox" name="applicants[]" class="applicants_selector" value="{{ $applicant->sn }}"  id="U{{ $applicant->id }}" onclick="applicant_triggered(this.id)">
                     </td>
                 @endif
                 @foreach ($columns as $key => $item)
                     @php
                         $applicant->age = $applicant->age;
-                        $applicant->group = $applicant->groupRelation?->alias;
-                        $applicant->job = $applicant->groupOrgRelation?->position;
                     @endphp
                     @if($key == "avatar" && $applicant->avatar)
                         <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($applicant->avatar)) }}" width=80 alt="{{ $applicant->name }}"></td>
@@ -52,8 +50,10 @@
                         <td>no photo</td>
                     @elseif($key == "gender")
                         <td>{{ $applicant->gender_zh_tw }}</td>
-                    @elseif($isVcamp && $key == "group" && isset($applicant->groupOrgRelation->section))
-                        <td>{{ $applicant->groupOrgRelation?->section }}</td>
+                    @elseif($isVcamp && $key == "group")
+                        <td>@foreach($applicant->roles as $role) {{ $role->section }}<br> @endforeach</td>
+                    @elseif($isVcamp && $key == "position")
+                        <td>@foreach($applicant->roles as $role) {{ $role->position }}<br> @endforeach</td>
                     @elseif(!$isVcamp && !$isCare && $key == "contactlog")
                     @elseif($key == "is_attend")
                         @if($applicant->$key == 1)
@@ -140,7 +140,6 @@
                 @endforeach
             </tr>
         @empty
-            查詢的條件沒有資料
         @endforelse
     </table>
 </div>

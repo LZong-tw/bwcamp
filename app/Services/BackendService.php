@@ -6,6 +6,7 @@ use App\Models\ApplicantsGroup;
 use App\Models\Batch;
 use App\Models\Camp;
 use App\Models\CampOrg;
+use App\Models\OrgUser;
 use Carbon\Carbon;
 use App\Models\ContactLog;
 use App\Models\GroupNumber;
@@ -98,17 +99,27 @@ class BackendService
         return true;
     }
 
-    public function setGroupOrgNew(array $applicants, string $groupId): bool
+    public function setGroupOrg(array $applicantsOrUsers, string $groupId): bool
     {
-        foreach ($applicants as $applicant) {
-            $applicant = Applicant::findOrFail($applicant);
-            $groupOrg = CampOrg::findOrFail($groupId);
-            if (!$applicant->is_admitted) {
-                $this->setAdmitted($applicant, true);
+        $groupOrg = CampOrg::findOrFail($groupId);
+        foreach ($applicantsOrUsers as $entity) {
+            if (str_contains($entity, "U")) {
+                $user = \App\Models\User::findOrFail(str_replace("U", "", $entity));
+                (new OrgUser([
+                    'org_id' => $groupOrg->id,
+                    'user_id' => $user->id,
+                    'user_type' => 'App\Models\User',
+                ]))->save();
             }
-            $applicant->groupOrgRelation()->associate($groupOrg);
-            $applicant->save();
-            $applicant->refresh();
+            else {
+                $applicant = Applicant::findOrFail($entity);
+                if (!$applicant->is_admitted) {
+                    $this->setAdmitted($applicant, true);
+                }
+                $applicant->groupOrgRelation()->associate($groupOrg);
+                $applicant->save();
+                $applicant->refresh();
+            }
         }
         return true;
     }
