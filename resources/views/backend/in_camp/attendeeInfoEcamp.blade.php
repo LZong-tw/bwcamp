@@ -68,23 +68,23 @@
         <div class="row">
             <div class="col-md-4">
                 <a href="#" class="btn btn-warning" onclick="">聯絡方式</a><br><br>
-                <b>行動電話</b>：{{$applicant->mobile}}<br>
-                <b>公司電話</b>：{{$applicant->phone_work}}<br>
-                <b>住家電話</b>：{{$applicant->phone_work}}<br>
-                <b>LineID</b>：{{$applicant->line}}<br>
-                <b>微信ID</b>：{{$applicant->line}}<br>
-                <b>電子郵件</b>：{{$applicant->email}}<br>
+                <b>行動電話</b>：<a href="tel:{{$applicant->mobile}}">{{$applicant->mobile}}</a><br>
+                <b>公司電話</b>：<a href="tel:{{$applicant->phone_work}}">{{$applicant->phone_work}}</a><br>
+                <b>住家電話</b>：<a href="tel:{{$applicant->phone_home}}">{{$applicant->phone_home}}</a><br>
+                <b>LineID</b>：<a href="https://line.me/ti/p/~{{$applicant->line}}">{{$applicant->line}}</a><br>
+                <b>微信ID</b>：<a href="weixin://contacts/profile/{{$applicant->wechat}}">{{$applicant->wechat}}</a><br>
+                <b>電子郵件</b>：<a href="mailto:{{$applicant->email}}">{{$applicant->email}}</a><br>
                 <b>通訊地址</b>：{{$applicant->address}}<br>
             </div>
             <div class="col-md-4">
                 <a href="#" class="btn btn-warning" onclick="">關係人資訊</a><br><br>
                 <b>緊急聯絡人</b>：{{$applicant->emergency_name}}<br>
                 <b>關係</b>：{{$applicant->emergency_relationship}}<br>
-                <b>聯絡電話</b>：{{$applicant->emergency_mobile}}<br>
+                <b>聯絡電話</b>：<a href="tel:{{$applicant->emergency_mobile}}">{{$applicant->emergency_mobile}}</a><br>
                 -----<br>
                 <b>介紹人</b>：{{$applicant->introducer_name}}<br>
                 <b>關係</b>：{{$applicant->introducer_relationship}}<br>
-                <b>聯絡電話</b>：{{$applicant->introducer_phone}}<br>
+                <b>聯絡電話</b>：<a href="tel:{{$applicant->introducer_phone}}">{{$applicant->introducer_phone}}</a><br>
                 <b>福智班別</b>：{{$applicant->introducer_participated}}<br>
             </div>
             <div class="col-md-4">
@@ -113,6 +113,16 @@
                     {{ $event }}<br>
                 @endforeach
                 @endif
+                <br>
+                <a href="#" class="btn btn-info" onclick="">備註</a><br>
+                <form action="{{ route('editRemark', $camp->id) }}" method="POST">
+                    @csrf
+                    <br>
+                    <textarea class=form-control rows=5 required name='remark' id="remark" readonly onclick='enableEditRemark()'>{{ $applicant->remark }}</textarea>
+                    <br>
+                    <input type="hidden" name="applicant_id" value="{{ $applicant->applicant_id }}">
+                    <input type="submit" class="btn btn-primary float-right" name="editremark" id="editremark" value="確認編輯" disabled>
+                </form>
             </div>
             <div class="col-md-8">
                 <a href="#" class="btn btn-info" onclick="">關懷記錄</a><br>
@@ -139,4 +149,11 @@
         </div>
     </div>
 @endif
+<script>
+        function enableEditRemark(){
+            document.getElementById("remark").readOnly=false;
+            document.getElementById("editremark").disabled=false;
+        }
+</script>
+
 @endsection
