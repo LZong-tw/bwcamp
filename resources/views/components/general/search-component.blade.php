@@ -16,10 +16,10 @@
             $specificData = $table::whereIn('applicant_id', $applicants_id)->get();
             $industries = $specificData->pluck('industry')->unique();
             $industryOther = null;
-            foreach ($industries as &$industry) {
+            foreach ($industries as $key => $industry) {
                 if ($industry == "其他" || $industry == "其它") {
                     $industryOther = $industry;
-                    unset($industry);
+                    unset($industries[$key]);
                 }
             }
         @endphp
