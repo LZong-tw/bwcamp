@@ -15,6 +15,13 @@
             $table = "\\App\\Models\\" . $camp->table;
             $specificData = $table::whereIn('applicant_id', $applicants_id)->get();
             $industries = $specificData->pluck('industry')->unique();
+            $industryOther = null;
+            foreach ($industries as &$industry) {
+                if ($industry == "其他" || $industry == "其它") {
+                    $industryOther = $industry;
+                    unset($industry);
+                }
+            }
         @endphp
         <h5>套用篩選條件</h5>
         <form action="" method="post">
@@ -51,6 +58,7 @@
                     @foreach($industries as $industry)
                         <option value="{{ $industry }}" @selected(is_array(old('industry')) ? in_array($industry, old('industry')) : false)>{{ $industry }}</option>
                     @endforeach
+                    <option value="{{ $industryOther }}">{{ $industryOther }}</option>
                 </select>
             </div>
             <div class="align-items-center">參加形式：
