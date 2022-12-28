@@ -161,7 +161,7 @@ class AdminController extends BackendController {
     public function showModifyCamp($camp_id){
         $camp = Camp::find($camp_id);
         $camp_orgs = $camp->organizations;
-        $vcamps = Camp::where('registration_end', 'like', now()->year . "%")->where('table', 'like', '%vcamp%')->get();
+        $vcamps = Camp::where('registration_end', '>', now()->year . "-01-01")->where('table', 'like', '%vcamp%')->get();
         return view('backend.camp.campForm', ["action" => "修改", "actionURL" => route("modifyCamp", $camp->id), "camp" => $camp, "vcamps" => $vcamps]);
     }
 
