@@ -9,6 +9,13 @@
         color: #33B2FF!important;
     }
 </style>
+@if($errors->any())
+    @foreach ($errors->all() as $message)
+        <div class='alert alert-danger' role='alert'>
+            {{ $message }}
+        </div>
+    @endforeach
+@endif
 @if(isset($applicant))
     <h4>學員關懷系統</h4>
     <h5>{{ $camp->fullName }}>>義工詳細資料>>{{ $applicant->name }}</h5>
@@ -67,10 +74,10 @@
         <div class="row">
             <div class="col-md-4">
                 <a href="#" class="btn btn-warning" onclick="">聯絡方式</a><br><br>
-                <b>手機號碼</b>：{{$applicant->mobile}}<br>
-                <b>公司電話</b>：{{$applicant->phone_work}}<br>
-                <b>電子信箱</b>：{{$applicant->email}}<br>
-                <b>LineID</b>：{{$applicant->line}}<br>
+                <b>手機號碼</b>：<a href="tel:{{$applicant->mobile}}">{{$applicant->mobile}}</a><br>
+                <b>公司電話</b>：<a href="tel:{{$applicant->phone_work}}">{{$applicant->phone_work}}</a><br>
+                <b>電子信箱</b>：<a href="mailto:{{$applicant->email}}">{{$applicant->email}}</a><br>
+                <b>LineID</b>：<a href="https://line.me/ti/p/~{{$applicant->line}}">{{$applicant->line}}</a><br>
                 <b>邀請人</b>：{{$applicant->introducer_name}}<br>
             </div>
             <div class="col-md-4">
@@ -99,9 +106,19 @@
             <div class="col-md-4">
                 <a href="#" class="btn btn-info" onclick="">班級護持記錄</a><br><br>
                 {{ $applicant->cadre_experiences }}<br>
-                <br><br>
+                <br>
                 <a href="#" class="btn btn-info" onclick="">義工護持記錄</a><br><br>
                 {{ $applicant->volunteer_experiences }}<br>
+                <br>
+                <a href="#" class="btn btn-info" onclick="">備註</a><br>
+                <form action="{{ route('editRemark', $camp->id) }}" method="POST">
+                    @csrf
+                    <br>
+                    <textarea class=form-control rows=5 required name='remark' id="remark" readonly onclick='enableEditRemark()'>{{ $applicant->remark }}</textarea>
+                    <br>
+                    <input type="hidden" name="applicant_id" value="{{ $applicant->applicant_id }}">
+                    <input type="submit" class="btn btn-primary float-right" name="editremark" id="editremark" value="確認編輯" disabled>
+                </form>
             </div>
             <div class="col-md-8">
                 <a href="#" class="btn btn-info" onclick="">關懷記錄</a><br>
@@ -128,4 +145,11 @@
         </div>
     </div>
 @endif
+<script>
+        function enableEditRemark(){
+            document.getElementById("remark").readOnly=false;
+            document.getElementById("editremark").disabled=false;
+        }
+</script>
+
 @endsection
