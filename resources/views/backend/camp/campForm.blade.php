@@ -77,6 +77,25 @@
                 <input type="text" name="icon" id="" class='form-control' value="{{ $camp->icon ?? "" }}">
             </div>
         </div>
+        @if($vcamps ?? false)
+            <div class='row form-group'>
+                <label for='inputName' class='col-md-2 control-label'>關聯之義工營</label>
+                <div class='col-md-6'>
+                    <select name="vcamp_id" id="" class='form-control' required>
+                        <option value="">請選擇</option>
+                        @if($camp->vcamp)
+                            <option value="{{ $camp->vcamp->id }}" selected>{{ $camp->vcamp->fullName }}</option>
+                        @endif
+                        @foreach($vcamps as $vcamp)
+                            @if($camp->vcamp && $camp->vcamp->id == $vcamp->id)
+                                @continue
+                            @endif
+                            <option value="{{ $vcamp->id }}">{{ $vcamp->fullName }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        @endif
         <div class='row form-group'>
             <label for='inputName' class='col-md-2 control-label'>Variant</label>
             <div class='col-md-6'>
