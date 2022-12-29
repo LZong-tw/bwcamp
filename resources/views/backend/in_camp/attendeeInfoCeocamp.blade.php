@@ -66,7 +66,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <a href="#" class="btn btn-warning" onclick="">聯絡方式</a><br><br>
+                <span class="btn btn-warning">聯絡方式</span><br><br>
                 <b>手機號碼</b>：<a href="tel:{{$applicant->mobile}}">{{$applicant->mobile}}</a><br>
                 <b>公司電話</b>：<a href="tel:{{$applicant->phone_work}}">{{$applicant->phone_work}}</a><br>
                 <b>電子信箱</b>：<a href="mailto:{{$applicant->email}}">{{$applicant->email}}</a><br>
@@ -74,11 +74,17 @@
                 <b>代理人</b>：{{$applicant->substitute_name}}<br>
                 <b>代理人電話</b>：<a href="tel:{{$applicant->substitute_phone}}">{{$applicant->substitute_phone}}</a><br>
                 <b>代理人電子信箱</b>：<a href="mailto:{{$applicant->substitute_email}}">{{$applicant->substitute_email}}</a><br>
-                <b>適合聯絡時段</b>：{{$applicant->contact_time}}<br>
+                <b>適合聯絡時段</b>：<br>
+                @if(isset($applicant->contact_time_split))
+                @foreach($applicant->contact_time_split as $contact_time)
+                    {{ $contact_time }}<br>
+                @endforeach
+                @endif
+                <br>
                 <b>地址</b>：{{$applicant->address}}<br>
             </div>
             <div class="col-md-4">
-                <a href="#" class="btn btn-warning" onclick="">推薦人資訊</a><br><br>
+                <span class="btn btn-warning">推薦人資訊</span><br><br>
                 <b>推薦人</b>：{{$applicant->introducer_name}}<br>
                 <b>廣論班別</b>：{{$applicant->introducer_participated}}<br>
                 <b>手機號碼</b>：<a href="tel:{{$applicant->introducer_phone}}">{{$applicant->introducer_phone}}</a><br>
@@ -87,7 +93,7 @@
                 <b>特別推薦理由或社會影響力說明</b>：<br>{{$applicant->reasons_recommend}}<br>
             </div>
             <div class="col-md-4">
-                <a href="#" class="btn btn-warning" onclick="">其他資訊</a><br><br>
+                <span class="btn btn-warning">其他資訊</span><br><br>
                 <b>公司員工</b>：{{$applicant->employees}} 人<br>
                 <b>所轄員工</b>：{{$applicant->direct_managed_employees}} 人<br>
                 <b>資本額</b>：{{$applicant->capital}} {{$applicant->capital_unit}}<br>
@@ -104,13 +110,13 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <a href="#" class="btn btn-info" onclick="">關心議題</a><br><br>
+            	<span class="btn btn-info">關心議題</span><br><br>
                 @if(isset($applicant->favored_events))
                 @foreach($applicant->favored_events as $event)
                     {{ $event }}<br>
                 @endforeach
                 @endif
-                <a href="#" class="btn btn-info" onclick="">備註</a><br>
+                <span class="btn btn-info">備註</span><br>
                 <form action="{{ route('editRemark', $camp->id) }}" method="POST">
                     @csrf
                     <br>
@@ -121,7 +127,7 @@
                 </form>
             </div>
             <div class="col-md-8">
-                <a href="#" class="btn btn-info" onclick="">關懷記錄</a><br>
+                <span class="btn btn-info">關懷記錄</span><br>
                 <form action="{{ route('addContactLog', $camp->id) }}" method="POST">
                     @csrf
                     <br>

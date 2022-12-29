@@ -869,6 +869,7 @@ class BackendController extends Controller {
                                                 $this->campFullData->table,
                                                 $request->snORadmittedSN,
                                             );
+    
         if($applicant){
             $applicant = $this->applicantService->Mandarization($applicant);
         }
@@ -899,7 +900,9 @@ class BackendController extends Controller {
         if(isset($applicant->after_camp_available_day)) {
             $applicant->after_camp_available_day_split = explode("||/",$applicant->after_camp_available_day);
         }
-        //dd($applicant);
+        if(isset($applicant->contact_time)) {
+            $applicant->contact_time_split = explode("||/",$applicant->contact_time);
+        }
         if($camp->table == "ceovcamp") {
             return view('backend.in_camp.volunteerInfo', compact('camp','batch','applicant','contactlog'));
         } elseif($camp->table == "ceocamp") {
@@ -1761,7 +1764,15 @@ class BackendController extends Controller {
         //dd($applicant->remark);
         $applicant->save();
         \Session::flash('message', "備註修改成功。");
-        return back();
+
+        $controller = resolve(self::class);
+        $request = new Request();
+        $request->replace([
+            "_token" => csrf_token(),
+            "snORadmittedSN" => $applicant_id,
+            "camp_id" => $camp_id
+        ]);
+        return $controller->showAttendeeInfo($request);
     }
 
     public function addContactLog(Request $request, $camp_id){
