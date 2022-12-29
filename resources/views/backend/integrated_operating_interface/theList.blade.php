@@ -45,9 +45,9 @@
     @if($is_ingroup)
     @else
         @if($isShowVolunteers && !$is_care)
-            <x-checkbox.position-groups :isCare="$is_care" />
+{{--            <x-checkbox.position-groups :isCare="$is_care" />--}}
         @else
-            <x-checkbox.caring-groups :$batches />
+{{--            <x-checkbox.caring-groups :$batches />--}}
         @endif
         <br>
     @endif
