@@ -2,6 +2,7 @@
 
 namespace App\View\Components\General;
 
+use App\Models\Batch;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\Component;
 use App\Models\Camp;
@@ -17,6 +18,9 @@ class SearchComponent extends Component
         public array $columns,
         public Camp|null $camp,
         public Collection|null $groups,
+        public Batch|null  $currentBatch = null,
+        public string|null $queryStr = null,
+        public bool|null $isCare = null,
     ) { }
 
     /**

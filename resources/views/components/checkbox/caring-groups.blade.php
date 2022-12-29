@@ -1,8 +1,8 @@
 <div id="checkboxGroups">
     <!-- Very little is needed to make a happy life. - Marcus Aurelius -->
-{{--    <button class="btn btn-primary btn-sm" onclick="check_all('groupsname')" value="all"> 所有學員 </button>--}}
-{{--    &nbsp;&nbsp;--}}
-{{--    <input type="checkbox" name="groupsname" onclick="" value="-1"> 未分組 </input>--}}
+    <button class="btn btn-primary btn-sm" onclick="check_all('groupsname')" value="all"> 所有學員 </button>
+    &nbsp;&nbsp;
+    <input type="checkbox" name="groupsname" onclick="" value="-1"> 未分組 </input>
     &nbsp;&nbsp;
 </div>
 
@@ -13,14 +13,14 @@
             url: '/semi-api/getBatchGroups',
             params: {
                 camp_id: {{ request()->route('camp_id') }},
-                batch_id: {{ request()->input('batch') ?? $batches->first()->id }},
+                batch_id: {{ request()->input('batch') ?? $batches->first()?->id }},
             },
             responseType: 'json'
         })
         .then(function (response) {
             if (Object.keys(response.data).length === 0) {
                 console.log(response.data);
-                {{-- 特殊處理 --}}
+                 // 特殊處理
             }
             else {
                 let groups = Object.entries(response.data);
