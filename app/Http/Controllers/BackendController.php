@@ -1525,7 +1525,7 @@ class BackendController extends Controller {
             }
         }
         $batches = Batch::where("camp_id", $this->campFullData->id)->get();
-        $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", $this->campFullData->table . ".id as ''", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
+        $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", $this->campFullData->table . ".id as ''", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
                         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                         ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
@@ -1559,6 +1559,7 @@ class BackendController extends Controller {
                 ->with('applicants', $applicants)
                 ->with('batches', $batches)
                 ->with('isShowVolunteers', 1)
+                ->with('current_batch', Batch::find($request->batch_id))
                 ->with('isSetting', $isSetting)
                 ->with('is_care', 1)
                 ->with('is_careV', 1)
@@ -1566,6 +1567,7 @@ class BackendController extends Controller {
                 ->with('groupName', '第1組')
                 ->with('columns_zhtw', $columns_zhtw)
                 ->with('fullName', $this->campFullData->fullName)
+                ->with('groups', $this->campFullData->roles)
                 ->with('queryStr', $queryStr ?? '');
     }
 
