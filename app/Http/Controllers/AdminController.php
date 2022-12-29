@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CampVcampXref;
 use App\Models\Permission;
+use App\Models\Vcamp;
 use Illuminate\Http\Request;
 use App\Models\Camp;
 use App\Models\CampOrg;
@@ -148,6 +150,10 @@ class AdminController extends BackendController {
         $camp = Camp::find($camp_id);
         $camp->update($formData);
         $campName = $formData["abbreviation"];
+        if ($request->vcamp_id) {
+            (new CampVcampXref(["camp_id" => $camp_id, "vcamp_id" => $request->vcamp_id]))->save();
+            // todo: 有更好的解決方案
+        }
         \Session::flash('message', $campName . " 修改成功。");
         return redirect()->route("campManagement");
     }
@@ -155,7 +161,8 @@ class AdminController extends BackendController {
     public function showModifyCamp($camp_id){
         $camp = Camp::find($camp_id);
         $camp_orgs = $camp->organizations;
-        return view('backend.camp.campForm', ["action" => "修改", "actionURL" => route("modifyCamp", $camp->id), "camp" => $camp]);
+        $vcamps = Camp::where('registration_end', '>', now()->year . "-01-01")->where('table', 'like', '%vcamp%')->get();
+        return view('backend.camp.campForm', ["action" => "修改", "actionURL" => route("modifyCamp", $camp->id), "camp" => $camp, "vcamps" => $vcamps]);
     }
 
     public function addBatches(Request $request, $camp_id){

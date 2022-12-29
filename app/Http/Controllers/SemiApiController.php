@@ -36,7 +36,7 @@ class SemiApiController extends Controller
 
     public function setGroupOrg(Request $request)
     {
-        $applicant = $this->backendService->setGroupOrgNew($request->applicant_ids, $request->group_id);
+        $applicant = $this->backendService->setGroupOrg($request->applicant_ids, $request->group_id);
         return response()->json(['status' => 'success']);
     }
 

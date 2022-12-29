@@ -56,6 +56,10 @@ class Camp extends Model
         return $this->hasManyThrough(ApplicantsGroup::class, Batch::class);
     }
 
+    public function vcamp()
+    {
+        return $this->hasOneThrough(Vcamp::class, CampVcampXref::class, 'camp_id', 'id', 'id', 'vcamp_id');
+    }
     public function allSignAvailabilities() {
         return $this->hasManyThrough(BatchSignInAvailibility::class, Batch::class);
     }

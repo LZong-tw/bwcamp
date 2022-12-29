@@ -46,6 +46,11 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\Role', 'role_user', 'user_id', 'role_id');
     }
 
+    public function groupOrgRelation()
+    {
+        return $this->belongsToMany(CampOrg::class, 'org_user', 'user_id', 'org_id');
+    }
+
     /**
      * Send the given notification.
      *

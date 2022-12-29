@@ -29,6 +29,62 @@
                 @endforeach
             </tr>
         </thead>
+        @forelse ($onlyRegisteredVolunteers as &$applicant)
+            <tr>
+                @if($isSetting ?? false)
+                    <td class="text-center">
+                        <input type="checkbox" name="applicants[]" class="applicants_selector" value="{{ $applicant->sn }}"  id="U{{ $applicant->id }}" onclick="applicant_triggered(this.id)">
+                    </td>
+                @endif
+                @foreach ($columns as $key => $item)
+                    @php
+                        $applicant->age = $applicant->age;
+                    @endphp
+                    @if($key == "avatar" && $applicant->avatar)
+                        <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($applicant->avatar)) }}" width=80 alt="{{ $applicant->name }}"></td>
+                    @elseif($key == "name")
+                        <td>
+                            <a href="{{ route('showAttendeeInfoGET', $campFullData->id) }}?snORadmittedSN={{ $applicant->applicant_id }}" target="_blank">{{ $applicant->name }}</a>
+                        </td>
+                    @elseif($key == "avatar" && !$applicant->avatar)
+                        <td>no photo</td>
+                    @elseif($key == "gender")
+                        <td>{{ $applicant->gender_zh_tw }}</td>
+                    @elseif($isVcamp && $key == "group")
+                        <td>@foreach($applicant->roles as $role) {{ $role->section }}<br> @endforeach</td>
+                    @elseif($isVcamp && $key == "position")
+                        <td>@foreach($applicant->roles as $role) {{ $role->position }}<br> @endforeach</td>
+                    @elseif(!$isVcamp && !$isCare && $key == "contactlog")
+                    @elseif($key == "is_attend")
+                        @if($applicant->$key == 1)
+                            <td>是</td>
+                        @elseif($applicant->$key === 0)
+                            <td>否</td>
+                        @else
+                            <td>未定</td>
+                        @endif
+                    @elseif($key == "reasons_recommend")
+                        <td>
+                            {{ Str::limit($applicant->$key, 100,'...') ?? "-" }}
+                        </td>
+                    @elseif($key == "contactlog")
+                        <td>
+                            {{ Str::limit($applicant->contactlog?->sortByDesc('id')->first()?->notes, 50,'...') ?? "-" }}
+                            <div>
+                                <a href="{{ route('showAttendeeInfoGET', $campFullData->id) }}?snORadmittedSN={{ $applicant->id }}#new" target="_blank">⊕新增關懷紀錄</a>
+                                @if(count($applicant->contactlog) && !$isSetting)
+                                    &nbsp;&nbsp;
+                                    <a href="{{ route('showContactLogs', [$campFullData->id, $applicant->id]) }}" target="_blank">🔍看更多</a>
+                                @endif
+                            </div>
+                        </td>
+                    @else
+                        <td>{{ $applicant->$key ?? "-" }}</td>
+                    @endif
+                @endforeach
+            </tr>
+        @empty
+        @endforelse
         @forelse ($applicants as &$applicant)
             <tr>
                 @if($isSetting ?? false)
@@ -84,7 +140,6 @@
                 @endforeach
             </tr>
         @empty
-            查詢的條件沒有資料
         @endforelse
     </table>
 </div>
