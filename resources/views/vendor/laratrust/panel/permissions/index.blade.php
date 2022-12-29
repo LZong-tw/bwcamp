@@ -20,6 +20,7 @@
               <th class="th">Id</th>
               <th class="th">顯示名稱</th>
               <th class="th">可操作資源</th>
+              <th class="th">動作</th>
               <th class="th">範圍</th>
               <th class="th">Description</th>
               <th class="th"></th>
@@ -38,6 +39,17 @@
                     @foreach($models as $model)
                         @if($model["class"] == $permission->resource) {{ $model["name"] }} @endif
                     @endforeach
+                </td>
+                <td class="td text-sm leading-5 text-gray-900">
+                    {{
+                        match ($permission->action) {
+                            'create' => '新增',
+                            'update' => '修改',
+                            'read' => '查詢',
+                            'delete' => '刪除',
+                            default => '未知',
+                        }
+                    }}
                 </td>
                 <td class="td text-sm leading-5 text-gray-900">
                     {{
@@ -64,5 +76,6 @@
       </div>
     </div>
   </div>
+  共 {{ $permissions->total() }} 筆
   {{ $permissions->links('vendor.laratrust.panel.pagination') }}
 @endsection
