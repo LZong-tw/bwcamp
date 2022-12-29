@@ -127,13 +127,13 @@
             <div class="col-md-8">
                 <a href="#" class="btn btn-info" onclick="">關懷記錄</a><br>
                 <form action="{{ route('addContactLog', $camp->id) }}" method="POST">
+                    <a id="new"></a>
                     @csrf
                     <br>
                     <textarea class=form-control rows=5 required name='notes' id=""></textarea>
                     <br>
                     <input type="hidden" name="applicant_id" value="{{ $applicant->applicant_id }}">
                     <input type="hidden" name="todo" value="add">
-                    <a id="new"></a>
                     <input type="submit" class="btn btn-primary float-right" value="新增關懷記錄">
                 </form>
                 <br><br><hr>
