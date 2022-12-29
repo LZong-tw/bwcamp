@@ -13,7 +13,7 @@
                 $applicants = $applicants->where('batch_id', $currentBatch->id);
             }
             $applicants_id = $applicants->pluck('id');
-            $table = "\\App\\Models\\" . $camp->table;
+            $table = "\\App\\Models\\" . ucfirst($camp->table);
             $specificData = $table::whereIn('applicant_id', $applicants_id)->get();
             $industries = $specificData->pluck('industry')->unique();
             $industryOther = null;
