@@ -1475,7 +1475,7 @@ class BackendController extends Controller {
                 ->with('isShowVolunteers', 1)
                 ->with('isSetting', $isSetting)
                 ->with('is_care', 0)
-                ->with('is_careV', 1)
+                ->with('is_careV', 0)
                 ->with('is_ingroup', 0)
                 ->with('groupName', '')
                 ->with('columns_zhtw', $columns_zhtw)
