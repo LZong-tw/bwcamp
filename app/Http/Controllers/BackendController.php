@@ -1173,6 +1173,7 @@ class BackendController extends Controller {
             $request->flash();
         }
         $applicants = $query->get();
+        $applicants = $applicants->each(fn($applicant) => $applicant->id = $applicant->applicant_id);
         if (auth()->user()->getPermission(false)->role->level <= 2) {
         }
         else if(auth()->user()->getPermission(true, $this->campFullData->id)->level > 2){
@@ -1438,6 +1439,7 @@ class BackendController extends Controller {
             $query = $query->where(\DB::raw($queryStr), 1);
         }
         $applicants = $query->get();
+        $applicants = $applicants->each(fn($applicant) => $applicant->id = $applicant->applicant_id);
         $registeredUsers = \App\Models\User::with('roles')->whereHas('roles', function ($query) {
             $query->where('camp_id', $this->campFullData->id);
         })->get();
@@ -1534,6 +1536,7 @@ class BackendController extends Controller {
             $query = $query->where(\DB::raw($queryStr), 1);
         }
         $applicants = $query->get();
+        $applicants = $applicants->each(fn($applicant) => $applicant->id = $applicant->applicant_id);
         if (auth()->user()->getPermission(false)->role->level <= 2) {
         }
         else if(auth()->user()->getPermission(true, $this->campFullData->id)->level > 2){
