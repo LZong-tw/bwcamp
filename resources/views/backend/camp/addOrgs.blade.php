@@ -140,7 +140,7 @@
                         </table>
                     </td>
                 </tr>`;
-            ele = sec_ele1 + sec_num + sec_ele2 + sec_num + sec_ele3 + sec_num + sec_ele4 + + sec_num + sec_ele5;
+            ele = sec_ele1 + sec_num + sec_ele2 + sec_num + sec_ele3 + sec_num + sec_ele4 + sec_num + sec_ele5;
             return ele;
         }
         function genEle2(sec_num){

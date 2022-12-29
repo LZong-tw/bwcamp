@@ -85,4 +85,14 @@ class SemiApiController extends Controller
                     ->first();
         return response()->json($theVcamp);
     }
+
+        public function getOrgSel(Request $request)
+    {
+        $campId = $request->input('camp_id_sel');
+        $camp = Camp::findOrFail($campId);
+        $orgs = $camp->organizations;
+        $orgs = $orgs->sortByDesc('section');
+        //dd($orgs);
+        return response()->json($orgs);
+    }
 }
