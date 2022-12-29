@@ -44,7 +44,7 @@ class RolesController extends BackendController
     {
         return view('vendor.laratrust.panel.roles.index', [
             'roles' => $this->rolesModel::where('camp_id', $camp_id)->withCount('permissions')
-                ->simplePaginate(50),
+                ->orderBy('section', 'position')->simplePaginate(10),
         ]);
     }
 

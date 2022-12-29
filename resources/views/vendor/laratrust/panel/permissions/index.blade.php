@@ -13,12 +13,11 @@
     </a>
     @endif
     <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
-      <div class="mt-4 align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
-        <table class="min-w-full">
+      <div class="mt-4 align-middle inline-block w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
+        <table class="w-full">
           <thead>
             <tr>
               <th class="th">Id</th>
-              <th class="th">系統名稱</th>
               <th class="th">顯示名稱</th>
               <th class="th">可操作資源</th>
               <th class="th">範圍</th>
@@ -33,13 +32,12 @@
                 {{$permission->getKey()}}
               </td>
               <td class="td text-sm leading-5 text-gray-900">
-                {{$permission->name}}
-              </td>
-              <td class="td text-sm leading-5 text-gray-900">
                 {{$permission->display_name}}
               </td>
                 <td class="td text-sm leading-5 text-gray-900">
-                    {{$permission->resource}}
+                    @foreach($models as $model)
+                        @if($model["class"] == $permission->resource) {{ $model["name"] }} @endif
+                    @endforeach
                 </td>
                 <td class="td text-sm leading-5 text-gray-900">
                     {{
