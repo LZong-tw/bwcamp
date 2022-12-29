@@ -14,7 +14,7 @@
                 <a href="?isSetting=1&batch_id={{ $currentBatch?->id ?? "" }}" class="btn btn-danger mb-3">設定組別</a>
             @endif
         @elseif($isVcamp)
-{{--            @if($isCare)                &nbsp;&nbsp;--}}
+            @if($isCare)                &nbsp;&nbsp;
                 <a href="{{ route("showRegistration", $campFullData->vcamp->id) }}" rel="noopener noreferrer" class="btn btn-danger mb-3" target="_blank">新增義工</a>
                 <a href="?isSetting=1&batch_id={{ $currentBatch?->id ?? "" }}" class="btn btn-danger mb-3">設定組別/職務</a>
             @endif
