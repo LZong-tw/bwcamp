@@ -3,7 +3,7 @@
     <div class="alert-primary mb-3 border border-secondary rounded col-8 py-2">
         <span>查詢條件：{{ $queryStr ?? "無" }}</span>
     </div>
-    @if($camp->table != "ceocamp" || $isCareV)
+    @if($isCareV || $camp->table != "ceocamp")
         <ioi-search></ioi-search>
     @else
         @php
