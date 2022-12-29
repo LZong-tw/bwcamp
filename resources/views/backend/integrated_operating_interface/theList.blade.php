@@ -51,11 +51,11 @@
         @else
 {{--            <x-checkbox.caring-groups :$batches />--}}
         @endif
-        <br>
+{{--    <br>--}}
     @endif
     @if($isSetting ?? false)
         <x-general.settings :isIngroup="$is_ingroup" :isVcamp="$isShowVolunteers" :isCare="$is_care" :$batches />
-        <x-general.search-component :columns="$columns_zhtw" :camp="$campFullData" :$groups :currentBatch="$current_batch" :$queryStr :isCare="$is_care" />
+        <x-general.search-component :columns="$columns_zhtw" :camp="$campFullData" :$groups :currentBatch="$current_batch" :$queryStr :isCareV="$is_careV" />
     @endif
     <x-table.applicant-list :columns="$columns_zhtw" :$applicants :isVcamp="$isShowVolunteers" :isCare="$is_care" :$isSetting :onlyRegisteredVolunteers="$onlyRegisteredVolunteers ?? collect([])"/>
 @endif
