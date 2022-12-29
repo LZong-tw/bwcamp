@@ -111,23 +111,31 @@
     })();
 
     function setGroup() {
-        axios({
-            method: 'post',
-            url: '/semi-api/setGroup',
-            data: {
-                applicant_ids: window.applicant_ids,
-                group_id: document.getElementsByName('attendee_group')[0].value
-            },
-            responseType: 'json'
-        })
-        .then(function (response) {
-            if (response.data.status === 'success') {
-                window.location.reload();
+        if(document.getElementsByName('attendee_group')[0].value) {
+            if(window.applicant_ids.length > 0) {
+                axios({
+                    method: 'post',
+                    url: '/semi-api/setGroup',
+                    data: {
+                        applicant_ids: window.applicant_ids,
+                        group_id: document.getElementsByName('attendee_group')[0].value
+                    },
+                    responseType: 'json'
+                })
+                .then(function (response) {
+                    if (response.data.status === 'success') {
+                        window.location.reload();
+                    }
+                    else {
+                        console.log(response.data);
+                    }
+                });
+            } else {
+                alert('請勾選至少一位學員');
             }
-            else {
-                console.log(response.data);
-            }
-        });
+        } else {
+            alert('請選擇組別');
+        }
     }
 
     function setGroupOrg() {
