@@ -39,8 +39,10 @@ class LaratrustPermissionsController extends BackendController
 
     public function index($camp_id)
     {
+        $models = $this->backendService->getAvailableModels();
         return View::make('vendor.laratrust.panel.permissions.index', [
-            'permissions' => $this->permissionModel::simplePaginate(50),
+            'permissions' => $this->permissionModel::orderBy('display_name')->simplePaginate(10),
+            'models' => $models,
         ]);
     }
 
