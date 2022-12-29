@@ -59,7 +59,7 @@ class RolesAssignmentController extends BackendController
 //                ->whereHas('roles', function ($query) use ($camp_id) {
 //                    $query->where('camp_id', $camp_id);
 //                })
-                ->simplePaginate(50),
+                ->simplePaginate(10),
         ]);
     }
 
