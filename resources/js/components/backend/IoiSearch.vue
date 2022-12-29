@@ -76,6 +76,21 @@ export default {
                     if (table.innerHTML.includes(item[id])) {
                         return;
                     }
+                    if (key == 0 && key == "group") {
+                        let tr0 = document.createElement("tr");
+                        tr0.setAttribute("id", "tr" + id + "key" + key + "NONE");
+                        let td0 = document.createElement("td");
+                        let checkbox0 = document.createElement("input");
+                        checkbox0.setAttribute("onclick", 'window.vueComponent.toggleCheckbox(this)');
+                        checkbox0.setAttribute("type", "checkbox");
+                        checkbox0.setAttribute("name", id + "[]");
+                        checkbox0.setAttribute("value", "NONE");
+                        td0.appendChild(checkbox0);
+                        td0.innerHTML += "未分組";
+                        tr0.appendChild(td0);
+                        table.appendChild(tr0);
+                        $("#searchField" + id).removeClass("d-none");
+                    }
                     if (item[id]) {
                         let tr = document.createElement("tr");
                         tr.setAttribute("id", "tr" + id + "key" + key);
