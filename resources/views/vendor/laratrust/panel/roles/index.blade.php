@@ -67,6 +67,6 @@
       </div>
     </div>
   </div>
-  共 {{ $roles->total() }} 筆
+{{--  共 {{ $roles->total() }} 筆--}}
   {{ $roles->links('vendor.laratrust.panel.pagination') }}
 @endsection
