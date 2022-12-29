@@ -17,7 +17,8 @@ class ApplicantList extends Component
         public Collection|null $applicants,
         public bool $isSetting = false,
         public bool $isVcamp = false,
-        public bool $isCare = false
+        public bool $isCare = false,
+        public Collection|null $onlyRegisteredVolunteers = null,
     ) { }
 
     /**
