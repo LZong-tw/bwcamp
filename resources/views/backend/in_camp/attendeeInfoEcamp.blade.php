@@ -67,7 +67,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <a href="#" class="btn btn-warning" onclick="">聯絡方式</a><br><br>
+                <span class="btn btn-warning">聯絡方式</span><br><br>
                 <b>行動電話</b>：<a href="tel:{{$applicant->mobile}}">{{$applicant->mobile}}</a><br>
                 <b>公司電話</b>：<a href="tel:{{$applicant->phone_work}}">{{$applicant->phone_work}}</a><br>
                 <b>住家電話</b>：<a href="tel:{{$applicant->phone_home}}">{{$applicant->phone_home}}</a><br>
@@ -77,7 +77,7 @@
                 <b>通訊地址</b>：{{$applicant->address}}<br>
             </div>
             <div class="col-md-4">
-                <a href="#" class="btn btn-warning" onclick="">關係人資訊</a><br><br>
+                <span class="btn btn-warning" onclick="">關係人資訊</span><br><br>
                 <b>緊急聯絡人</b>：{{$applicant->emergency_name}}<br>
                 <b>關係</b>：{{$applicant->emergency_relationship}}<br>
                 <b>聯絡電話</b>：<a href="tel:{{$applicant->emergency_mobile}}">{{$applicant->emergency_mobile}}</a><br>
@@ -88,7 +88,7 @@
                 <b>福智班別</b>：{{$applicant->introducer_participated}}<br>
             </div>
             <div class="col-md-4">
-                <a href="#" class="btn btn-warning" onclick="">其它資訊</a><br><br>
+                <span class="btn btn-warning" onclick="">其它資訊</span><br><br>
                 <b>公司員工人數</b>：{{$applicant->employees}} 人<br>
                 <b>直屬管轄人數</b>：{{$applicant->direct_managed_employees}} 人<br>
                 <b>產業別</b>：{{$applicant->industry}}<br>
@@ -107,14 +107,14 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <a href="#" class="btn btn-info" onclick="">有興趣的活動</a><br><br>
+                <span class="btn btn-info">有興趣的活動</span><br><br>
                 @if(isset($applicant->favored_event_split))
                 @foreach($applicant->favored_event_split as $event)
                     {{ $event }}<br>
                 @endforeach
                 @endif
                 <br>
-                <a href="#" class="btn btn-info" onclick="">備註</a><br>
+                <span class="btn btn-info" onclick="">備註</span><br>
                 <form action="{{ route('editRemark', $camp->id) }}" method="POST">
                     @csrf
                     <br>
@@ -125,7 +125,7 @@
                 </form>
             </div>
             <div class="col-md-8">
-                <a href="#" class="btn btn-info" onclick="">關懷記錄</a><br>
+                <span class="btn btn-info">關懷記錄</span><br>
                 <form action="{{ route('addContactLog', $camp->id) }}" method="POST">
                     <a id="new"></a>
                     @csrf
