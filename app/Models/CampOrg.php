@@ -24,7 +24,7 @@ class CampOrg extends LaratrustRole
 
     public function camp()
     {
-        return $this->belongsTo(Camp::class);
+        return $this->hasOne(Camp::class, 'id', 'camp_id');
     }
 
     public function next() {
