@@ -76,6 +76,6 @@
       </div>
     </div>
   </div>
-  共 {{ $permissions->total() }} 筆
+{{--  共 {{ $permissions->total() }} 筆--}}
   {{ $permissions->links('vendor.laratrust.panel.pagination') }}
 @endsection
