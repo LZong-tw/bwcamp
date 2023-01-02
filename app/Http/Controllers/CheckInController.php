@@ -71,7 +71,7 @@ class CheckInController extends Controller {
                 ->orWhere(\DB::raw("replace(mobile, ')', '')"), 'like', '%' . $request->query_str . '%')
                 ->orWhere(\DB::raw("replace(mobile, '（', '')"), 'like', '%' . $request->query_str . '%')
                 ->orWhere(\DB::raw("replace(mobile, '）', '')"), 'like', '%' . $request->query_str . '%');
-            })->orderBy('number', 'asc')->get();
+            })->get()->sortBy(['batch.camp.id', 'batch.id', 'groupRelation.alias', 'numberRelation.number']);
         $batches = $applicants->pluck('batch.name', 'batch.id')->unique();
         $request->flash();
         return view('checkIn.home', compact('applicants', 'batches'));
