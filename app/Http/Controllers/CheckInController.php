@@ -59,11 +59,14 @@ class CheckInController extends Controller {
                     $query->where('is_attend', 1);
                 }
             })
-            ->where(function($query) use ($request, $applicantGroupConstraint, $applicantNumberConstraint, $group, $number) {
+            ->where(function($query) use ($request, $applicantGroupConstraint, $group, $number, $applicantNumberConstraint) {
                 $query->where('id', $request->query_str)
                 ->orWhereHas('groupRelation', $applicantGroupConstraint($query, $group));
                 if($group && $number){
-                    $query->orWhereHas([['groupRelation', $applicantGroupConstraint($query, $group)], ['numberRelation', $applicantNumberConstraint($query, $number)]]);
+                    $query->orWhere(function($query) use ($applicantGroupConstraint, $group, $applicantNumberConstraint, $number) {
+                        $query->whereHas('groupRelation', $applicantGroupConstraint($query, $group))
+                            ->whereHas('numberRelation', $applicantNumberConstraint($query, $number));
+                    });
                 }
                 $query->orWhere('name', 'like', '%' . $request->query_str . '%')
                 ->orWhere(\DB::raw("replace(mobile, '-', '')"), 'like', '%' . $request->query_str . '%')
