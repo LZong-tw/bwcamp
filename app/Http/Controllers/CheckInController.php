@@ -45,6 +45,12 @@ class CheckInController extends Controller {
             $number = substr($request->query_str, 3, 2);
         }
         $constraint = function($query){ $query->where('camps.id', $this->camp->id); };
+        $applicantGroupConstraint = function ($query, $group) {
+            $query->where('applicants_groups.alias', $group);
+        };
+        $applicantNumberConstraint = function ($query, $number) {
+            $query->where('group_numbers.number', $number);
+        };
         $applicants = Applicant::with(['batch', 'batch.camp' => $constraint])
             ->whereHas('batch.camp', $constraint)
             ->where('is_admitted', 1)
@@ -53,11 +59,11 @@ class CheckInController extends Controller {
                     $query->where('is_attend', 1);
                 }
             })
-            ->where(function($query) use ($request, $group, $number){
+            ->where(function($query) use ($request, $applicantGroupConstraint, $applicantNumberConstraint, $group, $number) {
                 $query->where('id', $request->query_str)
-                ->orWhere('group', $request->query_str);
+                ->orWhereHas('groupRelation', $applicantGroupConstraint($query, $group));
                 if($group && $number){
-                    $query->orWhere([['group', $group], ['number', $number]]);
+                    $query->orWhereHas([['groupRelation', $applicantGroupConstraint($query, $group)], ['numberRelation', $applicantNumberConstraint($query, $number)]]);
                 }
                 $query->orWhere('name', 'like', '%' . $request->query_str . '%')
                 ->orWhere(\DB::raw("replace(mobile, '-', '')"), 'like', '%' . $request->query_str . '%')
@@ -229,13 +235,13 @@ class CheckInController extends Controller {
         foreach($batches as $key => $batch){
             $allApplicants = Applicant::where(\DB::raw("fee - deposit"), "<=", 0)
                                 ->where("batch_id", $batch->id)
-                                ->whereNotNull('group')
+                                ->whereNotNull('group_id')
                                 ->where(function($query){
                                     if($this->has_attend_data){
                                         $query->where('is_attend', 1);
                                     }
                                 })
-                                ->where('group', '<>', '')
+                                ->where('group_id', '<>', '')
                                 ->count();
             $checkedInApplicants = Applicant::where("batch_id", $batch->id)
                                 ->whereIn('applicants.id', $checkedInData->pluck('applicant_id'))
