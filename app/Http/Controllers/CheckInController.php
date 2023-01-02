@@ -51,7 +51,7 @@ class CheckInController extends Controller {
         $applicantNumberConstraint = function ($query, $number) {
             $query->where('group_numbers.number', $number);
         };
-        $applicants = Applicant::with(['batch', 'batch.camp' => $constraint])
+        $applicants = Applicant::with(['batch', 'batch.camp' => $constraint, 'groupRelation' => $applicantGroupConstraint, 'numberRelation' => $applicantNumberConstraint])
             ->whereHas('batch.camp', $constraint)
             ->where('is_admitted', 1)
             ->where(function($query){
