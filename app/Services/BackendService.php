@@ -191,22 +191,22 @@ class BackendService
     {
         $queryStr = null;
         $count = 0;
-        $next_need_to_add_and = 0;
         $directly_skipped_this_parameter = 0;
         foreach ($payload as $key => $parameters) {
             if (is_array($parameters)) {
+                $parameter_count = 0;
                 foreach ($parameters as $index => $parameter) {
-                    if (($parameter == '' || $parameter == null) && !$next_need_to_add_and) {
-                        $next_need_to_add_and = 1;
+                    if (!$parameter) {
+                        $directly_skipped_this_parameter = 1;
                         continue;
                     }
-                    elseif ($index == 0) {
-                        if ($next_need_to_add_and && ($parameter != '' || $parameter != null)) {
-                            $queryStr .= " AND ";
-                            $next_need_to_add_and = 0;
-                        }
-                        else {
-                            $directly_skipped_this_parameter = 1;
+                    if (($parameter == '' || $parameter == null)) {
+                        $directly_skipped_this_parameter = 1;
+                        continue;
+                    }
+                    if ($index == 0 || $parameter_count == 0) {
+                        if (($parameter != '' || $parameter != null) && $count != 0 && $queryStr) {
+                            $queryStr .= " and ";
                         }
                         $queryStr .= " (";
                     }
@@ -225,18 +225,31 @@ class BackendService
                         $parameter = str_replace("age", "timestampdiff(year, concat(birthyear, '-01-01'), curdate())", $parameter);
                         $queryStr .= $parameter;
                     }
-                    elseif (is_string($parameter) && $key == 'name') {
+                    elseif (is_string($parameter) && str_contains($key, 'name')) {
                         if (!$request->ceocamp_sets_learner) {
                             $key = 'applicants.name';
                             $queryStr .= $key . " like '%" . $parameter . "%'";
                         }
-                        elseif ($parameter) {
-                            $queryStr .= $index . " like '%" . $parameter . "%'";
+                        elseif ($key == 'applicants_name') {
+                            $queryStr .= "applicants.name like '%" . $parameter . "%'";
                         }
+                        else {
+                            $queryStr .= $key . " like '%" . $parameter . "%'";
+                        }
+                        $need_to_close = 1;
                     }
                     elseif (is_string($parameter)) {
+                        if (($index == 0 || $parameter_count == 0) && !$request->ceocamp_sets_learner) {
+                            $queryStr .= " (";
+                        }
                         $queryStr .= $key . " like '%" . $parameter . "%'";
+                        $need_to_close = 1;
                     }
+
+                    if (($need_to_close ?? false) && !$request->ceocamp_sets_learner) {
+                        $queryStr .= ") ";
+                    }
+
                     if (!is_string($index)) {
                         if ($index != count($parameters) - 1) {
                             if ($key != "age" && !$request->ceocamp_sets_learner) {
@@ -246,34 +259,29 @@ class BackendService
                                 $queryStr .= " or ";
                             }
                         }
-                        else{
+                        elseif ($key != 'applicants.name'){
                             $queryStr .= ") ";
                         }
                     }
+                    else {
+                        $queryStr .= ") ";
+                    }
+                    $parameter_count++;
                 }
                 $count++;
             }
-            if ($count <= count($payload) - 1) {
+            if ($count < count($payload)) {
                 if ($request->ceocamp_sets_learner) {
-                    if (
-                        (isset($payload["name"]) && ($payload["name"]['applicants.name'] == '' || $payload["name"]['applicants.name'] == null)) &&
-                        (isset($payload["name"]) && ($payload["name"]['introducer_name'] == '' || $payload["name"]['introducer_name'] == null))
-                    ) {
-                        $queryStr .= "";
+                    if ($key == 'age') {
                     }
-                    elseif ($key != 'name' || $key != 'age') {
-                        $queryStr .= " and ";
-                    }
-                    else {
-                        $queryStr .= ") and ";
+                    elseif (($parameter != '' || $parameter != null) && $parameter_count <= count($parameters)) {
                     }
                 }
                 elseif($directly_skipped_this_parameter) {
-                    $queryStr .= "";
+                    $queryStr .= " ";
                     $directly_skipped_this_parameter = 0;
                 }
                 else {
-                    $queryStr .= " and ";
                 }
             }
         }
