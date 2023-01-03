@@ -77,14 +77,14 @@ export default {
                     if (table.innerHTML.includes(item[id])) {
                         return;
                     }
-                    if (key == 0 && key == "group") {
+                    if (key == 0 && id == "group") {
                         let tr0 = document.createElement("tr");
                         tr0.setAttribute("id", "tr" + id + "key" + key + "NONE");
                         let td0 = document.createElement("td");
                         let checkbox0 = document.createElement("input");
                         checkbox0.setAttribute("onclick", 'window.vueComponent.toggleCheckbox(this)');
                         checkbox0.setAttribute("type", "checkbox");
-                        checkbox0.setAttribute("name", id + "[]");
+                        checkbox0.setAttribute("name", "group_id[]");
                         checkbox0.setAttribute("value", "NONE");
                         td0.appendChild(checkbox0);
                         td0.innerHTML += "未分組";
@@ -99,8 +99,13 @@ export default {
                         let checkbox = document.createElement("input");
                         checkbox.setAttribute("onclick", 'window.vueComponent.toggleCheckbox(this)');
                         checkbox.setAttribute("type", "checkbox");
-                        checkbox.setAttribute("name", id + "[]");
-                        checkbox.setAttribute("value", item[id]);
+                        if (id == "group") {
+                            checkbox.setAttribute("name", "group_id[]");
+                            checkbox.setAttribute("value", item["group_id"]);
+                        } else {
+                            checkbox.setAttribute("name", id + "[]");
+                            checkbox.setAttribute("value", item[id]);
+                        }
                         td.appendChild(checkbox);
                         td.innerHTML += item[id];
                         tr.appendChild(td);
