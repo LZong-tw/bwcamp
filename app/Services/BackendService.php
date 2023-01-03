@@ -218,7 +218,7 @@ class BackendService
                             $queryStr .= $key . "=" . $parameter;
                         }
                     }
-                    elseif ($key == "group_id" && $parameter == "na") {
+                    elseif ($key == "group_id" && ($parameter == "na" || $parameter == "NONE")) {
                         $queryStr .= "group_id = '' or group_id is null";
                     }
                     elseif ($key == "age") {
