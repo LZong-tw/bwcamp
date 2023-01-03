@@ -1,6 +1,7 @@
 <template>
     <form method="post">
         <input type="hidden" name="_token" :value="csrf_token">
+        <input type="reset" value="清除篩選條件 - 顥示所有學員" class="btn btn-danger mb-3"  onclick="window.location=window.location.href">
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
@@ -30,7 +31,7 @@
             </tr>
         </table>
         <div class="input-group mt-2">
-            <button type="submit" class="btn btn-success ml-3" @click="submitForm">送出</button>
+            <button type="submit" class="btn btn-success" @click="submitForm">送出</button>
         </div>
     </form>
 </template>

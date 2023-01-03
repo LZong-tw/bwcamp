@@ -69,14 +69,13 @@
             <div class="d-flex align-items-center mb-2">
                 <span>學員姓名：</span>
                 <input type="text" class="form-control col-4" name="applicants_name[]" value="{{ !is_null(old("applicants_name")) ? old("applicants_name")[0] : null }}">
-                <input type="submit" value="搜尋" class="ml-3 btn btn-primary">
             </div>
             <div class="d-flex  align-items-center mb-2">
                 <span>推薦人姓名：</span>
                 <input type="text" class="form-control col-4" name="introducer_name[]" value="{{ !is_null(old("introducer_name")) ? old("introducer_name")[0] : null }}">
-                <input type="submit" value="搜尋" class="ml-3 btn btn-primary">
             </div>
-            <input type="reset" value="清除篩選條件 - 顥示所有學員" class="btn btn-danger float-right" style="margin-top: -40px" onclick="window.location=window.location.href">
+            <input type="submit" value="搜尋" class="btn btn-primary">
+            <input type="reset" value="清除篩選條件 - 顥示所有學員" class="ml-3 btn btn-danger"  onclick="window.location=window.location.href">
         </form>
     @endif
 </div>

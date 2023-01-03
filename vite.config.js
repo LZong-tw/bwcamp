@@ -14,7 +14,7 @@ export default defineConfig({
             refresh: [
                 'app/**',
                 'routes/**',
-                'resources/**',
+                'resources/views/**',
             ],
         }),
         vue({
