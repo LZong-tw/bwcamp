@@ -81,7 +81,7 @@ class RolesAssignmentController extends BackendController
             ->orderBy('id')->get()
             ->map(function ($role) use ($user) {
                 $role->assigned = $user->roles
-                ->pluck('role_id')
+                ->pluck('id')
                     ->contains($role->id);
                 $role->isRemovable = Helper::roleIsRemovable($role);
 
@@ -99,7 +99,6 @@ class RolesAssignmentController extends BackendController
                     return $permission;
                 });
         }
-
 
         return View::make('vendor.laratrust.panel.roles-assignment.edit', [
             'modelKey' => $modelKey,
