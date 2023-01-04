@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ApplicantsGroup;
 use App\Models\GroupNumber;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use App\Services\CampDataService;
 use App\Services\ApplicantService;
@@ -15,6 +16,7 @@ use App\Models\CheckIn;
 use App\Models\ContactLog;
 use App\Models\Traffic;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Gate;
 use View;
 use App\Traits\EmailConfiguration;
 use App\Models\SignInSignOut;
@@ -1146,6 +1148,11 @@ class BackendController extends Controller {
     }
 
     public function showLearners(Request $request) {
+//        if (!$this->authorize('viewAny', [auth()->user(), Applicant::class])) {
+//            return "<h3>沒有權限：瀏覽所有學員</h3>";
+//        }
+        $user = \App\Models\User::findOrFail(auth()->user()->id);
+//        if ($user->hasPermission('\App\Models\Applicant.read') {
         ini_set('max_execution_time', -1);
         ini_set("memory_limit", -1);
         if ($request->isMethod("post")) {
