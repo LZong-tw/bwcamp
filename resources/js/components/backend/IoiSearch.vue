@@ -57,8 +57,7 @@ export default {
             this.search[column] = search;
             this.theData = this.originalData;
             this.theData = this.theData.filter((item) => {
-                return item[column].toLowerCase().includes(search.toLowerCase())
-                    && !item[column].toLowerCase().includes("||/");
+                return item[column].toLowerCase().includes(search.toLowerCase());
             });
             if (this.theData.length == 0) {
                 this.theData = this.originalData;
@@ -78,7 +77,7 @@ export default {
                     if (table.innerHTML.includes(item[id])) {
                         return;
                     }
-                    if (key == 0 && id == "group") {
+                    if (key == 0 && (id == "group" || id == "roles")) {
                         let tr0 = document.createElement("tr");
                         tr0.setAttribute("id", "tr" + id + "key" + key + "NONE");
                         let td0 = document.createElement("td");
