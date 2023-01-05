@@ -51,6 +51,11 @@ class Camp extends Model
         return $this->hasMany(CampOrg::class);
     }
 
+    public function roles()
+    {
+        return $this->hasMany(CampOrg::class)->where('position', 'not like', 'root');
+    }
+
     public function groups()
     {
         return $this->hasManyThrough(ApplicantsGroup::class, Batch::class);
