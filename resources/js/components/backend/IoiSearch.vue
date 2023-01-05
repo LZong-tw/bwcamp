@@ -57,7 +57,8 @@ export default {
             this.search[column] = search;
             this.theData = this.originalData;
             this.theData = this.theData.filter((item) => {
-                return item[column].toLowerCase().includes(search.toLowerCase());
+                return item[column].toLowerCase().includes(search.toLowerCase())
+                    && !item[column].toLowerCase().includes("||/");
             });
             if (this.theData.length == 0) {
                 this.theData = this.originalData;
