@@ -129,6 +129,7 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
         Route::get("/learner", [BackendController::class, "showLearners"])->name("showLearners");
         Route::post("/learner", [BackendController::class, "showLearners"])->name("showLearnersPOST");
         Route::get("/volunteer", [BackendController::class, "showVolunteers"])->name("showVolunteers");
+        Route::post("/volunteer", [BackendController::class, "showVolunteers"])->name("showVolunteersPOST");
         Route::get("/carer", [BackendController::class, "showCarers"])->name("showCarers");
     });
     Route::resource('/permissions', LaratrustPermissionsController::class, ['as' => 'laratrustCustom'])

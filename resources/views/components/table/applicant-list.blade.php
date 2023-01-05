@@ -95,10 +95,8 @@
                 @foreach ($columns as $key => $item)
                     @php
                         $applicant->age = $applicant->age;
-                        if ($isVcamp ?? false) {
-                            $applicant->group = $applicant->groupRelation?->alias;
-                            $applicant->job = $applicant->groupOrgRelation?->position;
-                        }
+                        $applicant->group = $applicant->groupRelation?->alias;
+                        $applicant->job = $applicant->groupOrgRelation?->position;
                     @endphp
                     @if($key == "avatar" && $applicant->avatar)
                         <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($applicant->avatar)) }}" width=80 alt="{{ $applicant->name }}"></td>
