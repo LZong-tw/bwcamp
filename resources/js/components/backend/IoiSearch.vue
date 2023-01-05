@@ -1,37 +1,57 @@
 <template>
     <form method="post">
-        <input type="hidden" name="_token" :value="csrf_token">
-        <input type="reset" value="清除篩選條件 - 顥示所有學員" class="btn btn-danger mb-3"  onclick="window.location=window.location.href">
+        <input type="hidden" name="_token" :value="csrf_token" />
+        <input
+            type="reset"
+            value="清除篩選條件 - 顥示所有學員"
+            class="btn btn-danger mb-3"
+            onclick="window.location=window.location.href"
+        />
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
-                    <th v-for="(item, key) in columns"
+                    <th
+                        v-for="(item, key) in columns"
                         :key="key"
                         @click="toggleData(key)"
                         v-show="key != 'contactlog' && item.for_query"
-                        class="alert-primary">
+                        class="alert-primary"
+                    >
                         {{ item.name }}
                     </th>
                 </tr>
             </thead>
             <tr class="border-0">
-                <td v-for="(item, key) in columns"
+                <td
+                    v-for="(item, key) in columns"
                     v-show="key != 'contactlog' && item.for_query"
                     :key="key"
                     :id="key"
-                    class="border-0">
-                </td>
+                    class="border-0"
+                ></td>
             </tr>
             <tr class="border-0">
-                <td v-for="(item, key) in columns"
-                    class="border-0 d-none" :id="'searchField' + key">
-                    <input type="text" name="" :placeholder="'搜尋' + item.name" class="form-control"
-                           :id="'search' + key" :value="search[key]" @keyup="filterSearch(key)">
+                <td
+                    v-for="(item, key) in columns"
+                    class="border-0 d-none"
+                    :id="'searchField' + key"
+                >
+                    <input
+                        type="text"
+                        name=""
+                        :placeholder="'搜尋' + item.name"
+                        class="form-control"
+                        :id="'search' + key"
+                        :value="search[key]"
+                        @keyup="filterSearch(key)"
+                    />
                 </td>
             </tr>
         </table>
         <div class="input-group mt-2">
-            <button type="submit" class="btn btn-success" @click="submitForm">送出</button>
+            <button type="submit" class="btn btn-success" @click="submitForm">
+                送出
+            </button>
         </div>
     </form>
 </template>
@@ -57,8 +77,10 @@ export default {
             this.search[column] = search;
             this.theData = this.originalData;
             this.theData = this.theData.filter((item) => {
-                return item[column].toLowerCase().includes(search.toLowerCase())
-                    && !item[column].toLowerCase().includes("||/");
+                return (
+                    item[column].toLowerCase().includes(search.toLowerCase()) &&
+                    !item[column].toLowerCase().includes("||/")
+                );
             });
             if (this.theData.length == 0) {
                 this.theData = this.originalData;
@@ -80,10 +102,16 @@ export default {
                     }
                     if (key == 0 && id == "group") {
                         let tr0 = document.createElement("tr");
-                        tr0.setAttribute("id", "tr" + id + "key" + key + "NONE");
+                        tr0.setAttribute(
+                            "id",
+                            "tr" + id + "key" + key + "NONE"
+                        );
                         let td0 = document.createElement("td");
                         let checkbox0 = document.createElement("input");
-                        checkbox0.setAttribute("onclick", 'window.vueComponent.toggleCheckbox(this)');
+                        checkbox0.setAttribute(
+                            "onclick",
+                            "window.vueComponent.toggleCheckbox(this)"
+                        );
                         checkbox0.setAttribute("type", "checkbox");
                         checkbox0.setAttribute("name", "group_id[]");
                         checkbox0.setAttribute("value", "NONE");
@@ -98,7 +126,10 @@ export default {
                         tr.setAttribute("id", "tr" + id + "key" + key);
                         let td = document.createElement("td");
                         let checkbox = document.createElement("input");
-                        checkbox.setAttribute("onclick", 'window.vueComponent.toggleCheckbox(this)');
+                        checkbox.setAttribute(
+                            "onclick",
+                            "window.vueComponent.toggleCheckbox(this)"
+                        );
                         checkbox.setAttribute("type", "checkbox");
                         if (id == "group") {
                             checkbox.setAttribute("name", "group_id[]");
@@ -114,9 +145,15 @@ export default {
                         $("#searchField" + id).removeClass("d-none");
                     }
                 });
-                $("#searchField" + id).append(`<div id="show-` + id +`">
-                                        ` + table.outerHTML + `
-                                    </div>`);
+                $("#searchField" + id).append(
+                    `<div id="show-` +
+                        id +
+                        `">
+                                        ` +
+                        table.outerHTML +
+                        `
+                                    </div>`
+                );
             } else {
                 $("#show-" + id).remove();
                 $("#searchField" + id).addClass("d-none");
@@ -155,22 +192,22 @@ export default {
                 orFields: this.orFields,
                 // andFields: this.andFields,
             };
-            const form = document.createElement('form');
+            const form = document.createElement("form");
             form.method = "POST";
-            form.action = '/learner';
-            const csrf = document.createElement('input');
-            csrf.type = 'hidden';
+            form.action = "/learner";
+            const csrf = document.createElement("input");
+            csrf.type = "hidden";
             csrf.name = "_token";
             csrf.value = window.csrf_token;
             form.appendChild(csrf);
-            const hiddenField = document.createElement('input');
-            hiddenField.type = 'hidden';
+            const hiddenField = document.createElement("input");
+            hiddenField.type = "hidden";
             hiddenField.name = "orFields";
             hiddenField.value = this.orFields;
             form.appendChild(hiddenField);
             document.body.appendChild(form);
             form.submit();
-        }
+        },
     },
     mounted() {
         // console.table(this.theData);
@@ -180,9 +217,7 @@ export default {
             this.search[key] = "";
         }
     },
-}
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
