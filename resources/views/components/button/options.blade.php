@@ -1,7 +1,7 @@
 <div>
     <!-- Always remember that you are absolutely unique. Just like everyone else. - Margaret Mead -->
     <p align="right">
-        <a href="{{ route("showLearners", $campFullData->id) }}?download=1" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">匯出資料</a>
+        <a href="{{ route("showLearners", ($isVcamp ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?download=1" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">匯出資料</a>
         @if($isIngroup)
             @if(!$isCareV)
                 &nbsp;&nbsp;
