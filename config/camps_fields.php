@@ -228,7 +228,7 @@ return [
     'ceovcamp' => [
         "sn" => "報名序號",
         "bName" => "梯次",
-        "roles" => "組別",
+        "group" => "組別",
         "region" => "區域",
         "applied_at" => "報名日期",
         "name" => "姓名",
@@ -442,7 +442,7 @@ return [
         ],
 
         'ceovcamp' => [
-            "group" => [
+            "roles" => [
                 "name" => "組別",
                 "sort" => 1,
                 "for_query" => 1,
