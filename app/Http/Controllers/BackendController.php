@@ -1167,12 +1167,7 @@ class BackendController extends Controller {
             $query->where('batchs.id', $request->batch_id);
         }
         if ($request->isMethod("post")) {
-            if (!$request->ceocamp_sets_learner) {
-                $query = $query->whereRaw(\DB::raw($queryStr) . "1=1");
-            }
-            else {
-                $query = $query->whereRaw(\DB::raw($queryStr));
-            }
+            $query = $query->whereRaw(\DB::raw($queryStr));
             $request->flash();
         }
         $applicants = $query->get();

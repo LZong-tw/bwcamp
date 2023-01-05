@@ -45,27 +45,42 @@ class CheckInController extends Controller {
             $number = substr($request->query_str, 3, 2);
         }
         $constraint = function($query){ $query->where('camps.id', $this->camp->id); };
-        $applicants = Applicant::with(['batch', 'batch.camp' => $constraint])
-            ->whereHas('batch.camp', $constraint)
-            ->where('is_admitted', 1)
-            ->where(function($query){
-                if($this->has_attend_data){
-                    $query->where('is_attend', 1);
-                }
-            })
-            ->where(function($query) use ($request, $group, $number){
-                $query->where('id', $request->query_str)
-                ->orWhere('group', $request->query_str);
-                if($group && $number){
-                    $query->orWhere([['group', $group], ['number', $number]]);
-                }
-                $query->orWhere('name', 'like', '%' . $request->query_str . '%')
-                ->orWhere(\DB::raw("replace(mobile, '-', '')"), 'like', '%' . $request->query_str . '%')
-                ->orWhere(\DB::raw("replace(mobile, '(', '')"), 'like', '%' . $request->query_str . '%')
-                ->orWhere(\DB::raw("replace(mobile, ')', '')"), 'like', '%' . $request->query_str . '%')
-                ->orWhere(\DB::raw("replace(mobile, '（', '')"), 'like', '%' . $request->query_str . '%')
-                ->orWhere(\DB::raw("replace(mobile, '）', '')"), 'like', '%' . $request->query_str . '%');
-            })->orderBy('number', 'asc')->get();
+        if ($group) {
+            $group = $this->camp->groups->where('alias', $group)->first();
+        }
+        if ($number) {
+            $number = $this->camp->groups->each(function($group) use ($number) {
+                return $group->numbers->filter(function($n) use ($number) {
+                    return $n->number == $number;
+                });
+            })->filter(function($group) {
+                return $group->applicants->count() > 0;
+            })->first();
+        }
+        $applicants = Applicant::with(['batch', 'batch.camp' => $constraint, 'groupRelation', 'numberRelation'])
+                                    ->whereHas('batch.camp', $constraint)
+                                    ->where('is_admitted', 1)
+                                    ->where(function($query){
+                                        if($this->has_attend_data){
+                                            $query->where('is_attend', 1);
+                                        }
+                                    })
+                                    ->where(function($query) use ($request, $group, $number) {
+                                        $query->where('id', $request->query_str);
+                                        $query->orWhere('group_id', $group?->id);
+                                        if ($number) {
+                                            $query->where(function ($query) use ($group, $number) {
+                                                $query->where('group_id', $group?->id);
+                                                $query->orWhere('number_id', $number?->id);
+                                            });
+                                        }
+                                        $query->orWhere('name', 'like', '%' . $request->query_str . '%')
+                                        ->orWhere(\DB::raw("replace(mobile, '-', '')"), 'like', '%' . $request->query_str . '%')
+                                        ->orWhere(\DB::raw("replace(mobile, '(', '')"), 'like', '%' . $request->query_str . '%')
+                                        ->orWhere(\DB::raw("replace(mobile, ')', '')"), 'like', '%' . $request->query_str . '%')
+                                        ->orWhere(\DB::raw("replace(mobile, '（', '')"), 'like', '%' . $request->query_str . '%')
+                                        ->orWhere(\DB::raw("replace(mobile, '）', '')"), 'like', '%' . $request->query_str . '%');
+                                    })->get()->sortBy(['batch.camp.id', 'batch.id', 'groupRelation.alias', 'numberRelation.number']);
         $batches = $applicants->pluck('batch.name', 'batch.id')->unique();
         $request->flash();
         return view('checkIn.home', compact('applicants', 'batches'));
@@ -229,13 +244,13 @@ class CheckInController extends Controller {
         foreach($batches as $key => $batch){
             $allApplicants = Applicant::where(\DB::raw("fee - deposit"), "<=", 0)
                                 ->where("batch_id", $batch->id)
-                                ->whereNotNull('group')
+                                ->whereNotNull('group_id')
                                 ->where(function($query){
                                     if($this->has_attend_data){
                                         $query->where('is_attend', 1);
                                     }
                                 })
-                                ->where('group', '<>', '')
+                                ->where('group_id', '<>', '')
                                 ->count();
             $checkedInApplicants = Applicant::where("batch_id", $batch->id)
                                 ->whereIn('applicants.id', $checkedInData->pluck('applicant_id'))
