@@ -30,10 +30,12 @@
             <div>組別：
                 <span>
                     <label class="align-items-center"><input type="checkbox" name="group_id[]" value="na" @checked(is_array(old('group_id')) ? in_array("na", old('group_id')) : false)> 未分組</label>
-                    @forelse($groups as $group)
-                        <label class="align-items-center"><input type="checkbox" name="group_id[]" value="{{ $group->id }}" @checked(is_array(old('group_id')) ? in_array($group->id, old('group_id')) : false) class="ml-2"> {{ $group->alias }}</label>
-                    @empty
-                    @endforelse
+                    @if (count($groups))
+                        @forelse($groups as $group)
+                            <label class="align-items-center"><input type="checkbox" name="group_id[]" value="{{ $group->id }}" @checked(is_array(old('group_id')) ? in_array($group->id, old('group_id')) : false) class="ml-2"> {{ $group->alias }}</label>
+                        @empty
+                        @endforelse
+                    @endif
                 </span>
             </div>
             <div>性別：
@@ -56,10 +58,12 @@
                 <span>產業別：</span>
                 <select name="industry[]" id="" class="form-control col-4">
                     <option value="" @selected(is_array(old('industry')) ? in_array("", old('industry')) : false)>請選擇</option>
-                    @forelse($industries as $industry)
-                        <option value="{{ $industry }}" @selected(is_array(old('industry')) ? in_array($industry, old('industry')) : false)>{{ $industry }}</option>
-                    @empty
-                    @endforelse
+                    @if (count($industries))
+                        @forelse($industries as $industry)
+                            <option value="{{ $industry }}" @selected(is_array(old('industry')) ? in_array($industry, old('industry')) : false)>{{ $industry }}</option>
+                        @empty
+                        @endforelse
+                    @endif
                     <option value="{{ $industryOther }}">{{ $industryOther }}</option>
                 </select>
             </div>
