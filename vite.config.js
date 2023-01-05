@@ -12,9 +12,9 @@ export default defineConfig({
                 'resources/js/app.js'
             ],
             refresh: [
-                'app/**',
+                'app/Http/Controllers/**',
                 'routes/**',
-                'resources/**',
+                'resources/views/**',
             ],
         }),
         vue({

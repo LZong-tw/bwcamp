@@ -17,4 +17,8 @@ class ApplicantsGroup extends Model
     public function applicants() {
         return $this->hasMany(Applicant::class, 'group_id', 'id');
     }
+
+    public function numbers() {
+        return $this->hasMany(GroupNumber::class, 'group_id', 'id');
+    }
 }

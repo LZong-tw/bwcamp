@@ -30,3 +30,4 @@ Route::post('setGroupOrg', [SemiApiController::class, 'setGroupOrg']);
 Route::get('getCampOrganizations', [SemiApiController::class, 'getCampOrganizations']);
 Route::get('getCampPositions', [SemiApiController::class, 'getCampPositions']);
 Route::get('getCampVolunteers', [SemiApiController::class, 'getCampVolunteers']);
+Route::post('getOrgSel', [SemiApiController::class, 'getOrgSel']);
