@@ -7,6 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Mail\Mailables\Attachment;
 
 class CheckInMail extends Mailable
 {
@@ -53,5 +54,14 @@ class CheckInMail extends Mailable
                         'mime' => 'application/pdf',
                     ]);            
         }
+    }
+
+    public function attachments()
+    {
+        if ($this->applicant->batch->camp->abbreviation == "2023教師營") {
+            return [
+                Attachment::fromPath(public_path('downloads\\tcamp2023\\schedule.pdf')),
+            ];
+        } 
     }
 }
