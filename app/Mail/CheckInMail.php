@@ -60,7 +60,7 @@ class CheckInMail extends Mailable
     {
         if ($this->applicant->batch->camp->abbreviation == "2023教師營") {
             return [
-                Attachment::fromPath(public_path('downloads\\tcamp2023\\schedule.pdf')),
+                Attachment::fromPath(public_path('downloads/tcamp2023/schedule.pdf')),
             ];
         } 
     }
