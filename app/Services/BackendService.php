@@ -210,7 +210,9 @@ class BackendService
                         }
                         $queryStr .= " (";
                     }
-                    if (is_numeric($parameter) && $key != 'name') {
+                    // name: 避免有人用純數字查詢名字
+                    // zipcode: 郵遞區號是以字串格式存於資料庫中
+                    if (is_numeric($parameter) && $key != 'name' && $key != 'zipcode') {
                         if ($key == 'age' && !$request->ceocamp_sets_learner) {
                             $year = now()->subYears($parameter)->format('Y');
                             $queryStr .= "birthyear = " . $year;
@@ -226,9 +228,18 @@ class BackendService
                         $queryStr .= $parameter;
                     }
                     elseif (is_string($parameter) && str_contains($key, 'name')) {
+                        // ceocamp: 菁英營
                         if (!$request->ceocamp_sets_learner) {
-                            $key = 'applicants.name';
-                            $queryStr .= $key . " like '%" . $parameter . "%'";
+                            // 菁英營以外的營隊
+                            if ($index == 0) {
+                                $queryStr .= "(";
+                            }
+                            $queryStr .= "applicants.name like '%" . $parameter . "%'";
+                            if ($index == count($parameters) - 1) {
+                                $queryStr .= ")";
+                                $need_to_close = 0;
+                                $skip = 1;
+                            }
                         }
                         elseif ($key == 'applicants_name') {
                             $queryStr .= "applicants.name like '%" . $parameter . "%'";
@@ -236,7 +247,9 @@ class BackendService
                         else {
                             $queryStr .= $key . " like '%" . $parameter . "%'";
                         }
-                        $need_to_close = 1;
+                        if (!($skip ?? false)) {
+                            $need_to_close = 1;
+                        }
                     }
                     elseif (is_string($parameter)) {
                         if (($index == 0 || $parameter_count == 0) && !$request->ceocamp_sets_learner) {
