@@ -39,7 +39,7 @@ class SendAdmittedMail implements ShouldQueue, ShouldBeUnique
     public function handle(ApplicantService $applicantService)
     {
         //
-        sleep(10);
+        sleep(3);
         ini_set('memory_limit', -1);
         $applicant = $this->applicant;
         $applicant = $applicantService->checkIfPaidEarlyBird($applicant);

@@ -16,6 +16,8 @@ class SendCheckInMail implements ShouldQueue
 
     protected $applicant;
 
+    protected $tries = 400;
+
     /**
      * Create a new job instance.
      *
@@ -35,7 +37,7 @@ class SendCheckInMail implements ShouldQueue
     public function handle()
     {
         //
-        sleep(10);
+        sleep(3);
         ini_set('memory_limit', -1);
         if($this->applicant->batch->camp->table == 'coupon'){
             $qr_code = \DNS2D::getBarcodePNG('{"coupon_code":"' . $this->applicant->name . '"}', 'QRCODE');
@@ -53,14 +55,6 @@ class SendCheckInMail implements ShouldQueue
         \Mail::to($this->applicant->email)->send(new \App\Mail\CheckInMail($this->applicant, $attachment));
     }
 
-    /**
-     * Get the middleware the job should pass through.
-     *
-     * @return array
-     */
-    public function middleware() {
-        return [new WithoutOverlapping($this->applicant->batch->camp->id)];
-    }
 
     /**
      * The unique ID of the job.
