@@ -22,6 +22,8 @@ class SendCustomMail implements ShouldQueue
 
     protected $receiver, $subject, $content, $attachment;
 
+    protected $tries = 400;
+
     /**
      * Create a new job instance.
      *
@@ -49,18 +51,9 @@ class SendCustomMail implements ShouldQueue
     public function handle()
     {
         //
-        sleep(10);
+        sleep(3);
         ini_set('memory_limit', -1);
         \Mail::to($this->receiver)->send(new \App\Mail\CustomMail($this->subject, $this->content, $this->attachment, $this->receiver->batch->camp->variant ?? $this->receiver->batch->camp->table));
-    }
-
-    /**
-     * Get the middleware the job should pass through.
-     *
-     * @return array
-     */
-    public function middleware() {
-        return [new WithoutOverlapping($this->applicant->batch->camp->id)];
     }
 
     /**

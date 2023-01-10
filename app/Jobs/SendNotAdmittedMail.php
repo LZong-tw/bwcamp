@@ -17,6 +17,8 @@ class SendNotAdmittedMail implements ShouldQueue
 
     protected $applicant;
 
+    protected $tries = 400;
+
     /**
      * Create a new job instance.
      *
@@ -36,21 +38,12 @@ class SendNotAdmittedMail implements ShouldQueue
     public function handle(ApplicantService $applicantService)
     {
         //
-        sleep(10);
+        sleep(3);
         ini_set('memory_limit', -1);
         $applicant = $this->applicant;
         // 動態載入電子郵件設定
         $this->setEmail($applicant->batch->camp->table, $applicant->batch->camp->variant);
         \Mail::to($applicant->email)->send(new \App\Mail\NotAdmittedMail($applicant));
-    }
-
-    /**
-     * Get the middleware the job should pass through.
-     *
-     * @return array
-     */
-    public function middleware() {
-        return [new WithoutOverlapping($this->applicant->batch->camp->id)];
     }
 
     /**
