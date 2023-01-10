@@ -217,11 +217,14 @@ class BackendService
                             $year = now()->subYears($parameter)->format('Y');
                             $queryStr .= "birthyear = " . $year;
                         } else {
-                            $queryStr .= $key . "=" . $parameter;
+                            if ($index == 0) {
+                                $queryStr .= "(";
+                            }
+                            $queryStr .= $key . "=" . $parameter . ")";
                         }
                     }
                     elseif ($key == "group_id" && ($parameter == "na" || $parameter == "NONE")) {
-                        $queryStr .= "group_id = '' or group_id is null";
+                        $queryStr .= "(group_id = '' or group_id is null)";
                     }
                     elseif ($key == "age") {
                         $parameter = str_replace("age", "timestampdiff(year, concat(birthyear, '-01-01'), curdate())", $parameter);
