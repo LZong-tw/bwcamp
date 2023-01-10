@@ -30,9 +30,21 @@
             <div>組別：
                 <span>
                     <label class="align-items-center"><input type="checkbox" name="group_id[]" value="na" @checked(is_array(old('group_id')) ? in_array("na", old('group_id')) : false)> 未分組</label>
-                    @if ($groups)
+                    {{-- todo: 待組織職務轉至梯次後做簡化 --}}
+                    @if ($groups && !$isShowVolunteers)
                         @forelse($groups as $group)
-                            <label class="align-items-center"><input type="checkbox" name="group_id[]" value="{{ $group->id }}" @checked(is_array(old('group_id')) ? in_array($group->id, old('group_id')) : false) class="ml-2"> {{ $group->alias }}</label>
+                            @if ($currentBatch && $currentBatch->id == $group->batch->id)
+                                <label class="align-items-center"><input type="checkbox" name="group_id[]" value="{{ $group->id }}" @checked(is_array(old('group_id')) ? in_array($group->id, old('group_id')) : false) class="ml-2"> {{ $group->alias }}</label>
+                            @elseif (!$currentBatch)
+                                <label class="align-items-center"><input type="checkbox" name="group_id[]" value="{{ $group->id }}" @checked(is_array(old('group_id')) ? in_array($group->id, old('group_id')) : false) class="ml-2"> {{ $group->batch->name }}梯 {{ $group->alias }}</label>
+                            @endif
+                        @empty
+                        @endforelse
+                    @elseif ($groups)
+                        @forelse($groups as $group)
+                            @if ($group->position != 'root')
+                                <label class="align-items-center"><input type="checkbox" name="group_id[]" value="{{ $group->id }}" @checked(is_array(old('group_id')) ? in_array($group->id, old('group_id')) : false) class="ml-2"> {{ $group->section }}{{ $group->position }}</label>
+                            @endif
                         @empty
                         @endforelse
                     @endif

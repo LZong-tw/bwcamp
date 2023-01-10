@@ -21,6 +21,7 @@ class SearchComponent extends Component
         public Batch|null  $currentBatch = null,
         public string|null $queryStr = null,
         public bool|null $isCareV = null,
+        public bool|null $isShowVolunteers = false,
     ) { }
 
     /**

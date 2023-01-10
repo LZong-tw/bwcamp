@@ -18,6 +18,10 @@ class ApplicantsGroup extends Model
         return $this->hasMany(Applicant::class, 'group_id', 'id');
     }
 
+    public function batch() {
+        return $this->belongsTo(Batch::class, 'batch_id', 'id');
+    }
+
     public function numbers() {
         return $this->hasMany(GroupNumber::class, 'group_id', 'id');
     }
