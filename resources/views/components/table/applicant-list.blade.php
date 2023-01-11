@@ -50,6 +50,8 @@
                         <td>no photo</td>
                     @elseif($key == "gender")
                         <td>{{ $applicant->gender_zh_tw }}</td>
+                    @elseif($isVcamp && $key == "roles")
+                            <td>@foreach($applicant->roles as $role) {{ $role->section }}<br> @endforeach</td>
                     @elseif($isVcamp && $key == "group")
                         <td>@foreach($applicant->roles as $role) {{ $role->section }}<br> @endforeach</td>
                     @elseif($isVcamp && $key == "position")
@@ -67,7 +69,7 @@
                         <td>
                             {{ Str::limit($applicant->$key, 100,'...') ?? "-" }}
                         </td>
-                    @elseif($key == "contactlog")
+                    @elseif($key == "contactlog" && !$isVcamp)
                         <td>
                             {{ Str::limit($applicant->contactlog?->sortByDesc('id')->first()?->notes, 50,'...') ?? "-" }}
                             <div>
@@ -123,7 +125,7 @@
                         <td>
                             {{ Str::limit($applicant->$key, 100,'...') ?? "-" }}
                         </td>
-                    @elseif($key == "contactlog")
+                    @elseif($key == "contactlog" && !$isVcamp)
                         <td>
                             {{ Str::limit($applicant->contactlog?->sortByDesc('id')->first()?->notes, 50,'...') ?? "-" }}
                             <div>
@@ -149,6 +151,8 @@
     window.csrf_token = "{{ csrf_token() }}";
     window.columns = @json($columns);
     window.theData = @json($applicants);
+    window.is_care = {{ $isCare ? 1 : 0 }};
+    window.isShowVolunteers = {{ $isVcamp ? 1 : 0 }};
     (function() {
     })();
 

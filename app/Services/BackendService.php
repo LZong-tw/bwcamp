@@ -34,6 +34,23 @@ class BackendService
                     'alias' => "第" . __($i) . "組",
                 ]);
             }
+            else {
+                $group = ApplicantsGroup::where([
+                    'batch_id' => $batch->id,
+                    'alias' => "第" . __($i) . "組",
+                ])->firstOrFail();
+            }
+            // todo: 待營隊職務轉移後，此處應該要改成用 $batch->id
+            $campOrg = CampOrg::firstOrCreate([
+                'camp_id' => $batch->camp_id,
+                'section' => '關懷大組',
+                'position' => '關懷小組' . $group->alias . '小組長',
+            ]);
+            $campOrg2 = CampOrg::firstOrCreate([
+                'camp_id' => $batch->camp_id,
+                'section' => '關懷大組',
+                'position' => '關懷小組' . $group->alias . '關懷員',
+            ]);
         }
         return true;
     }

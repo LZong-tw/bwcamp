@@ -1152,7 +1152,9 @@ class BackendController extends Controller {
 //            return "<h3>沒有權限：瀏覽所有學員</h3>";
 //        }
         $user = \App\Models\User::findOrFail(auth()->user()->id);
-//        if ($user->hasPermission('\App\Models\Applicant.read') {
+        if (!$user->hasPermission('\App\Models\Applicant.read')) {
+            return "<h3>沒有權限：瀏覽所有學員</h3>";
+        }
         ini_set('max_execution_time', -1);
         ini_set("memory_limit", -1);
         if ($request->isMethod("post")) {
@@ -1634,8 +1636,9 @@ class BackendController extends Controller {
     }
 
     public function showCarers(Request $request) {
-        ini_set('max_execution_time', -1);
-        ini_set("memory_limit", -1);
+        if (!$this->campFullData->vcamp) {
+            return "<h1>尚未設定對應之義工營。</h1>";
+        }
         if ($request->isMethod("post")) {
             $queryStr = "";
             $payload = $request->all();
@@ -1678,17 +1681,20 @@ class BackendController extends Controller {
                 }
             }
         }
-        $batches = Batch::where("camp_id", $this->campFullData->id)->get();
-        $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", $this->campFullData->table . ".id as ''", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
-                        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
-                        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
-                        ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
-                        ->where('camps.id', $this->campFullData->id)->withTrashed();
+        $batches = Batch::where("camp_id", $this->campFullData->vcamp->id)->get();
+        $query = Applicant::select("applicants.*", $this->campFullData->vcamp->table . ".*", $this->campFullData->vcamp->table . ".id as ''", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
+            ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+            ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+            ->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id')
+            ->where('camps.id', $this->campFullData->vcamp->id)->withTrashed();
         if ($request->isMethod("post")) {
             $query = $query->where(\DB::raw($queryStr), 1);
         }
         $applicants = $query->get();
         $applicants = $applicants->each(fn($applicant) => $applicant->id = $applicant->applicant_id);
+        $registeredUsers = \App\Models\User::with('roles')->whereHas('roles', function ($query) {
+            $query->where('camp_id', $this->campFullData->id);
+        })->get();
         if (auth()->user()->getPermission(false)->role->level <= 2) {
         }
         else if(auth()->user()->getPermission(true, $this->campFullData->id)->level > 2){
@@ -1708,9 +1714,10 @@ class BackendController extends Controller {
             $isSetting = 0;
         }
 
-        $columns_zhtw = config('camps_fields.display.' . $this->campFullData->table);
+        $columns_zhtw = config('camps_fields.display.ceovcamp');
 
         return view('backend.integrated_operating_interface.theList')
+                ->with('onlyRegisteredVolunteers', $registeredUsers)
                 ->with('applicants', $applicants)
                 ->with('batches', $batches)
                 ->with('isShowVolunteers', 1)
