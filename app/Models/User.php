@@ -46,6 +46,26 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\Role', 'role_user', 'user_id', 'role_id');
     }
 
+    public function getPermission($top = false, $camp_id = null, $function_id = null) {
+        if(!$top){
+            $hasRole = \App\Models\RoleUser::join('roles', 'roles.id', '=', 'role_user.role_id')->where('user_id', $this->id)->orderBy('level', 'asc')->get();
+            if($hasRole->count() == 0){
+                $empty = new \App\Models\Role;
+                $empty->level = 999;
+                return $empty;
+            }
+            return $hasRole->first();
+        }
+        else if($top){
+            if($camp_id){
+                return \DB::table('roles')->where('camp_id', $camp_id)->whereIn('id', $this->legace_roles()->pluck('role_id'))->orderBy('level', 'desc')->first();
+            }
+            else{
+                return \DB::table('roles')->whereIn('id', $this->legace_roles()->pluck('role_id'))->orderBy('level', 'desc')->get();
+            }
+        }
+    }
+
     public function groupOrgRelation()
     {
         return $this->belongsToMany(CampOrg::class, 'org_user', 'user_id', 'org_id');
