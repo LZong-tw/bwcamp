@@ -1969,4 +1969,25 @@ class BackendController extends Controller {
         }
     }
 
+    public function connectVolunteerToUser(Request $request) {
+        if ($request->isMethod("GET")) {
+            // 測試用網址
+            // http://bw.camp/backend/29/IOI/volunteer/userConnection?applicant_ids[]=U1&applicant_ids[]=A9250&applicant_ids[]=A9260&group_id=59
+            foreach ($request->applicant_ids as $applicant_id) {
+                $seperated = str_split($applicant_id, 1);
+                $type = $seperated[0];
+                $id = $seperated[1];
+                if ($type == 'U') {
+                    $user = \App\Models\User::find($id);
+                }
+                if ($type == 'A') {
+                    $applicant = Applicant::find($id);
+                }
+            }
+            return view("backend.integrated_operating_interface.connectVolunteerToUser");
+        }
+        if ($request->isMethod("POST")) {
+
+        }
+    }
 }
