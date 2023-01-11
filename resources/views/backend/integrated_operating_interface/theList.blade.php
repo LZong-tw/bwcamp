@@ -29,13 +29,13 @@
     <h3 class="font-weight-bold">{{ $fullName }} >>
         @if($isSetting ?? false) 設定
         @else 瀏覽 @endif
-        {{ ($isShowVolunteers && $is_care) ? '關懷組' : '' }}
+        {{ ($isShowVolunteers && $is_careV) ? '關懷組' : '' }}
         {{ ($isShowVolunteers) ? '義工' : '學員' }}名單
         @if($is_ingroup && $groupName)
             >> {{ $groupName }}
         @endif
         @if($is_careV)
-            >> 關懷員{{ Auth::user()->name }}
+            >> 關懷員{{-- {{ Auth::user()->name }} --}}
         @endif
     </h3>
     @if($is_care)
@@ -61,7 +61,7 @@
     @if($isSetting ?? false)
         <x-general.settings :isIngroup="$is_ingroup" :isVcamp="$isShowVolunteers" :isCare="$is_care" :$batches />
     @endif
-    <x-general.search-component :columns="$columns_zhtw" :camp="$campFullData" :$groups :currentBatch="$current_batch" :$queryStr :isCareV="$is_careV" :$isShowVolunteers />
+    <x-general.search-component :columns="$columns_zhtw" :camp="$campFullData" :$groups :currentBatch="$current_batch" :$queryStr :isCare="$is_care" :$isShowVolunteers />
     <x-table.applicant-list :columns="$columns_zhtw" :$applicants :isVcamp="$isShowVolunteers" :isCare="$is_care" :$isSetting :onlyRegisteredVolunteers="$onlyRegisteredVolunteers ?? collect([])"/>
 @endif
 {{--  $is_care: 正在關懷學員  --}}

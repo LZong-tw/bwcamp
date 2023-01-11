@@ -3,7 +3,7 @@
     <div class="alert-primary mb-3 border border-secondary rounded col-8 py-2">
         <span>查詢條件：{{ $queryStr ?? "無" }}</span>
     </div>
-    @if($isCareV || $camp->table != "ceocamp")
+    @if($isShowVolunteers || $camp->table != "ceocamp")
         <ioi-search></ioi-search>
     @else
         @php
@@ -93,7 +93,7 @@
                 <input type="text" class="form-control col-4" name="introducer_name[]" value="{{ !is_null(old("introducer_name")) ? old("introducer_name")[0] : null }}">
             </div>
             <input type="submit" value="搜尋" class="btn btn-primary">
-            <input type="reset" value="清除篩選條件 - 顥示所有學員" class="ml-3 btn btn-danger"  onclick="window.location=window.location.href">
+            <input type="reset" value="清除篩選條件 - 顥示所有@if($isCare && $isShowVolunteers)關懷員@elseif($isShowVolunteers)義工@else學員@endif" class="ml-3 btn btn-danger"  onclick="window.location=window.location.href">
         </form>
     @endif
 </div>
