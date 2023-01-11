@@ -37,7 +37,7 @@
         @endif
         &nbsp;&nbsp;
         @if($isVcamp && !$isCare)
-            <button type="submit" class="btn btn-danger btn-sm" onclick="setGroupOrg()">儲存</button>
+            <button type="submit" class="btn btn-danger btn-sm" onclick="userConnection()">儲存</button>
         @else
             <button type="submit" class="btn btn-danger btn-sm" onclick="setGroup()">儲存</button>
         @endif
@@ -146,6 +146,15 @@
                 console.log(response.data);
             }
         });
+    }
+
+    function userConnection() {
+        let applicants_ids = window.applicant_ids;
+        let applicants_ids_str = '';
+        for (let i = 0; i < applicants_ids.length; i++) {
+            applicants_ids_str += "applicant_ids[]=" + applicants_ids[i] + '&';
+        }
+        window.location = 'volunteer/userConnection?' + applicants_ids_str + 'group_id=' + document.getElementsByName('volunteer_work')[0].value;
     }
 
     function getPosition(theselect) {
