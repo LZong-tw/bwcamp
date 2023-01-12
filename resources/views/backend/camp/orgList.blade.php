@@ -25,7 +25,7 @@
             <th>刪除</th>
             <th>新增</th>
         </tr>
-        @forelse($orgs as $org)
+        @foreach($orgs as $org)
             <tr>
                 <td>{{ $org->id }}</td>
                 @if($org->position == 'root')
@@ -39,16 +39,15 @@
                         <a href="{{ route('showModifyOrg', [$camp->id, $org->id]) }}" class="btn btn-primary">修改</a>
                     </td>
                     <td>
-                        <form action="{{ route("removeOrg") }}" method="post">
+                        <form action="{{ route('removeOrg') }}" method="post">
                             @csrf
                             <input type="hidden" name="org_id" value="{{ $org->id }}">
                             <input type="hidden" name="org_section" value="{{ $org->section }}">
                             <input type="hidden" name="org_position" value="{{ $org->position }}">
                             <input type="hidden" name="camp_id" value="{{ $camp->id }}">
-                            <!--input type="submit" class="btn btn-danger" value="刪除"-->
-                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">
-                            刪除
-                            </button>
+                            <!--input type="submit" class="btn btn-danger" value="刪除">
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">刪除</button-->
+                            <button type="button" class="btn btn-danger"  onclick="confirmdelete(this.closest('form'));">刪除</button>
                         </form>
                     </td>
                     <td>
@@ -58,30 +57,61 @@
                     <td>{{ $org->position }}</td>
                     <td><a href="{{ route('showModifyOrg', [$camp->id, $org->id]) }}" class="btn btn-primary">修改</a></td>
                     <td>
-                        <form action="{{ route("removeOrg") }}" method="post">
+                        <form action="{{ route('removeOrg') }}" method="post">
                             @csrf
                             <input type="hidden" name="org_id" value="{{ $org->id }}">
                             <input type="hidden" name="org_section" value="{{ $org->section }}">
                             <input type="hidden" name="org_position" value="{{ $org->position }}">
                             <input type="hidden" name="camp_id" value="{{ $camp->id }}">
-                            <!--input type="submit" class="btn btn-danger" value="刪除"-->
-                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">
-                            刪除
-                            </button>
-
+                            <!--input type="submit" class="btn btn-danger" value="刪除">
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">刪除</button-->
+                            <button type="button" class="btn btn-danger"  onclick="confirmdelete(this.closest('form'));">刪除</button>
                         </form>
                     </td>
                     <td></td>
                 @endif
             </tr>
-        @empty
-        @endforelse
+        @endforeach
     </table>
-    
+
+{{--    
+    <style>
+        .modal-dialog {
+            z-index: 9999!important;
+        }
+        .modal-backdrop {
+            display: none;
+            z-index: -1!important;
+        }
+    </style>
+
+    <!-- Modal：刪除互動視窗 -->
+
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">確認刪除？</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!--div class="modal-body">
+                    確認刪除？
+                </div-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-danger">確認刪除</button>
+                </div>
+            </div>
+        </div>
+    </div>
+--}}
+
     <div class="container">
         <div class="row">
             <div class="col-md-3">
-                <a href="{{ route("showAddOrgs", [$camp->id, 0]) }}" class="btn btn-success d-inline-block" style="margin-bottom: 10px">新增組織</a>
+                <a href="{{ route('showAddOrgs', [$camp->id, 0]) }}" class="btn btn-success d-inline-block" style="margin-bottom: 10px">新增組織</a>
             </div>
             <div class="col-md-9">
             </div>
@@ -125,36 +155,6 @@
             </div>
         </form>
     @endif
-    <style>
-        .modal-dialog {
-            z-index: 9999!important;
-        }
-        .modal-backdrop {
-            display: none;
-            z-index: -1!important;
-        }
-    </style>
-
-    <!-- Modal：刪除互動視窗 -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">確認刪除？</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <!--div class="modal-body">
-                    確認刪除？
-                </div-->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-danger">確認刪除</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <script>
         function showOrgSel(){
@@ -175,18 +175,13 @@
             .then(function (response) {
                 if (response.data.status === 'success') {
                     //window.location.reload();
-                    var org_sel = document.getElementById("org2copy");
-                    org_sel.style.display = "block";
-                    console.log(org_sel.style.display);
-                    console.log('if');
                     console.log(response.data);
                 }
                 else {
                     var org_sel = document.getElementById("org2copy");
                     org_sel.style.display = "block";
                     console.log(org_sel.style.display);
-                    console.log('else');
-                    let ele = `<tr><td>`;
+                    let ele = `<tr><td>欲複製營隊的組織：`;
                     for (let i = 0; i < Object.keys(response.data).length ; i++) {
                         if(response.data[i]['position']=='root') {
                             ele = ele + `<br>`+ response.data[i]['section'] + `：`;
@@ -200,6 +195,11 @@
                     org_sel.innerHTML = ele;
                 }
             });
+        }
+        function confirmdelete(form) {
+            if (confirm('確認刪除？')) {
+                form.submit();
+            }
         }
     </script>
 @endsection

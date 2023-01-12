@@ -32,6 +32,7 @@
             <th scope="col" class="text-nowrap">學員組數</th>
             <th scope="col" class="text-nowrap">建立日期</th>
             <th scope="col" class="text-nowrap">更新日期</th>
+            <th scope="col" class="text-nowrap">報名人數</th>            
             <th scope="col" class="text-nowrap">動作</th>
         </tr>
         @foreach($batches as $batch)
@@ -51,6 +52,7 @@
                 <td>{{ $batch->num_groups }}</td>
                 <td>{{ $batch->created_at }}</td>
                 <td>{{ $batch->updated_at }}</td>
+                <td>{{ $num_applicants[$batch->id]}}</td>
                 <td>
                     <a href="{{ route("showModifyBatch", [$camp->id, $batch->id]) }}" class="btn btn-primary">修改</a>
                     <form action="{{ route('copyBatch', $camp->id) }}" method="POST">
@@ -58,8 +60,25 @@
                         <input type="hidden" name="batch_id" value="{{ $batch->id }}">
                         <input type="submit" class="btn btn-success float-right" value="複製">
                     </form>
+                    @if(!$num_applicants[$batch->id])
+                    <form action="{{ route('removeBatch', $camp->id) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="batch_id" value="{{ $batch->id }}">
+                        <button type="button" class="btn btn-danger"  onclick="confirmdelete(this.closest('form'));">刪除</button>
+                    </form>
+                    @endif
                 </td>
             </tr>
         @endforeach
     </table>
+    @if(count($batches))  
+    <h6 class='text-info'>＊報名人數必須為0，才可刪除該梯次</h6><br>
+    @endif
+    <script>
+        function confirmdelete(form) {
+            if (confirm('確認刪除？')) {
+                form.submit();
+            }
+        }
+    </script>
 @endsection
