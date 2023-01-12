@@ -202,7 +202,13 @@ class AdminController extends BackendController {
     public function showBatch($camp_id){
         $camp = Camp::find($camp_id);
         $batches = $camp->batchs;
-        return view('backend.camp.batchList', compact('camp', 'batches'));
+        $num_applicants = array();
+        //dd($batches);
+        foreach($batches as $batch) {
+            $num_applicants[$batch->id] = \DB::table('applicants')->where('batch_id',$batch->id)->count();
+        }
+        //dd($num_applicants);
+        return view('backend.camp.batchList', compact('camp', 'batches','num_applicants'));
     }
 
     public function modifyBatch(Request $request, $camp_id, $batch_id){
@@ -218,6 +224,18 @@ class AdminController extends BackendController {
         $camp = Camp::find($camp_id);
         $batch = Batch::find($batch_id);
         return view('backend.camp.modifyBatch', compact("camp", "batch"));
+    }
+
+    public function removeBatch(Request $request){
+        $result = \App\Models\Batch::find($request->batch_id)->delete();
+        if($result){
+            \Session::flash('message', "梯次刪除成功。");
+            return back();
+        }
+        else{
+            \Session::flash('error', "梯次刪除失敗。");
+            return back();
+        }
     }
 
     public function addOrgs(Request $request, $camp_id){

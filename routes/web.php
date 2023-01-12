@@ -70,6 +70,7 @@ Route::group(["prefix" => "camp/{batch_id}"], function () {
     Route::post("/downloadCheckInNotification", "CampController@downloadCheckInNotification")->name("downloadCheckInNotification");
     Route::post("/downloadCheckInQRcode", "CampController@downloadCheckInQRcode")->name("downloadCheckInQRcode");
     Route::post("/submit", "CampController@campRegistrationFormSubmitted")->name("formSubmit");
+    Route::post("/copy", "CampController@campRegistrationFormCopy")->name("formCopy");
     Route::get("/downloads", "CampController@showDownloads")->name("showDownloads");
     Route::get("/camp_total", [CampController::class, "getCampTotalRegisteredNumber"]);
 });
@@ -114,6 +115,7 @@ Route::group(["prefix" => "backend/campManage"], function(){
     Route::get("/batchList/{camp_id}", [AdminController::class, "showBatch"])->name("showBatch");
     Route::post("/batchList/{camp_id}/{batch_id}/modify", [AdminController::class, "modifyBatch"])->name("modifyBatches");
     Route::get("/batchList/{camp_id}/{batch_id}/modify", [AdminController::class, "showModifyBatch"])->name("showModifyBatch");
+    Route::post("/batchList/remove", [AdminController::class, "removeBatch"])->name("removeBatch");
     //Camp Organization
     Route::post("/orgList/{camp_id}/add", [AdminController::class, "addOrgs"])->name("addOrgs");
     Route::post("/orgList/{camp_id}/copy", [AdminController::class, "copyOrgs"])->name("copyOrgs");
