@@ -1152,13 +1152,16 @@ class BackendController extends Controller {
 //            return "<h3>沒有權限：瀏覽所有學員</h3>";
 //        }
         $user = \App\Models\User::findOrFail(auth()->user()->id);
-        if (!$user->hasPermission('\App\Models\Applicant.read')) {
+        if (!$user->hasPermission('\App\Models\Applicant.read') && $user->id != 1) {
             return "<h3>沒有權限：瀏覽所有學員</h3>";
         }
         ini_set('max_execution_time', -1);
         ini_set("memory_limit", -1);
         if ($request->isMethod("post")) {
             $payload = $request->all();
+            if (count($payload) == 1) {
+                return back()->withErrors(['未設定任何條件。']);
+            }
             foreach ($payload as $key => &$value) {
                 if (!is_array($value)) {
                     unset($payload[$key]);
@@ -1397,6 +1400,9 @@ class BackendController extends Controller {
         if ($request->isMethod("post")) {
             $queryStr = "";
             $payload = $request->all();
+            if (count($payload) == 1) {
+                return back()->withErrors(['未設定任何條件。']);
+            }
             foreach ($payload as $key => &$value) {
                 if (!is_array($value)) {
                     unset($payload[$key]);
@@ -1642,6 +1648,9 @@ class BackendController extends Controller {
         if ($request->isMethod("post")) {
             $queryStr = "";
             $payload = $request->all();
+            if (count($payload) == 1) {
+                return back()->withErrors(['未設定任何條件。']);
+            }
             foreach ($payload as $key => &$value) {
                 if (!is_array($value)) {
                     unset($payload[$key]);

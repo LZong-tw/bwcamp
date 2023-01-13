@@ -77,8 +77,9 @@ export default {
             this.toggleColumns(id);
             if (this.columns[id].show) {
                 let table = document.createElement("table");
+                let unique = [];
                 this.theData.forEach((item, key) => {
-                    if (table.innerHTML.includes(item[id])) {
+                    if (unique.includes(item[id]) && id != 'name') {
                         return;
                     }
                     if (key == 0 && (id == "group" || id == "roles")) {
@@ -115,6 +116,7 @@ export default {
                         tr.appendChild(td);
                         table.appendChild(tr);
                         $("#searchField" + id).removeClass("d-none");
+                        unique.push(item[id]);
                     }
                 });
                 $("#searchField" + id).append(`<div id="show-` + id +`">
