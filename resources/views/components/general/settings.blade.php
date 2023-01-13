@@ -37,7 +37,7 @@
         @endif
         &nbsp;&nbsp;
         @if($isVcamp && !$isCare)
-            <button type="submit" class="btn btn-danger btn-sm" onclick="userConnection()">儲存</button>
+            <button type="submit" class="btn btn-danger btn-sm" onclick="userConnection()">指派</button>
         @else
             <button type="submit" class="btn btn-danger btn-sm" onclick="setGroup()">儲存</button>
         @endif
