@@ -1987,13 +1987,14 @@ class BackendController extends Controller {
                 $type = substr($applicant_id, 0, 1);
                 $id = substr($applicant_id, 1);
                 if ($type == 'U') {
-                    $list[] = ["type" => $type, "data" => \App\Models\User::find($id)];
+                    $list[] = ["type" => "營隊幹部", "data" => \App\Models\User::find($id), "action" => "直接指派"];
                 }
                 if ($type == 'A') {
-                    $list[] = ["type" => $type, "data" => Applicant::find($id)];
+                    $list[] = ["type" => "報名義工", "data" => Applicant::find($id), "action" => null];
                 }
             }
-            return view("backend.integrated_operating_interface.connectVolunteerToUser", compact('list'));
+            $group = \App\Models\CampOrg::find($request->group_id);
+            return view("backend.integrated_operating_interface.connectVolunteerToUser", compact('list', 'group'));
         }
         if ($request->isMethod("POST")) {
 
