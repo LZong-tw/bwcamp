@@ -234,10 +234,15 @@ class BackendService
                             $year = now()->subYears($parameter)->format('Y');
                             $queryStr .= "birthyear = " . $year;
                         } else {
-                            if ($index == 0) {
-                                $queryStr .= "(";
+                            if ($request->ceocamp_sets_learner) {
+                                $queryStr .= "(" . $key . "=" . $parameter . ")";
                             }
-                            $queryStr .= $key . "=" . $parameter . ")";
+                            else {
+                                if ($index == 0) {
+                                    $queryStr .= "(";
+                                }
+                                $queryStr .= $key . "=" . $parameter . ")";
+                            }
                         }
                     }
                     elseif ($key == "group_id" && ($parameter == "na" || $parameter == "NONE")) {

@@ -25,6 +25,13 @@
     }
 
 </style>
+@if($errors->any())
+    @foreach ($errors->all() as $message)
+        <div class='alert alert-danger' role='alert'>
+            {{ $message }}
+        </div>
+    @endforeach
+@endif
 @if(isset($applicants))
     <h3 class="font-weight-bold">{{ $fullName }} >>
         @if($isSetting ?? false) 設定
