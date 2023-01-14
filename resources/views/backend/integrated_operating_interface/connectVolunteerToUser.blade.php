@@ -1,45 +1,59 @@
 @extends('backend.master')
 @section('content')
     <h2>{{ $campFullData->abbreviation }} 義工授權</h2>
-    <div class="alert alert-info pb-1 pt-3"><h4>即將指派<span class="text-danger font-weight-bold">{{ $group->section }}{{ $group->position }}</span>予以下人員，並執行相關流程，請針對各人員資料再次進行檢查</h4></div>
+    <div class="alert alert-info pb-1 pt-3"><h4>即將指派<span class="text-danger font-weight-bold">{{ $group->section }}{{ $group->position }}</span>予以下人員，並執行相關流程，請針對各人員資料再次進行檢查或處理</h4></div>
     <form action="{{ route("showCandidate", $campFullData->id) }}" method="post" class="form-horizontal">
         @csrf
-        <div class="row">
-            <span class="col-1">報名序號</span>
-            <span class="col-1">姓名</span>
-            <span class="col">Email</span>
-            <span class="col-2">手機</span>
-            <span class="col-1">資料類別</span>
-            <span class="col">指定動作</span>
+        <div >
+        <div class="row border-left border-right border-top border-info ml-0 mr-0 rounded-top">
+            <span class="col-1 border border-info py-2" style="border-top-left-radius: 0.25em">ID</span>
+            <span class="col-1 border border-info py-2">姓名</span>
+            <span class="col border border-info py-2">Email</span>
+            <span class="col-2 border border-info py-2">手機</span>
+            <span class="col-1 border border-info py-2">資料類別</span>
+            <span class="col border border-info py-2" style="border-top-right-radius: 0.25em">指定動作</span>
         </div>
         @foreach($list as $candidate)
-            <div class="row">
-                <span class="col-1">{{ $candidate["data"]->id }}</span>
-                <span class="col-1">{{ $candidate["data"]->name }}</span>
-                <span class="col">{{ $candidate["data"]->email }}</span>
-                <span class="col-2">{{ $candidate["data"]->mobile }}</span>
-                <span class="col-1">{{ $candidate["type"] }}</span>
-                <span class="col">
+            <div class="row border-left border-right border-info @if($loop->last) border-bottom rounded-bottom @endif ml-0 mr-0">
+                <span class="col-1 border border-info py-2" @if($loop->last) style="border-bottom-left-radius: 0.25em" @endif>{{ $candidate["data"]->id }}</span>
+                <span class="col-1 border border-info py-2">{{ $candidate["data"]->name }}</span>
+                <span class="col border border-info py-2">{{ $candidate["data"]->email }}</span>
+                <span class="col-2 border border-info py-2">{{ $candidate["data"]->mobile }}</span>
+                <span class="col-1 border border-info py-2">{{ $candidate["type"] }}</span>
+                <span class="col border border-info py-2" @if($loop->last) style="border-bottom-right-radius: 0.25em" @endif>
                     @if ($candidate["action"])
                         {{ $candidate["action"] }}
                     @else
-                        <form action="">
-                            使用
-                            <input type="text" name="name" id="" placeholder="姓名" class="form-control">
-                            <input type="text" name="email" id="" placeholder="Email" class="form-control">
-                            <input type="text" name="mobile" id="" placeholder="手機" class="form-control">
-                            查詢系統中是否已存在幹部帳號
-                            <input type="submit" value="查詢" class="btn btn-primary">
-                        </form>
-
+                        @php
+                            $occurrences = \App\Models\User::where('email', 'like', "%". $candidate["data"]->email . "%")
+                                            ->orWhere('name', 'like', "%". $candidate["data"]->name . "%")
+//                                            ->orWhereLike('mobile', "%". $candidate["data"]->mobile . "%")
+                                            ->get();
+                        @endphp
+                        @if ($occurrences->count() > 0)
+                            使用 <br>
+                        @endif
+                        @forelse($occurrences as $occurrence)
+                            <input type="radio" name="applicant{{ $candidate["data"]->id }}" id="" value="use{{ $occurrence->id }}" required @if($loop->first == $loop->last) checked @endif> {{ $occurrence->name }}({{ $occurrence->email }}) <br>
+                        @empty
+                        @endforelse
+                        @if ($occurrences->count() > 0)
+                            做為此人員之登入帳號
+                        @endif
+{{--                        <form action="">--}}
+{{--                            使用--}}
+{{--                            <input type="text" name="name" id="" placeholder="姓名" class="form-control">--}}
+{{--                            <input type="text" name="email" id="" placeholder="Email" class="form-control">--}}
+{{--                            <input type="text" name="mobile" id="" placeholder="手機" class="form-control">--}}
+{{--                            查詢系統中是否已存在幹部帳號--}}
+{{--                            <input type="submit" value="查詢" class="btn btn-primary">--}}
+{{--                        </form>--}}
                     @endif
                 </span>
             </div>
-            <div class="row">
-
-            </div>
         @endforeach
-        <input type="submit" class="btn btn-success" value="送出">
+        <input type="submit" class="btn btn-success mt-3" value="送出">
+        </div>
     </form>
     <script>
         (function() {
