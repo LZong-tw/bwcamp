@@ -164,13 +164,14 @@
             params: {
                 camp_id: {{ request()->route('camp_id') }},
                 section: theselect.options[theselect.selectedIndex].text,
+                no_caring_group_detail: true
             },
             responseType: 'json'
         })
         .then(function (response) {
             if (Object.keys(response.data).length === 0) {
                 console.log(response.data);
-                 特殊處理
+                 // 特殊處理
             }
             else {
                 let positions = Object.entries(response.data);

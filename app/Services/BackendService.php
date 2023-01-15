@@ -50,7 +50,17 @@ class BackendService
             $campOrg2 = CampOrg::firstOrCreate([
                 'camp_id' => $batch->camp_id,
                 'section' => '關懷大組',
+                'position' => '關懷小組' . $group->alias . '副小組長',
+            ]);
+            $campOrg3 = CampOrg::firstOrCreate([
+                'camp_id' => $batch->camp_id,
+                'section' => '關懷大組',
                 'position' => '關懷小組' . $group->alias . '關懷員',
+            ]);
+            $campOrg4 = CampOrg::firstOrCreate([
+                'camp_id' => $batch->camp_id,
+                'section' => '關懷大組',
+                'position' => '關懷小組' . $group->alias . '組員',
             ]);
         }
         return true;
