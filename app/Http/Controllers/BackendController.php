@@ -1981,7 +1981,7 @@ class BackendController extends Controller {
     public function connectVolunteerToUser(Request $request) {
         if ($request->isMethod("GET")) {
             // 測試用網址
-            // http://bw.camp/backend/29/IOI/volunteer/userConnection?applicant_ids[]=U1&applicant_ids[]=A9250&applicant_ids[]=A9260&group_id=59
+            // http://bw.camp/backend/29/IOI/volunteer/userConnection?applicant_ids[]=U1&applicant_ids[]=A9250&applicant_ids[]=A9260&applicant_ids[]=A9280&group_id=59
             $list = [];
             foreach ($request->applicant_ids as $applicant_id) {
                 $type = substr($applicant_id, 0, 1);
@@ -1997,7 +1997,18 @@ class BackendController extends Controller {
             return view("backend.integrated_operating_interface.connectVolunteerToUser", compact('list', 'group'));
         }
         if ($request->isMethod("POST")) {
-
+            $processedlist = $this->backendService->setGroupOrg($request->candidates, $request->group_id);
+            $messages = [];
+            foreach ($processedlist as $item) {
+                if (!$item['user_is_generated']) {
+                    $messages[] = "已將 " . $item['applicant']->name . " 指派為 " . $item['org']->section . $item['org']->position . " 並連結至帳號 " . $item['connected_to_user']->email . "，帳號 ID 為 " . $item['connected_to_user']->id;
+                }
+                else {
+                    $messages[] = "已為 " . $item['applicant']->name . " 指派為 " . $item['org']->section . $item['org']->position . " 並建立及連結至帳號 " . $item['connected_to_user']->email . "，帳號 ID 為 " . $item['connected_to_user']->id . "，預設密碼為 " . $item['applicant']->mobile;
+                }
+            }
+            $request->session()->flash('messages', $messages);
+            return redirect()->route("showVolunteers", [$request->camp_id, 'isSetting' => 1, 'batch_id' => $request->group_id]);
         }
     }
 }
