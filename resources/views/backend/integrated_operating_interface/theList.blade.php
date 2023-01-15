@@ -45,12 +45,12 @@
         @else 瀏覽 @endif
         {{ ($isShowVolunteers && $is_careV) ? '關懷組' : '' }}
         {{ ($isShowVolunteers) ? '義工' : '學員' }}名單
-        @if($is_ingroup && $groupName)
-            >> {{ $groupName }}
-        @endif
-        @if($is_careV)
-            >> 關懷員{{-- {{ Auth::user()->name }} --}}
-        @endif
+{{--        @if($is_ingroup && $groupName)--}}
+{{--            >> {{ $groupName }}--}}
+{{--        @endif--}}
+{{--        @if($is_careV)--}}
+{{--            >> 關懷員--}}{{-- {{ Auth::user()->name }} --}}
+{{--        @endif--}}
     </h3>
     @if($is_care)
         <h4>目前名單為@if($current_batch){{  $current_batch->name . "梯次 / 場次" }}@else{{  "所有梯次 / 場次" }}@endif</h4>

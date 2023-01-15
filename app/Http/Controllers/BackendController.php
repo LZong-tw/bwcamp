@@ -1447,6 +1447,7 @@ class BackendController extends Controller {
                         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                         ->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id')
+                        ->whereDoesntHave('user')
                         ->where('camps.id', $this->campFullData->vcamp->id)->withTrashed();
         if ($request->isMethod("post")) {
             $query = $query->where(\DB::raw($queryStr), 1);
@@ -1695,14 +1696,17 @@ class BackendController extends Controller {
             ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
             ->join('camps', 'camps.id', '=', 'batchs.camp_id')
             ->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id')
+            ->whereDoesntHave('user')
             ->where('camps.id', $this->campFullData->vcamp->id)->withTrashed();
         if ($request->isMethod("post")) {
             $query = $query->where(\DB::raw($queryStr), 1);
         }
         $applicants = $query->get();
         $applicants = $applicants->each(fn($applicant) => $applicant->id = $applicant->applicant_id);
+
+        $applicants = collect([]);
         $registeredUsers = \App\Models\User::with('roles')->whereHas('roles', function ($query) {
-            $query->where('camp_id', $this->campFullData->id);
+            $query->where('camp_id', $this->campFullData->id)->where('position', 'like', '%關懷小組%');
         })->get();
         if (auth()->user()->getPermission(false)->role->level <= 2) {
         }
