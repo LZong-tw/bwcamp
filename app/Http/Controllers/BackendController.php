@@ -1987,7 +1987,7 @@ class BackendController extends Controller {
                 $type = substr($applicant_id, 0, 1);
                 $id = substr($applicant_id, 1);
                 if ($type == 'U') {
-                    $list[] = ["type" => "登入帳號", "data" => \App\Models\User::find($id), "action" => "直接指派"];
+                    $list[] = ["type" => "登入帳號", "data" => \App\Models\User::find($id), "action" => "直接指派職務"];
                 }
                 if ($type == 'A') {
                     $list[] = ["type" => "報名義工", "data" => Applicant::find($id), "action" => null];
