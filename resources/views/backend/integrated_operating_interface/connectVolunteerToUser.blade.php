@@ -6,20 +6,20 @@
         @csrf
         <div >
         <div class="row border-left border-right border-top border-info ml-0 mr-0 rounded-top">
-            <span class="col-1 border border-info py-2" style="border-top-left-radius: 0.25em">ID</span>
-            <span class="col-1 border border-info py-2">姓名</span>
-            <span class="col border border-info py-2">Email</span>
-            <span class="col-2 border border-info py-2">手機</span>
-            <span class="col-1 border border-info py-2">資料類別</span>
-            <span class="col border border-info py-2" style="border-top-right-radius: 0.25em">指定動作</span>
+            <span class="col-1 border border-info py-2 bg-info text-white">資料類別</span>
+            <span class="col-1 border border-info py-2 bg-info text-white">ID</span>
+            <span class="col-1 border border-info py-2 bg-info text-white">姓名</span>
+            <span class="col border border-info py-2 bg-info text-white">Email</span>
+            <span class="col-2 border border-info py-2 bg-info text-white">手機</span>
+            <span class="col border border-info py-2 bg-info text-white" style="border-top-right-radius: 0.25em">將執行</span>
         </div>
         @foreach($list as $candidate)
             <div class="row border-left border-right border-info @if($loop->last) border-bottom rounded-bottom @endif ml-0 mr-0">
-                <span class="col-1 border border-info py-2" @if($loop->last) style="border-bottom-left-radius: 0.25em" @endif>{{ $candidate["data"]->id }}</span>
+                <span class="col-1 border border-info py-2" @if($loop->last) style="border-bottom-left-radius: 0.25em" @endif>{{ $candidate["type"] }}</span>
+                <span class="col-1 border border-info py-2">{{ $candidate["data"]->id }}</span>
                 <span class="col-1 border border-info py-2">{{ $candidate["data"]->name }}</span>
                 <span class="col border border-info py-2">{{ $candidate["data"]->email }}</span>
                 <span class="col-2 border border-info py-2">{{ $candidate["data"]->mobile }}</span>
-                <span class="col-1 border border-info py-2">{{ $candidate["type"] }}</span>
                 <span class="col border border-info py-2" @if($loop->last) style="border-bottom-right-radius: 0.25em" @endif>
                     @if ($candidate["action"])
                         {{ $candidate["action"] }}
@@ -36,9 +36,13 @@
                         @forelse($occurrences as $occurrence)
                             <input type="radio" name="applicant{{ $candidate["data"]->id }}" id="" value="use{{ $occurrence->id }}" required @if($loop->first == $loop->last) checked @endif> {{ $occurrence->name }}({{ $occurrence->email }}) <br>
                         @empty
+                            自動建立新帳號，並指派職務至此帳號<br>
+                            帳號：{{ $candidate["data"]->email }}<br>
+                            密碼：{{ $candidate["data"]->mobile }}<br>
+{{--                            密碼：{{ $candidate["data"]->birthyear }}{{ sprintf("%02d", $candidate["data"]->birthmonth) }}{{ sprintf("%02d", $candidate["data"]->birthday) }}<br>--}}
                         @endforelse
                         @if ($occurrences->count() > 0)
-                            做為此人員之登入帳號
+                            做為此人員之登入帳號，並指派職務至此帳號
                         @endif
 {{--                        <form action="">--}}
 {{--                            使用--}}
