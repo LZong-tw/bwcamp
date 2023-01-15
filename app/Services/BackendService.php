@@ -135,6 +135,8 @@ class BackendService
                         'applicant_id' => $entity["id"],
                     ]))->save();
                     $applicant = Applicant::findOrFail($entity["id"]);
+                    $applicant->is_admitted = 1;
+                    $applicant->save();
                 }
                 $succeedList[] = [
                     'applicant' => $applicant ?? $user,
@@ -145,6 +147,8 @@ class BackendService
             }
             elseif ($entity["uses_user_id"] == "generation_needed") {
                 $applicant = Applicant::findOrFail($entity["id"]);
+                $applicant->is_admitted = 1;
+                $applicant->save();
                 $user = $this->generateUser($applicant);
                 $succeedList[] = [
                     'applicant' => $applicant,
