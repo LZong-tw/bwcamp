@@ -32,6 +32,13 @@
         </div>
     @endforeach
 @endif
+@if(session()->has('messages'))
+    @foreach (session()->get('messages') as $message)
+        <div class='alert alert-success' role='alert'>
+            {{ $message }}
+        </div>
+    @endforeach
+@endif
 @if(isset($applicants))
     <h3 class="font-weight-bold">{{ $fullName }} >>
         @if($isSetting ?? false) 設定

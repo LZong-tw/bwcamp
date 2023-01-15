@@ -2,61 +2,68 @@
 @section('content')
     <h2>{{ $campFullData->abbreviation }} 義工授權</h2>
     <div class="alert alert-info pb-1 pt-3"><h4>即將指派<span class="text-danger font-weight-bold">{{ $group->section }}{{ $group->position }}</span>予以下人員，並執行相關流程，請針對各人員資料再次進行檢查或處理</h4></div>
-    <form action="{{ route("showCandidate", $campFullData->id) }}" method="post" class="form-horizontal">
+    <form action="{{ route("userConnectionPOST", $campFullData->id) }}" method="post" class="form-horizontal">
         @csrf
-        <div >
-        <div class="row border-left border-right border-top border-info ml-0 mr-0 rounded-top">
-            <span class="col-1 border border-info py-2 bg-info text-white">資料類別</span>
-            <span class="col-1 border border-info py-2 bg-info text-white">ID</span>
-            <span class="col-1 border border-info py-2 bg-info text-white">姓名</span>
-            <span class="col border border-info py-2 bg-info text-white">Email</span>
-            <span class="col-2 border border-info py-2 bg-info text-white">手機</span>
-            <span class="col border border-info py-2 bg-info text-white" style="border-top-right-radius: 0.25em">將執行</span>
-        </div>
-        @foreach($list as $candidate)
-            <div class="row border-left border-right border-info @if($loop->last) border-bottom rounded-bottom @endif ml-0 mr-0">
-                <span class="col-1 border border-info py-2" @if($loop->last) style="border-bottom-left-radius: 0.25em" @endif>{{ $candidate["type"] }}</span>
-                <span class="col-1 border border-info py-2">{{ $candidate["data"]->id }}</span>
-                <span class="col-1 border border-info py-2">{{ $candidate["data"]->name }}</span>
-                <span class="col border border-info py-2">{{ $candidate["data"]->email }}</span>
-                <span class="col-2 border border-info py-2">{{ $candidate["data"]->mobile }}</span>
-                <span class="col border border-info py-2" @if($loop->last) style="border-bottom-right-radius: 0.25em" @endif>
-                    @if ($candidate["action"])
-                        {{ $candidate["action"] }}
-                    @else
-                        @php
-                            $occurrences = \App\Models\User::where('email', 'like', "%". $candidate["data"]->email . "%")
-                                            ->orWhere('name', 'like', "%". $candidate["data"]->name . "%")
-//                                            ->orWhereLike('mobile', "%". $candidate["data"]->mobile . "%")
-                                            ->get();
-                        @endphp
-                        @if ($occurrences->count() > 0)
-                            使用 <br>
-                        @endif
-                        @forelse($occurrences as $occurrence)
-                            <input type="radio" name="applicant{{ $candidate["data"]->id }}" id="" value="use{{ $occurrence->id }}" required @if($loop->first == $loop->last) checked @endif> {{ $occurrence->name }}({{ $occurrence->email }}) <br>
-                        @empty
-                            自動建立新帳號，並指派職務至此帳號<br>
-                            帳號：{{ $candidate["data"]->email }}<br>
-                            密碼：{{ $candidate["data"]->mobile }}<br>
-{{--                            密碼：{{ $candidate["data"]->birthyear }}{{ sprintf("%02d", $candidate["data"]->birthmonth) }}{{ sprintf("%02d", $candidate["data"]->birthday) }}<br>--}}
-                        @endforelse
-                        @if ($occurrences->count() > 0)
-                            做為此人員之登入帳號，並指派職務至此帳號
-                        @endif
-{{--                        <form action="">--}}
-{{--                            使用--}}
-{{--                            <input type="text" name="name" id="" placeholder="姓名" class="form-control">--}}
-{{--                            <input type="text" name="email" id="" placeholder="Email" class="form-control">--}}
-{{--                            <input type="text" name="mobile" id="" placeholder="手機" class="form-control">--}}
-{{--                            查詢系統中是否已存在幹部帳號--}}
-{{--                            <input type="submit" value="查詢" class="btn btn-primary">--}}
-{{--                        </form>--}}
-                    @endif
-                </span>
+        <input type="hidden" name="group_id" value="{{ $group->id }}">
+        <div>
+            <div class="row border-left border-right border-top border-info ml-0 mr-0 rounded-top">
+                <span class="col-1 border border-info py-2 bg-info text-white">資料類別</span>
+                <span class="col-1 border border-info py-2 bg-info text-white">ID</span>
+                <span class="col-1 border border-info py-2 bg-info text-white">姓名</span>
+                <span class="col border border-info py-2 bg-info text-white">Email</span>
+                <span class="col-2 border border-info py-2 bg-info text-white">手機</span>
+                <span class="col border border-info py-2 bg-info text-white" style="border-top-right-radius: 0.25em">將執行</span>
             </div>
-        @endforeach
-        <input type="submit" class="btn btn-success mt-3" value="送出">
+            @foreach($list as $index => $candidate)
+                <div class="row border-left border-right border-info @if($loop->last) border-bottom rounded-bottom @endif ml-0 mr-0">
+                    <span class="col-1 border border-info py-2" @if($loop->last) style="border-bottom-left-radius: 0.25em" @endif>{{ $candidate["type"] }}</span>
+                    <span class="col-1 border border-info py-2">{{ $candidate["data"]->id }}</span>
+                    <span class="col-1 border border-info py-2">{{ $candidate["data"]->name }}</span>
+                    <span class="col border border-info py-2">{{ $candidate["data"]->email }}</span>
+                    <span class="col-2 border border-info py-2">{{ $candidate["data"]->mobile }}</span>
+                    <span class="col border border-info py-2" @if($loop->last) style="border-bottom-right-radius: 0.25em" @endif>
+                        @if ($candidate["action"])
+                            {{ $candidate["action"] }}
+                            <input type="hidden" name="candidates[{{ $index }}][type]" value="user">
+                            <input type="hidden" name="candidates[{{ $index }}][id]" value="{{ $candidate["data"]->id }}">
+                            <input type="hidden" name="candidates[{{ $index }}][uses_user_id]" id="" value="{{ $candidate["data"]->id }}">
+                        @else
+                            @php
+                                $occurrences = \App\Models\User::where('email', 'like', "%". $candidate["data"]->email . "%")
+                                                ->orWhere('name', 'like', "%". $candidate["data"]->name . "%")
+    //                                            ->orWhereLike('mobile', "%". $candidate["data"]->mobile . "%")
+                                                ->get();
+                            @endphp
+                            @if ($occurrences->count() > 0)
+                                使用 <br>
+                            @endif
+                            <input type="hidden" name="candidates[{{ $index }}][type]" value="applicant">
+                            <input type="hidden" name="candidates[{{ $index }}][id]" value="{{ $candidate["data"]->id }}">
+                            @forelse($occurrences as $occurrence)
+                                <label><input type="radio" name="candidates[{{ $index }}][uses_user_id]" id="" value="{{ $occurrence->id }}" required @if($loop->first == $loop->last) checked @endif> {{ $occurrence->name }}({{ $occurrence->email }})</label> <br>
+                            @empty
+                                自動建立新帳號，並指派職務至此帳號<br>
+                                帳號：{{ $candidate["data"]->email }}<br>
+                                密碼：{{ $candidate["data"]->mobile }}<br>
+                                <input type="hidden" name="candidates[{{ $index }}][uses_user_id]" id="" value="generation_needed">
+    {{--                            密碼：{{ $candidate["data"]->birthyear }}{{ sprintf("%02d", $candidate["data"]->birthmonth) }}{{ sprintf("%02d", $candidate["data"]->birthday) }}<br>--}}
+                            @endforelse
+                            @if ($occurrences->count() > 0)
+                                做為此人員之登入帳號，並指派職務至此帳號
+                            @endif
+    {{--                        <form action="">--}}
+    {{--                            使用--}}
+    {{--                            <input type="text" name="name" id="" placeholder="姓名" class="form-control">--}}
+    {{--                            <input type="text" name="email" id="" placeholder="Email" class="form-control">--}}
+    {{--                            <input type="text" name="mobile" id="" placeholder="手機" class="form-control">--}}
+    {{--                            查詢系統中是否已存在幹部帳號--}}
+    {{--                            <input type="submit" value="查詢" class="btn btn-primary">--}}
+    {{--                        </form>--}}
+                        @endif
+                    </span>
+                </div>
+            @endforeach
+            <input type="submit" class="btn btn-success mt-3" value="送出">
         </div>
     </form>
     <script>
