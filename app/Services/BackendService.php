@@ -160,6 +160,11 @@ class BackendService
                 $applicant->is_admitted = 1;
                 $applicant->save();
                 $user = $this->generateUser($applicant);
+                (new OrgUser([
+                    'org_id' => $groupOrg->id,
+                    'user_id' => $user->id,
+                    'user_type' => 'App\Models\User',
+                ]))->save();
                 $succeedList[] = [
                     'applicant' => $applicant,
                     'connected_to_user' => $user,
