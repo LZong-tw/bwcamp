@@ -377,7 +377,7 @@ return [
             "batch" => [
                 "name" => "梯次",
                 "sort" => 1,
-                "for_query" => 1,
+                "for_query" => 0,
             ],
             "group" => [
                 "name" => "組別",
@@ -450,22 +450,22 @@ return [
             "batch" => [
                 "name" => "報名梯次",
                 "sort" => 1,
-                "for_query" => 1,
+                "for_query" => 0,
             ],
             "roles" => [
                 "name" => "職務組別",
                 "sort" => 1,
-                "for_query" => 1,
+                "for_query" => 0,
             ],
             "position" => [
                 "name" => "職務",
                 "sort" => 1,
-                "for_query" => 1,
+                "for_query" => 0,
             ],
             "avatar" => [
                 "name" => "照片",
                 "sort" => 0,
-                "for_query" => 1,
+                "for_query" => 0,
             ],
             "name" => [
                 "name" => "姓名",
@@ -538,7 +538,7 @@ return [
             "batch" => [
                 "name" => "梯次",
                 "sort" => 1,
-                "for_query" => 1,
+                "for_query" => 0,
             ],
             "group" => [
                 "name" => "組別",

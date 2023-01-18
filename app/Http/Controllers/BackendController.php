@@ -1641,7 +1641,7 @@ class BackendController extends Controller {
 
         return view('backend.integrated_operating_interface.theList')
                 ->with('applicants', $applicants)
-                ->with('onlyRegisteredVolunteers', $registeredUsers)
+                ->with('registeredVolunteers', $registeredUsers)
                 ->with('batches', $batches)
                 ->with('current_batch', Batch::find($request->batch_id))
                 ->with('isShowVolunteers', 1)
@@ -1653,7 +1653,7 @@ class BackendController extends Controller {
                 ->with('is_ingroup', 0)
                 ->with('groupName', '')
                 ->with('columns_zhtw', $columns_zhtw)
-                ->with('fullName', $this->campFullData->vcamp->fullName)
+                ->with('fullName', $this->campFullData->fullName)
                 ->with('groups', $this->campFullData->roles)
                 ->with('isVcamp', 1)
                 ->with('queryStr', $queryStr ?? '');
@@ -1747,7 +1747,7 @@ class BackendController extends Controller {
         $columns_zhtw = config('camps_fields.display.ceovcamp');
 
         return view('backend.integrated_operating_interface.theList')
-                ->with('onlyRegisteredVolunteers', $registeredUsers)
+                ->with('registeredVolunteers', $registeredUsers)
                 ->with('applicants', $applicants)
                 ->with('batches', $batches)
                 ->with('isShowVolunteers', 1)

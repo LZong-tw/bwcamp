@@ -36,7 +36,7 @@
                 @endforeach
             </tr>
         </thead>
-        @forelse ($onlyRegisteredVolunteers as &$user)
+        @forelse ($registeredVolunteers as &$user)
             <tr>
                 @if($isSetting ?? false)
                     <td class="text-center">
@@ -176,6 +176,14 @@
     window.csrf_token = "{{ csrf_token() }}";
     window.columns = @json($columns);
     window.theData = @json($applicants);
+    @if($registeredVolunteers ?? false)
+        @foreach($registeredVolunteers as &$v)
+            @php
+                $v->roles = $v->roles;
+            @endphp
+        @endforeach
+        window.theVolunteersData = @json($registeredVolunteers);
+    @endif
     window.is_care = {{ $isCare ? 1 : 0 }};
     window.isShowVolunteers = {{ $isVcamp ? 1 : 0 }};
     (function() {
