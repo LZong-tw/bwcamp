@@ -189,8 +189,34 @@ class BackendService
                     'org' => $groupOrg,
                 ];
             }
+            elseif ($entity["uses_user_id"] == "generation_needed_custom") {
+                if (\App\Models\User::where('email', 'like', $entity["email"])->first()) {
+                    throw new \Exception("Email 已註冊。");
+                }
+                $applicant = Applicant::findOrFail($entity["id"]);
+                $applicant->is_admitted = 1;
+                $applicant->save();
+                $applicantTmp = clone $applicant;
+                $name = $applicantTmp->name;
+                $applicant = new Applicant;
+                $applicant->name = $name;
+                $applicant->email = $entity["email"];
+                $applicant->mobile = $entity["password"];
+                $user = $this->generateUser($applicant);
+                (new OrgUser([
+                    'org_id' => $groupOrg->id,
+                    'user_id' => $user->id,
+                    'user_type' => 'App\Models\User',
+                ]))->save();
+                $succeedList[] = [
+                    'applicant' => $applicant,
+                    'connected_to_user' => $user,
+                    'user_is_generated' => true,
+                    'org' => $groupOrg,
+                ];
+            }
             else {
-                throw new \Exception("異常");
+                throw new \Exception("異常，請回上一頁檢查輸入資料是否齊全。");
 //                $applicant = Applicant::findOrFail($entity);
 //                if (!$applicant->is_admitted) {
 //                    $this->setAdmitted($applicant, true);
