@@ -41,10 +41,10 @@
 @endif
 @if(isset($applicants))
     <h3 class="font-weight-bold">{{ $fullName }} >>
-        @if($isSetting ?? false) 設定
+        @if(($isSettingCarer ?? false) || ($isSetting ?? false)) 設定
         @else 瀏覽 @endif
         {{ ($isShowVolunteers && $is_careV) ? '關懷組' : '' }}
-        {{ ($isShowVolunteers) ? '義工' : '學員' }}名單
+        {{ ($isShowVolunteers) ? '義工' : '學員' }}@if(!($isSettingCarer ?? true))名單@else所屬關懷員@endif
 {{--        @if($is_ingroup && $groupName)--}}
 {{--            >> {{ $groupName }}--}}
 {{--        @endif--}}
@@ -55,11 +55,11 @@
     @if($is_care)
         <h4>目前名單為@if($current_batch){{  $current_batch->name . "梯次 / 場次" }}@else{{  "所有梯次 / 場次" }}@endif</h4>
         <h5>
-            選擇梯次：@foreach ($batches as $batch) <a href='?isSetting={{ $isSetting }}&batch_id={{ $batch->id }}'>{{ $batch->name }}梯</a> @endforeach
+            選擇梯次：@foreach ($batches as $batch) <a href='?isSetting={{ $isSetting ?? 0 }}&isSettingCarer={{ $isSettingCarer ?? 0 }}&batch_id={{ $batch->id }}'>{{ $batch->name }}梯</a> @endforeach
             @if($batches->count() > 1) <a href='?isSetting={{ $isSetting }}'>所有梯次</a> @endif
         </h5>
     @endif
-    @if($isSetting ?? false)
+    @if(($isSettingCarer ?? false) || ($isSetting ?? false))
     @else
         <x-button.options :isIngroup="$is_ingroup" :isVcamp="$isShowVolunteers" :isCare="$is_care" :isCareV="$is_careV" :currentBatch="$current_batch"/>
     @endif
@@ -72,11 +72,17 @@
         @endif
 {{--    <br>--}}
     @endif
-    @if($isSetting ?? false)
-        <x-general.settings :isIngroup="$is_ingroup" :isVcamp="$isShowVolunteers" :isCare="$is_care" :$batches />
+    @if(($isSettingCarer ?? false) || ($isSetting ?? false))
+        <x-general.settings :isIngroup="$is_ingroup" :isVcamp="$isShowVolunteers" :isCare="$is_care" :$batches :$isSettingCarer :$carers/>
     @endif
     <x-general.search-component :columns="$columns_zhtw" :camp="$campFullData" :$groups :currentBatch="$current_batch" :$queryStr :isCare="$is_care" :$isShowVolunteers />
-    <x-table.applicant-list :columns="$columns_zhtw" :$applicants :isVcamp="$isShowVolunteers" :isCare="$is_care" :$isSetting :onlyRegisteredVolunteers="$onlyRegisteredVolunteers ?? collect([])"/>
+    <x-table.applicant-list :columns="$columns_zhtw" :$applicants :isVcamp="$isShowVolunteers" :isCare="$is_care" :$isSetting :onlyRegisteredVolunteers="$onlyRegisteredVolunteers ?? collect([])" :$isSettingCarer />
 @endif
 {{--  $is_care: 正在關懷學員  --}}
+<script>
+    (function () {
+        $('#sidebarCollapse').toggleClass('active');
+        $('#sidebar').toggleClass('active');
+    })();
+</script>
 @endsection

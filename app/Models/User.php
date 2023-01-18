@@ -81,4 +81,8 @@ class User extends Authenticatable
         $this->setEmail($this->role_relations->first()->role->camp->table ?? "");
         app(\Illuminate\Contracts\Notifications\Dispatcher::class)->send($this, $instance);
     }
+
+    public function caresLearners() {
+        return $this->belongsToMany(Applicant::class, CarerApplicantXref::class, 'id', 'id', 'user_id', 'applicant_id');
+    }
 }

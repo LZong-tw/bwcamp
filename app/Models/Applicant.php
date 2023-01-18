@@ -120,18 +120,18 @@ class Applicant extends Model {
         return $this->belongsTo(GroupNumber::class, 'number_id', 'id');
     }
 
-    public function carer()
+    public function carers()
     {
         return $this->belongsToMany(\App\User::class, 'carer_applicant_xrefs', 'applicant_id', 'user_id');
     }
 
     public function getBirthdateAttribute() {
         return match ($this->birthyear && $this->birthmonth && $this->birthday) {
-            true => Carbon::parse("{$this->birthyear}-{$this->birthmonth}-{$this->birthday}"),
+            true => Carbon::parse("{$this->birthyear}-{$this->birthmonth}-{$this->birthday}")->format('Y-m-d'),
             false => match ($this->birthyear && $this->birthmonth) {
-                true => Carbon::parse("{$this->birthyear}-{$this->birthmonth}"),
+                true => Carbon::parse("{$this->birthyear}-{$this->birthmonth}")->format('Y-m'),
                 false => match ($this->birthyear) {
-                    true => Carbon::parse("{$this->birthyear}"),
+                    true => Carbon::parse("{$this->birthyear}")->format('Y'),
                     false => null,
                 },
             },
@@ -139,6 +139,9 @@ class Applicant extends Model {
     }
 
     public function getAgeAttribute() {
+        if (is_string($this->birthdate)) {
+            return Carbon::parse($this->birthdate)->diff(now())->format('%y');
+        }
         return $this->birthdate->diff(now())->format('%y');
     }
 
