@@ -1,11 +1,6 @@
-@extends('backend.master')
+@extends('backend.ioiMaster')
 @section('content')
 @include('..partials.counties_areas_script')
-<link rel="stylesheet" href="{{ asset('bootstrap-table/bootstrap-table.min.css') }}">
-<script src="{{ asset('js/axios.min.js') }}"></script>
-<script defer src="{{ asset('bootstrap-table/bootstrap-table.min.js') }}"></script>
-<script defer src="{{ asset('bootstrap-table/locale/bootstrap-table-zh-TW.min.js') }}"></script>
-@vite(['resources/js/app.js'])
 <style>
     .card-link{
         color: #3F86FB!important;
@@ -76,13 +71,7 @@
         <x-general.settings :isIngroup="$is_ingroup" :isVcamp="$isShowVolunteers" :isCare="$is_care" :$batches :$isSettingCarer :$carers/>
     @endif
     <x-general.search-component :columns="$columns_zhtw" :camp="$campFullData" :$groups :currentBatch="$current_batch" :$queryStr :isCare="$is_care" :$isShowVolunteers />
-    <x-table.applicant-list :columns="$columns_zhtw" :$applicants :isVcamp="$isShowVolunteers" :isCare="$is_care" :$isSetting :onlyRegisteredVolunteers="$onlyRegisteredVolunteers ?? collect([])" :$isSettingCarer />
+    <x-table.applicant-list :columns="$columns_zhtw" :$applicants :isVcamp="$isShowVolunteers" :isCare="$is_care" :$isSetting :registeredVolunteers="$registeredVolunteers ?? collect([])" :$isSettingCarer />
 @endif
 {{--  $is_care: 正在關懷學員  --}}
-<script>
-    (function () {
-        $('#sidebarCollapse').toggleClass('active');
-        $('#sidebar').toggleClass('active');
-    })();
-</script>
 @endsection

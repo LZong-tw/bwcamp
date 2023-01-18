@@ -20,12 +20,12 @@
     <script type='text/javascript'>
         google.charts.load('current', {'packages':['corechart','table'], 'language':'zh_TW'});
     </script>
-    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <link rel="stylesheet" href="{{ asset('bootstrap-table/bootstrap-table.min.css') }}">
+    @vite(['resources/js/app.js'])
     <script src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
-    <!-- Popper.JS -->
-    <script src="{{ asset('js/popper_1.14.0.min.js') }}"></script>
-    <!-- Bootstrap JS -->
-    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('js/axios.min.js') }}"></script>
+    <script defer src="{{ asset('bootstrap-table/bootstrap-table.min.js') }}"></script>
+    <script defer src="{{ asset('bootstrap-table/locale/bootstrap-table-zh-TW.min.js') }}"></script>
     <style>
         .card-link{
             color: #3F86FB!important;
@@ -33,17 +33,23 @@
         .card-link:hover{
             color: #33B2FF!important;
         }
+        li > a {
+            color: white;
+        }
     </style>
 </head>
 <body>
     @include('backend.panel')
     <script type="text/javascript">
-        $(document).ready(function () {
+        (function () {
             $('#sidebarCollapse').on('click', function () {
                 $('#sidebar').toggleClass('active');
                 $(this).toggleClass('active');
             });
-        });
+
+            $('#sidebarCollapse').toggleClass('active');
+            $('#sidebar').toggleClass('active');
+        })();
         function toggleAll(){
             if($(".collapse.list-unstyled").hasClass("show")){
                 $(".collapse.list-unstyled").removeClass("show");
@@ -53,6 +59,7 @@
                 $(".collapse.list-unstyled").addClass("show");
             }
         }
+    </script>
     </script>
 </body>
 
