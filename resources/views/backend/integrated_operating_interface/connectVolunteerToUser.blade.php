@@ -40,7 +40,7 @@
                             <input type="hidden" name="candidates[{{ $index }}][type]" value="applicant">
                             <input type="hidden" name="candidates[{{ $index }}][id]" value="{{ $candidate["data"]->id }}">
                             @forelse($occurrences as $occurrence)
-                                <label><input type="radio" name="candidates[{{ $index }}][uses_user_id]" id="" value="{{ $occurrence->id }}" required @if($loop->first == $loop->last) checked @endif> {{ $occurrence->name }}({{ $occurrence->email }})</label> <br>
+                                <label><input type="radio" name="candidates[{{ $index }}][uses_user_id]" id="" value="{{ $occurrence->id }}" required> {{ $occurrence->name }}({{ $occurrence->email }})</label> <br>
                             @empty
                                 自動建立新帳號，並指派職務至此帳號<br>
                                 帳號：{{ $candidate["data"]->email }}<br>
@@ -49,6 +49,9 @@
     {{--                            密碼：{{ $candidate["data"]->birthyear }}{{ sprintf("%02d", $candidate["data"]->birthmonth) }}{{ sprintf("%02d", $candidate["data"]->birthday) }}<br>--}}
                             @endforelse
                             @if ($occurrences->count() > 0)
+                                或<label><input type="radio" name="candidates[{{ $index }}][uses_user_id]" id="" value="generation_needed_custom" required> 手動建立帳號</label><br>
+                                帳號：<input type="email" name="candidates[{{ $index }}][email]" id="" placeholder="Email" class="form-control"><br>
+                                密碼：<input type="text" name="candidates[{{ $index }}][password]" id="" placeholder="任意密碼" class="form-control"><br>
                                 做為此人員之登入帳號，並指派職務至此帳號
                             @endif
     {{--                        <form action="">--}}

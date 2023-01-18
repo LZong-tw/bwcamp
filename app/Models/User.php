@@ -83,6 +83,10 @@ class User extends Authenticatable
     }
 
     public function caresLearners() {
-        return $this->belongsToMany(Applicant::class, CarerApplicantXref::class, 'id', 'id', 'user_id', 'applicant_id');
+        return $this->belongsToMany(Applicant::class, CarerApplicantXref::class, 'user_id', 'applicant_id', 'id', 'id');
+    }
+
+    public function application_log() {
+        return $this->belongsToMany(Applicant::class, UserApplicantXref::class, 'user_id', 'applicant_id', 'id', 'id');
     }
 }
