@@ -2,12 +2,10 @@
     <!-- Live as if you were to die tomorrow. Learn as if you were to live forever. - Mahatma Gandhi -->
     <span class="text-danger font-weight-bold">
         @if($isVcamp)
-            <button type="submit" class="btn btn-success btn-sm" onclick="javascript:self.location='?isSetting=0';"> << 返回義工名單</button>
-            &nbsp;&nbsp;
+            <button type="submit" class="btn btn-success btn-sm" onclick="javascript:self.location='?isSetting=0';"> << 返回義工名單</button>            &nbsp;&nbsp;
             將所選義工設定為{{ ($isVcamp && $isCare) ? '第' : '' }}
         @else
-            <button type="submit" class="btn btn-success btn-sm" onclick="javascript:self.location='?isSetting=0';"> << 返回學員名單</button>
-            &nbsp;&nbsp;
+            <button type="submit" class="btn btn-success btn-sm" onclick="javascript:self.location='?isSetting=0';"> << 返回學員名單</button>            &nbsp;&nbsp;
         @endif
 
         @if($isVcamp && !$isCare)
@@ -19,17 +17,18 @@
                 <option value=''>- 請選擇 -</option>
             </select>
             職務
-        @elseif(!$isVcamp && $isCare && $isIngroup)
+        @elseif($isSettingCarer)
             將所選學員之關懷員設定為
             <select required name='attendee_care' onChange=''>
                 <option value=''>- 請選擇 -</option>
-                <option value='楊圓滿'>楊圓滿</option>
-                <option value='陳莊嚴'>陳莊嚴</option>
+                @forelse($carers as $carer)
+                    <option value='{{ $carer->id }}'>{{ $carer->name }}：{{ $carer->groupOrgRelation->first(fn($q) => str_contains($q->position, '關懷小組'))?->batch?->name }}</option>
+                @empty
+                    <option value="">本梯次沒有關懷員</option>
+                @endforelse
             </select>
-        @else
-            @if(!$isVcamp)
-                將所選學員設定為第
-            @endif
+        @elseif(!$isVcamp)
+            將所選學員設定為第
             <select required name='attendee_group' onChange='' id="learnerGroups">
                 <option value=''>- 請選擇 -</option>
             </select>
@@ -39,7 +38,7 @@
         @if($isVcamp && !$isCare)
             <button type="submit" class="btn btn-danger btn-sm" onclick="userConnection()">指派</button>
         @else
-            <button type="submit" class="btn btn-danger btn-sm" onclick="setGroup()">儲存</button>
+            <button type="submit" class="btn btn-danger btn-sm" onclick="@if($isSettingCarer) setCarer() @else setGroup() @endif">儲存</button>
         @endif
     </span>
 </div>
@@ -185,10 +184,44 @@
                 for (let i = 0; i < positions.length; i++) {
                     let option = document.createElement('option');
                     option.value = positions[i][1]['id'];
-                    option.text = positions[i][1]['position'];
+                    if (positions[i][1]['batch_name']) {
+                        option.text = positions[i][1]['batch_name'] + "：" + positions[i][1]['position'];
+                    }
+                    else {
+                        option.text = positions[i][1]['position'];
+                    }
                     select.appendChild(option);
                 }
             }
         });
+    }
+
+    function setCarer() {
+        if(document.getElementsByName('attendee_care')[0].value) {
+            if(window.applicant_ids.length > 0) {
+                axios({
+                    method: 'post',
+                    url: '/semi-api/setCarer',
+                    data: {
+                        applicant_ids: window.applicant_ids,
+                        carer_id: document.getElementsByName('attendee_care')[0].value
+                        {{--is_remove--}}
+                    },
+                    responseType: 'json'
+                })
+                    .then(function (response) {
+                        if (response.data.status === 'success') {
+                            window.location.reload();
+                        }
+                        else {
+                            console.log(response.data);
+                        }
+                    });
+            } else {
+                alert('請勾選至少一位學員');
+            }
+        } else {
+            alert('請選擇關懷員');
+        }
     }
 </script>

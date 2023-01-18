@@ -18,11 +18,18 @@
         <caption></caption>
         <thead>
             <tr class="bg-success text-white">
-                @if($isSetting ?? false)
+                @if(($isSetting ?? false) || ($isSettingCarer ?? false))
                     <th></th>
                 @endif
                 @foreach ($columns as $key => $item)
-                    @if(!$isVcamp && !$isCare && $key == "contactlog")
+                    @if($isSettingCarer && ($key == 'mobile' || $key == 'email' || $key == 'zipcode' || $key == 'address' || $key == 'birthdate' || $key == 'after_camp_available_day' || $key == 'region'))
+                    @elseif($isSettingCarer && ($key == 'participation_mode'))
+                        <th class="text-center" data-field="is_attend" data-sortable="1">參加意願</th>
+                        <th class="text-center" data-field="participation_mode" data-sortable="1">參加形式</th>
+                    @elseif($key == "industry" && $isSettingCarer)
+                        <th class="text-center" data-field="introducer" data-sortable="0">推薦人</th>
+                        <th class="text-center" data-field="carer" data-sortable="1">關懷員</th>
+                    @elseif(!$isVcamp && !$isCare && $key == "contactlog")
                     @else
                         <th class="text-center" data-field="{{ $key }}" data-sortable="{{ $item['sort'] }}">{{ $item['name'] }}</th>
                     @endif
@@ -89,7 +96,7 @@
         @endforelse
         @forelse ($applicants as &$applicant)
             <tr>
-                @if($isSetting ?? false)
+                @if(($isSetting ?? false) || ($isSettingCarer ?? false))
                     <td class="text-center">
                         <input type="checkbox" name="applicants[]" class="applicants_selector" value="{{ $applicant->sn }}"  id="A{{ $applicant->sn }}" onclick="applicant_triggered(this.id)">
                     </td>
@@ -100,7 +107,12 @@
                         $applicant->group = $applicant->groupRelation?->alias;
                         $applicant->job = $applicant->groupOrgRelation?->position;
                     @endphp
-                    @if($key == "avatar" && $applicant->avatar)
+                    @if($isSettingCarer && ($key == 'mobile' || $key == 'email' || $key == 'zipcode' || $key == 'address' || $key == 'birthdate' || $key == 'after_camp_available_day' || $key == 'region'))
+                        @continue
+                    @elseif($key == "industry" && $isSettingCarer)
+                        <td>{{ $applicant->introducer ?? "-" }}</td>
+                        <td>@forelse($applicant->carers as $carer) {{ $carer->name }} @if(!$loop->last) {{ "<br>" }} @endif @empty {{ '-' }} @endforelse</td>
+                    @elseif($key == "avatar" && $applicant->avatar)
                         <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($applicant->avatar)) }}" width=80 alt="{{ $applicant->name }}"></td>
                     @elseif($key == "name")
                         <td>
@@ -110,9 +122,14 @@
                         <td>no photo</td>
                     @elseif($key == "gender")
                         <td>{{ $applicant->gender_zh_tw }}</td>
+                    @elseif($key == "batch")
+                        <td>{{ $applicant->batch->name }}</td>
                     @elseif($isVcamp && $key == "group" && isset($applicant->groupOrgRelation->section))
                         <td>{{ $applicant->groupOrgRelation?->section }}</td>
                     @elseif(!$isVcamp && !$isCare && $key == "contactlog")
+                    @elseif($isSettingCarer && ($key == 'participation_mode'))
+                        <td>{{ $applicant->is_attend ?? "-" }}</td>
+                        <td>{{ $applicant->participation_mode ?? "-" }}</td>
                     @elseif($key == "is_attend")
                         @if($applicant->$key == 1)
                             <td>是</td>

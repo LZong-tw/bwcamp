@@ -17,7 +17,7 @@ class CampOrg extends LaratrustRole
 
     // todo: 要再加上梯次和地區
     protected $fillable = [
-        'camp_id', 'section', 'position', 'description'
+        'camp_id', 'batch_id', 'section', 'position', 'description'
     ];
 
     protected $guarded = [];
@@ -25,6 +25,11 @@ class CampOrg extends LaratrustRole
     public function camp()
     {
         return $this->hasOne(Camp::class, 'id', 'camp_id');
+    }
+
+    public function batch()
+    {
+        return $this->hasOne(Batch::class, 'id', 'batch_id');
     }
 
     public function next() {

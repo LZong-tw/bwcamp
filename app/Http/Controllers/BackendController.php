@@ -1174,7 +1174,7 @@ class BackendController extends Controller {
                         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                         ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
-                        ->where('camps.id', $this->campFullData->id)->withTrashed();
+                        ->where('camps.id', $this->campFullData->id)->withTrashed()->orderBy('deleted_at', 'asc');
         if ($request->batch_id) {
             $query->where('batchs.id', $request->batch_id);
         }
@@ -1201,6 +1201,19 @@ class BackendController extends Controller {
         }
         else {
             $isSetting = 0;
+        }
+
+        if($request->isSettingCarer && $request->batch_id) {
+            $carers = \App\Models\User::whereHas('groupOrgRelation', function ($query) use ($request) {
+                $query->where('batch_id', $request->batch_id)
+                    ->where('position', 'like', '%關懷小組%');
+            })->get();
+        }
+        elseif($request->isSettingCarer) {
+            $carers = \App\Models\User::whereHas('groupOrgRelation', function ($query) {
+                $query->where('camp_id', $this->campFullData->id)
+                    ->where('position', 'like', '%關懷小組%');
+            })->get();
         }
 
         if(isset($request->download)) {
@@ -1380,6 +1393,8 @@ class BackendController extends Controller {
                 ->with('current_batch', Batch::find($request->batch_id))
                 ->with('isShowVolunteers', 0)
                 ->with('isSetting', $isSetting)
+                ->with('isSettingCarer', $request->isSettingCarer ?? 0)
+                ->with('carers', $carers ?? null)
                 ->with('is_care', 1)
                 ->with('is_careV', 0)
                 ->with('is_ingroup', 0)
@@ -1631,6 +1646,8 @@ class BackendController extends Controller {
                 ->with('current_batch', Batch::find($request->batch_id))
                 ->with('isShowVolunteers', 1)
                 ->with('isSetting', $isSetting)
+                ->with('isSettingCarer', $request->isSettingCarer ?? 0)
+                ->with('carers', null)
                 ->with('is_care', 0)
                 ->with('is_careV', 0)
                 ->with('is_ingroup', 0)
@@ -1736,6 +1753,8 @@ class BackendController extends Controller {
                 ->with('isShowVolunteers', 1)
                 ->with('current_batch', Batch::find($request->batch_id))
                 ->with('isSetting', $isSetting)
+                ->with('isSettingCarer', $request->isSettingCarer ?? 0)
+                ->with('carers', null)
                 ->with('is_care', 1)
                 ->with('is_careV', 1)
                 ->with('is_ingroup', 1)

@@ -374,6 +374,11 @@ return [
 
     'display' => [
         'ceocamp' => [
+            "batch" => [
+                "name" => "梯次",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
             "group" => [
                 "name" => "組別",
                 "sort" => 1,
@@ -442,8 +447,13 @@ return [
         ],
 
         'ceovcamp' => [
+            "batch" => [
+                "name" => "報名梯次",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
             "roles" => [
-                "name" => "組別",
+                "name" => "職務組別",
                 "sort" => 1,
                 "for_query" => 1,
             ],
@@ -524,6 +534,11 @@ return [
                 "name" => "報名序號",
                 "sort" => 1,
                 "for_query" => 0,
+            ],
+            "batch" => [
+                "name" => "梯次",
+                "sort" => 1,
+                "for_query" => 1,
             ],
             "group" => [
                 "name" => "組別",

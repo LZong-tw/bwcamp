@@ -34,6 +34,12 @@ class SemiApiController extends Controller
         return response()->json(['status' => 'success']);
     }
 
+    public function setCarer(Request $request)
+    {
+        $applicant = $this->backendService->setCarer($request->applicant_ids, $request->carer_id);
+        return response()->json(['status' => 'success']);
+    }
+
     public function setGroupOrg(Request $request)
     {
         $applicant = $this->backendService->setGroupOrg($request->applicant_ids, $request->group_id);
@@ -68,11 +74,12 @@ class SemiApiController extends Controller
         $orgs = $this->backendService
                     ->getCampOrganizations(Camp::findOrFail($campId));
         $orgs = $orgs->filter(function ($org) use ($request) {
-            if ($request->no_caring_group_detail) {
-                return $org->position != 'root' && $org->section == $request->input('section') &&
-                    !(str_contains($org->position, "關懷小組") && str_contains($org->position, "關懷員"));
-            }
             return $org->position != 'root' && $org->section == $request->input('section');
+        });
+        $orgs = $orgs->each(function ($org) {
+            if (str_contains($org->position, "關懷小組")) {
+                $org->batch_name = $org->batch?->name;
+            }
         });
         return response()->json($orgs);
     }

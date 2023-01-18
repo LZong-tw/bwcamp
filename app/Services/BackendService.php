@@ -6,6 +6,7 @@ use App\Models\ApplicantsGroup;
 use App\Models\Batch;
 use App\Models\Camp;
 use App\Models\CampOrg;
+use App\Models\CarerApplicantXref;
 use App\Models\OrgUser;
 use App\Models\UserApplicantXref;
 use Carbon\Carbon;
@@ -41,19 +42,21 @@ class BackendService
                     'alias' => "第" . __($i) . "組",
                 ])->firstOrFail();
             }
-            // todo: 待營隊職務轉移後，此處應該要改成用 $batch->id
             $campOrg = CampOrg::firstOrCreate([
                 'camp_id' => $batch->camp_id,
+                'batch_id' => $group->batch_id,
                 'section' => '關懷大組',
                 'position' => '關懷小組' . $group->alias . '小組長',
             ]);
             $campOrg2 = CampOrg::firstOrCreate([
                 'camp_id' => $batch->camp_id,
+                'batch_id' => $group->batch_id,
                 'section' => '關懷大組',
                 'position' => '關懷小組' . $group->alias . '副小組長',
             ]);
             $campOrg3 = CampOrg::firstOrCreate([
                 'camp_id' => $batch->camp_id,
+                'batch_id' => $group->batch_id,
                 'section' => '關懷大組',
                 'position' => '關懷小組' . $group->alias . '組員',
             ]);
@@ -118,6 +121,25 @@ class BackendService
             $applicant->groupRelation()->associate($group);
             $applicant->save();
             $applicant->refresh();
+        }
+        return true;
+    }
+
+    public function setCarer(array $applicants, string $carerId): bool
+    {
+        foreach ($applicants as $applicant) {
+            if (str_contains($applicant, "A")) {
+                $applicant = str_replace("A", '', $applicant);
+            }
+            $applicant = Applicant::findOrFail($applicant);
+            $carer = \App\Models\User::findOrFail($carerId);
+            if (!$applicant->is_admitted) {
+                $this->setAdmitted($applicant, true);
+            }
+            (new CarerApplicantXref([
+                'user_id' => $carer->id,
+                'applicant_id' => $applicant->id
+            ]))->save();
         }
         return true;
     }
