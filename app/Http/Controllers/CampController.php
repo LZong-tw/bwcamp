@@ -468,6 +468,15 @@ class CampController extends Controller
         return redirect(route('showadmit', ['batch_id' => $applicant->batch_id, 'sn' => $applicant->id, 'name' => $applicant->name]));
     }
 
+    public function toggleAttendBackend(Request $request) {
+        $applicant = Applicant::find($request->id);
+        $applicant->is_attend = $request->is_attend;
+        $applicant->save();
+        $applicant = $this->applicantService->checkPaymentStatus($applicant);
+        $applicant->refresh();
+        return redirect()->back();
+    }
+
     public function showCampPayment() {
         return view('camps.' . $this->camp_data->table . '.payment');
     }

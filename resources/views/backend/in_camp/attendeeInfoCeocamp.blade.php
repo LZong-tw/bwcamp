@@ -57,8 +57,31 @@
                 <b>所屬組別</b>：{{$applicant->group_legacy}}<br>
                 <b>關懷員</b>：<br>
                 <b>參加形式</b>：{{$applicant->participation_mode}}<br>
-                <b>參加意願</b>：{{$applicant->is_attend}}<br>
             </div>
+        </div>
+        <div class="row d-flex justify-content-end">
+            <div class="mr-4 mb-2 font-weight-bold">參加意願</div>
+        </div>
+        <div class="row d-flex justify-content-end">
+            @if(!isset($applicant->is_attend))
+                狀態：<div class="mr-4 text-primary">未回覆。</div>
+            @elseif($applicant->is_attend == 1)
+                狀態：<div class="mr-4 text-success">參加。</div>
+            @elseif($applicant->is_attend == 0)
+                狀態：<div class="mr-4 text-danger">不參加。</div>
+            @elseif($applicant->is_attend == 2)
+                狀態：<div class="mr-4 text-secondary">已聯絡未回應。</div>
+            @endif
+        </div>
+        <div class="row d-flex justify-content-end">
+            <form class="mr-4 mb-2" action="{{ route('toggleAttendBackend', $applicant->batch->id) }}" method="POST">
+                @csrf
+                <input type="hidden" name="id" value="{{ $applicant->applicant_id ?? $applicant->id }}">
+                <label><input type="radio" name="is_attend" id="" value="0">不參加</label>
+                <label><input type="radio" name="is_attend" id="" value="1">參加</label>
+                <label><input type="radio" name="is_attend" id="" value="2">已聯絡未回應</label>
+                <input class="btn btn-success" type="submit" value="修改參加狀態">
+            </form>
         </div>
     </div>
     <br>
