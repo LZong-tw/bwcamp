@@ -70,8 +70,7 @@ class SemiApiController extends Controller
         $orgs = $orgs->filter(function ($org) use ($request) {
             if ($request->no_caring_group_detail) {
                 return $org->position != 'root' && $org->section == $request->input('section') &&
-                    (!(str_contains($org->position, "關懷小組") && str_contains($org->position, "副小組長")) &&
-                    !(str_contains($org->position, "關懷小組") && str_contains($org->position, "關懷員")));
+                    !(str_contains($org->position, "關懷小組") && str_contains($org->position, "關懷員"));
             }
             return $org->position != 'root' && $org->section == $request->input('section');
         });
