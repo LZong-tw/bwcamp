@@ -125,7 +125,7 @@
                         <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($applicant->avatar)) }}" width=80 alt="{{ $applicant->name }}"></td>
                     @elseif($key == "name")
                         <td>
-                            <a href="{{ route('showAttendeeInfoGET', ($isVcamp ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->applicant_id }}" target="_blank">{{ $applicant->name }}</a>
+                            <a href="{{ route('showAttendeeInfoGET', ($isVcamp ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->id }}" target="_blank">{{ $applicant->name }}</a>
                         </td>
                     @elseif($key == "avatar" && !$applicant->avatar)
                         <td>no photo</td>
