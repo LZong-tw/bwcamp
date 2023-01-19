@@ -151,16 +151,16 @@ class BackendService
         foreach ($applicantsOrUsers as $entity) {
             if (is_numeric($entity["uses_user_id"])) {
                 $user = \App\Models\User::findOrFail($entity["uses_user_id"]);
-                (new OrgUser([
+                OrgUser::firstOrCreate([
                     'org_id' => $groupOrg->id,
                     'user_id' => $user->id,
                     'user_type' => 'App\Models\User',
-                ]))->save();
+                ]);
                 if ($entity["type"] == "applicant") {
-                    (new UserApplicantXref([
+                    UserApplicantXref::firstOrCreate([
                         'user_id' => $user->id,
                         'applicant_id' => $entity["id"],
-                    ]))->save();
+                    ]);
                     $applicant = Applicant::findOrFail($entity["id"]);
                     $applicant->is_admitted = 1;
                     $applicant->save();
@@ -173,19 +173,19 @@ class BackendService
                 ];
             }
             elseif ($entity["uses_user_id"] == "generation_needed") {
-                (new UserApplicantXref([
-                    'user_id' => $user->id,
-                    'applicant_id' => $entity["id"],
-                ]))->save();
                 $applicant = Applicant::findOrFail($entity["id"]);
                 $applicant->is_admitted = 1;
                 $applicant->save();
                 $user = $this->generateUser($applicant);
-                (new OrgUser([
+                OrgUser::firstOrCreate([
                     'org_id' => $groupOrg->id,
                     'user_id' => $user->id,
                     'user_type' => 'App\Models\User',
-                ]))->save();
+                ]);
+                UserApplicantXref::firstOrCreate([
+                    'user_id' => $user->id,
+                    'applicant_id' => $entity["id"],
+                ]);
                 $succeedList[] = [
                     'applicant' => $applicant,
                     'connected_to_user' => $user,
@@ -207,16 +207,16 @@ class BackendService
                 $applicant->email = $entity["email"];
                 $applicant->mobile = $entity["password"];
                 $user = $this->generateUser($applicant);
-                (new OrgUser([
+                OrgUser::firstOrCreate([
                     'org_id' => $groupOrg->id,
                     'user_id' => $user->id,
                     'user_type' => 'App\Models\User',
-                ]))->save();
+                ]);
                 if ($entity["type"] == "applicant") {
-                    (new UserApplicantXref([
+                    UserApplicantXref::firstOrCreate([
                         'user_id' => $user->id,
                         'applicant_id' => $entity["id"],
-                    ]))->save();
+                    ]);
                 }
                 $succeedList[] = [
                     'applicant' => $applicant,
