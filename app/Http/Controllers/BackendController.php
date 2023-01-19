@@ -1440,7 +1440,7 @@ class BackendController extends Controller {
                             }
                         }
                         else if (is_string($parameter)) {
-                            if ($key == 'name') { $key = 'name'; }
+                            if ($key == 'name') { $key = 'applicants.name'; }
                             $queryStr .= $key . " like '%" . $parameter . "%'";
                         }
                         if ($index != count($parameters) - 1) {
@@ -1473,6 +1473,7 @@ class BackendController extends Controller {
             $query->where('camp_id', $this->campFullData->id);
         });
         if ($request->isMethod("post")) {
+            $queryStr = str_replace("applicants.name", "users.name", $queryStr);
             $registeredUsers = $registeredUsers->where(\DB::raw($queryStr), 1)->get();
         }
         else {
