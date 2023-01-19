@@ -40,28 +40,20 @@
                             <input type="hidden" name="candidates[{{ $index }}][type]" value="applicant">
                             <input type="hidden" name="candidates[{{ $index }}][id]" value="{{ $candidate["data"]->id }}">
                             @forelse($occurrences as $occurrence)
-                                <label><input type="radio" name="candidates[{{ $index }}][uses_user_id]" id="" value="{{ $occurrence->id }}" required> {{ $occurrence->name }}({{ $occurrence->email }})</label> <br>
+                                <label><input type="radio" name="candidates[{{ $index }}][uses_user_id]" id="" value="{{ $occurrence->id }}" required @if($occurrence->email == $candidate["data"]->user?->email) checked disabled @elseif($candidate["data"]->user) disabled @endif> {{ $occurrence->name }}({{ $occurrence->email }})</label> <br>
                             @empty
                                 自動建立新帳號，並指派職務至此帳號<br>
                                 帳號：{{ $candidate["data"]->email }}<br>
                                 密碼：{{ $candidate["data"]->mobile }}<br>
-                                <input type="hidden" name="candidates[{{ $index }}][uses_user_id]" id="" value="generation_needed">
+                                <input type="hidden" name="candidates[{{ $index }}][uses_user_id]" id="" value="generation_needed" @if($candidate["data"]->user) disabled @endif>
     {{--                            密碼：{{ $candidate["data"]->birthyear }}{{ sprintf("%02d", $candidate["data"]->birthmonth) }}{{ sprintf("%02d", $candidate["data"]->birthday) }}<br>--}}
                             @endforelse
-                            @if ($occurrences->count() > 0)
+                            @if ($occurrences->count() > 0 && !$candidate["data"]->user)
                                 或<label><input type="radio" name="candidates[{{ $index }}][uses_user_id]" id="" value="generation_needed_custom" required> 手動建立帳號</label><br>
                                 帳號：<input type="email" name="candidates[{{ $index }}][email]" id="" placeholder="Email" class="form-control"><br>
                                 密碼：<input type="text" name="candidates[{{ $index }}][password]" id="" placeholder="任意密碼" class="form-control"><br>
                                 做為此人員之登入帳號，並指派職務至此帳號
                             @endif
-    {{--                        <form action="">--}}
-    {{--                            使用--}}
-    {{--                            <input type="text" name="name" id="" placeholder="姓名" class="form-control">--}}
-    {{--                            <input type="text" name="email" id="" placeholder="Email" class="form-control">--}}
-    {{--                            <input type="text" name="mobile" id="" placeholder="手機" class="form-control">--}}
-    {{--                            查詢系統中是否已存在幹部帳號--}}
-    {{--                            <input type="submit" value="查詢" class="btn btn-primary">--}}
-    {{--                        </form>--}}
                         @endif
                     </span>
                 </div>
