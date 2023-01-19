@@ -31,6 +31,7 @@ class Applicant extends Model {
     {
         return $this->hasOneThrough(User::class, UserApplicantXref::class, 'applicant_id', 'id', 'id', 'user_id');
     }
+
     public function batch() {
         return $this->belongsTo(Batch::class);
     }
