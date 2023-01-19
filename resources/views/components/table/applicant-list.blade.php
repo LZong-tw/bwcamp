@@ -72,11 +72,13 @@
                         @elseif(!$isVcamp && !$isCare && $key == "contactlog")
                         @elseif($key == "is_attend")
                             @if($applicant->$key == 1)
-                                <td>是</td>
+                                <td>參加</td>
                             @elseif($applicant->$key === 0)
-                                <td>否</td>
+                                <td>不參加</td>
+                            @elseif($applicant->$key === 2)
+                                <td>已聯絡未回應</td>
                             @else
-                                <td>未定</td>
+                                <td>未回覆</td>
                             @endif
                         @elseif($key == "reasons_recommend")
                             <td>
@@ -145,11 +147,13 @@
                         <td>{{ $applicant->participation_mode ?? "-" }}</td>
                     @elseif($key == "is_attend")
                         @if($applicant->$key == 1)
-                            <td>是</td>
+                            <td>參加</td>
                         @elseif($applicant->$key === 0)
-                            <td>否</td>
+                            <td>不參加</td>
+                        @elseif($applicant->$key === 2)
+                            <td>已聯絡未回應</td>
                         @else
-                            <td>未定</td>
+                            <td>未回覆</td>
                         @endif
                     @elseif($key == "reasons_recommend")
                         <td>
