@@ -1462,7 +1462,7 @@ class BackendController extends Controller {
                         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                         ->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id')
-                        ->whereDoesntHave('user')
+                        ->whereDoesntHave('user.roles')
                         ->where('camps.id', $this->campFullData->vcamp->id)->withTrashed();
         if ($request->isMethod("post")) {
             $query = $query->where(\DB::raw($queryStr), 1);
