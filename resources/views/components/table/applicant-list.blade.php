@@ -45,11 +45,12 @@
                 @endif
                 @foreach ($columns as $key => $item)
                     @php
-                        $user->application_log->first()->age = $user->application_log->first()?->age;
-                        if(!$user->application_log->first()->$key) {
-                            // $theClass = "\\App\\Models\\" . ucfirst($campFullData->table);
-                            $applicantCampData = \App\Models\Ceovcamp::where('applicant_id', $user->application_log->first()->id)->first();
-                            $user->application_log->first()->$key = $applicantCampData->$key;
+                        if ($user->application_log->first()) {
+                            if(!$user->application_log->first()->$key) {
+                                // $theClass = "\\App\\Models\\" . ucfirst($campFullData->table);
+                                $applicantCampData = \App\Models\Ceovcamp::where('applicant_id', $user->application_log->first()->id)->first();
+                                $user->application_log->first()->$key = $applicantCampData->$key;
+                            }
                         }
                     @endphp
                     @if($key == "avatar" && $user->application_log->first()->avatar)
