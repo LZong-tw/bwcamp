@@ -1471,7 +1471,13 @@ class BackendController extends Controller {
         $applicants = $applicants->each(fn($applicant) => $applicant->id = $applicant->applicant_id);
         $registeredUsers = \App\Models\User::with('roles', 'application_log')->whereHas('roles', function ($query) {
             $query->where('camp_id', $this->campFullData->id);
-        })->get();
+        });
+        if ($request->isMethod("post")) {
+            $registeredUsers = $registeredUsers->where(\DB::raw($queryStr), 1)->get();
+        }
+        else {
+            $registeredUsers = $registeredUsers->get();
+        }
         if (auth()->user()->getPermission(false)->role->level <= 2) {
         }
         else if(auth()->user()->getPermission(true, $this->campFullData->id)->level > 2){
