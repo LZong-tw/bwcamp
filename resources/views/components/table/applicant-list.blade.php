@@ -126,6 +126,9 @@
                     @elseif($key == "name")
                         <td>
                             <a href="{{ route('showAttendeeInfoGET', ($isVcamp ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->applicant_id }}" target="_blank">{{ $applicant->name }}</a>
+                            @if($applicant->user)
+                                <div class="text-success">連結之帳號：{{ $applicant->user->name }}({{ $applicant->user->email }})</div>
+                            @endif
                         </td>
                     @elseif($key == "avatar" && !$applicant->avatar)
                         <td>no photo</td>
