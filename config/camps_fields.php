@@ -222,6 +222,7 @@ return [
         "reasons_recommend" => "特別推薦理由",
         "profile_agree" => "個人資料允許",
         "participation_mode" => "參加營隊形式",
+        "is_attend" => "參加意願",
         "reasons_online" => "選擇上述參加形式的原因"
     ],
 
@@ -303,6 +304,7 @@ return [
         "portrait_agree" => "肖像權",
         "profile_agree" => "個人資料允許",
         "favored_event" => "有興趣活動",
+        "is_attend" => "參加意願",
         "after_camp_available_day" => "後續課程時間",
     ],
 
