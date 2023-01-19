@@ -40,7 +40,12 @@
                             <input type="hidden" name="candidates[{{ $index }}][type]" value="applicant">
                             <input type="hidden" name="candidates[{{ $index }}][id]" value="{{ $candidate["data"]->id }}">
                             @forelse($occurrences as $occurrence)
-                                <label><input type="radio" name="candidates[{{ $index }}][uses_user_id]" id="" value="{{ $occurrence->id }}" required @if($occurrence->email == $candidate["data"]->user?->email) checked disabled @elseif($candidate["data"]->user) disabled @endif> {{ $occurrence->name }}({{ $occurrence->email }})</label> <br>
+                                @if($occurrence->email == $candidate["data"]->user?->email)
+                                    <label><input type="radio" name="candidates[{{ $index }}][uses_user_id]" id="" value="{{ $occurrence->id }}" required checked> {{ $occurrence->name }}({{ $occurrence->email }})</label> <br>
+                                    @break
+                                @else
+                                    <label><input type="radio" name="candidates[{{ $index }}][uses_user_id]" id="" value="{{ $occurrence->id }}" required> {{ $occurrence->name }}({{ $occurrence->email }})</label> <br>
+                                @endif
                             @empty
                                 自動建立新帳號，並指派職務至此帳號<br>
                                 帳號：{{ $candidate["data"]->email }}<br>
