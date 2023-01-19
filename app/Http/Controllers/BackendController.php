@@ -1440,7 +1440,7 @@ class BackendController extends Controller {
                             }
                         }
                         else if (is_string($parameter)) {
-                            if ($key == 'name') { $key = 'applicants.name'; }
+                            if ($key == 'name') { $key = 'name'; }
                             $queryStr .= $key . " like '%" . $parameter . "%'";
                         }
                         if ($index != count($parameters) - 1) {
