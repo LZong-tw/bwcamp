@@ -47,13 +47,11 @@
 {{--            >> 關懷員--}}{{-- {{ Auth::user()->name }} --}}
 {{--        @endif--}}
     </h3>
-    @if($is_care)
-        <h4>目前名單為@if($current_batch){{  $current_batch->name . "梯次 / 場次" }}@else{{  "所有梯次 / 場次" }}@endif</h4>
-        <h5>
-            選擇梯次：@foreach ($batches as $batch) <a href='?isSetting={{ $isSetting ?? 0 }}&isSettingCarer={{ $isSettingCarer ?? 0 }}&batch_id={{ $batch->id }}'>{{ $batch->name }}梯</a> @endforeach
-            @if($batches->count() > 1) <a href='?isSetting={{ $isSetting }}'>所有梯次</a> @endif
-        </h5>
-    @endif
+    <h4>目前名單為@if($current_batch){{  $current_batch->name . "梯次 / 場次" }}@else{{  "所有梯次 / 場次" }}@endif</h4>
+    <h5>
+        選擇梯次：@foreach ($batches as $batch) <a href='?isSetting={{ $isSetting ?? 0 }}&isSettingCarer={{ $isSettingCarer ?? 0 }}&batch_id={{ $batch->id }}'>{{ $batch->name }}梯</a> @endforeach
+        @if($batches->count() > 1) <a href='?isSetting={{ $isSetting }}'>所有梯次</a> @endif
+    </h5>
     @if(($isSettingCarer ?? false) || ($isSetting ?? false))
     @else
         <x-button.options :isIngroup="$is_ingroup" :isVcamp="$isShowVolunteers" :isCare="$is_care" :isCareV="$is_careV" :currentBatch="$current_batch"/>
