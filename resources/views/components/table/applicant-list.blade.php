@@ -36,72 +36,69 @@
                 @endforeach
             </tr>
         </thead>
-        @forelse ($registeredVolunteers as $applications)
-            @forelse($applications as &$applicant)
-                <tr>
-                    @if($isSetting ?? false)
-                        <td class="text-center">
-                            <input type="checkbox" name="applicants[]" class="applicants_selector" value="{{ $applicant->id }}"  id="U{{ $applicant->id }}" onclick="applicant_triggered(this.id)">
+        @forelse ($registeredVolunteers->application_log as &$applicant)
+            <tr>
+                @if($isSetting ?? false)
+                    <td class="text-center">
+                        <input type="checkbox" name="applicants[]" class="applicants_selector" value="{{ $applicant->id }}"  id="U{{ $applicant->id }}" onclick="applicant_triggered(this.id)">
+                    </td>
+                @endif
+                @foreach ($columns as $key => $item)
+                    @php
+                        if(!$applicant->$key) {
+                            // $theClass = "\\App\\Models\\" . ucfirst($campFullData->table);
+                            $applicantCampData = \App\Models\Ceovcamp::where('applicant_id', $applicant->id)->first();
+                            $applicant>$key = $applicantCampData->$key;
+                        }
+                    @endphp
+                    @if($key == "avatar" && $applicant->avatar)
+                        <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($user->application_log->first()->avatar)) }}" width=80 alt="{{ $applicant->name }}"></td>
+                    @elseif($key == "name")
+                        <td>
+                            <a href="{{ route('showAttendeeInfoGET', ($isVcamp ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->id }}" target="_blank">{{ $applicant->name }}</a>
+                            <div class="text-success">連結之帳號：{{ $$applicant->user->name }}({{ $applicant->user->email }})</div>
                         </td>
-                    @endif
-                    @foreach ($columns as $key => $item)
-                        @php
-                            if(!$applicant->$key) {
-                                // $theClass = "\\App\\Models\\" . ucfirst($campFullData->table);
-                                $applicantCampData = \App\Models\Ceovcamp::where('applicant_id', $applicant->id)->first();
-                                $applicant>$key = $applicantCampData->$key;
-                            }
-                        @endphp
-                        @if($key == "avatar" && $applicant->avatar)
-                            <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($user->application_log->first()->avatar)) }}" width=80 alt="{{ $applicant->name }}"></td>
-                        @elseif($key == "name")
-                            <td>
-                                <a href="{{ route('showAttendeeInfoGET', ($isVcamp ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->id }}" target="_blank">{{ $applicant->name }}</a>
-                                <div class="text-success">連結之帳號：{{ $$applicant->user->name }}({{ $applicant->user->email }})</div>
-                            </td>
-                        @elseif($key == "avatar" && !$applicant->avatar)
-                            <td>no photo</td>
-                        @elseif($key == "gender")
-                            <td>{{ $applicant->gender_zh_tw }}</td>
-                        @elseif($isVcamp && $key == "roles")
-                            <td>@foreach($applicant->user->roles as $role) {{ $role->section }}<br> @endforeach</td>
-                        @elseif($isVcamp && $key == "group")
-                            <td>@foreach($applicant->user->roles as $role) {{ $role->section }}<br> @endforeach</td>
-                        @elseif($isVcamp && $key == "position")
-                            <td>@foreach($applicant->user->roles as $role) {{ $role->position }}<br> @endforeach</td>
-                        @elseif(!$isVcamp && !$isCare && $key == "contactlog")
-                        @elseif($key == "is_attend")
-                            @if($applicant->$key == 1)
-                                <td>是</td>
-                            @elseif($applicant->$key === 0)
-                                <td>否</td>
-                            @else
-                                <td>未定</td>
-                            @endif
-                        @elseif($key == "reasons_recommend")
-                            <td>
-                                {{ Str::limit($applicant->$key, 100,'...') ?? "-" }}
-                            </td>
-                        @elseif($key == "contactlog" && !$isVcamp)
-                            <td>
-                                {{ Str::limit($applicant->contactlog?->sortByDesc('id')->first()?->notes, 50,'...') ?? "-" }}
-                                <div>
-                                    <a href="{{ route('showAttendeeInfoGET', ($isVcamp ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->id }}#new" target="_blank">⊕新增關懷紀錄</a>
-                                    @if(count($applicant->contactlog))
-                                        &nbsp;&nbsp;
-                                        <a href="{{ route('showContactLogs', [$campFullData->id, $applicant->id]) }}" target="_blank">🔍看更多</a>
-                                    @endif
-                                </div>
-                            </td>
-                        @elseif($key == "batch")
-                            <td>{{ $applicant->batch?->name ?? "-" }}</td>
+                    @elseif($key == "avatar" && !$applicant->avatar)
+                        <td>no photo</td>
+                    @elseif($key == "gender")
+                        <td>{{ $applicant->gender_zh_tw }}</td>
+                    @elseif($isVcamp && $key == "roles")
+                        <td>@foreach($applicant->user->roles as $role) {{ $role->section }}<br> @endforeach</td>
+                    @elseif($isVcamp && $key == "group")
+                        <td>@foreach($applicant->user->roles as $role) {{ $role->section }}<br> @endforeach</td>
+                    @elseif($isVcamp && $key == "position")
+                        <td>@foreach($applicant->user->roles as $role) {{ $role->position }}<br> @endforeach</td>
+                    @elseif(!$isVcamp && !$isCare && $key == "contactlog")
+                    @elseif($key == "is_attend")
+                        @if($applicant->$key == 1)
+                            <td>是</td>
+                        @elseif($applicant->$key === 0)
+                            <td>否</td>
                         @else
-                            <td>{{ $applicant->$key ?? "-" }}</td>
+                            <td>未定</td>
                         @endif
-                    @endforeach
-                </tr>
-            @empty
-            @endforelse
+                    @elseif($key == "reasons_recommend")
+                        <td>
+                            {{ Str::limit($applicant->$key, 100,'...') ?? "-" }}
+                        </td>
+                    @elseif($key == "contactlog" && !$isVcamp)
+                        <td>
+                            {{ Str::limit($applicant->contactlog?->sortByDesc('id')->first()?->notes, 50,'...') ?? "-" }}
+                            <div>
+                                <a href="{{ route('showAttendeeInfoGET', ($isVcamp ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->id }}#new" target="_blank">⊕新增關懷紀錄</a>
+                                @if(count($applicant->contactlog))
+                                    &nbsp;&nbsp;
+                                    <a href="{{ route('showContactLogs', [$campFullData->id, $applicant->id]) }}" target="_blank">🔍看更多</a>
+                                @endif
+                            </div>
+                        </td>
+                    @elseif($key == "batch")
+                        <td>{{ $applicant->batch?->name ?? "-" }}</td>
+                    @else
+                        <td>{{ $applicant->$key ?? "-" }}</td>
+                    @endif
+                @endforeach
+            </tr>
         @empty
         @endforelse
         @forelse ($applicants as &$applicant)
