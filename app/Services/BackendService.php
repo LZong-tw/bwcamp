@@ -173,15 +173,21 @@ class BackendService
                 ];
             }
             elseif ($entity["uses_user_id"] == "generation_needed") {
-                $applicant = Applicant::findOrFail($entity["id"]);
-                $applicant->is_admitted = 1;
-                $applicant->save();
                 $user = $this->generateUser($applicant);
                 (new OrgUser([
                     'org_id' => $groupOrg->id,
                     'user_id' => $user->id,
                     'user_type' => 'App\Models\User',
                 ]))->save();
+                if ($entity["type"] == "applicant") {
+                    (new UserApplicantXref([
+                        'user_id' => $user->id,
+                        'applicant_id' => $entity["id"],
+                    ]))->save();
+                    $applicant = Applicant::findOrFail($entity["id"]);
+                    $applicant->is_admitted = 1;
+                    $applicant->save();
+                }
                 $succeedList[] = [
                     'applicant' => $applicant,
                     'connected_to_user' => $user,
@@ -208,6 +214,12 @@ class BackendService
                     'user_id' => $user->id,
                     'user_type' => 'App\Models\User',
                 ]))->save();
+                if ($entity["type"] == "applicant") {
+                    (new UserApplicantXref([
+                        'user_id' => $user->id,
+                        'applicant_id' => $entity["id"],
+                    ]))->save();
+                }
                 $succeedList[] = [
                     'applicant' => $applicant,
                     'connected_to_user' => $user,
@@ -217,13 +229,6 @@ class BackendService
             }
             else {
                 throw new \Exception("異常，請回上一頁檢查輸入資料是否齊全。");
-//                $applicant = Applicant::findOrFail($entity);
-//                if (!$applicant->is_admitted) {
-//                    $this->setAdmitted($applicant, true);
-//                }
-//                $applicant->groupOrgRelation()->associate($groupOrg);
-//                $applicant->save();
-//                $applicant->refresh();
             }
         }
         return $succeedList;
