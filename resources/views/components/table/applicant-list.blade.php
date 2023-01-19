@@ -53,17 +53,17 @@
                             }
                         }
                     @endphp
-                    @if($key == "avatar" && $user->application_log->first()->avatar)
-                        <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($user->application_log->first()->avatar)) }}" width=80 alt="{{ $user->application_log->first()->name }}"></td>
+                    @if($key == "avatar" && $user->application_log->first()?->avatar)
+                        <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($user->application_log->first()->avatar)) }}" width=80 alt="{{ $user->application_log->first()?->name }}"></td>
                     @elseif($key == "name")
                         <td>
-                            <a href="{{ route('showAttendeeInfoGET', ($isVcamp ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $user->application_log->first()->applicant_id }}" target="_blank">{{ $user->application_log->first()->name }}</a>
+                            <a href="{{ route('showAttendeeInfoGET', ($isVcamp ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $user->application_log->first()?->applicant_id }}" target="_blank">{{ $user->application_log->first()?->name }}</a>
                             <div class="text-success">連結之帳號：{{ $user->name }}({{ $user->email }})</div>
                         </td>
-                    @elseif($key == "avatar" && !$user->application_log->first()->avatar)
+                    @elseif($key == "avatar" && !$user->application_log->first()?->avatar)
                         <td>no photo</td>
                     @elseif($key == "gender")
-                        <td>{{ $user->application_log->first()->gender_zh_tw }}</td>
+                        <td>{{ $user->application_log->first()?->gender_zh_tw }}</td>
                     @elseif($isVcamp && $key == "roles")
                         <td>@foreach($user->roles as $role) {{ $role->section }}<br> @endforeach</td>
                     @elseif($isVcamp && $key == "group")
@@ -72,32 +72,32 @@
                         <td>@foreach($user->roles as $role) {{ $role->position }}<br> @endforeach</td>
                     @elseif(!$isVcamp && !$isCare && $key == "contactlog")
                     @elseif($key == "is_attend")
-                        @if($user->application_log->first()->$key == 1)
+                        @if($user->application_log->first()?->$key == 1)
                             <td>是</td>
-                        @elseif($user->application_log->first()->$key === 0)
+                        @elseif($user->application_log->first()?->$key === 0)
                             <td>否</td>
                         @else
                             <td>未定</td>
                         @endif
                     @elseif($key == "reasons_recommend")
                         <td>
-                            {{ Str::limit($user->application_log->first()->$key, 100,'...') ?? "-" }}
+                            {{ Str::limit($user->application_log->first()?->$key, 100,'...') ?? "-" }}
                         </td>
                     @elseif($key == "contactlog" && !$isVcamp)
                         <td>
-                            {{ Str::limit($user->application_log->first()->contactlog?->sortByDesc('id')->first()?->notes, 50,'...') ?? "-" }}
+                            {{ Str::limit($user->application_log->first()?->contactlog?->sortByDesc('id')->first()?->notes, 50,'...') ?? "-" }}
                             <div>
-                                <a href="{{ route('showAttendeeInfoGET', ($isVcamp ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $user->application_log->first()->id }}#new" target="_blank">⊕新增關懷紀錄</a>
-                                @if(count($user->application_log->first()->contactlog))
+                                <a href="{{ route('showAttendeeInfoGET', ($isVcamp ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $user->application_log?->first()->id }}#new" target="_blank">⊕新增關懷紀錄</a>
+                                @if(count($user->application_log?->first()->contactlog))
                                     &nbsp;&nbsp;
-                                    <a href="{{ route('showContactLogs', [$campFullData->id, $user->application_log->first()->id]) }}" target="_blank">🔍看更多</a>
+                                    <a href="{{ route('showContactLogs', [$campFullData->id, $user->application_log->first()?->id]) }}" target="_blank">🔍看更多</a>
                                 @endif
                             </div>
                         </td>
                     @elseif($key == "batch")
-                        <td>{{ $user->application_log->first()->batch?->name ?? "-" }}</td>
+                        <td>{{ $user->application_log->first()?->batch?->name ?? "-" }}</td>
                     @else
-                        <td>{{ $user->application_log->first()->$key ?? "-" }}</td>
+                        <td>{{ $user->application_log->first()?->$key ?? "-" }}</td>
                     @endif
                 @endforeach
             </tr>
