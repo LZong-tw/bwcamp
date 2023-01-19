@@ -36,8 +36,8 @@
                 @endforeach
             </tr>
         </thead>
-        @forelse ($registeredVolunteers as $applications)
-            @forelse($applications as &$applicant)
+        @forelse ($registeredVolunteers as $user)
+            @forelse($user->application_log as &$applicant)
                 <tr>
                     @if($isSetting ?? false)
                         <td class="text-center">
