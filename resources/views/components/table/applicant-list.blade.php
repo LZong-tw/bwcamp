@@ -49,7 +49,7 @@
                             if(!$applicant->$key) {
                                 // $theClass = "\\App\\Models\\" . ucfirst($campFullData->table);
                                 $applicantCampData = \App\Models\Ceovcamp::where('applicant_id', $applicant->id)->first();
-                                $applicant>$key = $applicantCampData->$key;
+                                $applicant->$key = $applicantCampData->$key;
                             }
                         @endphp
                         @if($key == "avatar" && $applicant->avatar)
