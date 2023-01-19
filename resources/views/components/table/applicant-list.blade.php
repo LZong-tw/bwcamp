@@ -41,7 +41,7 @@
                 <tr>
                     @if($isSetting ?? false)
                         <td class="text-center">
-                            <input type="checkbox" name="applicants[]" class="applicants_selector" value="{{ $applicant->id }}"  id="U{{ $applicant->id }}" onclick="applicant_triggered(this.id)">
+                            <input type="checkbox" name="applicants[]" class="applicants_selector" value="{{ $user->id }}"  id="U{{ $user->id }}" onclick="applicant_triggered(this.id)">
                         </td>
                     @endif
                     @foreach ($columns as $key => $item)
