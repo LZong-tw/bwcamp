@@ -68,7 +68,7 @@
     @if(($isSettingCarer ?? false) || ($isSetting ?? false))
         <x-general.settings :isIngroup="$is_ingroup" :isVcamp="$isShowVolunteers" :isCare="$is_care" :$batches :$isSettingCarer :$carers/>
     @endif
-    <x-general.search-component :columns="$columns_zhtw" :camp="$campFullData" :$groups :currentBatch="$current_batch" :$queryStr :isCare="$is_care" :$isShowVolunteers />
+    <x-general.search-component :columns="$columns_zhtw" :camp="$campFullData" :$groups :currentBatch="$current_batch" :$queryStr :isCare="$is_care" :$isShowVolunteers :queryRoles="$queryRoles ?? null" />
     <x-table.applicant-list :columns="$columns_zhtw" :$applicants :isVcamp="$isShowVolunteers" :isCare="$is_care" :$isSetting :registeredVolunteers="$registeredVolunteers ?? collect([])" :$isSettingCarer />
 @endif
 {{--  $is_care: 正在關懷學員  --}}

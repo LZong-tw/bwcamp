@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\ApplicantsGroup;
+use App\Models\CampOrg;
 use App\Models\GroupNumber;
+use App\Models\OrgUser;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use App\Services\CampDataService;
@@ -15,6 +17,7 @@ use App\Models\Batch;
 use App\Models\CheckIn;
 use App\Models\ContactLog;
 use App\Models\Traffic;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
 use View;
@@ -1412,13 +1415,30 @@ class BackendController extends Controller {
         if (!$this->campFullData->vcamp) {
             return "<h1>尚未設定對應之義工營。</h1>";
         }
+        $queryRoles = null;
         if ($request->isMethod("post")) {
             $queryStr = "";
             $payload = $request->all();
             if (count($payload) == 1) {
                 return back()->withErrors(['未設定任何條件。']);
             }
+            $targetVolunteers = null;
             foreach ($payload as $key => &$value) {
+                if ($key == "roles") {
+                    $queryRoles = CampOrg::whereIn('id', $value)->get();
+                    $queryRoles = $queryRoles->filter(function ($role) {
+                        return $role->camp_id == $this->campFullData->id;
+                    });
+                    $targetVolunteers = OrgUser::whereIn('org_id', $value)->get()->pluck('user_id');
+                    $targetVolunteers = User::whereIn('id', $targetVolunteers)->get();
+                    $targetVolunteers->load('application_log');
+                    $targetVolunteers = $targetVolunteers->filter(function ($volunteer) {
+                        return $volunteer->application_log->filter(function ($log) {
+                            return $log->camp->id == $this->campFullData->vcamp->id;
+                        })->count() > 0;
+                    })->pluck('id');
+                    unset($payload[$key]);
+                }
                 if (!is_array($value)) {
                     unset($payload[$key]);
                 }
@@ -1438,6 +1458,10 @@ class BackendController extends Controller {
                             else {
                                 $queryStr .= $key . "=" . $parameter;
                             }
+                        }
+                        else if ($key == "group_id") {
+                            $queryStr .= "1 = 1";
+                            $showNoJob = true;
                         }
                         else if (is_string($parameter)) {
                             if ($key == 'name') { $key = 'applicants.name'; }
@@ -1465,16 +1489,30 @@ class BackendController extends Controller {
                         ->whereDoesntHave('user.roles')
                         ->where('camps.id', $this->campFullData->vcamp->id)->withTrashed();
         if ($request->isMethod("post")) {
-            $query = $query->where(\DB::raw($queryStr), 1);
+            if ($queryStr != "") {
+                $query = $query->where(\DB::raw($queryStr), 1);
+            }
         }
         $applicants = $query->get();
         $applicants = $applicants->each(fn($applicant) => $applicant->id = $applicant->applicant_id);
-        $registeredUsers = \App\Models\User::with('roles', 'application_log')->whereHas('roles', function ($query) {
+        $registeredUsers = \App\Models\User::with('roles', 'application_log')->whereHas('roles', function ($query) use ($queryRoles) {
             $query->where('camp_id', $this->campFullData->id);
+            if ($queryRoles) {
+                $query->whereIn('camp_org.id', $queryRoles->pluck('id'));
+            }
         });
         if ($request->isMethod("post")) {
-            $queryStr = str_replace("applicants.name", "users.name", $queryStr);
-            $registeredUsers = $registeredUsers->where(\DB::raw($queryStr), 1)->get();
+            if ($queryStr != "" && !($showNoJob ?? false)) {
+                $queryStr = str_replace("applicants.name", "users.name", $queryStr);
+                $registeredUsers = $registeredUsers->where(\DB::raw($queryStr), 1)->get();
+            }
+            elseif ($queryStr != "" && ($showNoJob ?? true)) {
+                $queryStr = str_replace("applicants.name", "users.name", $queryStr);
+                $registeredUsers = $registeredUsers->where(\DB::raw($queryStr), 1)->get();
+            }
+            else {
+                $registeredUsers = collect([]);
+            }
         }
         else {
             $registeredUsers = $registeredUsers->get();
@@ -1663,7 +1701,8 @@ class BackendController extends Controller {
                 ->with('fullName', $this->campFullData->fullName)
                 ->with('groups', $this->campFullData->roles)
                 ->with('isVcamp', 1)
-                ->with('queryStr', $queryStr ?? '');
+                ->with('queryStr', $queryStr ?? '')
+                ->with('queryRoles', $queryRoles ?? '');
     }
 
     public function showCarers(Request $request) {

@@ -58,11 +58,12 @@ export default {
     methods: {
         filterSearch(column) {
             let search = $(`#search${column}`).val();
-            console.log(search);
             this.search[column] = search;
             this.theData = this.originalData;
             this.theData = this.theData.filter((item) => {
-                return item[column].toLowerCase().includes(search.toLowerCase());
+                if(item[column]) {
+                    return item[column].toLowerCase().includes(search.toLowerCase());
+                }
             });
             if (this.theData.length == 0) {
                 this.theData = this.originalData;
@@ -80,46 +81,46 @@ export default {
                 let table = document.createElement("table");
                 let unique = [];
                 if (id == "roles" || id == "position") {
+                    // 義工職務
+                    let theType = id == "roles" ? "section" : "position";
+                    id = "roles";
                     this.theVolunteersData.forEach((item, key) => {
-                        console.log(item[id]["section"])
-                        if (unique.includes(item[id]) && id != 'name') {
-                            return;
-                        }
-                        if (key == 0 && (id == "group" || id == "roles")) {
-                            let tr0 = document.createElement("tr");
-                            tr0.setAttribute("id", "tr" + id + "key" + key + "NONE");
-                            let td0 = document.createElement("td");
-                            let checkbox0 = document.createElement("input");
-                            checkbox0.setAttribute("onclick", 'window.vueComponent.toggleCheckbox(this)');
-                            checkbox0.setAttribute("type", "checkbox");
-                            checkbox0.setAttribute("name", "group_id[]");
-                            checkbox0.setAttribute("value", "NONE");
-                            td0.appendChild(checkbox0);
-                            td0.innerHTML += "未分組";
-                            tr0.appendChild(td0);
-                            table.appendChild(tr0);
-                            $("#searchField" + id).removeClass("d-none");
-                        }
-                        if (item[id]) {
-                            let tr = document.createElement("tr");
-                            tr.setAttribute("id", "tr" + id + "key" + key);
-                            let td = document.createElement("td");
-                            let checkbox = document.createElement("input");
-                            checkbox.setAttribute("onclick", 'window.vueComponent.toggleCheckbox(this)');
-                            checkbox.setAttribute("type", "checkbox");
-                            if (id == "group") {
-                                checkbox.setAttribute("name", "group_id[]");
-                                checkbox.setAttribute("value", item["group_id"]);
-                            } else {
-                                checkbox.setAttribute("name", id + "[]");
-                                checkbox.setAttribute("value", item[id]);
+                        for (let k = 0; k < item[id].length ; k++) {
+                            let theEntity = item[id][k];
+                            if (unique.includes(item[id][k]) && id != 'name') {
+                                return;
                             }
-                            td.appendChild(checkbox);
-                            td.innerHTML += item[id];
-                            tr.appendChild(td);
-                            table.appendChild(tr);
-                            $("#searchField" + id).removeClass("d-none");
-                            unique.push(item[id]);
+                            if (key == 0) {
+                                let tr0 = document.createElement("tr");
+                                tr0.setAttribute("id", "tr" + id + "key" + key + "NONE");
+                                let td0 = document.createElement("td");
+                                let checkbox0 = document.createElement("input");
+                                checkbox0.setAttribute("onclick", 'window.vueComponent.toggleCheckbox(this)');
+                                checkbox0.setAttribute("type", "checkbox");
+                                checkbox0.setAttribute("name", "group_id[]");
+                                checkbox0.setAttribute("value", "NONE");
+                                td0.appendChild(checkbox0);
+                                td0.innerHTML += "未分組";
+                                tr0.appendChild(td0);
+                                table.appendChild(tr0);
+                                $("#searchField" + id).removeClass("d-none");
+                            }
+                            if (item[id]) {
+                                let tr = document.createElement("tr");
+                                tr.setAttribute("id", "tr" + id + "key" + key);
+                                let td = document.createElement("td");
+                                let checkbox = document.createElement("input");
+                                checkbox.setAttribute("onclick", 'window.vueComponent.toggleCheckbox(this)');
+                                checkbox.setAttribute("type", "checkbox");
+                                checkbox.setAttribute("name", id + "[]");
+                                checkbox.setAttribute("value", theEntity["id"]);
+                                td.appendChild(checkbox);
+                                td.innerHTML += theEntity["section"] + "-" + theEntity["position"];
+                                tr.appendChild(td);
+                                table.appendChild(tr);
+                                $("#searchField" + id).removeClass("d-none");
+                                unique.push(theEntity["section"] + "-" + theEntity["position"]);
+                            }
                         }
                     });
                 }

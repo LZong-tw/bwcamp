@@ -29,6 +29,8 @@
                     @elseif($key == "industry" && $isSettingCarer)
                         <th class="text-center" data-field="introducer" data-sortable="0">推薦人</th>
                         <th class="text-center" data-field="carer" data-sortable="1">關懷員</th>
+                    @elseif($key == "carer" && $isSettingCarer)
+                        @continue
                     @elseif(!$isVcamp && !$isCare && $key == "contactlog")
                     @else
                         <th class="text-center" data-field="{{ $key }}" data-sortable="{{ $item['sort'] }}">{{ $item['name'] }}</th>
@@ -123,7 +125,12 @@
                         @continue
                     @elseif($key == "industry" && $isSettingCarer)
                         <td>{{ $applicant->introducer ?? "-" }}</td>
-                        <td>@forelse($applicant->carers as $carer) {{ $carer->name }} @if(!$loop->last) {{ "<br>" }} @endif @empty {{ '-' }} @endforelse</td>
+                        <td>@forelse($applicant->carers as $carer)
+                                {{ $carer->name }}
+                                @if(!$loop->last) <br> @endif
+                            @empty
+                                {{ '-' }}
+                            @endforelse</td>
                     @elseif($key == "avatar" && $applicant->avatar)
                         <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($applicant->avatar)) }}" width=80 alt="{{ $applicant->name }}"></td>
                     @elseif($key == "name")
@@ -159,6 +166,8 @@
                         <td>
                             {{ Str::limit($applicant->$key, 100,'...') ?? "-" }}
                         </td>
+                    @elseif($key == "carer" && $isSettingCarer)
+                        @continue
                     @elseif($key == "contactlog" && !$isVcamp)
                         <td>
                             {{ Str::limit($applicant->contactlog?->sortByDesc('id')->first()?->notes, 50,'...') ?? "-" }}

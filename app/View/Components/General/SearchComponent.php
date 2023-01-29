@@ -22,6 +22,7 @@ class SearchComponent extends Component
         public string|null $queryStr = null,
         public bool|null $isCare = null,
         public bool|null $isShowVolunteers = false,
+        public $queryRoles = null,
     ) { }
 
     /**
