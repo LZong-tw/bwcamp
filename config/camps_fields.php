@@ -457,7 +457,7 @@ return [
             "roles" => [
                 "name" => "職務組別",
                 "sort" => 1,
-                "for_query" => 0,
+                "for_query" => 1,
             ],
             "position" => [
                 "name" => "職務",
