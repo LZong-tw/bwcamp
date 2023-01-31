@@ -16,12 +16,6 @@
                         <li>
                             <a href="{{ route("showVolunteers", $campFullData->id) }}">義工名單</a>
                         </li>
-                        <li>
-                            <a href="{{ route("showCarers", $campFullData->id) }}">關懷組名單</a>
-                        </li>
-                        <li>
-                            <a href="{{route('queryAttendee', $campFullData->id) }}">測試</a>
-                        </li>
                     </ul>
                 </li>
                 <li>
