@@ -99,9 +99,15 @@ class BackendController extends Controller {
         $camps = $this->campDataService->getAvailableCamps($permission);
         $newPermissions = OrgUser::where('user_id', \Auth::user()->id)->get();
         $camps2 = [];
-        $newPermissions->each(static fn($p) => in_array($p->camp->id, $camps2) ? : array_push($camps2, $p->camp->id));
-        $camps2 = Camp::whereIn('id', $camps2)->get();
-        $camps2->each(static fn($camp) => array_push($camps, $camp));
+        $newPermissions->each(function($p) use (&$camps2) {
+            if($p->camp) {
+                in_array($p->camp->id, $camps2, false) ? : array_push($camps2, $p->camp->id);
+            }
+        });
+        $camps2 = Camp::whereIn('id', $camps2)->orderBy('id', 'desc')->get();
+        $camps2->each(function($camp) use (&$camps) {
+            $camps[] = $camp;
+        });
         return view('backend.MasterIndex')->with("camps", $camps);
     }
 

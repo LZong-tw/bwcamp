@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\OrgUser;
 use Closure;
 
 class Permitted
@@ -30,6 +31,11 @@ class Permitted
                     return $next($request);
                 }
             }
+        }
+        $newPermissions = OrgUser::with('camp')->where('user_id', \Auth::user()->id)->get()->pluck('camp.id')->toArray();
+        $newPermissions = array_filter($newPermissions, fn ($value) => !is_null($value));
+        if(in_array($request->camp_id, $newPermissions)){
+            return $next($request);
         }
         if ($request->is('checkin*')) {
             $camp = \App\Models\Camp::find($request->camp_id);
