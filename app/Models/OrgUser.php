@@ -28,4 +28,9 @@ class OrgUser extends Model
     {
         return $this->hasMany('App\User');
     }
+
+    public function camp()
+    {
+        return $this->hasOneThrough(Camp::class, CampOrg::class, 'camp_id', 'id', 'user_id', 'camp_id');
+    }
 }
