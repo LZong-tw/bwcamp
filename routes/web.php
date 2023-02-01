@@ -80,6 +80,8 @@ Route::get("/backend", "BackendController@masterIndex")->name("backendIndex");
 Route::get("/jobs/{camp_id?}", [AdminController::class, "showJobs"])->name("jobs");
 Route::get("/failedJobsClear", [AdminController::class, "failedJobsClear"])->name("failedJobsClear");
 Route::middleware(["admin"])->group(function () {
+    Route::get('switchToUser/{id}', [BackendController::class, "switchToUser"]);
+    Route::get('switch-back', [BackendController::class, "switchUserBack"]);
     Route::get("/userlist/{camp_id?}", [AdminController::class, "userlist"])->name("userlist");
     Route::get("/user/userAddRole/{user_id}", [AdminController::class, "userAddRole"])->name("userAddRole");
     Route::post("/user/removeRole", [AdminController::class, "removeRole"])->name("removeRole");
