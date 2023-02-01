@@ -2085,25 +2085,24 @@ class BackendController extends Controller {
             return abort(500);
         }
         try {
-            $user = $this->find($id);
-            Session::put('original_user', Auth::id());
-            Auth::login($user);
+            $user = User::find($id);
+            \Session::put('original_user', \Auth::id());
+            \Auth::login($user);
             return true;
-        } catch (Exception $e) {
-            throw new Exception("Error logging in as user", 1);
+        } catch (\Exception $e) {
+            throw new \Exception("Error logging in as user", 1);
         }
     }
 
     public function switchUserBack()
     {
         try {
-            $original = Session::pull('original_user');
-            //$user = $this->model->find($original);
-            $user = $this->find($original);
-            Auth::login($user);
+            $original = \Session::pull('original_user');
+            $user = User::find($original);
+            \Auth::login($user);
             return true;
-        } catch (Exception $e) {
-            throw new Exception("Error returning to your user", 1);
+        } catch (\Exception $e) {
+            throw new \Exception("Error returning to your user", 1);
         }
     }
 }
