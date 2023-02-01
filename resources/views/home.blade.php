@@ -15,7 +15,7 @@
                     @endif
 
                     {{ __('You are logged in!') }} <br>
-                    @if(auth()->user()->getPermission()->level <= 5)
+                    @if(auth()->user()->getPermission()->level <= 5 || \App\Models\CampOrg::where('user_id', auth()->user()->id)->count() > 0)
                         <a href="{{ route("backendIndex") }}" class="btn btn-success">後台首頁</a>
                     @endif
                     @if(auth()->user()->getPermission()->level <= 6)
