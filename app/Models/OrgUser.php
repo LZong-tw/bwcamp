@@ -31,6 +31,6 @@ class OrgUser extends Model
 
     public function camp()
     {
-        return $this->hasOneThrough(Camp::class, CampOrg::class, 'camp_id', 'id', 'user_id', 'camp_id');
+        return $this->hasOneThrough(Camp::class, CampOrg::class, 'id', 'id', 'user_id', 'org_id');
     }
 }
