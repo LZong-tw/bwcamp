@@ -47,7 +47,9 @@
                             <input type="hidden" name="camp_id" value="{{ $camp->id }}">
                             <!--input type="submit" class="btn btn-danger" value="刪除">
                             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">刪除</button-->
-                            <button type="button" class="btn btn-danger"  onclick="confirmdelete(this.closest('form'));">刪除</button>
+                            @if(!$num_users[$org->id])
+                                <button type="button" class="btn btn-danger"  onclick="confirmdelete(this.closest('form'));">刪除</button>
+                            @endif
                         </form>
                     </td>
                     <td>
@@ -65,7 +67,9 @@
                             <input type="hidden" name="camp_id" value="{{ $camp->id }}">
                             <!--input type="submit" class="btn btn-danger" value="刪除">
                             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">刪除</button-->
-                            <button type="button" class="btn btn-danger"  onclick="confirmdelete(this.closest('form'));">刪除</button>
+                            @if(!$num_users[$org->id])
+                                <button type="button" class="btn btn-danger"  onclick="confirmdelete(this.closest('form'));">刪除</button>
+                            @endif
                         </form>
                     </td>
                     <td></td>
@@ -73,6 +77,11 @@
             </tr>
         @endforeach
     </table>
+    @if(count($orgs))  
+    <h6 class='text-info'>＊大組中無職務，才可刪除該大組</h6>
+    <h6 class='text-info'>＊某個職務無人被指定，才可刪除該職務</h6>
+    @endif
+
 
 {{--    
     <style>
@@ -180,17 +189,22 @@
                 else {
                     var org_sel = document.getElementById("org2copy");
                     org_sel.style.display = "block";
-                    console.log(org_sel.style.display);
-                    let ele = `<tr><td>欲複製營隊的組織：`;
-                    for (let i = 0; i < Object.keys(response.data).length ; i++) {
-                        if(response.data[i]['position']=='root') {
-                            ele = ele + `<br>`+ response.data[i]['section'] + `：`;
+                    //console.log(org_sel.style.display);
+                    let ele = ``;
+                    if (Object.keys(response.data).length == 0) {
+                        ele = `<tr><td>營隊`+ camp_id_sel + `尚未建立組織，請選擇其它營隊</td><tr>`;
+                    } else {
+                        ele = `<tr><td>欲複製營隊的組織：`;
+                        for (let i = 0; i < Object.keys(response.data).length ; i++) {
+                            if(response.data[i]['position']=='root') {
+                                ele = ele + `<br>`+ response.data[i]['section'] + `：`;
+                            }
+                            else {
+                                ele = ele + response.data[i]['position'] + `、`;
+                            }
                         }
-                        else {
-                            ele = ele + response.data[i]['position'] + `、`;
-                        }
-                    }
-                    ele = ele + `</td></tr>`;
+                        ele = ele + `</td></tr>`;
+                    }    
                     console.log(ele);
                     org_sel.innerHTML = ele;
                 }
