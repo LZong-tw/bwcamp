@@ -365,12 +365,27 @@ class AdminController extends BackendController {
         $camp = Camp::find($camp_id);
         $orgs = $camp->organizations;
         $orgs = $orgs->sortByDesc('section');
+
+        $num_users = array();
+        foreach($orgs as $org) {
+            if($org->position == 'root') {
+                //count number of orgs with the same camp_id and section
+                //minus one to exclude 'root' itself
+                $num_users[$org->id] = (\DB::table('camp_org')
+                    ->where('camp_id',$org->camp_id)
+                    ->where('section',$org->section)
+                    ->count())
+                    -1;
+            } else {
+                $num_users[$org->id] = \DB::table('org_user')->where('org_id',$org->id)->count();
+            }
+        }
         //permission??
         $permission = auth()->user()->getPermission('all');
         $camp_list = Camp::where('table', $camp->table)->get();
         //dd($camp_list);
         $models = $this->backendService->getAvailableModels();
-        return view('backend.camp.orgList', compact('camp', 'orgs', 'camp_list', 'models'));
+        return view('backend.camp.orgList', compact('camp', 'orgs', 'camp_list', 'models','num_users'));
     }
 
     public function removeOrg(Request $request){

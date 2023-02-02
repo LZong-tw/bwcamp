@@ -19,15 +19,21 @@
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
 
 <hr>
-    <h5>
     @if(!isset($isModify) || $isModify)
-    <a href="{{ route('query', 49) }}" class="text-info">查詢並使用 *2022年菁英營* 報名資料</a>
+    <h5>
+    <a href="{{ route('query', 58) }}" class="text-info">查詢並使用 *2022年菁英營* 報名資料</a>
     <br>
-    <a href="{{ route('query', 49) }}" class="text-info">查詢並使用 *2022年菁英營義工* 報名資料</a>
-    @else
-    使用此資料報名2023年菁英營義工
-    @endif
+    <a href="{{ route('query', 50) }}" class="text-info">查詢並使用 *2022年菁英營義工* 報名資料</a>
     </h5>
+    @else
+    <form action="{{ route('formCopy', $batch_id) }}" method="POST">
+        @csrf
+        <input type="hidden" name="batch_id_ori" value="{{ $batch_id }}">
+        <input type="hidden" name="batch_id_copy" value=82>
+        <input type="hidden" name="applicant_id_ori" value="{{ $applicant_id }}">
+        <input type="submit" class="btn btn-success" value="使用此資料報名2023年菁英營義工">
+    </form>
+    @endif
 <hr>
 @if(!isset($isModify) || $isModify)
     <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form' enctype="multipart/form-data">

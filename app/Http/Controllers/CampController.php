@@ -162,7 +162,10 @@ class CampController extends Controller
         else {
             $applicant = Applicant::select('applicants.*')
                 ->join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')
-                ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+                ->join('batchs', function($query) {
+                    $query->on('batchs.camp_id', '=', 'camps.id')
+                            ->on('batchs.id', '=', 'applicants.batch_id');
+                })
                 ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                 ->where('camps.id', $this->camp_data->id)
                 ->where('applicants.name', $request->name)
@@ -225,6 +228,98 @@ class CampController extends Controller
         }
 
         return view('camps.' . $this->camp_data->table . '.success')->with('applicant', $applicant);
+    }
+
+    public function campRegistrationFormCopy(Request $request) {
+        //Ori：原本的
+        //Copy：要複製去的
+        $formData = $request->toArray();
+        $batchOri = Batch::find($formData['batch_id_ori']);
+        $campOri = $batchOri->camp;
+        $modelOri = '\\App\\Models\\' . ucfirst($campOri->table);
+
+        $batchCopy = Batch::find($formData['batch_id_copy']);
+        $campCopy = $batchCopy->camp;
+        $modelCopy = '\\App\\Models\\' . ucfirst($campCopy->table);
+
+        $applicantIdOri = $formData['applicant_id_ori'];
+        $applicantOri = Applicant::find($applicantIdOri);
+
+        //檢查要複製去的營隊是否已有報名資料
+        //檢查同營隊的不同梯
+        $batches = $campCopy->batchs;
+        $num_applicants = 0;
+        foreach($batches as $batch) {
+            $num_applicants = \DB::table('applicants')
+                ->where('batch_id',$batch->id)
+                ->where('name',$applicantOri->name)
+                ->where('email',$applicantOri->email)
+                ->count();
+            //如果num_applicants不為零，才把資料抓出來，並且break
+            if ($num_applicants) {
+                /*
+                $applicantCheck = Applicant::select('applicants.*', ($campCopy->table) . '.*')
+                ->join($campCopy->table, 'applicants.id', '=', $campCopy->table . '.applicant_id')
+                */
+                $applicantCheck = Applicant::select('applicants.*')
+                ->where('batch_id', $batch->id)
+                ->where('name', $applicantOri->name)
+                ->where('email', $applicantOri->email)->withTrashed()->first();
+                break;
+            }
+        }
+        if ($num_applicants) {
+            /*
+            if ($applicantCheck->trashed()) {
+                $applicantCheck->restore();
+            }*/
+            return view('camps.' . $campCopy->table . '.success',
+                ['isRepeat' => "已成功報名(或曾報名過)，請勿重複送出報名資料。",
+                'applicant' => $applicantCheck]);
+        }
+        //如果沒有報名過，就copy
+        $applicantCopy = \DB::transaction(
+            function() use ($applicantOri, $modelOri, $batchCopy, $modelCopy) {
+                $applicantCopy = $applicantOri->replicate();
+                $applicantCopy->created_at = Carbon::now();
+                $applicantCopy->batch_id = $batchCopy->id;
+                $applicantCopy->save();        
+                $applicantExt = $modelOri::where('applicant_id', $applicantOri->id)->first();
+                //dd($applicantCopy);
+
+                if ($modelOri == $modelCopy) {  //去年報正行，今年報義工，就會是不同model/table
+                    $applicantExtCopy = $applicantExt->replicate();
+                    $applicantExtCopy->created_at = Carbon::now();
+                    $applicantExtCopy->applicant_id = $applicantCopy->id;
+                    $applicantExtCopy->save();
+                } else {
+                    $tmpArray = $applicantExt->toArray();
+                    $applicantExtCopy = $modelCopy::create($tmpArray);
+                    $applicantExtCopy->applicant_id = $applicantCopy->id;
+                    $applicantExtCopy->save();
+                }
+                return $applicantCopy;
+            }
+        );
+
+        return view('camps.' . $campCopy->table . '.success')->with('applicant', $applicantCopy);
+
+        /*return redirect(route('showadmit', ['batch_id' => $applicant->batch_id, 'sn' => $applicant->id, 'name' => $applicant->name]));
+
+        $controller = resolve(self::class);
+        $request = new Request();
+        $request->replace([
+            "_token" => csrf_token(),
+            "name" => $applicantCopy->name,
+            "sn" => $applicantCopy->id,
+            "isModify" => true,
+            "isBackend" => false,
+            "batch_id" => $applicantCopy->batch_id,
+        ]);
+        //$request->method->set('method', "POST");
+        //$request->headers->set('headers', 'queryupdate');
+        dd($request);
+        return $controller->campViewRegistrationData($request);*/
     }
 
     public function campQueryRegistrationDataPage() {
