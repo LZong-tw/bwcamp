@@ -1167,6 +1167,7 @@ class BackendController extends Controller {
 //        }
         $user = \App\Models\User::findOrFail(auth()->user()->id);
         if (!$user->hasPermission('\App\Models\Applicant.read') && $user->id != 1) {
+            // todo: 要檢查到營隊
             return "<h3>沒有權限：瀏覽所有學員</h3>";
         }
         ini_set('max_execution_time', -1);
@@ -1198,18 +1199,6 @@ class BackendController extends Controller {
         }
         $applicants = $query->get();
         $applicants = $applicants->each(fn($applicant) => $applicant->id = $applicant->applicant_id);
-        if (auth()->user()->getPermission(false)->role->level <= 2) {
-        }
-        else if(auth()->user()->getPermission(true, $this->campFullData->id)->level > 2){
-            $constraint = auth()->user()->getPermission(true, $this->campFullData->id)->region;
-            $batch = Batch::where('camp_id', $this->campFullData->id)->where('name', 'like', '%' . $constraint . '%')->first();
-            $applicants = $applicants->filter(function ($applicant) use ($constraint, $batch) {
-                if($batch){
-                    return $applicant->region == $constraint || $applicant->batch_id == $batch->id;
-                }
-                return $applicant->region == $constraint;
-            });
-        }
         if($request->isSetting==1) {
             $isSetting = 1;
         }
@@ -1528,18 +1517,6 @@ class BackendController extends Controller {
         else {
             $registeredUsers = $registeredUsers->get();
         }
-        if (auth()->user()->getPermission(false)->role->level <= 2) {
-        }
-        else if(auth()->user()->getPermission(true, $this->campFullData->id)->level > 2){
-            $constraint = auth()->user()->getPermission(true, $this->campFullData->id)->region;
-            $batch = Batch::where('camp_id', $this->campFullData->id)->where('name', 'like', '%' . $constraint . '%')->first();
-            $applicants = $applicants->filter(function ($applicant) use ($constraint, $batch) {
-                if($batch){
-                    return $applicant->region == $constraint || $applicant->batch_id == $batch->id;
-                }
-                return $applicant->region == $constraint;
-            });
-        }
         if($request->isSetting==1) {
             $isSetting = 1;
         }
@@ -1782,18 +1759,6 @@ class BackendController extends Controller {
         $registeredUsers = \App\Models\User::with('roles')->whereHas('roles', function ($query) {
             $query->where('camp_id', $this->campFullData->id)->where('position', 'like', '%關懷小組%');
         })->get();
-        if (auth()->user()->getPermission(false)->role->level <= 2) {
-        }
-        else if(auth()->user()->getPermission(true, $this->campFullData->id)->level > 2){
-            $constraint = auth()->user()->getPermission(true, $this->campFullData->id)->region;
-            $batch = Batch::where('camp_id', $this->campFullData->id)->where('name', 'like', '%' . $constraint . '%')->first();
-            $applicants = $applicants->filter(function ($applicant) use ($constraint, $batch) {
-                if($batch){
-                    return $applicant->region == $constraint || $applicant->batch_id == $batch->id;
-                }
-                return $applicant->region == $constraint;
-            });
-        }
         if($request->isSetting==1) {
             $isSetting = 1;
         }
