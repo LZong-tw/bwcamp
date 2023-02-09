@@ -1,4 +1,4 @@
-@extends('camps.ceovcamp.layout')
+@extends('camps.evcamp.layout')
 @section('content')
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }}</h4>
@@ -11,12 +11,11 @@
         <div class="card-body">
             <p class="card-text">
                 恭喜您已完成{{ $camp_data->fullName }}網路報名程序，
-                @include('camps.ceovcamp.successMessages')
+                @include('camps.evcamp.successMessages')
             </p>
             <form action="{{ route("queryview", $applicant->batch_id) }}" method="post" class="d-inline">
                 @csrf
                 <input type="hidden" name="sn" value="{{ $applicant->id }}">
-                <input type="hidden" name="name" value="{{ $applicant->name }}">
                 <button class="btn btn-primary">檢視報名資料</button>
             </form>
             {{--
