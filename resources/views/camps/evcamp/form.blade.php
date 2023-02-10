@@ -5,7 +5,7 @@
     header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     $regions = ['北區', '竹區', '中區', '高區'];
 @endphp
-@extends('camps.ceovcamp.layout')
+@extends('camps.evcamp.layout')
 @section('content')
     @include('partials.counties_areas_script')
 {{--
@@ -25,7 +25,7 @@
     <br>
     <a href="{{ route('query', 50) }}" class="text-info">查詢並使用 *2022年菁英營義工* 報名資料</a>
     </h5>
-    @elseif($batch_id!=82)
+    @else
     <form action="{{ route('formCopy', $batch_id) }}" method="POST">
         @csrf
         <input type="hidden" name="batch_id_ori" value="{{ $batch_id }}">
