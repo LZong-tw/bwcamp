@@ -302,6 +302,20 @@ class CampController extends Controller
             }
         );
 
+        //email
+        //replace camp_data
+
+        /*
+        try{
+            // Mail::to($applicant)->send(new ApplicantMail($applicant, $this->camp_data));
+            SendApplicantMail::dispatch($applicant->id);
+        }
+        catch(\Exception $e) {
+            logger($e);
+        }*/
+
+        View::share('camp_data', $campCopy);
+
         return view('camps.' . $campCopy->table . '.success')->with('applicant', $applicantCopy);
 
         /*return redirect(route('showadmit', ['batch_id' => $applicant->batch_id, 'sn' => $applicant->id, 'name' => $applicant->name]));
@@ -333,9 +347,11 @@ class CampController extends Controller
      *
      */
     public function campViewRegistrationData(Request $request) {
+        //dd($request);
         $applicant = null;
         $isModify = false;
         $campTable = $this->camp_data->table;
+        //dd($request->name);
         if($request->name != null && $request->sn != null) {
             $applicant = Applicant::select('applicants.*', $campTable . '.*')
                 ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
