@@ -16,6 +16,11 @@
         </div>
     @endforeach
 @endif
+@if(session()->has('message'))
+    <div class='alert alert-success' role='alert'>
+        {{ session()->get('message') }}
+    </div>
+@endif
 @if(isset($applicant))
     <h4>學員關懷系統</h4>
     <h5>{{ $camp->fullName }}>>個人詳細資料>>{{ $applicant->name }}</h5>
