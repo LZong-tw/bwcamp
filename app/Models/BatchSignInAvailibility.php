@@ -12,7 +12,7 @@ class BatchSignInAvailibility extends Model
     //
     protected $table = "batch_sign_availibilities";
 
-    public $resourceNameInMandarin = '梯次簽到資料';
+    public $resourceNameInMandarin = '梯次可簽到退資訊';
 
     protected $fillable = ["batch_id", "start", "end", "type"];
 
