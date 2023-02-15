@@ -1492,26 +1492,26 @@ class BackendController extends Controller {
             if ($queryStr != "") {
                 $query = $query->where(\DB::raw($queryStr), 1);
             }
+            else {
+                $query = $query->whereRaw("1 = 0");
+            }
         }
         $applicants = $query->get();
         $applicants = $applicants->each(fn($applicant) => $applicant->id = $applicant->applicant_id);
-        $registeredUsers = \App\Models\User::with('roles', 'application_log')->whereHas('roles', function ($query) use ($queryRoles) {
-            $query->where('camp_id', $this->campFullData->id);
-            if ($queryRoles) {
-                $query->whereIn('camp_org.id', $queryRoles->pluck('id'));
-            }
-        });
+        $registeredUsers = \App\Models\User::with('roles', 'application_log')
+            ->whereHas('roles', function ($query) use ($queryRoles) {
+                $query->where('camp_id', $this->campFullData->id);
+                if ($queryRoles) {
+                    $query->whereIn('camp_org.id', $queryRoles->pluck('id'));
+                }
+            })->whereHas('application_log');
         if ($request->isMethod("post")) {
-            if ($queryStr != "" && !($showNoJob ?? false)) {
+            if ($queryStr != "" && ($showNoJob ?? true)) {
                 $queryStr = str_replace("applicants.name", "users.name", $queryStr);
-                $registeredUsers = $registeredUsers->where(\DB::raw($queryStr), 1)->get();
-            }
-            elseif ($queryStr != "" && ($showNoJob ?? true)) {
-                $queryStr = str_replace("applicants.name", "users.name", $queryStr);
-                $registeredUsers = $registeredUsers->where(\DB::raw($queryStr), 1)->get();
+                $registeredUsers = $registeredUsers->orWhere(\DB::raw($queryStr), 1)->get();
             }
             else {
-                $registeredUsers = collect([]);
+                $registeredUsers = $registeredUsers->get();
             }
         }
         else {

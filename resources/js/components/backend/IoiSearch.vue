@@ -84,13 +84,14 @@ export default {
                     // 義工職務
                     let theType = id == "roles" ? "section" : "position";
                     id = "roles";
+                    let noGroupSet = false;
                     this.theVolunteersData.forEach((item, key) => {
                         for (let k = 0; k < item[id].length ; k++) {
                             let theEntity = item[id][k];
-                            if (unique.includes(item[id][k]) && id != 'name') {
-                                return;
+                            if (unique.includes(item[id][k]["section"] + "-" + item[id][k]["position"]) && id != 'name') {
+                                continue;
                             }
-                            if (key == 0) {
+                            if (key == 0 && !noGroupSet) {
                                 let tr0 = document.createElement("tr");
                                 tr0.setAttribute("id", "tr" + id + "key" + key + "NONE");
                                 let td0 = document.createElement("td");
@@ -104,6 +105,7 @@ export default {
                                 tr0.appendChild(td0);
                                 table.appendChild(tr0);
                                 $("#searchField" + id).removeClass("d-none");
+                                noGroupSet = true;
                             }
                             if (item[id]) {
                                 let tr = document.createElement("tr");
@@ -210,7 +212,7 @@ export default {
             };
             const form = document.createElement('form');
             form.method = "POST";
-            form.action = '/learner';
+            form.action = window.isShowVolunteers ? '/volunteer' : '/learner';
             const csrf = document.createElement('input');
             csrf.type = 'hidden';
             csrf.name = "_token";
