@@ -8,8 +8,8 @@ use Carbon\Carbon;
 class Vcamp extends Camp
 {
     protected $table = 'camps';
-    public function vcamp()
+    public function mainCamp()
     {
-        return '';
+        return $this->hasOneThrough(Camp::class, CampVcampXref::class, 'vcamp_id', 'id', 'id', 'camp_id');
     }
 }

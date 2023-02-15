@@ -16,6 +16,11 @@
         </div>
     @endforeach
 @endif
+@if(session()->has('message'))
+    <div class='alert alert-success' role='alert'>
+        {{ session()->get('message') }}
+    </div>
+@endif
 @if(isset($applicant))
     <h4>學員關懷系統</h4>
     <h5>{{ $camp->fullName }}>>義工詳細資料>>{{ $applicant->name }}</h5>
@@ -67,6 +72,25 @@
                 @endif<br>
             </div>
         </div>
+    </div>
+
+    <div class="container alert alert-primary">
+        @forelse($applicant->user->roles()->where('camp_id', $applicant->vcamp->mainCamp->id)->get() as $role)
+            <div class="row">
+                <div class="col-md-8">
+                    {{ $role->section }} - {{ $role->position }}
+                </div>
+                <div class="col-md-4">
+                    <a href="{{ route('deleteUserRole', [$camp->id, "user_id" => $applicant->user->id, "role_id" => $role->id, "applicant_id" => $applicant->id]) }}" class="btn btn-danger">刪除</a>
+                </div>
+            </div>
+        @empty
+            <div class="row">
+                <div class="col-md-12">
+                    此義工尚未分配任何職務
+                </div>
+            </div>
+        @endforelse
     </div>
     <br>
 
