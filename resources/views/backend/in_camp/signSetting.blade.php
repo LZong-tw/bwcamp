@@ -1,7 +1,7 @@
 @extends('backend.master')
 @section('content')
     <div>
-        <h2 class="d-inline-block">{{ $campFullData->abbreviation }} 簽到設定</h2>
+        <h2 class="d-inline-block">{{ $campFullData->abbreviation }} 簽到退時間設定</h2>
     </div>
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -27,7 +27,7 @@
     @foreach ($batches as $batch)
         <h4>梯次：{{ $batch->name }}</h4>
         @if ($instant)
-            <h5>{{ now()->format('Y-m-d') }} 快速設定</h5> 
+            <h5>{{ now()->format('Y-m-d') }} 快速設定</h5>
             <form action="{{ route("sign_set_back", $campFullData->id) }}" method="post">
                 @csrf
                 <input type="hidden" name="day" value="{{ now()->format('Y-m-d') }}">
