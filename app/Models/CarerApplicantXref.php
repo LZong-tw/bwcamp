@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class CarerApplicantXref extends Model
 {
     //
-    public $resourceNameInMandarin = '指派關懷員';
+    public $resourceNameInMandarin = '關懷員';
 
     protected $fillable = [
         'applicant_id',

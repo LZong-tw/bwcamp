@@ -40,7 +40,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public $resourceNameInMandarin = '義工';
+    public $resourceNameInMandarin = '義工資料';
     public function legace_roles()
     {
         return $this->belongsToMany('App\Models\Role', 'role_user', 'user_id', 'role_id');

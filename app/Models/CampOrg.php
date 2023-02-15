@@ -13,7 +13,7 @@ class CampOrg extends LaratrustRole
     //
     protected $table = 'camp_org';
 
-    public $resourceNameInMandarin = '營隊組織';
+    public $resourceNameInMandarin = '營隊組織 / 義工職務組別';
 
     // todo: 要再加上梯次和地區
     protected $fillable = [

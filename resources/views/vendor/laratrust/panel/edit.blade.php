@@ -83,6 +83,7 @@
                         <div class="text-gray-700">動作</div>
                         <input type="radio" name="action" id="" value="create" @if($model?->action == "create") {{ "checked" }} @endif required>新增</option>
                         <input type="radio" name="action" id="" value="read" @if($model?->action == "read") {{ "checked" }} @endif required>查詢</option>
+                        <input type="radio" name="action" id="" value="assign" @if($model?->action == "assign") {{ "checked" }} @endif required>指派</option>
                         <input type="radio" name="action" id="" value="update" @if($model?->action == "update") {{ "checked" }} @endif required>修改</option>
                         <input type="radio" name="action" id="" value="delete" @if($model?->action == "delete") {{ "checked" }} @endif required>刪除</option>
                     </label>

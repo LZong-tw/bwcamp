@@ -46,6 +46,7 @@
                             'create' => '新增',
                             'update' => '修改',
                             'read' => '查詢',
+                            'assign' => '指派',
                             'delete' => '刪除',
                             default => '未知',
                         }

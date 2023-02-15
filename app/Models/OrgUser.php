@@ -12,7 +12,7 @@ class OrgUser extends Model
         'org_id', 'user_id', 'user_type'
     ];
 
-    public $resourceNameInMandarin = '指派職務';
+    public $resourceNameInMandarin = '職務';
 
     public function role_data()
     {
