@@ -26,6 +26,7 @@
         "sentry/sentry-laravel": "^3.0"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.8",
         "barryvdh/laravel-ide-helper": "^2.12",
         "beyondcode/helo-laravel": "^1.4",
         "dietercoopman/laravel-showsql": "^1.3",

@@ -20,6 +20,9 @@
     }
 
 </style>
+<script>
+    window.isShowVolunteers = {{ $isShowVolunteers ?? 0 }};
+</script>
 @if($errors->any())
     @foreach ($errors->all() as $message)
         <div class='alert alert-danger' role='alert'>
