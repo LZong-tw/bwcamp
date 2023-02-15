@@ -26,16 +26,18 @@
     <h5>{{ $camp->fullName }}>>義工詳細資料>>{{ $applicant->name }}</h5>
 
     <!-- 修改學員資料,使用報名網頁 -->
-    <form target="_blank" action="{{ route('queryupdate', $batch->id) }}" method="post">
-        @csrf
-        <input type="hidden" name="sn" value="{{ $applicant->applicant_id }}">
-        <input type="hidden" name="name" value="{{ $applicant->name }}">
-        <!-- input type="hidden" name="isBackend" value="目前為後台檢視狀態。"-->
-        <input type="hidden" name="isModify" value="1">
-        <button class="btn btn-primary float-right">修改義工(報名)資料</button>
+    @if(auth()->user()->can("\App\Models\Volunteer.update"))
+        <form target="_blank" action="{{ route('queryupdate', $batch->id) }}" method="post">
+            @csrf
+            <input type="hidden" name="sn" value="{{ $applicant->applicant_id }}">
+            <input type="hidden" name="name" value="{{ $applicant->name }}">
+            <!-- input type="hidden" name="isBackend" value="目前為後台檢視狀態。"-->
+            <input type="hidden" name="isModify" value="1">
+            <button class="btn btn-primary float-right">修改義工(報名)資料</button>
+            <br>
+        </form>
         <br>
-    </form>
-    <br>
+    @endif
 
     <div class="container alert alert-warning">
         <div class="row">
