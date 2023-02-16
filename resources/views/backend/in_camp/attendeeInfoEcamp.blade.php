@@ -92,7 +92,7 @@
     </div>
 
     <div class="container alert alert-primary">
-        @if($applicant->groupRelation->count())
+        @if($applicant->groupRelation)
             <div class="row">
                 <div class="col-md-8">
                     {{ $applicant->groupRelation->alias }}
