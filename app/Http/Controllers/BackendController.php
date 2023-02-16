@@ -937,6 +937,13 @@ class BackendController extends Controller {
         return redirect()->route("showAttendeeInfoGET", ["camp_id" => $request->camp_id, "snORadmittedSN" => $request->applicant_id]);
     }
 
+    public function deleteApplicantGroup(Request $request) {
+        $applicant = Applicant::find($request->applicant_id);
+        $applicant->groupRelation()->detach($request->group_id);
+        $request->session()->flash('message', '已刪除該學員組別');
+        return redirect()->route("showAttendeeInfoGET", ["camp_id" => $request->camp_id, "snORadmittedSN" => $request->applicant_id]);
+    }
+
     public function showAttendeeList(Request $request) {
         ini_set('max_execution_time', -1);
         ini_set("memory_limit", -1);
