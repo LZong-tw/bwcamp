@@ -939,7 +939,7 @@ class BackendController extends Controller {
 
     public function deleteApplicantGroup(Request $request) {
         $applicant = Applicant::find($request->applicant_id);
-        $applicant->groupRelation()->detach($request->group_id);
+        $applicant->groupRelation()->dissociate();
         $request->session()->flash('message', '已刪除該學員組別');
         return redirect()->route("showAttendeeInfoGET", ["camp_id" => $request->camp_id, "snORadmittedSN" => $request->applicant_id]);
     }
