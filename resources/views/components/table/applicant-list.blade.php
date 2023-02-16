@@ -109,7 +109,7 @@
         @empty
         @endforelse
         @forelse ($applicants as &$applicant)
-            <tr>
+            <tr @if($applicant->deleted_at) style="color: gray!important" @endif>
                 @if(($isSetting ?? false) || ($isSettingCarer ?? false))
                     <td class="text-center">
                         <input type="checkbox" name="applicants[]" class="applicants_selector" value="{{ $applicant->sn }}"  id="A{{ $applicant->sn }}" onclick="applicant_triggered(this.id)">
