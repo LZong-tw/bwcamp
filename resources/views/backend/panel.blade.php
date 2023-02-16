@@ -133,9 +133,9 @@
                 <li>
                     <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">正行相關</a>
                     <ul class="collapse list-unstyled show" id="pageSubmenu">
-                    @if($campFullData->table == "ceovcamp")
+                    @if($campFullData->vcamp)
                         <li>
-                            <a href="{{route('showAttendeePhoto', $campFullData->id) }}">義工名冊</a>
+                            <a href="{{route('showVolunteerPhoto', $campFullData->id) }}">義工名冊</a>
                         </li>
                     @endif
                         <li>

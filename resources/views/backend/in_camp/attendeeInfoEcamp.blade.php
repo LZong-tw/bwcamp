@@ -98,7 +98,7 @@
                     {{ $applicant->groupRelation->alias }}
                 </div>
                 <div class="col-md-4">
-                    <a href="{{ route('deleteApplicantGroup', [$camp->id, "applicant_id" => $applicant->id, "group_id" => $applicant->groupRelation->id]) }}" class="btn btn-danger">刪除</a>
+                    <a href="{{ route('deleteApplicantGroupAndNumber', [$camp->id, "applicant_id" => $applicant->id, "group_id" => $applicant->groupRelation->id]) }}" class="btn btn-danger">刪除</a>
                 </div>
             </div>
         @else
