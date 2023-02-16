@@ -46,6 +46,8 @@ export default {
             search: [],
             columns: window.columns,
             theData: window.theData,
+            theRoles: [],
+            theOriginalRoles: [],
             theVolunteersData: window.theVolunteersData ? window.theVolunteersData : null,
             originalData: window.theData,
             csrf_token: window.csrf_token,
@@ -59,20 +61,37 @@ export default {
         filterSearch(column) {
             let search = $(`#search${column}`).val();
             this.search[column] = search;
-            this.theData = this.originalData;
-            this.theData = this.theData.filter((item) => {
-                if(item[column]) {
-                    return item[column].toLowerCase().includes(search.toLowerCase());
+            if (column == "roles") {
+                this.theRoles = this.theRoles.filter((item) => {
+                    if (String(item).toLowerCase().includes(search.toLowerCase())) {
+                        return true;
+                    }
+                });
+                if (this.theRoles.length == 0) {
+                    this.theRoles = this.theOriginalRoles;
                 }
-            });
-            if (this.theData.length == 0) {
-                this.theData = this.originalData;
+                this.toggleData(column);
+                this.toggleData(column);
+                var strLength = $(`#search${column}`).val().length * 2;
+                $(`#search${column}`).focus();
+                $(`#search${column}`)[0].setSelectionRange(strLength, strLength);
             }
-            this.toggleData(column);
-            this.toggleData(column);
-            var strLength = $(`#search${column}`).val().length * 2;
-            $(`#search${column}`).focus();
-            $(`#search${column}`)[0].setSelectionRange(strLength, strLength);
+            else {
+                this.theData = this.originalData;
+                this.theData = this.theData.filter((item) => {
+                    if(item[column]) {
+                        return item[column].toLowerCase().includes(search.toLowerCase());
+                    }
+                });
+                if (this.theData.length == 0) {
+                    this.theData = this.originalData;
+                }
+                this.toggleData(column);
+                this.toggleData(column);
+                var strLength = $(`#search${column}`).val().length * 2;
+                $(`#search${column}`).focus();
+                $(`#search${column}`)[0].setSelectionRange(strLength, strLength);
+            }
         },
         toggleData(id) {
             this.columns[id].show = !this.columns[id].show;
@@ -85,6 +104,7 @@ export default {
                     let theType = id == "roles" ? "section" : "position";
                     id = "roles";
                     let noGroupSet = false;
+                    console.log(id);
                     this.theVolunteersData.forEach((item, key) => {
                         for (let k = 0; k < item[id].length ; k++) {
                             let theEntity = item[id][k];
@@ -105,6 +125,7 @@ export default {
                                 tr0.appendChild(td0);
                                 table.appendChild(tr0);
                                 $("#searchField" + id).removeClass("d-none");
+                                unique.push("未分組");
                                 noGroupSet = true;
                             }
                             if (item[id]) {
@@ -125,6 +146,7 @@ export default {
                             }
                         }
                     });
+                    this.theRoles = unique;
                 }
                 else {
                     this.theData.forEach((item, key) => {
