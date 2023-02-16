@@ -18,7 +18,11 @@
                             @endif
                         </li>
                         <li>
-                            <a href="{{ route("showVolunteers", $campFullData->id) }}">義工名單</a>
+                            @if(str_contains($campFullData->table, "vcamp"))
+                                <a href="{{ route("showVolunteers", \App\Models\Vcamp::find($campFullData->id)->mainCamp->id) }}">義工名單</a>
+                            @else
+                                <a href="{{ route("showVolunteers", $campFullData->id) }}">義工名單</a>
+                            @endif
                         </li>
                     </ul>
                 </li>
