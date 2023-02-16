@@ -11,7 +11,11 @@
                     <a href="#integratedOperatingInterface" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">綜合操作介面</a>
                     <ul class="collapse list-unstyled show" id="integratedOperatingInterface">
                         <li>
-                            <a href="{{ route("showLearners", $campFullData->id) }}">學員名單</a>
+                            @if(str_contains($campFullData->table, "vcamp"))
+                                <a href="{{ route("showLearners", $campFullData->mainCamp->id) }}">學員名單</a>
+                            @else
+                                <a href="{{ route("showLearners", $campFullData->id) }}">學員名單</a>
+                            @endif
                         </li>
                         <li>
                             <a href="{{ route("showVolunteers", $campFullData->id) }}">義工名單</a>
