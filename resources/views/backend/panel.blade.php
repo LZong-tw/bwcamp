@@ -12,7 +12,7 @@
                     <ul class="collapse list-unstyled show" id="integratedOperatingInterface">
                         <li>
                             @if(str_contains($campFullData->table, "vcamp"))
-                                <a href="{{ route("showLearners", \App\Models\Camp::find($campFullData->id)->mainCamp->id) }}">學員名單</a>
+                                <a href="{{ route("showLearners", \App\Models\Vcamp::find($campFullData->id)->mainCamp->id) }}">學員名單</a>
                             @else
                                 <a href="{{ route("showLearners", $campFullData->id) }}">學員名單</a>
                             @endif
