@@ -40,7 +40,7 @@
         </thead>
         @forelse ($registeredVolunteers as $user)
             @forelse($user->application_log as &$applicant)
-                <tr @if($applicant->deleted_at) style="color: rgba(120, 120, 120, 0.6)!important" @endif>
+                <tr @if($applicant->deleted_at) style="color: rgba(120, 120, 120, 0.4)!important" @endif>
                     @if($isSetting ?? false)
                         <td class="text-center">
                             <input type="checkbox" name="applicants[]" class="applicants_selector" value="{{ $user->id }}"  id="U{{ $user->id }}" onclick="applicant_triggered(this.id)">
@@ -109,7 +109,7 @@
         @empty
         @endforelse
         @forelse ($applicants as &$applicant)
-            <tr @if($applicant->deleted_at) style="color: rgba(120, 120, 120, 0.6)!important" @endif>
+            <tr @if($applicant->deleted_at) style="color: rgba(120, 120, 120, 0.4)!important" @endif>
                 @if(($isSetting ?? false) || ($isSettingCarer ?? false))
                     <td class="text-center">
                         <input type="checkbox" name="applicants[]" class="applicants_selector" value="{{ $applicant->sn }}"  id="A{{ $applicant->sn }}" onclick="applicant_triggered(this.id)">
