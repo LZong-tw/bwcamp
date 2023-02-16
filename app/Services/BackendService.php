@@ -113,6 +113,9 @@ class BackendService
     public function setGroupNew(array $applicants, string $groupId): bool
     {
         foreach ($applicants as $applicant) {
+            if (str_contains($applicant, "A")) {
+                $applicant = str_replace("A", '', $applicant);
+            }
             $applicant = Applicant::findOrFail($applicant);
             $group = ApplicantsGroup::findOrFail($groupId);
             if (!$applicant->is_admitted) {
