@@ -40,7 +40,7 @@
         </thead>
         @forelse ($registeredVolunteers as $user)
             @forelse($user->application_log as &$applicant)
-                <tr>
+                <tr @if($applicant->deleted_at) style="color: gray!important" @endif>
                     @if($isSetting ?? false)
                         <td class="text-center">
                             <input type="checkbox" name="applicants[]" class="applicants_selector" value="{{ $user->id }}"  id="U{{ $user->id }}" onclick="applicant_triggered(this.id)">
