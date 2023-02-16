@@ -814,21 +814,22 @@ class BackendController extends Controller {
         return view('backend.in_camp.traffic_list', compact('batches', 'applicants', 'traffic_depart', 'traffic_return', 'camp'));
     }
 
-    public function showAttendeePhoto(Request $request) {
+    public function showVolunteerPhoto(Request $request) {
         ini_set('max_execution_time', -1);
         ini_set("memory_limit", -1);
-        $batches = Batch::where("camp_id", $this->campFullData->id)->get();
-        $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
+        $camp = $this->campFullData->vcamp;
+        $batches = Batch::where("camp_id", $camp->id)->get();
+        $query = Applicant::select("applicants.*", $camp->table . ".*", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
                         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
-                        ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
-                        ->where('camps.id', $this->campFullData->id)->withTrashed();
+                        ->join($camp->table, 'applicants.id', '=', $camp->table . '.applicant_id')
+                        ->where('camps.id', $camp->id)->withTrashed();
         $applicants = $query->get();
         if(auth()->user()->getPermission(false)->role->level <= 2){
         }
-        else if(auth()->user()->getPermission(true, $this->campFullData->id)->level > 2){
-            $constraint = auth()->user()->getPermission(true, $this->campFullData->id)->region;
-            $batch = Batch::where('camp_id', $this->campFullData->id)->where('name', 'like', '%' . $constraint . '%')->first();
+        else if(auth()->user()->getPermission(true, $camp->id)->level > 2){
+            $constraint = auth()->user()->getPermission(true, $camp->id)->region;
+            $batch = Batch::where('camp_id', $camp->id)->where('name', 'like', '%' . $constraint . '%')->first();
             $applicants = $applicants->filter(function ($applicant) use ($constraint, $batch) {
                 if($batch){
                     return $applicant->region == $constraint || $applicant->batch_id == $batch->id;
@@ -838,12 +839,13 @@ class BackendController extends Controller {
         }
 
         if($request->download) {
-            return \PDF::loadView('backend.in_camp.attendeePhotoPDF', compact('applicants', 'batches'))->download(Carbon::now()->format('YmdHis') . $this->campFullData->table . '義工名冊.pdf');
+            return \PDF::loadView('backend.in_camp.volunteerPhoto', compact('applicants', 'batches'))->download(Carbon::now()->format('YmdHis') . $camp->table . '義工名冊.pdf');
         }
 
-        return view('backend.in_camp.attendeePhoto')
+        return view('backend.in_camp.volunteerPhoto')
                 ->with('applicants', $applicants)
-                ->with('batches', $batches);
+                ->with('batches', $batches)
+                ->with('camp', $camp);
     }
 
     public function queryAttendee(Request $request) {
@@ -937,9 +939,10 @@ class BackendController extends Controller {
         return redirect()->route("showAttendeeInfoGET", ["camp_id" => $request->camp_id, "snORadmittedSN" => $request->applicant_id]);
     }
 
-    public function deleteApplicantGroup(Request $request) {
+    public function deleteApplicantGroupAndNumber(Request $request) {
         $applicant = Applicant::find($request->applicant_id);
         $applicant->groupRelation()->dissociate();
+        $applicant->numberRelation()->dissociate();
         $applicant->save();
         $request->session()->flash('message', '已刪除該學員組別');
         return redirect()->route("showAttendeeInfoGET", ["camp_id" => $request->camp_id, "snORadmittedSN" => $request->applicant_id]);
@@ -969,7 +972,7 @@ class BackendController extends Controller {
         }
 
         if ($request->download) {
-            return \PDF::loadView('backend.in_camp.attendeePhotoPDF', compact('applicants', 'batches'))->download(Carbon::now()->format('YmdHis') . $this->campFullData->table . '義工名冊.pdf');
+            return \PDF::loadView('backend.in_camp.volunteerPhotoPDF', compact('applicants', 'batches'))->download(Carbon::now()->format('YmdHis') . $this->campFullData->table . '義工名冊.pdf');
         }
 
         // 瀏覽義工
@@ -1102,7 +1105,7 @@ class BackendController extends Controller {
         }
 
         if ($request->download) {
-            return \PDF::loadView('backend.in_camp.attendeePhotoPDF', compact('applicants', 'batches'))->download(Carbon::now()->format('YmdHis') . $this->campFullData->table . '義工名冊.pdf');
+            return \PDF::loadView('backend.in_camp.volunteerPhotoPDF', compact('applicants', 'batches'))->download(Carbon::now()->format('YmdHis') . $this->campFullData->table . '義工名冊.pdf');
         }
 
         // 設定義工
