@@ -16,6 +16,11 @@
         </div>
     @endforeach
 @endif
+@if(session()->has('message'))
+    <div class='alert alert-success' role='alert'>
+        {{ session()->get('message') }}
+    </div>
+@endif
 @if(isset($applicant))
     <h4>學員關懷系統</h4>
     <h5>{{ $camp->fullName }}>>個人詳細資料>>{{ $applicant->name }}</h5>
@@ -83,6 +88,25 @@
                 <input class="btn btn-success" type="submit" value="修改參加狀態">
             </form>
         </div>
+    </div>
+
+    <div class="container alert alert-primary">
+        @if($applicant->groupRelation)
+            <div class="row">
+                <div class="col-md-8">
+                    {{ $applicant->groupRelation->group->name }}
+                </div>
+                <div class="col-md-4">
+                    <a href="{{ route('deleteApplicantGroup', [$camp->id, "applicant_id" => $applicant->id, "group_id" => $applicant->groupRelation->group->id]) }}" class="btn btn-danger">刪除</a>
+                </div>
+            </div>
+        @else
+            <div class="row">
+                <div class="col-md-12">
+                    此學員尚未分入任何組別
+                </div>
+            </div>
+        @endif
     </div>
     <br>
 

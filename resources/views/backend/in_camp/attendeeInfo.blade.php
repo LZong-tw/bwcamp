@@ -89,6 +89,25 @@
             </form>
         </div>
     </div>
+
+    <div class="container alert alert-primary">
+        @if($applicant->groupRelation)
+            <div class="row">
+                <div class="col-md-8">
+                    {{ $applicant->groupRelation->group->name }}
+                </div>
+                <div class="col-md-4">
+                    <a href="{{ route('deleteApplicantGroup', [$camp->id, "applicant_id" => $applicant->id, "group_id" => $applicant->groupRelation->group->id]) }}" class="btn btn-danger">刪除</a>
+                </div>
+            </div>
+        @else
+            <div class="row">
+                <div class="col-md-12">
+                    此學員尚未分入任何組別
+                </div>
+            </div>
+        @endif
+    </div>
     <br>
 
     <div class="container">
