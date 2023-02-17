@@ -13,14 +13,15 @@ use Illuminate\Auth\Access\Response;
  *
  * @package App\Policies
  */
-class LearnerPolicy
+class UserPolicy
 {
     use HandlesAuthorization;
 
     public function viewAny(User | \App\User $user, Applicant $applicant)
     {
-        dd($user);
-        return $user->ability('', '\App\Models\Applicant.read', ['validate_all' => false])
+        dd(11);
+        return $user->id === $applicant->id;
+        $user->ability('', '\App\Models\Applicant.read', ['validate_all' => false])
                     ? Response::allow()
                     : Response::deny('You do not have permission to view any applicants.', 403);
     }

@@ -1180,9 +1180,9 @@ class BackendController extends Controller {
     }
 
     public function showLearners(Request $request) {
-//        if (!$this->authorize('viewAny', [auth()->user(), Applicant::class])) {
-//            return "<h3>沒有權限：瀏覽所有學員</h3>";
-//        }
+        if (!$this->authorize('viewAny', [Applicant::class, Applicant::find(2)])) {
+            return "<h3>沒有權限：瀏覽所有學員</h3>";
+        }
         $user = \App\Models\User::findOrFail(auth()->user()->id);
         if (!$user->hasPermission('\App\Models\Applicant.read') && $user->id != 1) {
             // todo: 要檢查到營隊
