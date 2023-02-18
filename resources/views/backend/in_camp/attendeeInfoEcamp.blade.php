@@ -70,13 +70,15 @@
         </div>
         <div class="row d-flex justify-content-end">
             @if(!isset($applicant->is_attend))
-                狀態：<div class="mr-4 text-primary">未回覆。</div>
+                狀態：<div class="mr-4 text-primary">尚未聯絡。</div>
             @elseif($applicant->is_attend == 1)
                 狀態：<div class="mr-4 text-success">參加。</div>
             @elseif($applicant->is_attend == 0)
                 狀態：<div class="mr-4 text-danger">不參加。</div>
             @elseif($applicant->is_attend == 2)
-                狀態：<div class="mr-4 text-secondary">已聯絡未回應。</div>
+                狀態：<div class="mr-4 text-secondary">尚未決定。</div>
+            @elseif($applicant->is_attend == 3)
+                狀態：<div class="mr-4 text-secondary">聯絡不上。</div>
             @endif
         </div>
         <div class="row d-flex justify-content-end">
@@ -85,7 +87,8 @@
                 <input type="hidden" name="id" value="{{ $applicant->applicant_id ?? $applicant->id }}">
                 <label><input type="radio" name="is_attend" id="" value="0">不參加</label>
                 <label><input type="radio" name="is_attend" id="" value="1">參加</label>
-                <label><input type="radio" name="is_attend" id="" value="2">已聯絡未回應</label>
+                <label><input type="radio" name="is_attend" id="" value="2">尚未決定</label>
+                <label><input type="radio" name="is_attend" id="" value="3">聯絡不上</label>
                 <input class="btn btn-success" type="submit" value="修改參加狀態">
             </form>
         </div>

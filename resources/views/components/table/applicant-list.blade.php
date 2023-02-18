@@ -78,9 +78,11 @@
                             @elseif($applicant->$key === 0)
                                 <td>不參加</td>
                             @elseif($applicant->$key === 2)
-                                <td>已聯絡未回應</td>
+                                <td>尚未決定</td>
+                            @elseif($applicant->$key === 3)
+                                <td>聯絡不上</td>
                             @else
-                                <td>未回覆</td>
+                                <td>尚未聯絡</td>
                             @endif
                         @elseif($key == "reasons_recommend")
                             <td>
