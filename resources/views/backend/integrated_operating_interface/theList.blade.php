@@ -53,7 +53,7 @@
     <h4>目前名單為@if($current_batch){{  $current_batch->name . "梯次 / 場次" }}@else{{  "所有梯次 / 場次" }}@endif</h4>
     <h5>
         選擇梯次：@foreach ($batches as $batch) <a href='?isSetting={{ $isSetting ?? 0 }}&isSettingCarer={{ $isSettingCarer ?? 0 }}&batch_id={{ $batch->id }}'>{{ $batch->name }}梯</a> @endforeach
-        @if($batches->count() > 1) <a href='?isSetting={{ $isSetting }}'>所有梯次</a> @endif
+        @if($batches->count() > 1) <a href='?isSetting={{ $isSetting }}&isSettingCarer={{ $isSettingCarer ?? 0 }}'>所有梯次</a> @endif
     </h5>
     @if(($isSettingCarer ?? false) || ($isSetting ?? false))
     @else
