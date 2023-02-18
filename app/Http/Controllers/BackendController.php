@@ -921,7 +921,7 @@ class BackendController extends Controller {
         if(isset($applicant->contact_time)) {
             $applicant->contact_time_split = explode("||/",$applicant->contact_time);
         }
-        if($camp->table == "ceovcamp") {
+        if(str_contains($camp->table, "vcamp")) {
             return view('backend.in_camp.volunteerInfo', compact('camp','batch','applicant','contactlog'));
         } elseif($camp->table == "ceocamp") {
             return view('backend.in_camp.attendeeInfoCeocamp', compact('camp','batch','applicant','contactlog'));
@@ -1228,13 +1228,13 @@ class BackendController extends Controller {
             $carers = \App\Models\User::with('groupOrgRelation')
             ->whereHas('groupOrgRelation', function ($query) use ($request) {
                 $query->where('batch_id', $request->batch_id)
-                    ->where('position', 'like', '%關懷小組%');
+                    ->where('position', 'like', '%關懷小組第%');
             })->get();
         }
         elseif($request->isSettingCarer) {
             $carers = \App\Models\User::with('groupOrgRelation')->whereHas('groupOrgRelation', function ($query) {
                 $query->where('camp_id', $this->campFullData->id)
-                    ->where('position', 'like', '%關懷小組%');
+                    ->where('position', 'like', '%關懷小組第%');
             })->get();
         }
 
