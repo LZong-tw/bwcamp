@@ -22,8 +22,7 @@
     </div>
 @endif
 @if(isset($applicant))
-    <h4>學員關懷系統</h4>
-    <h5>{{ $camp->fullName }}>>個人詳細資料>>{{ $applicant->name }}</h5>
+    <h4>{{ $camp->fullName }}>>個人詳細資料>>{{ $applicant->name }}</h4>
 
     <!-- 修改學員資料,使用報名網頁 -->
     <form target="_blank" action="{{ route('queryupdate', $batch->id) }}" method="post">
