@@ -1225,7 +1225,7 @@ class BackendController extends Controller {
         }
 
         if($request->isSettingCarer && $request->batch_id) {
-            $carers = \App\Models\User::with('groupOrgRelation')
+            $carers = \App\Models\User::with('groupOrgRelation', 'groupOrgRelation.batch')
             ->whereHas('groupOrgRelation', function ($query) use ($request) {
                 $query->where('batch_id', $request->batch_id)
                     ->where('position', 'like', '%關懷小組第%');
