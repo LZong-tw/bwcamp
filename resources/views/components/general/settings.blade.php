@@ -22,7 +22,10 @@
             <select required name='attendee_care' onChange=''>
                 <option value=''>- 請選擇 -</option>
                 @forelse($carers as $carer)
-                    <option value='{{ $carer->id }}'>{{ $carer->groupOrgRelation?->batch?->name }}：{{ $carer->name }}：{{ $carer->groupOrgRelation->position }}</option>
+                    @php
+                        $care = $carer->each(fn($carer) => $carer->groupOrgRelation = $carer->groupOrgRelation->where('batch_id', $request->batch_id)->where('position', 'like', '%關懷小組第%'));
+                    @endphp
+                    <option value='{{ $carer->id }}'>{{ $carer->groupOrgRelation?->first()->batch?->name }}：{{ $carer->name }}：{{ $carer->groupOrgRelation->first()->position }}</option>
                 @empty
                     <option value="">本梯次沒有關懷員</option>
                 @endforelse
