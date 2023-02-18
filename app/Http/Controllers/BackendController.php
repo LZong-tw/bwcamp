@@ -1230,6 +1230,7 @@ class BackendController extends Controller {
                 $query->where('batch_id', $request->batch_id)
                     ->where('position', 'like', '%關懷小組第%');
             })->get();
+            $carers = $carers->each(static fn($carer) => $carer->groupOrgRelation = $carer->groupOrgRelation->where('batch_id', $request->batch_id)->where('position', 'like', '%關懷小組第%'));
         }
         elseif($request->isSettingCarer) {
             $carers = \App\Models\User::with('groupOrgRelation')->whereHas('groupOrgRelation', function ($query) {
