@@ -152,7 +152,17 @@
                         <td>{{ $applicant->groupOrgRelation?->section }}</td>
                     @elseif(!$isVcamp && !$isCare && $key == "contactlog")
                     @elseif($isSettingCarer && ($key == 'participation_mode'))
-                        <td>{{ $applicant->is_attend ?? "-" }}</td>
+                        <td>
+                            @if($applicant->is_attend == 1)
+                                參加
+                            @elseif($applicant->is_attend === 0)
+                                不參加
+                            @elseif($applicant->is_attend === 2)
+                                已聯絡未回應
+                            @else
+                                未回覆
+                            @endif
+                        </td>
                         <td>{{ $applicant->participation_mode ?? "-" }}</td>
                     @elseif($key == "is_attend")
                         @if($applicant->$key == 1)
