@@ -77,7 +77,7 @@
     </div>
 
     <div class="container alert alert-primary">
-        @forelse($applicant->user->roles()->where('camp_id', $applicant->vcamp->mainCamp->id)->get() as $role)
+        @forelse($applicant->user?->roles()->where('camp_id', $applicant->vcamp->mainCamp->id)->get() as $role)
             <div class="row">
                 <div class="col-md-8">
                     {{ $role->section }} - {{ $role->position }}
