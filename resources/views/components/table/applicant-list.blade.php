@@ -66,9 +66,9 @@
                         @elseif($key == "gender")
                             <td>{{ $applicant->gender_zh_tw }}</td>
                         @elseif($isVcamp && $key == "roles")
-                            <td>@foreach($applicant->user->roles as $role) {{ $role->section }}<br> @endforeach</td>
+                            <td>@foreach($applicant->user->roles as $role) {{ $role->batch?->name }} {{ $role->section }}<br> @endforeach</td>
                         @elseif($isVcamp && $key == "group")
-                            <td>@foreach($applicant->user->roles as $role) {{ $role->section }}<br> @endforeach</td>
+                            <td>@foreach($applicant->user->roles as $role) {{ $role->batch?->name }} {{ $role->section }}<br> @endforeach</td>
                         @elseif($isVcamp && $key == "position")
                             <td>@foreach($applicant->user->roles as $role) {{ $role->position }}<br> @endforeach</td>
                         @elseif(!$isVcamp && !$isCare && $key == "contactlog")
