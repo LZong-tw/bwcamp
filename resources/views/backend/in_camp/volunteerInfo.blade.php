@@ -85,7 +85,7 @@
         @forelse($roles as $role)
             <div class="row">
                 <div class="col-md-8">
-                    {{ $role->section }} - {{ $role->position }}
+                    {{ $role->batch?->name }}{{ $role->section }} - {{ $role->position }}
                 </div>
                 <div class="col-md-4">
                     <a href="{{ route('deleteUserRole', [$camp->id, "user_id" => $applicant->user->id, "role_id" => $role->id, "applicant_id" => $applicant->id]) }}" class="btn btn-danger">刪除</a>
