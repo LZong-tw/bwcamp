@@ -29,7 +29,9 @@
                         }
                         $carer->groupOrgRelation = $query->get();
                     @endphp
-                    <option value='{{ $carer->id }}'>{{ $carer->groupOrgRelation?->first()?->batch?->name }}：{{ $carer->name }}：{{ $carer->groupOrgRelation->first()?->position }}</option>
+                    @foreach($carer->groupOrgRelation as $carer_position)
+                        <option value='{{ $carer->id }}'>{{ $carer_position->batch?->name }}：{{ $carer->name }}：{{ $carer_position->position }}</option>
+                    @endforeach
                 @empty
                     <option value="">本梯次沒有關懷員</option>
                 @endforelse
