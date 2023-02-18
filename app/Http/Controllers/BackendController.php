@@ -1225,13 +1225,14 @@ class BackendController extends Controller {
         }
 
         if($request->isSettingCarer && $request->batch_id) {
-            $carers = \App\Models\User::whereHas('groupOrgRelation', function ($query) use ($request) {
+            $carers = \App\Models\User::with('groupOrgRelation')
+            ->whereHas('groupOrgRelation', function ($query) use ($request) {
                 $query->where('batch_id', $request->batch_id)
                     ->where('position', 'like', '%關懷小組%');
             })->get();
         }
         elseif($request->isSettingCarer) {
-            $carers = \App\Models\User::whereHas('groupOrgRelation', function ($query) {
+            $carers = \App\Models\User::with('groupOrgRelation')->whereHas('groupOrgRelation', function ($query) {
                 $query->where('camp_id', $this->campFullData->id)
                     ->where('position', 'like', '%關懷小組%');
             })->get();
