@@ -953,12 +953,14 @@ class BackendController extends Controller {
 //            return "<h3>沒有權限：瀏覽所有學員</h3>";
 //        }
         $user = \App\Models\User::findOrFail(auth()->user()->id);
-        if ($request->isSettingCarer && (!$user->can("\App\Models\CarerApplicantXref.create") && $user->id != 1)) {
+        if ($request->isSettingCarer &&
+            (!($user->can("\App\Models\CarerApplicantXref.create") || auth()->user()->can("\App\Models\CarerApplicantXref.assign"))
+                && $user->id != 1)) {
             return "<h3>沒有權限：設定學員關懷員</h3>";
         }
         if (!$user->hasPermission('\App\Models\Applicant.read') && $user->id != 1) {
             // todo: 要檢查到營隊
-            return "<h3>沒有權限：瀏覽所有學員</h3>";
+            return "<h3>沒有權限：瀏覽任何學員</h3>";
         }
         ini_set('max_execution_time', -1);
         ini_set("memory_limit", -1);
