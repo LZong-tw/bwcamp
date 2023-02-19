@@ -33,7 +33,7 @@
                         <option value='{{ $carer->id }}'>{{ $carer_position->batch?->name }}：{{ $carer->name }}：{{ $carer_position->position }}</option>
                     @endforeach
                 @empty
-                    <option value="">本梯次沒有關懷員</option>
+                    <option value="">本梯次或您所在的小組沒有關懷員</option>
                 @endforelse
             </select>
         @elseif(!$isShowVolunteers)
