@@ -955,7 +955,7 @@ class BackendController extends Controller {
         $user = \App\Models\User::findOrFail(auth()->user()->id);
         view()->share('user', $user);
         $batches = Batch::where("camp_id", $this->campFullData->id)->get();
-
+        // todo: permission resolver: 找出權限可達範圍的聯集
         if (!($user->isAbleTo("\App\Models\CarerApplicantXref.create") || $user->isAbleTo("\App\Models\CarerApplicantXref.assign"))
                 && $user->id != 1) {
             return "<h3>沒有權限：設定學員關懷員</h3>";
