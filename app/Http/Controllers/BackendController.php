@@ -953,6 +953,7 @@ class BackendController extends Controller {
 //            return "<h3>沒有權限：瀏覽所有學員</h3>";
 //        }
         $user = \App\Models\User::findOrFail(auth()->user()->id);
+        view()->share('user', $user);
         if ($request->isSettingCarer &&
             (!($user->isAbleTo("\App\Models\CarerApplicantXref.create") || auth()->user()->isAbleTo("\App\Models\CarerApplicantXref.assign"))
                 && $user->id != 1)) {

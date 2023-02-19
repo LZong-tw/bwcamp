@@ -5,7 +5,7 @@
         @if($isShowLearners)            &nbsp;&nbsp;
             <a href="{{ route("showRegistration", $campFullData->id) }}" rel="noopener noreferrer" class="btn btn-danger mb-3" target="_blank">新增學員</a>    &nbsp;&nbsp;
             <a href="?isSetting=1&batch_id={{ $currentBatch?->id ?? "" }}" class="btn btn-danger mb-3">設定組別</a>         &nbsp;&nbsp;
-            @if(auth()->user()->isAbleTo("\App\Models\CarerApplicantXref.create") || auth()->user()->isAbleTo("\App\Models\CarerApplicantXref.assign"))
+            @if($user->isAbleTo("\App\Models\CarerApplicantXref.create") || $user->isAbleTo("\App\Models\CarerApplicantXref.assign"))
                 <a href="?isSettingCarer=1" class="btn btn-danger mb-3">設定關懷員</a>
             @endif
         @endif
