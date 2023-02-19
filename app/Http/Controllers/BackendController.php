@@ -1434,71 +1434,17 @@ class BackendController extends Controller {
         if (!$this->campFullData->vcamp) {
             return "<h1>尚未設定對應之義工營。</h1>";
         }
-        $queryRoles = null;
         if ($request->isMethod("post")) {
-            $queryStr = "";
             $payload = $request->all();
             if (count($payload) == 1) {
                 return back()->withErrors(['未設定任何條件。']);
             }
-            $targetVolunteers = null;
-            foreach ($payload as $key => &$value) {
-                if ($key == "roles") {
-                    $queryRoles = CampOrg::whereIn('id', $value)->get();
-                    $queryRoles = $queryRoles->filter(function ($role) {
-                        return $role->camp_id == $this->campFullData->id;
-                    });
-                    $targetVolunteers = OrgUser::whereIn('org_id', $value)->get()->pluck('user_id');
-                    $targetVolunteers = User::whereIn('id', $targetVolunteers)->get();
-                    $targetVolunteers->load('application_log');
-                    $targetVolunteers = $targetVolunteers->filter(function ($volunteer) {
-                        return $volunteer->application_log->filter(function ($log) {
-                            return $log->camp->id == $this->campFullData->vcamp->id;
-                        })->count() > 0;
-                    })->pluck('id');
-                    unset($payload[$key]);
-                }
-                if (!is_array($value)) {
-                    unset($payload[$key]);
-                }
-            }
-            $count = 0;
-            foreach ($payload as $key => $parameters) {
-                if (is_array($parameters)) {
-                    foreach ($parameters as $index => $parameter) {
-                        if ($index == 0) {
-                            $queryStr .= " (";
-                        }
-                        if (is_numeric($parameter)) {
-                            if ($key == 'age') {
-                                $year = now()->subYears($parameter)->format('Y');
-                                $queryStr .= "birthyear = " . $year;
-                            }
-                            else {
-                                $queryStr .= $key . "=" . $parameter;
-                            }
-                        }
-                        else if ($key == "group_id") {
-                            $queryStr .= "1 = 1";
-                            $showNoJob = true;
-                        }
-                        else if (is_string($parameter)) {
-                            if ($key == 'name') { $key = 'applicants.name'; }
-                            $queryStr .= $key . " like '%" . $parameter . "%'";
-                        }
-                        if ($index != count($parameters) - 1) {
-                            $queryStr .= " or ";
-                        }
-                        else {
-                            $queryStr .= ") ";
-                        }
-                    }
-                    $count++;
-                }
-                if ($count <= count($payload) - 1) {
-                    $queryStr .= " and ";
-                }
-            }
+            [$queryStr, $queryRoles, $showNoJob] = $this->backendService->volunteerQueryStringParser($payload, $request, $this->campFullData);
+        }
+        else {
+            $queryStr = null;
+            $queryRoles = null;
+            $showNoJob = null;
         }
         $batches = Batch::where("camp_id", $this->campFullData->vcamp->id)->get();
         $query = Applicant::select("applicants.*", $this->campFullData->vcamp->table . ".*", $this->campFullData->vcamp->table . ".id as ''", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
@@ -1517,24 +1463,36 @@ class BackendController extends Controller {
         }
         $applicants = $query->get();
         $applicants = $applicants->each(fn($applicant) => $applicant->id = $applicant->applicant_id);
-        $registeredUsers = \App\Models\User::with('roles', 'application_log')
+        $registeredUsers = \App\Models\User::with('roles', 'roles.batch', 'application_log')
             ->whereHas('roles', function ($query) use ($queryRoles) {
                 $query->where('camp_id', $this->campFullData->id);
                 if ($queryRoles) {
                     $query->whereIn('camp_org.id', $queryRoles->pluck('id'));
                 }
-            })->whereHas('application_log');
+            });
         if ($request->isMethod("post")) {
-            if ($queryStr != "" && ($showNoJob ?? true)) {
-                $queryStr = str_replace("applicants.name", "users.name", $queryStr);
-                $registeredUsers = $registeredUsers->orWhere(\DB::raw($queryStr), 1)->get();
+            if ($queryStr != "" && $showNoJob) {
+                $registeredUsers = $registeredUsers->orWhereHas('application_log',
+                    function ($query) use ($queryStr, $batches) {
+                        $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');
+                        $query->where(\DB::raw($queryStr), 1);
+                        $query->whereIn('batch_id', $batches->pluck('id'));
+                    })->get();
             }
-            else {
-                $registeredUsers = $registeredUsers->get();
+            elseif ($queryStr != "") {
+                $registeredUsers = $registeredUsers->whereHas('application_log',
+                    function ($query) use ($queryStr, $batches) {
+                        $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');
+                        $query->where(\DB::raw($queryStr), 1);
+                        $query->whereIn('batch_id', $batches->pluck('id'));
+                    })->get();
             }
         }
         else {
-            $registeredUsers = $registeredUsers->get();
+            $registeredUsers = $registeredUsers->whereHas('application_log', function ($query) use ($batches) {
+                $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');
+                $query->whereIn('batch_id', $batches->pluck('id'));
+            })->get();
         }
         if($request->isSetting==1) {
             $isSetting = 1;
@@ -1774,7 +1732,6 @@ class BackendController extends Controller {
         $applicants = $query->get();
         $applicants = $applicants->each(fn($applicant) => $applicant->id = $applicant->applicant_id);
 
-        $applicants = collect([]);
         $registeredUsers = \App\Models\User::with('roles')->whereHas('roles', function ($query) {
             $query->where('camp_id', $this->campFullData->id)->where('position', 'like', '%關懷小組%');
         })->get();

@@ -659,9 +659,9 @@
   dependencies:
     "ansi-colors" "^4.1.1"
 
-"esbuild-linux-64@0.15.17":
-  "integrity" "sha512-TnedHtFQSUVlc0J0D4ZMMalYaQ0Zbt7HSwGy4sav7BlXVqDVc/rchJ/a9dathK51apzLgRyXQMseLf6bkloaSQ=="
-  "resolved" "https://registry.npmjs.org/esbuild-linux-64/-/esbuild-linux-64-0.15.17.tgz"
+"esbuild-windows-64@0.15.17":
+  "integrity" "sha512-jPnXvB4zMMToNPpCBdt+OEQiYFVs9wlQ5G8vMoJkrYJBp1aEt070MRpBFa6pfBFrgXquqgUiNAohMcTdy+JVFg=="
+  "resolved" "https://registry.npmjs.org/esbuild-windows-64/-/esbuild-windows-64-0.15.17.tgz"
   "version" "0.15.17"
 
 "esbuild@^0.15.9":
