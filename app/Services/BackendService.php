@@ -431,4 +431,69 @@ class BackendService
         }
         return $queryStr;
     }
+
+    public function volunteerQueryStringParser(array $payload, Request $request, Camp $camp): array
+    {
+        $queryStr = null;
+        $queryRoles = null;
+        $targetVolunteers = null;
+        foreach ($payload as $key => &$value) {
+            if ($key == "roles") {
+                $queryRoles = CampOrg::whereIn('id', $value)->get();
+                $queryRoles = $queryRoles->filter(function ($role) use ($camp) {
+                    return $role->camp_id == $camp->id;
+                });
+                $targetVolunteers = OrgUser::whereIn('org_id', $value)->get()->pluck('user_id');
+                $targetVolunteers = \App\Models\User::whereIn('id', $targetVolunteers)->get();
+                $targetVolunteers->load('application_log');
+                $targetVolunteers = $targetVolunteers->filter(function ($volunteer) use ($camp) {
+                    return $volunteer->application_log->filter(function ($log) use ($camp) {
+                            return $log->camp->id == $camp->vcamp->id;
+                        })->count() > 0;
+                })->pluck('id');
+                unset($payload[$key]);
+            }
+            if (!is_array($value)) {
+                unset($payload[$key]);
+            }
+        }
+        $count = 0;
+        foreach ($payload as $key => $parameters) {
+            if (is_array($parameters)) {
+                foreach ($parameters as $index => $parameter) {
+                    if ($index == 0) {
+                        $queryStr .= " (";
+                    }
+                    if (is_numeric($parameter)) {
+                        if ($key == 'age') {
+                            $year = now()->subYears($parameter)->format('Y');
+                            $queryStr .= "birthyear = " . $year;
+                        }
+                        else {
+                            $queryStr .= $key . "=" . $parameter;
+                        }
+                    }
+                    else if ($key == "group_id") {
+                        $queryStr .= "1 = 1";
+                        $showNoJob = true;
+                    }
+                    else if (is_string($parameter)) {
+                        if ($key == 'name') { $key = 'applicants.name'; }
+                        $queryStr .= $key . " like '%" . $parameter . "%'";
+                    }
+                    if ($index != count($parameters) - 1) {
+                        $queryStr .= " or ";
+                    }
+                    else {
+                        $queryStr .= ") ";
+                    }
+                }
+                $count++;
+            }
+            if ($count <= count($payload) - 1) {
+                $queryStr .= " and ";
+            }
+        }
+        return [$queryStr, $queryRoles, $showNoJob ?? null];
+    }
 }

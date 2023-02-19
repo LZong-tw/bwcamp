@@ -3,7 +3,7 @@
     <div class="alert-primary mb-3 border border-secondary rounded col-8 py-2">
         <span>查詢條件：@if($queryRoles != "")
                 @foreach($queryRoles as $role)
-                    {{ $role->section }}{{ $role->position }}@if(!$loop->last || str_contains($queryStr, "(1 = 1)"))、@endif
+                    {{ $role->batch?->name }}: {{ $role->section }}-{{ $role->position }}@if(!$loop->last || str_contains($queryStr, "(1 = 1)"))、@endif
                 @endforeach
             @endif{{ str_replace("(1 = 1)", "未分組", $queryStr) ?? "無" }}</span>
     </div>

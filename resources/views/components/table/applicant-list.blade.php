@@ -205,15 +205,21 @@
     window.applicant_ids = [];
     window.csrf_token = "{{ csrf_token() }}";
     window.columns = @json($columns);
-    window.theData = @json($applicants);
     @if($registeredVolunteers ?? false)
-        @foreach($registeredVolunteers as &$v)
-            @php
-                $v->roles = $v->roles;
-            @endphp
-        @endforeach
         window.theVolunteersData = @json($registeredVolunteers);
+        @php
+            $users_applicants = [];
+            foreach ($registeredVolunteers as $v) {
+                if ($v->application_log) {
+                    foreach ($v->application_log as $a) {
+                        $users_applicants[] = $a;
+                    }
+                }
+            }
+            $applicants = collect($users_applicants)->merge($applicants);
+        @endphp
     @endif
+    window.theData = @json($applicants);
     window.is_care = {{ $isCare ? 1 : 0 }};
     window.isShowVolunteers = {{ $isVcamp ? 1 : 0 }};
     (function() {
