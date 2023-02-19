@@ -31,7 +31,7 @@
                         <th class="text-center" data-field="carer" data-sortable="1">關懷員</th>
                     @elseif($key == "carer" && $isSettingCarer)
                         @continue
-                    @elseif(!$isVcamp && !$isCare && $key == "contactlog")
+                    @elseif(!$isVcamp && !$isShowLearners && $key == "contactlog")
                     @else
                         <th class="text-center" data-field="{{ $key }}" data-sortable="{{ $item['sort'] }}">{{ $item['name'] }}</th>
                     @endif
@@ -71,7 +71,7 @@
                             <td>@foreach($applicant->user->roles as $role) {{ $role->batch?->name }} {{ $role->section }}<br> @endforeach</td>
                         @elseif($isVcamp && $key == "position")
                             <td>@foreach($applicant->user->roles as $role) {{ $role->position }}<br> @endforeach</td>
-                        @elseif(!$isVcamp && !$isCare && $key == "contactlog")
+                        @elseif(!$isVcamp && !$isShowLearners && $key == "contactlog")
                         @elseif($key == "is_attend")
                             @if($applicant->$key == 1)
                                 <td>參加</td>
@@ -150,7 +150,7 @@
                         <td>{{ $applicant->batch->name }}</td>
                     @elseif($isVcamp && $key == "group" && isset($applicant->groupOrgRelation->section))
                         <td>{{ $applicant->groupOrgRelation?->section }}</td>
-                    @elseif(!$isVcamp && !$isCare && $key == "contactlog")
+                    @elseif(!$isVcamp && !$isShowLearners && $key == "contactlog")
                     @elseif($isSettingCarer && ($key == 'participation_mode'))
                         <td>
                             @if($applicant->is_attend == 1)
@@ -220,7 +220,7 @@
         @endphp
     @endif
     window.theData = @json($applicants);
-    window.is_care = {{ $isCare ? 1 : 0 }};
+    window.isShowLearners = {{ $isShowLearners ? 1 : 0 }};
     window.isShowVolunteers = {{ $isVcamp ? 1 : 0 }};
     (function() {
     })();

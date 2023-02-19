@@ -3,12 +3,12 @@
     <span class="text-danger font-weight-bold">
         @if($isVcamp)
             <button type="submit" class="btn btn-success btn-sm" onclick="javascript:self.location='?isSetting=0';"> << 返回義工名單</button>            &nbsp;&nbsp;
-            將所選義工設定為{{ ($isVcamp && $isCare) ? '第' : '' }}
+            將所選義工設定為{{ ($isVcamp && $isShowLearners) ? '第' : '' }}
         @else
             <button type="submit" class="btn btn-success btn-sm" onclick="javascript:self.location='?isSetting=0';"> << 返回學員名單</button>            &nbsp;&nbsp;
         @endif
 
-        @if($isVcamp && !$isCare)
+        @if($isVcamp && !$isShowLearners)
             <select required name="volunteer_group" onChange="getPosition(this)" id="volunteerGroups">
                 <option value=''>- 請選擇 -</option>
             </select>
@@ -44,7 +44,7 @@
             組
         @endif
         &nbsp;&nbsp;
-        @if($isVcamp && !$isCare)
+        @if($isVcamp && !$isShowLearners)
             <button type="submit" class="btn btn-danger btn-sm" onclick="userConnection()">指派</button>
         @else
             <button type="submit" class="btn btn-danger btn-sm" onclick="@if($isSettingCarer) setCarer() @else setGroup() @endif">儲存</button>
@@ -54,7 +54,7 @@
 
 <script>
     (function() {
-        @if($isCare)
+        @if($isShowLearners)
             axios({
                 method: 'get',
                 url: '/semi-api/getBatchGroups',

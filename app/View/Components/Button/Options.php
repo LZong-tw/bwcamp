@@ -15,8 +15,7 @@ class Options extends Component
     public function __construct(
         public bool $isIngroup = false,
         public bool $isVcamp = false,
-        public bool $isCare = false,
-        public bool $isCareV = false,
+        public bool $isShowLearners = false,
         public Batch|null $currentBatch = null,
     ) {
         //
