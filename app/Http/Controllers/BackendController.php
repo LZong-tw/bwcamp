@@ -953,6 +953,9 @@ class BackendController extends Controller {
 //            return "<h3>沒有權限：瀏覽所有學員</h3>";
 //        }
         $user = \App\Models\User::findOrFail(auth()->user()->id);
+        if ($request->isSettingCarer && (!$user->can("\App\Models\CarerApplicantXref.create") && $user->id != 1)) {
+            return "<h3>沒有權限：設定學員關懷員</h3>";
+        }
         if (!$user->hasPermission('\App\Models\Applicant.read') && $user->id != 1) {
             // todo: 要檢查到營隊
             return "<h3>沒有權限：瀏覽所有學員</h3>";
@@ -993,18 +996,20 @@ class BackendController extends Controller {
             $isSetting = 0;
         }
 
-        if($request->isSettingCarer && $request->batch_id) {
-            $carers = \App\Models\User::with('groupOrgRelation')
-            ->whereHas('groupOrgRelation', function ($query) use ($request) {
-                $query->where('batch_id', $request->batch_id)
-                    ->where('position', 'like', '%關懷小組第%');
-            })->get();
-        }
-        elseif($request->isSettingCarer) {
-            $carers = \App\Models\User::with('groupOrgRelation')->whereHas('groupOrgRelation', function ($query) {
-                $query->where('camp_id', $this->campFullData->id)
-                    ->where('position', 'like', '%關懷小組第%');
-            })->get();
+        if ($request->isSettingCarer) {
+            $org_id = $user->roles()->where('name', 'like', '%關懷小組第%')->get()->pluck('id');
+            if ($request->batch_id) {
+                $carers = \App\Models\User::with('groupOrgRelation')
+                    ->whereHas('groupOrgRelation', function ($query) use ($request, $org_id) {
+                        $query->where('batch_id', $request->batch_id)
+                            ->whereIn('org_id', $org_id);
+                    })->get();
+            } else {
+                $carers = \App\Models\User::with('groupOrgRelation')->whereHas('groupOrgRelation', function ($query) use ($org_id) {
+                    $query->where('camp_id', $this->campFullData->id)
+                        ->whereIn('org_id', $org_id);
+                })->get();
+            }
         }
 
         if(isset($request->download)) {
