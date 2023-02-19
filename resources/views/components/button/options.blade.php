@@ -8,7 +8,7 @@
                 &nbsp;&nbsp;
                 <a href="?isSetting=1&batch_id={{ $currentBatch?->id ?? "" }}" class="btn btn-danger mb-3">設定組別</a>
             @endif
-            @if(!$isShowLearnersV)                &nbsp;&nbsp;
+            @if(!$isShowLearners)                &nbsp;&nbsp;
                 <a href="?isSettingCarer=1" class="btn btn-danger mb-3">設定關懷員</a>
             @endif
         @elseif($isVcamp)
