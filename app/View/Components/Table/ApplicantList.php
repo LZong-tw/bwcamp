@@ -16,7 +16,7 @@ class ApplicantList extends Component
         public array|null $columns,
         public Collection|null $applicants,
         public bool $isSetting = false,
-        public bool $isVcamp = false,
+        public bool $isShowVolunteers = false,
         public bool $isShowLearners = false,
         public Collection|null $registeredVolunteers = null,
         public $isSettingCarer = null

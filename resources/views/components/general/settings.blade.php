@@ -1,14 +1,14 @@
 <div>
     <!-- Live as if you were to die tomorrow. Learn as if you were to live forever. - Mahatma Gandhi -->
     <span class="text-danger font-weight-bold">
-        @if($isVcamp)
+        @if($isShowVolunteers)
             <button type="submit" class="btn btn-success btn-sm" onclick="javascript:self.location='?isSetting=0&batch_id={{ request()->batch_id }}';"> << 返回義工名單</button>            &nbsp;&nbsp;
-            將所選義工設定為{{ ($isVcamp && $isShowLearners) ? '第' : '' }}
+            將所選義工設定為{{ ($isShowVolunteers && $isShowLearners) ? '第' : '' }}
         @else
             <button type="submit" class="btn btn-success btn-sm" onclick="javascript:self.location='?isSetting=0&batch_id={{ request()->batch_id }}';"> << 返回學員名單</button>            &nbsp;&nbsp;
         @endif
 
-        @if($isVcamp && !$isShowLearners)
+        @if($isShowVolunteers && !$isShowLearners)
             <select required name="volunteer_group" onChange="getPosition(this)" id="volunteerGroups">
                 <option value=''>- 請選擇 -</option>
             </select>
@@ -36,7 +36,7 @@
                     <option value="">本梯次沒有關懷員</option>
                 @endforelse
             </select>
-        @elseif(!$isVcamp)
+        @elseif(!$isShowVolunteers)
             將所選學員設定為第
             <select required name='attendee_group' onChange='' id="learnerGroups">
                 <option value=''>- 請選擇 -</option>
@@ -44,7 +44,7 @@
             組
         @endif
         &nbsp;&nbsp;
-        @if($isVcamp && !$isShowLearners)
+        @if($isShowVolunteers && !$isShowLearners)
             <button type="submit" class="btn btn-danger btn-sm" onclick="userConnection()">指派</button>
         @else
             <button type="submit" class="btn btn-danger btn-sm" onclick="@if($isSettingCarer) setCarer() @else setGroup() @endif">儲存</button>
