@@ -49,14 +49,11 @@
         選擇梯次：@foreach ($batches as $batch) <a href='?isSetting={{ $isSetting ?? 0 }}&isSettingCarer={{ $isSettingCarer ?? 0 }}&batch_id={{ $batch->id }}'>{{ $batch->name }}梯</a> @endforeach
         @if($batches->count() > 1) <a href='?isSetting={{ $isSetting }}&isSettingCarer={{ $isSettingCarer ?? 0 }}'>所有梯次</a> @endif
     </h5>
+    <x-button.options :$isShowVolunteers :$isShowLearners :currentBatch="$current_batch"/>
     @if(($isSettingCarer ?? false) || ($isSetting ?? false))
-    @else
-        <x-button.options :isIngroup="$is_ingroup" :isVcamp="$isShowVolunteers" :isShowLearners :currentBatch="$current_batch"/>
+        <x-general.settings :$isShowVolunteers :$isShowLearners :$batches :$isSettingCarer :$carers/>
     @endif
-    @if(($isSettingCarer ?? false) || ($isSetting ?? false))
-        <x-general.settings :isIngroup="$is_ingroup" :isVcamp="$isShowVolunteers" :isShowLearners :$batches :$isSettingCarer :$carers/>
-    @endif
-    <x-general.search-component :columns="$columns_zhtw" :camp="$campFullData" :$groups :currentBatch="$current_batch" :$queryStr :isShowLearners :$isShowVolunteers :queryRoles="$queryRoles ?? null" />
-    <x-table.applicant-list :columns="$columns_zhtw" :$applicants :isVcamp="$isShowVolunteers" :isShowLearners :$isSetting :registeredVolunteers="$registeredVolunteers ?? collect([])" :$isSettingCarer />
+    <x-general.search-component :columns="$columns_zhtw" :camp="$campFullData" :$groups :currentBatch="$current_batch" :$queryStr :$isShowLearners :$isShowVolunteers :queryRoles="$queryRoles ?? null" />
+    <x-table.applicant-list :columns="$columns_zhtw" :$applicants :$isShowVolunteers :$isShowLearners :$isSetting :registeredVolunteers="$registeredVolunteers ?? collect([])" :$isSettingCarer />
 @endif
 @endsection
