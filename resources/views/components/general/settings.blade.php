@@ -2,10 +2,10 @@
     <!-- Live as if you were to die tomorrow. Learn as if you were to live forever. - Mahatma Gandhi -->
     <span class="text-danger font-weight-bold">
         @if($isVcamp)
-            <button type="submit" class="btn btn-success btn-sm" onclick="javascript:self.location='?isSetting=0';"> << 返回義工名單</button>            &nbsp;&nbsp;
+            <button type="submit" class="btn btn-success btn-sm" onclick="javascript:self.location='?isSetting=0&batch_id={{ request()->batch_id }}';"> << 返回義工名單</button>            &nbsp;&nbsp;
             將所選義工設定為{{ ($isVcamp && $isShowLearners) ? '第' : '' }}
         @else
-            <button type="submit" class="btn btn-success btn-sm" onclick="javascript:self.location='?isSetting=0';"> << 返回學員名單</button>            &nbsp;&nbsp;
+            <button type="submit" class="btn btn-success btn-sm" onclick="javascript:self.location='?isSetting=0&batch_id={{ request()->batch_id }}';"> << 返回學員名單</button>            &nbsp;&nbsp;
         @endif
 
         @if($isVcamp && !$isShowLearners)
