@@ -954,10 +954,18 @@ class BackendController extends Controller {
 //        }
         $user = \App\Models\User::findOrFail(auth()->user()->id);
         view()->share('user', $user);
-        if ($request->isSettingCarer &&
-            (!($user->isAbleTo("\App\Models\CarerApplicantXref.create") || auth()->user()->isAbleTo("\App\Models\CarerApplicantXref.assign"))
-                && $user->id != 1)) {
-            return "<h3>沒有權限：設定學員關懷員</h3>";
+        $batches = Batch::where("camp_id", $this->campFullData->id)->get();
+        if ($request->isSettingCarer) {
+            if (!($user->isAbleTo("\App\Models\CarerApplicantXref.create") || auth()->user()->isAbleTo("\App\Models\CarerApplicantXref.assign"))
+                    && $user->id != 1) {
+                return "<h3>沒有權限：設定學員關懷員</h3>";
+            }
+            else {
+                // 小組長只能看自己被賦予的梯次
+                $batches = $batches->filter(static fn($batch) => $user->roles->filter(function ($role) use ($batch) {
+                    return $role->batch_id == $batch->id;
+                })->count() > 0);
+            }
         }
         if (!$user->isAbleTo('\App\Models\Applicant.read') && $user->id != 1) {
             // todo: 要檢查到營隊
@@ -977,7 +985,6 @@ class BackendController extends Controller {
             }
             $queryStr = $this->backendService->queryStringParser($payload, $request);
         }
-        $batches = Batch::where("camp_id", $this->campFullData->id)->get();
         $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", $this->campFullData->table . ".id as ''", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
                         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
