@@ -42,7 +42,7 @@
                                 {!! $role->assigned && !$role->isRemovable ? 'onclick="return false;"' : '' !!}
                             >
                             <span class="ml-2 {!! $role->assigned && !$role->isRemovable ? 'text-gray-600' : '' !!}">
-                                {{ $role->camp?->abbreviation }}{{ $role->display_name ?? $role->section . " " . $role->position }}
+                                @if($role->batch){{ $role->batch->name }}:&nbsp;@endif{{ $role->camp?->abbreviation }}{{ $role->display_name ?? $role->section . " " . $role->position }}
                             </span>
                         </label>
                     @endforeach
