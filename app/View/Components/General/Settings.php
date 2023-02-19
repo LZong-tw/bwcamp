@@ -16,7 +16,7 @@ class Settings extends Component
         public Collection $batches,
         public bool $isIngroup = false,
         public bool $isVcamp = false,
-        public bool $isCare = false,
+        public bool $isShowLearners = false,
         public bool $isSettingCarer = false,
         public $carers = null
     ) {

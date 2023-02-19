@@ -41,14 +41,8 @@
     <h3 class="font-weight-bold">{{ $fullName }} >>
         @if(($isSettingCarer ?? false) || ($isSetting ?? false)) 設定
         @else 瀏覽 @endif
-        {{ ($isShowVolunteers && $is_careV) ? '關懷組' : '' }}
+        {{ ($isShowVolunteers) ? '關懷組' : '' }}
         {{ ($isShowVolunteers) ? '義工' : '學員' }}@if(!($isSettingCarer ?? true))名單@else所屬關懷員@endif
-{{--        @if($is_ingroup && $groupName)--}}
-{{--            >> {{ $groupName }}--}}
-{{--        @endif--}}
-{{--        @if($is_careV)--}}
-{{--            >> 關懷員--}}{{-- {{ Auth::user()->name }} --}}
-{{--        @endif--}}
     </h3>
     <h4>目前名單為@if($current_batch){{  $current_batch->name . "梯次 / 場次" }}@else{{  "所有梯次 / 場次" }}@endif</h4>
     <h5>
@@ -57,22 +51,12 @@
     </h5>
     @if(($isSettingCarer ?? false) || ($isSetting ?? false))
     @else
-        <x-button.options :isIngroup="$is_ingroup" :isVcamp="$isShowVolunteers" :isCare="$is_care" :isCareV="$is_careV" :currentBatch="$current_batch"/>
-    @endif
-    @if($is_ingroup)
-    @else
-        @if($isShowVolunteers && !$is_care)
-{{--            <x-checkbox.position-groups :isCare="$is_care" />--}}
-        @else
-{{--            <x-checkbox.caring-groups :$batches />--}}
-        @endif
-{{--    <br>--}}
+        <x-button.options :isIngroup="$is_ingroup" :isVcamp="$isShowVolunteers" :isShowLearners :currentBatch="$current_batch"/>
     @endif
     @if(($isSettingCarer ?? false) || ($isSetting ?? false))
-        <x-general.settings :isIngroup="$is_ingroup" :isVcamp="$isShowVolunteers" :isCare="$is_care" :$batches :$isSettingCarer :$carers/>
+        <x-general.settings :isIngroup="$is_ingroup" :isVcamp="$isShowVolunteers" :isShowLearners :$batches :$isSettingCarer :$carers/>
     @endif
-    <x-general.search-component :columns="$columns_zhtw" :camp="$campFullData" :$groups :currentBatch="$current_batch" :$queryStr :isCare="$is_care" :$isShowVolunteers :queryRoles="$queryRoles ?? null" />
-    <x-table.applicant-list :columns="$columns_zhtw" :$applicants :isVcamp="$isShowVolunteers" :isCare="$is_care" :$isSetting :registeredVolunteers="$registeredVolunteers ?? collect([])" :$isSettingCarer />
+    <x-general.search-component :columns="$columns_zhtw" :camp="$campFullData" :$groups :currentBatch="$current_batch" :$queryStr :isShowLearners :$isShowVolunteers :queryRoles="$queryRoles ?? null" />
+    <x-table.applicant-list :columns="$columns_zhtw" :$applicants :isVcamp="$isShowVolunteers" :isShowLearners :$isSetting :registeredVolunteers="$registeredVolunteers ?? collect([])" :$isSettingCarer />
 @endif
-{{--  $is_care: 正在關懷學員  --}}
 @endsection
