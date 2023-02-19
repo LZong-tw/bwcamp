@@ -39,7 +39,7 @@
                 @if($type === 'role')
                     <label class="block mt-4">
                         <span class="text-gray-700">職務名稱</span>
-                        <div class="mt-1 block w-full">{{ $model->display_name ?? $model->section . ' ' . $model->position }}</div>
+                        <div class="mt-1 block w-full">@if($model->batch){{ $model->batch->name }}:&nbsp;@endif{{ $model->display_name ?? $model->section . ' ' . $model->position }}</div>
                     </label>
                 @endif
 

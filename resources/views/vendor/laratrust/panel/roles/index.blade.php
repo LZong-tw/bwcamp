@@ -32,7 +32,7 @@
                     {{$role->getKey()}}
                   </td>
                   <td class="td text-sm leading-5 text-gray-900">
-                    {{$role->display_name ?? $role->section . ' ' . $role->position }}
+                    @if($role->batch){{ $role->batch->name }}:&nbsp;@endif{{$role->display_name ?? $role->section . ' ' . $role->position }}
                   </td>
                   <td class="td text-sm leading-5 text-gray-900">
                     {{$role->name}}
