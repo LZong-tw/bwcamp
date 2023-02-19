@@ -965,6 +965,10 @@ class BackendController extends Controller {
                 $batches = $batches->filter(static fn($batch) => $user->roles->filter(function ($role) use ($batch) {
                     return $role->batch_id == $batch->id;
                 })->count() > 0);
+                if (!$request->batch_id) {
+                    $batch_id = $batches->first()->id;
+                    return redirect()->route('showLearners', ['camp_id' => $this->campFullData->id, 'batch_id' => $batch_id]);
+                }
             }
         }
         if (!$user->isAbleTo('\App\Models\Applicant.read') && $user->id != 1) {
