@@ -954,11 +954,11 @@ class BackendController extends Controller {
 //        }
         $user = \App\Models\User::findOrFail(auth()->user()->id);
         if ($request->isSettingCarer &&
-            (!($user->can("\App\Models\CarerApplicantXref.create") || auth()->user()->can("\App\Models\CarerApplicantXref.assign"))
+            (!($user->isAbleTo("\App\Models\CarerApplicantXref.create") || auth()->user()->isAbleTo("\App\Models\CarerApplicantXref.assign"))
                 && $user->id != 1)) {
             return "<h3>沒有權限：設定學員關懷員</h3>";
         }
-        if (!$user->hasPermission('\App\Models\Applicant.read') && $user->id != 1) {
+        if (!$user->isAbleTo('\App\Models\Applicant.read') && $user->id != 1) {
             // todo: 要檢查到營隊
             return "<h3>沒有權限：瀏覽任何學員</h3>";
         }
