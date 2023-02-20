@@ -1277,6 +1277,13 @@ class BackendController extends Controller {
                         $query->whereIn('batch_id', $batches->pluck('id'));
                     })->get();
             }
+            else {
+                $registeredUsers = $registeredUsers->whereHas('application_log',
+                    function ($query) use ($batches) {
+                        $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');
+                        $query->whereIn('batch_id', $batches->pluck('id'));
+                    })->get();
+            }
         }
         else {
             $registeredUsers = $registeredUsers->whereHas('application_log', function ($query) use ($batches) {
