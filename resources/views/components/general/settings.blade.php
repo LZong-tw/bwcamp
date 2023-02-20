@@ -23,7 +23,7 @@
                 <option value=''>- 請選擇 -</option>
                 @forelse($carers as $carer)
                     @php
-                        $query = $carer->groupOrgRelation()->where('position', 'like', '%關懷小組第%');
+                        $query = $carer->groupOrgRelation()->whereIn('org_id', $targetGroupIds);
                         if (request()->batch_id) {
                             $query = $query->where('batch_id', request()->batch_id);
                         }

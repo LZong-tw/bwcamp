@@ -1014,17 +1014,17 @@ class BackendController extends Controller {
         }
 
         if ($request->isSettingCarer) {
-            $org_id = $user->roles()->where('camp_org.position', 'like', '%關懷小組第%')->get()->pluck('id');
+            $target_group_ids = $user->roles()->where('camp_org.position', 'like', '%關懷小組第%')->get()->pluck('group_id');
             if ($request->batch_id) {
                 $carers = \App\Models\User::with('groupOrgRelation')
-                    ->whereHas('groupOrgRelation', function ($query) use ($request, $org_id) {
+                    ->whereHas('groupOrgRelation', function ($query) use ($request, $target_group_ids) {
                         $query->where('batch_id', $request->batch_id)
-                            ->whereIn('org_id', $org_id);
+                            ->whereIn('org_id', $target_group_ids);
                     })->get();
             } else {
-                $carers = \App\Models\User::with('groupOrgRelation')->whereHas('groupOrgRelation', function ($query) use ($org_id) {
+                $carers = \App\Models\User::with('groupOrgRelation')->whereHas('groupOrgRelation', function ($query) use ($target_group_ids) {
                     $query->where('camp_id', $this->campFullData->id)
-                        ->whereIn('org_id', $org_id);
+                        ->whereIn('org_id', $target_group_ids);
                 })->get();
             }
         }
@@ -1215,6 +1215,7 @@ class BackendController extends Controller {
                 ->with('fullName', $this->campFullData->fullName)
                 ->with('queryStr', $queryStr ?? null)
                 ->with('groups', $this->campFullData->groups)
+                ->with('targetGroupIds', $target_group_ids ?? null)
                 ->withInput($request->all());
     }
 
