@@ -1019,12 +1019,12 @@ class BackendController extends Controller {
                 $carers = \App\Models\User::with('groupOrgRelation')
                     ->whereHas('groupOrgRelation', function ($query) use ($request, $target_group_ids) {
                         $query->where('batch_id', $request->batch_id)
-                            ->whereIn('org_id', $target_group_ids);
+                            ->whereIn('group_id', $target_group_ids);
                     })->get();
             } else {
                 $carers = \App\Models\User::with('groupOrgRelation')->whereHas('groupOrgRelation', function ($query) use ($target_group_ids) {
                     $query->where('camp_id', $this->campFullData->id)
-                        ->whereIn('org_id', $target_group_ids);
+                        ->whereIn('group_id', $target_group_ids);
                 })->get();
             }
         }
