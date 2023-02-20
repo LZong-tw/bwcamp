@@ -18,7 +18,7 @@ class Settings extends Component
         public bool $isShowLearners = false,
         public bool $isSettingCarer = false,
         public $carers = null,
-        public targetGroupIds = null,
+        public $targetGroupIds = null,
     ) {
         //
     }
