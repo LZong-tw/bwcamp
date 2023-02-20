@@ -47,18 +47,21 @@ class BackendService
                 'batch_id' => $group->batch_id,
                 'section' => '關懷大組',
                 'position' => '關懷小組' . $group->alias . '小組長',
+                'group_id' => $group->id,
             ]);
             $campOrg2 = CampOrg::firstOrCreate([
                 'camp_id' => $batch->camp_id,
                 'batch_id' => $group->batch_id,
                 'section' => '關懷大組',
                 'position' => '關懷小組' . $group->alias . '副小組長',
+                'group_id' => $group->id,
             ]);
             $campOrg3 = CampOrg::firstOrCreate([
                 'camp_id' => $batch->camp_id,
                 'batch_id' => $group->batch_id,
                 'section' => '關懷大組',
                 'position' => '關懷小組' . $group->alias . '組員',
+                'group_id' => $group->id,
             ]);
         }
         return true;
