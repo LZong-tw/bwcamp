@@ -1018,8 +1018,11 @@ class BackendController extends Controller {
             if (!$target_group_ids && $user->isAbleTo('\App\Models\CarerApplicantXref.create')) {
                 $permission = $user->permissions->filter(static fn($permission) => $permission->name == '\App\Models\CarerApplicantXref.create')->first();
                 if ($permission->range == null || $permission->range == 'all') {
-                    $carers = \App\Models\User::with('groupOrgRelation')->whereHas('groupOrgRelation', function ($query) use ($target_group_ids) {
+                    $carers = \App\Models\User::with('groupOrgRelation')->whereHas('groupOrgRelation', function ($query) use ($request) {
                         $query->where('camp_id', $this->campFullData->id);
+                        if ($request->batch_id) {
+                            $query->where('batch_id', $request->batch_id);
+                        }
                     })->get();
                 }
             }
