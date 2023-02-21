@@ -1015,17 +1015,27 @@ class BackendController extends Controller {
 
         if ($request->isSettingCarer) {
             $target_group_ids = $user->roles()->where('camp_org.position', 'like', '%關懷小組第%')->get()->pluck('group_id');
-            if ($request->batch_id) {
-                $carers = \App\Models\User::with('groupOrgRelation')
-                    ->whereHas('groupOrgRelation', function ($query) use ($request, $target_group_ids) {
-                        $query->where('batch_id', $request->batch_id)
+            if (!$target_group_ids && $user->isAbleTo('\App\Models\CarerApplicantXref.create')) {
+                $permission = $user->permissions->filter(static fn($permission) => $permission->name == '\App\Models\CarerApplicantXref.create')->first();
+                if ($permission->range == null || $permission->range == 'all') {
+                    $carers = \App\Models\User::with('groupOrgRelation')->whereHas('groupOrgRelation', function ($query) use ($target_group_ids) {
+                        $query->where('camp_id', $this->campFullData->id);
+                    })->get();
+                }
+            }
+            else {
+                if ($request->batch_id) {
+                    $carers = \App\Models\User::with('groupOrgRelation')
+                        ->whereHas('groupOrgRelation', function ($query) use ($request, $target_group_ids) {
+                            $query->where('batch_id', $request->batch_id)
+                                ->whereIn('group_id', $target_group_ids);
+                        })->get();
+                } else {
+                    $carers = \App\Models\User::with('groupOrgRelation')->whereHas('groupOrgRelation', function ($query) use ($target_group_ids) {
+                        $query->where('camp_id', $this->campFullData->id)
                             ->whereIn('group_id', $target_group_ids);
                     })->get();
-            } else {
-                $carers = \App\Models\User::with('groupOrgRelation')->whereHas('groupOrgRelation', function ($query) use ($target_group_ids) {
-                    $query->where('camp_id', $this->campFullData->id)
-                        ->whereIn('group_id', $target_group_ids);
-                })->get();
+                }
             }
         }
 
