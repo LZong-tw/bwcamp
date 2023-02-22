@@ -100,5 +100,58 @@
             <input type="reset" value="清除篩選條件 - 顥示所有@if($isShowLearners && $isShowVolunteers)關懷員@elseif($isShowVolunteers)義工@else學員@endif" class="ml-3 btn btn-danger"  onclick="window.location=window.location.href">
         </form>
     @endif
+    <div class="alert alert-primary mt-3 mb-0">
+        @if ($groups && !$isShowVolunteers)
+            @php
+                foreach ($groups as $key => $group) {
+                    if ($currentBatch && $currentBatch->id != $group->batch->id) {
+                        $groups->forget($key);
+                    }
+                }
+            @endphp
+            @forelse($groups->values() as $key => $group)
+                @if($key % 4 == 0)<div class="row">@endif
+                    <span class="col-3">
+                        @if ($currentBatch && $currentBatch->id == $group->batch->id)
+                            {{ $group->alias }}: <span class="text-primary">{{ $applicants->filter(function ($applicant) use ($group) { return
+                    $applicant->group_id == $group->id && $applicant->gender == 'M'; })->count() }}</span> / <span class="text-danger">{{ $applicants->filter(function ($applicant) use ($group) { return
+                    $applicant->group_id == $group->id && $applicant->gender == 'F'; })->count() }}</span> / <span class="text-success">{{ $applicants->filter(function ($applicant) use ($group) { return
+                    $applicant->group_id == $group->id; })->count() }}</span>
+                            <br>
+                        @elseif (!$currentBatch)
+                            {{ $group->batch->name }}&nbsp;-&nbsp;{{ $group->alias }}: <span class="text-primary">{{ $applicants->filter(function ($applicant) use ($group) { return
+                    $applicant->group_id == $group->id && $applicant->gender == 'M'; })->count() }}</span> / <span class="text-danger">{{ $applicants->filter(function ($applicant) use ($group) { return
+                    $applicant->group_id == $group->id && $applicant->gender == 'F'; })->count() }}</span> / <span class="text-success">{{ $applicants->filter(function ($applicant) use ($group) { return
+                    $applicant->group_id == $group->id; })->count() }}</span>
+                            <br>
+                        @endif
+                    </span>
+                @if($key % 4 == 3 || $loop->last)</div>@endif
+            @empty
+            @endforelse
+        @elseif ($groups)
+            @php
+                foreach ($groups as $key => $group) {
+                    if ($group->position == 'root') {
+                        $groups->forget($key);
+                    }
+                }
+            @endphp
+            @forelse($groups->values() as $key => $group)
+                @if($key % 4 == 0)<div class="row">@endif
+                    <span class="col-3">
+                        @if($group->batch) {{ $group->batch->name }}&nbsp;-@endif
+                        @if(str_contains($group->position, "小組"))
+                            {{ $group->position }}: <span class="text-success">{{ $group->users->count() }}</span>
+                        @else
+                            {{ $group->section }}{{ $group->position }}: <span class="text-success">{{ $group->users->count() }}</span>
+                        @endif
+                        <br>
+                    </span>
+                @if($key % 4 == 3 || $loop->last)</div>@endif
+            @empty
+            @endforelse
+        @endif
+    </div>
 </div>
 

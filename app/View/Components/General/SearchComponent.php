@@ -23,6 +23,8 @@ class SearchComponent extends Component
         public bool|null $isShowLearners = null,
         public bool|null $isShowVolunteers = false,
         public $queryRoles = null,
+        public $applicants = [],
+        public $registeredVolunteers = [],
     ) { }
 
     /**
