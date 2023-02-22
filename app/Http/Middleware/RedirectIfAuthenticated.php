@@ -22,7 +22,7 @@ class RedirectIfAuthenticated
             if (auth()->user()->roles()->filter(static fn ($r) => $r->camp->year == now()->year)->count() == 1) {
                 foreach (auth()->user()->roles as $role) {
                     if ($role->camp->year == now()->year && str_contains($role->position, "關懷小組") && str_contains($role->position, "組員")) {
-                        $this->redirectTo = route("showLearners", $role->camp->id);
+                        return redirect(route("showLearners", $role->camp->id));
                     }
                 }
             }
