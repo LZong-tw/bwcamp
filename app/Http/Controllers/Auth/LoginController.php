@@ -30,4 +30,16 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    public function redirectPath()
+    {
+        if (auth()->user()->roles()->filter(static fn ($r) => $r->camp->year == now()->year)->count() == 1) {
+            foreach (auth()->user()->roles as $role) {
+                if ($role->camp->year == now()->year && str_contains($role->position, "關懷小組") && str_contains($role->position, "組員")) {
+                    return route("showLearners", $role->camp->id);
+                }
+            }
+        }
+        return property_exists($this, 'redirectTo') ? $this->redirectTo : '/home';
+    }
 }
