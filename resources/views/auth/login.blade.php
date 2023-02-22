@@ -14,7 +14,11 @@
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}?rstr{{ \Str::random() }}={{ \Str::random() }}">
+                    @if (request()->camp_id)
+                        <form method="POST" action="{{ route('login') }}?rstr{{ \Str::random() }}={{ \Str::random() }}&camp_id={{ request()->camp_id }}">
+                    @else
+                        <form method="POST" action="{{ route('login') }}?rstr{{ \Str::random() }}={{ \Str::random() }}">
+                    @endif
                         @csrf
                         <input type="hidden" name="rstr{{ \Str::random() }}" value="{{ \Str::random() }}">
                         <div class="form-group row">
