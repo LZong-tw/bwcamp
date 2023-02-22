@@ -34,7 +34,7 @@ class LoginController extends Controller
     public function redirectPath()
     {
         if (\App\Models\User::find(auth()->user()->id)->roles->filter(static fn ($r) => $r->camp->year == now()->year)->count() == 1) {
-            foreach (auth()->user()->roles as $role) {
+            foreach (\App\Models\User::find(auth()->user()->id)->roles as $role) {
                 if ($role->camp->year == now()->year && str_contains($role->position, "關懷小組") && str_contains($role->position, "組員")) {
                     return route("showLearners", $role->camp->id);
                 }
