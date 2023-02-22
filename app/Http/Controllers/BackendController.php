@@ -1030,6 +1030,7 @@ class BackendController extends Controller {
                         })->get());
                     }
                 }
+                $target_group_ids = $this->campFullData->organizations()->where('camp_org.position', 'like', '%關懷小組第%')->get()->pluck('group_id');
             }
             else {
                 if ($request->batch_id) {
