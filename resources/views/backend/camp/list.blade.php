@@ -71,8 +71,8 @@
                     <a href="{{ route("showModifyCamp", $camp->id) }}" class="btn btn-primary">編輯營隊</a>
                     <a href="{{ route("showBatch", $camp->id) }}" class="btn btn-success" target="_blank">梯次列表</a>
                     <!-- 義工營隊不需建組織 -->
-                    @if($camp->table != "ceovcamp")
-                    <a href="{{ route("showOrgs", $camp->id) }}" class="btn btn-secondary">組織列表</a>
+                    @if(!str_contains($camp->table, "vcamp"))
+                        <a href="{{ route("showOrgs", $camp->id) }}" class="btn btn-secondary">組織列表</a>
                     @endif
                 </td>
             </tr>
