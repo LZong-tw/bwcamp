@@ -23,7 +23,12 @@
                 <option value=''>- 請選擇 -</option>
                 @forelse($carers as $carer)
                     @php
-                        $query = $carer->groupOrgRelation()->whereIn('group_id', $targetGroupIds);
+                        if (count($targetGroupIds)) {
+                            $query = $carer->groupOrgRelation()->whereIn('group_id', $targetGroupIds);
+                        }
+                        else {
+                            $query = $carer->groupOrgRelation();
+                        }
                         if (request()->batch_id) {
                             $query = $query->where('batch_id', request()->batch_id);
                         }
