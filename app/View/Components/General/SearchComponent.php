@@ -15,7 +15,7 @@ class SearchComponent extends Component
      * @return void
      */
     public function __construct(
-        public array $columns,
+        public array|null $columns,
         public Camp|null $camp,
         public Collection|null $groups,
         public Batch|null  $currentBatch = null,
