@@ -1015,7 +1015,7 @@ class BackendController extends Controller {
 
         if ($request->isSettingCarer) {
             $target_group_ids = $user->roles()->where('camp_org.position', 'like', '%關懷小組第%')->get()->pluck('group_id');
-            if (!$target_group_ids && ($user->isAbleTo('\App\Models\CarerApplicantXref.create') || $user->isAbleTo('\App\Models\CarerApplicantXref.assign'))) {
+            if (!count($target_group_ids) && ($user->isAbleTo('\App\Models\CarerApplicantXref.create') || $user->isAbleTo('\App\Models\CarerApplicantXref.assign'))) {
                 $permissions = $user->permissions->filter(
                     static fn($permission) => $permission->name == '\App\Models\CarerApplicantXref.create' || $permission->name == '\App\Models\CarerApplicantXref.assign'
                 );
