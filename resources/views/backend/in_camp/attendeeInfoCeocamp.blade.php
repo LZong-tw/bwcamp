@@ -16,9 +16,13 @@
         </div>
     @endforeach
 @endif
+@if(session()->has('message'))
+    <div class='alert alert-success' role='alert'>
+        {{ session()->get('message') }}
+    </div>
+@endif
 @if(isset($applicant))
-    <h4>學員關懷系統</h4>
-    <h5>{{ $camp->fullName }}>>個人詳細資料>>{{ $applicant->name }}</h5>
+    <h4>{{ $camp->fullName }}>>個人詳細資料>>{{ $applicant->name }}</h4>
 
     <!-- 修改學員資料,使用報名網頁 -->
     <form target="_blank" action="{{ route('queryupdate', $batch->id) }}" method="post">
@@ -64,13 +68,15 @@
         </div>
         <div class="row d-flex justify-content-end">
             @if(!isset($applicant->is_attend))
-                狀態：<div class="mr-4 text-primary">未回覆。</div>
+                狀態：<div class="mr-4 text-primary">尚未聯絡。</div>
             @elseif($applicant->is_attend == 1)
                 狀態：<div class="mr-4 text-success">參加。</div>
             @elseif($applicant->is_attend == 0)
                 狀態：<div class="mr-4 text-danger">不參加。</div>
             @elseif($applicant->is_attend == 2)
-                狀態：<div class="mr-4 text-secondary">已聯絡未回應。</div>
+                狀態：<div class="mr-4 text-secondary">尚未決定。</div>
+            @elseif($applicant->is_attend == 3)
+                狀態：<div class="mr-4 text-secondary">聯絡不上。</div>
             @endif
         </div>
         <div class="row d-flex justify-content-end">
@@ -79,10 +85,30 @@
                 <input type="hidden" name="id" value="{{ $applicant->applicant_id ?? $applicant->id }}">
                 <label><input type="radio" name="is_attend" id="" value="0">不參加</label>
                 <label><input type="radio" name="is_attend" id="" value="1">參加</label>
-                <label><input type="radio" name="is_attend" id="" value="2">已聯絡未回應</label>
+                <label><input type="radio" name="is_attend" id="" value="2">尚未決定</label>
+                <label><input type="radio" name="is_attend" id="" value="3">聯絡不上</label>
                 <input class="btn btn-success" type="submit" value="修改參加狀態">
             </form>
         </div>
+    </div>
+
+    <div class="container alert alert-primary">
+        @if($applicant->groupRelation)
+            <div class="row">
+                <div class="col-md-8">
+                    {{ $applicant->groupRelation->alias }}
+                </div>
+                <div class="col-md-4">
+                    <a href="{{ route('deleteApplicantGroupAndNumber', [$camp->id, "applicant_id" => $applicant->id, "group_id" => $applicant->groupRelation->id]) }}" class="btn btn-danger">刪除</a>
+                </div>
+            </div>
+        @else
+            <div class="row">
+                <div class="col-md-12">
+                    此學員尚未分入任何組別
+                </div>
+            </div>
+        @endif
     </div>
     <br>
 

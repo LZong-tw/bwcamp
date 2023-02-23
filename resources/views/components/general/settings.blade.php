@@ -1,14 +1,14 @@
 <div>
     <!-- Live as if you were to die tomorrow. Learn as if you were to live forever. - Mahatma Gandhi -->
     <span class="text-danger font-weight-bold">
-        @if($isVcamp)
-            <button type="submit" class="btn btn-success btn-sm" onclick="javascript:self.location='?isSetting=0';"> << 返回義工名單</button>            &nbsp;&nbsp;
-            將所選義工設定為{{ ($isVcamp && $isCare) ? '第' : '' }}
+        @if($isShowVolunteers)
+            <button type="submit" class="btn btn-success btn-sm" onclick="javascript:self.location='?isSetting=0&batch_id={{ request()->batch_id }}';"> << 返回義工名單</button>            &nbsp;&nbsp;
+            將所選義工設定為{{ ($isShowVolunteers && $isShowLearners) ? '第' : '' }}
         @else
-            <button type="submit" class="btn btn-success btn-sm" onclick="javascript:self.location='?isSetting=0';"> << 返回學員名單</button>            &nbsp;&nbsp;
+            <button type="submit" class="btn btn-success btn-sm" onclick="javascript:self.location='?isSetting=0&batch_id={{ request()->batch_id }}';"> << 返回學員名單</button>            &nbsp;&nbsp;
         @endif
 
-        @if($isVcamp && !$isCare)
+        @if($isShowVolunteers && !$isShowLearners)
             <select required name="volunteer_group" onChange="getPosition(this)" id="volunteerGroups">
                 <option value=''>- 請選擇 -</option>
             </select>
@@ -22,12 +22,21 @@
             <select required name='attendee_care' onChange=''>
                 <option value=''>- 請選擇 -</option>
                 @forelse($carers as $carer)
-                    <option value='{{ $carer->id }}'>{{ $carer->name }}：{{ $carer->groupOrgRelation->first(fn($q) => str_contains($q->position, '關懷小組'))?->batch?->name }}</option>
+                    @php
+                        $query = $carer->groupOrgRelation()->whereIn('group_id', $targetGroupIds);
+                        if (request()->batch_id) {
+                            $query = $query->where('batch_id', request()->batch_id);
+                        }
+                        $carer->groupOrgRelation = $query->get();
+                    @endphp
+                    @foreach($carer->groupOrgRelation as $carer_position)
+                        <option value='{{ $carer->id }}'>{{ $carer_position->batch?->name }}：{{ $carer->name }}：{{ $carer_position->position }}</option>
+                    @endforeach
                 @empty
-                    <option value="">本梯次沒有關懷員</option>
+                    <option value="">本梯次或您所在的小組沒有關懷員</option>
                 @endforelse
             </select>
-        @elseif(!$isVcamp)
+        @elseif(!$isShowVolunteers)
             將所選學員設定為第
             <select required name='attendee_group' onChange='' id="learnerGroups">
                 <option value=''>- 請選擇 -</option>
@@ -35,7 +44,7 @@
             組
         @endif
         &nbsp;&nbsp;
-        @if($isVcamp && !$isCare)
+        @if($isShowVolunteers && !$isShowLearners)
             <button type="submit" class="btn btn-danger btn-sm" onclick="userConnection()">指派</button>
         @else
             <button type="submit" class="btn btn-danger btn-sm" onclick="@if($isSettingCarer) setCarer() @else setGroup() @endif">儲存</button>
@@ -45,7 +54,7 @@
 
 <script>
     (function() {
-        @if($isCare)
+        @if($isShowLearners)
             axios({
                 method: 'get',
                 url: '/semi-api/getBatchGroups',

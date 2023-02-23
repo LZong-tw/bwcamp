@@ -22,8 +22,7 @@
     </div>
 @endif
 @if(isset($applicant))
-    <h4>學員關懷系統</h4>
-    <h5>{{ $camp->fullName }}>>義工詳細資料>>{{ $applicant->name }}</h5>
+    <h4>{{ $camp->fullName }}>>義工詳細資料>>{{ $applicant->name }}</h4>
 
     <!-- 修改學員資料,使用報名網頁 -->
     @if(auth()->user()->can("\App\Models\Volunteer.update"))
@@ -77,10 +76,16 @@
     </div>
 
     <div class="container alert alert-primary">
-        @forelse($applicant->user->roles()->where('camp_id', $applicant->vcamp->mainCamp->id)->get() as $role)
+        @php
+            $roles = $applicant->user?->roles()->where('camp_id', $applicant->vcamp->mainCamp->id)->get();
+            if (!$roles) {
+                $roles = [];
+            }
+        @endphp
+        @forelse($roles as $role)
             <div class="row">
                 <div class="col-md-8">
-                    {{ $role->section }} - {{ $role->position }}
+                    {{ $role->batch?->name }}{{ $role->section }} - {{ $role->position }}
                 </div>
                 <div class="col-md-4">
                     <a href="{{ route('deleteUserRole', [$camp->id, "user_id" => $applicant->user->id, "role_id" => $role->id, "applicant_id" => $applicant->id]) }}" class="btn btn-danger">刪除</a>

@@ -82,7 +82,7 @@
             <div class='row form-group'>
                 <label for='inputName' class='col-md-2 control-label'>關聯之義工營</label>
                 <div class='col-md-6'>
-                    <select name="vcamp_id" id="" class='form-control' required>
+                    <select name="vcamp_id" id="" class='form-control'>
                         <option value="">請選擇</option>
                         @if($camp->vcamp)
                             <option value="{{ $camp->vcamp->id }}" selected>{{ $camp->vcamp->fullName }}</option>

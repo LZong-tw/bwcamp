@@ -1,7 +1,7 @@
 <template>
     <form method="post">
         <input type="hidden" name="_token" :value="csrf_token">
-        <input type="reset" value="清除篩選條件 - 顥示所有關懷員" class="btn btn-danger mb-3"  onclick="window.location=window.location.href" v-if="is_care && isShowVolunteers">
+        <input type="reset" value="清除篩選條件 - 顥示所有關懷員" class="btn btn-danger mb-3"  onclick="window.location=window.location.href" v-if="isShowLearners && isShowVolunteers">
         <input type="reset" value="清除篩選條件 - 顥示所有義工" class="btn btn-danger mb-3"  onclick="window.location=window.location.href" v-else-if="isShowVolunteers">
         <input type="reset" value="清除篩選條件 - 顥示所有學員" class="btn btn-danger mb-3"  onclick="window.location=window.location.href" v-else>
         <table class="table table-bordered table-hover">
@@ -53,7 +53,7 @@ export default {
             csrf_token: window.csrf_token,
             orFields: [],
             andFields: [],
-            is_care: window.is_care,
+            isShowLearners: window.isShowLearners,
             isShowVolunteers: window.isShowVolunteers
         };
     },
@@ -104,11 +104,14 @@ export default {
                     let theType = id == "roles" ? "section" : "position";
                     id = "roles";
                     let noGroupSet = false;
-                    console.log(id);
                     this.theVolunteersData.forEach((item, key) => {
                         for (let k = 0; k < item[id].length ; k++) {
                             let theEntity = item[id][k];
-                            if (unique.includes(item[id][k]["section"] + "-" + item[id][k]["position"]) && id != 'name') {
+                            console.log(item[id][k])
+                            if (item[id][k]["batch"] && unique.includes(item[id][k]["batch"]["name"] + ": " + item[id][k]["section"] + "-" + item[id][k]["position"]) && id != 'name') {
+                                continue;
+                            }
+                            else if (unique.includes(item[id][k]["section"] + "-" + item[id][k]["position"]) && id != 'name') {
                                 continue;
                             }
                             if (key == 0 && !noGroupSet) {
@@ -138,11 +141,17 @@ export default {
                                 checkbox.setAttribute("name", id + "[]");
                                 checkbox.setAttribute("value", theEntity["id"]);
                                 td.appendChild(checkbox);
-                                td.innerHTML += theEntity["section"] + "-" + theEntity["position"];
+                                if (theEntity["batch"]) {
+                                    td.innerHTML += theEntity["batch"]["name"] + ": " + theEntity["section"] + "-" + theEntity["position"];
+                                    unique.push(theEntity["batch"]["name"] + ": " + theEntity["section"] + "-" + theEntity["position"]);
+                                }
+                                else {
+                                    td.innerHTML += theEntity["section"] + "-" + theEntity["position"];
+                                    unique.push(theEntity["section"] + "-" + theEntity["position"]);
+                                }
                                 tr.appendChild(td);
                                 table.appendChild(tr);
                                 $("#searchField" + id).removeClass("d-none");
-                                unique.push(theEntity["section"] + "-" + theEntity["position"]);
                             }
                         }
                     });

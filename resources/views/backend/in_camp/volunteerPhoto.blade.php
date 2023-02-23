@@ -11,7 +11,7 @@
 </style>
 @if(isset($applicants))
     <h3>義工名冊：</h3>
-    共 {{ $applicants->count() }} 筆資料 <a href="{{ route("showAttendeePhoto", $campFullData->id) }}?download=1" target="_blank" rel="noopener noreferrer" class="btn btn-primary mb-3">將本頁下載為 PDF</a>
+    共 {{ $applicants->count() }} 筆資料 <a href="{{ route("showVolunteerPhoto", $campFullData->id) }}?download=1" target="_blank" rel="noopener noreferrer" class="btn btn-primary mb-3">將本頁下載為 PDF</a>
     <table class="table table-bordered table-hover">
         <thead>
             <tr>

@@ -11,7 +11,7 @@ class PositionGroups extends Component
      *
      * @return void
      */
-    public function __construct(public bool $isCare)
+    public function __construct(public bool $isShowLearners)
     {
         //
     }

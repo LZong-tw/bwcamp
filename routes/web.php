@@ -167,14 +167,13 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
     Route::get("/registration/showNotAdmitted", "BackendController@showNotAdmitted")->name("showNotAdmitted");
     Route::get("/registration/group/{batch_id}/{group}", "BackendController@showGroup")->name("showGroup");
     Route::get("/inCamp/trafficList", "BackendController@showTrafficList")->name("showTrafficList");
-    Route::get("/inCamp/attendeePhoto", "BackendController@showAttendeePhoto")->name("showAttendeePhoto");
-    Route::get("/inCamp/attendeeList", "BackendController@showAttendeeList")->name("showAttendeeList");
-    Route::get("/inCamp/attendeeAssign", "BackendController@showAttendeeAssign")->name("showAttendeeAssign");
+    Route::get("/inCamp/volunteerPhoto", "BackendController@showVolunteerPhoto")->name("showVolunteerPhoto");
 
     Route::get("/inCamp/queryAttendee", "BackendController@queryAttendee")->name("queryAttendee");
     Route::get("/inCamp/attendeeInfo", "BackendController@showAttendeeInfo")->name("showAttendeeInfoGET");
     Route::post("/inCamp/attendeeInfo", "BackendController@showAttendeeInfo")->name("showAttendeeInfo");
     Route::get("/inCamp/deleteUserRole", "BackendController@deleteUserRole")->name("deleteUserRole");
+    Route::get("/inCamp/deleteApplicantGroupAndNumber", "BackendController@deleteApplicantGroupAndNumber")->name("deleteApplicantGroupAndNumber");
     //Remark
     Route::post("/remark/edit", [BackendController::class, "editRemark"])->name("editRemark");
     //Contact Log
