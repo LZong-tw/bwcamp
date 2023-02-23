@@ -35,4 +35,9 @@ class CampOrg extends LaratrustRole
     public function next() {
         return $this->belongsTo('App\Models\CampOrg', 'camp_id', 'camp_id')->where('section', '>', $this->section)->orderBy('section', 'asc');
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'org_user', 'org_id', 'user_id');
+    }
 }

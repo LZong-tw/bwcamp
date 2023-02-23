@@ -31,7 +31,7 @@
                         <th class="text-center" data-field="carer" data-sortable="1">關懷員</th>
                     @elseif($key == "carer" && $isSettingCarer)
                         @continue
-                    @elseif(!$isVcamp && !$isCare && $key == "contactlog")
+                    @elseif(!$isShowVolunteers && !$isShowLearners && $key == "contactlog")
                     @else
                         <th class="text-center" data-field="{{ $key }}" data-sortable="{{ $item['sort'] }}">{{ $item['name'] }}</th>
                     @endif
@@ -40,7 +40,7 @@
         </thead>
         @forelse ($registeredVolunteers as $user)
             @forelse($user->application_log as &$applicant)
-                <tr @if($applicant->deleted_at) style="color: rgba(120, 120, 120, 0.6)!important" @endif>
+                <tr @if($applicant->deleted_at) style="color: rgba(120, 120, 120, 0.4)!important" @endif>
                     @if($isSetting ?? false)
                         <td class="text-center">
                             <input type="checkbox" name="applicants[]" class="applicants_selector" value="{{ $user->id }}"  id="U{{ $user->id }}" onclick="applicant_triggered(this.id)">
@@ -58,39 +58,41 @@
                             <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($user->application_log->first()->avatar)) }}" width=80 alt="{{ $applicant->name }}"></td>
                         @elseif($key == "name")
                             <td>
-                                <a href="{{ route('showAttendeeInfoGET', ($isVcamp ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->id }}" target="_blank">{{ $applicant->name }}</a>
+                                <a href="{{ route('showAttendeeInfoGET', ($isShowVolunteers ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->id }}" target="_blank">{{ $applicant->name }}</a>
                                 <div class="text-success">連結之帳號：{{ $applicant->user->name }}({{ $applicant->user->email }})</div>
                             </td>
                         @elseif($key == "avatar" && !$applicant->avatar)
                             <td>no photo</td>
                         @elseif($key == "gender")
                             <td>{{ $applicant->gender_zh_tw }}</td>
-                        @elseif($isVcamp && $key == "roles")
-                            <td>@foreach($applicant->user->roles as $role) {{ $role->section }}<br> @endforeach</td>
-                        @elseif($isVcamp && $key == "group")
-                            <td>@foreach($applicant->user->roles as $role) {{ $role->section }}<br> @endforeach</td>
-                        @elseif($isVcamp && $key == "position")
+                        @elseif($isShowVolunteers && $key == "roles")
+                            <td>@foreach($applicant->user->roles as $role) {{ $role->batch?->name }} {{ $role->section }}<br> @endforeach</td>
+                        @elseif($isShowVolunteers && $key == "group")
+                            <td>@foreach($applicant->user->roles as $role) {{ $role->batch?->name }} {{ $role->section }}<br> @endforeach</td>
+                        @elseif($isShowVolunteers && $key == "position")
                             <td>@foreach($applicant->user->roles as $role) {{ $role->position }}<br> @endforeach</td>
-                        @elseif(!$isVcamp && !$isCare && $key == "contactlog")
+                        @elseif(!$isShowVolunteers && !$isShowLearners && $key == "contactlog")
                         @elseif($key == "is_attend")
                             @if($applicant->$key == 1)
                                 <td>參加</td>
                             @elseif($applicant->$key === 0)
                                 <td>不參加</td>
                             @elseif($applicant->$key === 2)
-                                <td>已聯絡未回應</td>
+                                <td>尚未決定</td>
+                            @elseif($applicant->$key === 3)
+                                <td>聯絡不上</td>
                             @else
-                                <td>未回覆</td>
+                                <td>尚未聯絡</td>
                             @endif
                         @elseif($key == "reasons_recommend")
                             <td>
                                 {{ Str::limit($applicant->$key, 100,'...') ?? "-" }}
                             </td>
-                        @elseif($key == "contactlog" && !$isVcamp)
+                        @elseif($key == "contactlog" && !$isShowVolunteers)
                             <td>
                                 {{ Str::limit($applicant->contactlog?->sortByDesc('id')->first()?->notes, 50,'...') ?? "-" }}
                                 <div>
-                                    <a href="{{ route('showAttendeeInfoGET', ($isVcamp ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->id }}#new" target="_blank">⊕新增關懷紀錄</a>
+                                    <a href="{{ route('showAttendeeInfoGET', ($isShowVolunteers ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->id }}#new" target="_blank">⊕新增關懷紀錄</a>
                                     @if(count($applicant->contactlog))
                                         &nbsp;&nbsp;
                                         <a href="{{ route('showContactLogs', [$campFullData->id, $applicant->id]) }}" target="_blank">🔍看更多</a>
@@ -109,7 +111,7 @@
         @empty
         @endforelse
         @forelse ($applicants as &$applicant)
-            <tr @if($applicant->deleted_at) style="color: rgba(120, 120, 120, 0.6)!important" @endif>
+            <tr @if($applicant->deleted_at) style="color: rgba(120, 120, 120, 0.4)!important" @endif>
                 @if(($isSetting ?? false) || ($isSettingCarer ?? false))
                     <td class="text-center">
                         <input type="checkbox" name="applicants[]" class="applicants_selector" value="{{ $applicant->sn }}"  id="A{{ $applicant->sn }}" onclick="applicant_triggered(this.id)">
@@ -135,7 +137,7 @@
                         <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($applicant->avatar)) }}" width=80 alt="{{ $applicant->name }}"></td>
                     @elseif($key == "name")
                         <td>
-                            <a href="{{ route('showAttendeeInfoGET', ($isVcamp ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->applicant_id }}" target="_blank">{{ $applicant->name }}</a>
+                            <a href="{{ route('showAttendeeInfoGET', ($isShowVolunteers ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->applicant_id }}" target="_blank">{{ $applicant->name }}</a>
                             @if($applicant->user)
                                 <div class="text-success">連結之帳號：{{ $applicant->user->name }}({{ $applicant->user->email }})</div>
                             @endif
@@ -146,11 +148,21 @@
                         <td>{{ $applicant->gender_zh_tw }}</td>
                     @elseif($key == "batch")
                         <td>{{ $applicant->batch->name }}</td>
-                    @elseif($isVcamp && $key == "group" && isset($applicant->groupOrgRelation->section))
+                    @elseif($isShowVolunteers && $key == "group" && isset($applicant->groupOrgRelation->section))
                         <td>{{ $applicant->groupOrgRelation?->section }}</td>
-                    @elseif(!$isVcamp && !$isCare && $key == "contactlog")
+                    @elseif(!$isShowVolunteers && !$isShowLearners && $key == "contactlog")
                     @elseif($isSettingCarer && ($key == 'participation_mode'))
-                        <td>{{ $applicant->is_attend ?? "-" }}</td>
+                        <td>
+                            @if($applicant->is_attend == 1)
+                                參加
+                            @elseif($applicant->is_attend === 0)
+                                不參加
+                            @elseif($applicant->is_attend === 2)
+                                已聯絡未回應
+                            @else
+                                未回覆
+                            @endif
+                        </td>
                         <td>{{ $applicant->participation_mode ?? "-" }}</td>
                     @elseif($key == "is_attend")
                         @if($applicant->$key == 1)
@@ -168,11 +180,11 @@
                         </td>
                     @elseif($key == "carer" && $isSettingCarer)
                         @continue
-                    @elseif($key == "contactlog" && !$isVcamp)
+                    @elseif($key == "contactlog" && !$isShowVolunteers)
                         <td>
                             {{ Str::limit($applicant->contactlog?->sortByDesc('id')->first()?->notes, 50,'...') ?? "-" }}
                             <div>
-                                <a href="{{ route('showAttendeeInfoGET', ($isVcamp ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->applicant_id }}#new" target="_blank">⊕新增關懷紀錄</a>
+                                <a href="{{ route('showAttendeeInfoGET', ($isShowVolunteers ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->applicant_id }}#new" target="_blank">⊕新增關懷紀錄</a>
                                 @if(count($applicant->contactlog))
                                     &nbsp;&nbsp;
                                     <a href="{{ route('showContactLogs', [$campFullData->id, $applicant->id]) }}" target="_blank">🔍看更多</a>
@@ -193,17 +205,23 @@
     window.applicant_ids = [];
     window.csrf_token = "{{ csrf_token() }}";
     window.columns = @json($columns);
-    window.theData = @json($applicants);
     @if($registeredVolunteers ?? false)
-        @foreach($registeredVolunteers as &$v)
-            @php
-                $v->roles = $v->roles;
-            @endphp
-        @endforeach
         window.theVolunteersData = @json($registeredVolunteers);
+        @php
+            $users_applicants = [];
+            foreach ($registeredVolunteers as $v) {
+                if ($v->application_log) {
+                    foreach ($v->application_log as $a) {
+                        $users_applicants[] = $a;
+                    }
+                }
+            }
+            $applicants = collect($users_applicants)->merge($applicants);
+        @endphp
     @endif
-    window.is_care = {{ $isCare ? 1 : 0 }};
-    window.isShowVolunteers = {{ $isVcamp ? 1 : 0 }};
+    window.theData = @json($applicants);
+    window.isShowLearners = {{ $isShowLearners ? 1 : 0 }};
+    window.isShowVolunteers = {{ $isShowVolunteers ? 1 : 0 }};
     (function() {
     })();
 
