@@ -30,6 +30,18 @@
         @endif
     </div>
 
+{{-- 使用舊資料報名：如果有batch_id_from參數的話(今年限2021&2022企業營，但沒有寫這個條件) --}}
+@if(isset($batch_id_from))
+<hr>
+    <form action="{{ route('formCopy', $batch_id_from) }}" method="POST">
+        @csrf
+        <input type="hidden" name="batch_id_ori" value="{{ $batch_id }}">
+        <input type="hidden" name="batch_id_copy" value="{{ $batch_id_from }}">
+        <input type="hidden" name="applicant_id_ori" value="{{ $applicant_id }}">
+        <input type="submit" class="btn btn-success" value="使用此資料報名{{ $camp_abbr_from }}">
+    </form>
+<hr>
+@endif
 
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
 @if(!isset($isModify) || $isModify)

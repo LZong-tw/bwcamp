@@ -7,7 +7,7 @@
         </div>
     @endforeach
 @endif
-<form method="post" action="{{ route("queryview", $batch_id) }}" name="QueryRegis" class="form-horizontal">
+<form method="post" action="{{ route('queryview', $batch_id) }}" name="QueryRegis" class="form-horizontal">
     @csrf
     <div class="page-header form-group">
         <h4>報名資料查詢</h4>
@@ -15,17 +15,15 @@
     <div class='row form-group'>
         <label for='inputName' class='col-md-2'>姓名</label>
         <div class='col-md-10'>
-            <input type='text' name='name' class='form-control' id='inputName' placeholder='' value='{{ old('name') }}' required>
+            <input type='text' name='name' class='form-control' id='inputName' placeholder='' value="{{ old('name') }}" required>
         </div>
     </div>
-
     <div class="row form-group">
         <label for='inputSN' class='col-md-2'>報名序號</label>
         <div class='col-md-10'>
-            <input type='text' name='sn' class='form-control' id='inputSN' maxlength=5 placeholder='' value='{{ old('sn') }}' required>
+            <input type='text' name='sn' class='form-control' id='inputSN' maxlength=5 placeholder='' value="{{ old('sn') }}" required>
         </div>
     </div>
-
     {{-- <div class="row form-group">
         <label for='inputRecap' class='col-md-2 control-label'></label>
         <div class='col-md-8'>
@@ -34,7 +32,6 @@
         </script>
         </div>
     </div> --}}
-
     <!--- 確認送出 -->
     <div class=row>
         <div class='col-md-4'></div>
