@@ -16,25 +16,19 @@
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }}線上報名表</h4>
     </div>
-{{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
 
-<hr>
-    @if(!isset($isModify) || $isModify)
+{{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態；只在報名時提供載入舊資料選項 --}}
+    @if(!isset($isModify))
+    <hr>
     <h5>
-    <a href="{{ route('query', 58) }}" class="text-info">查詢並使用 *2022年菁英營* 報名資料</a>
+    <a href="{{ route('query', 51) }}?batch_id_from={{ $batch_id }}" class="text-info">查詢並使用 *2022年企業營* 報名資料</a>
     <br>
-    <a href="{{ route('query', 50) }}" class="text-info">查詢並使用 *2022年菁英營義工* 報名資料</a>
+    <a href="{{ route('query', 28) }}?batch_id_from={{ $batch_id }}" class="text-info">查詢並使用 *2021年企業營* 報名資料</a>
     </h5>
-    @else
-    <form action="{{ route('formCopy', $batch_id) }}" method="POST">
-        @csrf
-        <input type="hidden" name="batch_id_ori" value="{{ $batch_id }}">
-        <input type="hidden" name="batch_id_copy" value=82>
-        <input type="hidden" name="applicant_id_ori" value="{{ $applicant_id }}">
-        <input type="submit" class="btn btn-success" value="使用此資料報名2023年菁英營義工">
-    </form>
+    <hr>
     @endif
-<hr>
+
+{{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
 @if(!isset($isModify) || $isModify)
     <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form' enctype="multipart/form-data">
 {{-- 以上皆非: 檢視資料狀態 --}}
@@ -51,7 +45,7 @@
     <div class='row form-group'>
         <label for='inputBatch' class='col-md-2 control-label text-md-right'>營隊梯次</label>
         <div class='col-md-10'>
-            @if(isset($applicant_data))
+            @if(isset($applicant_data) && !isset($useOldData2Register))
                 <h3>{{ $applicant_raw_data->batch->name }} {{ $applicant_raw_data->batch->batch_start }} ~ {{ $applicant_raw_data->batch->batch_end }} </h3>
                 <input type='hidden' name='applicant_id' value='{{ $applicant_id }}'>
                 <input type="hidden" name="region" value="@foreach($regions as $r) @if(\Str::contains($applicant_raw_data->batch->name, $r)){{ $r }} @break @endif @endforeach">
@@ -61,7 +55,8 @@
             @endif
         </div>
     </div>
-    @if(isset($isModify))
+    {{-- 如果有useOldData2Register 變數，表示用舊資料新報名，不顯示報名日期 --}}
+    @if(isset($isModify) && !isset($useOldData2Register))
         <div class='row form-group'>
             <label for='inputBatch' class='col-md-2 control-label text-md-right'>報名日期</label>
             <div class='col-md-10'>
@@ -160,7 +155,7 @@
         <div class='col-md-10'>
             <div class="form-check form-check-inline">
                 <label class="form-check-label" for="M">
-                    <input class="form-check-input" type="radio" name="gender" value="M" required @if(isset($isModify) && $isModify) disabled @endif>
+                    <input class="form-check-input" type="radio" name="gender" value="M" required>
                     男
                     <div class="invalid-feedback">
                         請選擇性別
@@ -169,7 +164,7 @@
             </div>
             <div class="form-check form-check-inline">
                 <label class="form-check-label" for="F">
-                    <input class="form-check-input" type="radio" name="gender" value="F" required @if(isset($isModify) && $isModify) disabled @endif>
+                    <input class="form-check-input" type="radio" name="gender" value="F" required>
                     女
                     <div class="invalid-feedback">
                         &nbsp;
@@ -680,11 +675,14 @@
         <div class='col-md-10'>
             {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態--}}
             @if(!isset($isModify) || $isModify)
+                @if(isset($useOldData2Register))
+                <input type="hidden" name="useOldData2Register" value="1">
+                @endif
                 <input type='button' class='btn btn-success' value='確認送出' data-toggle="confirmation">
-            {{--
+                {{--
                 <input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>
                 <input type='reset' class='btn btn-danger' value='清除再來'>
-            --}}
+                --}}
             {{-- 以上皆非: 檢視資料狀態 --}}
             @else
                 <input type="hidden" name="sn" value="{{ $applicant_id }}">
@@ -1012,7 +1010,7 @@
                         inputs[i].value = complementData ? complementData[complementPivot] : null;
                         complementPivot++;
                     }
-                    else if(inputs[i].type == "text"){
+                    else if(inputs[i].type == "text" && typeof applicant_data[inputs[i].name] !== "undefined"){
                         inputs[i].value = applicant_data[inputs[i].name]; 
                     }
                     if(inputs[i].name == 'emailConfirm'){
