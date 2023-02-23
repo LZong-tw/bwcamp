@@ -75,7 +75,7 @@
                     for (let i = 0; i < groups.length; i++) {
                         let option = document.createElement('option');
                         option.value = groups[i][1]['id'];
-                        option.text = groups[i][1]['alias'];
+                        option.text = groups[i][1]['name'];
                         select.appendChild(option);
                     }
                 }

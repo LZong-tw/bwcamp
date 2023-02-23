@@ -18,13 +18,24 @@ class SemiApiController extends Controller
     public function getBatchGroups(Request $request)
     {
         $campId = $request->input('camp_id');
-        $groups = $this->backendService
-                    ->getBatchGroups(Camp::findOrFail($campId))
-                    ->filter(function ($batch) use ($request) {
-                        return $batch->id == $request->input('batch_id');
-                    })
-                    ->first()
-                    ->groups;
+        $batchGroups = $this->backendService
+                    ->getBatchGroups(Camp::findOrFail($campId));
+        if ($request->input('batch_id')) {
+            $groups = $batchGroups->filter(function ($batch) use ($request) {
+                    return $batch->id == $request->input('batch_id');
+                })->first()->groups;
+        }
+        else {
+            $groups = $batchGroups->map(function ($batch) {
+                return $batch->groups;
+            })->flatten();
+        }
+        $groups = $groups->map(function ($group) {
+            return [
+                'id' => $group->id,
+                'name' => $group->batch->name . ": " . $group->alias,
+            ];
+        });
         return response()->json($groups);
     }
 
