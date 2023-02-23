@@ -16,7 +16,7 @@ class Camp extends Model
         'fullName', 'test', 'abbreviation', 'site_url', 'icon', 'table', 'year', 'variant', 'mode', 'registration_start', 'registration_end', 'admission_announcing_date', 'admission_confirming_end','needed_to_reply_attend' , 'final_registration_end', 'payment_startdate', 'payment_deadline', 'fee', 'has_early_bird', 'early_bird_fee', 'early_bird_last_day', 'modifying_deadline', 'cancellation_deadline', 'access_start', 'access_end'
     ];
 
-    public $resourceNameInMandarin = '營隊資料';
+    public $resourceNameInMandarin = '學員營隊資料';
 
     protected $guarded = [];
 
