@@ -28,7 +28,7 @@
     <hr>
     @endif
 
-    {{-- 使用舊資料報名：如果有batch_id_from參數的話(今年限2021&2022企業營，但沒有寫這個條件) --}}
+    {{-- 使用舊資料報名：如果有batch_id_from參數的話 --}}
     @if(isset($batch_id_from))
     <hr>
     <form action="{{ route('formCopy', $batch_id_from) }}" method="POST">
@@ -46,7 +46,7 @@
     <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form' enctype="multipart/form-data">
 {{-- 以上皆非: 檢視資料狀態 --}}
 @else
-    <form action="{{ route("queryupdate", $applicant_batch_id) }}" method="post" class="d-inline">
+    <form action="{{ route('queryupdate', $applicant_batch_id) }}" method="post" class="d-inline">
 @endif
     @csrf
     <div class='row form-group'>
@@ -991,6 +991,7 @@
                 let complementPivot = 0;                
                 let complementData = applicant_data["blisswisdom_type_complement"] ? applicant_data["blisswisdom_type_complement"].split("||/") : null; 
                 // console.log(inputs); 
+                console.log(applicant_data);
                 for (var i = 0; i < inputs.length; i++){
                     if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox"){
                         if(inputs[i].type == "radio"){
