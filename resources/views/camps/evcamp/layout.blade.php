@@ -4,11 +4,11 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name='description' content='邀請您報名菁英營義工。' />
+    <meta name='description' content='邀請您報名企業營義工。' />
     <meta name='author' content='福智文教基金會'>
     <meta property='og:url' content='https://bwfoce.org/'/>
     <meta property='og:title' content='{{ $camp_data->abbreviation }}'/>
-    <meta property='og:description' content='邀請您報名菁英營義工。' />
+    <meta property='og:description' content='邀請您報名企業營義工。' />
     {{-- <meta property='og:image' content=''/> --}}
     {{-- <link rel='icon' href='/camp/favicon.ico'> --}}
     <title> {{ $camp_data->fullName }} </title>

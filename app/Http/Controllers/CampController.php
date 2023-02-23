@@ -251,12 +251,17 @@ class CampController extends Controller
         ->where('applicants.id', $applicantIdOri)->withTrashed()->first();
 
         View::share('camp_data', $campCopy);    //replace camp_data
+        
+        $applicant_data = $applicantOri->toJson();
+        $applicant_data = str_replace("\\r", "", $applicant_data);
+        $applicant_data = str_replace("\\n", "", $applicant_data);
+        $applicant_data = str_replace("\\t", "", $applicant_data);
 
         //先不複製，是把資料填到"campCopy"表中顯示，由user自己按報名。
         return view('camps.' . $campCopy->table . '.form')
         //->with('applicant_id', $applicantOri->applicant_id)
         //->with('applicant_batch_id', $applicantOri->batch_id)   //??
-        ->with('applicant_data', $applicantOri)                 //處理過一些空白字元的版本
+        ->with('applicant_data', $applicant_data)                 //處理過一些空白字元的版本
         ->with('applicant_raw_data', $applicantOri)             //資料庫抓出的原始資料,已join
         ->with('isModify', true)
         ->with('useOldData2Register', true)                     //新增：使用舊資料報名

@@ -9,6 +9,10 @@
 @endif
 <form method="post" action="{{ route('queryview', $batch_id) }}" name="QueryRegis" class="form-horizontal">
     @csrf
+    {{-- 如果有batch_id_from參數，表示是從報名網站傳過來的，就繼續pass下去 --}}
+    @if(isset($batch_id_from))
+        <input type="hidden" name="batch_id_from" value="{{ $batch_id_from }}">
+    @endif
     <div class="page-header form-group">
         <h4>報名資料查詢</h4>
     </div>
@@ -42,6 +46,7 @@
     </div>
 </form>
 
+@if(!isset($batch_id_from))
 <form method="post" action="{{ route("queryupdate", $batch_id) }}" name="updateRegis" class="form-horizontal">
     @csrf
     <input type="hidden" name="isModify" value="1">
@@ -80,6 +85,7 @@
         </div>
     </div>
 </form>
+@endif
 
 <form method="post" name="QuerySN" action="{{ route("querysn", $batch_id) }}" class="form-horizontal">
     @csrf
