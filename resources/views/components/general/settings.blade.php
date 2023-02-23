@@ -60,7 +60,7 @@
                 url: '/semi-api/getBatchGroups',
                 params: {
                     camp_id: {{ request()->route('camp_id') }},
-                    batch_id: {{ request()->input('batch') ?? $batches->first()?->id ?? '' }},
+                    batch_id: {{ request()->batch_id }},
                 },
                 responseType: 'json'
             })
