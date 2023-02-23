@@ -10,5 +10,5 @@ class Team extends LaratrustTeam
 
     public $guarded = [];
 
-    public $resourceNameInMandarin = '職務權限組別';
+    public $resourceNameInMandarin = '職務權限組別（未使用）';
 }
