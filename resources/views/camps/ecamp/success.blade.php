@@ -16,6 +16,7 @@
             <form action="{{ route("queryview", $applicant->batch_id) }}" method="post" class="d-inline">
                 @csrf
                 <input type="hidden" name="sn" value="{{ $applicant->id }}">
+                <input type="hidden" name="name" value="{{ $applicant->name }}">
                 <button class="btn btn-primary">檢視報名資料</button>
             </form>
             <a href="{{ $camp_data->site_url }}" class="btn btn-primary">回營隊首頁</a>

@@ -103,7 +103,7 @@ class CampController extends Controller
         }
 
         // 修改資料
-        if (isset($request->applicant_id)) {
+        if (isset($request->applicant_id) && !isset($request->useOldData2Register)) {
             $request = $this->campDataService->checkBoxToArray($request);
             $formData = $request->toArray();
             $formData = $this->campDataService->handleRegion($formData, $this->camp_data->table, $this->camp_data->id);
@@ -160,14 +160,16 @@ class CampController extends Controller
         }
         // 營隊報名
         else {
+            //dd($this->camp_data->id);
             $applicant = Applicant::select('applicants.*')
                 ->join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')
-                ->join('batchs', function($query) {
-                    $query->on('batchs.camp_id', '=', 'camps.id')
-                            ->on('batchs.id', '=', 'applicants.batch_id');
-                })
-                ->join('camps', 'camps.id', '=', 'batchs.camp_id')
-                ->where('camps.id', $this->camp_data->id)
+                ->join('batchs', 'applicants.batch_id', '=', 'batchs.id')
+                //->join('batchs', function($query) {
+                //    $query->on('batchs.camp_id', '=', 'camps.id')
+                //            ->on('batchs.id', '=', 'applicants.batch_id');
+                //})
+                //->join('camps', 'camps.id', '=', 'batchs.camp_id')
+                ->where('batchs.camp_id', $this->camp_data->id)
                 ->where('applicants.name', $request->name)
                 ->where('email', $request->email)
                 ->withTrashed()->first();
@@ -237,14 +239,18 @@ class CampController extends Controller
         $batchOri = Batch::find($formData['batch_id_ori']);
         $campOri = $batchOri->camp;
         $modelOri = '\\App\\Models\\' . ucfirst($campOri->table);
+        $campTableOri = $campOri->table;
 
         $batchCopy = Batch::find($formData['batch_id_copy']);
         $campCopy = $batchCopy->camp;
         $modelCopy = '\\App\\Models\\' . ucfirst($campCopy->table);
 
         $applicantIdOri = $formData['applicant_id_ori'];
-        $applicantOri = Applicant::find($applicantIdOri);
+        $applicantOri = Applicant::select('applicants.*', $campTableOri . '.*')
+        ->join($campTableOri, 'applicants.id', '=', $campTableOri . '.applicant_id')
+        ->where('applicants.id', $applicantIdOri)->withTrashed()->first();
 
+        /*
         //檢查要複製去的營隊是否已有報名資料
         //檢查同營隊的不同梯
         $batches = $campCopy->batchs;
@@ -257,10 +263,9 @@ class CampController extends Controller
                 ->count();
             //如果num_applicants不為零，才把資料抓出來，並且break
             if ($num_applicants) {
-                /*
-                $applicantCheck = Applicant::select('applicants.*', ($campCopy->table) . '.*')
-                ->join($campCopy->table, 'applicants.id', '=', $campCopy->table . '.applicant_id')
-                */
+                //$applicantCheck = Applicant::select('applicants.*', ($campCopy->table) . '.*')
+                //->join($campCopy->table, 'applicants.id', '=', $campCopy->table . '.applicant_id')
+                
                 $applicantCheck = Applicant::select('applicants.*')
                 ->where('batch_id', $batch->id)
                 ->where('name', $applicantOri->name)
@@ -269,10 +274,9 @@ class CampController extends Controller
             }
         }
         if ($num_applicants) {
-            /*
-            if ($applicantCheck->trashed()) {
-                $applicantCheck->restore();
-            }*/
+            //if ($applicantCheck->trashed()) {
+            //    $applicantCheck->restore();
+            //}
             return view('camps.' . $campCopy->table . '.success',
                 ['isRepeat' => "已成功報名(或曾報名過)，請勿重複送出報名資料。",
                 'applicant' => $applicantCheck]);
@@ -300,11 +304,11 @@ class CampController extends Controller
                 }
                 return $applicantCopy;
             }
-        );
+        );*/
 
-        //email
-        //replace camp_data
-
+        //to complete registration process, one need to:
+        //(1) Email
+        //(2) replace camp_data
         /*
         try{
             // Mail::to($applicant)->send(new ApplicantMail($applicant, $this->camp_data));
@@ -314,30 +318,23 @@ class CampController extends Controller
             logger($e);
         }*/
 
-        View::share('camp_data', $campCopy);
+        View::share('camp_data', $campCopy);    //replace camp_data
+        //return view('camps.' . $campCopy->table . '.success')->with('applicant', $applicantCopy);
 
-        return view('camps.' . $campCopy->table . '.success')->with('applicant', $applicantCopy);
-
-        /*return redirect(route('showadmit', ['batch_id' => $applicant->batch_id, 'sn' => $applicant->id, 'name' => $applicant->name]));
-
-        $controller = resolve(self::class);
-        $request = new Request();
-        $request->replace([
-            "_token" => csrf_token(),
-            "name" => $applicantCopy->name,
-            "sn" => $applicantCopy->id,
-            "isModify" => true,
-            "isBackend" => false,
-            "batch_id" => $applicantCopy->batch_id,
-        ]);
-        //$request->method->set('method', "POST");
-        //$request->headers->set('headers', 'queryupdate');
-        dd($request);
-        return $controller->campViewRegistrationData($request);*/
+        //先不複製，是把資料填到"campCopy"表中顯示，由user自己按報名。
+        return view('camps.' . $campCopy->table . '.form')
+        //->with('applicant_id', $applicantOri->applicant_id)
+        //->with('applicant_batch_id', $applicantOri->batch_id)   //??
+        ->with('applicant_data', $applicantOri)                 //處理過一些空白字元的版本
+        ->with('applicant_raw_data', $applicantOri)             //資料庫抓出的原始資料,已join
+        ->with('isModify', true)
+        ->with('useOldData2Register', true)                     //新增：使用舊資料報名
+        ->with('batch', $batchCopy)
+        ->with('camp_data', $campCopy);
     }
 
-    public function campQueryRegistrationDataPage() {
-        return view('camps.' . $this->camp_data->table . '.query');
+    public function campQueryRegistrationDataPage(Request $request) {
+        return view('camps.' . $this->camp_data->table . '.query')->with('batch_id_from', $request->batch_id_from);
     }
 
     /**
@@ -351,7 +348,6 @@ class CampController extends Controller
         $applicant = null;
         $isModify = false;
         $campTable = $this->camp_data->table;
-        //dd($request->name);
         if($request->name != null && $request->sn != null) {
             $applicant = Applicant::select('applicants.*', $campTable . '.*')
                 ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
@@ -402,7 +398,23 @@ class CampController extends Controller
                             ->withErrors(['很抱歉，報名資料修改期限已過。']);
                 }
             }
-            return view('camps.' . $campTable . '.form')
+            if($request->batch_id_from) {
+                $batchFrom = Batch::find($request->batch_id_from);
+                $campFrom = $batchFrom->camp;
+                $campAbbrFrom = $campFrom->abbreviation;   //查詢營隊名
+                return view('camps.' . $campTable . '.form')
+                ->with('applicant_id', $applicant->applicant_id)
+                ->with('applicant_batch_id', $applicant->batch_id)
+                ->with('applicant_data', $applicant_data)
+                ->with('applicant_raw_data', $applicant)
+                ->with('isModify', $isModify)
+                ->with('isBackend', $request->isBackend)
+                ->with('batch', Batch::find($request->batch_id))
+                ->with('camp_data', $camp)
+                ->with('batch_id_from', $request->batch_id_from)
+                ->with('camp_abbr_from', $campAbbrFrom);
+            } else {
+                return view('camps.' . $campTable . '.form')
                 ->with('applicant_id', $applicant->applicant_id)
                 ->with('applicant_batch_id', $applicant->batch_id)
                 ->with('applicant_data', $applicant_data)
@@ -411,6 +423,7 @@ class CampController extends Controller
                 ->with('isBackend', $request->isBackend)
                 ->with('batch', Batch::find($request->batch_id))
                 ->with('camp_data', $camp);
+            }
         }
         else{
             return back()->withInput()->withErrors(['找不到報名資料，請再次確認是否填寫錯誤。']);

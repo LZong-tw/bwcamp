@@ -19,6 +19,20 @@
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }}線上報名表</h4>
     </div>
+
+{{-- 使用舊資料報名：如果有batch_id_from參數的話(今年限2021&2022企業營，但沒有寫這個條件) --}}
+@if(isset($batch_id_from))
+<hr>
+    <form action="{{ route('formCopy', $batch_id_from) }}" method="POST">
+        @csrf
+        <input type="hidden" name="batch_id_ori" value="{{ $batch_id }}">
+        <input type="hidden" name="batch_id_copy" value="{{ $batch_id_from }}">
+        <input type="hidden" name="applicant_id_ori" value="{{ $applicant_id }}">
+        <input type="submit" class="btn btn-success" value="使用此資料報名{{ $camp_abbr_from }}">
+    </form>
+<hr>
+@endif
+
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
 @if(!isset($isModify) || $isModify)
     <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form'>
@@ -681,9 +695,11 @@
                 <input type='reset' class='btn btn-danger' value='清除再來'>
             {{-- 以上皆非: 檢視資料狀態 --}}
             @else
+                @if(isset($camp_data->modifying_deadline) && \Carbon\Carbon::now() <= \Carbon\Carbon::createFromFormat("Y-m-d", $camp_data->modifying_deadline))
                 <input type="hidden" name="sn" value="{{ $applicant_id }}">
                 <input type="hidden" name="isModify" value="1">
                 <button class="btn btn-primary">修改報名資料</button>
+                @endif
             @endif
         </div>
     </div>
