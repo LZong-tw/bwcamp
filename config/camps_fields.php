@@ -562,6 +562,11 @@ return [
                 "sort" => 0,
                 "for_query" => 1,
             ],
+            "group_priority" => [
+                "name" => "志願組別",
+                "sort" => 1,
+                "for_query" => 0,
+            ],
             "mobile" => [
                 "name" => "手機號碼",
                 "sort" => 0,
@@ -598,7 +603,7 @@ return [
             "gender" => [
                 "name" => "生理性別",
                 "sort" => 1,
-                "for_query" => 0,
+                "for_query" => 1,
             ],
             //            "age" => [
             //                "name" => "年齡",
@@ -660,10 +665,103 @@ return [
                 "sort" => 1,
                 "for_query" => 1,
             ],
+            "is_attend" => [
+                "name" => "參加意願",
+                "sort" => 1,
+                "for_query" => 0,
+            ],
             "contactlog" => [
                 "name" => "關懷紀錄",
                 "sort" => 0,
                 "for_query" => 0,
+            ],
+        ],
+
+        'evcamp' => [
+            "batch" => [
+                "name" => "報名梯次",
+                "sort" => 1,
+                "for_query" => 0,
+            ],
+            "roles" => [
+                "name" => "職務組別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "position" => [
+                "name" => "職務",
+                "sort" => 1,
+                "for_query" => 0,
+            ],
+            "avatar" => [
+                "name" => "照片",
+                "sort" => 0,
+                "for_query" => 0,
+            ],
+            "name" => [
+                "name" => "姓名",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "gender" => [
+                "name" => "性別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "age" => [
+                "name" => "年齡",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "lrclass" => [
+                "name" => "班別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "industry" => [
+                "name" => "產業別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "unit" => [
+                "name" => "公司名稱",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "title" => [
+                "name" => "職稱",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "volunteer_experiences" => [
+                "name" => "義工護持記錄",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "cadre_experiences" => [
+                "name" => "班級護持記錄",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "expertise" => [
+                "name" => "專長",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "transport" => [
+                "name" => "交通方式",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "group_priority" => [
+                "name" => "志願組別",
+                "sort" => 1,
+                "for_query" => 0,
+            ],
+            "mobile" => [
+                "name" => "手機號碼",
+                "sort" => 0,
+                "for_query" => 1,
             ],
         ],
     ]

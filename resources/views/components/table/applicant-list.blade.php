@@ -84,6 +84,12 @@
                             @else
                                 <td>尚未聯絡</td>
                             @endif
+                        @elseif($key == "group_priority")
+                            <td>
+                                {{ $applicant->group_priority_1 }} <br>
+                                {{ $applicant->group_priority_2 }} <br>
+                                {{ $applicant->group_priority_3 }}
+                            </td>
                         @elseif($key == "reasons_recommend")
                             <td>
                                 {{ Str::limit($applicant->$key, 100,'...') ?? "-" }}
@@ -174,6 +180,12 @@
                         @else
                             <td>未回覆</td>
                         @endif
+                    @elseif($key == "group_priority")
+                        <td>
+                            {{ $applicant->group_priority_1 }} <br>
+                            {{ $applicant->group_priority_2 }} <br>
+                            {{ $applicant->group_priority_3 }}
+                        </td>
                     @elseif($key == "reasons_recommend")
                         <td>
                             {{ Str::limit($applicant->$key, 100,'...') ?? "-" }}
