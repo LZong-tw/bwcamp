@@ -86,9 +86,18 @@
                             @endif
                         @elseif($key == "group_priority")
                             <td>
-                                1.&nbsp;{{ $applicant->group_priority1 }} <br>
-                                2.&nbsp;{{ $applicant->group_priority2 }} <br>
-                                3.&nbsp;{{ $applicant->group_priority3 }}
+                                @if ($applicant->group_priority1)
+                                    1.&nbsp;{{ $applicant->group_priority1 }} <br>
+                                @endif
+                                @if ($applicant->group_priority2)
+                                    2.&nbsp;{{ $applicant->group_priority2 }} <br>
+                                @endif
+                                @if ($applicant->group_priority3)
+                                    3.&nbsp;{{ $applicant->group_priority3 }}
+                                @endif
+                                @if (!$applicant->group_priority1 && !$applicant->group_priority2 && !$applicant->group_priority3)
+                                    未填寫
+                                @endif
                             </td>
                         @elseif($key == "reasons_recommend")
                             <td>
@@ -182,9 +191,18 @@
                         @endif
                     @elseif($key == "group_priority")
                         <td>
-                            1.&nbsp;{{ $applicant->group_priority1 }} <br>
-                            2.&nbsp;{{ $applicant->group_priority2 }} <br>
-                            3.&nbsp;{{ $applicant->group_priority3 }}
+                            @if ($applicant->group_priority1)
+                                1.&nbsp;{{ $applicant->group_priority1 }} <br>
+                            @endif
+                            @if ($applicant->group_priority2)
+                                2.&nbsp;{{ $applicant->group_priority2 }} <br>
+                            @endif
+                            @if ($applicant->group_priority3)
+                                3.&nbsp;{{ $applicant->group_priority3 }}
+                            @endif
+                            @if (!$applicant->group_priority1 && !$applicant->group_priority2 && !$applicant->group_priority3)
+                                未填寫
+                            @endif
                         </td>
                     @elseif($key == "reasons_recommend")
                         <td>
