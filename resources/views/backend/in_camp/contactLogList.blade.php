@@ -10,7 +10,7 @@
     </style>
     <h4>學員關懷記錄</h4>
     <h5 class="d-inline-block">關懷記錄列表：{{ $applicant->name }}　</h5>
-    
+
     <a href="{{ route('showAddContactLogs', [$camp_id, $applicant->id]) }}" class="btn btn-success d-inline-block" style="margin-bottom: 10px">新增關懷記錄</a>
 
     @if(\Session::has('message'))
@@ -95,6 +95,8 @@
             if (confirm('確認刪除？')) {
                 form.submit();
             }
+            event.preventDefault();
+            return false;
         }
     </script>
 @endsection
