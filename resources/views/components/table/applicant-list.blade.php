@@ -86,9 +86,9 @@
                             @endif
                         @elseif($key == "group_priority")
                             <td>
-                                {{ $applicant->group_priority_1 }} <br>
-                                {{ $applicant->group_priority_2 }} <br>
-                                {{ $applicant->group_priority_3 }}
+                                1.&nbsp;{{ $applicant->group_priority1 }} <br>
+                                2.&nbsp;{{ $applicant->group_priority2 }} <br>
+                                3.&nbsp;{{ $applicant->group_priority3 }}
                             </td>
                         @elseif($key == "reasons_recommend")
                             <td>
@@ -182,9 +182,9 @@
                         @endif
                     @elseif($key == "group_priority")
                         <td>
-                            {{ $applicant->group_priority_1 }} <br>
-                            {{ $applicant->group_priority_2 }} <br>
-                            {{ $applicant->group_priority_3 }}
+                            1.&nbsp;{{ $applicant->group_priority1 }} <br>
+                            2.&nbsp;{{ $applicant->group_priority2 }} <br>
+                            3.&nbsp;{{ $applicant->group_priority3 }}
                         </td>
                     @elseif($key == "reasons_recommend")
                         <td>
