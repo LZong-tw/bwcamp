@@ -601,7 +601,7 @@ return [
                 "for_query" => 1,
             ],
             "gender" => [
-                "name" => "生理性別",
+                "name" => "性別",
                 "sort" => 1,
                 "for_query" => 1,
             ],
