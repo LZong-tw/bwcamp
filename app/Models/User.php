@@ -89,4 +89,19 @@ class User extends Authenticatable
     public function application_log() {
         return $this->belongsToMany(Applicant::class, UserApplicantXref::class, 'user_id', 'applicant_id', 'id', 'id');
     }
+
+    public function permissionParser($camp) {
+        /**
+         *  1. 取得該義工於營隊內的所有職務
+         *  2. 取出所有權限的聯集
+         */
+        $permissions = $this->roles()->where('camp_id', $camp->id)->get()->filter(function($role) {
+            return $role->permissions->count() > 0;
+        })->map(function($role) {
+            return $role->permissions;
+        })->flatten()->unique('id')->values();
+        $permissions = $permissions->sortBy(["resource", "action"]);
+
+        
+    }
 }
