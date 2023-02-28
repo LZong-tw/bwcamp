@@ -143,12 +143,27 @@
     </div>
 --}}
 
-    <div class='row form-group required'> 
-    <label for='inputLRClass' class='col-md-2 control-label text-md-right'>廣論研討班別</label>
+    <div class='row form-group required'>
+        <label for='inputLRClassLevel' class='col-md-2 control-label text-md-right'>廣論研討班別</label>
         <div class='col-md-10'>
-            <input type='text' required name='lrclass' value='' class='form-control' id='inputLRClass'>
+            <select required class='form-control' name='lrclass_level' onChange=''>
+                <option value='' selected>- 請選擇 -</option>
+                <option value='一輪班' >一輪班</option>
+                <option value='增上班' >增上班</option>
+                <option value='善行班' >善行班</option>
+                <option value='備覽班' >備覽班</option>
+                <option value='宗行班' >宗行班</option>
+                <option value='其它' >其它</option>
+            </select>
+        </div>  
+    </div>
+
+    <div class='row form-group required'> 
+    <label for='inputLRClass' class='col-md-2 control-label text-md-right'>廣論研討班別(詳)</label>
+        <div class='col-md-10'>
+            <input type='text' required name='lrclass' value='' class='form-control' id='inputLRClass' placeholder='請詳填廣論研討班別，例：北14宗001班'>
             <div class="invalid-feedback">
-                請填寫廣論研討班別
+                請詳填廣論研討班別，例：北14宗001班
             </div>
         </div>
     </div>
@@ -389,9 +404,12 @@
                 <option value='法律/會計/顧問' >法律/會計/顧問</option>
                 <option value='政治/宗教/社福' >政治/宗教/社福</option>
                 <option value='建築/營造/不動產' >建築/營造/不動產</option>
-                <option value='醫療照護' >醫療照護</option>
+                <option value='醫師/藥師/藥廠/醫療照護' >醫師/藥師/藥廠/醫療照護</option>
                 <option value='民生服務業' >民生服務業</option>
                 <option value='廣告/傳播/出版' >廣告/傳播/出版</option>
+                <option value='教育' >教育</option>
+                <option value='文創' >文創</option>
+                <option value='非營利組織' >非營利組織</option>
                 <option value='其它' >其它</option>
             </select>
             <div class="invalid-feedback crumb">
