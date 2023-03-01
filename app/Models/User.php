@@ -40,7 +40,22 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $camp_permissions = [];
+
+    protected $camp_roles = [];
+
     public $resourceNameInMandarin = '義工資料';
+
+    public function __construct(array $attributes = [])
+    {
+        $this->bootIfNotBooted();
+        $this->initializeTraits();
+        $this->syncOriginal();
+        $this->fill($attributes);
+        $this->camp_permissions = collect($this->camp_permissions);
+        $this->camp_roles = collect($this->camp_roles);
+    }
+
     public function legace_roles()
     {
         return $this->belongsToMany('App\Models\Role', 'role_user', 'user_id', 'role_id');
@@ -90,11 +105,10 @@ class User extends Authenticatable
         return $this->belongsToMany(Applicant::class, UserApplicantXref::class, 'user_id', 'applicant_id', 'id', 'id');
     }
 
-    public function permissionParser($camp) {
+    public function permissionsRolesParser($camp) {
         /**
          *  1. 取得該義工於營隊內的所有職務
-         *  2. 取出所有權限的聯集
-         *  3. 以條列方式呈現
+         *  2. 取出所有權限的聯集，並以條列方式呈現
          */
         $permissions = $this->roles()->where('camp_id', $camp->id)->get()
                         ->filter(static fn($role) => $role->permissions->count() > 0)
@@ -121,7 +135,47 @@ class User extends Authenticatable
                 ]);
             }
         });
-
+        $this->camp_permissions = $parsed;
+        $this->camp_roles = $this->roles()->where('camp_id', $camp->id)->get();
         return $parsed;
+    }
+
+    public function canAccessResource($resource, $action) {
+        $forInspect = $this->permissions()->where("resource", "\\" . get_class($resource))->where("action", $action)->first();
+        if ($forInspect) {
+            switch ($forInspect->range_parsed) {
+                // 0: na, all
+                case 0:
+                    return true;
+                // 1: volunteer_large_group
+                case 1:
+                    if (get_class($resource) == "App\Models\Applicant") {
+                        return $resource->user()->roles->whereIn("id", $this->camp_roles->pluck("org_id"));
+                    }
+                    if (get_class($resource) == "App\Models\User" || get_class($resource) == "App\Models\Volunteer" || get_class($resource) == "App\User") {
+                        return $resource->roles->whereIn("id", $this->camp_roles->pluck("org_id"));
+                    }
+                // 2: learner_group
+                case 2:
+                    return $this->camp_roles->where('group_id', '<>', null)->where("camp_id", $resource->camp->id)->firstWhere('group_id', $resource->group_id);
+                // 3: person
+                case 3:
+                    if (get_class($resource) == "App\Models\ApplicantGroup") {
+                        return $this->caresLearners->where('group_id', '<>', null)->where("group_id", $resource->id);
+                    }
+                    // 沒這回事
+                    if (get_class($resource) == "App\Models\CampOrg") {
+                        return false;
+                    }
+                    if (get_class($resource) == "App\Models\Applicant") {
+                        return $this->caresLearners->where('group_id', '<>', null)->where("applicant_id", $resource->id);
+                    }
+                default:
+                    return false;
+            }
+        }
+        else {
+            return false;
+        }
     }
 }
