@@ -51,13 +51,13 @@ class LoginController extends Controller
 
         return $request->wantsJson()
             ? new JsonResponse([], 204)
-            : redirect()->intended($this->redirectPath($request->camp_id));
+            : redirect()->intended($request);
     }
 
-    public function redirectPath($camp_id = null)
+    public function redirectPath($request)
     {
-        if ($camp_id) {
-            return route("showLearners", $camp_id);
+        if ($request->camp_id) {
+            return route("showLearners", $request->camp_id);
         }
         if (\App\Models\User::find(auth()->user()->id)->roles->filter(static fn ($r) => $r->camp->year == now()->year)->count() == 1) {
             foreach (\App\Models\User::find(auth()->user()->id)->roles as $role) {
@@ -66,6 +66,9 @@ class LoginController extends Controller
                 }
             }
         }
-        return property_exists($this, 'redirectTo') ? $this->redirectTo : '/home';
+        if (str_contains(request()->headers->get('referer'), '')) {
+            return property_exists($this, 'redirectTo') ? $this->redirectTo : '/home';
+        }
+        return redirect()->back();
     }
 }
