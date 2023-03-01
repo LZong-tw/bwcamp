@@ -10,5 +10,17 @@ class Permission extends LaratrustPermission
     use LaratrustPermissionTrait;
     public $guarded = [];
     public $fillable = ['name', 'display_name', 'description', 'action', 'resource', 'range'];
-    public $resourceNameInMandarin = '權限';
+    public string $resourceNameInMandarin = '權限';
+    public array $ranges = [
+        "na" => 0,
+        "all" => 0,
+        "volunteer_large_group" => 1,
+        "learner_group" => 2,
+        "person" => 3,
+    ];
+
+    public function getRangeParsedAttribute($value): bool|int|string
+    {
+        return $this->attributes['range_parsed'] = $this->ranges[$this->range];
+    }
 }

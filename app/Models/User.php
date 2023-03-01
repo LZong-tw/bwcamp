@@ -94,14 +94,34 @@ class User extends Authenticatable
         /**
          *  1. 取得該義工於營隊內的所有職務
          *  2. 取出所有權限的聯集
+         *  3. 以條列方式呈現
          */
-        $permissions = $this->roles()->where('camp_id', $camp->id)->get()->filter(function($role) {
-            return $role->permissions->count() > 0;
-        })->map(function($role) {
-            return $role->permissions;
-        })->flatten()->unique('id')->values();
+        $permissions = $this->roles()->where('camp_id', $camp->id)->get()
+                        ->filter(static fn($role) => $role->permissions->count() > 0)
+                        ->map(static fn($role) => $role->permissions)
+                        ->flatten()->unique('id')->values();
         $permissions = $permissions->sortBy(["resource", "action"]);
+        $parsed = collect();
+        $permissions->each(function($permission) use (&$parsed) {
+            $existing = $parsed->where("resource", $permission->resource)->firstWhere("action", $permission->action);
+            if ($existing) {
+                if ($existing["range_parsed"] < $permission->range_parsed) {
+                    $existing["description"] = $permission->description;
+                    $existing["range"] = $permission->range;
+                    $existing["range_parsed"] = $permission->range_parsed;
+                }
+            }
+            else {
+                $parsed->push([
+                    "resource" => $permission->resource,
+                    "action" => $permission->action,
+                    "description" => $permission->description,
+                    "range" => $permission->range,
+                    "range_parsed" => $permission->range_parsed,
+                ]);
+            }
+        });
 
-        
+        return $parsed;
     }
 }
