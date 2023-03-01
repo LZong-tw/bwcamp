@@ -37,6 +37,9 @@
                     {{-- todo: 待組織職務轉至梯次後做簡化 --}}
                     @if ($groups && !$isShowVolunteers)
                         @forelse($groups as $group)
+                            @if(!$currentUser->canAccessResource($group, 'read'))
+                                @continue
+                            @endif
                             @if ($currentBatch && $currentBatch->id == $group->batch->id)
                                 <label class="align-items-center"><input type="checkbox" name="group_id[]" value="{{ $group->id }}" @checked(is_array(old('group_id')) ? in_array($group->id, old('group_id')) : false) class="ml-2"> {{ $group->alias }}</label>
                             @elseif (!$currentBatch)
@@ -110,6 +113,9 @@
                 }
             @endphp
             @forelse($groups->values() as $key => $group)
+                @if(!$currentUser->canAccessResource($group, 'read'))
+                    @continue
+                @endif
                 @if($key % 4 == 0)<div class="row">@endif
                     <span class="col-3">
                         @if ($currentBatch && $currentBatch->id == $group->batch->id)
@@ -138,6 +144,9 @@
                 }
             @endphp
             @forelse($groups->values() as $key => $group)
+                @if(!$currentUser->canAccessResource($group, 'read'))
+                    @continue
+                @endif
                 @if($key % 4 == 0)<div class="row">@endif
                     <span class="col-3">
                         @if($group->batch) {{ $group->batch->name }}&nbsp;-@endif

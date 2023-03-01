@@ -66,8 +66,7 @@ class BackendController extends Controller {
                     $this->has_attend_data = true;
                 }
             }
-            // 動態載入電子郵件設定
-            $this->setEmail($this->camp_data->table, $this->camp_data->variant);
+            $camp = $this->camp_data;
         }
         if($request->route()->parameter('camp_id')){
             $this->middleware('permitted');
@@ -80,12 +79,27 @@ class BackendController extends Controller {
                     $this->has_attend_data = true;
                 }
             }
-            // 動態載入電子郵件設定
-            $this->setEmail($this->campFullData->table, $this->campFullData->variant);
+            $camp = $this->campFullData;
         }
         if(\Str::contains(url()->current(), "campManage")){
             $this->middleware('admin');
         }
+        if ($camp ?? false) {
+            $this->persist(camp: $camp);
+        }
+    }
+
+    public function persist(...$args) {
+        $that = $this;
+        // https://laracasts.com/discuss/channels/laravel/authuser-return-null-in-construct
+        $this->middleware(function ($request, $next) use ($that, $args) {
+            $that->user = \App\Models\User::find(auth()->user()->id);
+            $that->user->permissionsRolesParser($args["camp"]);
+            View::share('currentUser', $that->user);
+            return $next($request);
+        });
+        // 動態載入電子郵件設定
+        self::setEmail($args["camp"]->table, $args["camp"]->variant);
     }
 
     /**
@@ -1854,10 +1868,10 @@ class BackendController extends Controller {
             $user = User::find($id);
             \Session::put('original_user', \Auth::id());
             \Auth::login($user);
-            return true;
         } catch (\Exception $e) {
             throw new \Exception("Error logging in as user", 1);
         }
+        return back();
     }
 
     public function switchUserBack()
@@ -1866,9 +1880,9 @@ class BackendController extends Controller {
             $original = \Session::pull('original_user');
             $user = User::find($original);
             \Auth::login($user);
-            return true;
         } catch (\Exception $e) {
             throw new \Exception("Error returning to your user", 1);
         }
+        return back();
     }
 }

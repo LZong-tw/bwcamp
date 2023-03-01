@@ -18,6 +18,7 @@ class Permission extends LaratrustPermission
         "learner_group" => 2,
         "person" => 3,
     ];
+    protected $appends = ['range_parsed'];
 
     public function getRangeParsedAttribute($value): bool|int|string
     {
