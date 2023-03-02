@@ -135,31 +135,6 @@
                 @if($key % 4 == 3 || $loop->last)</div>@endif
             @empty
             @endforelse
-        @elseif ($groups)
-            @php
-                foreach ($groups as $key => $group) {
-                    if ($group->position == 'root') {
-                        $groups->forget($key);
-                    }
-                }
-            @endphp
-            @forelse($groups->values() as $key => $group)
-                @if(!$currentUser->canAccessResource($group, 'read'))
-                    @continue
-                @endif
-                @if($key % 4 == 0)<div class="row">@endif
-                    <span class="col-3">
-                        @if($group->batch) {{ $group->batch->name }}&nbsp;-@endif
-                        @if(str_contains($group->position, "小組"))
-                            {{ $group->position }}: <span class="text-success">{{ $group->users->count() }}</span>
-                        @else
-                            {{ $group->section }}{{ $group->position }}: <span class="text-success">{{ $group->users->count() }}</span>
-                        @endif
-                        <br>
-                    </span>
-                @if($key % 4 == 3 || $loop->last)</div>@endif
-            @empty
-            @endforelse
         @endif
     </div>
 </div>
