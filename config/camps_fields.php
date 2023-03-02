@@ -567,11 +567,6 @@ return [
                 "sort" => 1,
                 "for_query" => 0,
             ],
-            "mobile" => [
-                "name" => "手機號碼",
-                "sort" => 0,
-                "for_query" => 1,
-            ],
         ],
 
         'ecamp' => [
@@ -757,11 +752,6 @@ return [
                 "name" => "志願組別",
                 "sort" => 1,
                 "for_query" => 0,
-            ],
-            "mobile" => [
-                "name" => "手機號碼",
-                "sort" => 0,
-                "for_query" => 1,
             ],
         ],
     ]
