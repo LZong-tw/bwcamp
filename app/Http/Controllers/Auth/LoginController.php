@@ -51,22 +51,22 @@ class LoginController extends Controller
 
         return $request->wantsJson()
             ? new JsonResponse([], 204)
-            : redirect()->intended($request);
+            : redirect()->intended($this->redirectPath($request));
     }
 
     public function redirectPath($request)
     {
         if ($request->camp_id) {
-            return route("showLearners", $request->camp_id);
+            return "/backend/" . $request->camp_id . "/IOI/learner";
         }
         if (\App\Models\User::find(auth()->user()->id)->roles->filter(static fn ($r) => $r->camp->year == now()->year)->count() == 1) {
             foreach (\App\Models\User::find(auth()->user()->id)->roles as $role) {
                 if ($role->camp->year == now()->year && str_contains($role->section, "關懷大組")) {
-                    return route("showLearners", $role->camp->id);
+                    return "/backend/" . $role->camp->id . "/IOI/learner";
                 }
             }
         }
-        if (str_contains(request()->headers->get('referer'), '')) {
+        if (str_contains($request->headers->get('referer'), 'login')) {
             return property_exists($this, 'redirectTo') ? $this->redirectTo : '/home';
         }
         return redirect()->back();
