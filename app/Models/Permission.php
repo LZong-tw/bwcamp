@@ -22,6 +22,8 @@ class Permission extends LaratrustPermission
 
     public function getRangeParsedAttribute($value): bool|int|string
     {
-        return $this->attributes['range_parsed'] = $this->ranges[$this->range];
+        if (isset($this->ranges[$this->range])) {
+            return $this->attributes['range_parsed'] = $this->ranges[$this->range];
+        }
     }
 }
