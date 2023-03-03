@@ -25,5 +25,6 @@ class Permission extends LaratrustPermission
         if (isset($this->ranges[$this->range])) {
             return $this->attributes['range_parsed'] = $this->ranges[$this->range];
         }
+        return false;
     }
 }
