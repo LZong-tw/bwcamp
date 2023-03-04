@@ -83,7 +83,7 @@
     </div>
   </header>
   <main>
-    <div class="@if($type != 'role') max-w-6xl mx-auto py-6 sm:px-6 lg:px-8 @else mx-5 @endif">
+    <div class="@if(!isset($type) || isset($type) && $type != 'role') max-w-6xl mx-auto py-6 sm:px-6 lg:px-8 @else mx-5 @endif">
       @foreach (['error', 'warning', 'success'] as $msg)
         @if(Session::has($msg))
             <div class="alert-{{ $msg }}" role="alert">
