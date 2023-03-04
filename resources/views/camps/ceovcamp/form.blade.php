@@ -21,8 +21,6 @@
     @if(!isset($isModify) && !isset($batch_id_from))
     <hr>
     <h5>
-    <a href="{{ route('query', 58) }}?batch_id_from={{ $batch_id }}" class="text-info">查詢並使用 *2022年菁英營* 報名資料</a>
-    <br>
     <a href="{{ route('query', 50) }}?batch_id_from={{ $batch_id }}" class="text-info">查詢並使用 *2022年菁英營義工* 報名資料</a>
     </h5>
     <hr>

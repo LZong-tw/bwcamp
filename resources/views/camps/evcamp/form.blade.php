@@ -17,7 +17,7 @@
         <h4>{{ $camp_data->fullName }}線上報名表</h4>
     </div>
 
-{{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態；只在報名時提供載入舊資料選項 --}}
+{{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態；只在報名時提供載入舊資料選項
     @if(!isset($isModify))
     <hr>
     <h5>
@@ -27,6 +27,7 @@
     </h5>
     <hr>
     @endif
+--}}    
 
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
 @if(!isset($isModify) || $isModify)
