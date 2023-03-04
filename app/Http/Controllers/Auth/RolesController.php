@@ -38,6 +38,8 @@ class RolesController extends BackendController
         );
         $this->rolesModel = Config::get('laratrust.models.role');
         $this->permissionModel = Config::get('laratrust.models.permission');
+        $availableResources = \App\Services\BackendService::getAvailableModels();
+        view()->share('availableResources', $availableResources);
     }
 
     public function index($camp_id)
