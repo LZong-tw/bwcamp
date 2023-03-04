@@ -6,7 +6,7 @@
     <div>
     </div>
     <div class="flex flex-col">
-        <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-32">
+        <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 lg:-mx-8 @if($type != 'role') lg:px-32 sm:px-6 @endif">
             <form
                 x-data="laratrustForm()"
                 x-init="{!! $model ? '' : '$watch(\'displayName\', value => onChangeDisplayName(value))'!!}"
@@ -15,7 +15,7 @@
                     route("laratrustCustom.{$type}s.update", ["camp_id" => $camp_id, $model->getKey()]) :
                     route("laratrustCustom.{$type}s.store", compact("camp_id"))
                 }}"
-                class="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200 p-8"
+                class="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200 @if($type != 'role') p-8 @endif"
             >
                 @csrf
                 @if ($model)
@@ -99,6 +99,49 @@
                     >{{ $model->description ?? old('description') }}</textarea>
                 </label>
                 @if($type == 'role')
+                    <table class="table table-bordered table-hover text-center">
+                        <thead>
+                            <tr>
+                                <th rowspan="2" class="align-middle">義工可以操作的東西</th>
+                                <th rowspan="2" class="align-middle">這些東西包含什麼</th>
+                                <th colspan="5">他可以做什麼動作</th>
+                                <th colspan="5">這個動作的影響範圍</th>
+                            </tr>
+                            <tr>
+                                <th>指派</th>
+                                <th>瀏覽</th>
+                                <th>新增</th>
+                                <th>修改</th>
+                                <th>刪除</th>
+
+                                <th>不指定</th>
+                                <th>限學員小組</th>
+                                <th>限義工大組</th>
+                                <th>限個別學員</th>
+                                <th>全部</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($availableResources as $resource)
+                                @if($resource["name"])
+                                    <tr>
+                                        <td>{{ $resource["name"] }}</td>
+                                        <td>{{ $resource["description"] ?? '說明' }}</td>
+                                        <td><input type="checkbox" name="" id=""></td>
+                                        <td><input type="checkbox" name="" id=""></td>
+                                        <td><input type="checkbox" name="" id=""></td>
+                                        <td><input type="checkbox" name="" id=""></td>
+                                        <td><input type="checkbox" name="" id=""></td>
+                                        <td><input type="radio" name="" id=""></td>
+                                        <td><input type="radio" name="" id=""></td>
+                                        <td><input type="radio" name="" id=""></td>
+                                        <td><input type="radio" name="" id=""></td>
+                                        <td><input type="radio" name="" id=""></td>
+                                    </tr>
+                                @endif
+                            @endforeach
+                        </tbody>
+                    </table>
                     <span class="block text-gray-700">權限</span>
                     <div class="flex flex-wrap justify-start mb-4">
                         @foreach ($permissions as $permission)

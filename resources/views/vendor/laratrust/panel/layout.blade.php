@@ -9,6 +9,7 @@
   <title>職務及權限管理界面 - @yield('title')</title>
   <link href="{{ mix('laratrust.css', 'vendor/laratrust') }}" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+  <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
 </head>
 <body>
 <div>
@@ -82,7 +83,7 @@
     </div>
   </header>
   <main>
-    <div class="max-w-6xl mx-auto py-6 sm:px-6 lg:px-8">
+    <div class="@if($type != 'role') max-w-6xl mx-auto py-6 sm:px-6 lg:px-8 @else mx-5 @endif">
       @foreach (['error', 'warning', 'success'] as $msg)
         @if(Session::has($msg))
             <div class="alert-{{ $msg }}" role="alert">

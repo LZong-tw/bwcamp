@@ -291,7 +291,7 @@ class BackendService
         return $camp->batchs()->with('groups')->get() ?? null;
     }
 
-    public function getAvailableModels()
+    public static function getAvailableModels()
     {
         $models = collect(File::allFiles(app_path('Models')))
             ->map(function ($item) {
@@ -300,9 +300,16 @@ class BackendService
                     'App\Models\\',
                     strtr(substr($path, 0, strrpos($path, '.')), '/', '\\'));
                 $model = new $class;
+                if (str_contains($model->resourceNameInMandarin, "廢棄") || str_contains($model->resourceNameInMandarin, "未使用")) {
+                    $name = "";
+                }
+                if ($model->resourceNameInMandarin == "") {
+                    $name = "";
+                }
                 return collect([
                     'class' => $class,
-                    'name' => $model->resourceNameInMandarin
+                    'name' => $name ?? $model->resourceNameInMandarin,
+                    'description' => $model->resourceDescriptionInMandarin,
                 ]);
             });
         return $models;

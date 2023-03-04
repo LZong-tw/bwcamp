@@ -39,6 +39,8 @@ class RolesAssignmentController extends BackendController
         $this->rolesModel = Config::get('laratrust.models.role');
         $this->permissionModel = Config::get('laratrust.models.permission');
         $this->assignPermissions = Config::get('laratrust.panel.assign_permissions_to_user');
+        $availableResources = \App\Services\BackendService::getAvailableModels();
+        view()->share('availableResources', $availableResources);
     }
 
     public function index(Request $request, $camp_id)
