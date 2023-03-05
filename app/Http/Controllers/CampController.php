@@ -160,7 +160,6 @@ class CampController extends Controller
         }
         // 營隊報名
         else {
-            //dd($this->camp_data->id);
             $applicant = Applicant::select('applicants.*')
                 ->join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')
                 ->join('batchs', 'applicants.batch_id', '=', 'batchs.id')
@@ -178,7 +177,8 @@ class CampController extends Controller
                     $applicant->restore();
                 }
                 return view('camps.' . $this->camp_data->table . '.success',
-                    ['isRepeat' => "已成功報名，請勿重複送出報名資料。",
+                    //['isRepeat' => "已成功報名，請勿重複送出報名資料。",
+                    ['isRepeat' => "您已報名過，請勿重複報名。底下顯示為您之前的報名序號。",
                     'applicant' => $applicant]);
             }
             $request = $this->campDataService->checkBoxToArray($request);

@@ -707,6 +707,10 @@
                 @if(isset($useOldData2Register))
                 <input type="hidden" name="useOldData2Register" value="1">
                 @endif
+                @if(isset($applicant_raw_data->avatar))
+                <input type="hidden" name="avatar" value="{{ $applicant_raw_data->avatar }}">
+                @endif
+
                 <input type='button' class='btn btn-success' value='確認送出' data-toggle="confirmation">
                 {{--
                 <input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>
