@@ -39,7 +39,7 @@
             </tr>
         </thead>
         @forelse ($registeredVolunteers as $user)
-            @if(!$currentUser->canAccessResource($user->application_log->first(), 'read'))
+            @if(!$currentUser->canAccessResource($user->application_log->first(), 'read', 'volunteerList'))
                 @continue
             @endif
             @forelse($user->application_log as &$applicant)
@@ -129,7 +129,7 @@
         @empty
         @endforelse
         @forelse ($applicants as &$applicant)
-            @if(!$currentUser->canAccessResource($applicant, 'read'))
+            @if(!$currentUser->canAccessResource($applicant, 'read', str_contains(url()->current(), 'volunteer') ? 'volunteer' : null))
                 @continue
             @endif
             <tr @if($applicant->deleted_at) style="color: rgba(120, 120, 120, 0.4)!important" @endif>
