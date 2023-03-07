@@ -141,6 +141,9 @@ class User extends Authenticatable
     }
 
     public function canAccessResource($resource, $action) {
+        if (!$resource) {
+            return false;
+        }
         $forInspect = $this->permissions()->where("resource", "\\" . get_class($resource))->where("action", $action)->first();
         if ($forInspect) {
             switch ($forInspect->range_parsed) {
