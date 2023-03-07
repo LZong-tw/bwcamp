@@ -140,11 +140,15 @@ class User extends Authenticatable
         return $parsed;
     }
 
-    public function canAccessResource($resource, $action) {
+    public function canAccessResource($resource, $action, $context = null) {
         if (!$resource) {
             return false;
         }
-        $forInspect = $this->permissions()->where("resource", "\\" . get_class($resource))->where("action", $action)->first();
+        $class = get_class($resource);
+        if ($context == "volunteer") {
+            $class = "App\Models\Volunteer";
+        }
+        $forInspect = $this->permissions()->where("resource", "\\" . $class)->where("action", $action)->first();
         if ($forInspect) {
             switch ($forInspect->range_parsed) {
                 // 0: na, all
@@ -152,10 +156,10 @@ class User extends Authenticatable
                     return true;
                 // 1: volunteer_large_group
                 case 1:
-                    if (get_class($resource) == "App\Models\Applicant") {
+                    if ($class == "App\Models\Applicant") {
                         return $resource->user()->roles->whereIn("id", $this->camp_roles->pluck("org_id"));
                     }
-                    if (get_class($resource) == "App\Models\User" || get_class($resource) == "App\Models\Volunteer" || get_class($resource) == "App\User") {
+                    if ($class == "App\Models\User" || $class == "App\Models\Volunteer" || $class == "App\User") {
                         return $resource->roles->whereIn("id", $this->camp_roles->pluck("org_id"));
                     }
                 // 2: learner_group
@@ -163,14 +167,14 @@ class User extends Authenticatable
                     return $this->camp_roles->where('group_id', '<>', null)->where("camp_id", $resource->camp->id)->firstWhere('group_id', $resource->group_id);
                 // 3: person
                 case 3:
-                    if (get_class($resource) == "App\Models\ApplicantGroup") {
+                    if ($class == "App\Models\ApplicantGroup") {
                         return $this->caresLearners->where('group_id', '<>', null)->where("group_id", $resource->id);
                     }
                     // 沒這回事
-                    if (get_class($resource) == "App\Models\CampOrg") {
+                    if ($class == "App\Models\CampOrg") {
                         return false;
                     }
-                    if (get_class($resource) == "App\Models\Applicant") {
+                    if ($class == "App\Models\Applicant") {
                         return $this->caresLearners->where('group_id', '<>', null)->where("applicant_id", $resource->id);
                     }
                 default:
