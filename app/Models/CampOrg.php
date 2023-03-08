@@ -40,4 +40,9 @@ class CampOrg extends LaratrustRole
     {
         return $this->belongsToMany(User::class, 'org_user', 'org_id', 'user_id');
     }
+
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class, 'org_permission', 'org_id', 'permission_id');
+    }
 }
