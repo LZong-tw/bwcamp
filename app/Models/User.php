@@ -150,7 +150,7 @@ class User extends Authenticatable
         }
         $permissions = $this->permissions()->where("resource", "\\" . $class)->where("action", $action)->first();
         $rolePermissions = $this->with('roles.permissions')->get()->pluck('roles')->flatten()->pluck('permissions')->flatten()->unique('id')->values();
-        $permissions = $permissions ? $permissions->merge($rolePermissions) : $rolePermissions;
+        $permissions = $permissions ? collect($permissions)->merge($rolePermissions) : $rolePermissions;
         $forInspect = $permissions->where("resource", "\\" . $class)->where("action", $action)->first();
         if ($forInspect) {
             switch ($forInspect->range_parsed) {
