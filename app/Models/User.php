@@ -140,7 +140,7 @@ class User extends Authenticatable
         return $parsed;
     }
 
-    public function canAccessResource($resource, $action, $context = null) {
+    public function canAccessResource($resource, $action, $camp, $context = null) {
         if (!$resource) {
             return false;
         }
@@ -148,8 +148,12 @@ class User extends Authenticatable
         if ($context == "volunteer" && str_contains($class, "Applicant")) {
             $class = "App\Models\Volunteer";
         }
+        // 全域權限
         $permissions = $this->permissions()->where("resource", "\\" . $class)->where("action", $action)->first();
-        $rolePermissions = self::with('roles.permissions')->where('id', $this->id)->get()->pluck('roles')->flatten()->pluck('permissions')->flatten()->unique('id')->values();
+        // 營隊權限
+        $rolePermissions = self::with('roles.permissions')->whereHas('roles', function ($query) use ($camp) {
+            return $query->where('camp_id', $camp->id);
+        })->where('id', $this->id)->get()->pluck('roles')->flatten()->pluck('permissions')->flatten()->unique('id')->values();
         $permissions = $permissions ? collect($permissions)->merge($rolePermissions) : $rolePermissions;
         $forInspect = $permissions->where("resource", "\\" . $class)->where("action", $action)->first();
         if ($forInspect) {
