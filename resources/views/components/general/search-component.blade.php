@@ -37,7 +37,7 @@
                     {{-- todo: 待組織職務轉至梯次後做簡化 --}}
                     @if ($groups && !$isShowVolunteers)
                         @forelse($groups as $group)
-                            @if(!$currentUser->canAccessResource($group, 'read'))
+                            @if(!$currentUser->canAccessResource($group, 'read', $camp))
                                 @continue
                             @endif
                             @if ($currentBatch && $currentBatch->id == $group->batch->id)
@@ -113,7 +113,7 @@
                 }
             @endphp
             @forelse($groups->values() as $key => $group)
-                @if(!$currentUser->canAccessResource($group, 'read'))
+                @if(!$currentUser->canAccessResource($group, 'read', $camp))
                     @continue
                 @endif
                 @if($key % 4 == 0)<div class="row">@endif
