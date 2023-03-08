@@ -149,7 +149,7 @@ class User extends Authenticatable
             $class = "App\Models\Volunteer";
         }
         $permissions = $this->permissions()->where("resource", "\\" . $class)->where("action", $action)->first();
-        $rolePermissions = $this->with('roles.permissions')->get()->pluck('roles')->flatten()->pluck('permissions')->flatten()->unique('id')->values();
+        $rolePermissions = self::with('roles.permissions')->where('id', $this->id)->get()->pluck('roles')->flatten()->pluck('permissions')->flatten()->unique('id')->values();
         $permissions = $permissions ? collect($permissions)->merge($rolePermissions) : $rolePermissions;
         $forInspect = $permissions->where("resource", "\\" . $class)->where("action", $action)->first();
         if ($forInspect) {
