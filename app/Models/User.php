@@ -145,7 +145,7 @@ class User extends Authenticatable
             return false;
         }
         $class = get_class($resource);
-        if ($context == "volunteer") {
+        if ($context == "volunteer" && str_contains($class, "Applicant")) {
             $class = "App\Models\Volunteer";
         }
         $permissions = $this->permissions()->where("resource", "\\" . $class)->where("action", $action)->first();
