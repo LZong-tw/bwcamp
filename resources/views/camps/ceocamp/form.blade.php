@@ -509,7 +509,7 @@
                 <option value='民生服務業' >民生服務業</option>
                 <option value='廣告/傳播/出版' >廣告/傳播/出版</option>
                 <option value='教育' >教育</option>
-                <option value='文創' >文創</option>
+                <option value='設計/藝術/文創' >設計/藝術/文創</option>
                 <option value='非營利組織' >非營利組織</option>
                 <option value='其它' >其它</option>
             </select>

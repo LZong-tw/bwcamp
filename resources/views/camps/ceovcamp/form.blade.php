@@ -20,8 +20,8 @@
     {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態；只在[報名狀態]時提供載入舊資料選項 --}}
     @if(!isset($isModify) && !isset($batch_id_from))
     <hr>
-    <h5>
-    <a href="{{ route('query', 50) }}?batch_id_from={{ $batch_id }}" class="text-info">查詢並使用 *2022年菁英營義工* 報名資料</a>
+    <h5 class='form-control-static text-warning bg-secondary'>若您曾報名2022年菁英營義工，請點選->
+    <a href="{{ route('query', 50) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary">查詢並使用 *2022年菁英營義工* 報名資料</a>
     </h5>
     <hr>
     @endif
@@ -406,7 +406,7 @@
                 <option value='民生服務業' >民生服務業</option>
                 <option value='廣告/傳播/出版' >廣告/傳播/出版</option>
                 <option value='教育' >教育</option>
-                <option value='文創' >文創</option>
+                <option value='設計/藝術/文創' >設計/藝術/文創</option>
                 <option value='非營利組織' >非營利組織</option>
                 <option value='其它' >其它</option>
             </select>
@@ -710,7 +710,6 @@
                 @if(isset($applicant_raw_data->avatar))
                 <input type="hidden" name="avatar" value="{{ $applicant_raw_data->avatar }}">
                 @endif
-
                 <input type='button' class='btn btn-success' value='確認送出' data-toggle="confirmation">
                 {{--
                 <input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>
@@ -718,14 +717,29 @@
                 --}}
             {{-- 以上皆非: 檢視資料狀態 --}}
             @else
+                @if(isset($camp_data->modifying_deadline) && \Carbon\Carbon::now() <= \Carbon\Carbon::createFromFormat("Y-m-d", $camp_data->modifying_deadline))
                 <input type="hidden" name="sn" value="{{ $applicant_id }}">
                 <input type="hidden" name="isModify" value="1">
                 <button class="btn btn-primary">修改報名資料</button>
+                @endif
             @endif
         </div>
     </div>
     </form>
-            
+    
+    {{-- 使用舊資料報名：如果有batch_id_from參數的話 --}}
+    @if(isset($batch_id_from))
+    <hr>
+    <form action="{{ route('formCopy', $batch_id_from) }}" method="POST">
+        @csrf
+        <input type="hidden" name="batch_id_ori" value="{{ $batch_id }}">
+        <input type="hidden" name="batch_id_copy" value="{{ $batch_id_from }}">
+        <input type="hidden" name="applicant_id_ori" value="{{ $applicant_id }}">
+        <input type="submit" class="btn btn-success" value="使用此資料報名{{ $camp_abbr_from }}">
+    </form>
+    <hr>
+    @endif
+
     <script>        
         $('[data-toggle="confirmation"]').confirmation({
             rootSelector: '[data-toggle=confirmation]',
@@ -1011,7 +1025,6 @@
                 let complementPivot = 0;                
                 let complementData = applicant_data["blisswisdom_type_complement"] ? applicant_data["blisswisdom_type_complement"].split("||/") : null; 
                 // console.log(inputs); 
-                console.log(applicant_data);
                 for (var i = 0; i < inputs.length; i++){
                     if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox"){
                         if(inputs[i].type == "radio"){
