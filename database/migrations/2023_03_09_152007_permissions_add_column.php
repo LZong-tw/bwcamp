@@ -12,5 +12,10 @@ return new class extends Migration {
                 $table->unsignedBigInteger('camp_id')->nullable()->after('id');
             });
         }
+        if (!Schema::hasColumn('permissions', 'batch_id')) {
+            Schema::table('permissions', function (Blueprint $table) {
+                $table->unsignedBigInteger('batch_id')->nullable()->after('camp_id');
+            });
+        }
     }
 };
