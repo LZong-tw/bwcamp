@@ -233,7 +233,8 @@ class BackendService
                 ];
             }
             else {
-                throw new \Exception("異常，請回上一頁檢查輸入資料是否齊全。");
+                logger(\Exception("異常，請回上一頁檢查輸入資料是否齊全。")->getMessage());
+                return "<h1>異常，請回上一頁檢查輸入資料是否齊全。</h1>";
             }
         }
         return $succeedList;
