@@ -413,6 +413,59 @@ return [
     ],
 
     'display' => [
+        'acamp' => [
+            "batch" => [
+                "name" => "梯次",
+                "sort" => 1,
+                "for_query" => 0,
+            ],
+            "group" => [
+                "name" => "組別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "name" => [
+                "name" => "姓名",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "gender" => [
+                "name" => "性別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "age" => [
+                "name" => "年齡",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "industry" => [
+                "name" => "產業別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "unit" => [
+                "name" => "公司名稱",
+                "sort" => 0,
+                "for_query" => 0,
+            ],
+            "title" => [
+                "name" => "職稱",
+                "sort" => 0,
+                "for_query" => 0,
+            ],
+            "introducer_name" => [
+                "name" => "推薦人",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "contactlog" => [
+                "name" => "關懷紀錄",
+                "sort" => 0,
+                "for_query" => 0,
+            ],
+        ],
+
         'ceocamp' => [
             "batch" => [
                 "name" => "梯次",
@@ -751,6 +804,190 @@ return [
             "group_priority" => [
                 "name" => "志願組別",
                 "sort" => 1,
+                "for_query" => 0,
+            ],
+        ],
+
+        'tcamp' => [
+            "batch" => [
+                "name" => "梯次",
+                "sort" => 1,
+                "for_query" => 0,
+            ],
+            "group" => [
+                "name" => "組別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "name" => [
+                "name" => "姓名",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "gender" => [
+                "name" => "性別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "age" => [
+                "name" => "年齡",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "unit" => [
+                "name" => "服務單位名稱/校名",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "unit_county" => [
+                "name" => "服務單位所在縣市",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "department" => [
+                "name" => "服務系所/部門",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "position" => [
+                "name" => "身份別",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "title" => [
+                "name" => "職稱",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "introducer_name" => [
+                "name" => "推薦人",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "contactlog" => [
+                "name" => "關懷紀錄",
+                "sort" => 0,
+                "for_query" => 0,
+            ],
+        ],
+
+        'utcamp' => [
+            "batch" => [
+                "name" => "梯次",
+                "sort" => 1,
+                "for_query" => 0,
+            ],
+            "group" => [
+                "name" => "組別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "name" => [
+                "name" => "姓名",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "gender" => [
+                "name" => "性別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "age" => [
+                "name" => "年齡",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "unit" => [
+                "name" => "服務單位名稱/校名",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "unit_county" => [
+                "name" => "服務單位所在縣市",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "department" => [
+                "name" => "服務系所/部門",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "position" => [
+                "name" => "身份別",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "title" => [
+                "name" => "職稱",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "introducer_name" => [
+                "name" => "推薦人",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "contactlog" => [
+                "name" => "關懷紀錄",
+                "sort" => 0,
+                "for_query" => 0,
+            ],
+        ],
+
+        'ycamp' => [
+            "batch" => [
+                "name" => "梯次",
+                "sort" => 1,
+                "for_query" => 0,
+            ],
+            "group" => [
+                "name" => "組別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "name" => [
+                "name" => "姓名",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "gender" => [
+                "name" => "性別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "age" => [
+                "name" => "年齡",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "school_location" => [
+                "name" => "學校所在地",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "school" => [
+                "name" => "學校",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "department" => [
+                "name" => "系別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "grade" => [
+                "name" => "年級",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "introducer_name" => [
+                "name" => "推薦人",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "contactlog" => [
+                "name" => "關懷紀錄",
+                "sort" => 0,
                 "for_query" => 0,
             ],
         ],
