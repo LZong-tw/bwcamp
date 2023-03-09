@@ -41,7 +41,6 @@
     <h3 class="font-weight-bold">{{ $fullName }} >>
         @if(($isSettingCarer ?? false) || ($isSetting ?? false)) 設定
         @else 瀏覽 @endif
-        {{ ($isShowVolunteers) ? '關懷組' : '' }}
         {{ ($isShowVolunteers) ? '義工' : '學員' }}@if(!($isSettingCarer ?? true))名單@else所屬關懷員@endif
     </h3>
     <h4>目前名單為@if($current_batch){{  $current_batch->name . "梯次 / 場次" }}@else{{  "所有梯次 / 場次" }}@endif</h4>

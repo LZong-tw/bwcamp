@@ -149,7 +149,7 @@ class User extends Authenticatable
             $class = "App\Models\Volunteer";
         }
         // 全域權限
-        $permissions = $this->permissions()->where("resource", "\\" . $class)->where("action", $action)->first();
+        $permissions = $this->permissions;
         // 營隊權限
         $rolePermissions = self::with('roles.permissions')->whereHas('roles', function ($query) use ($camp) {
             return $query->where('camp_id', $camp->id);
