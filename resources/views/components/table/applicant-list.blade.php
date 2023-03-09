@@ -129,7 +129,7 @@
         @empty
         @endforelse
         @forelse ($applicants as &$applicant)
-            @if(!$currentUser->canAccessResource($applicant, 'read', $campFullData, str_contains(url()->current(), 'volunteer') ? 'volunteer' : null))
+            @if(!$currentUser->canAccessResource($applicant, 'read', $campFullData, str_contains(url()->current(), 'volunteer') ? 'volunteerList' : null))
                 @continue
             @endif
             <tr @if($applicant->deleted_at) style="color: rgba(120, 120, 120, 0.4)!important" @endif>
