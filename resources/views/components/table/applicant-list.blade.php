@@ -52,8 +52,8 @@
                     @foreach ($columns as $key => $item)
                         @php
                             if(!$applicant->$key) {
-                                // $theClass = "\\App\\Models\\" . ucfirst($campFullData->table);
-                                $applicantCampData = \App\Models\Ceovcamp::where('applicant_id', $applicant->id)->first();
+                                $theClass = "\\App\\Models\\" . ucfirst($campFullData->vcamp->table);
+                                $applicantCampData = $theClass::where('applicant_id', $applicant->id)->first();
                                 $applicant->$key = $applicantCampData->$key;
                             }
                         @endphp
