@@ -151,8 +151,7 @@ class AdminController extends BackendController {
         $camp->update($formData);
         $campName = $formData["abbreviation"];
         if ($request->vcamp_id) {
-            (new CampVcampXref(["camp_id" => $camp_id, "vcamp_id" => $request->vcamp_id]))->save();
-            // todo: 有更好的解決方案
+            CampVcampXref::updateOrCreate(["camp_id" => $camp_id], ["vcamp_id" => $request->vcamp_id]);
         }
         \Session::flash('message', $campName . " 修改成功。");
         return redirect()->route("campManagement");
