@@ -201,7 +201,8 @@ class BackendService
             }
             elseif ($entity["uses_user_id"] == "generation_needed_custom") {
                 if (\App\Models\User::where('email', 'like', $entity["email"])->first()) {
-                    throw new \Exception("Email 已註冊。");
+                    logger(\Exception("Email " . $entity["email"] . " 已註冊。")->getMessage());
+                    return "<h1>Email " . $entity["email"] . " 已註冊。</h1>";
                 }
                 $applicant = Applicant::findOrFail($entity["id"]);
                 $applicant->is_admitted = 1;
