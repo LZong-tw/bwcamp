@@ -5,6 +5,14 @@
     header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     $regions = ['北區', '竹區', '中區', '高區'];
 @endphp
+@php
+    $is_north = FALSE;
+    if(isset($applicant_data)) {
+        if(\Str::contains($applicant_raw_data->batch->name, "北區") || \Str::contains($applicant_raw_data->batch->name, "台北")) {$is_north = TRUE;}
+    } else {
+        if(\Str::contains($batch->name, "北區") || \Str::contains($batch->name, "台北")) {$is_north = TRUE;}
+    }
+@endphp
 @extends('camps.ceovcamp.layout')
 @section('content')
     @include('partials.counties_areas_script')
@@ -18,7 +26,7 @@
     </div>
 
     {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態；只在[報名狀態]時提供載入舊資料選項 --}}
-    @if(!isset($isModify) && !isset($batch_id_from))
+    @if(!isset($isModify) && !isset($batch_id_from) && $is_north)
     <hr>
     <h5 class='form-control-static text-warning bg-secondary'>若您曾報名2022年菁英營義工，請點選->
     <a href="{{ route('query', 50) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary">查詢並使用 *2022年菁英營義工* 報名資料</a>
