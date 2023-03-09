@@ -410,18 +410,6 @@ class BackendController extends Controller {
                 $applicant->is_cancelled = "否";
             }
         }
-        if(auth()->user()->getPermission(false)->role->level <= 2){
-        }
-        else if(auth()->user()->getPermission(true, $this->campFullData->id)->level > 2){
-            $constraint = auth()->user()->getPermission(true, $this->campFullData->id)->region;
-            $batch = Batch::where('camp_id', $this->campFullData->id)->where('name', 'like', '%' . $constraint . '%')->first();
-            $applicants = $applicants->filter(function ($applicant) use ($constraint, $batch) {
-                if($batch){
-                    return $applicant->region == $constraint || $applicant->batch_id == $batch->id;
-                }
-                return $applicant->region == $constraint;
-            });
-        }
         // 報名名單不以繳費與否排序
         // $applicants = $applicants->sortByDesc('is_paid');
         if($request->orderByCreatedAtDesc) {
