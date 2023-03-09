@@ -27,7 +27,7 @@
 
 </style>
 @if(isset($applicants))
-    <h3 class="font-weight-bold">{{ $fullName }} >> 設定{{ ($is_vcamp && $is_care) ? '關懷組' : '' }}{{ (!$is_vcamp && $is_care) ? '關懷員' : '' }}{{ ($is_vcamp) ? '義工組別/職務' : '' }}{{ (!$is_vcamp && !$is_care) ? '學員組別' : '' }}
+    <h3 class="font-weight-bold">{{ $fullName }} >> 設定{{ (!$is_vcamp && $is_care) ? '關懷員' : '' }}{{ ($is_vcamp) ? '義工組別/職務' : '' }}{{ (!$is_vcamp && !$is_care) ? '學員組別' : '' }}
         @if($is_ingroup && $groupName)
             >> {{ $groupName }}
         @endif
