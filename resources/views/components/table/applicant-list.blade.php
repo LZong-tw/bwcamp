@@ -57,7 +57,7 @@
                                 $applicant->$key = $applicantCampData->$key;
                             }
                         @endphp
-                        @if($key == "avatar" && $applicant->avatar)
+                        @if($key == "avatar" && $user->application_log->first()->avatar)
                             <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($user->application_log->first()->avatar)) }}" width=80 alt="{{ $applicant->name }}"></td>
                         @elseif($key == "name")
                             <td>
