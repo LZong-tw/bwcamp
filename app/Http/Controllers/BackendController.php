@@ -1275,6 +1275,7 @@ class BackendController extends Controller {
         }
         $applicants = $query->get();
         $applicants = $applicants->each(fn($applicant) => $applicant->id = $applicant->applicant_id);
+        $theVcamp = Camp::find($this->campFullData->vcamp->id);
         $registeredUsers = \App\Models\User::with('roles', 'roles.batch', 'application_log')
             ->whereHas('roles', function ($query) use ($queryRoles) {
                 $query->where('camp_id', $this->campFullData->id);
@@ -1282,8 +1283,8 @@ class BackendController extends Controller {
                     $query->whereIn('camp_org.id', $queryRoles->pluck('id'));
                 }
             })
-            ->whereHas('application_log', function ($query) {
-                $query->whereIn('batch_id', $this->campFullData->vcamp->batchs->pluck('id'));
+            ->whereHas('application_log', function ($query) use ($theVcamp) {
+                $query->whereIn('batch_id', $theVcamp->batchs->pluck('id'));
             });
         if ($request->isMethod("post")) {
             if ($queryStr != "" && $showNoJob) {
