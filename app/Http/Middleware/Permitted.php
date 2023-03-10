@@ -32,15 +32,15 @@ class Permitted
                 }
             }
         }
-        $newPermissions = OrgUser::with('camp')->where('user_id', \Auth::user()->id)->get()->pluck('camp.id')->toArray();
-        $newPermissions = array_filter($newPermissions, fn ($value) => !is_null($value));
-        if(in_array($request->camp_id, $newPermissions)){
-//            $camp = \App\Models\Camp::find($request->camp_id);
-//            $currentUser = \App\Models\User::find(auth()->user()->id);
-//            $currentUser->permissionParser($camp);
-//            \View::share('currentUser', $currentUser);
-//            dd(1);
+        $newRoles = OrgUser::with('camp')->where('user_id', \Auth::user()->id)->get()->pluck('camp.id')->toArray();
+        $newRoles = array_filter($newRoles, fn ($value) => !is_null($value));
+        if(in_array($request->camp_id, $newRoles)){
             return $next($request);
+        }
+        $newPermissions = \App\Models\User::find(auth()->user()->id)->permissions;
+        if ($newPermissions) {
+            return $next($request);
+            // todo: 實做細節
         }
         if ($request->is('checkin*')) {
             $camp = \App\Models\Camp::find($request->camp_id);
