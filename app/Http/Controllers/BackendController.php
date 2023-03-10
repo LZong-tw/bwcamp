@@ -1260,7 +1260,11 @@ class BackendController extends Controller {
         }
         $batches = Batch::where("camp_id", $this->campFullData->vcamp->id)->get();
         $query = Applicant::select("applicants.*", $this->campFullData->vcamp->table . ".*", $this->campFullData->vcamp->table . ".id as ''", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
+                        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+                        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+                        ->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id')
                         ->whereDoesntHave('user.roles')
+                        ->where('camps.id', $this->campFullData->vcamp->id)
                         ->whereIn('batch_id', $batches->pluck('id'))->withTrashed();
         if ($request->isMethod("post")) {
             if ($queryStr != "") {
