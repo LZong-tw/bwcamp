@@ -1260,11 +1260,8 @@ class BackendController extends Controller {
         }
         $batches = Batch::where("camp_id", $this->campFullData->vcamp->id)->get();
         $query = Applicant::select("applicants.*", $this->campFullData->vcamp->table . ".*", $this->campFullData->vcamp->table . ".id as ''", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
-                        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
-                        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
-                        ->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id')
                         ->whereDoesntHave('user.roles')
-                        ->where('camps.id', $this->campFullData->vcamp->id)->withTrashed();
+                        ->whereIn('batch_id', $batches->pluck('id'))->withTrashed();
         if ($request->isMethod("post")) {
             if ($queryStr != "") {
                 $query = $query->where(\DB::raw($queryStr), 1);
@@ -1275,7 +1272,6 @@ class BackendController extends Controller {
         }
         $applicants = $query->get();
         $applicants = $applicants->each(fn($applicant) => $applicant->id = $applicant->applicant_id);
-        $theVcamp = Camp::find($this->campFullData->vcamp->id);
         $registeredUsers = \App\Models\User::with('roles', 'roles.batch', 'application_log')
             ->whereHas('roles', function ($query) use ($queryRoles) {
                 $query->where('camp_id', $this->campFullData->id);
@@ -1283,8 +1279,8 @@ class BackendController extends Controller {
                     $query->whereIn('camp_org.id', $queryRoles->pluck('id'));
                 }
             })
-            ->whereHas('application_log', function ($query) use ($theVcamp) {
-                $query->whereIn('batch_id', $theVcamp->batchs->pluck('id'));
+            ->whereHas('application_log', function ($query) use ($batches) {
+                $query->whereIn('batch_id', $batches->pluck('id'));
             });
         if ($request->isMethod("post")) {
             if ($queryStr != "" && $showNoJob) {
