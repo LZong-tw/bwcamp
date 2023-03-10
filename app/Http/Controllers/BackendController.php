@@ -1283,7 +1283,7 @@ class BackendController extends Controller {
                 }
             })
             ->whereHas('application_log', function ($query) {
-                $query->whereIn('batch_id', $this->campFullData->batchs->pluck('id'));
+                $query->whereIn('batch_id', $this->campFullData->vcamp->batchs->pluck('id'));
             });
         if ($request->isMethod("post")) {
             if ($queryStr != "" && $showNoJob) {
