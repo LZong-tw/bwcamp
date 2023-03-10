@@ -55,10 +55,15 @@
                                 $theClass = "\\App\\Models\\" . ucfirst($campFullData->vcamp->table);
                                 $applicantCampData = $theClass::where('applicant_id', $applicant->id)->first();
                                 $applicant->$key = $applicantCampData->$key;
+                                if ($key == "group_priority") {
+                                    $applicant->group_priority1 = $applicantCampData->group_priority1;
+                                    $applicant->group_priority2 = $applicantCampData->group_priority2;
+                                    $applicant->group_priority3 = $applicantCampData->group_priority3;
+                                }
                             }
                         @endphp
-                        @if($key == "avatar" && $user->application_log->first()->avatar)
-                            <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($user->application_log->first()->avatar)) }}" width=80 alt="{{ $applicant->name }}"></td>
+                        @if($key == "avatar" && $applicant->avatar)
+                            <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($applicant->avatar)) }}" width=80 alt="{{ $applicant->name }}"></td>
                         @elseif($key == "name")
                             <td>
                                 <a href="{{ route('showAttendeeInfoGET', ($isShowVolunteers ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->id }}" target="_blank">{{ $applicant->name }}</a>
