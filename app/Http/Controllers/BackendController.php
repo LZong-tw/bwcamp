@@ -1821,8 +1821,15 @@ class BackendController extends Controller {
     public function connectVolunteerToUser(Request $request) {
         if ($request->isMethod("GET")) {
             $list = [];
+            $errors = [];
             if (!$request->applicant_ids) {
-                return back()->withErrors(['未選擇任何義工。']);
+                $errors[] = '未選擇任何義工。';
+            }
+            if (!$request->group_id) {
+                $errors[] = '未選擇任何職務組別。';
+            }
+            if (count($errors)) {
+                return redirect()->back()->withErrors($errors);
             }
             foreach ($request->applicant_ids as $applicant_id) {
                 $type = substr($applicant_id, 0, 1);
