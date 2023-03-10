@@ -893,6 +893,9 @@ class BackendController extends Controller {
         if($applicant){
             $applicant = $this->applicantService->Mandarization($applicant);
         }
+        else {
+            return "<h1>異常狀況發生，請將網址提供給開發人員檢查。</h1>";
+        }
         $batch = Batch::find($applicant->batch_id);
         $contactlog = ContactLog::where("applicant_id", $applicant->applicant_id)->orderByDesc
         ('id')->first();
