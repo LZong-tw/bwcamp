@@ -1281,6 +1281,9 @@ class BackendController extends Controller {
                 if ($queryRoles) {
                     $query->whereIn('camp_org.id', $queryRoles->pluck('id'));
                 }
+            })
+            ->whereHas('application_log', function ($query) {
+                $query->whereIn('batch_id', $this->campFullData->batchs->pluck('id'));
             });
         if ($request->isMethod("post")) {
             if ($queryStr != "" && $showNoJob) {
@@ -1818,6 +1821,9 @@ class BackendController extends Controller {
     public function connectVolunteerToUser(Request $request) {
         if ($request->isMethod("GET")) {
             $list = [];
+            if (!$request->applicant_ids) {
+                return back()->withErrors(['未選擇任何義工。']);
+            }
             foreach ($request->applicant_ids as $applicant_id) {
                 $type = substr($applicant_id, 0, 1);
                 $id = substr($applicant_id, 1);
