@@ -1276,7 +1276,10 @@ class BackendController extends Controller {
         }
         $applicants = $query->get();
         $applicants = $applicants->each(fn($applicant) => $applicant->id = $applicant->applicant_id);
-        $registeredUsers = \App\Models\User::with('roles', 'roles.batch', 'application_log')
+        $registeredUsers = \App\Models\User::with(['roles', 'roles.batch', 'application_log' => function($query) use ($batches) {
+                $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');
+                $query->whereIn('batch_id', $batches->pluck('id'));
+            }])
             ->whereHas('roles', function ($query) use ($queryRoles) {
                 $query->where('camp_id', $this->campFullData->id);
                 if ($queryRoles) {
@@ -1284,38 +1287,28 @@ class BackendController extends Controller {
                 }
             })
             ->whereHas('application_log', function ($query) use ($batches) {
+                $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');
                 $query->whereIn('batch_id', $batches->pluck('id'));
             });
         if ($request->isMethod("post")) {
             if ($queryStr != "" && $showNoJob) {
                 $registeredUsers = $registeredUsers->orWhereHas('application_log',
-                    function ($query) use ($queryStr, $batches) {
-                        $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');
+                    function ($query) use ($queryStr) {
                         $query->where(\DB::raw($queryStr), 1);
-                        $query->whereIn('batch_id', $batches->pluck('id'));
                     })->get();
             }
             elseif ($queryStr != "") {
                 $registeredUsers = $registeredUsers->whereHas('application_log',
-                    function ($query) use ($queryStr, $batches) {
-                        $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');
+                    function ($query) use ($queryStr) {
                         $query->where(\DB::raw($queryStr), 1);
-                        $query->whereIn('batch_id', $batches->pluck('id'));
                     })->get();
             }
             else {
-                $registeredUsers = $registeredUsers->whereHas('application_log',
-                    function ($query) use ($batches) {
-                        $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');
-                        $query->whereIn('batch_id', $batches->pluck('id'));
-                    })->get();
+                $registeredUsers = $registeredUsers->get();
             }
         }
         else {
-            $registeredUsers = $registeredUsers->whereHas('application_log', function ($query) use ($batches) {
-                $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');
-                $query->whereIn('batch_id', $batches->pluck('id'));
-            })->get();
+            $registeredUsers = $registeredUsers->get();
         }
         if($request->isSetting==1) {
             $isSetting = 1;
