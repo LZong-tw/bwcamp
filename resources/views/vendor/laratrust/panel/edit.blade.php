@@ -151,36 +151,16 @@
                                             <input type="hidden" name="resources_name[{{ $resource["class"] }}]" value="{{ $resource["name"] }}">
                                         </td>
                                         <td>{{ $resource["description"] ?? '說明' }}</td>
-                                        <td>
-                                            <input type="checkbox" name="resources[{{ $resource["class"] }}][]" value="assign" id="" @checked($complete_permissions->where('resource', $resource["class"])->where('action', "assign")->count())>
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" name="resources[{{ $resource["class"] }}][]" value="read" id="" @checked($complete_permissions->where('resource', $resource["class"])->where('action', "read")->count())>
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" name="resources[{{ $resource["class"] }}][]" value="create" id="" @checked($complete_permissions->where('resource', $resource["class"])->where('action', "create")->count())>
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" name="resources[{{ $resource["class"] }}][]" value="update" id="" @checked($complete_permissions->where('resource', $resource["class"])->where('action', "update")->count())>
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" name="resources[{{ $resource["class"] }}][]" value="delete" id="" @checked($complete_permissions->where('resource', $resource["class"])->where('action', "delete")->count())>
-                                        </td>
-                                        <td>
-                                            <input type="radio" name="range[{{ $resource["class"] }}]" id="" value="na" @checked(old('range' . "[{$resource["class"]}]") == "na" || $complete_permissions->where('resource', $resource["class"])->where('range', "na")->count())>
-                                        </td>
-                                        <td>
-                                            <input type="radio" name="range[{{ $resource["class"] }}]" id="" value="learner_group" @checked(old('range[{{ $resource["class"] }}]') == 'learner_group' || $complete_permissions->where('resource', $resource["class"])->where('range', "learner_group")->count())>
-                                        </td>
-                                        <td>
-                                            <input type="radio" name="range[{{ $resource["class"] }}]" id="" value="volunteer_large_group" @checked(old('range[{{ $resource["class"] }}]') == 'volunteer_large_group' || $complete_permissions->where('resource', $resource["class"])->where('range', "volunteer_large_group")->count())>
-                                        </td>
-                                        <td>
-                                            <input type="radio" name="range[{{ $resource["class"] }}]" id="" value="person" @checked(old('range[{{ $resource["class"] }}]') == 'person' || $complete_permissions->where('resource', $resource["class"])->where('range', "person")->count())>
-                                        </td>
-                                        <td>
-                                            <input type="radio" name="range[{{ $resource["class"] }}]" id="" value="all" @checked(old('range[{{ $resource["class"] }}]') == 'all' || $complete_permissions->where('resource', $resource["class"])->where('range', "all")->count())>
-                                        </td>
+                                        @foreach(["assign", "read", "create", "update", "delete"] as $action)
+                                            <td>
+                                                <input type="checkbox" name="resources[{{ $resource["class"] }}][]" value="{{ $action }}" class="checkbox" @checked($complete_permissions->where('resource', $resource["class"])->where('action', $action)->count())>
+                                            </td>
+                                        @endforeach
+                                        @foreach(["na", "learner_group", "volunteer_large_group", "person", "all"] as $range)
+                                            <td>
+                                                <input type="radio" name="range[{{ $resource["class"] }}]" class="radio" value="{{ $range }}" @checked(old('range' . "[{$resource["class"]}]") == $range || $complete_permissions->where('resource', $resource["class"])->where('range', $range)->count())>
+                                            </td>
+                                        @endforeach
                                     </tr>
                                 @endif
                             @endforeach
@@ -215,6 +195,32 @@
         </div>
     </div>
     <script>
+        (function () {
+            let checkboxes = document.getElementsByClassName("checkbox");
+            let radios = document.getElementsByClassName("radio");
+            for (let i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].checked && checkboxes[i].parentNode.classList.add("bg-success");
+                checkboxes[i].addEventListener("change", function () {
+                    if (this.checked) {
+                        this.parentNode.classList.add("bg-success");
+                    }
+                    else {
+                        this.parentNode.classList.remove("bg-success");
+                    }
+                });
+            }
+            for (let i = 0; i < radios.length; i++) {
+                radios[i].checked && radios[i].parentNode.classList.add("bg-success");
+                radios[i].addEventListener("change", function () {
+                    if (this.checked) {
+                        this.parentNode.classList.add("bg-success");
+                    }
+                    else {
+                        this.parentNode.classList.remove("bg-success");
+                    }
+                });
+            }
+        })();
         window.laratrustForm = function () {
             return {
                 displayName: '{{ $model->display_name ?? old('display_name') }}',
