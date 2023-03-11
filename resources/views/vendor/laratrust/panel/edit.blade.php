@@ -125,13 +125,16 @@
                             @foreach($availableResources as $resource)
                                 @if($resource["name"])
                                     <tr>
-                                        <td>{{ $resource["name"] }}</td>
+                                        <td>
+                                            {{ $resource["name"] }}
+                                            <input type="hidden" name="resources_name[{{ $resource["class"] }}]" value="{{ $resource["name"] }}">
+                                        </td>
                                         <td>{{ $resource["description"] ?? '說明' }}</td>
-                                        <td><input type="checkbox" name="{{ $resource["class"] }}[]" value="{{ $resource["class"] }}.assign" id=""></td>
-                                        <td><input type="checkbox" name="{{ $resource["class"] }}[]" value="{{ $resource["class"] }}.read" id=""></td>
-                                        <td><input type="checkbox" name="{{ $resource["class"] }}[]" value="{{ $resource["class"] }}.create" id=""></td>
-                                        <td><input type="checkbox" name="{{ $resource["class"] }}[]" value="{{ $resource["class"] }}.update" id=""></td>
-                                        <td><input type="checkbox" name="{{ $resource["class"] }}[]" value="{{ $resource["class"] }}.delete" id=""></td>
+                                        <td><input type="checkbox" name="resources[{{ $resource["class"] }}][]" value="assign" id=""></td>
+                                        <td><input type="checkbox" name="resources[{{ $resource["class"] }}][]" value="read" id=""></td>
+                                        <td><input type="checkbox" name="resources[{{ $resource["class"] }}][]" value="create" id=""></td>
+                                        <td><input type="checkbox" name="resources[{{ $resource["class"] }}][]" value="update" id=""></td>
+                                        <td><input type="checkbox" name="resources[{{ $resource["class"] }}][]" value="delete" id=""></td>
                                         <td><input type="radio" name="range[{{ $resource["class"] }}]" id="" value="na" @checked(!old('range' . "[{$resource["class"]}]") ||
                                                         old('range' . "[{$resource["class"]}]") == "na")></td>
                                         <td><input type="radio" name="range[{{ $resource["class"] }}]" id="" value="learner_group" @checked(old('range[{{ $resource["class"] }}]') == 'learner_group')></td>
