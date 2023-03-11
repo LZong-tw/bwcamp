@@ -106,8 +106,11 @@ class RolesController extends BackendController
                 return $permission;
             });
 
+        $role2 = $this->rolesModel::query()->with('permissions')->findOrFail($id);
+
         return View::make('vendor.laratrust.panel.edit', [
             'model' => $role,
+            'complete_permissions' => $role2->permissions,
             'permissions' => $permissions,
             'type' => 'role',
             'typeInMandarin' => '職務',
