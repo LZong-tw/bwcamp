@@ -12,6 +12,7 @@ use App\Http\Controllers\BackendController;
 use App\Services\CampDataService;
 use App\Services\ApplicantService;
 use App\Services\BackendService;
+use Termwind\Components\Dd;
 
 class RolesController extends BackendController
 {
@@ -115,6 +116,28 @@ class RolesController extends BackendController
 
     public function update(Request $request, $camp_id, $id)
     {
+        $totalPermissions = [];
+        if ($request->resources) {
+            foreach ($request->resources as $resource => $actions) {
+                foreach ($actions as $key => $action) {
+                    $role = $this->rolesModel::findOrFail($id);
+                    $permission = $this->permissionModel::firstOrCreate([
+                        'name' => $resource . '.' . $action,
+                        'display_name' => $this->campFullData->abbreviation . '-' . $action . ' ' . $request->resources_name[$resource],
+                        'description' => $this->campFullData->abbreviation . '-' . $action . ' ' . $request->resources_name[$resource],
+                        'resource' => $resource,
+                        'action' => $action,
+                        'range' => $request->range[$resource],
+                        'camp_id' => $role->camp_id,
+                        'batch_id' => $role->batch_id,
+                    ]);
+                    $totalPermissions[] = $permission->id;
+                }
+            }
+        }
+        else {
+
+        }
         $role = $this->rolesModel::findOrFail($id);
 
         if (!Helper::roleIsEditable($role)) {
@@ -128,8 +151,9 @@ class RolesController extends BackendController
             'permissions' => 'nullable|array',
         ]);
 
+        $totalPermissions = array_merge($totalPermissions, $request->get('permissions') ?? []);
         $role->update($data);
-        $role->syncPermissions($request->get('permissions') ?? []);
+        $role->syncPermissions($totalPermissions);
 
         Session::flash('laratrust-success', 'Role updated successfully');
         return redirect(route('laratrustCustom.roles.index', $this->camp_id));
