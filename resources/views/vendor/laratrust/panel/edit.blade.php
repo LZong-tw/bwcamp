@@ -62,7 +62,7 @@
                             <select x-model="resource" name="resource" id="" class='form-select' required>
                                 <option value="">請選擇</option>
                                 @foreach($modelsAvailable as $key => $availableModel)
-                                    <option value="{{ $availableModel['class'] }}" @if($model?->resource == $availableModel['class']) selected @endif>{{ $availableModel["name"] }}</option>
+                                    <option value="{{ $availableModel['class'] }}" @if($model?->resource == $availableModel['class']) checked @endif>{{ $availableModel["name"] }}</option>
                                 @endforeach
                             </select>
                         @else
@@ -122,7 +122,28 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($availableResources as $resource)
+                            @foreach($availableResources as $key => $resource)
+                                @if ($key != 0 && $key % 14 == 0)
+                                    <tr>
+                                        <th rowspan="2" class="align-middle">義工可以操作的東西</th>
+                                        <th rowspan="2" class="align-middle">這些東西包含什麼</th>
+                                        <th colspan="5">他可以做什麼動作</th>
+                                        <th colspan="5">這個動作的影響範圍</th>
+                                    </tr>
+                                    <tr>
+                                        <th>指派</th>
+                                        <th>瀏覽</th>
+                                        <th>新增</th>
+                                        <th>修改</th>
+                                        <th>刪除</th>
+
+                                        <th>不指定</th>
+                                        <th>限學員小組</th>
+                                        <th>限義工大組</th>
+                                        <th>限個別學員</th>
+                                        <th>全部</th>
+                                    </tr>
+                                @endif
                                 @if($resource["name"])
                                     <tr>
                                         <td>
@@ -130,17 +151,36 @@
                                             <input type="hidden" name="resources_name[{{ $resource["class"] }}]" value="{{ $resource["name"] }}">
                                         </td>
                                         <td>{{ $resource["description"] ?? '說明' }}</td>
-                                        <td><input type="checkbox" name="resources[{{ $resource["class"] }}][]" value="assign" id=""></td>
-                                        <td><input type="checkbox" name="resources[{{ $resource["class"] }}][]" value="read" id=""></td>
-                                        <td><input type="checkbox" name="resources[{{ $resource["class"] }}][]" value="create" id=""></td>
-                                        <td><input type="checkbox" name="resources[{{ $resource["class"] }}][]" value="update" id=""></td>
-                                        <td><input type="checkbox" name="resources[{{ $resource["class"] }}][]" value="delete" id=""></td>
-                                        <td><input type="radio" name="range[{{ $resource["class"] }}]" id="" value="na" @checked(!old('range' . "[{$resource["class"]}]") ||
-                                                        old('range' . "[{$resource["class"]}]") == "na")></td>
-                                        <td><input type="radio" name="range[{{ $resource["class"] }}]" id="" value="learner_group" @checked(old('range[{{ $resource["class"] }}]') == 'learner_group')></td>
-                                        <td><input type="radio" name="range[{{ $resource["class"] }}]" id="" value="volunteer_large_group" @checked(old('range[{{ $resource["class"] }}]') == 'volunteer_large_group')></td>
-                                        <td><input type="radio" name="range[{{ $resource["class"] }}]" id="" value="person" @checked(old('range[{{ $resource["class"] }}]') == 'person')></td>
-                                        <td><input type="radio" name="range[{{ $resource["class"] }}]" id="" value="all" @checked(old('range[{{ $resource["class"] }}]') == 'all')></td>
+                                        <td>
+                                            <input type="checkbox" name="resources[{{ $resource["class"] }}][]" value="assign" id="" @checked($complete_permissions->where('resource', $resource["class"])->where('action', "assign")->count())>
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" name="resources[{{ $resource["class"] }}][]" value="read" id="" @checked($complete_permissions->where('resource', $resource["class"])->where('action', "read")->count())>
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" name="resources[{{ $resource["class"] }}][]" value="create" id="" @checked($complete_permissions->where('resource', $resource["class"])->where('action', "create")->count())>
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" name="resources[{{ $resource["class"] }}][]" value="update" id="" @checked($complete_permissions->where('resource', $resource["class"])->where('action', "update")->count())>
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" name="resources[{{ $resource["class"] }}][]" value="delete" id="" @checked($complete_permissions->where('resource', $resource["class"])->where('action', "delete")->count())>
+                                        </td>
+                                        <td>
+                                            <input type="radio" name="range[{{ $resource["class"] }}]" id="" value="na" @checked(old('range' . "[{$resource["class"]}]") == "na" || $complete_permissions->where('resource', $resource["class"])->where('range', "na")->count())>
+                                        </td>
+                                        <td>
+                                            <input type="radio" name="range[{{ $resource["class"] }}]" id="" value="learner_group" @checked(old('range[{{ $resource["class"] }}]') == 'learner_group' || $complete_permissions->where('resource', $resource["class"])->where('range', "learner_group")->count())>
+                                        </td>
+                                        <td>
+                                            <input type="radio" name="range[{{ $resource["class"] }}]" id="" value="volunteer_large_group" @checked(old('range[{{ $resource["class"] }}]') == 'volunteer_large_group' || $complete_permissions->where('resource', $resource["class"])->where('range', "volunteer_large_group")->count())>
+                                        </td>
+                                        <td>
+                                            <input type="radio" name="range[{{ $resource["class"] }}]" id="" value="person" @checked(old('range[{{ $resource["class"] }}]') == 'person' || $complete_permissions->where('resource', $resource["class"])->where('range', "person")->count())>
+                                        </td>
+                                        <td>
+                                            <input type="radio" name="range[{{ $resource["class"] }}]" id="" value="all" @checked(old('range[{{ $resource["class"] }}]') == 'all' || $complete_permissions->where('resource', $resource["class"])->where('range', "all")->count())>
+                                        </td>
                                     </tr>
                                 @endif
                             @endforeach
