@@ -1296,13 +1296,17 @@ class BackendController extends Controller {
         if ($request->isMethod("post")) {
             if ($queryStr != "" && $showNoJob) {
                 $registeredUsers = $registeredUsers->orWhereHas('application_log',
-                    function ($query) use ($queryStr) {
+                    function ($query) use ($queryStr, $batches) {
+                        $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');
+                        $query->whereIn('batch_id', $batches->pluck('id'));
                         $query->where(\DB::raw($queryStr), 1);
                     })->get();
             }
             elseif ($queryStr != "") {
                 $registeredUsers = $registeredUsers->whereHas('application_log',
-                    function ($query) use ($queryStr) {
+                    function ($query) use ($queryStr, $batches) {
+                        $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');
+                        $query->whereIn('batch_id', $batches->pluck('id'));
                         $query->where(\DB::raw($queryStr), 1);
                     })->get();
             }
