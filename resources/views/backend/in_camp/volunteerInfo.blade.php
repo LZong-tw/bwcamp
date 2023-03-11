@@ -59,8 +59,20 @@
                 <b>職稱</b>：{{$applicant->title}}<br>
                 <b>職務類型</b>：{{$applicant->job_property}}<br>
             </div>
+            @php
+                $roles = $applicant->user?->roles()->where('camp_id', $applicant->vcamp->mainCamp->id)->get();
+                if (!$roles) {
+                    $roles = [];
+                }
+            @endphp
             <div class="col-md-3">
-                <b>義工任務</b>：<br>
+                <b>義工任務</b>：
+                @forelse($roles as $role)
+                    {{ $role->batch?->name }}{{ $role->section }} - {{ $role->position }}（<a href="{{ route('deleteUserRole', [$camp->id, "user_id" => $applicant->user->id, "role_id" => $role->id, "applicant_id" => $applicant->id]) }}" class="text-danger">刪除</a>）@if(!$loop->last)、@endif
+                @empty
+                    此義工尚未分配任何職務
+                @endforelse
+                <br>
                 <b>交通方式</b>：{{$applicant->group_legacy}}<br>
                 <b>專長</b>：
                 @if(isset($applicant->expertise_split))
@@ -75,31 +87,31 @@
         </div>
     </div>
 
-    <div class="container alert alert-primary">
-        @php
-            $roles = $applicant->user?->roles()->where('camp_id', $applicant->vcamp->mainCamp->id)->get();
-            if (!$roles) {
-                $roles = [];
-            }
-        @endphp
-        @forelse($roles as $role)
-            <div class="row">
-                <div class="col-md-8">
-                    {{ $role->batch?->name }}{{ $role->section }} - {{ $role->position }}
-                </div>
-                <div class="col-md-4">
-                    <a href="{{ route('deleteUserRole', [$camp->id, "user_id" => $applicant->user->id, "role_id" => $role->id, "applicant_id" => $applicant->id]) }}" class="btn btn-danger">刪除</a>
-                </div>
-            </div>
-        @empty
-            <div class="row">
-                <div class="col-md-12">
-                    此義工尚未分配任何職務
-                </div>
-            </div>
-        @endforelse
-    </div>
-    <br>
+{{--    <div class="container alert alert-primary">--}}
+{{--        @php--}}
+{{--            $roles = $applicant->user?->roles()->where('camp_id', $applicant->vcamp->mainCamp->id)->get();--}}
+{{--            if (!$roles) {--}}
+{{--                $roles = [];--}}
+{{--            }--}}
+{{--        @endphp--}}
+{{--        @forelse($roles as $role)--}}
+{{--            <div class="row">--}}
+{{--                <div class="col-md-8">--}}
+{{--                    {{ $role->batch?->name }}{{ $role->section }} - {{ $role->position }}--}}
+{{--                </div>--}}
+{{--                <div class="col-md-4">--}}
+{{--                    <a href="{{ route('deleteUserRole', [$camp->id, "user_id" => $applicant->user->id, "role_id" => $role->id, "applicant_id" => $applicant->id]) }}" class="btn btn-danger">刪除</a>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        @empty--}}
+{{--            <div class="row">--}}
+{{--                <div class="col-md-12">--}}
+{{--                    此義工尚未分配任何職務--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        @endforelse--}}
+{{--    </div>--}}
+{{--    <br>--}}
 
     <div class="container">
         <div class="row">
