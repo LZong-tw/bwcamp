@@ -491,6 +491,7 @@ class BackendService
                     }
                     else if (is_string($parameter)) {
                         if ($key == 'name') { $key = 'applicants.name'; }
+                        if ($key == 'industry') { $key = $camp->vcamp->table . '.industry'; }
                         $queryStr .= $key . " like '%" . $parameter . "%'";
                     }
                     if ($index != count($parameters) - 1) {
