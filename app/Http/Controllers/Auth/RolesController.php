@@ -130,7 +130,7 @@ class RolesController extends BackendController
                         'description' => $this->campFullData->abbreviation . '-' . $action . ' ' . $request->resources_name[$resource],
                         'resource' => $resource,
                         'action' => $action,
-                        'range' => $request->range[$resource],
+                        'range' => $request->range ? $request->range[$resource] : null,
                         'camp_id' => $role->camp_id,
                         'batch_id' => $role->batch_id,
                     ]);
