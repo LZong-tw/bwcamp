@@ -139,10 +139,10 @@ class RolesController extends BackendController
             }
         }
         else if ($request->range && !$request->resources) {
-            return back()->withErrors(['resources' => '請選擇動作。']);
+            return back()->withErrors(['resources' => '您先前只選擇了範圍，未選擇動作。']);
         }
         else if (!$request->range && $request->resources) {
-            return back()->withErrors(['range' => '請選擇範圍。']);
+            return back()->withErrors(['range' => '您先前只選擇了動作，未選擇範圍。']);
         }
         $role = $this->rolesModel::findOrFail($id);
 
