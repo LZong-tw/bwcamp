@@ -120,7 +120,7 @@ class RolesController extends BackendController
     public function update(Request $request, $camp_id, $id)
     {
         $totalPermissions = [];
-        if ($request->resources) {
+        if ($request->resources && $request->range) {
             foreach ($request->resources as $resource => $actions) {
                 foreach ($actions as $key => $action) {
                     $role = $this->rolesModel::findOrFail($id);
@@ -130,7 +130,7 @@ class RolesController extends BackendController
                         'description' => $this->campFullData->abbreviation . '-' . $action . ' ' . $request->resources_name[$resource],
                         'resource' => $resource,
                         'action' => $action,
-                        'range' => $request->range ? $request->range[$resource] : null,
+                        'range' => $request->range[$resource],
                         'camp_id' => $role->camp_id,
                         'batch_id' => $role->batch_id,
                     ]);
@@ -138,8 +138,11 @@ class RolesController extends BackendController
                 }
             }
         }
-        else {
-
+        else if ($request->range && !$request->resources) {
+            return back()->withErrors(['resources' => '請選擇動作。']);
+        }
+        else if (!$request->range && $request->resources) {
+            return back()->withErrors(['range' => '請選擇範圍。']);
         }
         $role = $this->rolesModel::findOrFail($id);
 
