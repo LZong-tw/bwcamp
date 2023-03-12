@@ -99,6 +99,12 @@
                     >{{ $model->description ?? old('description') }}</textarea>
                 </label>
                 @if($type == 'role')
+                    @error('range')
+                        <div class="text-red-500 text-sm mt-1">{{ $message}} </div>
+                    @enderror
+                    @error('resources')
+                        <div class="text-red-500 text-sm mt-1">{{ $message}} </div>
+                    @enderror
                     <table class="table table-bordered table-hover text-center">
                         <thead>
                             <tr>
