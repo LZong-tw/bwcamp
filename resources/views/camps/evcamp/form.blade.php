@@ -74,11 +74,14 @@
         <div class='col-md-10'>
             <select required class='form-control' name='group_priority1' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
-                <option value='關懷組' >關懷組</option>
-                <option value='行政組' >行政組</option>
                 <option value='資訊組' >資訊組</option>
                 <option value='秘書組' >秘書組</option>
                 <option value='教務組' >教務組</option>
+                <option value='關懷組' >關懷組</option>
+                <option value='總務組' >總務組</option>
+                <option value='公關組' >公關組</option>
+                <option value='海外組' >海外組</option>
+                <option value='報到組義工' >報到組義工</option>
                 <option value='依營隊需求安排' >依營隊需求安排</option>
             </select>
         {{--
@@ -94,11 +97,14 @@
         <div class='col-md-10'>
             <select class='form-control' name='group_priority2' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
-                <option value='關懷組' >關懷組</option>
-                <option value='行政組' >行政組</option>
                 <option value='資訊組' >資訊組</option>
                 <option value='秘書組' >秘書組</option>
                 <option value='教務組' >教務組</option>
+                <option value='關懷組' >關懷組</option>
+                <option value='總務組' >總務組</option>
+                <option value='公關組' >公關組</option>
+                <option value='海外組' >海外組</option>
+                <option value='報到組義工' >報到組義工</option>
                 <option value='無' >無</option>
             </select>
         </div>  
@@ -109,11 +115,14 @@
         <div class='col-md-10'>
             <select class='form-control' name='group_priority3' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
-                <option value='關懷組' >關懷組</option>
-                <option value='行政組' >行政組</option>
                 <option value='資訊組' >資訊組</option>
                 <option value='秘書組' >秘書組</option>
                 <option value='教務組' >教務組</option>
+                <option value='關懷組' >關懷組</option>
+                <option value='總務組' >總務組</option>
+                <option value='公關組' >公關組</option>
+                <option value='海外組' >海外組</option>
+                <option value='報到組義工' >報到組義工</option>
                 <option value='無' >無</option>
             </select>
         </div>  
@@ -288,6 +297,7 @@
             <label><input type="checkbox" name=transport[] value='摩托車' > 摩托車</label> <br/>
             <label><input type="checkbox" name=transport[] value='大眾運輸' > 大眾運輸</label> <br/>
             <label><input type="checkbox" name=transport[] value='走路' > 走路</label> <br/>
+            {{-- 其它 --}}
             <label>
                 <input type="checkbox" name=transport[] value='其它' id="transport_other_checkbox" onclick="setTransportOther(this)"> 其它：
                 <input type="text" name="transport_other" id="transport_other_text" class="form-control" onclick="transport_other_checkbox.checked = true; this.required = true;">
@@ -295,7 +305,6 @@
                     請選擇日常交通方式，若選其它請填寫何種交通方式。
                 </div>
             </label>
-            {{-- 其它 --}}
         </div>
     </div>
 
@@ -321,14 +330,14 @@
             <label><input type="checkbox" name=expertise[] value='電腦文書處理' > 電腦文書處理</label> <br/>
             <label><input type="checkbox" name=expertise[] value='影音多媒體' > 影音多媒體</label> <br/>
             <label><input type="checkbox" name=expertise[] value='程式開發/網頁設計' > 程式開發/網頁設計</label> <br/>
-            <label>
+            <label><input type="checkbox" name=expertise[] value='美髮/美容' > 美髮/美容</label> <br/>     <label>
+            {{-- 其它 --}}
                 <input type="checkbox" name=expertise[] value='其它' id="expertise_other_checkbox" onclick="setExpertiseOther(this)"> 其它：
                 <input type="text" name="expertise_other" id="expertise_other_text" class="form-control" onclick="expertise_other_checkbox.checked = true; this.required = true;">
                 <div class="invalid-feedback">
                     請選擇專長，若選其它請填寫何種專長。
                 </div>
             </label>
-            {{-- 其它 --}}
         </div>
     </div>
 
@@ -336,11 +345,16 @@
     <div class='row form-group'>
         <label for='inputLanguage' class='col-md-2 control-label text-md-right'>語言(多選)</label>
         <div class='col-md-10'>
+            <label><input type="checkbox" name=language[] value='中文' > 中文</label> <br/>
             <label><input type="checkbox" name=language[] value='英語' > 英語</label> <br/>
             <label><input type="checkbox" name=language[] value='日語' > 日語</label> <br/>
+            <label><input type="checkbox" name=language[] value='韓語' > 韓語</label> <br/>
+            <label><input type="checkbox" name=language[] value='馬來語' > 馬來語</label> <br/>
+            <label><input type="checkbox" name=language[] value='印尼語' > 印尼語</label> <br/>
+            <label><input type="checkbox" name=language[] value='越南語' > 越南語</label> <br/>
             <label><input type="checkbox" name=language[] value='台語' > 台語</label> <br/>
             <label><input type="checkbox" name=language[] value='客語' > 客語</label> <br/>
-            <label><input type="checkbox" name=language[] value='越南語' > 越南語</label> <br/>
+            {{-- 其它 --}}
             <label>
                 <input type="checkbox" name=language[] value='其它' id="language_other_checkbox" onclick="setLanguageOther(this)"> 其它：
                 <input type="text" name="language_other" id="language_other_text" class="form-control" onclick="language_other_checkbox.checked = true; this.required = true;">
@@ -348,7 +362,6 @@
                     請選擇語言，若選其它請填寫何種語言。
                 </div>
             </label>
-            {{-- 其它 --}}
         </div>
     </div>
 
@@ -372,14 +385,17 @@
             <select required class='form-control' name='industry' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
                 <option value='電子科技/資訊/軟體/半導體' >電子科技/資訊/軟體/半導體</option>
-                <option value='傳產製造' >傳產製造</option>
-                <option value='金融/保險/貿易' >金融/保險/貿易</option>
-                <option value='法律/會計/顧問' >法律/會計/顧問</option>
-                <option value='政治/宗教/社福' >政治/宗教/社福</option>
-                <option value='建築/營造/不動產' >建築/營造/不動產</option>
-                <option value='醫療照護' >醫療照護</option>
-                <option value='民生服務業' >民生服務業</option>
-                <option value='廣告/傳播/出版' >廣告/傳播/出版</option>
+                <option value='製造業' >製造業</option>
+                <option value='金融及保險業' >金融及保險業</option>
+                <option value='教育業' >教育業</option>
+                <option value='大眾傳播業' >大眾傳播業</option>
+                <option value='住宿及餐飲業' >住宿及餐飲業</option>
+                <option value='公共事業' >公共事業</option>
+                <option value='運輸及倉儲業' >運輸及倉儲業</option>
+                <option value='營建工程業' >營建工程業</option>
+                <option value='批發及零售業' >批發及零售業</option>
+                <option value='藝術、娛樂及休閒服務業' >藝術、娛樂及休閒服務業</option>
+                <option value='醫療保健及社會工作服務' >醫療保健及社會工作服務</option>
                 <option value='其它' >其它</option>
             </select>
             <div class="invalid-feedback crumb">
