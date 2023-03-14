@@ -163,11 +163,11 @@ class User extends Authenticatable
                     return true;
                 // 1: volunteer_large_group
                 case 1:
-                    if ($class == "App\Models\Applicant" && $resource->user()->roles) {
-                        return $resource->user()->roles->whereIn("id", $this->camp_roles->pluck("org_id"));
+                    if (($class == "App\Models\Applicant" || $class == "App\Models\Volunteer") && $resource->user?->roles) {
+                        return $resource->user->roles->whereIn("section", $this->camp_roles->pluck("section"))->count();
                     }
-                    if (($class == "App\Models\User" || $class == "App\Models\Volunteer" || $class == "App\User") && $resource->roles) {
-                        return $resource->roles->whereIn("id", $this->camp_roles->pluck("org_id"));
+                    if (($class == "App\Models\User" || $class == "App\User") && $resource->roles) {
+                        return $resource->roles->whereIn("section", $this->camp_roles->pluck("section"))->count();
                     }
                     return false;
                 // 2: learner_group
