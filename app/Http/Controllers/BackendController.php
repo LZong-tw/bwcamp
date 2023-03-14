@@ -1294,60 +1294,6 @@ class BackendController extends Controller {
                 $query->whereIn('batch_id', $batches->pluck('id'));
             });
         if ($request->isMethod("post")) {
-//            if ($queryRoles && $queryRoles->count() == 0 && $showNoJob) {
-//                $registeredUsers = $registeredUsers->whereDoesntHave('roles');
-//                if ($queryStr != " (1 = 1) ") {
-//                    $registeredUsers = $registeredUsers->orWhereHas('application_log',
-//                        function ($query) use ($queryStr, $batches) {
-//                            $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');
-//                            $query->whereIn('batch_id', $batches->pluck('id'));
-//                            $query->where(\DB::raw($queryStr), 1);
-//                        });
-//                }
-//            }
-//            elseif ($showNoJob) {
-//                if ($queryStr != " (1 = 1) " && $queryRoles->count() > 0) {
-//                    $registeredUsers = $registeredUsers->where(function ($query) use ($queryRoles) {
-//                            $query->WhereDoesntHave('roles')
-//                                    ->orwhereHas('roles', function ($query) use ($queryRoles) {
-//                                        $query->where('camp_id', $this->campFullData->id);
-//                                        if ($queryRoles) {
-//                                            $query->whereIn('camp_org.id', $queryRoles->pluck('id'));
-//                                        }
-//                                    });
-//                        })
-//                        ->WhereHas('application_log',
-//                            function ($query) use ($queryStr, $batches) {
-//                                $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');
-//                                $query->whereIn('batch_id', $batches->pluck('id'));
-//                                $query->where(\DB::raw($queryStr), 1);
-//                        });
-//                }
-//                elseif ($queryStr != " (1 = 1) ") {
-//                    $registeredUsers = $registeredUsers->WhereDoesntHave('roles')->WhereHas('application_log',
-//                        function ($query) use ($queryStr, $batches) {
-//                            $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');
-//                            $query->whereIn('batch_id', $batches->pluck('id'));
-//                            $query->where(\DB::raw($queryStr), 1);
-//                        });
-//                }
-//                elseif ($queryStr == " (1 = 1) " && $queryRoles->count() == 0) {
-//                    $registeredUsers = $registeredUsers->whereDoesntHave('roles');
-//                }
-//                else {
-//                    $registeredUsers = $registeredUsers->orWhereDoesntHave('roles');
-//                }
-//            }
-//            else {
-//                if ($queryStr != " (1 = 1) ") {
-//                    $registeredUsers = $registeredUsers->WhereHas('application_log',
-//                        function ($query) use ($queryStr, $batches) {
-//                            $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');
-//                            $query->whereIn('batch_id', $batches->pluck('id'));
-//                            $query->where(\DB::raw($queryStr), 1);
-//                        });
-//                }
-//            }
             if ($showNoJob) {
                 if ($queryRoles->isEmpty() && $queryStr == "(1 = 1)") {
                     $registeredUsers = $registeredUsers->whereDoesntHave('roles');
