@@ -77,7 +77,7 @@ class RolesAssignmentController extends BackendController
         }
 
         $user = $userModel::query()
-            ->with(['roles', 'permissions:id,name'])
+            ->with(['roles', 'permissions'])
             ->findOrFail($modelId);
 
         $roles = $this->rolesModel::where('position', 'not like', '%root%')
