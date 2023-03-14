@@ -10,7 +10,10 @@ class CampDataService
 {
     public function getCampData($batch_id) {
         //營隊基本資料
-        $camp_data = Batch::find($batch_id)->camp;
+        $camp_data = Batch::find($batch_id)?->camp;
+        if (!$camp_data) {
+            return "<h1>查無營隊資料</h1>";
+        }
         // 錄取日期、確認參加日期資料轉換 (取得星期字串)
         $admission_announcing_date = Carbon::createFromFormat('Y-m-d', $camp_data->admission_announcing_date);
         $admission_announcing_date_Weekday = Carbon::create($admission_announcing_date)->locale(App::getLocale())->isoFormat("dddd");
