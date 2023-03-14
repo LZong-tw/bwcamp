@@ -183,7 +183,7 @@
                                     value="{{$permission->getKey()}}"
                                     {!! $permission->assigned ? 'checked' : '' !!}
                                 >
-                                <span class="ml-2">{{$permission->display_name ?? $permission->name}}</span>
+                                <span class="ml-2">{{$permission->display_name ?? $permission->name}} - {{ $permission->range }}</span>
                             </label>
                         @endforeach
                     </div>
