@@ -64,7 +64,7 @@ class RolesController extends BackendController
     public function show(Request $request, $camp_id, $id)
     {
         $role = $this->rolesModel::query()
-            ->with('permissions:id,name,display_name')
+            ->with('permissions')
             ->findOrFail($id);
 
         return View::make('vendor.laratrust.panel.roles.show', ['role' => $role]);
@@ -89,7 +89,7 @@ class RolesController extends BackendController
     public function edit($camp_id, $id)
     {
         $role = $this->rolesModel::query()
-            ->with('permissions:id')
+            ->with('permissions')
             ->findOrFail($id);
 
         if (!Helper::roleIsEditable($role)) {
