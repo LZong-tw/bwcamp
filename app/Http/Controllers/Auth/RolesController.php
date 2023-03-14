@@ -97,7 +97,7 @@ class RolesController extends BackendController
             return redirect()->back();
         }
 
-        $permissions = $this->permissionModel::all(['id', 'name', 'display_name'])
+        $permissions = $this->permissionModel::all()
             ->map(function ($permission) use ($role) {
                 $permission->assigned = $role->permissions
                     ->pluck('id')
