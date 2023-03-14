@@ -130,6 +130,9 @@ class BackendController extends Controller {
     }
 
     public function admission(Request $request) {
+        if (!$this->user->isAbleTo('\App\Models\Applicant.read') && $this->user->id != 1) {
+            return "<h3>沒有權限：瀏覽任何學員</h3>";
+        }
         if ($request->isMethod('POST')) {
             $candidate = Applicant::find($request->id);
             if($request->get("clear") == "清除錄取序號"){
@@ -193,6 +196,9 @@ class BackendController extends Controller {
     }
 
     public function batchAdmission(Request $request) {
+        if (!$this->user->isAbleTo('\App\Models\Applicant.read') && $this->user->id != 1) {
+            return "<h3>沒有權限：瀏覽任何學員</h3>";
+        }
         if ($request->isMethod('POST')) {
             $error = array();
             $message = array();
@@ -248,6 +254,9 @@ class BackendController extends Controller {
     }
 
     public function showBatchCandidate(Request $request){
+        if (!$this->user->isAbleTo('\App\Models\Applicant.read') && $this->user->id != 1) {
+            return "<h3>沒有權限：瀏覽任何學員</h3>";
+        }
         $applicants = explode(",", $request->snORadmittedSN);
         foreach($applicants as &$applicant){
             $groupAndNumber = $this->applicantService->groupAndNumberSeperator($applicant);
@@ -275,6 +284,9 @@ class BackendController extends Controller {
     }
 
     public function showCandidate(Request $request){
+        if (!$this->user->isAbleTo('\App\Models\Applicant.read') && $this->user->id != 1) {
+            return "<h3>沒有權限：瀏覽任何學員</h3>";
+        }
         $groupAndNumber = $this->applicantService->groupAndNumberSeperator($request->snORadmittedSNorName);
         $group = $groupAndNumber['group'];
         $number = $groupAndNumber['number'];
@@ -573,6 +585,9 @@ class BackendController extends Controller {
     }
 
     public function changeBatchOrRegion(Request $request){
+        if (!$this->user->isAbleTo('\App\Models\Applicant.read') && $this->user->id != 1) {
+            return "<h3>沒有權限：瀏覽任何學員</h3>";
+        }
         if ($request->isMethod('POST')) {
             $candidate = Applicant::find($request->id);
             $candidate->batch_id = $request->batch;
@@ -624,6 +639,9 @@ class BackendController extends Controller {
     }
 
     public function showGroupList() {
+        if (!$this->user->isAbleTo('\App\Models\Applicant.read') && $this->user->id != 1) {
+            return "<h3>沒有權限：瀏覽任何學員</h3>";
+        }
         $batches = Batch::with('groups', 'groups.applicants')->where('camp_id', $this->camp_id)->get()->all();
         foreach($batches as &$batch){
             $batch->regions = Applicant::select('region')->where('batch_id', $batch->id)->where('is_admitted', 1)->whereNotNull('group_id')->whereNotNull('number_id')->groupBy('region')->get();
@@ -648,6 +666,9 @@ class BackendController extends Controller {
     }
 
     public function showNotAdmitted() {
+        if (!$this->user->isAbleTo('\App\Models\Applicant.read') && $this->user->id != 1) {
+            return "<h3>沒有權限：瀏覽任何學員</h3>";
+        }
         $batches = Batch::where('camp_id', $this->camp_id)->get();
         $batches->each(
             fn($batch) =>
@@ -667,6 +688,9 @@ class BackendController extends Controller {
     }
 
     public function showGroup(Request $request){
+        if (!$this->user->isAbleTo('\App\Models\Applicant.read') && $this->user->id != 1) {
+            return "<h3>沒有權限：瀏覽任何學員</h3>";
+        }
         $batch_id = $request->route()->parameter('batch_id');
         $group = $request->route()->parameter('group');
         $applicants = Applicant::with('groupRelation', 'numberRelation')
@@ -758,6 +782,9 @@ class BackendController extends Controller {
     }
 
     public function showGroupAttendList() {
+        if (!$this->user->isAbleTo('\App\Models\Applicant.read') && $this->user->id != 1) {
+            return "<h3>沒有權限：瀏覽任何學員</h3>";
+        }
         $batches = Batch::where('camp_id', $this->camp_id)->get()->all();
         foreach($batches as &$batch){
             $batch->regions = Applicant::select('region')
