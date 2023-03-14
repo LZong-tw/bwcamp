@@ -55,7 +55,7 @@
                             @endforelse
                             @if ($occurrences->count() > 0 && !$candidate["data"]->user)
                                 或<label><input type="radio" name="candidates[{{ $index }}][uses_user_id]" id="" value="generation_needed_custom" required> 手動建立帳號</label><br>
-                                帳號：<input type="email" name="candidates[{{ $index }}][email]" id="" placeholder="Email" class="form-control"><br>
+                                帳號：<input type="email" name="candidates[{{ $index }}][email]" id="" placeholder="Email" class="form-control" required><br>
                                 密碼：<input type="text" name="candidates[{{ $index }}][password]" id="" placeholder="任意密碼" class="form-control" required><br>
                                 做為此人員之登入帳號，並指派職務至此帳號
                             @endif
@@ -68,7 +68,15 @@
     </form>
     <script>
         (function() {
-
+            $('input[type=radio][name^=candidates]').change(function() {
+                if (this.value == 'generation_needed_custom') {
+                    $(this).parent().parent().find('input[type=email]').prop('disabled', false);
+                    $(this).parent().parent().find('input[type=text]').prop('disabled', false);
+                } else {
+                    $(this).parent().parent().find('input[type=email]').prop('disabled', true);
+                    $(this).parent().parent().find('input[type=text]').prop('disabled', true);
+                }
+            });
         })();
     </script>
 @endsection
