@@ -12,6 +12,8 @@
         data-smart-display="false"
         data-pagination-loop="false"
         data-pagination-v-align="both"
+        data-show-export="true"
+        data-export-data-type="all"
         data-page-list="[10, 50, 100]"
         data-pagination-pre-text="上一頁"
         data-pagination-next-text="下一頁">
