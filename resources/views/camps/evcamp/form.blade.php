@@ -74,6 +74,7 @@
         <div class='col-md-10'>
             <select required class='form-control' name='group_priority1' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
+                <option value='總部' >總部</option>
                 <option value='資訊組' >資訊組</option>
                 <option value='秘書組' >秘書組</option>
                 <option value='教務組' >教務組</option>
@@ -97,6 +98,7 @@
         <div class='col-md-10'>
             <select class='form-control' name='group_priority2' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
+                <option value='總部' >總部</option>
                 <option value='資訊組' >資訊組</option>
                 <option value='秘書組' >秘書組</option>
                 <option value='教務組' >教務組</option>
@@ -115,6 +117,7 @@
         <div class='col-md-10'>
             <select class='form-control' name='group_priority3' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
+                <option value='總部' >總部</option>
                 <option value='資訊組' >資訊組</option>
                 <option value='秘書組' >秘書組</option>
                 <option value='教務組' >教務組</option>
