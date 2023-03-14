@@ -2,10 +2,14 @@
     <!-- Happiness is not something readymade. It comes from your own actions. - Dalai Lama -->
     <div class="alert-primary mb-3 border border-secondary rounded col-8 py-2">
         <span>查詢條件：@if($queryRoles != "")
-                @foreach($queryRoles as $role)
-                    {{ $role->batch?->name }}: {{ $role->section }}-{{ $role->position }}@if(!$loop->last || str_contains($queryStr, "(1 = 1)"))、@endif
+                {{ "(" }}@foreach($queryRoles as $role)
+                    {{ $role->batch?->name ?? "不分梯" }}: {{ $role->section }}-{{ $role->position }}@if(!$loop->last || str_contains($queryStr, "(1 = 1)")) or @endif
                 @endforeach
-            @endif{{ str_replace("(1 = 1)", "未分組", $queryStr) ?? "無" }}</span>
+            @elseif ($queryRoles !="" && request()->isMethod('post'))
+               {{ "( " }}
+            @endif
+            {{ str_replace("(1 = 1)", "未分組 )", $queryStr) ?? "無" }}
+        </span>
     </div>
     @if($isShowVolunteers || $camp->table != "ceocamp")
         <ioi-search></ioi-search>

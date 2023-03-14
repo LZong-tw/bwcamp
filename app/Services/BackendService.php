@@ -507,6 +507,6 @@ class BackendService
                 $queryStr .= " and ";
             }
         }
-        return [$queryStr, $queryRoles, $showNoJob ?? null];
+        return [$queryStr, $queryRoles ?? collect([]), $showNoJob ?? null];
     }
 }
