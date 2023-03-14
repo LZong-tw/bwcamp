@@ -183,7 +183,17 @@
                                     value="{{$permission->getKey()}}"
                                     {!! $permission->assigned ? 'checked' : '' !!}
                                 >
-                                <span class="ml-2">{{$permission->display_name ?? $permission->name}} - {{ $permission->range }}</span>
+                                <span class="ml-2">{{$permission->display_name ?? $permission->name}} - {{
+                                                                                                            match ($permission->range) {
+                                                                                                                'na' => '未指定',
+                                                                                                                'person' => '限個別學員',
+                                                                                                                'learner_group' => '限學員小組',
+                                                                                                                'volunteer_large_group' => '限義工大組',
+                                                                                                                'all' => '全部',
+                                                                                                                default => '未知',
+                                                                                                            }
+                                                                                                        }}
+                                </span>
                             </label>
                         @endforeach
                     </div>
