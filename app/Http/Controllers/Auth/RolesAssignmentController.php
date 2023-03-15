@@ -92,7 +92,7 @@ class RolesAssignmentController extends BackendController
             });
 
         if ($this->assignPermissions) {
-            $permissions = $this->permissionModel::orderBy('name')
+            $permissions = $this->permissionModel::orderBy('name')->get()
                 ->map(function ($permission) use ($user) {
                     $permission->assigned = $user->permissions
                         ->pluck('id')
