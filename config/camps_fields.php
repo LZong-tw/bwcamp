@@ -335,6 +335,7 @@ return [
         "expertise_other" => "專長:其它",
         "language" => "語言",
         "language_other" => "語言:其它",
+        "participation_dates" => "可護持日期",
         "unit" => "公司名稱",
         "industry" => "產業別",
         "title" => "職稱",
@@ -803,6 +804,11 @@ return [
             ],
             "group_priority" => [
                 "name" => "志願組別",
+                "sort" => 1,
+                "for_query" => 0,
+            ],
+            "participation_dates" => [
+                "name" => "可護持日期",
                 "sort" => 1,
                 "for_query" => 0,
             ],

@@ -367,7 +367,18 @@
             </label>
         </div>
     </div>
-
+    {{-- 可護持日期 --}}
+    <div class='row form-group required' >
+        <label for='inputParticipationDates' class='col-md-2 control-label text-md-right'>可護持日期(多選)</label>
+        <div class='col-md-10'>
+            <label><input type="checkbox" name=participation_dates[] value='0714(五)' > 0714(五)</label> <br/>
+            <label><input type="checkbox" name=participation_dates[] value='0715(六)' > 0715(六)</label> <br/>
+            <label><input type="checkbox" name=participation_dates[] value='0716(日)' > 0716(日)</label> <br/>
+            <div class="invalid-feedback" id="participation_dates-invalid">
+                請選擇可護持日期。
+            </div>
+        </div>
+    </div>
     <hr>
     <h5 class='form-control-static text-info'>說明：底下公司及職務相關欄位，若已退休，請填寫退休前資料</h5>
     <br>
@@ -721,49 +732,31 @@
             btnCancelLabel: "再檢查一下",
             popout: true,
             onConfirm: function() {
-                {{--
-                        console.log($('.transport :checkbox:checked').length);
-                        if($('.transport :checkbox:checked').length < 1) {
-                            document.Camp.checkValidity();
-                            event.preventDefault();
-                            event.stopPropagation();
-                            $(".tips").removeClass('d-none');
-                            $('#transport-invalid').show();
-                        }
-                        else{
-                            document.Camp.checkValidity();
-                            event.preventDefault();
-                            event.stopPropagation();
-                            $(".tips").removeClass('d-none');
-                            $('#transport-invalid').hide();
-                        }
-                        console.log($('.language :checkbox:checked').length);
-                        if($('.language :checkbox:checked').length < 1) {
-                            document.Camp.checkValidity();
-                            event.preventDefault();
-                            event.stopPropagation();
-                            $(".tips").removeClass('d-none');
-                            $('#language-invalid').show();
-                        }
-                        else{
-                            document.Camp.checkValidity();
-                            event.preventDefault();
-                            event.stopPropagation();
-                            $(".tips").removeClass('d-none');
-                            $('#language-invalid').hide();
-                        }
-                --}}
-                        if (document.Camp.checkValidity() === false) {
-                            $(".tips").removeClass('d-none');
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        else{
-                            $(".tips").addClass('d-none');
-                            document.Camp.submit();
-                        }
-                        document.Camp.classList.add('was-validated');
-                    }
+                if($('.participation_dates').filter(':checked').length < 1) {
+                    document.Camp.checkValidity();
+                    event.preventDefault();
+                    event.stopPropagation();
+                    $(".tips").removeClass('d-none');
+                    $('#participation_dates-invalid').show();
+                }
+                else{
+                    document.Camp.checkValidity();
+                    event.preventDefault();
+                    event.stopPropagation();
+                    $(".tips").removeClass('d-none');
+                    $('#participation_dates-invalid').hide();
+                }
+                if (document.Camp.checkValidity() === false) {
+                    $(".tips").removeClass('d-none');
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                else{
+                    $(".tips").addClass('d-none');
+                    document.Camp.submit();
+                }
+                document.Camp.classList.add('was-validated');
+            }
         });
         (function() {
             'use strict';
