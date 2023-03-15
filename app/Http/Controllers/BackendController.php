@@ -1325,24 +1325,24 @@ class BackendController extends Controller {
                 if ($queryRoles->isEmpty() && $queryStr == "(1 = 1)") {
                     $registeredUsers = $registeredUsers->whereDoesntHave('roles');
                 } else {
-                    $application_log_callback = function ($query) use ($queryStr, $batches) {
+                    $application_log_constraint = function ($query) use ($queryStr, $batches) {
                         $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');
                         $query->whereIn('batch_id', $batches->pluck('id'))
                             ->when($queryStr, function ($query) use ($queryStr) {
                                 $query->whereRaw($queryStr);
                             });
                     };
-                    $registeredUsers = $registeredUsers->where(function ($query) use ($queryRoles, $queryStr, $application_log_callback) {
+                    $registeredUsers = $registeredUsers->where(function ($query) use ($queryRoles, $queryStr, $application_log_constraint) {
                         $query->when(!$queryRoles->isEmpty(), function ($query) use ($queryRoles) {
                             $query->orWhereHas('roles', function ($query) use ($queryRoles) {
                                 $query->where('camp_id', $this->campFullData->id)
                                     ->whereIn('camp_org.id', $queryRoles->pluck('id'));
                             });
-                        })->when($queryStr != "(1 = 1)", function ($query) use ($queryRoles, $application_log_callback, $queryStr) {
-                            $query->when($queryRoles->isEmpty(), function ($query) use ($application_log_callback) {
-                                $query->orWhereHas('application_log', $application_log_callback);
-                            })->when(!$queryRoles->isEmpty(), function ($query) use ($application_log_callback) {
-                                $query->WhereHas('application_log', $application_log_callback);
+                        })->when($queryStr != "(1 = 1)", function ($query) use ($queryRoles, $application_log_constraint, $queryStr) {
+                            $query->when($queryRoles->isEmpty(), function ($query) use ($application_log_constraint) {
+                                $query->orWhereHas('application_log', $application_log_constraint);
+                            })->when(!$queryRoles->isEmpty(), function ($query) use ($application_log_constraint) {
+                                $query->WhereHas('application_log', $application_log_constraint);
                             })->when($queryStr, function ($query) use ($queryStr) {
                                 $query->whereRaw($queryStr);
                             });
