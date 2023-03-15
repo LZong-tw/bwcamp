@@ -25,7 +25,7 @@
     <h4>{{ $camp->fullName }}>>義工詳細資料>>{{ $applicant->name }}</h4>
 
     <!-- 修改學員資料,使用報名網頁 -->
-    @if(auth()->user()->can("\App\Models\Volunteer.update"))
+    @if(\App\Models\User::find(auth()->user()->id)->can("\App\Models\Volunteer.update"))
         <form target="_blank" action="{{ route('queryupdate', $batch->id) }}" method="post">
             @csrf
             <input type="hidden" name="sn" value="{{ $applicant->applicant_id }}">
