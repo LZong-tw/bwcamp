@@ -80,6 +80,11 @@ class CampDataService
                 'after_camp_available_day' => implode("||/", $request->after_camp_available_day)
             ]);
         }
+        if(isset($request->participation_dates)) {  //evcamp
+            $request->merge([
+                'participation_dates' => implode("||/", $request->participation_dates)
+            ]);
+        }
         if(isset($request->motivation)) {
             $request->merge([
                 'motivation' => implode("||/", $request->motivation)
