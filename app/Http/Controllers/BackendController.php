@@ -1328,7 +1328,9 @@ class BackendController extends Controller {
                     $application_log_callback = function ($query) use ($queryStr, $batches) {
                         $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');
                         $query->whereIn('batch_id', $batches->pluck('id'));
-                        $query->whereRaw($queryStr);
+                        $query->when($queryStr, function ($query) use ($queryStr) {
+                            $query->whereRaw($queryStr);
+                        });
                     };
                     $registeredUsers = $registeredUsers->where(function ($query) use ($queryRoles, $queryStr, $application_log_callback) {
                         $query->when(!$queryRoles->isEmpty(), function ($query) use ($queryRoles) {
@@ -1349,8 +1351,10 @@ class BackendController extends Controller {
                 $registeredUsers = $registeredUsers->when($queryStr != "(1 = 1)", function ($query) use ($queryStr, $batches) {
                     $query->whereHas('application_log', function ($query) use ($queryStr, $batches) {
                         $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id')
-                            ->whereIn('batch_id', $batches->pluck('id'))
-                            ->whereRaw($queryStr);
+                            ->whereIn('batch_id', $batches->pluck('id'));
+                            $query->when($queryStr, function ($query) use ($queryStr) {
+                                $query->whereRaw($queryStr);
+                            });
                     });
                 });
             }
