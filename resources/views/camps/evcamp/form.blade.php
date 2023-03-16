@@ -371,6 +371,7 @@
     <div class='row form-group required' >
         <label for='inputParticipationDates' class='col-md-2 control-label text-md-right'>可護持日期(多選)</label>
         <div class='col-md-10'>
+            <label><input type="checkbox" name=participation_dates[] value='0713(四)' > 0713(四)</label> <br/>
             <label><input type="checkbox" name=participation_dates[] value='0714(五)' > 0714(五)</label> <br/>
             <label><input type="checkbox" name=participation_dates[] value='0715(六)' > 0715(六)</label> <br/>
             <label><input type="checkbox" name=participation_dates[] value='0716(日)' > 0716(日)</label> <br/>
