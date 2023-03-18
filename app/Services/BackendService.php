@@ -452,17 +452,13 @@ class BackendService
         foreach ($payload as $key => &$value) {
             if ($key == "roles") {
                 $queryRoles = CampOrg::whereIn('id', $value)->get();
-                $queryRoles = $queryRoles->filter(function ($role) use ($camp) {
-                    return $role->camp_id == $camp->id;
-                });
+                $queryRoles = $queryRoles->filter(fn($role) => $role->camp_id == $camp->id);
                 $targetVolunteers = OrgUser::whereIn('org_id', $value)->get()->pluck('user_id');
                 $targetVolunteers = \App\Models\User::whereIn('id', $targetVolunteers)->get();
                 $targetVolunteers->load('application_log');
-                $targetVolunteers = $targetVolunteers->filter(function ($volunteer) use ($camp) {
-                    return $volunteer->application_log->filter(function ($log) use ($camp) {
-                            return $log->camp->id == $camp->vcamp->id;
-                        })->count() > 0;
-                })->pluck('id');
+                $targetVolunteers = $targetVolunteers->filter(fn($volunteer) => $volunteer->application_log->filter(function ($log) use ($camp) {
+                        return $log->camp->id == $camp->vcamp->id;
+                    })->count() > 0)->pluck('id');
                 unset($payload[$key]);
             }
             if (!is_array($value)) {
@@ -508,5 +504,76 @@ class BackendService
             }
         }
         return [$queryStr, $queryRoles ?? collect([]), $showNoJob ?? null];
+    }
+
+    public function volunteerQueryStringParserRefactoredByChatGPT(array $payload, Request $request, Camp $camp): array
+    {
+        $queryStr = '';
+        $queryRoles = collect([]);
+        $showNoJob = null;
+        foreach ($payload as $key => &$value) {
+            if ($key == 'roles') {
+                $queryRoles = CampOrg::whereIn('id', $value)
+                    ->where('camp_id', $camp->id)
+                    ->get()
+                    ->pluck('id');
+
+                $targetVolunteers = OrgUser::whereIn('org_id', $value)
+                    ->get()
+                    ->pluck('user_id');
+
+                $targetVolunteers = \App\Models\User::whereIn('id', $targetVolunteers)
+                    ->with('application_log')
+                    ->get()
+                    ->filter(fn($volunteer) => $volunteer->application_log
+                        ->filter(fn($log) => $log->camp->id == $camp->vcamp->id)
+                        ->isNotEmpty())
+                    ->pluck('id');
+
+                unset($payload[$key]);
+            } elseif (!is_array($value)) {
+                unset($payload[$key]);
+            }
+        }
+
+        foreach ($payload as $key => $parameters) {
+            if (is_array($parameters)) {
+                $queryStr .= '(';
+
+                foreach ($parameters as $index => $parameter) {
+                    if ($index !== 0) {
+                        $queryStr .= ' OR ';
+                    }
+
+                    if (is_numeric($parameter)) {
+                        if ($key === 'age') {
+                            $year = now()->subYears($parameter)->format('Y');
+                            $queryStr .= 'birthyear = ' . $year;
+                        } else {
+                            $queryStr .= $key . ' = ' . $parameter;
+                        }
+                    } elseif ($key === 'group_id') {
+                        $queryStr .= '1 = 1';
+                        $showNoJob = true;
+                    } elseif (is_string($parameter)) {
+                        if ($key === 'name') {
+                            $key = 'applicants.name';
+                        }
+
+                        if ($key === 'industry') {
+                            $key = $camp->vcamp->table . '.industry';
+                        }
+
+                        $queryStr .= $key . " LIKE '%" . $parameter . "%'";
+                    }
+                }
+
+                $queryStr .= ') AND ';
+            }
+        }
+
+        $queryStr = rtrim($queryStr, ' AND ');
+
+        return [$queryStr, $queryRoles, $showNoJob];
     }
 }
