@@ -321,6 +321,12 @@ class BackendController extends Controller {
     }
 
     public function showRegistration() {
+        if (!$this->isVcamp && !$this->user->isAbleTo('\App\Models\Applicant.read') && $this->user->id != 1) {
+            return "<h3>沒有權限：瀏覽任何學員</h3>";
+        }
+        if ($this->isVcamp && !$this->user->isAbleTo('\App\Models\Volunteer.read') && $this->user->id != 1) {
+            return "<h3>沒有權限：瀏覽任何義工</h3>";
+        }
         $user_batch_or_region = null;
 //        if($this->campFullData->table == 'ecamp' && auth()->user()->getPermission('all')->first()->level > 2){
 //            $user_batch_or_region = Batch::where('camp_id', $this->campFullData->id)->where('name', 'like', '%' . auth()->user()->getPermission(true, $this->campFullData->id)->region . '%')->first();
