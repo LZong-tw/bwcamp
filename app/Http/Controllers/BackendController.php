@@ -1349,11 +1349,11 @@ class BackendController extends Controller {
         }
         $applicants = $query->get();
         $applicants = $applicants->each(fn($applicant) => $applicant->id = $applicant->applicant_id);
-        $registeredUsers = \App\Models\User::with(['roles' => fn($q) => $q->where('camp_id', $this->campFullData->id), 'roles.batch', 'application_log' => function($query) use ($batches) {
+        $registeredUsers = \App\Models\User::with(['application_log.user.roles' => fn($q) => $q->where('camp_id', $this->campFullData->id), 'application_log.user.roles.batch', 'application_log' => function($query) use ($batches) {
                 $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');
                 $query->whereIn('batch_id', $batches->pluck('id'));
             }])
-            ->whereHas('roles', function ($query) use ($queryRoles) {
+            ->whereHas('application_log.user.roles', function ($query) use ($queryRoles) {
                 $query->where('camp_id', $this->campFullData->id);
                 if ($queryRoles) {
                     $query->whereIn('camp_org.id', $queryRoles->pluck('id'));
@@ -1366,7 +1366,7 @@ class BackendController extends Controller {
         if ($request->isMethod("post")) {
             if ($showNoJob) {
                 if ($queryRoles->isEmpty() && $queryStr == "(1 = 1)") {
-                    $registeredUsers = $registeredUsers->whereDoesntHave('roles');
+                    $registeredUsers = $registeredUsers->whereDoesntHave('application_log.user.roles');
                 } else {
                     $application_log_constraint = function ($query) use ($queryStr, $batches) {
                         $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');
@@ -1377,7 +1377,7 @@ class BackendController extends Controller {
                     };
                     $registeredUsers = $registeredUsers->where(function ($query) use ($queryRoles, $queryStr, $application_log_constraint) {
                         $query->when(!$queryRoles->isEmpty(), function ($query) use ($queryRoles) {
-                            $query->orWhereHas('roles', function ($query) use ($queryRoles) {
+                            $query->orWhereHas('application_log.user.roles', function ($query) use ($queryRoles) {
                                 $query->where('camp_id', $this->campFullData->id)
                                     ->whereIn('camp_org.id', $queryRoles->pluck('id'));
                             });
@@ -1389,7 +1389,7 @@ class BackendController extends Controller {
                             })->when($queryStr, function ($query) use ($queryStr) {
                                 $query->whereRaw($queryStr);
                             });
-                        })->orWhereDoesntHave('roles');
+                        })->orWhereDoesntHave('application_log.user.roles');
                     });
                 }
             } else {
