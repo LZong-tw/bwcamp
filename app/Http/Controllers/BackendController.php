@@ -1349,7 +1349,7 @@ class BackendController extends Controller {
         }
         $applicants = $query->get();
         $applicants = $applicants->each(fn($applicant) => $applicant->id = $applicant->applicant_id);
-        $registeredUsers = \App\Models\User::with(['roles', 'roles.batch', 'application_log' => function($query) use ($batches) {
+        $registeredUsers = \App\Models\User::with(['roles' => fn($q) => $q->('camp_id', $this->campFullData->vcamp->id), 'roles.batch', 'application_log' => function($query) use ($batches) {
                 $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');
                 $query->whereIn('batch_id', $batches->pluck('id'));
             }])
