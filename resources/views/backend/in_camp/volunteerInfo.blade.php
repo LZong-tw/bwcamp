@@ -76,12 +76,17 @@
                 <b>交通方式</b>：{{$applicant->group_legacy}}<br>
                 <b>專長</b>：
                 @if(isset($applicant->expertise_split))
-                @foreach($applicant->expertise_split as $expertise){{$expertise}}@if(!$loop->last)、@endif@endforeach
+                    @foreach($applicant->expertise_split as $expertise)
+                        {{$expertise}} 
+                        @if(!$loop->last)、@endif 
+                    @endforeach
                 @endif<br>
                 <b>語言</b>：
                 @if(isset($applicant->language_split))
-                @foreach($applicant->language_split as $language)
-                {{$language}}@if(!$loop->last)、@endif@endforeach
+                    @foreach($applicant->language_split as $language)
+                        {{$language}}
+                        @if(!$loop->last)、@endif
+                    @endforeach
                 @endif<br>
             </div>
         </div>
