@@ -40,8 +40,9 @@
                 @endforeach
             </tr>
         </thead>
-        @forelse ($registeredVolunteers as $user)
+        @forelse ($registeredVolunteers as &$user)
             @if(!$currentUser->canAccessResource($user->application_log->first(), 'read', $campFullData, 'volunteerList'))
+                @unset($user)
                 @continue
             @endif
             @forelse($user->application_log as &$applicant)
@@ -137,6 +138,7 @@
         @endforelse
         @forelse ($applicants as &$applicant)
             @if(!$currentUser->canAccessResource($applicant, 'read', $campFullData, str_contains(url()->current(), 'volunteer') ? 'volunteerList' : null))
+                @unset($applicant)
                 @continue
             @endif
             <tr @if($applicant->deleted_at) style="color: rgba(120, 120, 120, 0.4)!important" @endif>
