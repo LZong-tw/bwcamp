@@ -24,8 +24,12 @@
     @vite(['resources/js/app.js'])
     <script src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
     <script src="{{ asset('js/axios.min.js') }}"></script>
-    <script defer src="{{ asset('bootstrap-table/bootstrap-table.min.js') }}"></script>
+    <script defer src="{{ asset('js/tableExport.min.js') }}"></script>
+    <script defer src="{{ asset('js/jspdf.min.js') }}"></script>
+    <script defer src="{{ asset('js/jspdf.plugin.autotable.js') }}"></script>
+    <script defer src="{{ asset('js/bootstrap-table.min.js') }}"></script>
     <script defer src="{{ asset('bootstrap-table/locale/bootstrap-table-zh-TW.min.js') }}"></script>
+    <script defer src="{{ asset('js/bootstrap-table-export.min.js') }}"></script>
     <style>
         .card-link{
             color: #3F86FB!important;
@@ -59,7 +63,6 @@
                 $(".collapse.list-unstyled").addClass("show");
             }
         }
-    </script>
     </script>
 </body>
 

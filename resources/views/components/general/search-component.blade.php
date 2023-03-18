@@ -107,8 +107,8 @@
             <input type="reset" value="清除篩選條件 - 顥示所有@if($isShowLearners && $isShowVolunteers)關懷員@elseif($isShowVolunteers)義工@else學員@endif" class="ml-3 btn btn-danger"  onclick="window.location=window.location.href">
         </form>
     @endif
-    <div class="alert alert-primary mt-3 mb-0">
-        @if ($groups && !$isShowVolunteers)
+    @if ($groups && !$isShowVolunteers)
+        <div class="alert alert-primary mt-3 mb-0">
             @php
                 foreach ($groups as $key => $group) {
                     if ($currentBatch && $currentBatch->id != $group->batch->id) {
@@ -139,7 +139,7 @@
                 @if($key % 4 == 3 || $loop->last)</div>@endif
             @empty
             @endforelse
-        @endif
-    </div>
+        </div>
+    @endif
 </div>
 
