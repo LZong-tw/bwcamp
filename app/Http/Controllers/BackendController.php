@@ -1123,9 +1123,7 @@ class BackendController extends Controller {
             }
         }
 
-        $applicants->filter(function ($applicant) {
-            return $this->user->canAccessResource($applicant, 'read', $this->campFullData);
-        });
+        $applicants = $applicants->filter(fn($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData));
 
         if(isset($request->download)) {
             if($applicants){
@@ -1409,14 +1407,8 @@ class BackendController extends Controller {
             }
         }
         $registeredUsers = $registeredUsers->get();
-
-        $registeredUsers->filter(function ($user) {
-            return $this->user->canAccessResource($user->application_log->first(), 'read', $this->campFullData, 'volunteerList');
-        });
-
-        $applicants->filter(function ($applicant) {
-            return $this->user->canAccessResource($applicant, 'read', $this->campFullData, 'volunteerList');
-        });
+        $registeredUsers = $registeredUsers->filter(fn($user) => $this->user->canAccessResource($user->application_log->first(), 'read', $this->campFullData, 'volunteerList'));
+        $applicants = $applicants->filter(fn($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, 'volunteerList'));
 
         if($request->isSetting==1) {
             $isSetting = 1;
