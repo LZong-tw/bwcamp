@@ -251,14 +251,14 @@
     window.csrf_token = "{{ csrf_token() }}";
     window.columns = @json($columns);
     @if($registeredVolunteers ?? false)
-        @if(!$currentUser->canAccessResource($user->application_log->first(), 'read', $campFullData, 'volunteerList'))
-            @unset($user)
-            @continue
-        @endif
         window.theVolunteersData = @json($registeredVolunteers);
         @php
             $users_applicants = [];
-            foreach ($registeredVolunteers as $v) {
+            foreach ($registeredVolunteers as &$v) {
+                if(!$currentUser->canAccessResource($v->application_log->first(), 'read', $campFullData, 'volunteerList')) {
+                    unset($v);
+                    continue;
+                }
                 if ($v->application_log) {
                     foreach ($v->application_log as $a) {
                         $users_applicants[] = $a;
