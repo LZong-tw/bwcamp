@@ -251,6 +251,10 @@
     window.csrf_token = "{{ csrf_token() }}";
     window.columns = @json($columns);
     @if($registeredVolunteers ?? false)
+        @if(!$currentUser->canAccessResource($user->application_log->first(), 'read', $campFullData, 'volunteerList'))
+            @unset($user)
+            @continue
+        @endif
         window.theVolunteersData = @json($registeredVolunteers);
         @php
             $users_applicants = [];
@@ -264,6 +268,12 @@
             $applicants = collect($users_applicants)->merge($applicants);
         @endphp
     @endif
+    @foreach($applicants as &$applicant)
+        @if(!$currentUser->canAccessResource($applicant, 'read', $campFullData, str_contains(url()->current(), 'volunteer') ? 'volunteerList' : null))
+            @unset($applicant)
+            @continue
+        @endif
+    @endforeach
     window.theData = @json($applicants);
     window.isShowLearners = {{ $isShowLearners ? 1 : 0 }};
     window.isShowVolunteers = {{ $isShowVolunteers ? 1 : 0 }};
