@@ -107,9 +107,9 @@
             <label for='inputName' class='col-md-2 control-label'>營隊模式</label>
             <div class='col-md-6'>
                 <select name="mode" id="" class='form-control' required>
-                    <option value="實體">實體</option>
-                    <option value="線上">線上</option>
-                    <option value="實體＋線上">實體＋線上</option>
+                    <option value="實體" @selected($camp->mode ?? false)>實體</option>
+                    <option value="線上" @selected($camp->mode ?? false)>線上</option>
+                    <option value="實體＋線上" @selected($camp->mode ?? false)>實體＋線上</option>
                 </select>
             </div>
         </div>
