@@ -1123,6 +1123,10 @@ class BackendController extends Controller {
             }
         }
 
+        $applicants->filter(function ($applicant) {
+            return $this->user->canAccessResource($applicant, 'read', $this->campFullData);
+        });
+
         if(isset($request->download)) {
             if($applicants){
                 // 參加者報到日期
@@ -1405,6 +1409,15 @@ class BackendController extends Controller {
             }
         }
         $registeredUsers = $registeredUsers->get();
+
+        $registeredUsers->filter(function ($user) {
+            return $this->user->canAccessResource($user->application_log->first(), 'read', $this->campFullData, 'volunteerList');
+        });
+
+        $applicants->filter(function ($applicant) {
+            return $this->user->canAccessResource($applicant, 'read', $this->campFullData, 'volunteerList');
+        });
+
         if($request->isSetting==1) {
             $isSetting = 1;
         }

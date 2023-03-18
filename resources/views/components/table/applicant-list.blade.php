@@ -41,10 +41,6 @@
             </tr>
         </thead>
         @forelse ($registeredVolunteers as &$user)
-            @if(!$currentUser->canAccessResource($user->application_log->first(), 'read', $campFullData, 'volunteerList'))
-                @unset($user)
-                @continue
-            @endif
             @forelse($user->application_log as &$applicant)
                 <tr @if($applicant->deleted_at) style="color: rgba(120, 120, 120, 0.4)!important" @endif>
                     @if($isSetting ?? false)
@@ -137,10 +133,6 @@
         @empty
         @endforelse
         @forelse ($applicants as &$applicant)
-            @if(!$currentUser->canAccessResource($applicant, 'read', $campFullData, str_contains(url()->current(), 'volunteer') ? 'volunteerList' : null))
-                @unset($applicant)
-                @continue
-            @endif
             <tr @if($applicant->deleted_at) style="color: rgba(120, 120, 120, 0.4)!important" @endif>
                 @if(($isSetting ?? false) || ($isSettingCarer ?? false))
                     <td class="text-center">
@@ -255,10 +247,6 @@
         @php
             $users_applicants = [];
             foreach ($registeredVolunteers as &$v) {
-                if(!$currentUser->canAccessResource($v->application_log->first(), 'read', $campFullData, 'volunteerList')) {
-                    unset($v);
-                    continue;
-                }
                 if ($v->application_log) {
                     foreach ($v->application_log as $a) {
                         $users_applicants[] = $a;
@@ -268,12 +256,6 @@
             $applicants = collect($users_applicants)->merge($applicants);
         @endphp
     @endif
-    @foreach($applicants as &$applicant)
-        @if(!$currentUser->canAccessResource($applicant, 'read', $campFullData, str_contains(url()->current(), 'volunteer') ? 'volunteerList' : null))
-            @unset($applicant)
-            @continue
-        @endif
-    @endforeach
     window.theData = @json($applicants);
     window.isShowLearners = {{ $isShowLearners ? 1 : 0 }};
     window.isShowVolunteers = {{ $isShowVolunteers ? 1 : 0 }};
