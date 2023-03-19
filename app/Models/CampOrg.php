@@ -45,4 +45,8 @@ class CampOrg extends LaratrustRole
     {
         return $this->belongsToMany(Permission::class, 'org_permission', 'org_id', 'permission_id');
     }
+
+    public function applicant_group() {
+        return $this->hasOne(ApplicantGroup::class, 'group_id', 'id');
+    }    
 }
