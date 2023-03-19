@@ -41,6 +41,20 @@ class RolesController extends BackendController
         $this->permissionModel = Config::get('laratrust.models.permission');
         $availableResources = \App\Services\BackendService::getAvailableModels();
         view()->share('availableResources', $availableResources);
+        $user = \App\Models\User::with("roles.permissions")->find(auth()->user()->id);
+        $canDoPermissions = $user->pluck("roles.permissions")->where('camp_id', $request->camp_id)
+                                ->where(function($query) {
+                                    $query->where([["resource", "like", "%Permission%"], ["action", "like", "%assign%"]])
+                                        ->orWhere([["resource", "like", "%Permission%"], ["action", "like", "%create%"]]);
+                                })->count();
+        $canDoRoles = $user->pluck("roles.permissions")->where('camp_id', $request->camp_id)
+                            ->where(function($query) {
+                                $query->where([["resource", "like", "%CampOrg%"], ["action", "like", "%assign%"]])
+                                    ->orWhere([["resource", "like", "%CampOrg%"], ["action", "like", "%create%"]]);
+                            })->count();
+        if (!($canDoPermissions && $canDoRoles) && auth()->user()->id != 1) {
+            return "<h1>權限不足</h1>";
+        }
     }
 
     public function index($camp_id)
