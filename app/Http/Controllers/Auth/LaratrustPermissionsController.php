@@ -44,7 +44,7 @@ class LaratrustPermissionsController extends BackendController
         $this->middleware(function ($request, $next) use (&$that) {
             $that->user = \App\Models\User::with("roles.permissions")->find(auth()->user()->id);
             $canDoPermissions = $that->user->roles->pluck("roles.permissions")->flatten()
-                                ->where('camp_id', 29)
+                                ->where('camp_id', $this->campFullData->id)
                                 ->filter(function ($item) {
                                     return (str_contains($item->resource, "Permission") &&
                                         str_contains($item->action, "assign")) ||
@@ -52,7 +52,7 @@ class LaratrustPermissionsController extends BackendController
                                             str_contains($item->action, "create"));
                                 })->count();
             $canDoRoles = $that->user->roles->pluck("roles.permissions")->flatten()
-                                ->where('camp_id', 29)
+                                ->where('camp_id', $this->campFullData->id)
                                 ->filter(function ($item) {
                                     return (str_contains($item->resource, "CampOrg") &&
                                         str_contains($item->action, "assign")) ||
