@@ -576,4 +576,32 @@ class BackendService
 
         return [$queryStr, $queryRoles, $showNoJob];
     }
+
+    public function permissionTableProcessor($request, $roleID, $camp, $totalPermissions = [], $rolesModel = "\App\Models\CampOrg", $permissionModel = "\App\Models\Permission") {
+        if ($request->resources && $request->range) {
+            foreach ($request->resources as $resource => $actions) {
+                foreach ($actions as $key => $action) {
+                    $role = $rolesModel::findOrFail($roleID);
+                    $permission = $permissionModel::firstOrCreate([
+                        'name' => $resource . '.' . $action,
+                        'display_name' => $camp->abbreviation . '-' . $action . ' ' . $request->resources_name[$resource],
+                        'description' => $camp->abbreviation . '-' . $action . ' ' . $request->resources_name[$resource],
+                        'resource' => $resource,
+                        'action' => $action,
+                        'range' => $request->range[$resource],
+                        'camp_id' => $role->camp_id,
+                        'batch_id' => $role->batch_id,
+                    ]);
+                    $totalPermissions[] = $permission->id;
+                }
+            }
+            return $totalPermissions;
+        }
+        else if ($request->range && !$request->resources) {
+            return back()->withErrors(['resources' => '您先前只選擇了範圍，未選擇動作。']);
+        }
+        else if (!$request->range && $request->resources) {
+            return back()->withErrors(['range' => '您先前只選擇了動作，未選擇範圍。']);
+        }
+    }
 }
