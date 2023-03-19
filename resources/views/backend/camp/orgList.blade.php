@@ -22,6 +22,7 @@
             <th>梯次</th>
             <th>大組名稱</th>
             <th>職務名稱</th>
+            <th>已設定權限數</th>
             <th>修改</th>
             <th>刪除</th>
             <th>新增</th>
@@ -37,6 +38,7 @@
                 @endif
                 @if($org->position == 'root')
                     <td>（大組）</td>
+                    <td></td>
                     <td>
                         <a href="{{ route('showModifyOrg', [$camp->id, $org->id]) }}" class="btn btn-primary">修改</a>
                     </td>
@@ -59,6 +61,7 @@
                     </td>
                 @else
                     <td>{{ $org->position }}</td>
+                    <td>{{ $org->permissions->count() }}</td>
                     <td><a href="{{ route('showModifyOrg', [$camp->id, $org->id]) }}" class="btn btn-primary">修改</a></td>
                     <td>
                         <form action="{{ route('removeOrg') }}" method="post">
@@ -79,13 +82,13 @@
             </tr>
         @endforeach
     </table>
-    @if(count($orgs))  
+    @if(count($orgs))
     <h6 class='text-info'>＊大組中無職務，才可刪除該大組</h6>
     <h6 class='text-info'>＊某個職務無人被指定，才可刪除該職務</h6>
     @endif
 
 
-{{--    
+{{--
     <style>
         .modal-dialog {
             z-index: 9999!important;
@@ -129,7 +132,7 @@
         </div>
     </div>
 
-    @if (!count($orgs))      
+    @if (!count($orgs))
         <form action="{{ route('copyOrgs', $camp->id) }}" method="post">
             @csrf
             <div class="container">
@@ -206,7 +209,7 @@
                             }
                         }
                         ele = ele + `</td></tr>`;
-                    }    
+                    }
                     console.log(ele);
                     org_sel.innerHTML = ele;
                 }
