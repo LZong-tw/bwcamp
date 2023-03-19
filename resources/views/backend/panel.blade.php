@@ -1,5 +1,5 @@
 <div class="wrapper">
-    @if(!$currentUser->no_panel)
+    @if(isset($currentUser) && !$currentUser->no_panel)
         <!-- Sidebar Holder -->
         <nav id="sidebar">
             <div class="sidebar-header">
