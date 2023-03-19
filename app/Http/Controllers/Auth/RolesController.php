@@ -47,23 +47,24 @@ class RolesController extends BackendController
 
     public function checkPermission($request) {
         $that = $this;
-        $this->middleware(function ($request, $next) use ($that) {
+        $this->middleware(function ($request, $next) use (&$that) {
             $that->user = \App\Models\User::with("roles.permissions")->find(auth()->user()->id);
+            
+            $canDoPermissions = $that->user->roles->pluck("roles.permissions")->where('camp_id', $request->camp_id)
+                    ->where(function($query) {
+                        $query->where([["resource", "like", "%Permission%"], ["action", "like", "%assign%"]])
+                            ->orWhere([["resource", "like", "%Permission%"], ["action", "like", "%create%"]]);
+                    })->count();
+            $canDoRoles = $that->user->roles->pluck("roles.permissions")->where('camp_id', $request->camp_id)
+                ->where(function($query) {
+                    $query->where([["resource", "like", "%CampOrg%"], ["action", "like", "%assign%"]])
+                        ->orWhere([["resource", "like", "%CampOrg%"], ["action", "like", "%create%"]]);
+                })->count();
+            if (!($canDoPermissions && $canDoRoles) && $that->user->id != 1) {
+                return response("<h1>權限不足</h1>");
+            }
             return $next($request);
         });
-        $canDoPermissions = $this->user->pluck("roles.permissions")->where('camp_id', $request->camp_id)
-                                ->where(function($query) {
-                                    $query->where([["resource", "like", "%Permission%"], ["action", "like", "%assign%"]])
-                                        ->orWhere([["resource", "like", "%Permission%"], ["action", "like", "%create%"]]);
-                                })->count();
-        $canDoRoles = $this->user->pluck("roles.permissions")->where('camp_id', $request->camp_id)
-                            ->where(function($query) {
-                                $query->where([["resource", "like", "%CampOrg%"], ["action", "like", "%assign%"]])
-                                    ->orWhere([["resource", "like", "%CampOrg%"], ["action", "like", "%create%"]]);
-                            })->count();
-        if (!($canDoPermissions && $canDoRoles) && $this->user->id != 1) {
-            return "<h1>權限不足</h1>";
-        }
     }
 
     public function index($camp_id)
