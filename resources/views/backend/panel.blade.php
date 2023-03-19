@@ -1,5 +1,6 @@
 <div class="wrapper">
     @if(isset($currentUser) && $currentUser->no_panel)
+        @yield('content')
     @else
         <!-- Sidebar Holder -->
         <nav id="sidebar">
@@ -252,59 +253,59 @@
         <!-- Page Content Holder -->
         <div id="content">
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-
-                <button type="button" id="sidebarCollapse" class="navbar-btn">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-                <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="fas fa-align-justify"></i>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="nav navbar-nav ml-auto">
-                        @if(isset($campFullData))
-                            @php
-                                $vcamp_counterpart = \App\Models\Vcamp::find($campFullData->id);
-                            @endphp
-                            @if(!str_contains($campFullData->table, "vcamp") && $campFullData->vcamp)
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+    
+                    <button type="button" id="sidebarCollapse" class="navbar-btn">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
+    
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto">
+                            @if(isset($campFullData))
+                                @php
+                                    $vcamp_counterpart = \App\Models\Vcamp::find($campFullData->id);
+                                @endphp
+                                @if(!str_contains($campFullData->table, "vcamp") && $campFullData->vcamp)
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route("campIndex", $campFullData->vcamp->id) }}">義工資料統計及操作</a>
+                                    </li>
+                                @elseif($vcamp_counterpart->mainCamp)
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route("campIndex", $vcamp_counterpart->mainCamp->id) }}">回主營隊</a>
+                                    </li>
+                                @endif
+                            @endif
+                            <li class="nav-item">
+                                <a class="nav-link card-link" href="/checkin?t={{ time() }}" target="_blank">報到系統</a>
+                            </li>
+                            @if(auth()->user()->getPermission()->level == 1)
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route("campIndex", $campFullData->vcamp->id) }}">義工資料統計及操作</a>
-                                </li>
-                            @elseif($vcamp_counterpart->mainCamp)
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route("campIndex", $vcamp_counterpart->mainCamp->id) }}">回主營隊</a>
+                                    <a class="nav-link" href="{{ route("campManagement") }}" target="_blank">營隊管理</a>
                                 </li>
                             @endif
-                        @endif
-                        <li class="nav-item">
-                            <a class="nav-link card-link" href="/checkin?t={{ time() }}" target="_blank">報到系統</a>
-                        </li>
-                        @if(auth()->user()->getPermission()->level == 1)
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route("campManagement") }}" target="_blank">營隊管理</a>
+                                <a class="nav-link" href="{{ route("backendIndex") }}">選擇營隊</a>
                             </li>
-                        @endif
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route("backendIndex") }}">選擇營隊</a>
-                        </li>
-                        @if(isset($campFullData))
-                            <li class="nav-item active">
-                                <a class="nav-link" href="{{ route("campIndex", $campFullData->id) }}">{{ $campFullData->fullName }}：後台首頁</a>
-                            </li>
-                        @else
-                            <li class="nav-item active">
-                                <a class="nav-link" href="">未選擇營隊</a>
-                            </li>
-                        @endif
-                    </ul>
+                            @if(isset($campFullData))
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="{{ route("campIndex", $campFullData->id) }}">{{ $campFullData->fullName }}：後台首頁</a>
+                                </li>
+                            @else
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="">未選擇營隊</a>
+                                </li>
+                            @endif
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </nav>
-        @yield('content')
-    </div>
+            </nav>
+            @yield('content')
+        </div>
     @endif
 </div>
