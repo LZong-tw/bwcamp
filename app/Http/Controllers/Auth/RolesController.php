@@ -47,16 +47,15 @@ class RolesController extends BackendController
     public function persist(...$args) {
         $that = $this;
         $this->middleware(function ($request, $next) use ($that) {
-            $that->user = auth()->user();
+            $that->user = \App\Models\User::with("roles.permissions")->find(auth()->user()->id);
             return $next($request);
         });
-        $user = \App\Models\User::with("roles.permissions")->find($this->user->id);
-        $canDoPermissions = $user->pluck("roles.permissions")->where('camp_id', $request->camp_id)
+        $canDoPermissions = $this->user->pluck("roles.permissions")->where('camp_id', $request->camp_id)
                                 ->where(function($query) {
                                     $query->where([["resource", "like", "%Permission%"], ["action", "like", "%assign%"]])
                                         ->orWhere([["resource", "like", "%Permission%"], ["action", "like", "%create%"]]);
                                 })->count();
-        $canDoRoles = $user->pluck("roles.permissions")->where('camp_id', $request->camp_id)
+        $canDoRoles = $this->user->pluck("roles.permissions")->where('camp_id', $request->camp_id)
                             ->where(function($query) {
                                 $query->where([["resource", "like", "%CampOrg%"], ["action", "like", "%assign%"]])
                                     ->orWhere([["resource", "like", "%CampOrg%"], ["action", "like", "%create%"]]);
