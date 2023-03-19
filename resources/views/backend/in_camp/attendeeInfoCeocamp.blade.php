@@ -77,6 +77,8 @@
                 狀態：<div class="mr-4 text-secondary">尚未決定。</div>
             @elseif($applicant->is_attend == 3)
                 狀態：<div class="mr-4 text-secondary">聯絡不上。</div>
+            @elseif($applicant->is_attend == 4)
+                狀態：<div class="mr-4 text-secondary">無法全程。</div>
             @endif
         </div>
         <div class="row d-flex justify-content-end">
@@ -87,6 +89,7 @@
                 <label><input type="radio" name="is_attend" id="" value="1">參加</label>
                 <label><input type="radio" name="is_attend" id="" value="2">尚未決定</label>
                 <label><input type="radio" name="is_attend" id="" value="3">聯絡不上</label>
+                <label><input type="radio" name="is_attend" id="" value="4">無法全程</label>
                 <input class="btn btn-success" type="submit" value="修改參加狀態">
             </form>
         </div>

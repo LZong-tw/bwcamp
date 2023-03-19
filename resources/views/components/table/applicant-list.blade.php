@@ -88,6 +88,8 @@
                                 <td>尚未決定</td>
                             @elseif($applicant->$key === 3)
                                 <td>聯絡不上</td>
+                            @elseif($applicant->$key === 4)
+                                <td>無法全程</td>
                             @else
                                 <td>尚未聯絡</td>
                             @endif
