@@ -47,6 +47,6 @@ class CampOrg extends LaratrustRole
     }
 
     public function applicant_group() {
-        return $this->hasOne(ApplicantsGroup::class, 'group_id', 'id');
+        return $this->hasOne(ApplicantsGroup::class, 'id', 'group_id');
     }    
 }
