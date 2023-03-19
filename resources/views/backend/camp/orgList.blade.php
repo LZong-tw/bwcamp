@@ -33,7 +33,7 @@
                 @if($org->position == 'root')
                 <td class="font-weight-bold">{{ $org->section }}</td>
                 @else
-                <td class="text-muted">{{ $org->section }}@if($org->applicant_group)<br>{{ "對應學員組別：" . $org->applicant_group->alias }}@endif</td>
+                <td class="text-muted">{{ $org->section }}@if($org->applicant_group)<br><span class="font-weight-bold">{{ "對應學員組別：" . $org->applicant_group->alias }}</span>@endif</td>
                 @endif
                 @if($org->position == 'root')
                     <td>（大組）</td>
