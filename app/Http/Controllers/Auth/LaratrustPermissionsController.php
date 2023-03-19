@@ -38,7 +38,7 @@ class LaratrustPermissionsController extends BackendController
         $this->persist($request);
     }
 
-    public function persist(...$args) {
+    public function persist($request) {
         $that = $this;
         $this->middleware(function ($request, $next) use ($that) {
             $that->user = \App\Models\User::with("roles.permissions")->find(auth()->user()->id);
