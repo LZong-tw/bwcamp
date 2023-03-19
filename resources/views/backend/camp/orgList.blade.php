@@ -19,6 +19,7 @@
     <table class="table table-bordered">
         <tr>
             <th>ID</th>
+            <th>梯次</th>
             <th>大組名稱</th>
             <th>職務名稱</th>
             <th>修改</th>
@@ -28,6 +29,7 @@
         @foreach($orgs as $org)
             <tr>
                 <td>{{ $org->id }}</td>
+                <td>{{ $org->batch?->name ?? "未分梯" }}</td>
                 @if($org->position == 'root')
                 <td class="font-weight-bold">{{ $org->section }}</td>
                 @else
