@@ -41,9 +41,13 @@ class RolesAssignmentController extends BackendController
         $this->assignPermissions = Config::get('laratrust.panel.assign_permissions_to_user');
         $availableResources = \App\Services\BackendService::getAvailableModels();
         view()->share('availableResources', $availableResources);
+        $this->persist($request);
+    }
+
+    public function persist(...$args) {
         $that = $this;
         $this->middleware(function ($request, $next) use ($that) {
-            $this->user = auth()->user();
+            $that->user = auth()->user();
             return $next($request);
         });
         $user = \App\Models\User::with("roles.permissions")->find($this->user->id);
