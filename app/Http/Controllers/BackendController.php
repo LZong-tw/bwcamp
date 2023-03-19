@@ -97,7 +97,7 @@ class BackendController extends Controller {
             $that->user->permissionsRolesParser($args["camp"]);
             $that->isVcamp = str_contains($args["camp"], "vcamp");
             if($that->user->roles()->where("camp_id", $this->campFullData->id)->count() == 1 &&
-               $that->user->roles()->where("camp_id", $this->campFullData->id)->where("section", "like", "%關懷小組%")->count()){
+               $that->user->roles()->where("camp_id", $this->campFullData->id)->where("position", "like", "%關懷小組%")->count()){
                 $that->user->no_panel = true;
             }
             View::share('currentUser', $that->user);
