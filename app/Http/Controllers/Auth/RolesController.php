@@ -21,6 +21,7 @@ class RolesController extends BackendController
     protected $campDataService;
     protected $applicantService;
     protected $backendService;
+    protected $user;
 
     public function __construct(CampDataService $campDataService,
                                 ApplicantService $applicantService,
