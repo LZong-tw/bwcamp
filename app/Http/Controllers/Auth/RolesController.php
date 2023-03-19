@@ -120,31 +120,11 @@ class RolesController extends BackendController
     public function update(Request $request, $camp_id, $id)
     {
         $totalPermissions = [];
-        if ($request->resources && $request->range) {
-            foreach ($request->resources as $resource => $actions) {
-                foreach ($actions as $key => $action) {
-                    $role = $this->rolesModel::findOrFail($id);
-                    $permission = $this->permissionModel::firstOrCreate([
-                        'name' => $resource . '.' . $action,
-                        'display_name' => $this->campFullData->abbreviation . '-' . $action . ' ' . $request->resources_name[$resource],
-                        'description' => $this->campFullData->abbreviation . '-' . $action . ' ' . $request->resources_name[$resource],
-                        'resource' => $resource,
-                        'action' => $action,
-                        'range' => $request->range[$resource],
-                        'camp_id' => $role->camp_id,
-                        'batch_id' => $role->batch_id,
-                    ]);
-                    $totalPermissions[] = $permission->id;
-                }
-            }
-        }
-        else if ($request->range && !$request->resources) {
-            return back()->withErrors(['resources' => '您先前只選擇了範圍，未選擇動作。']);
-        }
-        else if (!$request->range && $request->resources) {
-            return back()->withErrors(['range' => '您先前只選擇了動作，未選擇範圍。']);
-        }
         $role = $this->rolesModel::findOrFail($id);
+        $totalPermissions = $this->backendService->permissionTableProcessor($request, $id, $this->campFullData, $totalPermissions, $this->rolesModel, $this->permissionModel);
+        if (!is_array($totalPermissions)) {
+            return $totalPermissions;
+        }
 
         if (!Helper::roleIsEditable($role)) {
             Session::flash('laratrust-error', 'The role is not editable');

@@ -348,16 +348,24 @@ class AdminController extends BackendController {
                 }
             }
         } else {
+            $totalPermissions = $this->backendService->permissionTableProcessor($request, $org_tg->id, $camp);
+            if (!is_array($totalPermissions)) {
+                return $totalPermissions;
+            }
             $org_tg->update($formData);     //修改職務only
+            $org_tg->syncPermissions($totalPermissions);
         }
-        \Session::flash('message', $camp->abbreviation . " 組織修改成功。");
+        \Session::flash('message', $camp->abbreviation . " 組織職務：" . $org_tg->batch?->name . $org_tg->section . "-" . $org_tg->position . " 修改成功。");
         return redirect()->route("showOrgs", $camp_id);
     }
 
     public function showModifyOrg($camp_id, $org_id){
         $camp = Camp::find($camp_id);
         $org = CampOrg::find($org_id);
-        return view('backend.camp.modifyOrg', compact("camp", "org"));
+        $availableResources = \App\Services\BackendService::getAvailableModels();
+        view()->share('availableResources', $availableResources);
+        return view('backend.camp.modifyOrg', compact("camp", "org"))
+                    ->with('complete_permissions', $org->permissions);
     }
 
     public function showOrgs($camp_id){
