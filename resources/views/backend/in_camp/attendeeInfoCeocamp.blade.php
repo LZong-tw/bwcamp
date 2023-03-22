@@ -58,8 +58,18 @@
             </div>
             <div class="col-md-3">
                 <b>報名序號</b>：{{$applicant->applicant_id}}<br>
-                <b>所屬組別</b>：{{$applicant->group_legacy}}<br>
-                <b>關懷員</b>：<br>
+                <b>所屬組別</b>：@if($applicant->groupRelation)
+                    {{ $applicant->groupRelation->alias }}
+                    <a href="{{ route('deleteApplicantGroupAndNumber', [$camp->id, "applicant_id" => $applicant->id, "group_id" => $applicant->groupRelation->id]) }}" class="text-danger">刪除</a>
+                @else
+                    此學員尚未分入任何組別
+                @endif<br>
+                <b>關懷員</b>：@forelse($applicant->carers as $carer)
+                    {{ $carer->name }}
+                    @if(!$loop->last) {{ "、" }} @endif
+                @empty
+                    {{ '-' }}
+                @endforelse<br>
                 <b>參加形式</b>：{{$applicant->participation_mode}}<br>
             </div>
         </div>
@@ -95,25 +105,25 @@
         </div>
     </div>
 
-    <div class="container alert alert-primary">
-        @if($applicant->groupRelation)
-            <div class="row">
-                <div class="col-md-8">
-                    {{ $applicant->groupRelation->alias }}
-                </div>
-                <div class="col-md-4">
-                    <a href="{{ route('deleteApplicantGroupAndNumber', [$camp->id, "applicant_id" => $applicant->id, "group_id" => $applicant->groupRelation->id]) }}" class="btn btn-danger">刪除</a>
-                </div>
-            </div>
-        @else
-            <div class="row">
-                <div class="col-md-12">
-                    此學員尚未分入任何組別
-                </div>
-            </div>
-        @endif
-    </div>
-    <br>
+{{--    <div class="container alert alert-primary">--}}
+{{--        @if($applicant->groupRelation)--}}
+{{--            <div class="row">--}}
+{{--                <div class="col-md-8">--}}
+{{--                    {{ $applicant->groupRelation->alias }}--}}
+{{--                </div>--}}
+{{--                <div class="col-md-4">--}}
+{{--                    <a href="{{ route('deleteApplicantGroupAndNumber', [$camp->id, "applicant_id" => $applicant->id, "group_id" => $applicant->groupRelation->id]) }}" class="btn btn-danger">刪除</a>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        @else--}}
+{{--            <div class="row">--}}
+{{--                <div class="col-md-12">--}}
+{{--                    此學員尚未分入任何組別--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        @endif--}}
+{{--    </div>--}}
+{{--    <br>--}}
 
     <div class="container">
         <div class="row">
