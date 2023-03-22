@@ -77,6 +77,32 @@
                     $(this).parent().parent().find('input[type=text]').prop('disabled', true);
                 }
             });
+
+            //setup before functions
+            let typingTimer;                //timer identifier
+            let doneTypingInterval = 800;  //time in ms, 5 seconds for example
+            let $input = $('input[type=email][name^=candidates]');
+
+            //on keyup, start the countdown
+            $input.on('keyup', function () {
+                clearTimeout(typingTimer);
+                typingTimer = setTimeout(doneTyping, doneTypingInterval);
+            });
+
+            //on keydown, clear the countdown
+            $input.on('keydown', function () {
+                clearTimeout(typingTimer);
+            });
+
+            //user is "finished typing," do something
+            function doneTyping () {
+                //do something
+                $input.each(function() {
+                    if ($(this).val() != '') {
+
+                    }
+                });
+            }
         })();
     </script>
 @endsection
