@@ -157,6 +157,13 @@
                             @empty
                                 {{ '-' }}
                             @endforelse</td>
+                    @elseif($key == "carer" && !$isSettingCarer)
+                        <td>@forelse($applicant->carers as $carer)
+                                {{ $carer->name }}
+                                @if(!$loop->last) <br> @endif
+                            @empty
+                                {{ '-' }}
+                            @endforelse</td>
                     @elseif($key == "avatar" && $applicant->avatar)
                         <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($applicant->avatar)) }}" width=80 alt="{{ $applicant->name }}"></td>
                     @elseif($key == "name")
