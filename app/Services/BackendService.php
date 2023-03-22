@@ -150,7 +150,7 @@ class BackendService
         return true;
     }
 
-    public function setGroupOrg(array $applicantsOrUsers, string $groupId): array
+    public function setGroupOrg(array $applicantsOrUsers, string $groupId): array|string
     {
         $groupOrg = CampOrg::findOrFail($groupId);
         $succeedList = [];
