@@ -179,6 +179,7 @@ class BackendService
                 ];
             }
             elseif ($entity["uses_user_id"] == "generation_needed") {
+                $user_is_generated = false;
                 $applicant = Applicant::findOrFail($entity["id"]);
                 $applicant->is_admitted = 1;
                 $applicant->save();
@@ -192,6 +193,7 @@ class BackendService
                 }
                 else {
                     $user = $this->generateUser($applicant);
+                    $user_is_generated = true;
                 }
                 OrgUser::firstOrCreate([
                     'org_id' => $groupOrg->id,
@@ -205,7 +207,7 @@ class BackendService
                 $succeedList[] = [
                     'applicant' => $applicant,
                     'connected_to_user' => $user,
-                    'user_is_generated' => true,
+                    'user_is_generated' => $user_is_generated,
                     'org' => $groupOrg,
                 ];
             }
