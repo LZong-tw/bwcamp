@@ -184,8 +184,7 @@ class BackendService
                 $applicant->save();
                 $user = \App\Models\User::where($applicant->email)->first();
                 if ($user) {
-                    logger(\Exception("Email " . $applicant->email . " 已註冊。")->getMessage());
-                    \Sentry::captureMessage(\Exception("Email " . $applicant->email . " 已註冊。")->getMessage());
+                    \Sentry::captureMessage("Email " . $applicant->email . " 已註冊。");
 //                    return "<h1>" . $applicant->name . "的 Email " . $applicant->email . " 已註冊。</h1>
 //                            <h4>為什麼發生這個狀況？</h4>
 //                            <h3>您可能一次開了多個分頁做同樣的操作，或是對同一位義工指派新職務後，又按下上一頁，才會遇到這個狀況。</h3>
@@ -212,7 +211,7 @@ class BackendService
             }
             elseif ($entity["uses_user_id"] == "generation_needed_custom") {
                 if (\App\Models\User::where('email', 'like', $entity["email"])->first()) {
-                    logger(\Exception("Email " . $entity["email"] . " 已註冊。")->getMessage());
+                    \Sentry::captureMessage("Email " . $entity["email"] . " 已註冊。");
                     return "<h1>Email " . $entity["email"] . " 已註冊。</h1>";
                 }
                 $applicant = Applicant::findOrFail($entity["id"]);
@@ -244,7 +243,7 @@ class BackendService
                 ];
             }
             else {
-                logger(\Exception("異常，請回上一頁檢查輸入資料是否齊全。")->getMessage());
+                \Sentry::captureMessage("異常，請回上一頁檢查輸入資料是否齊全。");
                 return "<h1>異常，請回上一頁檢查輸入資料是否齊全。</h1>";
             }
         }
