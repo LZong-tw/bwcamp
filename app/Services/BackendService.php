@@ -182,7 +182,7 @@ class BackendService
                 $applicant = Applicant::findOrFail($entity["id"]);
                 $applicant->is_admitted = 1;
                 $applicant->save();
-                $user = \App\Models\User::where($applicant->email)->first();
+                $user = \App\Models\User::where('email', $applicant->email)->first();
                 if ($user) {
                     \Sentry::captureMessage("Email " . $applicant->email . " 已註冊。");
 //                    return "<h1>" . $applicant->name . "的 Email " . $applicant->email . " 已註冊。</h1>
