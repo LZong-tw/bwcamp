@@ -400,7 +400,7 @@ class AdminController extends BackendController {
         if ($request->org_position == 'root') {
             $result = \App\Models\CampOrg::where('camp_id', $request->camp_id)->where('section', $request->org_section)->delete();
         } else {    //刪除職務：刪除此org_id就好
-            $result = \App\Models\CampOrg::find($request->org_id)->delete();
+            $result = \App\Models\CampOrg::find($request->org_id)?->delete();
         }
         if($result){
             \Session::flash('message', "職務刪除成功。");
