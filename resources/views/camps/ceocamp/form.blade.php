@@ -135,7 +135,7 @@
     <div class='row form-group'>
         <label for='inputIntroducerEmail' class='col-md-2 control-label text-md-right text-info'>推薦人<br>電子信箱</label>
         <div class='col-md-10'>
-            <input type='email' required class='form-control' name='introducer_email' value='' id='inputIntroducerEmail'>
+            <input type='email' class='form-control' name='introducer_email' value='' id='inputIntroducerEmail'>
             <div class="invalid-feedback">
                 未填電子信箱或格式不正確
             </div>
