@@ -40,10 +40,12 @@ class IntroducerMail extends Mailable
         $this->campData = $this->applicant->batch->camp;
         if(!$this->isGetSN){
             return $this->subject($this->applicant->batch->camp->abbreviation . '推薦報名完成')
+                    ->to($this->applicant->introducer_email)
                     ->view('camps.' . $this->applicant->batch->camp->table . ".introducerMail");
         }
         else{
             return $this->subject($this->applicant->batch->camp->abbreviation . '序號查詢')
+                    ->to($this->applicant->introducer_email)
                     ->view('camps.' . $this->applicant->batch->camp->table . ".SNMail");
         }
     }
