@@ -615,5 +615,9 @@ class BackendService
         else if (!$request->range && $request->resources) {
             return back()->withErrors(['range' => '您先前只選擇了動作，未選擇範圍。']);
         }
+        else if (!$request->range && !$request->resources) {
+            return [];
+        }
+        return "<h1>異常。</h1>";
     }
 }
