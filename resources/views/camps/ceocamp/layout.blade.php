@@ -45,9 +45,11 @@
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                     {{-- <li class="nav-item active"> --}}
                     {{-- <span class="sr-only">(current)</span> --}}
+                    <!--
                     <li class="nav-item">
                         <a class="nav-link" href="http://bwfoce.org/ceocamp">營隊資訊</a>
                     </li>
+                    -->
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('registration', $batch_id) }}">報名表單</a>
                     </li>
