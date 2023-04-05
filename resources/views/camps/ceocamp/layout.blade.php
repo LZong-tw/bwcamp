@@ -61,9 +61,11 @@
                             <a class="nav-link" href="{{ route("queryadmitGET", $batch_id) }}">錄取查詢</a>
                         </li>
                     @endif --}}
+                    <!--
                     <li class="nav-item">
                     <a class="nav-link" href="https://bwfoceec.wixsite.com/ecamp/課程介紹">課程介紹</a>
                     </li>
+                    -->
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url("downloads/ceocamp2023/2023菁英營學員推薦表v1.docx") }}">學員推薦表WORD檔下載</a>
                     </li>
