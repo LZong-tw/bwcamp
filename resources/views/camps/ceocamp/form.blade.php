@@ -158,7 +158,7 @@
 
     <hr>
     <h5 class='form-control-static'>被推薦人(營隊學員)基本資料：</h5>
-    <h6>＊＊若有需要，可下載<a href="{{ url("downloads/ceocamp2022/2022菁英營學員推薦表v2.docx") }}">學員推薦表WORD檔</a>或<a href="{{ url("downloads/ceocamp2022/2022菁英營學員推薦表v2.pdf") }}">學員推薦表PDF檔</a>， 請被推薦人提供資料，做為填寫此表單的依據。＊＊</h6>
+    <h6>＊＊若有需要，可下載<a href="{{ url("downloads/ceocamp2023/2023菁英營學員推薦表v1.docx") }}">學員推薦表WORD檔</a>或<a href="{{ url("downloads/ceocamp2023/2023菁英營學員推薦表v1.pdf") }}">學員推薦表PDF檔</a>， 請被推薦人提供資料，做為填寫此表單的依據。＊＊</h6>
     <br>
 
     <div class='row form-group required'>
