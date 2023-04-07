@@ -58,20 +58,27 @@ export default {
         };
     },
     methods: {
+        sleep (ms) {
+            return new Promise((resolve)=>setTimeout(resolve,ms));
+        },
         filterSearch(column) {
             let search = $(`#search${column}`).val();
             this.search[column] = search;
-            if (column == "roles") {
+            // console.log(column)
+            if (0) {
+                // await this.sleep(1500);
                 this.theRoles = this.theRoles.filter((item) => {
                     if (String(item).toLowerCase().includes(search.toLowerCase())) {
+                        // console.log(item)
                         return true;
                     }
                 });
                 if (this.theRoles.length == 0) {
+                    console.log(this.theRoles)
                     this.theRoles = this.theOriginalRoles;
                 }
-                this.toggleData(column);
-                this.toggleData(column);
+                this.toggleData(column, true);
+                this.toggleData(column, true);
                 var strLength = $(`#search${column}`).val().length * 2;
                 $(`#search${column}`).focus();
                 $(`#search${column}`)[0].setSelectionRange(strLength, strLength);
@@ -79,10 +86,26 @@ export default {
             else {
                 this.theData = this.originalData;
                 this.theData = this.theData.filter((item) => {
-                    if(item[column]) {
-                        return item[column].toLowerCase().includes(search.toLowerCase());
+                    if (column != "roles") {
+                        if(item[column]) {
+                            return item[column].toLowerCase().includes(search.toLowerCase());
+                        }
+                    }
+                    else {
+                        if (item["user"]) {
+                            console.log(item["user"]["roles"])
+                            console.log(item["user"]["section"])
+                            if(item["user"]["roles"]) {
+                                item["user"]["roles"].filter((role) => {
+                                    if (role["section"].toLowerCase().includes(search.toLowerCase())) {
+                                        return true;
+                                    }
+                                });
+                            }
+                        }
                     }
                 });
+                console.info(this.theData)
                 if (this.theData.length == 0) {
                     this.theData = this.originalData;
                 }
@@ -93,7 +116,7 @@ export default {
                 $(`#search${column}`)[0].setSelectionRange(strLength, strLength);
             }
         },
-        toggleData(id) {
+        toggleData(id, searchRole = null) {
             this.columns[id].show = !this.columns[id].show;
             this.toggleColumns(id);
             if (this.columns[id].show) {
@@ -104,10 +127,17 @@ export default {
                     let theType = id == "roles" ? "section" : "position";
                     id = "roles";
                     let noGroupSet = false;
-                    this.theVolunteersData.forEach((item, key) => {
+                    let tmp;
+                    if (searchRole) {
+                        // tmp = this.theRoles;
+                    }
+                    else {
+                    }
+                        tmp = this.theVolunteersData;
+                    tmp.forEach((item, key) => {
                         for (let k = 0; k < item[id].length ; k++) {
                             let theEntity = item[id][k];
-                            console.log(item[id][k])
+                            // console.log(item[id][k])
                             if (item[id][k]["batch"] && unique.includes(item[id][k]["batch"]["name"] + ": " + item[id][k]["section"] + "-" + item[id][k]["position"]) && id != 'name') {
                                 continue;
                             }
