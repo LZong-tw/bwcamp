@@ -56,6 +56,9 @@
                 <input type="hidden" name="region" value="@foreach($regions as $r) @if(\Str::contains($applicant_raw_data->batch->name, $r)){{ $r }} @break @endif @endforeach">
             @else
                 <h3>{{ $batch->name }} {{ $batch->batch_start }} ~ {{ $batch->batch_end }} </h3>
+                @if(\Str::contains($batch->name, "中區"))
+                <h3>(本場課程期間-住宿3天2夜)</h3>
+                @endif
                 <input type="hidden" name="region" value="@foreach($regions as $r) @if(\Str::contains($batch->name, $r)){{ $r }} @break @endif @endforeach">
             @endif
         </div>
