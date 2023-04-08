@@ -602,6 +602,9 @@ class BackendService
             foreach ($request->resources as $resource => $actions) {
                 foreach ($actions as $key => $action) {
                     $role = $rolesModel::findOrFail($roleID);
+                    if (!isset($request->range[$resource])) {
+                        return back()->withErrors(['range' => '您先前只選擇了' . $resource . '，未選擇範圍。']);
+                    }
                     $permission = $permissionModel::firstOrCreate([
                         'name' => $resource . '.' . $action,
                         'display_name' => $camp->abbreviation . '-' . $action . ' ' . $request->resources_name[$resource],
@@ -614,6 +617,9 @@ class BackendService
                     ]);
                     $totalPermissions[] = $permission->id;
                 }
+            }
+            if (count($request->resources) != count($request->range)) {
+                return back()->withErrors(['range' => '動作及範圍對應的資源數量不同。']);
             }
             return $totalPermissions;
         }
