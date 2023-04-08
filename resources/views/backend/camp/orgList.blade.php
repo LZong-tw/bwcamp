@@ -21,7 +21,8 @@
             <th>ID</th>
             <th>梯次</th>
             <th>大組名稱</th>
-            <th>職務名稱</th>
+            <th>小組及職務名稱</th>
+            <th>綁定的學員組別</th>
             <th>已設定權限數</th>
             <th>修改</th>
             <th>刪除</th>
@@ -30,7 +31,7 @@
         @foreach($orgs as $org)
             <tr>
                 <td>{{ $org->id }}</td>
-                <td>{{ $org->batch?->name ?? "未分梯" }}</td>
+                <td>{{ $org->batch?->name ?? "不限" }}</td>
                 @if($org->position == 'root')
                 <td class="font-weight-bold">{{ $org->section }}</td>
                 @else
@@ -38,7 +39,7 @@
                 @endif
                 @if($org->position == 'root')
                     <td>（大組）</td>
-                    <td></td>
+                    <td>--</td><td>--</td>
                     <td>
                         <a href="{{ route('showModifyOrg', [$camp->id, $org->id]) }}" class="btn btn-primary">修改</a>
                     </td>
@@ -61,6 +62,7 @@
                     </td>
                 @else
                     <td>{{ $org->position }}</td>
+                    <td>{{ $org->applicant_group ?? "無" }}</td>
                     <td>{{ $org->permissions->count() }}</td>
                     <td><a href="{{ route('showModifyOrg', [$camp->id, $org->id]) }}" class="btn btn-primary">修改</a></td>
                     <td>
@@ -83,8 +85,8 @@
         @endforeach
     </table>
     @if(count($orgs))
-    <h6 class='text-info'>＊大組中無職務，才可刪除該大組</h6>
-    <h6 class='text-info'>＊某個職務無人被指定，才可刪除該職務</h6>
+        <h6 class='text-info'>＊大組中無職務，才可刪除該大組</h6>
+        <h6 class='text-info'>＊某個職務無人被指定，才可刪除該職務</h6>
     @endif
 
 

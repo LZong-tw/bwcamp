@@ -33,7 +33,7 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>職務名稱</th>
+                <th>小組及職務名稱</th>
                 <th>範圍</th>
                 <th>操作</th>
             </tr>
@@ -60,7 +60,7 @@
             <div class="modal-body">
                 <form action="" method="post" class="d-inline">
                     <div class='row form-group required'>
-                        <label for='inputName' class='col-md-4 control-label text-md-right'>職務名稱</label>
+                        <label for='inputName' class='col-md-4 control-label text-md-right'>小組及職務名稱</label>
                         <div class='col-md-8'>
                             <input type='text' name='name' value='' class='form-control' id='inputName' placeholder='' required >
                         </div>

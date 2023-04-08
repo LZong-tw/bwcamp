@@ -22,7 +22,7 @@
                 目前組織：
                 @foreach($orgs as $org)
                     @if($org->position == 'root')
-                        <br>{{ $org->section }}： 
+                        <br>{{ $org->section }}：
                     @else
                         {{ $org->position }}、
                     @endif
@@ -32,8 +32,8 @@
                 @foreach($orgs as $org)
                     @if($org->section == $sec_tg)
                         @if($org->position == 'root')
-                            <br>{{ $org->section }}： 
-                        @else 
+                            <br>{{ $org->section }}：
+                        @else
                             {{ $org->position }}、
                         @endif
                     @endif
@@ -49,7 +49,7 @@
             <tr>
                 <th>大組名稱</th>
                 <th>新增或刪除行</th>
-                <th>職務名稱</th>
+                <th>小組及職務名稱</th>
             </tr>
             <tr class="align-middle">
                 @if($sec_tg == "null")
@@ -57,7 +57,7 @@
                     <input type="text" name="section[]" id="" class="form-control" required>
                 </td>
                 <td class="align-middle">
-                    <a href="#" class="btn btn-primary" onclick="addSection()">+</a>                
+                    <a href="#" class="btn btn-primary" onclick="addSection()">+</a>
                 </td>
                 @else
                 <td class="align-middle">
@@ -92,7 +92,7 @@
         var g_sec_idx = 1;  //讓sec_num不重複
         function addSection(){
             var tbl = document.getElementById("org");
-            var lastRow = tbl.rows.length; 
+            var lastRow = tbl.rows.length;
             //sec_num = tbl.rows.length - 1;
             sec_num = g_sec_idx;
             g_sec_idx = g_sec_idx + 1;
@@ -108,7 +108,7 @@
             // add position indexed by rows - 2
             var tid = "sec" + sec_num;
             console.log(tid);
-            var tbl = document.getElementById(tid); 
+            var tbl = document.getElementById(tid);
             var lastRow = tbl.rows.length;  //number
             var rowNode = tbl.insertRow(lastRow);
             var cellNode = rowNode.insertCell();
@@ -116,15 +116,15 @@
             lastRow.innerHTML = genEle2(sec_num);
         }
         function genEle1(sec_num){
-            let sec_ele1 = `<tr>  
-                    <td class="align-middle">  
+            let sec_ele1 = `<tr>
+                    <td class="align-middle">
                         <input type="text" name="section[`;
             let sec_ele2 = `]" id="" class="form-control" required>
                     </td>
-                    <td class="align-middle"> 
+                    <td class="align-middle">
                         <a href="#" class="btn btn-danger" onclick="this.parentNode.parentNode.remove()">Ｘ</a>
-                    </td>   
-                    <td class="align-middle">  
+                    </td>
+                    <td class="align-middle">
                         <table class="table table-bordered" id="sec`;
             let sec_ele3 =`">
                             <tr>
@@ -145,12 +145,12 @@
         }
         function genEle2(sec_num){
             let pos_ele1 = `<tr>
-                    <td>    
+                    <td>
                         <input type="text" name="position[`;
             let pos_ele2 = `][]" id="sec`;
             let pos_ele3 = `" class="form-control" required>
                     </td>
-                    <td> 
+                    <td>
                         <a href="#" class="btn btn-danger" onclick="this.parentNode.parentNode.remove()">Ｘ</a>
                     </td>
                 </tr>`;
