@@ -186,28 +186,32 @@
                     <input type="submit" class="btn btn-primary float-right" name="editremark" id="editremark" value="確認編輯" disabled>
                 </form>
             </div>
-            <div class="col-md-8">
-                <span class="btn btn-info">關懷記錄</span><br>
-                <form action="{{ route('addContactLog', $camp->id) }}" method="POST">
-                    <a id="new"></a>
-                    @csrf
-                    <br>
-                    <textarea class=form-control rows=5 required name='notes' id=""></textarea>
-                    <br>
-                    <input type="hidden" name="applicant_id" value="{{ $applicant->applicant_id }}">
-                    <input type="hidden" name="todo" value="add">
-                    <input type="submit" class="btn btn-primary float-right" value="新增關懷記錄">
-                </form>
-                <br><br><hr>
-                <b>最新一筆關懷記錄</b><br>
-                @if(isset($contactlog))
-                {{ $contactlog->updated_at }} 由 {{ $contactlog->takenby_name }} 記錄：<br>
-                {{ $contactlog->notes }}<br><br>
-                @else
-                <b>無關懷記錄</b>
-                @endif
-                <a href="{{ route('showContactLogs', [$camp->id, $applicant->applicant_id]) }}" class="btn btn-secondary float-right">更多關懷記錄</a><br><br>
-            </div>
+            @if($currentUser->canAccessResource(new App\Models\ContactLog(), 'read', $campFullData))
+                <div class="col-md-8">
+                    <span class="btn btn-info">關懷記錄</span><br>
+                    @if($currentUser->canAccessResource(new App\Models\ContactLog(), 'create', $campFullData))
+                        <form action="{{ route('addContactLog', $camp->id) }}" method="POST">
+                            <a id="new"></a>
+                            @csrf
+                            <br>
+                            <textarea class=form-control rows=5 required name='notes' id=""></textarea>
+                            <br>
+                            <input type="hidden" name="applicant_id" value="{{ $applicant->applicant_id }}">
+                            <input type="hidden" name="todo" value="add">
+                            <input type="submit" class="btn btn-primary float-right" value="新增關懷記錄">
+                        </form>
+                        <br><br><hr>
+                    @endif
+                    <b>最新一筆關懷記錄</b><br>
+                    @if(isset($contactlog))
+                    {{ $contactlog->updated_at }} 由 {{ $contactlog->takenby_name }} 記錄：<br>
+                    {{ $contactlog->notes }}<br><br>
+                    @else
+                    <b>無關懷記錄</b>
+                    @endif
+                    <a href="{{ route('showContactLogs', [$camp->id, $applicant->applicant_id]) }}" class="btn btn-secondary float-right">更多關懷記錄</a><br><br>
+                </div>
+            @endif
         </div>
     </div>
 @endif
