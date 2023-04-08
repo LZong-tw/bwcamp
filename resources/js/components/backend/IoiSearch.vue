@@ -83,6 +83,7 @@ export default {
                 //         let newElt = Object.assign({}, element); // copies element
                 //         return newElt.subElements.filter(subElement => subElement.surname === '1');
                 //     });
+                // 根據職務篩選出義工，在對陣列進行降階後，去除重複職務的義工
                 this.theData = this.theData.filter((item) => {
                     if (item["user"] && item["user"]["roles"]) {
                         return item["user"]["roles"].some((role) => role["section"].toLowerCase().includes(search.toLowerCase()));
@@ -133,7 +134,6 @@ export default {
                                 tr0.setAttribute("id", "tr" + id + "key" + key + "NONE");
                                 let td0 = document.createElement("td");
                                 let checkbox0 = document.createElement("input");
-                                checkbox0.setAttribute("onclick", 'window.vueComponent.toggleCheckbox(this)');
                                 checkbox0.setAttribute("type", "checkbox");
                                 checkbox0.setAttribute("name", "group_id[]");
                                 checkbox0.setAttribute("value", "NONE");
@@ -150,10 +150,9 @@ export default {
                                 tr.setAttribute("id", "tr" + id + "key" + key);
                                 let td = document.createElement("td");
                                 let checkbox = document.createElement("input");
-                                checkbox.setAttribute("onclick", 'window.vueComponent.toggleCheckbox(this)');
                                 checkbox.setAttribute("type", "checkbox");
                                 checkbox.setAttribute("name", id + "[]");
-                                checkbox.setAttribute("value", theEntity["id"]);
+                                checkbox.setAttribute("value", theEntity[theType]);
                                 td.appendChild(checkbox);
                                 if (theEntity["batch"]) {
                                     td.innerHTML += theEntity["batch"]["name"] + ": " + theEntity["section"];
@@ -186,7 +185,6 @@ export default {
                             tr0.setAttribute("id", "tr" + id + "key" + key + "NONE");
                             let td0 = document.createElement("td");
                             let checkbox0 = document.createElement("input");
-                            checkbox0.setAttribute("onclick", 'window.vueComponent.toggleCheckbox(this)');
                             checkbox0.setAttribute("type", "checkbox");
                             checkbox0.setAttribute("name", "group_id[]");
                             checkbox0.setAttribute("value", "NONE");
@@ -197,16 +195,13 @@ export default {
                             $("#searchField" + id).removeClass("d-none");
                         }
                         if (id == "roles" && item["section"]) {
-                            this.theData = this.theData.filter((obj, index) => {
-                                return index === this.theData.findIndex(o => obj.section === o.section);
-                            });
+                            // 職務的顯示要特別處理：只顯示職務組別，不顯示職務名稱
                             let tr = document.createElement("tr");
-                            tr.setAttribute("id", "tr" + "roles" + "key" + key);
+                            tr.setAttribute("id", "tr" + "sections" + "key" + key);
                             let td = document.createElement("td");
                             let checkbox = document.createElement("input");
-                            checkbox.setAttribute("onclick", 'window.vueComponent.toggleCheckbox(this)');
                             checkbox.setAttribute("type", "checkbox");
-                            checkbox.setAttribute("name", "roles[]");
+                            checkbox.setAttribute("name", "sections[]");
                             checkbox.setAttribute("value", item["section"]);
                             td.appendChild(checkbox);
                             td.innerHTML += item["section"];
@@ -220,7 +215,6 @@ export default {
                             tr.setAttribute("id", "tr" + id + "key" + key);
                             let td = document.createElement("td");
                             let checkbox = document.createElement("input");
-                            checkbox.setAttribute("onclick", 'window.vueComponent.toggleCheckbox(this)');
                             checkbox.setAttribute("type", "checkbox");
                             if (id == "group") {
                                 checkbox.setAttribute("name", "group_id[]");
