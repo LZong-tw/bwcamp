@@ -68,7 +68,7 @@
             <div class="col-md-3">
                 <b>義工任務</b>：
                 @forelse($roles as $role)
-                    {{ $role->batch?->name }}{{ $role->section }} - {{ $role->position }}（<a href="{{ route('deleteUserRole', [$camp->id, "user_id" => $applicant->user->id, "role_id" => $role->id, "applicant_id" => $applicant->id]) }}" class="text-danger">刪除</a>）@if(!$loop->last)、@endif
+                    {{ $role->batch?->name }}{{ $role->section }} - {{ $role->position }}@if($user->canAccessResource('\App\Models\User', 'delete', $applicant->camp))（<a href="{{ route('deleteUserRole', [$camp->id, "user_id" => $applicant->user->id, "role_id" => $role->id, "applicant_id" => $applicant->id]) }}" class="text-danger">刪除</a>）@endif @if(!$loop->last)、@endif
                 @empty
                     此義工尚未分配任何職務
                 @endforelse
@@ -77,8 +77,8 @@
                 <b>專長</b>：
                 @if(isset($applicant->expertise_split))
                     @foreach($applicant->expertise_split as $expertise)
-                        {{$expertise}} 
-                        @if(!$loop->last)、@endif 
+                        {{$expertise}}
+                        @if(!$loop->last)、@endif
                     @endforeach
                 @endif<br>
                 <b>語言</b>：
