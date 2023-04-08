@@ -20,7 +20,6 @@
     　台南 (06)264-6831(分機316 或 0933-296506陳姿縈)<br>
     @elseif(\Str::contains($applicant->batch->camp->fullName, "高雄"))
     　高雄 (07)281-9498 或 (07)976-9341(分機404)<br>
-    @else
     @endif
     電子郵件：ent.camp@blisswisdom.org<br>
     <br>
