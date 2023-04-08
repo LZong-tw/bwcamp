@@ -63,58 +63,49 @@ export default {
         },
         filterSearch(column) {
             let search = $(`#search${column}`).val();
+            let searchRole = null;
             this.search[column] = search;
             // console.log(column)
-            if (0) {
-                // await this.sleep(1500);
-                this.theRoles = this.theRoles.filter((item) => {
-                    if (String(item).toLowerCase().includes(search.toLowerCase())) {
-                        // console.log(item)
-                        return true;
+            this.theData = this.originalData;
+            if (column != "roles") {
+                this.theData = this.theData.filter((item) => {
+                    if (item[column]) {
+                        return item[column].toLowerCase().includes(search.toLowerCase());
                     }
                 });
-                if (this.theRoles.length == 0) {
-                    console.log(this.theRoles)
-                    this.theRoles = this.theOriginalRoles;
-                }
-                this.toggleData(column, true);
-                this.toggleData(column, true);
-                var strLength = $(`#search${column}`).val().length * 2;
-                $(`#search${column}`).focus();
-                $(`#search${column}`)[0].setSelectionRange(strLength, strLength);
             }
             else {
-                this.theData = this.originalData;
+                // https://stackoverflow.com/questions/38375646/filtering-array-of-objects-with-arrays-based-on-nested-value
+                // let filteredArray = arrayOfElements
+                //     .filter((element) =>
+                //         element.subElements.some((subElement) => subElement.surname === 1))
+                //     .map(element => {
+                //         let newElt = Object.assign({}, element); // copies element
+                //         return newElt.subElements.filter(subElement => subElement.surname === '1');
+                //     });
                 this.theData = this.theData.filter((item) => {
-                    if (column != "roles") {
-                        if(item[column]) {
-                            return item[column].toLowerCase().includes(search.toLowerCase());
-                        }
+                    if (item["user"] && item["user"]["roles"]) {
+                        return item["user"]["roles"].some((role) => role["section"].toLowerCase().includes(search.toLowerCase()));
                     }
-                    else {
-                        if (item["user"]) {
-                            console.log(item["user"]["roles"])
-                            console.log(item["user"]["section"])
-                            if(item["user"]["roles"]) {
-                                item["user"]["roles"].filter((role) => {
-                                    if (role["section"].toLowerCase().includes(search.toLowerCase())) {
-                                        return true;
-                                    }
-                                });
-                            }
-                        }
+                }).map(element => {
+                    let newElt = Object.assign({}, element);
+                    if (newElt.user) {
+                        return newElt.user["roles"].filter(subElement => subElement["section"].toLowerCase().includes(search.toLowerCase()));
                     }
+                }).flat();
+                this.theData = this.theData.filter((obj, index) => {
+                    return index === this.theData.findIndex(o => obj.section === o.section);
                 });
-                console.info(this.theData)
-                if (this.theData.length == 0) {
-                    this.theData = this.originalData;
-                }
-                this.toggleData(column);
-                this.toggleData(column);
-                var strLength = $(`#search${column}`).val().length * 2;
-                $(`#search${column}`).focus();
-                $(`#search${column}`)[0].setSelectionRange(strLength, strLength);
+                searchRole = 1;
             }
+            if (this.theData.length == 0) {
+                this.theData = this.originalData;
+            }
+            this.toggleData(column, searchRole);
+            this.toggleData(column, searchRole);
+            var strLength = $(`#search${column}`).val().length * 2;
+            $(`#search${column}`).focus();
+            $(`#search${column}`)[0].setSelectionRange(strLength, strLength);
         },
         toggleData(id, searchRole = null) {
             this.columns[id].show = !this.columns[id].show;
@@ -122,19 +113,12 @@ export default {
             if (this.columns[id].show) {
                 let table = document.createElement("table");
                 let unique = [];
-                if (id == "roles" || id == "position") {
+                if (!searchRole && (id == "roles" || id == "position")) {
                     // 義工職務
                     let theType = id == "roles" ? "section" : "position";
                     id = "roles";
                     let noGroupSet = false;
-                    let tmp;
-                    if (searchRole) {
-                        // tmp = this.theRoles;
-                    }
-                    else {
-                    }
-                        tmp = this.theVolunteersData;
-                    tmp.forEach((item, key) => {
+                    this.theVolunteersData.forEach((item, key) => {
                         for (let k = 0; k < item[id].length ; k++) {
                             let theEntity = item[id][k];
                             // console.log(item[id][k])
@@ -172,12 +156,18 @@ export default {
                                 checkbox.setAttribute("value", theEntity["id"]);
                                 td.appendChild(checkbox);
                                 if (theEntity["batch"]) {
-                                    td.innerHTML += theEntity["batch"]["name"] + ": " + theEntity["section"] + "-" + theEntity["position"];
-                                    unique.push(theEntity["batch"]["name"] + ": " + theEntity["section"] + "-" + theEntity["position"]);
+                                    td.innerHTML += theEntity["batch"]["name"] + ": " + theEntity["section"];
+                                    if(unique.includes(theEntity["batch"]["name"] + ": " + theEntity["section"])) {
+                                        return;
+                                    }
+                                    unique.push(theEntity["batch"]["name"] + ": " + theEntity["section"]);
                                 }
                                 else {
-                                    td.innerHTML += theEntity["section"] + "-" + theEntity["position"];
-                                    unique.push(theEntity["section"] + "-" + theEntity["position"]);
+                                    td.innerHTML += theEntity["section"];
+                                    if(unique.includes(theEntity["section"])) {
+                                        return;
+                                    }
+                                    unique.push(theEntity["section"]);
                                 }
                                 tr.appendChild(td);
                                 table.appendChild(tr);
@@ -185,7 +175,6 @@ export default {
                             }
                         }
                     });
-                    this.theRoles = unique;
                 }
                 else {
                     this.theData.forEach((item, key) => {
@@ -207,7 +196,26 @@ export default {
                             table.appendChild(tr0);
                             $("#searchField" + id).removeClass("d-none");
                         }
-                        if (item[id]) {
+                        if (id == "roles" && item["section"]) {
+                            this.theData = this.theData.filter((obj, index) => {
+                                return index === this.theData.findIndex(o => obj.section === o.section);
+                            });
+                            let tr = document.createElement("tr");
+                            tr.setAttribute("id", "tr" + "roles" + "key" + key);
+                            let td = document.createElement("td");
+                            let checkbox = document.createElement("input");
+                            checkbox.setAttribute("onclick", 'window.vueComponent.toggleCheckbox(this)');
+                            checkbox.setAttribute("type", "checkbox");
+                            checkbox.setAttribute("name", "roles[]");
+                            checkbox.setAttribute("value", item["section"]);
+                            td.appendChild(checkbox);
+                            td.innerHTML += item["section"];
+                            tr.appendChild(td);
+                            table.appendChild(tr);
+                            $("#searchField" + id).removeClass("d-none");
+                            unique.push(item["section"]);
+                        }
+                        else if (item[id]) {
                             let tr = document.createElement("tr");
                             tr.setAttribute("id", "tr" + id + "key" + key);
                             let td = document.createElement("td");
