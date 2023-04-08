@@ -18,7 +18,7 @@ class Camp extends Model
 
     public $resourceNameInMandarin = '學員營隊資料';
 
-    public $description = '每年學員營隊有關的資料，包括營隊名稱、簡稱、舉辦年、報名日期、錄取日期……等資料。';
+    public $resourceDescriptionInMandarin = '每年學員營隊有關的資料，包括營隊名稱、簡稱、舉辦年、報名日期、錄取日期……等資料。';
 
     protected $guarded = [];
 

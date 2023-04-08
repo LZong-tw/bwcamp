@@ -15,7 +15,7 @@ class SignInSignOut extends Model
 
     public $resourceNameInMandarin = '學員 / 義工簽到簽退資料';
 
-    public $description = '簽到簽退的權限。擁有這個資源權限的人才可以看、幫別人簽到簽退等。';
+    public $resourceDescriptionInMandarin = '簽到簽退的權限。擁有這個資源權限的人才可以看、幫別人簽到簽退等。';
 
     protected $table = "sign_in_sign_out";
 

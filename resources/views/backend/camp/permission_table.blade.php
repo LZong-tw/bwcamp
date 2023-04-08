@@ -8,7 +8,7 @@
     <thead>
         <tr>
             <th rowspan="2" class="align-middle">義工可以操作的東西</th>
-            <th rowspan="2" class="align-middle">這些東西包含什麼</th>
+            <th rowspan="2" class="align-middle col-3">這些東西包含什麼</th>
             <th colspan="5">他可以做什麼動作</th>
             <th colspan="5">這個動作的影響範圍</th>
         </tr>
@@ -49,13 +49,13 @@
                     <th>全部</th>
                 </tr>
             @endif
-            @if($resource["name"])
+            @if($resource["name"] && $resource["description"])
                 <tr>
                     <td>
                         {{ $resource["name"] }}
                         <input type="hidden" name="resources_name[{{ $resource["class"] }}]" value="{{ $resource["name"] }}">
                     </td>
-                    <td>{{ $resource["description"] ?? '說明' }}</td>
+                    <td>{{ $resource["description"] ?? '' }}</td>
                     @foreach(["assign", "read", "create", "update", "delete"] as $action)
                         <td>
                             <input type="checkbox" name="resources[{{ $resource["class"] }}][]" value="{{ $action }}" class="checkbox" @checked($complete_permissions->where('resource', $resource["class"])->where('action', $action)->count())>
