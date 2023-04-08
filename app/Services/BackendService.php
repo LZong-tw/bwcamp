@@ -463,7 +463,15 @@ class BackendService
         $targetVolunteers = null;
         foreach ($payload as $key => &$value) {
             if ($key == "roles") {
-                $queryRoles = CampOrg::whereIn('id', $value)->get();
+                $do = true;
+                $column = "id";
+            }
+            elseif ($key == "sections") {
+                $do = true;
+                $column = "section";
+            }
+            if ($do ?? false) {
+                $queryRoles = CampOrg::whereIn($column, $value)->get();
                 $queryRoles = $queryRoles->filter(fn($role) => $role->camp_id == $camp->id);
                 $targetVolunteers = OrgUser::whereIn('org_id', $value)->get()->pluck('user_id');
                 $targetVolunteers = \App\Models\User::whereIn('id', $targetVolunteers)->get();
