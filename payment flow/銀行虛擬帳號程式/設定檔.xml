@@ -429,7 +429,7 @@
 		<param-value>E:\eclipse\workspace\star\WebContent\Files</param-value>
 	</context-param>
 	<context-param>
-    	<param-name>成績紀錄表圖檔路徑</param-name>
+    	<param-name>成績記錄表圖檔路徑</param-name>
     	<param-value>E:\eclipse\workspace\star\WebContent\PartImages</param-value>
 	</context-param>
 	<context-param>

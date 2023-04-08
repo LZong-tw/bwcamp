@@ -40,6 +40,8 @@
                     @elseif($key == "carer" && $isSettingCarer)
                         @continue
                     @elseif(!$isShowVolunteers && !$isShowLearners && $key == "contactlog")
+                    @elseif($key == "contactLog" && $currentUser->canAccessResource(new App\Models\ContactLog(), 'read', $campFullData))
+                        <th class="text-center" data-field="contactLog" data-sortable="0">關懷記錄</th>
                     @else
                         <th class="text-center" data-field="{{ $key }}" data-sortable="{{ $item['sort'] }}">{{ $item['name'] }}</th>
                     @endif
@@ -118,11 +120,13 @@
                             <td>
                                 {{ Str::limit($applicant->$key, 100,'...') ?? "-" }}
                             </td>
-                        @elseif($key == "contactlog" && !$isShowVolunteers)
+                        @elseif($key == "contactlog" && !$isShowVolunteers && $currentUser->canAccessResource(new App\Models\ContactLog(), 'read', $campFullData))
                             <td>
                                 {{ Str::limit($applicant->contactlog?->sortByDesc('id')->first()?->notes, 50,'...') ?? "-" }}
                                 <div>
-                                    <a href="{{ route('showAttendeeInfoGET', ($isShowVolunteers ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->id }}#new" target="_blank">⊕新增關懷紀錄</a>
+                                    @if($currentUser->canAccessResource(new App\Models\ContactLog(), 'create', $campFullData))
+                                        <a href="{{ route('showAttendeeInfoGET', ($isShowVolunteers ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->id }}#new" target="_blank">⊕新增關懷記錄</a>
+                                    @endif
                                     @if(count($applicant->contactlog))
                                         &nbsp;&nbsp;
                                         <a href="{{ route('showContactLogs', [$campFullData->id, $applicant->id]) }}" target="_blank">🔍看更多</a>
@@ -236,7 +240,7 @@
                         <td>
                             {{ Str::limit($applicant->contactlog?->sortByDesc('id')->first()?->notes, 50,'...') ?? "-" }}
                             <div>
-                                <a href="{{ route('showAttendeeInfoGET', ($isShowVolunteers ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->applicant_id }}#new" target="_blank">⊕新增關懷紀錄</a>
+                                <a href="{{ route('showAttendeeInfoGET', ($isShowVolunteers ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->applicant_id }}#new" target="_blank">⊕新增關懷記錄</a>
                                 @if(count($applicant->contactlog))
                                     &nbsp;&nbsp;
                                     <a href="{{ route('showContactLogs', [$campFullData->id, $applicant->id]) }}" target="_blank">🔍看更多</a>

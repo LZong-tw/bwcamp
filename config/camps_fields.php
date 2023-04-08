@@ -461,7 +461,7 @@ return [
                 "for_query" => 1,
             ],
             "contactlog" => [
-                "name" => "關懷紀錄",
+                "name" => "關懷記錄",
                 "sort" => 0,
                 "for_query" => 0,
             ],
@@ -534,7 +534,7 @@ return [
                 "for_query" => 0,
             ],
             "contactlog" => [
-                "name" => "關懷紀錄",
+                "name" => "關懷記錄",
                 "sort" => 0,
                 "for_query" => 0,
             ],
@@ -720,7 +720,7 @@ return [
                 "for_query" => 0,
             ],
             "contactlog" => [
-                "name" => "關懷紀錄",
+                "name" => "關懷記錄",
                 "sort" => 0,
                 "for_query" => 0,
             ],
@@ -871,7 +871,7 @@ return [
                 "for_query" => 1,
             ],
             "contactlog" => [
-                "name" => "關懷紀錄",
+                "name" => "關懷記錄",
                 "sort" => 0,
                 "for_query" => 0,
             ],
@@ -934,7 +934,7 @@ return [
                 "for_query" => 1,
             ],
             "contactlog" => [
-                "name" => "關懷紀錄",
+                "name" => "關懷記錄",
                 "sort" => 0,
                 "for_query" => 0,
             ],
@@ -992,7 +992,7 @@ return [
                 "for_query" => 1,
             ],
             "contactlog" => [
-                "name" => "關懷紀錄",
+                "name" => "關懷記錄",
                 "sort" => 0,
                 "for_query" => 0,
             ],
