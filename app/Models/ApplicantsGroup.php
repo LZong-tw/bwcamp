@@ -14,6 +14,8 @@ class ApplicantsGroup extends Model
 
     public $resourceNameInMandarin = '學員組別';
 
+    public $description = '營隊中的學員組別，附屬在梯次下。';
+
     public function applicants() {
         return $this->hasMany(Applicant::class, 'group_id', 'id');
     }

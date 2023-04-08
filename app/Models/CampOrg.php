@@ -15,6 +15,8 @@ class CampOrg extends LaratrustRole
 
     public $resourceNameInMandarin = '營隊組織 / 義工職務組別';
 
+    public $description = '在學員營隊下新增營隊職務的操作(新增/查詢/修改/刪除)。包括功能大組及各個職稱(但不須增設關懷組的各小組長/副小組長/組員)，有這個資源權限的人通常就可以直接變動營隊的職務組織架構。';
+
     // todo: 要再加上梯次和地區
     protected $fillable = [
         'camp_id', 'batch_id', 'section', 'position', 'description'
@@ -48,5 +50,5 @@ class CampOrg extends LaratrustRole
 
     public function applicant_group() {
         return $this->hasOne(ApplicantsGroup::class, 'id', 'group_id');
-    }    
+    }
 }
