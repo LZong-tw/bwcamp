@@ -7,6 +7,18 @@
         <ul class="list-unstyled components">
             <p>功能列表 <a href="javascript: toggleAll();"><small>全部收合/展開</small></a></p>
             @if(isset($campFullData))
+                @php
+                    $vcamp_counterpart = \App\Models\Vcamp::find($campFullData->id);
+                @endphp
+                @if(!str_contains($campFullData->table, "vcamp") && $campFullData->vcamp)
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route("campIndex", $campFullData->vcamp->id) }}">義工資料統計及操作</a>
+                    </li>
+                @elseif($vcamp_counterpart->mainCamp)
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route("campIndex", $vcamp_counterpart->mainCamp->id) }}">回主營隊</a>
+                    </li>
+                @endif
                 @if(!str_contains($campFullData->table, "vcamp"))
                     <li>
                         <a href="#integratedOperatingInterface" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">綜合操作介面</a>
@@ -244,20 +256,6 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="nav navbar-nav ml-auto">
-                        @if(isset($campFullData))
-                            @php
-                                $vcamp_counterpart = \App\Models\Vcamp::find($campFullData->id);
-                            @endphp
-                            @if(!str_contains($campFullData->table, "vcamp") && $campFullData->vcamp)
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route("campIndex", $campFullData->vcamp->id) }}">義工資料統計及操作</a>
-                                </li>
-                            @elseif($vcamp_counterpart->mainCamp)
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route("campIndex", $vcamp_counterpart->mainCamp->id) }}">回主營隊</a>
-                                </li>
-                            @endif
-                        @endif
                         <li class="nav-item">
                             <a class="nav-link card-link" href="/checkin?t={{ time() }}" target="_blank">報到系統</a>
                         </li>

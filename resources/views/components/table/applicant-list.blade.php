@@ -1,7 +1,13 @@
 <div class="mt-2">
     @if ($queryStr ?? false) 查詢條件：{{ $queryStr }} @endif
     <!-- Nothing worth having comes easy. - Theodore Roosevelt -->
+    <div class="wrapper1">
+        <div class="div1">
+        </div>
+    </div>
     <table class="table table-bordered table-hover"
+{{--        style="overflow-x: auto;"--}}
+        id="applicantTable"
         data-toggle="table"
         data-show-columns="true"
         data-show-columns-search="true"
@@ -269,6 +275,13 @@
     window.isShowLearners = {{ $isShowLearners ? 1 : 0 }};
     window.isShowVolunteers = {{ $isShowVolunteers ? 1 : 0 }};
     (function() {
+        $(".wrapper1").scroll(function(){
+            $(".fixed-table-body").scrollLeft($(".wrapper1").scrollLeft());
+        });
+        $(".fixed-table-body").scroll(function(){
+            $(".wrapper1")
+                .scrollLeft($(".fixed-table-body").scrollLeft());
+        });
     })();
 
     function applicant_triggered(id) {
@@ -281,3 +294,9 @@
         }
     }
 </script>
+<style>
+    .wrapper1{width: 400px; border: none 0px RED;
+        overflow-x: scroll; overflow-y:hidden;}
+    .wrapper1{height: 20px; }
+    .div1 {width:600px; height: 20px; }
+</style>
