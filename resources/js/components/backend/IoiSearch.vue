@@ -58,48 +58,63 @@ export default {
         };
     },
     methods: {
+        sleep (ms) {
+            return new Promise((resolve)=>setTimeout(resolve,ms));
+        },
         filterSearch(column) {
             let search = $(`#search${column}`).val();
+            let searchRole = null;
             this.search[column] = search;
-            if (column == "roles") {
-                this.theRoles = this.theRoles.filter((item) => {
-                    if (String(item).toLowerCase().includes(search.toLowerCase())) {
-                        return true;
-                    }
-                });
-                if (this.theRoles.length == 0) {
-                    this.theRoles = this.theOriginalRoles;
-                }
-                this.toggleData(column);
-                this.toggleData(column);
-                var strLength = $(`#search${column}`).val().length * 2;
-                $(`#search${column}`).focus();
-                $(`#search${column}`)[0].setSelectionRange(strLength, strLength);
-            }
-            else {
-                this.theData = this.originalData;
+            // console.log(column)
+            this.theData = this.originalData;
+            if (column != "roles") {
                 this.theData = this.theData.filter((item) => {
-                    if(item[column]) {
+                    if (item[column]) {
                         return item[column].toLowerCase().includes(search.toLowerCase());
                     }
                 });
-                if (this.theData.length == 0) {
-                    this.theData = this.originalData;
-                }
-                this.toggleData(column);
-                this.toggleData(column);
-                var strLength = $(`#search${column}`).val().length * 2;
-                $(`#search${column}`).focus();
-                $(`#search${column}`)[0].setSelectionRange(strLength, strLength);
             }
+            else {
+                // https://stackoverflow.com/questions/38375646/filtering-array-of-objects-with-arrays-based-on-nested-value
+                // let filteredArray = arrayOfElements
+                //     .filter((element) =>
+                //         element.subElements.some((subElement) => subElement.surname === 1))
+                //     .map(element => {
+                //         let newElt = Object.assign({}, element); // copies element
+                //         return newElt.subElements.filter(subElement => subElement.surname === '1');
+                //     });
+                // 根據職務篩選出義工，在對陣列進行降階後，去除重複職務的義工
+                this.theData = this.theData.filter((item) => {
+                    if (item["user"] && item["user"]["roles"]) {
+                        return item["user"]["roles"].some((role) => role["section"].toLowerCase().includes(search.toLowerCase()));
+                    }
+                }).map(element => {
+                    let newElt = Object.assign({}, element);
+                    if (newElt.user) {
+                        return newElt.user["roles"].filter(subElement => subElement["section"].toLowerCase().includes(search.toLowerCase()));
+                    }
+                }).flat();
+                this.theData = this.theData.filter((obj, index) => {
+                    return index === this.theData.findIndex(o => obj.section === o.section);
+                });
+                searchRole = 1;
+            }
+            if (this.theData.length == 0) {
+                this.theData = this.originalData;
+            }
+            this.toggleData(column, searchRole);
+            this.toggleData(column, searchRole);
+            var strLength = $(`#search${column}`).val().length * 2;
+            $(`#search${column}`).focus();
+            $(`#search${column}`)[0].setSelectionRange(strLength, strLength);
         },
-        toggleData(id) {
+        toggleData(id, searchRole = null) {
             this.columns[id].show = !this.columns[id].show;
             this.toggleColumns(id);
             if (this.columns[id].show) {
                 let table = document.createElement("table");
                 let unique = [];
-                if (id == "roles" || id == "position") {
+                if (!searchRole && (id == "roles" || id == "position")) {
                     // 義工職務
                     let theType = id == "roles" ? "section" : "position";
                     id = "roles";
@@ -107,7 +122,7 @@ export default {
                     this.theVolunteersData.forEach((item, key) => {
                         for (let k = 0; k < item[id].length ; k++) {
                             let theEntity = item[id][k];
-                            console.log(item[id][k])
+                            // console.log(item[id][k])
                             if (item[id][k]["batch"] && unique.includes(item[id][k]["batch"]["name"] + ": " + item[id][k]["section"] + "-" + item[id][k]["position"]) && id != 'name') {
                                 continue;
                             }
@@ -119,7 +134,6 @@ export default {
                                 tr0.setAttribute("id", "tr" + id + "key" + key + "NONE");
                                 let td0 = document.createElement("td");
                                 let checkbox0 = document.createElement("input");
-                                checkbox0.setAttribute("onclick", 'window.vueComponent.toggleCheckbox(this)');
                                 checkbox0.setAttribute("type", "checkbox");
                                 checkbox0.setAttribute("name", "group_id[]");
                                 checkbox0.setAttribute("value", "NONE");
@@ -136,18 +150,23 @@ export default {
                                 tr.setAttribute("id", "tr" + id + "key" + key);
                                 let td = document.createElement("td");
                                 let checkbox = document.createElement("input");
-                                checkbox.setAttribute("onclick", 'window.vueComponent.toggleCheckbox(this)');
                                 checkbox.setAttribute("type", "checkbox");
                                 checkbox.setAttribute("name", id + "[]");
-                                checkbox.setAttribute("value", theEntity["id"]);
+                                checkbox.setAttribute("value", theEntity[theType]);
                                 td.appendChild(checkbox);
                                 if (theEntity["batch"]) {
-                                    td.innerHTML += theEntity["batch"]["name"] + ": " + theEntity["section"] + "-" + theEntity["position"];
-                                    unique.push(theEntity["batch"]["name"] + ": " + theEntity["section"] + "-" + theEntity["position"]);
+                                    td.innerHTML += theEntity["batch"]["name"] + ": " + theEntity["section"];
+                                    if(unique.includes(theEntity["batch"]["name"] + ": " + theEntity["section"])) {
+                                        return;
+                                    }
+                                    unique.push(theEntity["batch"]["name"] + ": " + theEntity["section"]);
                                 }
                                 else {
-                                    td.innerHTML += theEntity["section"] + "-" + theEntity["position"];
-                                    unique.push(theEntity["section"] + "-" + theEntity["position"]);
+                                    td.innerHTML += theEntity["section"];
+                                    if(unique.includes(theEntity["section"])) {
+                                        return;
+                                    }
+                                    unique.push(theEntity["section"]);
                                 }
                                 tr.appendChild(td);
                                 table.appendChild(tr);
@@ -155,7 +174,6 @@ export default {
                             }
                         }
                     });
-                    this.theRoles = unique;
                 }
                 else {
                     this.theData.forEach((item, key) => {
@@ -167,7 +185,6 @@ export default {
                             tr0.setAttribute("id", "tr" + id + "key" + key + "NONE");
                             let td0 = document.createElement("td");
                             let checkbox0 = document.createElement("input");
-                            checkbox0.setAttribute("onclick", 'window.vueComponent.toggleCheckbox(this)');
                             checkbox0.setAttribute("type", "checkbox");
                             checkbox0.setAttribute("name", "group_id[]");
                             checkbox0.setAttribute("value", "NONE");
@@ -177,12 +194,27 @@ export default {
                             table.appendChild(tr0);
                             $("#searchField" + id).removeClass("d-none");
                         }
-                        if (item[id]) {
+                        if (id == "roles" && item["section"]) {
+                            // 職務的顯示要特別處理：只顯示職務組別，不顯示職務名稱
+                            let tr = document.createElement("tr");
+                            tr.setAttribute("id", "tr" + "sections" + "key" + key);
+                            let td = document.createElement("td");
+                            let checkbox = document.createElement("input");
+                            checkbox.setAttribute("type", "checkbox");
+                            checkbox.setAttribute("name", "sections[]");
+                            checkbox.setAttribute("value", item["section"]);
+                            td.appendChild(checkbox);
+                            td.innerHTML += item["section"];
+                            tr.appendChild(td);
+                            table.appendChild(tr);
+                            $("#searchField" + id).removeClass("d-none");
+                            unique.push(item["section"]);
+                        }
+                        else if (item[id]) {
                             let tr = document.createElement("tr");
                             tr.setAttribute("id", "tr" + id + "key" + key);
                             let td = document.createElement("td");
                             let checkbox = document.createElement("input");
-                            checkbox.setAttribute("onclick", 'window.vueComponent.toggleCheckbox(this)');
                             checkbox.setAttribute("type", "checkbox");
                             if (id == "group") {
                                 checkbox.setAttribute("name", "group_id[]");
