@@ -14,6 +14,8 @@ class OrgUser extends Model
 
     public $resourceNameInMandarin = '分配義工職務';
 
+    public $description = '針對所有義工進行指派職務的功能，包括指派權限給其他人，提供指派/新增/查詢/修改/刪除義工指派職務的功能。';
+
     public function role_data()
     {
         return $this->belongsTo(Role::class, 'role_id', 'id');

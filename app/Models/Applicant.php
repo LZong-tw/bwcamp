@@ -25,6 +25,8 @@ class Applicant extends Model {
 
     public $resourceNameInMandarin = '一般學員資料';
 
+    public $description = '學員報名表或詳細資料頁面中的資料。';
+
     protected $guarded = [];
 
     public function user()
