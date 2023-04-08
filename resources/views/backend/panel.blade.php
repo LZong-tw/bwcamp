@@ -6,7 +6,13 @@
         </div>
         <ul class="list-unstyled components">
             <p>功能列表 <a href="javascript: toggleAll();"><small>全部收合/展開</small></a></p>
-            @if(isset($campFullData))
+            @php
+                $userOnlyCarer = false;
+                if (isset($campFullData)) {
+                    $userOnlyCarer = $currentUser->roles()->where("camp_id", $campFullData->id)->where("position", "like", "%關懷小組%")->count() == 1;
+                }
+            @endphp
+            @if(isset($campFullData) && !$userOnlyCarer)
                 @php
                     $vcamp_counterpart = \App\Models\Vcamp::find($campFullData->id);
                 @endphp
