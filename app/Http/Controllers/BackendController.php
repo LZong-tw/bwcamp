@@ -898,18 +898,7 @@ class BackendController extends Controller {
                         ->join($camp->table, 'applicants.id', '=', $camp->table . '.applicant_id')
                         ->where('camps.id', $camp->id)->withTrashed();
         $applicants = $query->get();
-        if(auth()->user()->getPermission(false)->role->level <= 2){
-        }
-        else if(auth()->user()->getPermission(true, $camp->id)->level > 2){
-            $constraint = auth()->user()->getPermission(true, $camp->id)->region;
-            $batch = Batch::where('camp_id', $camp->id)->where('name', 'like', '%' . $constraint . '%')->first();
-            $applicants = $applicants->filter(function ($applicant) use ($constraint, $batch) {
-                if($batch){
-                    return $applicant->region == $constraint || $applicant->batch_id == $batch->id;
-                }
-                return $applicant->region == $constraint;
-            });
-        }
+        $applicants = $applicants->filter(fn($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData));
 
         if($request->download) {
             return \PDF::loadView('backend.in_camp.volunteerPhoto', compact('applicants', 'batches'))->download(Carbon::now()->format('YmdHis') . $camp->table . '義工名冊.pdf');
