@@ -82,6 +82,9 @@
                 <option value='總務組' >總務組</option>
                 <option value='公關組' >公關組</option>
                 <option value='海外組' >海外組</option>
+                @if(\Str::contains($batch->name, "中區"))
+                <option value='餐飲大組' >餐飲大組</option>
+                @endif
                 <option value='報到組義工' >報到組義工</option>
                 <option value='依營隊需求安排' >依營隊需求安排</option>
             </select>
@@ -106,6 +109,9 @@
                 <option value='總務組' >總務組</option>
                 <option value='公關組' >公關組</option>
                 <option value='海外組' >海外組</option>
+                @if(\Str::contains($batch->name, "中區"))
+                <option value='餐飲大組' >餐飲大組</option>
+                @endif
                 <option value='報到組義工' >報到組義工</option>
                 <option value='無' >無</option>
             </select>
@@ -125,6 +131,9 @@
                 <option value='總務組' >總務組</option>
                 <option value='公關組' >公關組</option>
                 <option value='海外組' >海外組</option>
+                @if(\Str::contains($batch->name, "中區"))
+                <option value='餐飲大組' >餐飲大組</option>
+                @endif
                 <option value='報到組義工' >報到組義工</option>
                 <option value='無' >無</option>
             </select>
