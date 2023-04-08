@@ -1028,33 +1028,11 @@ class BackendController extends Controller {
     }
 
     public function showLearners(Request $request) {
-//        if (!$this->authorize('viewAny', [auth()->user(), Applicant::class])) {
-//            return "<h3>沒有權限：瀏覽所有學員</h3>";
-//        }
         $user = \App\Models\User::findOrFail(auth()->user()->id);
         view()->share('user', $user);
         $batches = Batch::where("camp_id", $this->campFullData->id)->get();
-        // todo: permission resolver: 找出權限可達範圍的聯集
-//        if (!($user->isAbleTo("\App\Models\CarerApplicantXref.create") || $user->isAbleTo("\App\Models\CarerApplicantXref.assign"))
-//                && $user->id != 1) {
-//            return "<h3>沒有權限：設定學員關懷員</h3>";
-//        }
-//        elseif($user->isAbleTo("\App\Models\CarerApplicantXref.create") || $user->isAbleTo("\App\Models\CarerApplicantXref.assign")) {
-//            // 小組長只能看自己被賦予的梯次
-//            $batches = $batches->filter(static fn($batch) => $user->roles->filter(function ($role) use ($batch) {
-//                return $role->batch_id == $batch->id;
-//            })->count() > 0);
-//            if (!$request->batch_id) {
-//                $batch_id = $batches->first()->id;
-//                return redirect()->route('showLearners', [
-//                    'camp_id' => $this->campFullData->id,
-//                    'batch_id' => $batch_id,
-//                    'isSettingCarer' => $request->isSettingCarer]);
-//            }
-//        }
 
-        if (!$user->isAbleTo('\App\Models\Applicant.read') && $user->id != 1) {
-            // todo: 要檢查到營隊
+        if (!$user->canAccessResource(new \App\Models\Applicant, 'read', $this->campFullData) && $user->id != 1) {
             return "<h3>沒有權限：瀏覽任何學員</h3>";
         }
         ini_set('max_execution_time', -1);
