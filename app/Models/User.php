@@ -46,6 +46,8 @@ class User extends Authenticatable
 
     public $resourceNameInMandarin = '義工資料';
 
+    public $resourceDescriptionInMandarin = '義工帳號的資料，非必要請勿使用這個權限。';
+
     public function __construct(array $attributes = [])
     {
         $this->bootIfNotBooted();
