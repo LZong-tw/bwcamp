@@ -157,6 +157,12 @@ class BackendService
         foreach ($applicantsOrUsers as $entity) {
             if (is_numeric($entity["uses_user_id"])) {
                 $user = \App\Models\User::findOrFail($entity["uses_user_id"]);
+                $record = UserApplicantXref::where('applicant_id', $entity["id"])->first();
+                if ($record && $record->user_id != $user->id) {
+                    $applicant = Applicant::find($entity["id"]);
+                    \Sentry::captureMessage($applicant->name . " 已有連結的使用者，無法再連結其他使用者。");
+                    return "<h1>" . $applicant->name . " 已有連結的使用者，無法再連結其他使用者。</h1>";
+                }
                 OrgUser::firstOrCreate([
                     'org_id' => $groupOrg->id,
                     'user_id' => $user->id,
@@ -195,6 +201,12 @@ class BackendService
                     $user = $this->generateUser($applicant);
                     $user_is_generated = true;
                 }
+                $record = UserApplicantXref::where('applicant_id', $entity["id"])->first();
+                if ($record && $record->user_id != $user->id) {
+                    $applicant = Applicant::find($entity["id"]);
+                    \Sentry::captureMessage($applicant->name . " 已有連結的使用者，無法再連結其他使用者。");
+                    return "<h1>" . $applicant->name . " 已有連結的使用者，無法再連結其他使用者。</h1>";
+                }
                 OrgUser::firstOrCreate([
                     'org_id' => $groupOrg->id,
                     'user_id' => $user->id,
@@ -226,6 +238,12 @@ class BackendService
                 $applicant->email = $entity["email"];
                 $applicant->mobile = $entity["password"];
                 $user = $this->generateUser($applicant);
+                $record = UserApplicantXref::where('applicant_id', $entity["id"])->first();
+                if ($record && $record->user_id != $user->id) {
+                    $applicant = Applicant::find($entity["id"]);
+                    \Sentry::captureMessage($applicant->name . " 已有連結的使用者，無法再連結其他使用者。");
+                    return "<h1>" . $applicant->name . " 已有連結的使用者，無法再連結其他使用者。</h1>";
+                }
                 OrgUser::firstOrCreate([
                     'org_id' => $groupOrg->id,
                     'user_id' => $user->id,

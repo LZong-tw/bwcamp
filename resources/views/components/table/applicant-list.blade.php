@@ -73,7 +73,7 @@
                             <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($applicant->avatar)) }}" width=80 alt="{{ $applicant->name }}"></td>
                         @elseif($key == "name")
                             <td>
-                                <a href="{{ route('showAttendeeInfoGET', ($isShowVolunteers ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->id }}" target="_blank">{{ $applicant->name }}</a>
+                                <a href="{{ route('showAttendeeInfoGET', ($isShowVolunteers ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->id }}" target="_blank">{{ $applicant->name }}</a>&nbsp;(報名序號：{{ $applicant->id }})
                                 <div class="text-success">連結之帳號：{{ $applicant->user->name }}({{ $applicant->user->email }})</div>
                             </td>
                         @elseif($key == "avatar" && !$applicant->avatar)
@@ -178,7 +178,7 @@
                         <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($applicant->avatar)) }}" width=80 alt="{{ $applicant->name }}"></td>
                     @elseif($key == "name")
                         <td>
-                            <a href="{{ route('showAttendeeInfoGET', ($isShowVolunteers ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->applicant_id }}" target="_blank">{{ $applicant->name }}</a>
+                            <a href="{{ route('showAttendeeInfoGET', ($isShowVolunteers ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->applicant_id }}" target="_blank">{{ $applicant->name }}</a>&nbsp;(報名序號：{{ $applicant->id }})
                             @if($applicant->user)
                                 <div class="text-success">連結之帳號：{{ $applicant->user->name }}({{ $applicant->user->email }})</div>
                             @endif
