@@ -151,7 +151,7 @@ export default {
                                 let td = document.createElement("td");
                                 let checkbox = document.createElement("input");
                                 checkbox.setAttribute("type", "checkbox");
-                                checkbox.setAttribute("name", id + "[]");
+                                checkbox.setAttribute("name", "sections[]");
                                 checkbox.setAttribute("value", theEntity[theType]);
                                 td.appendChild(checkbox);
                                 if (theEntity["batch"]) {

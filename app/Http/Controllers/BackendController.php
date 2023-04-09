@@ -1310,6 +1310,7 @@ class BackendController extends Controller {
                         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                         ->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id')
                         ->where('camps.id', $this->campFullData->vcamp->id)
+                        ->whereDoesntHave('user')
                         ->whereIn('batch_id', $batches->pluck('id'))->withTrashed();
         if ($request->isMethod("post")) {
             if ($queryStr != "") {
@@ -1319,7 +1320,7 @@ class BackendController extends Controller {
                 $query = $query->whereRaw("1 = 0");
             }
         }
-        $applicants = $query->whereDoesntHave('user')->get();
+        $applicants = $query->get();
         $applicants = $applicants->each(fn($applicant) => $applicant->id = $applicant->applicant_id);
         $registeredUsers = \App\Models\User::with([
             'roles' => fn($q) => $q->where('camp_id', $this->campFullData->id), // 給 IoiSearch 用的資料
