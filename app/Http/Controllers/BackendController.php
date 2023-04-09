@@ -1319,7 +1319,7 @@ class BackendController extends Controller {
                 $query = $query->whereRaw("1 = 0");
             }
         }
-        $applicants = $query->get();
+        $applicants = $query->whereDoesntHave('user')->get();
         $applicants = $applicants->each(fn($applicant) => $applicant->id = $applicant->applicant_id);
         $registeredUsers = \App\Models\User::with([
             'roles' => fn($q) => $q->where('camp_id', $this->campFullData->id), // 給 IoiSearch 用的資料
