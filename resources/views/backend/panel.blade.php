@@ -265,7 +265,7 @@
                         <li class="nav-item">
                             <a class="nav-link card-link" href="/checkin?t={{ time() }}" target="_blank">報到系統</a>
                         </li>
-                        @if(auth()->user()->getPermission()->level == 1 || $currentUser->canAccessResource(new \App\Models\Camp, "update"))
+                        @if(auth()->user()->getPermission()->level == 1 || $currentUser->canAccessResource(new \App\Models\Camp, "update", $campFullData))
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route("campManagement") }}" target="_blank">營隊管理</a>
                             </li>
