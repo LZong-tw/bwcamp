@@ -176,8 +176,15 @@ class User extends Authenticatable
                     }
                     return false;
                 // 2: learner_group
+                // ★：學員小組的意思除了是「同一個小組的學員」以外，還包含「護持同一個學員小組的義工」
                 case 2:
-                    return $this->camp_roles->where('group_id', '<>', null)->where("camp_id", $resource->camp->id)->firstWhere('group_id', $resource->group_id);
+                    if ($this->camp_roles->where('group_id', '<>', null)->where("camp_id", $resource->camp->id)->firstWhere('group_id', $resource->group_id)) {
+                        return true;
+                    }
+                    if ($this->camp_roles->where('group_id', '<>', null)->where("camp_id", $camp->id)->firstWhere('group_id', $resource->roles()->firstWhere('camp_id', $camp->id)->group_id)) {
+                        return true;
+                    }
+                    return false;
                 // 3: person
                 case 3:
                     if ($class == "App\Models\ApplicantGroup") {
