@@ -184,7 +184,7 @@ class User extends Authenticatable
                     if (str_contains($class, "Applicant") && $this->roles()->where('group_id', '<>', null)->where("camp_id", $resource->camp->id)->firstWhere('group_id', $resource->group_id)) {
                         return true;
                     }
-                    if (str_contains($class, "User") && $this->roles()->where('group_id', '<>', null)->where("camp_id", $camp->id)->firstWhere('group_id', $resource->roles()->firstWhere('camp_id', $camp->id)->group_id)) {
+                    if (str_contains($class, "User") && $this->roles()->where('group_id', '<>', null)->where("camp_id", $camp->id)->firstWhere('group_id', $resource->roles()->where("position", "like", "關懷小組")->firstWhere('camp_id', $camp->id)->group_id)) {
                         return true;
                     }
                     return false;
