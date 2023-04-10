@@ -1382,7 +1382,7 @@ class BackendController extends Controller {
         }
         $registeredUsers = $registeredUsers->get();
         $registeredUsers = $registeredUsers->filter(fn($user) => $this->user->canAccessResource($user, 'read', $this->campFullData, 'volunteerList'));
-        $applicants = $applicants->filter(fn($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, 'volunteerList'));
+        $applicants = $applicants->filter(fn($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData));
 
         if($request->isSetting==1) {
             $isSetting = 1;
