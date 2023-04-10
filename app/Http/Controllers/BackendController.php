@@ -1321,7 +1321,7 @@ class BackendController extends Controller {
         }
         $applicants = $query->get();
         $applicants = $applicants->each(fn($applicant) => $applicant->id = $applicant->applicant_id);
-        $registeredUsers = \App\Models\User::with([
+        $registeredUsers = \App\Models\Volunteer::with([
             'roles' => fn($q) => $q->where('camp_id', $this->campFullData->id), // 給 IoiSearch 用的資料
             'application_log.user.roles' => fn($q) => $q->where('camp_id', $this->campFullData->id),  // applicant-list 顯示用的資料
             'application_log.user.roles.batch',
