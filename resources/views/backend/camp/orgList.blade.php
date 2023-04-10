@@ -62,7 +62,7 @@
                     </td>
                 @else
                     <td>{{ $org->position }}</td>
-                    <td>{{ $org->applicant_group ?? "無" }}</td>
+                    <td>{{ $org->applicant_group?->alias ?? "無" }}</td>
                     <td>{{ $org->permissions->count() }}</td>
                     <td><a href="{{ route('showModifyOrg', [$camp->id, $org->id]) }}" class="btn btn-primary">修改</a></td>
                     <td>
