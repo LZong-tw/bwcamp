@@ -169,19 +169,19 @@ class User extends Authenticatable
                 // 1: volunteer_large_group
                 case 1:
                     if (($class == "App\Models\Applicant" || $class == "App\Models\Volunteer") && $resource->user?->roles) {
-                        return $resource->user->roles->whereIn("section", $this->camp_roles->pluck("section"))->count();
+                        return $resource->user->roles->whereIn("section", $this->roles()->where('camp_id', $camp->id)->pluck("section"))->count();
                     }
                     if (($class == "App\Models\User" || $class == "App\User") && $resource->roles) {
-                        return $resource->roles->whereIn("section", $this->camp_roles->pluck("section"))->count();
+                        return $resource->roles->whereIn("section", $this->roles()->where('camp_id', $camp->id)->pluck("section"))->count();
                     }
                     return false;
                 // 2: learner_group
                 // ★：學員小組的意思除了是「同一個小組的學員」以外，還包含「護持同一個學員小組的義工」
                 case 2:
-                    if ($this->camp_roles->where('group_id', '<>', null)->where("camp_id", $resource->camp->id)->firstWhere('group_id', $resource->group_id)) {
+                    if ($this->roles()->where('group_id', '<>', null)->where("camp_id", $resource->camp->id)->firstWhere('group_id', $resource->group_id)) {
                         return true;
                     }
-                    if ($this->camp_roles->where('group_id', '<>', null)->where("camp_id", $camp->id)->firstWhere('group_id', $resource->roles()->firstWhere('camp_id', $camp->id)->group_id)) {
+                    if ($this->roles()->where('group_id', '<>', null)->where("camp_id", $camp->id)->firstWhere('group_id', $resource->roles()->firstWhere('camp_id', $camp->id)->group_id)) {
                         return true;
                     }
                     return false;
