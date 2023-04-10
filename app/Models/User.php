@@ -150,9 +150,15 @@ class User extends Authenticatable
             return false;
         }
         $class = get_class($resource);
-        if ($context == "volunteerList" && str_contains($class, "Applicant")) {
-            $class = "App\Models\Volunteer";
+        if ($context == "volunteerList") {
+            if(str_contains($class, "Applicant")) {
+                $class = "App\Models\Volunteer";
+            }
+            if (str_contains($class, "Volunteer")) {
+                $class = "App\Models\User";
+            }
         }
+
         // 全域權限
         $permissions = $this->permissions;
         // 營隊權限
