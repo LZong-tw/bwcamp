@@ -151,11 +151,8 @@ class User extends Authenticatable
         }
         $class = get_class($resource);
         if ($context == "volunteerList") {
-            if(str_contains($class, "Applicant")) {
+            if(str_contains($class, "Applicant") || str_contains($class, "User")) {
                 $class = "App\Models\Volunteer";
-            }
-            if (str_contains($class, "Volunteer")) {
-                $class = "App\Models\User";
             }
         }
 
