@@ -94,7 +94,6 @@ class BackendController extends Controller {
         // https://laracasts.com/discuss/channels/laravel/authuser-return-null-in-construct
         $this->middleware(function ($request, $next) use ($that, $args) {
             $that->user = \App\Models\User::find(auth()->user()->id);
-            $that->user->permissionsRolesParser($args["camp"]);
             $that->isVcamp = str_contains($args["camp"], "vcamp");
             if($that->user->roles()->where("camp_id", $this->campFullData->id)->count() == 1 &&
                $that->user->roles()->where("camp_id", $this->campFullData->id)->where("position", "like", "%關懷小組%")->count()){
