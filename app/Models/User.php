@@ -143,6 +143,9 @@ class User extends Authenticatable
     }
 
     public function canAccessResource($resource, $action, $camp, $context = null) {
+        if (!$this->camp_roles) {
+            $this->camp_roles = $this->permissionsRolesParser($camp);
+        }
         if (!$resource) {
             return false;
         }
