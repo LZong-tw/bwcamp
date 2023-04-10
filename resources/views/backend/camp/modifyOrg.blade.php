@@ -21,7 +21,7 @@
             <div class='col-md-6'>
                 <select name="batch_id" id="" class="form-control">
                     <option value="">不限</option>
-                    @foreach($camp->batches ?? [] as $batch)
+                    @foreach($camp->batchs ?? [] as $batch)
                         <option value="{{ $batch->id }}" {{ $batch->id == $org->batch_id ? "selected" : "" }}>{{ $batch->name }}</option>
                     @endforeach
                 </select>
