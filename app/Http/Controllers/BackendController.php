@@ -1002,7 +1002,9 @@ class BackendController extends Controller {
     public function deleteUserRole(Request $request) {
         $user = User::find($request->user_id);
         $user->roles()->detach($request->role_id);
-        $user->application_log()->detach($request->applicant_id);
+        if ($user->roles()->where('camp_id', $request->camp_id)->count() == 0) {
+            $user->application_log()->detach($request->applicant_id);
+        }
         $request->session()->flash('message', '已刪除該義工職務');
         return redirect()->route("showAttendeeInfoGET", ["camp_id" => $request->camp_id, "snORadmittedSN" => $request->applicant_id]);
     }
