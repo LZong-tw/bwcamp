@@ -50,6 +50,10 @@
         </thead>
         @forelse ($registeredVolunteers as &$user)
             @forelse($user->application_log as &$applicant)
+                @php
+                    $theClass = "\\App\\Models\\" . ucfirst($campFullData->vcamp->table);
+                    $applicantCampData = $theClass::where('applicant_id', $applicant->id)->first();
+                @endphp
                 <tr @if($applicant->deleted_at) style="color: rgba(120, 120, 120, 0.4)!important" @endif>
                     @if($isSetting ?? false)
                         <td class="text-center">
@@ -59,8 +63,6 @@
                     @foreach ($columns as $key => $item)
                         @php
                             if(!$applicant->$key) {
-                                $theClass = "\\App\\Models\\" . ucfirst($campFullData->vcamp->table);
-                                $applicantCampData = $theClass::where('applicant_id', $applicant->id)->first();
                                 $applicant->$key = $applicantCampData->$key;
                                 if ($key == "group_priority") {
                                     $applicant->group_priority1 = $applicantCampData->group_priority1;
