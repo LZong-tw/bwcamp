@@ -72,7 +72,10 @@
                             }
                         @endphp
                         @if($key == "avatar" && $applicant->avatar)
-                            <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($applicant->avatar)) }}" width=80 alt="{{ $applicant->name }}"></td>
+                            <td>
+{{--                                <img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($applicant->avatar)) }}" width=80 alt="{{ $applicant->name }}">--}}
+                                效能調整中
+                            </td>
                         @elseif($key == "name")
                             <td>
                                 <a href="{{ route('showAttendeeInfoGET', ($isShowVolunteers ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->id }}" target="_blank">{{ $applicant->name }}</a>&nbsp;(報名序號：{{ $applicant->id }})
@@ -177,7 +180,10 @@
                                 {{ '-' }}
                             @endforelse</td>
                     @elseif($key == "avatar" && $applicant->avatar)
-                        <td><img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($applicant->avatar)) }}" width=80 alt="{{ $applicant->name }}"></td>
+                        <td>
+{{--                            <img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($applicant->avatar)) }}" width=80 alt="{{ $applicant->name }}">--}}
+                            效能調整中
+                        </td>
                     @elseif($key == "name")
                         <td>
                             <a href="{{ route('showAttendeeInfoGET', ($isShowVolunteers ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->applicant_id }}" target="_blank">{{ $applicant->name }}</a>&nbsp;(報名序號：{{ $applicant->id }})
