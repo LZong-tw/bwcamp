@@ -420,12 +420,13 @@
     原因是，日前菁英營決議以實體方式為主，故等實體推薦人數到一定數量後，才來考慮開放推薦線上。
     2022/5/21:只有北區開此選項。
     2022/6/2:實體滿。預設線上。
+    2023/4/13:預設實體。
 -->
 
 <!--
-    <input type='hidden' required name="participation_mode" value='實體營隊'>
--->
     <input type='hidden' required name="participation_mode" value='線上營隊'>
+-->
+    <input type='hidden' required name="participation_mode" value='實體營隊'>
 
 @php
     $is_north = FALSE;
