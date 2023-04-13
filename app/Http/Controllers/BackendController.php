@@ -6,6 +6,7 @@ use App\Models\ApplicantsGroup;
 use App\Models\CampOrg;
 use App\Models\GroupNumber;
 use App\Models\OrgUser;
+use App\Models\Vcamp;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use App\Services\CampDataService;
@@ -1002,7 +1003,8 @@ class BackendController extends Controller {
     public function deleteUserRole(Request $request) {
         $user = User::find($request->user_id);
         $user->roles()->detach($request->role_id);
-        if ($user->roles()->where('camp_id', $request->camp_id)->count() == 0) {
+        $camp = Vcamp::find($request->camp_id)->mainCamp;
+        if ($user->roles()->where('camp_id', $camp->id)->count() == 0) {
             $user->application_log()->detach($request->applicant_id);
         }
         $request->session()->flash('message', '已刪除該義工職務');
