@@ -74,18 +74,44 @@
         <div class='col-md-10'>
             <select required class='form-control' name='group_priority1' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
-                <option value='總部' >總部</option>
-                <option value='資訊組' >資訊組</option>
-                <option value='秘書組' >秘書組</option>
-                <option value='教務組' >教務組</option>
-                <option value='關懷組' >關懷組</option>
-                <option value='總務組' >總務組</option>
-                <option value='公關組' >公關組</option>
-                <option value='海外組' >海外組</option>
-                @if(\Str::contains($batch->name, "中區"))
-                <option value='餐飲大組' >餐飲大組</option>
+                @if(\Str::contains($batch->name, "桃園"))
+                    <option value='秘書：義工' >秘書：義工</option>
+                    <option value='秘書：財務' >秘書：財務</option>
+                    <option value='秘書：行政' >秘書：行政</option>
+                    <option value='秘書：資訊' >秘書：資訊</option>
+                    <option value='文宣採訪：文字採訪' >文宣採訪：文字採訪</option>
+                    <option value='文宣採訪：活動記錄' >文宣採訪：活動記錄</option>
+                    <option value='教務：課務教材' >教務：課務教材</option>
+                    <option value='教務：課務行政' >教務：課務行政</option>
+                    <option value='教務：展覽' >教務：展覽</option>
+                    <option value='教務：視聽' >教務：視聽</option>
+                    <option value='教務：主持人' >教務：主持人</option>
+                    <option value='關懷：報名報到' >關懷：報名報到</option>
+                    <option value='關懷：關懷行政' >關懷：關懷行政</option>
+                    <option value='關懷：關懷服務' >關懷：關懷服務</option>
+                    <option value='關懷：關懷員' >關懷：關懷員</option>
+                    <option value='總務：場地' >總務：場地</option>
+                    <option value='總務：交通' >總務：交通</option>
+                    <option value='總務：資材' >總務：資材</option>
+                    <option value='總務：餐飲' >總務：餐飲</option>
+                    <option value='總務：環保' >總務：環保</option>
+                    <option value='總務：保健' >總務：保健</option>
+                    <option value='總務：機動' >總務：機動</option>
+                    <option value='公關：外接待' >公關：外接待</option>
+                @else
+                    <option value='總部' >總部</option>
+                    <option value='資訊組' >資訊組</option>
+                    <option value='秘書組' >秘書組</option>
+                    <option value='教務組' >教務組</option>
+                    <option value='關懷組' >關懷組</option>
+                    <option value='總務組' >總務組</option>
+                    <option value='公關組' >公關組</option>
+                    <option value='海外組' >海外組</option>
+                    @if(\Str::contains($batch->name, "中區"))
+                    <option value='餐飲大組' >餐飲組</option>
+                    @endif
+                    <option value='報到組義工' >報到組義工</option>
                 @endif
-                <option value='報到組義工' >報到組義工</option>
                 <option value='依營隊需求安排' >依營隊需求安排</option>
             </select>
         {{--
@@ -101,18 +127,44 @@
         <div class='col-md-10'>
             <select class='form-control' name='group_priority2' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
-                <option value='總部' >總部</option>
-                <option value='資訊組' >資訊組</option>
-                <option value='秘書組' >秘書組</option>
-                <option value='教務組' >教務組</option>
-                <option value='關懷組' >關懷組</option>
-                <option value='總務組' >總務組</option>
-                <option value='公關組' >公關組</option>
-                <option value='海外組' >海外組</option>
-                @if(\Str::contains($batch->name, "中區"))
-                <option value='餐飲大組' >餐飲大組</option>
+                @if(\Str::contains($batch->name, "桃園"))
+                    <option value='秘書：義工' >秘書：義工</option>
+                    <option value='秘書：財務' >秘書：財務</option>
+                    <option value='秘書：行政' >秘書：行政</option>
+                    <option value='秘書：資訊' >秘書：資訊</option>
+                    <option value='文宣採訪：文字採訪' >文宣採訪：文字採訪</option>
+                    <option value='文宣採訪：活動記錄' >文宣採訪：活動記錄</option>
+                    <option value='教務：課務教材' >教務：課務教材</option>
+                    <option value='教務：課務行政' >教務：課務行政</option>
+                    <option value='教務：展覽' >教務：展覽</option>
+                    <option value='教務：視聽' >教務：視聽</option>
+                    <option value='教務：主持人' >教務：主持人</option>
+                    <option value='關懷：報名報到' >關懷：報名報到</option>
+                    <option value='關懷：關懷行政' >關懷：關懷行政</option>
+                    <option value='關懷：關懷服務' >關懷：關懷服務</option>
+                    <option value='關懷：關懷員' >關懷：關懷員</option>
+                    <option value='總務：場地' >總務：場地</option>
+                    <option value='總務：交通' >總務：交通</option>
+                    <option value='總務：資材' >總務：資材</option>
+                    <option value='總務：餐飲' >總務：餐飲</option>
+                    <option value='總務：環保' >總務：環保</option>
+                    <option value='總務：保健' >總務：保健</option>
+                    <option value='總務：機動' >總務：機動</option>
+                    <option value='公關：外接待' >公關：外接待</option>
+                @else
+                    <option value='總部' >總部</option>
+                    <option value='資訊組' >資訊組</option>
+                    <option value='秘書組' >秘書組</option>
+                    <option value='教務組' >教務組</option>
+                    <option value='關懷組' >關懷組</option>
+                    <option value='總務組' >總務組</option>
+                    <option value='公關組' >公關組</option>
+                    <option value='海外組' >海外組</option>
+                    @if(\Str::contains($batch->name, "中區"))
+                    <option value='餐飲大組' >餐飲組</option>
+                    @endif
+                    <option value='報到組義工' >報到組義工</option>
                 @endif
-                <option value='報到組義工' >報到組義工</option>
                 <option value='無' >無</option>
             </select>
         </div>  
@@ -122,19 +174,45 @@
         <label for='inputGroupPriority3' class='col-md-2 control-label text-md-right'>報名組別第3志願</label>
         <div class='col-md-10'>
             <select class='form-control' name='group_priority3' onChange=''>
-                <option value='' selected>- 請選擇 -</option>
-                <option value='總部' >總部</option>
-                <option value='資訊組' >資訊組</option>
-                <option value='秘書組' >秘書組</option>
-                <option value='教務組' >教務組</option>
-                <option value='關懷組' >關懷組</option>
-                <option value='總務組' >總務組</option>
-                <option value='公關組' >公關組</option>
-                <option value='海外組' >海外組</option>
-                @if(\Str::contains($batch->name, "中區"))
-                <option value='餐飲大組' >餐飲大組</option>
+            <option value='' selected>- 請選擇 -</option>
+                @if(\Str::contains($batch->name, "桃園"))
+                    <option value='秘書：義工' >秘書：義工</option>
+                    <option value='秘書：財務' >秘書：財務</option>
+                    <option value='秘書：行政' >秘書：行政</option>
+                    <option value='秘書：資訊' >秘書：資訊</option>
+                    <option value='文宣採訪：文字採訪' >文宣採訪：文字採訪</option>
+                    <option value='文宣採訪：活動記錄' >文宣採訪：活動記錄</option>
+                    <option value='教務：課務教材' >教務：課務教材</option>
+                    <option value='教務：課務行政' >教務：課務行政</option>
+                    <option value='教務：展覽' >教務：展覽</option>
+                    <option value='教務：視聽' >教務：視聽</option>
+                    <option value='教務：主持人' >教務：主持人</option>
+                    <option value='關懷：報名報到' >關懷：報名報到</option>
+                    <option value='關懷：關懷行政' >關懷：關懷行政</option>
+                    <option value='關懷：關懷服務' >關懷：關懷服務</option>
+                    <option value='關懷：關懷員' >關懷：關懷員</option>
+                    <option value='總務：場地' >總務：場地</option>
+                    <option value='總務：交通' >總務：交通</option>
+                    <option value='總務：資材' >總務：資材</option>
+                    <option value='總務：餐飲' >總務：餐飲</option>
+                    <option value='總務：環保' >總務：環保</option>
+                    <option value='總務：保健' >總務：保健</option>
+                    <option value='總務：機動' >總務：機動</option>
+                    <option value='公關：外接待' >公關：外接待</option>
+                @else
+                    <option value='總部' >總部</option>
+                    <option value='資訊組' >資訊組</option>
+                    <option value='秘書組' >秘書組</option>
+                    <option value='教務組' >教務組</option>
+                    <option value='關懷組' >關懷組</option>
+                    <option value='總務組' >總務組</option>
+                    <option value='公關組' >公關組</option>
+                    <option value='海外組' >海外組</option>
+                    @if(\Str::contains($batch->name, "中區"))
+                    <option value='餐飲大組' >餐飲組</option>
+                    @endif
+                    <option value='報到組義工' >報到組義工</option>
                 @endif
-                <option value='報到組義工' >報到組義工</option>
                 <option value='無' >無</option>
             </select>
         </div>  
