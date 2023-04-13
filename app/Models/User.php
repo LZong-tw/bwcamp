@@ -42,6 +42,8 @@ class User extends Authenticatable
 
     protected $camp_permissions = [];
 
+    protected $rolePermissions = null;
+
     protected $camp_roles = [];
 
     public $resourceNameInMandarin = '義工資料';
@@ -159,10 +161,12 @@ class User extends Authenticatable
         // 全域權限
         $permissions = $this->permissions;
         // 營隊權限
-        $rolePermissions = self::with('roles.permissions')->whereHas('roles', function ($query) use ($camp) {
-            return $query->where('camp_id', $camp->id);
-        })->where('id', $this->id)->get()->pluck('roles')->flatten()->pluck('permissions')->flatten()->unique('id')->values();
-        $permissions = $permissions ? collect($permissions)->merge($rolePermissions) : $rolePermissions;
+        if (!$this->rolePermissions) {
+            $this->rolePermissions = self::with('roles.permissions')->whereHas('roles', function ($query) use ($camp) {
+                return $query->where('camp_id', $camp->id);
+            })->where('id', $this->id)->get()->pluck('roles')->flatten()->pluck('permissions')->flatten()->unique('id')->values();
+        }
+        $permissions = $permissions ? collect($permissions)->merge($this->rolePermissions) : $this->rolePermissions;
         $forInspect = $permissions->where("resource", "\\" . $class)->where("action", $action)->first();
         if ($forInspect) {
             switch ($forInspect->range_parsed) {
