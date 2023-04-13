@@ -489,6 +489,9 @@ class BackendService
                 $column = "section";
             }
             if ($do ?? false) {
+                if (!is_array($value)) {
+                    $value = [$value];
+                }
                 $queryRoles = CampOrg::whereIn($column, $value)->get();
                 $queryRoles = $queryRoles->filter(fn($role) => $role->camp_id == $camp->id);
                 $targetVolunteers = OrgUser::whereIn('org_id', $value)->get()->pluck('user_id');
