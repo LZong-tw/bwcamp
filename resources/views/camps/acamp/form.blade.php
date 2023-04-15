@@ -11,7 +11,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 @section('content')
     @include('partials.counties_areas_script')
     <div class='alert alert-info' role='alert'>
-        您在本網站所填寫的個人資料，僅用於此次{{ $camp_data->abbreviation }}的報名及活動聯絡之用。
+        您在本網站所填寫的個人資料，僅用於此次{{ $camp_data->abbreviation }}及後續主辦單位舉辦之活動聯絡之用。
         @if(now()->gt(\Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $batch->camp->registration_end . "23:59:59")) && (!isset($isModify) || !$isModify))
             <br><span class="text-danger">報名時間({{ $batch->camp->registration_end }})已經截止，您的報名將列為備取名單（若錄取將另外通知）。</span>
         @endif
@@ -54,6 +54,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     @endif
     
+{{--
     <div class='row form-group required'>
         <label for='inputParticipationMode' class='col-md-2 control-label text-md-right'>參加地點</label>
         <div class='col-md-10'>
@@ -101,7 +102,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </label> 
         </div>
     </div>
-
+--}}
     <div class='row form-group required'>
         <label for='inputName' class='col-md-2 control-label text-md-right'>姓名</label>
         <div class='col-md-10'>
@@ -624,16 +625,18 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class='row form-group required'>
-        <label for='inputIndustry' class='col-md-2 control-label text-md-right'>
-            交通需求 <br>
-            (校園沒有提供汽車車位)
+        <label for='inputTransportation' class='col-md-2 control-label text-md-right'>
+            交通需求
         </label>
         <div class='col-md-10'>
             <select required class='form-control' name='transportation' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
-                <option value='捷運士林站接駁' >捷運士林站接駁</option>
-                <option value='捷運劍南路站(美麗華)接駁' >捷運劍南路站(美麗華)接駁</option>
+                <option value='台鐵桃園前站接駁車' >台鐵桃園前站接駁車</option>
+                <option value='高鐵桃園5號出口接駁車' >高鐵桃園5號出口接駁車</option>
+                <option value='校園汽車停車位' >校園汽車停車位</option>
                 <option value='校園機車停車位' >校園機車停車位</option>
+                <option value='搭乘各區直達專車(暫定：台北、台中、嘉義、台南、高雄、屏東)
+                ' >搭乘各區直達專車(暫定：台北、台中、嘉義、台南、高雄、屏東)</option>
                 <option value='無以上需求' >無以上需求</option>
             </select>
         </div>  
@@ -753,8 +756,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <div class='col-md-10'>
             <label>
                 <p class='form-control-static text-danger'>
-                <input type='radio' required name='profile_agree' value='1'> 我同意，本報名表所填個人資料，僅提供此次營隊及福智課程通知使用。主辦單位有權將此次活動的錄影、
-照片，於刊物及網路上播放、展出。(同意將肖像用於相關活動的宣傳與播放使用）</p>
+                <input type='radio' required name='profile_agree' value='1'> 我同意，本報名表所填個人資料，提供本次營隊及後續主辦單位舉辦之活動，作為訊息通知、行政處理等非營利目的使用。主辦單位有權將此次活動的錄影、照片，於刊物及網路上撥放、展出。(同意將肖像用於相關活動的宣傳與播放使用）</p>
                 <div class="invalid-feedback">
                     請圈選本欄位
                 </div>
