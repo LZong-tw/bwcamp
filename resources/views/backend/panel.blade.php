@@ -88,6 +88,11 @@
                                 <a href="{{ route("bwclubschoolStat", $campFullData->id) }}">福青社學校統計</a>
                             </li>
                         @endif
+                        @if($campFullData->table == "ceocamp" || $campFullData->table == "ecamp")
+                            <li>
+                                <a href="{{ route("industryStat", $campFullData->id) }}">產業別</a>
+                            </li>
+                        @endif
                         @if($campFullData->table == "tcamp")
                             <li>
                                 <a href="{{ route("schoolOrCourseStat", $campFullData->id) }}">任教學程</a>
