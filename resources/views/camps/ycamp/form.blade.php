@@ -87,8 +87,40 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     </div>
-
-
+{{--
+    <div class="row form-group">
+        <label for='inputGenderIdentity' class='col-md-2 control-label text-md-right'>生理性別認同</label>
+        <div class='col-md-10'>
+            <div class="form-check form-check-inline">
+                <label class="form-check-label" for="M">
+                    <input class="form-check-input" type="radio" name="gender_identity" value="男">
+                    男
+                    <div class="invalid-feedback">
+                        未選擇生理性別認同
+                    </div>
+                </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <label class="form-check-label" for="F">
+                    <input class="form-check-input" type="radio" name="gender_identity" value="女">
+                    女
+                    <div class="invalid-feedback">
+                        &nbsp;
+                    </div>
+                </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <label class="form-check-label" for="F">
+                    <input class="form-check-input" type="radio" name="gender_identity" value="不願透露">
+                    不願透露
+                    <div class="invalid-feedback">
+                        &nbsp;
+                    </div>
+                </label>
+            </div>
+        </div>
+    </div>
+--}}
     <div class='row form-group required'>
         <label for='inputNationName' class='col-md-2 control-label text-md-right'>國籍</label>
         <div class='col-md-2'>
@@ -346,9 +378,11 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-    <div class='row form-group required'>
+    <div class='row form-group'>
         <label for='inputAddress' class='col-md-2 control-label text-md-right'>通訊地址</label>
+        {{--
         <label class='col-md-10 form-control-static text-info'>請填寫暑假期間能收到教材包的地址，並確認地址正確性，否則可能導致教材包延遲寄達或被退貨。</label>
+        --}}
     </div>
 
     <div class='row form-group'>
@@ -391,7 +425,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <input readonly type=text name=zipcode value='' class='form-control'>
         </div>
         <div class='col-md-3'>
-            <input type=text required name='address' value='' pattern=".{10,80}" class='form-control' placeholder='海外請自行填寫國家及區域'>
+            <input type=text name='address' value='' pattern=".{10,80}" class='form-control' placeholder='海外請自行填寫國家及區域'>
             <div class="invalid-feedback">
                 請填寫通訊地址或檢查輸入的地址是否不齊全
             </div>
@@ -500,6 +534,17 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     </div>
+{{--
+    <div class='row form-group'>
+        <label for='inputFoodAllergy' class='col-md-2 control-label text-md-right'>是否對什麼食物過敏？</label>
+        <div class='col-md-10'>
+            <textarea class='form-control' rows=1 name='food_allergy' id=inputExpect></textarea>
+            <div class="invalid-feedback">
+                請填寫本欄位
+            </div>
+        </div>
+    </div>
+--}}
 
     <!--- 福智活動 -->
     <div class='row form-group'>
@@ -508,7 +553,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <label><input type="checkbox" name=blisswisdom_type[] value='福智高中' > 就讀福智高中</label> <br/>
             <label><input type="checkbox" name=blisswisdom_type[] value='福智中小學' > 就讀福智中小學</label> <br/>
             <label><input type="checkbox" name=blisswisdom_type[] value='青少年班' > 參加青少年班</label> <br/>
-            <label><input type="checkbox" name=blisswisdom_type[] value='青少年營' > 參加青少年營</label> <br/>
+            <label><input type="checkbox" name=blisswisdom_type[] value='讀經班' > 參加讀經班</label> <br/>
             {{--
             <div class='row form-group'>
                 <div class='col-md-2'>
@@ -554,8 +599,8 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     function parent_field(show) {
         var show_q= '<label>父母親若不是福智學員，本欄不用填寫 <input type=reset class="btn btn-info" value="清除資料" onClick="parent_field(0);"></label>' ;
 
-        var show_field1 = ' <div class="row form-group"> <label for="father_name" class="col-md-2 control-label">父親姓名</label> <div class="col-md-2"> <input type=text  name="father_name" id="father_name" value="" class=form-control > </div> <label for="father_lamrim" class="col-md-2 control-label">廣論班別</label>   <div class="col-md-2"> <input type=text  name="father_lamrim" id="father_lamrim" value="" placeholder="例：北12宗13班" class=form-control > </div>   <label for="father_phone" class="col-md-2 control-label">聯絡電話</label>  <div class="col-md-2"> <input type=tel  name="father_phone" id="father_phone" value="" class=form-control > </div>  </div>' ;
-        var show_field2 = ' <div class="row form-group"> <label for="mother_name" class="col-md-2 control-label">母親姓名</label> <div class="col-md-2"> <input type=text  name="mother_name" id="mother_name" value="" class=form-control > </div>  <label for="mother_lamrim" class="col-md-2 control-label">廣論班別</label>  <div class="col-md-2"> <input type=text  name="mother_lamrim" id="mother_lamrim" value="" placeholder="例：北15增16班" class=form-control > </div>  <label for="mother_phone" class="col-md-2 control-label">聯絡電話</label>  <div class="col-md-2"> <input type=tel  name="mother_phone" id="mother_phone" value="" class=form-control > </div>    </div>' ;
+        var show_field1 = ' <div class="row form-group"> <label for="father_name" class="col-md-2 control-label">父親姓名</label> <div class="col-md-2"> <input type=text  name="father_name" id="father_name" value="" class=form-control > </div> <label for="father_lamrim" class="col-md-2 control-label">廣論班別</label>   <div class="col-md-2"> <input type=text  name="father_lamrim" id="father_lamrim" value="" placeholder="例：北19宗003班" class=form-control > </div>   <label for="father_phone" class="col-md-2 control-label">聯絡電話</label>  <div class="col-md-2"> <input type=tel  name="father_phone" id="father_phone" value="" class=form-control > </div>  </div>' ;
+        var show_field2 = ' <div class="row form-group"> <label for="mother_name" class="col-md-2 control-label">母親姓名</label> <div class="col-md-2"> <input type=text  name="mother_name" id="mother_name" value="" class=form-control > </div>  <label for="mother_lamrim" class="col-md-2 control-label">廣論班別</label>  <div class="col-md-2"> <input type=text  name="mother_lamrim" id="mother_lamrim" value="" placeholder="例：北20增016班" class=form-control > </div>  <label for="mother_phone" class="col-md-2 control-label">聯絡電話</label>  <div class="col-md-2"> <input type=tel  name="mother_phone" id="mother_phone" value="" class=form-control > </div>    </div>' ;
         hidden_field = '<label>父母親為福智學員，請填寫資料<input type=button class="btn btn-info" value="填寫父母親資料" onClick="parent_field(1);"></label>' ;
 
     if (show == 0) { 
