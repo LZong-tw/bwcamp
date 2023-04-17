@@ -108,7 +108,10 @@
                     <option value='公關組' >公關組</option>
                     <option value='海外組' >海外組</option>
                     @if(\Str::contains($batch->name, "中區"))
-                    <option value='餐飲大組' >餐飲組</option>
+                    <option value='餐飲組' >餐飲組</option>
+                    @endif
+                    @if(\Str::contains($batch->name, "高雄"))
+                    <option value='節目組' >餐飲組</option>
                     @endif
                     <option value='報到組義工' >報到組義工</option>
                 @endif
@@ -161,7 +164,10 @@
                     <option value='公關組' >公關組</option>
                     <option value='海外組' >海外組</option>
                     @if(\Str::contains($batch->name, "中區"))
-                    <option value='餐飲大組' >餐飲組</option>
+                    <option value='餐飲組' >餐飲組</option>
+                    @endif
+                    @if(\Str::contains($batch->name, "高雄"))
+                    <option value='節目組' >餐飲組</option>
                     @endif
                     <option value='報到組義工' >報到組義工</option>
                 @endif
@@ -209,7 +215,10 @@
                     <option value='公關組' >公關組</option>
                     <option value='海外組' >海外組</option>
                     @if(\Str::contains($batch->name, "中區"))
-                    <option value='餐飲大組' >餐飲組</option>
+                    <option value='餐飲組' >餐飲組</option>
+                    @endif
+                    @if(\Str::contains($batch->name, "高雄"))
+                    <option value='節目組' >餐飲組</option>
                     @endif
                     <option value='報到組義工' >報到組義工</option>
                 @endif
