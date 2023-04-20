@@ -111,7 +111,7 @@
                     <option value='餐飲組' >餐飲組</option>
                     @endif
                     @if(\Str::contains($batch->name, "高雄"))
-                    <option value='節目組' >餐飲組</option>
+                    <option value='節目組' >節目組</option>
                     @endif
                     <option value='報到組義工' >報到組義工</option>
                 @endif
@@ -167,7 +167,7 @@
                     <option value='餐飲組' >餐飲組</option>
                     @endif
                     @if(\Str::contains($batch->name, "高雄"))
-                    <option value='節目組' >餐飲組</option>
+                    <option value='節目組' >節目組</option>
                     @endif
                     <option value='報到組義工' >報到組義工</option>
                 @endif
@@ -218,7 +218,7 @@
                     <option value='餐飲組' >餐飲組</option>
                     @endif
                     @if(\Str::contains($batch->name, "高雄"))
-                    <option value='節目組' >餐飲組</option>
+                    <option value='節目組' >節目組</option>
                     @endif
                     <option value='報到組義工' >報到組義工</option>
                 @endif
