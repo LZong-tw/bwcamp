@@ -1,4 +1,4 @@
-{{-- 
+{{--
     參考頁面：http://youngone.bwyouth.org/2020/form/index.php
 --}}
 <?
@@ -53,7 +53,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     @endif
-    
+
 {{--
     <div class='row form-group required'>
         <label for='inputParticipationMode' class='col-md-2 control-label text-md-right'>參加地點</label>
@@ -63,43 +63,43 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <div class="invalid-feedback">
                     請選擇參加地點
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type='radio' required name='participation_mode' value=桃區 > 桃區
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type='radio' required name='participation_mode' value=竹區 > 竹區
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type='radio' required name='participation_mode' value=中區 > 中區
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type='radio' required name='participation_mode' value=雲嘉 > 雲嘉
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type='radio' required name='participation_mode' value=台南 > 台南
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type='radio' required name='participation_mode' value=高屏 > 高屏
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
         </div>
     </div>
 --}}
@@ -180,7 +180,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputEducation' class='col-md-2 control-label text-md-right'>最高學歷</label>
         <div class='col-md-10'>
-            <select name="education" class="form-control" required> 
+            <select name="education" class="form-control" required>
                 <option value=''>- 請選擇 -</option>
                 <option value='高中職'>高中職</option>
                 <option value='大專'>大專</option>
@@ -197,7 +197,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group'>
         <label for='inputBelief' class='col-md-2 control-label text-md-right'>宗教信仰</label>
         <div class='col-md-10'>
-            <select name="belief" class="form-control"> 
+            <select name="belief" class="form-control">
                 <option value=''>- 請選擇 -</option>
                 <option value='佛教'>佛教</option>
                 <option value='道教'>道教</option>
@@ -242,7 +242,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputAddress' class='col-md-2 control-label text-md-right'>現居住地點</label>
         <div class='col-md-2'>
-            <select name="county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value);" required> 
+            <select name="county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value);" required>
                 <option value=''>- 請先選縣市 -</option>
                 <option value='臺北市'>臺北市</option>
                 <option value='新北市'>新北市</option>
@@ -329,7 +329,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         e.preventDefault();
         });
     </script>
-    
+
     <div class='row form-group required'>
         <label for='inputEmail' class='col-md-2 control-label text-md-right'>確認電子郵件</label>
         <div class='col-md-10'>
@@ -340,7 +340,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 
 
 
-    <div class='row form-group required'> 
+    <div class='row form-group required'>
     <label for='inputUnit' class='col-md-2 control-label text-md-right'>服務單位</label>
         <div class='col-md-10'>
             <input type=text required name='unit' value='' class='form-control' id='inputUnit' placeholder='公司名稱'>
@@ -353,7 +353,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputUnitCounty' class='col-md-2 control-label text-md-right'>服務地點</label>
         <div class='col-md-2'>
-            <select name="unit_county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value, 'unit');" required> 
+            <select name="unit_county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value, 'unit');" required>
                 <option value=''>- 請選擇縣市 -</option>
                 <option value='臺北市'>臺北市</option>
                 <option value='新北市'>新北市</option>
@@ -416,10 +416,10 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <option value='待業中' >待業中</option>
                 <option value='其他' >其他</option>
             </select>
-        </div>  
+        </div>
     </div>
 
-    <div class='row form-group required'> 
+    <div class='row form-group required'>
     <label for='inputTitle' class='col-md-2 control-label text-md-right'>職稱</label>
         <div class='col-md-10'>
             <input type=text required name='title' value='' class='form-control' id='inputTitle'>
@@ -448,8 +448,8 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <option value='醫療護理' >醫療護理</option>
                 <option value='其他' >其他</option>
             </select>
-        </div>  
-    </div>    
+        </div>
+    </div>
 
     <div class='row form-group required'>
         <label for='inputStuType' class='col-md-2 control-label text-md-right'>是否為主管</label>
@@ -459,13 +459,13 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <div class="invalid-feedback">
                     請選擇是否為主管
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type=radio required name='is_manager' value='0' > 否
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
         </div>
     </div>
 
@@ -477,13 +477,13 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <div class="invalid-feedback">
                     請選擇是否為儲訓幹部
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type=radio required name='is_cadre' value='0' > 否
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
         </div>
     </div>
 
@@ -495,20 +495,20 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <div class="invalid-feedback">
                     請選擇是否為專門技術人員
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type=radio required name='is_technical_staff' value='0' > 否
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
         </div>
     </div>
 
     <div class='row form-group required'>
         <label for='inputSource' class='col-md-2 control-label text-md-right'>您如何得知此營隊？(單選，最主要管道)</label>
         <div class='col-md-10'>
-                <select required name="way" class="form-control"> 
+                <select required name="way" class="form-control">
                         <option value=''>- 請選擇 -</option>
                         <option value='網路、fb'>網路、fb</option>
                         <option value='朋友同事'>朋友同事</option>
@@ -526,31 +526,31 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <div class="invalid-feedback">
                     請選擇得知管道
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type=radio required name='way' value='朋友同事' > 朋友同事
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type=radio required name='way' value='家人親戚' > 家人親戚
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type=radio required name='way' value='活動海報' > 活動海報
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type=radio required name='way' value='公司推薦' > 公司推薦
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type=radio required name='way' value=其他 > 其他
                 <div class="invalid-feedback">
@@ -575,7 +575,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <div class="invalid-feedback" id="motivation-invalid">
                     請選擇報名動機，若選其它請自行填寫。
                 </div>
-            </label> 
+            </label>
             {{-- 其他 --}}
         </div>
     </div>
@@ -608,19 +608,19 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <div class="invalid-feedback">
                     請選擇課程地點
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type=radio required name='class_location' value='住家附近' > 住家附近
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type=radio required name='class_location' value='皆可' > 皆可
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
         </div>
     </div>
 
@@ -639,7 +639,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 ' >搭乘各區直達專車(暫定：台北、台中、嘉義、台南、高雄、屏東)</option>
                 <option value='無以上需求' >無以上需求</option>
             </select>
-        </div>  
+        </div>
     </div>
 
     <div class='row form-group required'>
@@ -666,13 +666,13 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <div class="invalid-feedback">
                     請填寫本欄位
                 </div>
-            </div>   
+            </div>
             <div class='row form-group'>
                 <div class='col-md-2'>
                     與報名者關係：
                 </div>
                 <div class='col-md-10'>
-                    <select required name="emergency_relationship" class="form-control"> 
+                    <select required name="emergency_relationship" class="form-control">
                         <option value=''>- 請選擇 -</option>
                         <option value='配偶'>配偶</option>
                         <option value='父親'>父親</option>
@@ -685,7 +685,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         <option value='其他'>其他</option>
                     </select>
                 </div>
-            </div>   
+            </div>
         </div>
     </div>
 
@@ -721,7 +721,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     與報名者關係：
                 </div>
                 <div class='col-md-10'>
-                    <select name="introducer_relationship" class="form-control"> 
+                    <select name="introducer_relationship" class="form-control">
                         <option value=''>- 請選擇 -</option>
                         <option value='配偶'>配偶</option>
                         <option value='父親'>父親</option>
@@ -734,7 +734,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         <option value='其他'>其他</option>
                     </select>
                 </div>
-            </div>   
+            </div>
 
             <div class='row form-group'>
                 <div class='col-md-2'>
@@ -746,7 +746,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <div class="invalid-feedback">
                     請填寫本欄位
                 </div>
-            </div>   
+            </div>
         </div>
     </div>
 
@@ -760,7 +760,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <div class="invalid-feedback">
                     請圈選本欄位
                 </div>
-            </label> 
+            </label>
             <input type='radio' class='d-none' name='profile_agree' value='0' >
             <br/>
         </div>
@@ -778,8 +778,8 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <div class="invalid-feedback">
                     請圈選本欄位
                 </div>
-            </label>  
-            <input type='radio' class='d-none' name="portrait_agree" value='0'>  
+            </label>
+            <input type='radio' class='d-none' name="portrait_agree" value='0'>
             <br/>
         </div>
     </div>
@@ -807,7 +807,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <div class='col-md-10'>
             <div class='row form-group'>
                 <div class='col-md-2'>
-                    姓名： 
+                    姓名：
                 </div>
                 <div class='col-md-10'>
                     <input type=text class='form-control' name="agent_name" value=''>
@@ -826,7 +826,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     與報名者關係：
                 </div>
                 <div class='col-md-10'>
-                    <select name="agent_relationship" class="form-control"> 
+                    <select name="agent_relationship" class="form-control">
                         <option value=''>- 請選擇 -</option>
                         <option value='配偶'>配偶</option>
                         <option value='父親'>父親</option>
@@ -839,7 +839,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         <option value='其他'>其他</option>
                     </select>
                 </div>
-            </div>      
+            </div>
         </div>
     </div>
 
@@ -868,8 +868,8 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
     </form>
-            
-    <script>        
+
+    <script>
         $('[data-toggle="confirmation"]').confirmation({
             rootSelector: '[data-toggle=confirmation]',
             title: "敬請再次確認資料填寫無誤。",
@@ -907,7 +907,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     $(".tips").removeClass('d-none');
                     $('#blisswisdom_type-invalid').hide();
                 }
-                if (document.Camp.checkValidity() === false 
+                if (document.Camp.checkValidity() === false
                     || ($('.motivation').filter(':checked').length < 1)
                     || ($('.blisswisdom_type').filter(':checked').length < 1 )) {
                     $(".tips").removeClass('d-none');
@@ -937,14 +937,14 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     }, false);
                 });
             }, false);
-        })();     
-        
+        })();
+
         let categories = null;
         let rowIsEducating = null;
 
         /**
         * Ready functions.
-        * Executes commands after the web page is loaded. 
+        * Executes commands after the web page is loaded.
         */
 {{--
         document.onreadystatechange = () => {
@@ -972,7 +972,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     categories[i].addEventListener("click", changeJobTitleList);
                     categories[i].addEventListener("change", changeJobTitleList);
                 }
-                            
+
                 /**
                 * 選擇職稱後，將職稱填至欄位中。
                 */
@@ -1010,7 +1010,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             }
         }
 
-        function showFields(){        
+        function showFields(){
             rowIsEducating.innerHTML = "<div class='row form-group required'>" +
                 "    <label for='inputSchoolOrCourse' class='col-md-2 control-label text-md-right'>任職機關/任教學程</label>" +
                 "    <div class='col-md-10'>" +
@@ -1065,7 +1065,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 "</div>";
 
             document.getElementById("tip").innerHTML = '請先選擇任教機關/任教學程';
-                
+
             /*************************************
              * 物件重建後需重新設定 event listener
              *************************************/
@@ -1082,7 +1082,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             }
         }
 
-        function hideFields(){        
+        function hideFields(){
             rowIsEducating.innerHTML = '';
             document.getElementById("tip").innerHTML = '';
         }
@@ -1118,7 +1118,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 }
             }
         }
-        
+
         function fillTheTitle(){
             if(this.value == '其他'){
                 document.getElementById('title').value = '請在此處自行輸入職稱';
@@ -1128,7 +1128,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             }
             else if(this.value != null){
                 document.getElementById('title').value = this.value;
-            }            
+            }
         }
 
         @if(isset($applicant_data))
@@ -1138,9 +1138,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 let inputs = document.getElementsByTagName('input');
                 let selects = document.getElementsByTagName('select');
                 let textareas = document.getElementsByTagName('textarea');
-                let complementPivot = 0;                
-                let complementData = applicant_data["blisswisdom_type_complement"] ? applicant_data["blisswisdom_type_complement"].split("||/") : null; 
-                // console.log(inputs); 
+                let complementPivot = 0;
+                let complementData = applicant_data["blisswisdom_type_complement"] ? applicant_data["blisswisdom_type_complement"].split("||/") : null;
+                // console.log(inputs);
                 for (var i = 0; i < inputs.length; i++){
                     if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox"){
                         if(inputs[i].type == "radio"){
@@ -1153,7 +1153,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         }
                         else if(inputs[i].type == "checkbox"){
                             let checkboxes = document.getElementsByName(inputs[i].name);
-                            let deArray = inputs[i].name.slice(0, -2); 
+                            let deArray = inputs[i].name.slice(0, -2);
                             if(applicant_data[deArray]){
                                 let checkedValues = applicant_data[deArray].split("||/");
                                 for( j = 0; j < checkboxes.length; j++ ) {
@@ -1166,7 +1166,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                             }
                         }
                         else if(applicant_data[inputs[i].name]){
-                            inputs[i].value = applicant_data[inputs[i].name]; 
+                            inputs[i].value = applicant_data[inputs[i].name];
                         }
                     }
                     else if(inputs[i].type == "text" && inputs[i].name == 'blisswisdom_type_complement[]'){
@@ -1174,7 +1174,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         complementPivot++;
                     }
                     else if(inputs[i].type == "text"){
-                        inputs[i].value = applicant_data[inputs[i].name]; 
+                        inputs[i].value = applicant_data[inputs[i].name];
                     }
                     if(inputs[i].name == 'emailConfirm'){
                         inputs[i].value = applicant_data['email'];
@@ -1182,12 +1182,15 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 }
                 for (var i = 0; i < selects.length; i++){
                     if(typeof applicant_data[selects[i].name] !== "undefined"){
-                        selects[i].value = applicant_data[selects[i].name]; 
+                        selects[i].value = applicant_data[selects[i].name];
+                        if (selects[i].name == 'unit_county'){
+                            Address(applicant_data[selects[i].name], 'unit');
+                        }
                     }
                 }
                 for (var i = 0; i < textareas.length; i++){
                     if(typeof applicant_data[textareas[i].name] !== "undefined"){
-                        textareas[i].value = applicant_data[textareas[i].name]; 
+                        textareas[i].value = applicant_data[textareas[i].name];
                     }
                 }
 
@@ -1218,6 +1221,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         }
     </style>
 @stop
-{{-- 
+{{--
     參考頁面：https://bwfoce.org/ecamp/form/2020ep01.php
 --}}
