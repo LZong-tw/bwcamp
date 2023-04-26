@@ -170,7 +170,6 @@ class User extends Authenticatable
         $forInspect = $permissions->where("resource", "\\" . $class)->where("action", $action)->first();
         if ($forInspect) {
             switch ($forInspect->range_parsed) {
-//                dd($forInspect);
                 // 0: na, all
                 case 0:
                     return true;
@@ -189,7 +188,6 @@ class User extends Authenticatable
                 // 2: learner_group
                 // ★：學員小組的意思除了是「同一個小組的學員」以外，還包含「護持同一個學員小組的義工」
                 case 2:
-//                    dd(1);
                     $roles = $this->roles()->where('group_id', '<>', null)->where("camp_id", $camp->id);
                     if (str_contains($class, "Applicant") && $context == "onlyCheckAvailability") {
                         return $roles->first();
@@ -204,11 +202,11 @@ class User extends Authenticatable
                         )
                         ||
                         ($resource->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id &&
-                        $roles->where(function ($query) {
-                                $query->where("position", "like", "%關懷小組%")
-                                    ->orWhere("position", "like", "%關懷服務組%")
-                                    ->orWhere("position", "like", "%關服組%");
-                            })->firstWhere('all_group', 1));
+                        $this->where("camp_id", $camp->id)->roles()->where(function ($query) {
+                            $query->where("position", "like", "%關懷小組%")
+                                ->orWhere("position", "like", "%關懷服務組%")
+                                ->orWhere("position", "like", "%關服組%");
+                        })->firstWhere('all_group', 1));
                     }
                     return false;
                 // 3: person
