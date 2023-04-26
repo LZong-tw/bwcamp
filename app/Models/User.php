@@ -199,7 +199,10 @@ class User extends Authenticatable
                         return $roles->firstWhere(
                             'group_id',
                             $resource->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id
-                        ) || $roles->where("position", "like", "%關懷小組%")->firstWhere('all_group', 1);
+                        )
+                        ||
+                        ($resource->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id &&
+                        $roles->where("position", "like", "%關懷小組%")->firstWhere('all_group', 1));
                     }
                     return false;
                 // 3: person
