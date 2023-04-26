@@ -202,7 +202,7 @@ class User extends Authenticatable
                         )
                         ||
                         ($resource->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id &&
-                        $this->where("camp_id", $camp->id)->roles()->where(function ($query) {
+                        $this->roles()->where("camp_id", $camp->id)->where(function ($query) {
                             $query->where("position", "like", "%關懷小組%")
                                 ->orWhere("position", "like", "%關懷服務組%")
                                 ->orWhere("position", "like", "%關服組%");
