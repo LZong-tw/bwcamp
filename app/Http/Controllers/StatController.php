@@ -225,41 +225,6 @@ class StatController extends BackendController
         return view('backend.statistics.schoolOrCourseStat', compact('GChartData',  'total'));
     }
 
-    public function industryStat(){
-        $table = $this->campFullData->table;
-
-        $applicants = Applicant::select(\DB::raw($table.'.industry as industry, count(*) as total'))
-        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
-        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
-        ->join($table, 'ecamp.applicant_id', '=', 'applicants.id')
-        ->where('camps.id', $this->campFullData->id)
-        ->groupBy($table.'.industry')->get();
-
-        $rows = count($applicants);
-        $array = $applicants->toArray();
-
-        $i = 0 ;
-        $total = 0 ;
-        $GChartData = array('cols'=> array(
-                        array('id'=>'industry','label'=>'產業別','type'=>'string'),
-                        array('id'=>'people','label'=>'人數','type'=>'number'),
-                        array('id'=>'annotation','role'=>'annotation','type'=>'number')
-                    ),
-                    'rows' => array());
-        for($i = 0; $i < $rows; $i ++) {
-            $record = $array[$i];
-            array_push($GChartData['rows'], array('c' => array(
-                array('v' => $record['industry'] == null ? '其他' : $record['industry']),
-                array('v' => intval($record['total'])),
-                array('v' => intval($record['total']))
-            )));
-            $total = $total + $record['total'];
-        }
-        $GChartData = json_encode($GChartData);
-
-        return view('backend.statistics.industryStat', compact('GChartData',  'total'));
-    }
-
     public function admissionStat(){
         $applicants = Applicant::select(\DB::raw('batchs.name, count(*) as total'))
         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
@@ -481,5 +446,75 @@ class StatController extends BackendController
         $GChartData = json_encode($GChartData);
 
         return view('backend.statistics.way', compact('GChartData',  'total'));
+    }
+
+    public function industryStat(){
+        $table = $this->campFullData->table;
+
+        $applicants = Applicant::select(\DB::raw($table.'.industry as industry, count(*) as total'))
+        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+        ->join($table, $table.'.applicant_id', '=', 'applicants.id')
+        ->where('camps.id', $this->campFullData->id)
+        ->groupBy($table.'.industry')->get();
+
+        $rows = count($applicants);
+        $array = $applicants->toArray();
+
+        $i = 0 ;
+        $total = 0 ;
+        $GChartData = array('cols'=> array(
+                        array('id'=>'industry','label'=>'產業別','type'=>'string'),
+                        array('id'=>'people','label'=>'人數','type'=>'number'),
+                        array('id'=>'annotation','role'=>'annotation','type'=>'number')
+                    ),
+                    'rows' => array());
+        for($i = 0; $i < $rows; $i ++) {
+            $record = $array[$i];
+            array_push($GChartData['rows'], array('c' => array(
+                array('v' => $record['industry'] == null ? '其他' : $record['industry']),
+                array('v' => intval($record['total'])),
+                array('v' => intval($record['total']))
+            )));
+            $total = $total + $record['total'];
+        }
+        $GChartData = json_encode($GChartData);
+
+        return view('backend.statistics.industryStat', compact('GChartData',  'total'));
+    }
+
+    public function jobPropertyStat(){
+        $table = $this->campFullData->table;
+
+        $applicants = Applicant::select(\DB::raw($table.'.job_property as job_property, count(*) as total'))
+        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+        ->join($table, $table.'.applicant_id', '=', 'applicants.id')
+        ->where('camps.id', $this->campFullData->id)
+        ->groupBy($table.'.job_property')->get();
+
+        $rows = count($applicants);
+        $array = $applicants->toArray();
+
+        $i = 0 ;
+        $total = 0 ;
+        $GChartData = array('cols'=> array(
+                        array('id'=>'job_property','label'=>'工作屬性','type'=>'string'),
+                        array('id'=>'people','label'=>'人數','type'=>'number'),
+                        array('id'=>'annotation','role'=>'annotation','type'=>'number')
+                    ),
+                    'rows' => array());
+        for($i = 0; $i < $rows; $i ++) {
+            $record = $array[$i];
+            array_push($GChartData['rows'], array('c' => array(
+                array('v' => $record['job_property'] == null ? '其他' : $record['job_property']),
+                array('v' => intval($record['total'])),
+                array('v' => intval($record['total']))
+            )));
+            $total = $total + $record['total'];
+        }
+        $GChartData = json_encode($GChartData);
+
+        return view('backend.statistics.jobPropertyStat', compact('GChartData',  'total'));
     }
 }

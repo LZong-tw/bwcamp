@@ -194,6 +194,7 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
     Route::get("/statistics/schoolOrCourse", [StatController::class, "schoolOrCourseStat"])->name("schoolOrCourseStat");
     Route::get("/statistics/educationStat", [StatController::class, "educationStat"])->name("educationStat");
     Route::get("/statistics/industryStat", [StatController::class, "industryStat"])->name("industryStat");
+    Route::get("/statistics/jobPropertyStat", [StatController::class, "jobPropertyStat"])->name("jobPropertyStat");
     Route::get("/statistics/gsTest", [StatController::class, "gsTest"])->name("gsTest");
     Route::get("/statistics/admission", [StatController::class, "admissionStat"])->name("admissionStat");
     Route::get("/statistics/checkin", [StatController::class, "checkinStat"])->name("checkinStat");
