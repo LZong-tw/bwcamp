@@ -50,12 +50,18 @@
         <div class='row form-group'>
             <label for='inputPos' class='col-md-2 control-label'>綁定的學員組別</label>
             <div class='col-md-6'>
-                <select name="group_id" id="" class="form-control">
-                    <option value="">無</option>
-                    @foreach($camp->groups ?? [] as $group)
-                        <option value="{{ $group->id }}" {{ $group->id == $org->group_id ? "selected" : "" }}>{{ $group->alias }}</option>
-                    @endforeach
-                </select>
+                <div class="row">
+                    <span class='col-3 justify-content-center align-self-center'><input type="radio" name="all_group" id="" value="0" @checked(old('all_group' || $org->all_group, 1))> 單一學員組別</span>
+                    <select name="group_id" id="" class="form-control col-9">
+                        <option value="">無</option>
+                        @foreach($camp->groups ?? [] as $group)
+                            <option value="{{ $group->id }}" {{ $group->id == $org->group_id ? "selected" : "" }}>{{ $group->alias }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <span class="justify-content-center align-self-center">或
+                    <input type="radio" name="all_group" id="all_group_true" class='' value="1" @checked(old('all_group' || $org->all_group))> 全部學員組別
+                </span>
             </div>
         </div>
         <div class='row form-group'>
@@ -71,4 +77,11 @@
         <input type="submit" class="btn btn-success" value="確認修改">
         <a href="{{ route('showOrgs', $camp->id) }}" class="btn btn-danger">取消修改</a>
     </form>
+    <script>
+        $(document).ready(function(){
+            $("#all_group_true").click(function(){
+                $("select[name='group_id']").val("");
+            });
+        });
+    </script>
 @endsection

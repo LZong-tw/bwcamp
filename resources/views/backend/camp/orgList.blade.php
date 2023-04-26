@@ -62,7 +62,7 @@
                     </td>
                 @else
                     <td>{{ $org->position }}</td>
-                    <td>{{ $org->applicant_group?->alias ?? "無" }}</td>
+                    <td>@if(!$org->all_group) {{ $org->applicant_group?->alias ?? "無" }} @else 全部學員小組 @endif</td>
                     <td>{{ $org->permissions->count() }}</td>
                     <td><a href="{{ route('showModifyOrg', [$camp->id, $org->id]) }}" class="btn btn-primary">修改</a></td>
                     <td>
@@ -149,9 +149,9 @@
                         <select class='form-control' name='camp2copy' id='inputCamp2Copy' onchange='showOrgSel()'>
                         <option value=''>- 請選擇 -</option>
                         @foreach($camp_list as $item)
-                        @if($item->id != $camp->id)
-                        <option value='{{$item->id}}'> {{$item->id}} {{$item->fullName}} </option>
-                        @endif
+                            @if($item->id != $camp->id)
+                                <option value='{{$item->id}}'> {{$item->id}} {{$item->fullName}} </option>
+                            @endif
                         @endforeach
                         </select>
                     </div>
