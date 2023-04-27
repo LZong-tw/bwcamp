@@ -1188,7 +1188,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         selects[i].value = applicant_data[selects[i].name];
                         if (selects[i].name == 'unit_county'){
                             Address(applicant_data[selects[i].name], 'unit');
-                            for (var k = 0; k < document.getElementsByName('unit_subarea').options.length; k++){
+                            for (var k = 0; k < document.getElementsByName('unit_subarea').length; k++){
                                 if (document.getElementsByName('unit_subarea').options[k].innerHTML == applicant_data['unit_subarea']){
                                     document.getElementsByName('unit_subarea').options[k].selected = true;
                                 }
