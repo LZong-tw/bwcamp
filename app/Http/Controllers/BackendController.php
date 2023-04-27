@@ -539,7 +539,7 @@ class BackendController extends Controller {
                 // http://jeiworld.blogspot.com/2009/09/phpexcelutf-8csv.html
                 fwrite($file, "\xEF\xBB\xBF");
                 $columns = array();
-                if (str_contains($applicants->first()->camp->table, 'vcamp')) {
+                if (str_contains($applicants->first()?->camp->table, 'vcamp')) {
                     $columns = ["role_section" => '職務組別', "role_position" => '職務'];
                 }
                 if((!isset($signData) || count($signData) == 0)) {
