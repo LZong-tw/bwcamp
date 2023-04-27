@@ -1205,6 +1205,35 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                                 }
                             }
                         }
+                        if (selects[i].name == 'county'){
+                            var selectElement = document.getElementById("subarea");
+                            // Split the string into an array of characters.
+                            var characters = applicant_data["address"].split('');
+
+                            // Create an empty array to store the two elements.
+                            var elements = [];
+
+                            // Add the first three characters to the first element.
+                            elements.push(characters.slice(0, 3));
+
+                            // Add the last three characters to the second element.
+                            elements.push(characters.slice(3));
+                            Address(elements[0]);
+                            // Get the options of the select element
+                            var options = selectElement.options;
+
+                            // Iterate through the options
+                            for (var j = 0; j < options.length; j++) {
+
+                                // Get the text of the option
+                                var optionText = options[j].text;
+
+                                // Check if the text equals to the specific text
+                                if (optionText == elements[1]) {
+                                    options[j].selected = true;
+                                }
+                            }
+                        }
                     }
                 }
                 for (var i = 0; i < textareas.length; i++){
