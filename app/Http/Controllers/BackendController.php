@@ -433,6 +433,7 @@ class BackendController extends Controller {
             $applicants = $applicants->whereNotNull('deleted_at');
         }
         foreach($applicants as $applicant){
+            $applicant->id = $applicant->sn;
             if($applicant->fee > 0){
                 if($applicant->fee - $applicant->deposit <= 0){
                     $applicant->is_paid = "是";
