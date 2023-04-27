@@ -9,11 +9,12 @@
             @php
                 $userOnlyCarer = false;
                 if (isset($campFullData)) {
-                    $userOnlyCarer = $currentUser->roles()->where("camp_id", $campFullData->id)->where(
+                    $onlyOneRole = $currentUser->roles()->where("camp_id", $campFullData->id)->where(
                         function ($query) {
                             $query->where("position", "like", "%關懷小組%")
                                 ->orWhereNotNull("position");
-                        })->count() == 1;
+                        })->get();
+                    $userOnlyCarer = $onlyOneRole->count() == 1 && str_contains($onlyOneRole->position, '關懷小組');
                 }
             @endphp
             @if(isset($campFullData) && !$userOnlyCarer)
