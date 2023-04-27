@@ -1361,19 +1361,18 @@ class BackendController extends Controller {
                 $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');
                 $query->whereIn('batch_id', $batches->pluck('id'));
             }])
-            ->where(function ($Query) use ($queryRoles) {
-                $Query->whereHas('application_log.user.roles', function ($query) use ($queryRoles) {
+            ->where(function ($q) use ($queryRoles) {
+                $q->whereHas('application_log.user.roles', function ($query) use ($queryRoles) {
                     $query->where('camp_id', $this->campFullData->id);
-                    if ($queryRoles) {
-                        $query->whereIn('camp_org.id', $queryRoles->pluck('id'));
-                    }
-                })
-                ->orWhereDoesntHave('application_log.user.roles', function ($query) use ($queryRoles) {
-                    $query->where('camp_id', $this->campFullData->id);
-                    if ($queryRoles) {
+                    if ($queryRoles && !$queryRoles->isEmpty()) {
                         $query->whereIn('camp_org.id', $queryRoles->pluck('id'));
                     }
                 });
+                if (!$queryRoles || $queryRoles->isEmpty()) {
+                    $q->orWhereDoesntHave('application_log.user.roles', function ($query) {
+                        $query->where('camp_id', $this->campFullData->id);
+                    });
+                }
             })
             ->whereHas('application_log', function ($query) use ($batches) {
                 $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');
