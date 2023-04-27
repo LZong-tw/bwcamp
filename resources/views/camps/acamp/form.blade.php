@@ -25,7 +25,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form'>
 {{-- 以上皆非: 檢視資料狀態 --}}
 @else
-    <form action="{{ route("queryupdate", $applicant_batch_id) }}" method="post" class="d-inline">
+    <form action="{{ route("queryupdate", $applicant_batch_id) }}" method="post" class="d-inline" name='Camp' >
 @endif
     @csrf
     <div class='row form-group'>
