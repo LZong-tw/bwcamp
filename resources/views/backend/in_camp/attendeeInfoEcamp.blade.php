@@ -62,7 +62,7 @@
                 <b>報名序號</b>：{{$applicant->applicant_id}}<br>
                 <b>所屬組別</b>：@if($applicant->groupRelation)
                     {{ $applicant->groupRelation->alias }}
-                    （<a href="{{ route('deleteApplicantGroupAndNumber', [$camp->id, "applicant_id" => $applicant->id, "group_id" => $applicant->groupRelation->id]) }}" class="text-danger">刪除</a>）
+                    @if($currentUser->canAccessResource(new \App\Models\ApplicantsGroup, 'delete', $applicant->camp))（<a href="{{ route('deleteApplicantGroupAndNumber', [$camp->id, "applicant_id" => $applicant->id, "group_id" => $applicant->groupRelation->id]) }}" class="text-danger">刪除</a>）@endif
                 @else
                     此學員尚未分入任何組別
                 @endif<br>
