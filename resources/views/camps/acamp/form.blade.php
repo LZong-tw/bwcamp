@@ -1182,10 +1182,14 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 }
                 for (var i = 0; i < selects.length; i++){
                     if(typeof applicant_data[selects[i].name] !== "undefined"){
+                        if (selects[i].name == 'unit_subarea'){
+                            continue;
+                        }
                         selects[i].value = applicant_data[selects[i].name];
-                        // if (selects[i].name == 'unit_county'){
-                        //     Address(applicant_data[selects[i].name], 'unit');
-                        // }
+                        if (selects[i].name == 'unit_county'){
+                            Address(applicant_data[selects[i].name], 'unit');
+                            selects.find('option[value="' + applicant_data['unit_subarea'] + '"]').attr('selected', true);
+                        }
                     }
                 }
                 for (var i = 0; i < textareas.length; i++){
