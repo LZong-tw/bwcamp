@@ -1214,10 +1214,10 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         var elements = [];
 
                         // Add the first three characters to the first element.
-                        elements.push(characters.slice(0, 3));
+                        elements.push(characters.slice(0, 3).join(''));
 
                         // Add the last three characters to the second element.
-                        elements.push(characters.slice(3));
+                        elements.push(characters.slice(3).join(''));
                         selects[i].value = elements[0];
                         Address(elements[0]);
                         var selectElement = document.getElementById("subarea");
