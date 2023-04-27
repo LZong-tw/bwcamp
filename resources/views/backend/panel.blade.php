@@ -12,7 +12,7 @@
                     $userOnlyCarer = $currentUser->roles()->where("camp_id", $campFullData->id)->where(
                         function ($query) {
                             $query->where("position", "like", "%關懷小組%")
-                                ->orWhere("position", "<>", \DB::raw("NULL"));
+                                ->orWhereNotNull("position");
                         })->count() == 1;
                 }
             @endphp
