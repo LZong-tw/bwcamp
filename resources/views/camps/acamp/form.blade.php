@@ -1207,7 +1207,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         }
                     }
                     if (selects[i].name == 'county'){
-                        var selectElement = document.getElementById("subarea");
                         // Split the string into an array of characters.
                         var characters = applicant_data["address"].split('');
 
@@ -1221,6 +1220,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         elements.push(characters.slice(3));
                         selects[i].value = elements[0];
                         Address(elements[0]);
+                        var selectElement = document.getElementById("subarea");
                         // Get the options of the select element
                         var options = selectElement.options;
 
