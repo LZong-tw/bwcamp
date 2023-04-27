@@ -46,6 +46,6 @@ class Permitted
             $camp = \App\Models\Camp::find($request->camp_id);
             return response()->view('errors.401',  ['message' => '目前報到營隊為' . $camp->fullName . '，非您可存取'], 401);
         }
-        abort(401, 'Unauthorized.');
+        return $next($request);
     }
 }
