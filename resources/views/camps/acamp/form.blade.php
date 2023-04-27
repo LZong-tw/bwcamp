@@ -271,7 +271,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </select>
         </div>
         <div class='col-md-2'>
-            <select name=subarea class='form-control' onChange='document.Camp.zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.address.value=MyAddress(document.Camp.county.value, this.options[this.options.selectedIndex].text);' required>
+            <select name=subarea id="subarea" class='form-control' onChange='document.Camp.zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.address.value=MyAddress(document.Camp.county.value, this.options[this.options.selectedIndex].text);' required>
                 <option value=''>- 再選區鄉鎮 -</option>
             </select>
         </div>
