@@ -9,7 +9,11 @@
             @php
                 $userOnlyCarer = false;
                 if (isset($campFullData)) {
-                    $userOnlyCarer = $currentUser->roles()->where("camp_id", $campFullData->id)->where("position", "like", "%關懷小組%")->count() == 1;
+                    $userOnlyCarer = $currentUser->roles()->where("camp_id", $campFullData->id)->where(
+                        function ($query) {
+                            $query->where("position", "like", "%關懷小組%")
+                                ->orWhere("position", "<>", \DB::raw("NULL"));
+                        })->count() == 1;
                 }
             @endphp
             @if(isset($campFullData) && !$userOnlyCarer)
