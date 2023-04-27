@@ -68,7 +68,7 @@
             <div class="col-md-3">
                 <b>義工任務</b>：
                 @forelse($roles as $role)
-                    {{ $role->batch?->name }}{{ $role->section }} - {{ $role->position }}@if($currentUser->canAccessResource(new \App\Models\CampOrg, 'delete', $applicant->vcamp->mainCamp))（<a href="{{ route('deleteUserRole', [$camp->id, "user_id" => $applicant->user->id, "role_id" => $role->id, "applicant_id" => $applicant->id]) }}" class="text-danger">刪除</a>）@endif @if(!$loop->last)、@endif
+                    {{ $role->batch?->name }}{{ $role->section }} - {{ $role->position }}@if($currentUser->canAccessResource(new \App\Models\OrgUser, 'delete', $applicant->vcamp->mainCamp))（<a href="{{ route('deleteUserRole', [$camp->id, "user_id" => $applicant->user->id, "role_id" => $role->id, "applicant_id" => $applicant->id]) }}" class="text-danger">刪除</a>）@endif @if(!$loop->last)、@endif
                 @empty
                     此義工尚未分配任何職務
                 @endforelse
