@@ -601,9 +601,10 @@ class BackendController extends Controller {
                         }
                         elseif($key == "role_section"){
                             $roles = "";
-                            foreach ($applicant->user?->roles()->where('camp_id', $applicant->vcamp->mainCamp->id)->get() ?? [] as $k => $role) {
+                            $aRoles = $applicant->user?->roles()->where('camp_id', $applicant->vcamp->mainCamp->id)->get() ?? [];
+                            foreach ($aRoles as $k => $role) {
                                 $roles .= $role->section;
-                                if ($k != count($applicant->roles) - 1) {
+                                if ($k != count($aRoles) - 1) {
                                     $roles .= "\n";
                                 }
                             }
@@ -611,9 +612,10 @@ class BackendController extends Controller {
                         }
                         elseif($key == "role_position"){
                             $roles = "";
-                            foreach ($applicant->user?->roles()->where('camp_id', $applicant->vcamp->mainCamp->id)->get() ?? [] as $k => $role) {
+                            $aRoles = $applicant->user?->roles()->where('camp_id', $applicant->vcamp->mainCamp->id)->get() ?? [];
+                            foreach ($aRoles as $k => $role) {
                                 $roles .= $role->position;
-                                if ($k != count($applicant->roles) - 1) {
+                                if ($k != count($aRoles) - 1) {
                                     $roles .= "\n";
                                 }
                             }
