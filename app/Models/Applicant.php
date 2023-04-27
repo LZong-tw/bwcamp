@@ -36,7 +36,7 @@ class Applicant extends Model {
 
     public function roles()
     {
-        return $this->user()->first()?->belongsToMany(CampOrg::class, 'org_user', 'user_id', 'org_id')->where('camp_id', $this->camp->id) ?? [];
+        return $this->user()->first()?->belongsToMany(CampOrg::class, 'org_user', 'user_id', 'org_id')->where('camp_id', $this->camp->id) ?? collect([]);
     }
 
     public function batch() {
