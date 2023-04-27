@@ -382,7 +382,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </select>
         </div>
         <div class='col-md-2'>
-            <select name='unit_subarea' class='form-control' onChange='document.Camp.unit_zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.unit_address.value=MyAddress(document.Camp.unit_county.value, this.options[this.options.selectedIndex].text);' required>
+            <select name='unit_subarea' id="unit_subarea" class='form-control' onChange='document.Camp.unit_zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.unit_address.value=MyAddress(document.Camp.unit_county.value, this.options[this.options.selectedIndex].text);' required>
                 <option value=''>- 再選區鄉鎮 -</option>
             </select>
         </div>
@@ -1188,9 +1188,20 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         selects[i].value = applicant_data[selects[i].name];
                         if (selects[i].name == 'unit_county'){
                             Address(applicant_data[selects[i].name], 'unit');
-                            for (var k = 0; k < document.getElementsByName('unit_subarea').length; k++){
-                                if (document.getElementsByName('unit_subarea').options[k].innerHTML == applicant_data['unit_subarea']){
-                                    document.getElementsByName('unit_subarea').options[k].selected = true;
+                            var selectElement = document.getElementById("unit_subarea");
+
+                            // Get the options of the select element
+                            var options = selectElement.options;
+
+                            // Iterate through the options
+                            for (var j = 0; j < options.length; j++) {
+
+                                // Get the text of the option
+                                var optionText = options[j].text;
+
+                                // Check if the text equals to the specific text
+                                if (optionText == applicant_data['unit_subarea']) {
+                                    options[j].selected = true;
                                 }
                             }
                         }
