@@ -14,7 +14,7 @@
                             $query->where("position", "like", "%關懷小組%")
                                 ->orWhereNotNull("position");
                         })->get();
-                    $userOnlyCarer = $onlyOneRole->count() == 1 && str_contains($onlyOneRole?->position, '關懷小組');
+                    $userOnlyCarer = $onlyOneRole->count() == 1 && str_contains($onlyOneRole->first()->position, '關懷小組');
                 }
             @endphp
             @if(isset($campFullData) && !$userOnlyCarer)
