@@ -537,26 +537,30 @@ class BackendController extends Controller {
                 // 先寫入此三個字元使 Excel 能正確辨認編碼為 UTF-8
                 // http://jeiworld.blogspot.com/2009/09/phpexcelutf-8csv.html
                 fwrite($file, "\xEF\xBB\xBF");
+                $columns = array();
+                if (str_contains($applicants->first()->camp->table, 'vcamp')) {
+                    $columns = ["role_section" => '職務組別', "role_position" => '職務'];
+                }
                 if((!isset($signData) || count($signData) == 0)) {
                     if(!isset($checkInDates)) {
-                        $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table));
+                        $columns = array_merge($columns, config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table));
                     }
                     else {
-                        $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $checkInDates);
+                        $columns = array_merge($columns, config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $checkInDates);
                     }
                 }
                 else {
                     if(!isset($checkInDates)) {
-                        $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $signDateTimesCols);
+                        $columns = array_merge($columns, config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $signDateTimesCols);
                     }
                     else {
-                        $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $checkInDates, $signDateTimesCols);
+                        $columns = array_merge($columns, config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $checkInDates, $signDateTimesCols);
                     }
                 }
                 // 2022 一般教師營需要
                 if($this->campFullData->table == "tcamp" && !$this->campFullData->variant) {
                     $pos = 44;
-                    $columns = array_merge(array_slice($columns, 0, $pos), ["lamrim" => "廣論班"], array_slice($columns, $pos));
+                    $columns = array_merge($columns, array_slice($columns, 0, $pos), ["lamrim" => "廣論班"], array_slice($columns, $pos));
                 }
                 fputcsv($file, $columns);
 
@@ -594,6 +598,26 @@ class BackendController extends Controller {
                             else{
                                 array_push($rows, '="❌"');
                             }
+                        }
+                        elseif($key == "role_section"){
+                            $roles = "";
+                            foreach ($applicant->roles as $k => $role) {
+                                $roles .= $role->section;
+                                if ($k != count($applicant->roles) - 1) {
+                                    $roles .= "\n";
+                                }
+                            }
+                            array_push($rows, '="' . $roles . '"');
+                        }
+                        elseif($key == "role_position"){
+                            $roles = "";
+                            foreach ($applicant->roles as $k => $role) {
+                                $roles .= $role->position;
+                                if ($k != count($applicant->roles) - 1) {
+                                    $roles .= "\n";
+                                }
+                            }
+                            array_push($rows, '="' . $roles . '"');
                         }
                         else{
                             array_push($rows, '="' . $applicant[$key] . '"');
