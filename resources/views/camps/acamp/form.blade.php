@@ -1218,6 +1218,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 
                             // Add the last three characters to the second element.
                             elements.push(characters.slice(3));
+                            selects[i].value = elements[0];
                             Address(elements[0]);
                             // Get the options of the select element
                             var options = selectElement.options;
