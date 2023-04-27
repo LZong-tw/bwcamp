@@ -1367,6 +1367,12 @@ class BackendController extends Controller {
                     $query->whereIn('camp_org.id', $queryRoles->pluck('id'));
                 }
             })
+            ->whereDoesntHave('application_log.user.roles', function ($query) use ($queryRoles) {
+                $query->where('camp_id', $this->campFullData->id);
+                if ($queryRoles) {
+                    $query->whereIn('camp_org.id', $queryRoles->pluck('id'));
+                }
+            })
             ->whereHas('application_log', function ($query) use ($batches) {
                 $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');
                 $query->whereIn('batch_id', $batches->pluck('id'));
