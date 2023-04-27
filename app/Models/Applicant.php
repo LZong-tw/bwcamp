@@ -34,10 +34,10 @@ class Applicant extends Model {
         return $this->hasOneThrough(User::class, UserApplicantXref::class, 'applicant_id', 'id', 'id', 'user_id');
     }
 
-    public function roles()
-    {
-        return $this->user()->first()?->belongsToMany(CampOrg::class, 'org_user', 'user_id', 'org_id')->where('camp_id', $this->camp->id) ?? collect([]);
-    }
+//    public function roles()
+//    {
+//        return $this->user()->first()?->belongsToMany(CampOrg::class, 'org_user', 'user_id', 'org_id')->where('camp_id', $this->camp->id) ?? collect([]);
+//    }
 
     public function batch() {
         return $this->belongsTo(Batch::class);
