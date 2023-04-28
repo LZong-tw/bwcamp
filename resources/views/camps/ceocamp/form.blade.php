@@ -156,6 +156,11 @@
         </div>
     </div>
 
+    <h6 class='form-control-static text-warning bg-dark'>若繼續填寫下方資料，表示您已確認：<br>
+        （1）被推薦人同意參加本次營隊活動，並且<br>
+        （2）被推薦人同意將營隊推薦報名表内相關資料提供給主辦單位。
+    </h6>
+
     <hr>
     <h5 class='form-control-static'>被推薦人(營隊學員)基本資料：</h5>
     <h6>＊＊若有需要，可下載<a href="{{ url("downloads/ceocamp2023/2023菁英營學員推薦表v1.docx") }}">學員推薦表WORD檔</a>或<a href="{{ url("downloads/ceocamp2023/2023菁英營學員推薦表v1.pdf") }}">學員推薦表PDF檔</a>， 請被推薦人提供資料，做為填寫此表單的依據。＊＊</h6>
@@ -729,7 +734,8 @@
         <label for='inputTerm' class='col-md-2 control-label text-md-right'>個人資料</label>
         <div class='col-md-10 form-check'>
             <p class='form-control-static text-danger'>
-            主辦單位於本次營隊取得之個人資料，於營隊期間及後續主辦單位舉辦之活動，作為訊息通知、行政處理等非營利目的之使用，不會提供給無關之其他私人單位使用。
+            為落實個人資料之保護，主辦單位於本次營隊活動，將利用被推薦人所提供個人資料通知被推薦人本次營隊活動相關行政、訊息之非營利目的使用。同意期間自被推薦人同意參加活動之日起，至被推薦人提出刪除日止。營隊活動期間由主辦單位保存被推薦人的個人資料，以作為被推薦人、主辦單位查詢、確認證明之用。<br>
+            主辦單位於本次營隊取得之個人資料，不會未經被推薦人以言詞、書面、電話、簡訊、電子郵件、傳真、電子文件等方式同意提供給第三單位使用。
             </p>
             <label class=radio-inline>
                 <input type='radio' required name="profile_agree" value='1' checked> 經被推薦人同意
