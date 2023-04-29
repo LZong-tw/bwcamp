@@ -1952,6 +1952,9 @@ class BackendController extends Controller {
         }
         if ($request->isMethod("POST")) {
             $processedlist = $this->backendService->setGroupOrg($request->candidates, $request->group_id);
+            if (is_string($processedlist)) {
+                return $processedlist;
+            }
             $messages = [];
             foreach ($processedlist as $item) {
                 if (!$item['user_is_generated']) {
