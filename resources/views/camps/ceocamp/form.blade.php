@@ -132,10 +132,10 @@
         </div>  
     </div>
 
-    <div class='row form-group'>
+    <div class='row form-group  required'>
         <label for='inputIntroducerEmail' class='col-md-2 control-label text-md-right text-info'>推薦人<br>電子信箱</label>
         <div class='col-md-10'>
-            <input type='email' class='form-control' name='introducer_email' value='' id='inputIntroducerEmail'>
+            <input type='email' required class='form-control' name='introducer_email' value='' id='inputIntroducerEmail'>
             <div class="invalid-feedback">
                 未填電子信箱或格式不正確
             </div>
@@ -156,7 +156,7 @@
         </div>
     </div>
 
-    <h6 class='form-control-static text-warning bg-dark'>若繼續填寫下方資料，表示您已確認：<br>
+    <h6 class='form-control-static text-danger'>若繼續填寫下方資料，表示您已確認：<br>
         （1）被推薦人同意參加本次營隊活動，並且<br>
         （2）被推薦人同意將營隊推薦報名表内相關資料提供給主辦單位。
     </h6>
