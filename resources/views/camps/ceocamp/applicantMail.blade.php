@@ -26,4 +26,4 @@
 適合聯絡時段：{{ $applicant->ceocamp->contact_time }}<br>
 公司名稱：{{ $applicant->ceocamp->unit }}<br>
 職稱：{{ $applicant->ceocamp->title }}<br>
-所轄員工人數：{{ $applicant->ceocamp->direct_magnaged_employees }}<br>
+所轄員工人數：{{ $applicant->ceocamp->direct_managed_employees }}<br>
