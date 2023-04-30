@@ -861,8 +861,9 @@ class BackendController extends Controller {
             $batch->regions = Applicant::select('region')
                 ->where('batch_id', $batch->id)
                 ->where('is_admitted', 1)
-                ->whereNotNull('group')
-                ->whereNotNull('number')
+                ->whereHas('groupRelation', function($query){
+                    $query->whereNotNull('alias');
+                })
                 ->groupBy('region')->get();
             foreach($batch->regions as &$region){
                 $region->groups = Applicant::select('group', \DB::raw('count(*) as count, SUM(case when is_attend = 1 then 1 else 0 end) as attend_sum, SUM(case when is_attend = 0 then 1 else 0 end) as not_attend_sum'))
