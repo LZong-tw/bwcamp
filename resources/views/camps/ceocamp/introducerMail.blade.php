@@ -14,3 +14,16 @@
     電子郵件：ceo.camp@blisswisdom.org<br>
     <br>
 <blockquote>財團法人福智文教基金會  敬啟</blockquote>
+--
+為推薦{{ $applicant->name }}參加本次營隊活動，您於填寫推薦報名表時，提供了被推薦人的下述資料：<br>
+中文姓名：{{ $applicant->name }}<br>
+英文慣用名：{{ $applicant->english_name }}<br>
+性別：{{ $applicant->gender }}<br>
+出生年月：{{ $applicant->birthyear }}/{{ $applicant->birthmonth }}<br>
+手機號碼：{{ $applicant->mobile }}<br>
+電子信箱：{{ $applicant->email }}<br>
+通訊地址：{{ $applicant->address }}<br>
+適合聯絡時段：{{ $applicant->ceocamp->contact_time }}<br>
+公司名稱：{{ $applicant->ceocamp->unit }}<br>
+職稱：{{ $applicant->ceocamp->title }}<br>
+所轄員工人數：{{ $applicant->ceocamp->direct_managed_employees }}<br>
