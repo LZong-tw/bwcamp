@@ -56,7 +56,7 @@
                 @elseif($applicant->is_attend == 3)
                     <th>{!! "<a style='color: pink;'>聯絡不上</a>" !!}</th>
                 @elseif($applicant->is_attend == 4)
-                    <th>{!! "<a style='color: Aqua;'>無法全程</a>" !!}</th>
+                    <th>{!! "<a style='color: seagreen;'>無法全程</a>" !!}</th>
                 @else
                     <th>{!! "<a style='color: orange;'>非預期狀況</a>" !!}</th>
                 @endif
