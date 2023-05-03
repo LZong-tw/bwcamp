@@ -18,7 +18,7 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr class="bg-primary text-white">
-                                <th colspan="5">{{ $region->region }}</th>
+                                <th colspan="8">{{ $region->region }}</th>
                             </tr>
                             <tr class="bg-secondary text-white">
                                 <th>組別</th>
