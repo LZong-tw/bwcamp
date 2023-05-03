@@ -45,12 +45,12 @@
                                     <a href="{{ route("showGroup", [$campFullData->id, $batch->id, $group->group]) }}/?showAttend=1" class="card-link">{{ $group->group }}</a>
                                 </td>
                                 <td>{{ $group->count }}</td>
-                                <td>{{ $group->attend_sum }}</td>
-                                <td>{{ $group->not_attend_sum }}</td>
-                                <td>{{ $group->not_decided_yet_sum }}</td>
-                                <td>{{ $group->couldnt_contact_sum }}</td>
-                                <td>{{ $group->cant_full_event_sum }}</td>
-                                <td>{{ $group->null_sum }}</td>
+                                <td>{!! "<a style='color: green;'>" . $group->attend_sum . "</a>" !!}</td>
+                                <td>{!! "<a style='color: red;'>" . $group->not_attend_sum . "</a>" !!}</td>
+                                <td>{!! "<a style='color: yellow;'>" . $group->not_decided_yet_sum . "</a>" !!}</td>
+                                <td>{!! "<a style='color: pink;'>" . $group->couldnt_contact_sum . "</a>" !!}</td>
+                                <td>{!! "<a style='color: seagreen;'>" . $group->cant_full_event_sum . "</a>" !!}</td>
+                                <td>{!! "<a style='color: rgb(0, 132, 255);'>" . $group->null_sum . "</a>" !!}</td>
                                 @php
                                     $attend_sum_total += $group->attend_sum;
                                     $not_attend_sum_total += $group->not_attend_sum;
