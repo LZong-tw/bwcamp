@@ -765,8 +765,12 @@ class BackendController extends Controller {
                         ->whereHas('groupRelation', function($query) use ($group){
                             $query->where('alias', $group);
                         })
-                        ->whereHas('numberRelation', function($query){
-                            $query->whereNotNull('number');
+                        ->where(function ($query) {
+                            if(!$this->campFullData->table == 'ecamp' || !$this->campFullData->table == 'ceocamp') {
+                                $query->whereHas('numberRelation', function($query){
+                                    $query->whereNotNull('number');
+                                });
+                            }
                         })
                         ->select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
                         ->join($this->camp_data->table, 'applicants.id', '=', $this->camp_data->table . '.applicant_id')
