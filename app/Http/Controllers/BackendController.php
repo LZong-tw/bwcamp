@@ -867,11 +867,11 @@ class BackendController extends Controller {
                 ->groupBy('region')->get();
             foreach($batch->regions as &$region){
                 $region->groups = Applicant::select('id', 'group_id', \DB::raw("count(*) as count,
-                                        SUM(case when is_attend = null then 1 else 0 end) as null_sum,
+                                        SUM(case when is_attend is null then 1 else 0 end) as null_sum,
                                         SUM(case when is_attend = 1 then 1 else 0 end) as attend_sum,
                                         SUM(case when is_attend = 0 then 1 else 0 end) as not_attend_sum,
                                         SUM(case when is_attend = 2 then 1 else 0 end) as not_decided_yet_sum,
-                                        SUM(case when is_attend = 3 then 1 else 0 end) as couldnt_contact_sum',
+                                        SUM(case when is_attend = 3 then 1 else 0 end) as couldnt_contact_sum,
                                         SUM(case when is_attend = 4 then 1 else 0 end) as cant_full_event_sum"))
                     ->where('batch_id', $batch->id)
                     ->where('region', $region->region)
