@@ -19,9 +19,9 @@
                     <th>就讀學校</th>
                     <th>就讀科系所 / 年級</th>
                     <th>行動電話</th>
-                    <th>家中電話</th>           
-                @endif  			
-                <th>分區</th>  
+                    <th>家中電話</th>
+                @endif
+                <th>分區</th>
                 <th>已繳費</th>			 --}}
                 <th>狀態</th>
             </tr>
@@ -45,14 +45,22 @@
                 @endif
                 <td>{{ $applicant->region }}</td>
                 <td>{!! $applicant->is_paid == "是" ? "<a style='color: green;'>是</a>" : "<a style='color: red;'>否</a>" !!}</td> --}}
-                @if(!isset($applicant->is_attend))
-                    <th>{!! "<a style='color: rgb(0, 132, 255);'>未回覆</a>" !!}</th>
-                @elseif($applicant->is_attend)
-                    <th>{!! "<a style='color: green;'>回覆參加</a>" !!}</th>
-                @else
+                @if(!$applicant->is_attend)
+                    <th>{!! "<a style='color: rgb(0, 132, 255);'>未回覆 / 尚未聯絡</a>" !!}</th>
+                @elseif($applicant->is_attend == 0)
                     <th>{!! "<a style='color: red;'>回覆不參加</a>" !!}</th>
+                @elseif($applicant->is_attend == 1)
+                    <th>{!! "<a style='color: green;'>回覆參加</a>" !!}</th>
+                @elseif($applicant->is_attend == 2)
+                    <th>{!! "<a style='color: yellow;'>尚未決定</a>" !!}</th>
+                @elseif($applicant->is_attend == 3)
+                    <th>{!! "<a style='color: pink;'>聯絡不上</a>" !!}</th>
+                @elseif($applicant->is_attend == 4)
+                    <th>{!! "<a style='color: Aqua;'>無法全程</a>" !!}</th>
+                @else
+                    <th>{!! "<a style='color: orange;'>非預期狀況</a>" !!}</th>
                 @endif
-                
+
             </tr>
         @endforeach
     </table>
