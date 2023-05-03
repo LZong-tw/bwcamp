@@ -25,13 +25,19 @@
                                 <th>錄取人數</th>
                                 <th>回覆參加人數</th>
                                 <th>回覆不參加人數</th>
-                                <th>未回覆人數</th>
+                                <th>尚未決定人數</th>
+                                <th>聯絡不上人數</th>
+                                <th>無法全程人數</th>
+                                <th>未回覆 / 尚未聯絡人數</th>
                             </tr>
                         </thead>
                         @php
-                            $count_total = 0;    
                             $attend_sum_total = 0;
                             $not_attend_sum_total = 0;
+                            $not_decided_yet_sum_total = 0;
+                            $couldnt_contact_sum_total = 0;
+                            $cant_full_event_sum_total = 0;
+                            $null_sum_total = 0;
                         @endphp
                         @foreach ($region->groups as $group)
                             <tr>
@@ -41,20 +47,29 @@
                                 <td>{{ $group->count }}</td>
                                 <td>{{ $group->attend_sum }}</td>
                                 <td>{{ $group->not_attend_sum }}</td>
-                                <td>{{ $group->count - $group->attend_sum - $group->not_attend_sum }}</td>
+                                <td>{{ $group->not_decided_yet_sum }}</td>
+                                <td>{{ $group->couldnt_contact_sum }}</td>
+                                <td>{{ $group->cant_full_event_sum }}</td>
+                                <td>{{ $group->null_sum }}</td>
                                 @php
-                                    $count_total = $count_total + $group->count;
-                                    $attend_sum_total = $attend_sum_total + $group->attend_sum;
-                                    $not_attend_sum_total = $not_attend_sum_total + $group->not_attend_sum;
+                                    $attend_sum_total += $group->attend_sum;
+                                    $not_attend_sum_total += $group->not_attend_sum;
+                                    $not_decided_yet_sum_total += $group->not_decided_yet_sum;
+                                    $couldnt_contact_sum_total += $group->couldnt_contact_sum;
+                                    $cant_full_event_sum_total += $group->cant_full_event_sum;
+                                    $null_sum_total += $group->null_sum;
                                 @endphp
                             </tr>
                         @endforeach
                         <tr class="bg-success text-white">
                             <td>合計</td>
-                            <td>{{ $count_total }}</td>
+                            <td>{{ $attend_sum_total + $not_attend_sum_total + $not_decided_yet_sum_total + $couldnt_contact_sum_total + $cant_full_event_sum_total + $null_sum_total }}</td>
                             <td>{{ $attend_sum_total }}</td>
                             <td>{{ $not_attend_sum_total }}</td>
-                            <td>{{ $count_total - $attend_sum_total - $not_attend_sum_total }}</td>
+                            <td>{{ $not_decided_yet_sum_total }}</td>
+                            <td>{{ $couldnt_contact_sum_total }}</td>
+                            <td>{{ $cant_full_event_sum_total }}</td>
+                            <td>{{ $null_sum_total }}</td>
                         </tr>
                     </table>
                 </td>
