@@ -538,9 +538,9 @@ class BackendController extends Controller {
                 // 先寫入此三個字元使 Excel 能正確辨認編碼為 UTF-8
                 // http://jeiworld.blogspot.com/2009/09/phpexcelutf-8csv.html
                 fwrite($file, "\xEF\xBB\xBF");
-                $columns = array();
+                $columns = ["deleted_at" => "取消時間"];
                 if (str_contains($applicants->first()?->camp->table, 'vcamp')) {
-                    $columns = ["role_section" => '職務組別', "role_position" => '職務'];
+                    $columns = array_merge($columns, ["role_section" => '職務組別', "role_position" => '職務']);
                 }
                 if((!isset($signData) || count($signData) == 0)) {
                     if(!isset($checkInDates)) {
