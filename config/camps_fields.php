@@ -704,20 +704,15 @@ return [
                 "sort" => 1,
                 "for_query" => 1,
             ],
-            "participation_mode" => [
-                "name" => "參加形式",
+            "is_attend" => [
+                "name" => "參加意願",
                 "sort" => 1,
-                "for_query" => 1,
+                "for_query" => 0,
             ],
             "after_camp_available_day" => [
                 "name" => "後續課程時間",
                 "sort" => 1,
                 "for_query" => 1,
-            ],
-            "is_attend" => [
-                "name" => "參加意願",
-                "sort" => 1,
-                "for_query" => 0,
             ],
             "contactlog" => [
                 "name" => "關懷記錄",
