@@ -74,6 +74,8 @@
     @yield('content')
     <!-- Site footer -->
     <footer class='footer'>
+        <p class="text-center">洽詢電話：(北區)02-7751-6788&nbsp;&nbsp;#610408&nbsp;#613091&nbsp;#610301</p>
+        <p class="text-center">洽詢時間：週一至週五10:00~20:00、週六10:00~16:00</p>
         <p class=text-center>&copy; 財團法人福智文教基金會</p>
     </footer>
 </div>
