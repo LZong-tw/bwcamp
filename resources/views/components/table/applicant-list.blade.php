@@ -5,6 +5,9 @@
         <div class="div1">
         </div>
     </div>
+    <div class="text-info">
+        已取消報名： {{ $applicants->whereNotNull("deleted_at")->count() }} 人
+    </div>
     <table class="table table-bordered table-hover"
 {{--        style="overflow-x: auto;"--}}
         id="applicantTable"
