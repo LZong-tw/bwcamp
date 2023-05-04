@@ -129,7 +129,7 @@
             <div class="invalid-feedback">
                     請選擇與被推薦人關係
             </div>
-        </div>  
+        </div>
     </div>
 
     <div class='row form-group  required'>
@@ -163,7 +163,7 @@
 
     <hr>
     <h5 class='form-control-static'>被推薦人(營隊學員)基本資料：</h5>
-    <h6>＊＊若有需要，可下載<a href="{{ url("downloads/ceocamp2023/2023菁英營學員推薦表v1.docx") }}">學員推薦表WORD檔</a>或<a href="{{ url("downloads/ceocamp2023/2023菁英營學員推薦表v1.pdf") }}">學員推薦表PDF檔</a>， 請被推薦人提供資料，做為填寫此表單的依據。＊＊</h6>
+    <h6>＊＊若有需要，可下載<a href="{{ url("downloads/ceocamp2023/2023菁英營學員推薦表v2.docx") }}">學員推薦表WORD檔</a>或<a href="{{ url("downloads/ceocamp2023/2023菁英營學員推薦表v2.pdf") }}">學員推薦表PDF檔</a>， 請被推薦人提供資料，做為填寫此表單的依據。＊＊</h6>
     <br>
 
     <div class='row form-group required'>
@@ -273,7 +273,7 @@
         e.preventDefault();
         });
     </script>
-    
+
     <div class='row form-group required'>
         <label for='inputEmail' class='col-md-2 control-label text-md-right'>確認電子信箱</label>
         <div class='col-md-10'>
@@ -288,7 +288,7 @@
     <div class='row form-group'>
         <label for='inputAddress' class='col-md-2 control-label text-md-right'>通訊地址</label>
         <div class='col-md-2'>
-            <select name="county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value);"> 
+            <select name="county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value);">
                 <option value=''>- 請先選縣市 -</option>
                 <option value='臺北市'>臺北市</option>
                 <option value='新北市'>新北市</option>
@@ -314,7 +314,7 @@
                 <option value='連江縣'>連江縣</option>
                 <option value='南海諸島'>南海諸島</option>
                 <option value='其它'>其它</option>
-         
+
             </select>
         </div>
         <div class='col-md-2'>
@@ -331,8 +331,8 @@
                 請填寫通訊地址或檢查輸入的地址是否不齊全
             </div>
         </div>
-    </div>    
-    <div class='row form-group'> 
+    </div>
+    <div class='row form-group'>
     <label for='inputLineID' class='col-md-2 control-label text-md-right'>LINE ID</label>
         <div class='col-md-10'>
             <input type='text' name='line' value='' class='form-control' id='inputLineID'>
@@ -393,11 +393,11 @@
                 <div class="invalid-feedback">
                     電子信箱格式不正確
                 </div>
-            </div>      
+            </div>
         </div>
     </div>
 
-    <div class='row form-group'> 
+    <div class='row form-group'>
     <label for='inputMaritalStatus' class='col-md-2 control-label text-md-right'>婚姻狀況</label>
         <div class='col-md-10'>
             <input type='text' name='marital_status' value='' class='form-control' id='inputMaritalStatus'>
@@ -418,7 +418,7 @@
     </div>
 --}}
 
-    
+
 <!--
     request from 主辦單位：
     請先隱藏此欄位，並預設為實體。
@@ -452,29 +452,29 @@
                 <div class="invalid-feedback">
                     請選擇參加營隊形式
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type='radio' required name='participation_mode' value=線上營隊 > 線上營隊
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type='radio' required name='participation_mode' value=兩者皆可 > 兩者皆可
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type='radio' required name='participation_mode' value=待確認 > 待確認
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
         </div>
     </div>
 
-    <div class='row form-group'> 
+    <div class='row form-group'>
     <label for='inputReasonsOnline' class='col-md-2 control-label text-md-right'>選擇上述<br>參加形式的原因</label>
         <div class='col-md-10'>
             <input type='text' name='reasons_online' value='' class='form-control' id='inputReasonsOnline'>
@@ -490,7 +490,7 @@
     <h6 class='form-control-static'>＊＊公司及職務相關欄位，若被推薦人已退休，請填寫退休前資料＊＊</h6>
     <br>
 
-    <div class='row form-group required'> 
+    <div class='row form-group required'>
     <label for='inputUnit' class='col-md-2 control-label text-md-right'>公司名稱</label>
         <div class='col-md-10'>
             <input type=text required name='unit' value='' class='form-control' id='inputUnit' placeholder='若已退休，請填寫退休前資料'>
@@ -522,11 +522,11 @@
             <div class="invalid-feedback crumb">
                 請選擇產業別
             </div>
-        </div>  
+        </div>
     </div>
 
 {{--
-    <div class='row form-group'> 
+    <div class='row form-group'>
     <label for='inputIndustryOther' class='col-md-2 control-label text-md-right'>產業別:自填</label>
         <div class='col-md-10'>
             <input type='text' name='industry_other' value='' class='form-control' id='inputIndustryOther' placeholder='產業別若選「其它」請自填'>
@@ -537,7 +537,7 @@
     </div>
 --}}
 
-    <div class='row form-group required'> 
+    <div class='row form-group required'>
     <label for='inputTitle' class='col-md-2 control-label text-md-right'>職稱</label>
         <div class='col-md-10'>
             <input type=text required name='title' value='' maxlength="40" class='form-control' id='inputTitle' placeholder='若已退休，請填寫退休前資料'>
@@ -576,11 +576,11 @@
             <div class="invalid-feedback crumb">
                 請選擇職務類型
             </div>
-        </div>  
+        </div>
     </div>
 
 {{--
-    <div class='row form-group'> 
+    <div class='row form-group'>
     <label for='inputJobPropertyOther' class='col-md-2 control-label text-md-right'>職務類型:自填</label>
         <div class='col-md-10'>
             <input type='text' name='job_property_other' value='' class='form-control' id='inputJobPropertyOther' placeholder='職務類型若選「其它」請自填'>
@@ -601,7 +601,7 @@
     </div>
 --}}
 
-    <div class='row form-group'> 
+    <div class='row form-group'>
     <label for='inputEmployees' class='col-md-2 control-label text-md-right'>公司員工總數</label>
         <div class='col-md-10'>
             <input type='number' name='employees' value='' class='form-control' id='inputEmployees' placeholder='請填寫數字，勿填「非數字」'>
@@ -611,7 +611,7 @@
         </div>
     </div>
 
-    <div class='row form-group'> 
+    <div class='row form-group'>
     <label for='inputDirectManagedEmployees' class='col-md-2 control-label text-md-right'>所轄員工人數</label>
         <div class='col-md-10'>
             <input type='number' name='direct_managed_employees' value='' class='form-control' id='inputDirectManagedEmployees' placeholder='請填寫數字，勿填「非數字」'>
@@ -621,7 +621,7 @@
         </div>
     </div>
 
-    <div class='row form-group'> 
+    <div class='row form-group'>
     <label for='inputCapital' class='col-md-2 control-label text-md-right'>資本額(新臺幣)</label>
         <div class='col-md-10'>
             <input type='number' name='capital' value='' maxlength="40" class='form-control' id='inputTitle' placeholder='請填寫數字，勿填「非數字」。請記得選單位。'>
@@ -639,19 +639,19 @@
                 <div class="invalid-feedback">
                     請選擇資本額單位
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type=radio name='capital_unit' value='萬元' > 萬元
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type=radio name='capital_unit' value='億元' > 億元
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
         </div>
         <div class='col-md-2'></div>
         <div class='col-md-10'>〔資本額填寫說明〕如資本額為500萬元，請在資本額欄位填寫500，單位選「萬元」；如資本額為1000億元，請在資本額欄位填寫1000，單位選「億元」。</div>
@@ -665,36 +665,36 @@
                 <div class="invalid-feedback">
                     請選擇被推薦人公司/組織形式
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type=radio required name='org_type' value='專業領域(例醫生、作家⋯)' > 專業領域(例醫生、作家⋯)
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type=radio required name='org_type' value='政府部門/公營事業' > 政府部門/公營事業
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type=radio required name='org_type' value='非政府/非營利組織' > 非政府/非營利組織
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type=radio required name='org_type' value='其它' > 其它
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
         </div>
     </div>
 
 {{--
-    <div class='row form-group'> 
+    <div class='row form-group'>
     <label for='inputOrgTypeOther' class='col-md-2 control-label text-md-right'>公司/組織形式:自填</label>
         <div class='col-md-10'>
             <input type='text' name='org_type_other' value='' class='form-control' id='inputOrgTypeOther' placeholder='公司/組織形式若選「其它」請自填'>
@@ -713,19 +713,19 @@
                 <div class="invalid-feedback">
                     請選擇被推薦人公司成立幾年
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type=radio name='years_operation' value='5年~10年' > 5年~10年
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type=radio name='years_operation' value='5年以下' > 5年以下
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
         </div>
     </div>
 
@@ -761,7 +761,7 @@
             請檢查是否有未填寫或格式錯誤的欄位。
         </div>
     </div>
-    
+
 
     <!--- 確認送出 -->
     <div class='row form-group'>
@@ -783,8 +783,8 @@
         </div>
     </div>
     </form>
-            
-    <script>        
+
+    <script>
         $('[data-toggle="confirmation"]').confirmation({
             rootSelector: '[data-toggle=confirmation]',
             title: "敬請再次確認資料填寫無誤。",
@@ -841,16 +841,16 @@
                     }, false);
                 });
             }, false);
-        })();     
-        
+        })();
+
         let categories = null;
         let rowIsEducating = null;
 
         /**
         * Ready functions.
-        * Executes commands after the web page is loaded. 
+        * Executes commands after the web page is loaded.
         */
-{{-- 
+{{--
         document.onreadystatechange = () => {
             if (document.readyState === 'complete') {
                 /**
@@ -870,7 +870,7 @@
                     categories[i].addEventListener("click", changeJobTitleList);
                     categories[i].addEventListener("change", changeJobTitleList);
                 }
-                            
+
                 /**
                 * 選擇職稱後，將職稱填至欄位中。
                 */
@@ -882,7 +882,7 @@
             }
         };
 --}}
-        function showFields(){        
+        function showFields(){
             rowIsEducating.innerHTML = "<div class='row form-group required'>" +
                 "    <label for='inputSchoolOrCourse' class='col-md-2 control-label text-md-right'>任職機關/任教學程</label>" +
                 "    <div class='col-md-10'>" +
@@ -937,7 +937,7 @@
                 "</div>";
 
             document.getElementById("tip").innerHTML = '請先選擇任教機關/任教學程';
-                
+
             /*************************************
              * 物件重建後需重新設定 event listener
              *************************************/
@@ -954,7 +954,7 @@
             }
         }
 
-        function hideFields(){        
+        function hideFields(){
             rowIsEducating.innerHTML = '';
             document.getElementById("tip").innerHTML = '';
         }
@@ -990,7 +990,7 @@
                 }
             }
         }
-        
+
         function fillTheTitle(){
             if(this.value == '其他'){
                 document.getElementById('title').value = '請在此處自行輸入職稱';
@@ -1000,7 +1000,7 @@
             }
             else if(this.value != null){
                 document.getElementById('title').value = this.value;
-            }            
+            }
         }
 
         @if(isset($applicant_data))
@@ -1010,9 +1010,9 @@
                 let inputs = document.getElementsByTagName('input');
                 let selects = document.getElementsByTagName('select');
                 let textareas = document.getElementsByTagName('textarea');
-                let complementPivot = 0;                
-                let complementData = applicant_data["blisswisdom_type_complement"] ? applicant_data["blisswisdom_type_complement"].split("||/") : null; 
-                // console.log(inputs); 
+                let complementPivot = 0;
+                let complementData = applicant_data["blisswisdom_type_complement"] ? applicant_data["blisswisdom_type_complement"].split("||/") : null;
+                // console.log(inputs);
                 for (var i = 0; i < inputs.length; i++){
                     if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox"){
                         if(inputs[i].type == "radio"){
@@ -1025,7 +1025,7 @@
                         }
                         else if(inputs[i].type == "checkbox"){
                             let checkboxes = document.getElementsByName(inputs[i].name);
-                            let deArray = inputs[i].name.slice(0, -2); 
+                            let deArray = inputs[i].name.slice(0, -2);
                             if(applicant_data[deArray]){
                                 let checkedValues = applicant_data[deArray].split("||/");
                                 for( j = 0; j < checkboxes.length; j++ ) {
@@ -1038,7 +1038,7 @@
                             }
                         }
                         else if(applicant_data[inputs[i].name]){
-                            inputs[i].value = applicant_data[inputs[i].name]; 
+                            inputs[i].value = applicant_data[inputs[i].name];
                         }
                     }
                     else if(inputs[i].type == "text" && inputs[i].name == 'blisswisdom_type_complement[]'){
@@ -1046,7 +1046,7 @@
                         complementPivot++;
                     }
                     else if(inputs[i].type == "text"){
-                        inputs[i].value = applicant_data[inputs[i].name]; 
+                        inputs[i].value = applicant_data[inputs[i].name];
                     }
                     if(inputs[i].name == 'emailConfirm'){
                         inputs[i].value = applicant_data['email'];
@@ -1054,12 +1054,12 @@
                 }
                 for (var i = 0; i < selects.length; i++){
                     if(typeof applicant_data[selects[i].name] !== "undefined"){
-                        selects[i].value = applicant_data[selects[i].name]; 
+                        selects[i].value = applicant_data[selects[i].name];
                     }
                 }
                 for (var i = 0; i < textareas.length; i++){
                     if(typeof applicant_data[textareas[i].name] !== "undefined"){
-                        textareas[i].value = applicant_data[textareas[i].name]; 
+                        textareas[i].value = applicant_data[textareas[i].name];
                     }
                 }
 
@@ -1090,6 +1090,6 @@
         }
     </style>
 @stop
-{{-- 
+{{--
     參考頁面：https://bwfoce.org/ecamp/form/2020ep01.php
     --}}

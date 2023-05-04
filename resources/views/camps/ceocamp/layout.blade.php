@@ -67,10 +67,10 @@
                     </li>
                     -->
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url("downloads/ceocamp2023/2023菁英營學員推薦表v1.docx") }}">學員推薦表WORD檔下載</a>
+                        <a class="nav-link" href="{{ url("downloads/ceocamp2023/2023菁英營學員推薦表v2.docx") }}">學員推薦表WORD檔下載</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url("downloads/ceocamp2023/2023菁英營學員推薦表v1.pdf") }}">學員推薦表PDF檔下載</a>
+                        <a class="nav-link" href="{{ url("downloads/ceocamp2023/2023菁英營學員推薦表v2.pdf") }}">學員推薦表PDF檔下載</a>
                     </li>
                 </ul>
             </div>
