@@ -5,7 +5,7 @@
         <div class="div1">
         </div>
     </div>
-    <div class="text-warning mt-3">
+    <div class="text-danger mt-3">
         已取消報名： {{ $applicants->whereNotNull("deleted_at")->count() }} 人
     </div>
     <table class="table table-bordered table-hover"
