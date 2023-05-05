@@ -716,10 +716,15 @@ class BackendController extends Controller {
                         if($this->has_attend_data){
                             $query->where('is_attend', 1);
                         }
-                    })->whereNotNull('group_id')->whereNotNull('number_id')
+                    })->whereNotNull('group_id')
+                    ->where(function ($query) {
+                        if ($this->campFullData->table != "ceocamp" || $this->campFullData->table != "ecamp") {
+                            $query->whereNotNull('number_id');
+                        }
+                    })
                     ->groupBy('group_id')->get();
                 $region->groups->each(function (&$applicant) {
-                    $applicant->group = $applicant->group;
+                    $applicant->group = $applicant->groupRelation->alias;
                 });
                 $region->region = $region->region ?? "其他";
             }
