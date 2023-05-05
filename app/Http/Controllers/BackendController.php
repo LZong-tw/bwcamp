@@ -706,7 +706,15 @@ class BackendController extends Controller {
         }
         $batches = Batch::with('groups', 'groups.applicants')->where('camp_id', $this->camp_id)->get()->all();
         foreach($batches as &$batch){
-            $batch->regions = Applicant::select('region')->where('batch_id', $batch->id)->where('is_admitted', 1)->whereNotNull('group_id')->whereNotNull('number_id')->groupBy('region')->get();
+            $batch->regions = Applicant::select('region')
+                                ->where('batch_id', $batch->id)
+                                ->where('is_admitted', 1)
+                                ->whereNotNull('group_id')
+                                ->where(function ($query) {
+                                    if ($this->campFullData->table != "ceocamp" || $this->campFullData->table != "ecamp") {
+                                        $query->whereNotNull('number_id');
+                                    }
+                                })->groupBy('region')->get();
             foreach($batch->regions as &$region){
                 $region->groups = Applicant::select('group_id', \DB::raw('count(*) as groupApplicantsCount'))
                     ->where('batch_id', $batch->id)
