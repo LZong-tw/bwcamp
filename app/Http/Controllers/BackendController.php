@@ -711,7 +711,7 @@ class BackendController extends Controller {
                                 ->where('is_admitted', 1)
                                 ->whereNotNull('group_id')
                                 ->where(function ($query) {
-                                    if ($this->campFullData->table != "ceocamp" || $this->campFullData->table != "ecamp") {
+                                    if ($this->campFullData->table != "ceocamp" && $this->campFullData->table != "ecamp") {
                                         $query->whereNotNull('number_id');
                                     }
                                 })->groupBy('region')->get();
@@ -726,7 +726,7 @@ class BackendController extends Controller {
                         }
                     })->whereNotNull('group_id')
                     ->where(function ($query) {
-                        if ($this->campFullData->table != "ceocamp" || $this->campFullData->table != "ecamp") {
+                        if ($this->campFullData->table != "ceocamp" && $this->campFullData->table != "ecamp") {
                             $query->whereNotNull('number_id');
                         }
                     })
