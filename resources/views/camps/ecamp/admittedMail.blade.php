@@ -34,7 +34,7 @@
     <li>
         {{ $applicant->groupRelation->alias }}關懷員 :
         <ol>
-            @foreach(\App\Models\User::whereHas('roles', function($q){
+            @foreach(\App\Models\User::whereHas('roles', function($q) use ($applicant) {
                 $q->where('group_id', $applicant->group_id);
             })->get() as $user)
                 <li>{{ $user->application_log()->orderByDesc('id')->first()->name }} {{ $user->application_log()->orderByDesc('id')->first()->mobile }}</li>
