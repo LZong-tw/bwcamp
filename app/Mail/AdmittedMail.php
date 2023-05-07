@@ -36,7 +36,7 @@ class AdmittedMail extends Mailable
             $headers = $message->getHeaders();
             $headers->addTextHeader('time', time());
         });
-        if($this->campFullData->table == 'ceocamp'){
+        if($this->campFullData->table == 'ceocamp' || $this->campFullData->table == 'ecamp'){
             return $this->subject($this->campFullData->abbreviation . '分組通知函')
                 ->view('camps.' . $this->campFullData->table . ".admittedMail");
         }
