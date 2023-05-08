@@ -3,7 +3,7 @@
         color: red;
     }
 </style>
-<h2 class="center">{{ $applicant->batch->camp->fullName }}<br>分組通知函</h2>
+<h2 class="center">{{ $applicant->batch->camp->fullName }}<br>分組通知函 @if(str_contains($applicant->batch->camp->fullName, "台南")) (更正) @endif</h2>
 <table width="100%" style="table-layout:fixed; border: 0;">
     <tr>
         <td>姓名：{{ $applicant->name }}</td>
