@@ -3,7 +3,7 @@
         color: red;
     }
 </style>
-<h2 class="center">{{ $applicant->batch->camp->fullName }}<br>分組通知函 @if(str_contains($applicant->batch->camp->fullName, "台南")) (更正) @endif</h2>
+<h2 class="center">{{ $applicant->batch->camp->fullName }}<br>分組通知函</h2>
 <table width="100%" style="table-layout:fixed; border: 0;">
     <tr>
         <td>姓名：{{ $applicant->name }}</td>
@@ -131,7 +131,7 @@
             {{ $applicant->groupRelation->alias }}關懷員 :
             <ol>
                 @foreach(\App\Models\User::whereHas('roles', function($q) use ($applicant) {
-                    $q->where('group_id', $applicant->group_id);
+                    $q->where('group_id', $applicant->group_id)->where('position', 'like', '%組長%');
                 })->get() as $user)
                     <li>{{ $user->application_log()->orderByDesc('id')->first()->name }} {{ $user->application_log()->orderByDesc('id')->first()->mobile }}</li>
                 @endforeach
