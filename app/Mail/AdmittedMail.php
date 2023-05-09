@@ -37,7 +37,7 @@ class AdmittedMail extends Mailable
             $headers->addTextHeader('time', time());
         });
         if($this->campFullData->table == 'ceocamp' || $this->campFullData->table == 'ecamp'){
-            return $this->subject($this->campFullData->abbreviation . '分組通知函' . (str_contains($this->campFullData->fullName, "台南")) ? "(更正)" : "")
+            return $this->subject($this->campFullData->abbreviation . '分組通知函')
                 ->view('camps.' . $this->campFullData->table . ".admittedMail");
         }
         if(!$this->attachment){
