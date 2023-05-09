@@ -8,7 +8,7 @@
     <tr>
         <td>姓名：{{ $applicant->name }}</td>
         <td>序號：{{ $applicant->id }}</td>
-        <td>組別：{{ $applicant->groupRelation->alias }}</td>
+        <td>組別：@if (!str_contains($applicant->batch->camp->fullName, "雲嘉")){{ $applicant->groupRelation->alias }}@else{{ str_replace("第", "第十", $applicant->groupRelation->alias) }}@endif</td>
         <td>場次：{{ $applicant->batch->name }}</td>
     </tr>
 </table><br>
@@ -37,7 +37,7 @@
             <ol>
                 @foreach(\App\Models\User::whereHas('roles', function($q) use ($applicant) {
                     $q->where('group_id', $applicant->group_id);
-                })->get() as $user)
+                })->get()->sortBy('roles.id') as $user)
                     <li>{{ $user->application_log()->orderByDesc('id')->first()->name }} {{ $user->application_log()->orderByDesc('id')->first()->mobile }}</li>
                 @endforeach
             </ol>
@@ -65,7 +65,7 @@
             <ol>
                 @foreach(\App\Models\User::whereHas('roles', function($q) use ($applicant) {
                     $q->where('group_id', $applicant->group_id);
-                })->get() as $user)
+                })->get()->sortBy('roles.id') as $user)
                     <li>{{ $user->application_log()->orderByDesc('id')->first()->name }} {{ $user->application_log()->orderByDesc('id')->first()->mobile }}</li>
                 @endforeach
             </ol>
@@ -89,7 +89,7 @@
             <ol>
                 @foreach(\App\Models\User::whereHas('roles', function($q) use ($applicant) {
                     $q->where('group_id', $applicant->group_id);
-                })->get() as $user)
+                })->get()->sortBy('roles.id') as $user)
                     <li>{{ $user->application_log()->orderByDesc('id')->first()->name }} {{ $user->application_log()->orderByDesc('id')->first()->mobile }}</li>
                 @endforeach
             </ol>
@@ -109,6 +109,50 @@
     ※ 注意事項：<br>
     ⬥研習期間晚上也安排各項成長活動，為達成研習效果，請盡量不外出及外宿。<br>
     ⬥會場停車位有限，請多利用本會提供之交通接駁服務。
+@endif
+@if (str_contains($applicant->batch->camp->fullName, "雲嘉"))
+    <ol>
+        <li>營隊上課時間：7月14日(星期五)至7月16日(星期日)</li>
+        <li>報到時間：7月14日 (星期五)12:30～13:30</li>
+        <li>報到地點：聯合大學 二坪山校區（苗栗縣苗栗市聯大1號）活動中心</li>
+        <li>
+            交通資訊 可參閱: <br>
+            　　　　　聯合大學 二坪山校區 -交通資訊說明 <br>
+            　　　　　<a href="https://www.nuu.edu.tw/p/412-1000-82.php?Lang=zh-tw">https://www.nuu.edu.tw/p/412-1000-82.php?Lang=zh-tw</a> <br>
+            ⬥&nbsp;自行開車：距國道一號的苗栗交流道約6分鐘車程。 <br>
+            ⬥&nbsp;台鐵苗栗站，出站後依黃背心義工安排共乘，計程車至校區約3.4公里。 <br>
+            　建議班次：自強116班次[嘉義10:26→斗六10:50→苗栗12:21] <br>
+            ⬥&nbsp;高鐵苗栗站，轉乘快捷公車可直達校門口。或搭乘計程車約10公里。 <br>
+            　建議：高鐵818班次[嘉義11:00→苗栗站→出口１→搭快捷公車101B→聯合大學站 <br>
+            (時刻表實際以高鐵與台鐵售票時公告為準) <br>
+            <br>
+            ※&nbsp;回程交通：7/16營隊結束後18:30安排學員共乘至台鐵苗栗站或高鐵苗栗站。
+        </li>
+        <li>
+            以下謹列出參加此次活動所需攜帶物品，以及本營隊提供之物品，方便您準備行李。<br>
+            ※&nbsp;建議攜帶物品：<br>
+            　⬥&nbsp;薄外套、換洗衣物、塑膠袋(洗衣不方便,換洗衣物請帶回)<br>
+            　⬥&nbsp;牙刷、牙膏、毛巾、洗髮精、拖鞋、刮鬍刀等個人衛生用品。<br>
+            　⬥&nbsp;背包或手提袋(可裝A4資料)、筆、水瓶、環保筷。<br>
+            　⬥&nbsp;身分證與健保卡、個人常用藥物。<br>
+            ※&nbsp;選擇性攜帶物品：<br>
+            　住宿房間有冷氣，會提供乾淨薄棉被。您也可依自己需求攜帶睡袋、耳塞等。
+        </li>
+    </ol>
+    ※&nbsp;注意事項：<br>
+    　⬥&nbsp;研習期間盡量不外出及外宿，方能充分體驗營隊安排的晚上與早晨各種活動喔！<br>
+    <br>
+    ※&nbsp;營隊關懷員近日內將透過簡訊及電話與您聯繫。如有任何問題，歡迎主動與關懷員聯絡。<br>
+    　　⬥&nbsp;第十一組關懷員<br>
+    　　　　陳玉青小姐 0919-166777<br>
+    　　　　李佩玲小姐 0932-713138<br>
+    　　⬥&nbsp;第十二組關懷員<br>
+    　　　　林永昌先生 0928-927967<br>
+    　　　　蘇桂梅小姐 0933-568577<br>
+           <br><br>
+    　　　　敬祝<br>
+    　　　　闔家平安<br>
+    　　　　健康喜樂<br>
 @endif
 @if (str_contains($applicant->batch->camp->fullName, "新竹"))
     <ol>
@@ -131,8 +175,8 @@
             {{ $applicant->groupRelation->alias }}關懷員 :
             <ol>
                 @foreach(\App\Models\User::whereHas('roles', function($q) use ($applicant) {
-                    $q->where('group_id', $applicant->group_id)->where('position', 'like', '%組長%');
-                })->get() as $user)
+                    $q->where('group_id', $applicant->group_id);
+                })->get()->sortBy('roles.id') as $user)
                     <li>{{ $user->application_log()->orderByDesc('id')->first()->name }} {{ $user->application_log()->orderByDesc('id')->first()->mobile }}</li>
                 @endforeach
             </ol>
@@ -179,7 +223,7 @@
             <ol>
                 @foreach(\App\Models\User::whereHas('roles', function($q) use ($applicant) {
                     $q->where('group_id', $applicant->group_id);
-                })->get() as $user)
+                })->get()->sortBy('roles.id') as $user)
                     <li>{{ $user->application_log()->orderByDesc('id')->first()->name }} {{ $user->application_log()->orderByDesc('id')->first()->mobile }}</li>
                 @endforeach
             </ol>
@@ -217,13 +261,15 @@
             <ol>
                 @foreach(\App\Models\User::whereHas('roles', function($q) use ($applicant) {
                     $q->where('group_id', $applicant->group_id);
-                })->get() as $user)
+                })->get()->sortBy('roles.id') as $user)
                     <li>{{ $user->application_log()->orderByDesc('id')->first()->name }} {{ $user->application_log()->orderByDesc('id')->first()->mobile }}</li>
                 @endforeach
             </ol>
         </li>
     </ol>
 @endif
-<a>敬祝～闔家平安、健康喜樂！</a><br>
+@if (!str_contains($applicant->batch->camp->fullName, "雲嘉"))
+    <a>敬祝～闔家平安、健康喜樂！</a><br>
+@endif
 <a class="right">2023企業主管生命成長營關懷大組</a><br>
 <a class="right">{{ \Carbon\Carbon::now()->year }}  年　{{ \Carbon\Carbon::now()->month }}  月 　 {{ \Carbon\Carbon::now()->day }}  日</a>
