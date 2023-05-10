@@ -870,6 +870,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </form>
 
     <script>
+        function sleep (time) {
+            return new Promise((resolve) => setTimeout(resolve, time));
+        }
         $('[data-toggle="confirmation"]').confirmation({
             rootSelector: '[data-toggle=confirmation]',
             title: "敬請再次確認資料填寫無誤。",
@@ -1133,63 +1136,56 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 
         @if(isset($applicant_data))
             {{-- 回填報名資料 --}}
-            (function() {
-                let applicant_data = JSON.parse('{!! $applicant_data !!}');
-                let inputs = document.getElementsByTagName('input');
-                let selects = document.getElementsByTagName('select');
-                let textareas = document.getElementsByTagName('textarea');
-                let complementPivot = 0;
-                let complementData = applicant_data["blisswisdom_type_complement"] ? applicant_data["blisswisdom_type_complement"].split("||/") : null;
-                // console.log(inputs);
-                for (var i = 0; i < inputs.length; i++){
-                    if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox"){
-                        if(inputs[i].type == "radio"){
-                            let radios = document.getElementsByName(inputs[i].name);
-                            for( j = 0; j < radios.length; j++ ) {
-                                if( radios[j].value == applicant_data[inputs[i].name] ) {
-                                    radios[j].checked = true;
-                                }
+            sleep(10).then(() => {
+                (function() {
+                    let applicant_data = JSON.parse('{!! $applicant_data !!}');
+                    let inputs = document.getElementsByTagName('input');
+                    let selects = document.getElementsByTagName('select');
+                    let textareas = document.getElementsByTagName('textarea');
+                    let complementPivot = 0;
+                    let complementData = applicant_data["blisswisdom_type_complement"] ? applicant_data["blisswisdom_type_complement"].split("||/") : null;
+                    // console.log(inputs);
+                    for (var i = 0; i < selects.length; i++){
+                        if(typeof applicant_data[selects[i].name] !== "undefined"){
+                            if (selects[i].name == 'unit_subarea'){
+                                continue;
                             }
-                        }
-                        else if(inputs[i].type == "checkbox"){
-                            let checkboxes = document.getElementsByName(inputs[i].name);
-                            let deArray = inputs[i].name.slice(0, -2);
-                            if(applicant_data[deArray]){
-                                let checkedValues = applicant_data[deArray].split("||/");
-                                for( j = 0; j < checkboxes.length; j++ ) {
-                                    for( k = 0; k < checkboxes.length; k++ ) {
-                                        if( checkboxes[j].value == checkedValues[k] ) {
-                                            checkboxes[j].checked = true;
-                                        }
+                            selects[i].value = applicant_data[selects[i].name];
+                            if (selects[i].name == 'unit_county'){
+                                Address(applicant_data[selects[i].name], 'unit');
+                                var selectElement = document.getElementById("unit_subarea");
+
+                                // Get the options of the select element
+                                var options = selectElement.options;
+
+                                // Iterate through the options
+                                for (var j = 0; j < options.length; j++) {
+
+                                    // Get the text of the option
+                                    var optionText = options[j].text;
+
+                                    // Check if the text equals to the specific text
+                                    if (optionText == applicant_data['unit_subarea']) {
+                                        options[j].selected = true;
                                     }
                                 }
                             }
                         }
-                        else if(applicant_data[inputs[i].name]){
-                            inputs[i].value = applicant_data[inputs[i].name];
-                        }
-                    }
-                    else if(inputs[i].type == "text" && inputs[i].name == 'blisswisdom_type_complement[]'){
-                        inputs[i].value = complementData ? complementData[complementPivot] : null;
-                        complementPivot++;
-                    }
-                    else if(inputs[i].type == "text"){
-                        inputs[i].value = applicant_data[inputs[i].name];
-                    }
-                    if(inputs[i].name == 'emailConfirm'){
-                        inputs[i].value = applicant_data['email'];
-                    }
-                }
-                for (var i = 0; i < selects.length; i++){
-                    if(typeof applicant_data[selects[i].name] !== "undefined"){
-                        if (selects[i].name == 'unit_subarea'){
-                            continue;
-                        }
-                        selects[i].value = applicant_data[selects[i].name];
-                        if (selects[i].name == 'unit_county'){
-                            Address(applicant_data[selects[i].name], 'unit');
-                            var selectElement = document.getElementById("unit_subarea");
+                        if (selects[i].name == 'county'){
+                            // Split the string into an array of characters.
+                            var characters = applicant_data["address"].split('');
 
+                            // Create an empty array to store the two elements.
+                            var elements = [];
+
+                            // Add the first three characters to the first element.
+                            elements.push(characters.slice(0, 3).join(''));
+
+                            // Add the last three characters to the second element.
+                            elements.push(characters.slice(3).join(''));
+                            selects[i].value = elements[0];
+                            Address(elements[0]);
+                            var selectElement = document.getElementById("subarea");
                             // Get the options of the select element
                             var options = selectElement.options;
 
@@ -1200,63 +1196,75 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                                 var optionText = options[j].text;
 
                                 // Check if the text equals to the specific text
-                                if (optionText == applicant_data['unit_subarea']) {
+                                if (optionText == elements[1]) {
                                     options[j].selected = true;
                                 }
                             }
                         }
                     }
-                    if (selects[i].name == 'county'){
-                        // Split the string into an array of characters.
-                        var characters = applicant_data["address"].split('');
-
-                        // Create an empty array to store the two elements.
-                        var elements = [];
-
-                        // Add the first three characters to the first element.
-                        elements.push(characters.slice(0, 3).join(''));
-
-                        // Add the last three characters to the second element.
-                        elements.push(characters.slice(3).join(''));
-                        selects[i].value = elements[0];
-                        Address(elements[0]);
-                        var selectElement = document.getElementById("subarea");
-                        // Get the options of the select element
-                        var options = selectElement.options;
-
-                        // Iterate through the options
-                        for (var j = 0; j < options.length; j++) {
-
-                            // Get the text of the option
-                            var optionText = options[j].text;
-
-                            // Check if the text equals to the specific text
-                            if (optionText == elements[1]) {
-                                options[j].selected = true;
+                    for (var i = 0; i < inputs.length; i++){
+                        if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox"){
+                            if(inputs[i].type == "radio"){
+                                let radios = document.getElementsByName(inputs[i].name);
+                                for( j = 0; j < radios.length; j++ ) {
+                                    if( radios[j].value == applicant_data[inputs[i].name] ) {
+                                        radios[j].checked = true;
+                                    }
+                                }
+                            }
+                            else if(inputs[i].type == "checkbox"){
+                                let checkboxes = document.getElementsByName(inputs[i].name);
+                                let deArray = inputs[i].name.slice(0, -2);
+                                if(applicant_data[deArray]){
+                                    let checkedValues = applicant_data[deArray].split("||/");
+                                    for( j = 0; j < checkboxes.length; j++ ) {
+                                        for( k = 0; k < checkboxes.length; k++ ) {
+                                            if( checkboxes[j].value == checkedValues[k] ) {
+                                                checkboxes[j].checked = true;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            else if(applicant_data[inputs[i].name]){
+                                inputs[i].value = applicant_data[inputs[i].name];
                             }
                         }
-                    }
-                }
-                for (var i = 0; i < textareas.length; i++){
-                    if(typeof applicant_data[textareas[i].name] !== "undefined"){
-                        textareas[i].value = applicant_data[textareas[i].name];
-                    }
-                }
-
-                @if(!$isModify)
-                    for (var i = 0; i < inputs.length; i++){
-                        if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox" || inputs[i].name == 'emailConfirm' || inputs[i].name == "blisswisdom_type[]" || inputs[i].name == "blisswisdom_type_complement[]"){
-                            inputs[i].disabled = true;
+                        else if(inputs[i].type == "text" && inputs[i].name == 'blisswisdom_type_complement[]'){
+                            inputs[i].value = complementData ? complementData[complementPivot] : null;
+                            complementPivot++;
+                        }
+                        else if(inputs[i].type == "text"){
+                            inputs[i].value = applicant_data[inputs[i].name];
+                        }
+                        else if(inputs[i].type == "hidden" && (inputs[i].name == 'address' || inputs[i].name == 'unit_address')){
+                            inputs[i].value = applicant_data[inputs[i].name];
+                        }
+                        if(inputs[i].name == 'emailConfirm'){
+                            inputs[i].value = applicant_data['email'];
                         }
                     }
-                    for (var i = 0; i < selects.length; i++){
-                        selects[i].disabled = true;
-                    }
                     for (var i = 0; i < textareas.length; i++){
-                        textareas[i].disabled = true;
+                        if(typeof applicant_data[textareas[i].name] !== "undefined"){
+                            textareas[i].value = applicant_data[textareas[i].name];
+                        }
                     }
-                @endif
-            })();
+
+                    @if(!$isModify)
+                        for (var i = 0; i < inputs.length; i++){
+                            if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox" || inputs[i].name == 'emailConfirm' || inputs[i].name == "blisswisdom_type[]" || inputs[i].name == "blisswisdom_type_complement[]"){
+                                inputs[i].disabled = true;
+                            }
+                        }
+                        for (var i = 0; i < selects.length; i++){
+                            selects[i].disabled = true;
+                        }
+                        for (var i = 0; i < textareas.length; i++){
+                            textareas[i].disabled = true;
+                        }
+                    @endif
+                })();
+            });
 
             function checkIfNull(val) {
                 return val == "";

@@ -251,7 +251,7 @@ class CampController extends Controller
         ->where('applicants.id', $applicantIdOri)->withTrashed()->first();
 
         View::share('camp_data', $campCopy);    //replace camp_data
-        
+
         $applicant_data = $applicantOri->toJson();
         $applicant_data = str_replace("\\r", "", $applicant_data);
         $applicant_data = str_replace("\\n", "", $applicant_data);
@@ -280,7 +280,7 @@ class CampController extends Controller
      *
      */
     public function campViewRegistrationData(Request $request) {
-        //dd($request);
+        // dd($request);
         $applicant = null;
         $isModify = false;
         $campTable = $this->camp_data->table;
@@ -362,7 +362,7 @@ class CampController extends Controller
             }
         }
         else{
-            return back()->withInput()->withErrors(['找不到報名資料，請再次確認是否填寫錯誤。']);
+            return '<h2>找不到報名資料，請再次確認是否填寫錯誤。</h2>';
         }
     }
 
