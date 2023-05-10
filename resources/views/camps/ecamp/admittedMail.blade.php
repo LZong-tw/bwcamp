@@ -177,7 +177,7 @@
                 @foreach(\App\Models\User::whereHas('roles', function($q) use ($applicant) {
                     $q->where('group_id', $applicant->group_id);
                 })->get()->sortBy('roles.id') as $user)
-                    <li>{{ $user->application_log()->orderByDesc('id')->first()->name }} {{ $user->application_log()->orderByDesc('id')->first()->mobile }}</li>
+                    <li>{{ \Str::of($user->roles->where('camp_id', $applicant->camp->id)->first()->position)->trim(7) }} {{ $user->application_log()->orderByDesc('id')->first()->name }} {{ $user->application_log()->orderByDesc('id')->first()->mobile }}</li>
                 @endforeach
             </ol>
         </li>
