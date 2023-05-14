@@ -221,15 +221,19 @@
                         </td>
                         <td>{{ $applicant->participation_mode ?? "-" }}</td>
                     @elseif($key == "is_attend")
-                        @if($applicant->$key == 1)
-                            <td>參加</td>
-                        @elseif($applicant->$key === 0)
-                            <td>不參加</td>
-                        @elseif($applicant->$key === 2)
-                            <td>已聯絡未回應</td>
-                        @else
-                            <td>未回覆</td>
-                        @endif
+                            @if($applicant->$key === 1)
+                                <td>參加</td>
+                            @elseif($applicant->$key === 0)
+                                <td>不參加</td>
+                            @elseif($applicant->$key === 2)
+                                <td>尚未決定</td>
+                            @elseif($applicant->$key === 3)
+                                <td>聯絡不上</td>
+                            @elseif($applicant->$key === 4)
+                                <td>無法全程</td>
+                            @else
+                                <td>尚未聯絡</td>
+                            @endif
                     @elseif($key == "group_priority")
                         <td>
                             @if ($applicant->group_priority1)
