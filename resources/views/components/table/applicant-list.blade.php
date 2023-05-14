@@ -96,15 +96,15 @@
                             <td>@foreach($applicant->user->roles as $role) {{ $role->position }}<br> @endforeach</td>
                         @elseif(!$isShowVolunteers && !$isShowLearners && $key == "contactlog")
                         @elseif($key == "is_attend")
-                            @if($applicant->$key == 1)
+                            @if($applicant->$key === 1)
                                 <td>參加</td>
-                            @elseif($applicant->$key == 0)
+                            @elseif($applicant->$key === 0)
                                 <td>不參加</td>
-                            @elseif($applicant->$key == 2)
+                            @elseif($applicant->$key === 2)
                                 <td>尚未決定</td>
-                            @elseif($applicant->$key == 3)
+                            @elseif($applicant->$key === 3)
                                 <td>聯絡不上</td>
-                            @elseif($applicant->$key == 4)
+                            @elseif($applicant->$key === 4)
                                 <td>無法全程</td>
                             @else
                                 <td>尚未聯絡</td>
@@ -205,14 +205,18 @@
                     @elseif(!$isShowVolunteers && !$isShowLearners && $key == "contactlog")
                     @elseif($isSettingCarer && ($key == 'participation_mode'))
                         <td>
-                            @if($applicant->is_attend == 1)
-                                參加
-                            @elseif($applicant->is_attend === 0)
-                                不參加
-                            @elseif($applicant->is_attend === 2)
-                                已聯絡未回應
+                            @if($applicant->$key === 1)
+                                <td>參加</td>
+                            @elseif($applicant->$key === 0)
+                                <td>不參加</td>
+                            @elseif($applicant->$key === 2)
+                                <td>尚未決定</td>
+                            @elseif($applicant->$key === 3)
+                                <td>聯絡不上</td>
+                            @elseif($applicant->$key === 4)
+                                <td>無法全程</td>
                             @else
-                                未回覆
+                                <td>尚未聯絡</td>
                             @endif
                         </td>
                         <td>{{ $applicant->participation_mode ?? "-" }}</td>
