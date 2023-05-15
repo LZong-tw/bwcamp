@@ -67,7 +67,7 @@
                     此學員尚未分入任何組別
                 @endif<br>
                 <b>關懷員</b>：@forelse($applicant->carers as $carer)
-                    {{ $carer->name }}
+                    {{ $carer->name }}@if($currentUser->canAccessResource(new \App\Models\CarerApplicantXref, 'delete', $applicant->camp))（<a href="{{ route('deleteApplicantCarer', [$camp->id, "applicant_id" => $applicant->id, "carer_id" => $carer->id]) }}" class="text-danger">刪除</a>）@endif
                     @if(!$loop->last) {{ "、" }} @endif
                 @empty
                     {{ '-' }}

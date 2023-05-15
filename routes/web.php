@@ -174,6 +174,7 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
     Route::post("/inCamp/attendeeInfo", "BackendController@showAttendeeInfo")->name("showAttendeeInfo");
     Route::get("/inCamp/deleteUserRole", "BackendController@deleteUserRole")->name("deleteUserRole");
     Route::get("/inCamp/deleteApplicantGroupAndNumber", "BackendController@deleteApplicantGroupAndNumber")->name("deleteApplicantGroupAndNumber");
+    Route::get("/inCamp/deleteApplicantCarer", "BackendController@deleteApplicantCarer")->name("deleteApplicantCarer");
     //Remark
     Route::post("/remark/edit", [BackendController::class, "editRemark"])->name("editRemark");
     //Contact Log
