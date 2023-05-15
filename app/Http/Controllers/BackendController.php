@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ApplicantsGroup;
 use App\Models\CampOrg;
+use App\Models\CarerApplicantXref;
 use App\Models\GroupNumber;
 use App\Models\OrgUser;
 use App\Models\Vcamp;
@@ -1072,6 +1073,16 @@ class BackendController extends Controller {
         $applicant->numberRelation()->dissociate();
         $applicant->save();
         $request->session()->flash('message', '已刪除該學員組別');
+        return redirect()->route("showAttendeeInfoGET", ["camp_id" => $request->camp_id, "snORadmittedSN" => $request->applicant_id]);
+    }
+
+    public function deleteApplicantCarer(Request $request) {
+        if (CarerApplicantXref::query()->where("applicant_id", $request->applicant_id)->where("user_id", $request->carer_id)->delete()) {
+            $request->session()->flash('message', '已刪除該關懷員');
+        }
+        else {
+            $request->session()->flash('errors', ['發生錯誤']);
+        }
         return redirect()->route("showAttendeeInfoGET", ["camp_id" => $request->camp_id, "snORadmittedSN" => $request->applicant_id]);
     }
 
