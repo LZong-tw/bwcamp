@@ -1939,11 +1939,11 @@ class BackendController extends Controller {
     public function showContactLogs(Request $request, $camp_id, $applicant_id){
         $formData = $request->toArray();
         //$applicant_id = $formData['applicant_id'];
-        $applicant = Applicant::find($applicant_id);
+        $applicant = Applicant::withTrashed()->find($applicant_id);
         $contactlogs = $applicant->contactlog->sortByDesc('id');
         //dd($contactlogs);
         if(isset($contactlogs)) {
-            foreach($contactlogs as $contactlog) {
+            foreach($contactlogs as &$contactlog) {
                 $contactlog = $this->backendService->setTakenByName($contactlog);
             }
         }

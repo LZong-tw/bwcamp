@@ -59,7 +59,7 @@ class ApplicantService
                         });
                     });
                 }
-            })
+            })->withTrashed()
             ->first();
         if ($applicant) {
             $applicant->id = $applicant->applicant_id;
