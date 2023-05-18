@@ -211,6 +211,9 @@ class User extends Authenticatable
                     return false;
                 // 3: person
                 case 3:
+                    if (str_contains($class, "Applicant") && $context == "onlyCheckAvailability") {
+                        return $this->caresLearners->whereIn('batch_id', $camp->batchs->pluck('id'))->first();
+                    }
                     if ($class == "App\Models\ApplicantGroup") {
                         return $this->caresLearners->where('group_id', '<>', null)->where("group_id", $resource->id)->first();
                     }
