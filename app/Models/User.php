@@ -219,7 +219,7 @@ class User extends Authenticatable
                         return false;
                     }
                     if ($class == "App\Models\Applicant") {
-                        return $this->caresLearners->where('group_id', '<>', null)->where("applicant_id", $resource->id)->first();
+                        return $this->caresLearners->where('group_id', '<>', null)->where("id", $resource->id)->first();
                     }
                     return false;
                 default:
