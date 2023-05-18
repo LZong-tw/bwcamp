@@ -212,14 +212,14 @@ class User extends Authenticatable
                 // 3: person
                 case 3:
                     if ($class == "App\Models\ApplicantGroup") {
-                        return $this->caresLearners->where('group_id', '<>', null)->where("group_id", $resource->id);
+                        return $this->caresLearners->where('group_id', '<>', null)->where("group_id", $resource->id)->first();
                     }
                     // 沒這回事
                     if ($class == "App\Models\CampOrg") {
                         return false;
                     }
                     if ($class == "App\Models\Applicant") {
-                        return $this->caresLearners->where('group_id', '<>', null)->where("applicant_id", $resource->id);
+                        return $this->caresLearners->where('group_id', '<>', null)->where("applicant_id", $resource->id)->first();
                     }
                     return false;
                 default:
