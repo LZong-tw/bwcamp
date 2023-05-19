@@ -70,9 +70,11 @@
                             <li>
                                 <a href="{{ route("wayStat", $campFullData->id) }}">管道統計</a>
                             </li>
+                            <!--
                             <li>
                                 <a href="#">國籍(開發中)</a>
                             </li>
+                            -->
                         @endif
                         @if($campFullData->table == "ycamp" || $campFullData->table == "hcamp")
                             <li>
@@ -89,6 +91,9 @@
                             <a href="{{ route("checkinStat", $campFullData->id) }}">報到統計</a>
                         </li>
                         @if($campFullData->table == "ycamp")
+                            <li>
+                                <a href="{{ route("regionStat", $campFullData->id) }}">各區報名人數</a>
+                            </li>
                             <li>
                                 <a href="{{ route("bwclubschoolStat", $campFullData->id) }}">福青社學校統計</a>
                             </li>

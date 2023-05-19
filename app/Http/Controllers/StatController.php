@@ -193,6 +193,40 @@ class StatController extends BackendController
         return view('backend.statistics.batches', compact('GChartData',  'total'));
     }
 
+    public function regionStat(){
+        $applicants = Applicant::select(\DB::raw('applicants.region, count(*) as total'))
+        ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
+        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+        ->where('camps.id', $this->campFullData->id)
+        ->groupBy('applicants.region')->get();
+        $rows = count($applicants);
+        foreach($applicants as $applicant){
+            $applicant = $this->applicantService->Mandarization($applicant);
+        }
+        $array = $applicants->toArray();
+
+        $total = 0 ;
+        $GChartData = array('cols'=> array(
+                        array('id'=>'region','label'=>'區域','type'=>'string'),
+                        array('id'=>'people','label'=>'人數','type'=>'number'),
+                        array('id'=>'annotation','role'=>'annotation','type'=>'number')
+                    ),
+                    'rows' => array());
+        for($i = 0; $i < $rows; $i ++) {
+            $record = $array[$i];
+            array_push($GChartData['rows'], array('c' => array(
+                array('v' => $record['region']),
+                array('v' => intval($record['total'])),
+                array('v' => intval($record['total']))
+            )));
+            $total = $total + $record['total'];
+        }
+        $GChartData = json_encode($GChartData);
+
+        return view('backend.statistics.regionStat', compact('GChartData',  'total'));
+    }
+
     public function schoolOrCourseStat(){
         $applicants = Applicant::select(\DB::raw('tcamp.school_or_course as school_or_course, count(*) as total'))
         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
