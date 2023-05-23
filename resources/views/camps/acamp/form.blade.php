@@ -1181,6 +1181,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                                         handleHiddenCustomField('show');
                                     }
                                 }
+                                continue;
                             }
                             var characters = applicant_data["address"].split('');
 
