@@ -1007,6 +1007,7 @@ class BackendController extends Controller {
                                             );
 
         if($applicant){
+            \App\Models\User::find(auth()->id())?->canAccessResource($applicant, 'read', $this->campFullData);
             $applicant = $this->applicantService->Mandarization($applicant);
         }
         else {
