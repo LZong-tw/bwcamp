@@ -1173,6 +1173,15 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         }
                         if (selects[i].name == 'county'){
                             // Split the string into an array of characters.
+                            if(!applicant_data["address"]){
+                                for (var j = 0; j < document.getElementsByName('county').options.length; j++){
+                                    if (document.getElementsByName('county').options[j].value == '其他'){
+                                        document.getElementsByName('county').options[j].selected = true;
+                                        Address('其他');
+                                        handleHiddenCustomField('show');
+                                    }
+                                }
+                            }
                             var characters = applicant_data["address"].split('');
 
                             // Create an empty array to store the two elements.
