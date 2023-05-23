@@ -52,7 +52,7 @@
                 @elseif($applicant->is_attend == 1)
                     <th>{!! "<a style='color: green;'>回覆參加</a>" !!}</th>
                 @elseif($applicant->is_attend == 2)
-                    <th>{!! "<a style='color: yellow;'>尚未決定</a>" !!}</th>
+                    <th>{!! "<a style='color: #ffb429;'>尚未決定</a>" !!}</th>
                 @elseif($applicant->is_attend == 3)
                     <th>{!! "<a style='color: pink;'>聯絡不上</a>" !!}</th>
                 @elseif($applicant->is_attend == 4)
