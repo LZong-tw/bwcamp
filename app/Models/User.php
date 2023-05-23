@@ -224,6 +224,9 @@ class User extends Authenticatable
                     if ($class == "App\Models\Applicant") {
                         return $this->caresLearners->where('group_id', '<>', null)->where("id", $resource->id)->first();
                     }
+                    if ($class == "App\Models\ContactLog") {
+                        return $this->caresLearners->where('group_id', '<>', null)->where("id", $target->id)->first();
+                    }
                     return false;
                 default:
                     return false;

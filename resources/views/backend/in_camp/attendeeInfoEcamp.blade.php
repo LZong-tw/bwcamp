@@ -186,7 +186,7 @@
                     <input type="submit" class="btn btn-primary float-right" name="editremark" id="editremark" value="確認編輯" disabled>
                 </form>
             </div>
-            @if($currentUser->canAccessResource(new App\Models\ContactLog(), 'read', $campFullData))
+            @if($currentUser->canAccessResource(new App\Models\ContactLog(), 'read', $campFullData, target: $applicant))
                 <div class="col-md-8">
                     <span class="btn btn-info">關懷記錄</span><br>
                     @if($currentUser->canAccessResource(new App\Models\ContactLog(), 'create', $campFullData))
