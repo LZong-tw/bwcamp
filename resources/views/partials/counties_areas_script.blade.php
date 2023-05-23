@@ -504,7 +504,6 @@
     }
 
     function handleHiddenCustomField(action, prefix) {
-        console.log(prefix)
         if (action == 'show') {
             if (prefix) {
                 document.getElementsByName(prefix + '_' + 'address')[0].type = 'text';
