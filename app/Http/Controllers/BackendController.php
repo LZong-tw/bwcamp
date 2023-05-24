@@ -1742,7 +1742,7 @@ class BackendController extends Controller {
                 ->with('queryStr', $queryStr ?? '');
     }
 
-    public function getAvatar($id) {
+    public function getAvatar($camp_id, $id) {
         $applicant = Applicant::find($id);
         if ($applicant->avatar) {
             return "data:image/png;base64, ". base64_encode(\Storage::disk('local')->get($applicant->avatar));
