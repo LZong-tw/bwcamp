@@ -480,6 +480,10 @@ class BackendService
         $queryRoles = null;
         $targetVolunteers = null;
         foreach ($payload as $key => &$value) {
+            if ($key == "batch_id" || $key == "is_setting") {
+                unset($payload[$key]);
+                continue;
+            }
             if ($key == "roles") {
                 $do = true;
                 $column = "id";
@@ -492,14 +496,16 @@ class BackendService
                 if (!is_array($value)) {
                     $value = [$value];
                 }
-                $queryRoles = CampOrg::whereIn($column, $value)->get();
-                $queryRoles = $queryRoles->filter(fn($role) => $role->camp_id == $camp->id);
-                $targetVolunteers = OrgUser::whereIn('org_id', $value)->get()->pluck('user_id');
-                $targetVolunteers = \App\Models\User::whereIn('id', $targetVolunteers)->get();
-                $targetVolunteers->load('application_log');
-                $targetVolunteers = $targetVolunteers->filter(fn($volunteer) => $volunteer->application_log->filter(function ($log) use ($camp) {
-                        return $log->camp->id == $camp->vcamp->id;
-                    })->count() > 0)->pluck('id');
+                if (!$queryRoles) {
+                    $queryRoles = CampOrg::whereIn($column, $value)->get();
+                    $queryRoles = $queryRoles->filter(fn($role) => $role->camp_id == $camp->id);
+                    $targetVolunteers = OrgUser::whereIn('org_id', $value)->get()->pluck('user_id');
+                    $targetVolunteers = \App\Models\User::whereIn('id', $targetVolunteers)->get();
+                    $targetVolunteers->load('application_log');
+                    $targetVolunteers = $targetVolunteers->filter(fn($volunteer) => $volunteer->application_log->filter(function ($log) use ($camp) {
+                            return $log->camp->id == $camp->vcamp->id;
+                        })->count() > 0)->pluck('id');
+                }
                 unset($payload[$key]);
             }
             if (!is_array($value)) {
