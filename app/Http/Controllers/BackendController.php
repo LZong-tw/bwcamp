@@ -1007,9 +1007,13 @@ class BackendController extends Controller {
                                             );
 
         if($applicant){
-            if (!\App\Models\User::find(auth()->id())?->canAccessResource($applicant, 'read', $this->campFullData)) {
-                return "<h1>您沒有權限查看此資料</h1>";
+            if (str_contains($camp->table, 'vcamp') && !\App\Models\User::find(auth()->id())?->canAccessResource($applicant, 'read', $camp->mainCamp)) {
+                return "<h1>您沒有權限查看此資料(義工)</h1>";
             }
+            elseif (!\App\Models\User::find(auth()->id())?->canAccessResource($applicant, 'read', $this->campFullData)) {
+                return "<h1>您沒有權限查看此資料(學員)</h1>";
+            }
+
             $applicant = $this->applicantService->Mandarization($applicant);
         }
         else {
