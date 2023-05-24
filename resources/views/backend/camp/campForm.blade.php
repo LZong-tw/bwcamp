@@ -23,6 +23,7 @@
                 <select name="table" id="" class='form-control' required>
                     <option value="">請選擇</option>
                     <option value="acamp" @if(isset($camp) && $camp->table == "acamp") selected @endif>卓青營</option>
+                    <option value="avcamp" @if(isset($camp) && $camp->table == "avcamp") selected @endif>卓青營義工</option>
                     <option value="ceocamp" @if(isset($camp) && $camp->table == "ceocamp") selected @endif>菁英營</option>
                     <option value="ceovcamp" @if(isset($camp) && $camp->table == "ceovcamp") selected @endif>菁英營義工</option>
                     <option value="ecamp" @if(isset($camp) && $camp->table == "ecamp") selected @endif>企業營</option>
@@ -31,6 +32,7 @@
                     <option value="tcamp" @if(isset($camp) && $camp->table == "tcamp") selected @endif>教師營</option>
                     <option value="utcamp" @if(isset($camp) && $camp->table == "utcamp") selected @endif>大專教師營</option>
                     <option value="ycamp" @if(isset($camp) && $camp->table == "ycamp") selected @endif>大專營</option>
+                    <option value="yvcamp" @if(isset($camp) && $camp->table == "yvcamp") selected @endif>大專營義工</option>
                     <option value="coupon" @if(isset($camp) && $camp->table == "coupon") selected @endif>優惠碼/劵</option>
                 </select>
             </div>
