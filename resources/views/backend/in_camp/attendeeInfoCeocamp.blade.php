@@ -187,6 +187,12 @@
                     <input type="hidden" name="applicant_id" value="{{ $applicant->applicant_id }}">
                     <input type="submit" class="btn btn-primary float-right" name="editremark" id="editremark" value="確認編輯" disabled>
                 </form>
+                <br>
+                <br>
+                <hr>
+                <h5>報到條碼</h5>
+                <img src="data:image/png;base64,{{ \DNS2D::getBarcodePNG('{" applicant_id":' . $applicant->id .
+                '}', 'QRCODE') }}" alt="barcode" height="200px"/>
             </div>
             @if($currentUser->canAccessResource(new App\Models\ContactLog(), 'read', $campFullData, target: $applicant))
                 <div class="col-md-8">
