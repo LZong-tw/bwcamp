@@ -954,7 +954,7 @@ class BackendController extends Controller {
                         ->join($camp->table, 'applicants.id', '=', $camp->table . '.applicant_id')
                         ->where('camps.id', $camp->id)->withTrashed();
         $applicants = $query->get();
-        $applicants = $applicants->filter(fn($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData));
+        $applicants = $applicants->filter(fn($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant));
 
         if($request->download) {
             return \PDF::loadView('backend.in_camp.volunteerPhoto', compact('applicants', 'batches'))->download(Carbon::now()->format('YmdHis') . $camp->table . '義工名冊.pdf');
@@ -1015,7 +1015,7 @@ class BackendController extends Controller {
                 $theCamp = $camp;
                 $theStr = "學員";
             }
-            if (!\App\Models\User::find(auth()->id())?->canAccessResource($applicant, 'read', $theCamp)) {
+            if (!\App\Models\User::find(auth()->id())?->canAccessResource($applicant, 'read', $theCamp, target: $applicant)) {
                 return "<h1>您沒有權限查看此資料(" . $theStr . ")</h1>";
             }
 
@@ -1177,7 +1177,7 @@ class BackendController extends Controller {
             }
         }
 
-        $applicants = $applicants->filter(fn($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData));
+        $applicants = $applicants->filter(fn($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant));
 
         if(isset($request->download)) {
             if($applicants){
@@ -1473,7 +1473,7 @@ class BackendController extends Controller {
         }
         $registeredUsers = $registeredUsers->get();
         $registeredUsers = $registeredUsers->filter(fn($user) => $this->user->canAccessResource($user, 'read', $this->campFullData, 'volunteerList'));
-        $applicants = $applicants->filter(fn($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData));
+        $applicants = $applicants->filter(fn($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant));
 
         if($request->isSetting==1) {
             $isSetting = 1;
