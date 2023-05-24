@@ -782,8 +782,8 @@ return [
                 "sort" => 0,
                 "for_query" => 1,
             ],
-            "cadre_experiences" => [
-                "name" => "班級護持記錄",
+            "participation_dates" => [
+                "name" => "可護持日期",
                 "sort" => 0,
                 "for_query" => 1,
             ],

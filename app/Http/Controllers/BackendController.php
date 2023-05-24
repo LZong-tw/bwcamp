@@ -1628,7 +1628,8 @@ class BackendController extends Controller {
             return response()->stream($callback, 200, $headers);
         }
 
-        $columns_zhtw = config('camps_fields.display.ceovcamp');
+        $camp_str = $this->campFullData->vcamp->table;
+        $columns_zhtw = config('camps_fields.display.' . $camp_str);
 
         return view('backend.integrated_operating_interface.theList')
                 ->with('applicants', $applicants)
@@ -1720,7 +1721,8 @@ class BackendController extends Controller {
             $isSetting = 0;
         }
 
-        $columns_zhtw = config('camps_fields.display.ceovcamp');
+        $camp_str = $this->campFullData->vcamp->table;
+        $columns_zhtw = config('camps_fields.display.' . $camp_str);
 
         return view('backend.integrated_operating_interface.theList')
                 ->with('registeredVolunteers', $registeredUsers)
