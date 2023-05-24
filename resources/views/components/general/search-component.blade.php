@@ -126,13 +126,15 @@
                             {{ $group->alias }}: <span class="text-primary">{{ $applicants->filter(function ($applicant) use ($group) { return
                     $applicant->group_id == $group->id && $applicant->gender == 'M'; })->count() }}</span> / <span class="text-danger">{{ $applicants->filter(function ($applicant) use ($group) { return
                     $applicant->group_id == $group->id && $applicant->gender == 'F'; })->count() }}</span> / <span class="text-success">{{ $applicants->filter(function ($applicant) use ($group) { return
-                    $applicant->group_id == $group->id; })->count() }}</span>
+                    $applicant->group_id == $group->id; })->count() }}</span> / <span class="text-info">{{ $applicants->filter(function ($applicant) use ($group) { return
+                    $applicant->deleted_at; })->count() }}</span>
                             <br>
                         @elseif (!$currentBatch)
                             {{ $group->batch->name }}&nbsp;-&nbsp;{{ $group->alias }}: <span class="text-primary">{{ $applicants->filter(function ($applicant) use ($group) { return
                     $applicant->group_id == $group->id && $applicant->gender == 'M'; })->count() }}</span> / <span class="text-danger">{{ $applicants->filter(function ($applicant) use ($group) { return
                     $applicant->group_id == $group->id && $applicant->gender == 'F'; })->count() }}</span> / <span class="text-success">{{ $applicants->filter(function ($applicant) use ($group) { return
-                    $applicant->group_id == $group->id; })->count() }}</span>
+                    $applicant->group_id == $group->id; })->count() }}</span> / <span class="text-info">{{ $applicants->filter(function ($applicant) use ($group) { return
+                    $applicant->deleted_at; })->count() }}</span>
                             <br>
                         @endif
                     </span>
