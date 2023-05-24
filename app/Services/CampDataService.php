@@ -91,9 +91,16 @@ class CampDataService
             ]);
         }
         if(isset($request->unit_address)) {
-            $request->merge([
-                'unit_subarea' => \Str::substr($request->unit_address, 3)
-            ]);
+            if ($request->unit_subarea == "000") {
+                $request->merge([
+                    'unit_subarea' => $request->unit_address
+                ]);
+            }
+            else {
+                $request->merge([
+                    'unit_subarea' => \Str::substr($request->unit_address, 3)
+                ]);
+            }
         }
         if(isset($request->info_source)) {
             $request->merge([

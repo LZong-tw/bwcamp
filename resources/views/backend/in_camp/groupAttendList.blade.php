@@ -47,7 +47,7 @@
                                 <td>{{ $group->count }}</td>
                                 <td>{!! "<a style='color: green;'>" . $group->attend_sum . "</a>" !!}</td>
                                 <td>{!! "<a style='color: red;'>" . $group->not_attend_sum . "</a>" !!}</td>
-                                <td>{!! "<a style='color: yellow;'>" . $group->not_decided_yet_sum . "</a>" !!}</td>
+                                <td>{!! "<a style='color: #ffb429;'>" . $group->not_decided_yet_sum . "</a>" !!}</td>
                                 <td>{!! "<a style='color: pink;'>" . $group->couldnt_contact_sum . "</a>" !!}</td>
                                 <td>{!! "<a style='color: seagreen;'>" . $group->cant_full_event_sum . "</a>" !!}</td>
                                 <td>{!! "<a style='color: rgb(0, 132, 255);'>" . $group->null_sum . "</a>" !!}</td>

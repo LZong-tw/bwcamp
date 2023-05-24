@@ -503,4 +503,28 @@
         return (myaddress);
     }
 
+    function handleHiddenCustomField(action, prefix) {
+        if (action == 'show') {
+            if (prefix) {
+                document.getElementsByName(prefix + '_' + 'address')[0].type = 'text';
+                document.getElementsByName(prefix + '_' + 'address')[0].placeholder = '請自行輸入，簡易即可';
+                document.getElementsByName(prefix + '_' + 'address')[0].value = '';
+                document.getElementsByName(prefix + '_' + 'address')[0].focus();
+            } else {
+                document.getElementsByName('address')[0].type = 'text';
+                document.getElementsByName('address')[0].placeholder = '請自行輸入，簡易即可';
+                document.getElementsByName('address')[0].value = '';
+                document.getElementsByName('address')[0].focus();
+            }
+        } else {
+            if (prefix) {
+                document.getElementsByName(prefix + '_' + 'address')[0].type = 'hidden';
+                document.getElementsByName(prefix + '_' + 'address')[0].value = '';
+            } else {
+                document.getElementsByName('address')[0].type = 'hidden';
+                document.getElementsByName('address')[0].value = '';
+            }
+        }
+    }
+
 </script>

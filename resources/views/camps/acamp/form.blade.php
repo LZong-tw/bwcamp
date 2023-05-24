@@ -242,7 +242,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputAddress' class='col-md-2 control-label text-md-right'>現居住地點</label>
         <div class='col-md-2'>
-            <select name="county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value);" required>
+            <select name="county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value); if(this.options[this.options.selectedIndex].value == '其他'){ handleHiddenCustomField('show') } else { handleHiddenCustomField('hide') }" required>
                 <option value=''>- 請先選縣市 -</option>
                 <option value='臺北市'>臺北市</option>
                 <option value='新北市'>新北市</option>
@@ -353,7 +353,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputUnitCounty' class='col-md-2 control-label text-md-right'>服務地點</label>
         <div class='col-md-2'>
-            <select name="unit_county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value, 'unit');" required>
+            <select name="unit_county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value, 'unit'); if(this.options[this.options.selectedIndex].value == '其他'){ handleHiddenCustomField('show', 'unit') } else { handleHiddenCustomField('hide', 'unit') }" required>
                 <option value=''>- 請選擇縣市 -</option>
                 <option value='臺北市'>臺北市</option>
                 <option value='新北市'>新北市</option>
@@ -1173,6 +1173,16 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         }
                         if (selects[i].name == 'county'){
                             // Split the string into an array of characters.
+                            if(!applicant_data["address"]){
+                                for (var j = 0; j < document.getElementsByName('county')[0].options.length; j++){
+                                    if (document.getElementsByName('county')[0].options[j].value == '其他'){
+                                        document.getElementsByName('county')[0].options[j].selected = true;
+                                        Address('其他');
+                                        handleHiddenCustomField('show');
+                                    }
+                                }
+                                continue;
+                            }
                             var characters = applicant_data["address"].split('');
 
                             // Create an empty array to store the two elements.
@@ -1190,6 +1200,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                             var options = selectElement.options;
 
                             // Iterate through the options
+                            let set = false;
                             for (var j = 0; j < options.length; j++) {
 
                                 // Get the text of the option
@@ -1198,8 +1209,16 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                                 // Check if the text equals to the specific text
                                 if (optionText == elements[1]) {
                                     options[j].selected = true;
+                                    set = true;
                                 }
                             }
+                            // if(!set) {
+                            //     var option = document.getElementsByName(");
+                            //     option.text = elements[1];
+                            //     option.value = elements[1];
+                            //     selectElement.add(option);
+                            //     option.selected = true;
+                            // }
                         }
                     }
                     for (var i = 0; i < inputs.length; i++){
