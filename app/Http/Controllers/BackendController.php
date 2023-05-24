@@ -1742,6 +1742,14 @@ class BackendController extends Controller {
                 ->with('queryStr', $queryStr ?? '');
     }
 
+    public function getAvatar($id) {
+        $applicant = Applicant::find($id);
+        if ($applicant->avatar) {
+            return "data:image/png;base64, ". base64_encode(\Storage::disk('local')->get($applicant->avatar));
+        }
+        return '無';
+    }
+
     public function showAccountingPage() {
         $constraints = function ($query) {
             $query->where('id', $this->camp_id);

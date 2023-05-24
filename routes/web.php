@@ -147,6 +147,7 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
     Route::group(["prefix" => "{batch_id}"], function () {
     });
     Route::get("/", "BackendController@campIndex")->name("campIndex");
+    Route::get("/avatar/{id}", "BackendController@getAvatar")->name("getAvatar");
     Route::get("/logs", "\Rap2hpoutre\LaravelLogViewer\LogViewerController@index")->middleware("permitted")->name("logs");
     Route::get("/registration/admission", "BackendController@admission")->name("admissionGET");
     Route::get("/registration/showPaymentForm/{applicant_id}", "BackendController@showPaymentForm")->name("showPaymentForm");

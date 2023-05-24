@@ -76,8 +76,7 @@
                         @endphp
                         @if($key == "avatar" && $applicant->avatar)
                             <td>
-{{--                                <img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($applicant->avatar)) }}" width=80 alt="{{ $applicant->name }}">--}}
-                                效能調整中
+                                <img src="{{ url("/backend/" . $applicant->camp->id . "/avatar/" . $applicant->id) }}" width=80 alt="{{ $applicant->name }}">
                             </td>
                         @elseif($key == "name")
                             <td>
@@ -184,8 +183,7 @@
                             @endforelse</td>
                     @elseif($key == "avatar" && $applicant->avatar)
                         <td>
-{{--                            <img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($applicant->avatar)) }}" width=80 alt="{{ $applicant->name }}">--}}
-                            效能調整中
+                            <img src="{{ url("/backend/" . $applicant->camp->id . "/avatar/" . $applicant->id) }}" width=80 alt="{{ $applicant->name }}">
                         </td>
                     @elseif($key == "name")
                         <td>
