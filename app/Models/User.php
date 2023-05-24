@@ -144,7 +144,7 @@ class User extends Authenticatable
         return $parsed;
     }
 
-    public function canAccessResource($resource, $action, $camp, $context = null) {
+    public function canAccessResource($resource, $action, $camp, $context = null, $target = null) {
         if (!$this->camp_roles) {
             $this->camp_roles = $this->permissionsRolesParser($camp);
         }
@@ -194,7 +194,7 @@ class User extends Authenticatable
                     }
 
                     if (str_contains($class, "Applicant")) {
-                        return $roles->firstWhere('group_id', $resource->group_id);
+                        return $roles->firstWhere('group_id', $target->group_id);
                     } elseif (str_contains($class, "Volunteer")) {
                         return $roles->firstWhere(
                             'group_id',
@@ -223,6 +223,9 @@ class User extends Authenticatable
                     }
                     if ($class == "App\Models\Applicant") {
                         return $this->caresLearners->where('group_id', '<>', null)->where("id", $resource->id)->first();
+                    }
+                    if ($class == "App\Models\ContactLog") {
+                        return $this->caresLearners->where('group_id', '<>', null)->where("id", $target->id)->first();
                     }
                     return false;
                 default:
