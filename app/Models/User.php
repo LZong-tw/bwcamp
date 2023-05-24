@@ -193,7 +193,7 @@ class User extends Authenticatable
                         return $roles->first();
                     }
 
-                    if (str_contains($class, "Applicant")) {
+                    if (str_contains($class, "Applicant") && str_contains($class, "Group")) {
                         return $roles->firstWhere('group_id', $target->group_id);
                     } elseif (str_contains($class, "Volunteer")) {
                         return $roles->firstWhere(
