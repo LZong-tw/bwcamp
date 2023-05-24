@@ -1104,7 +1104,7 @@ class BackendController extends Controller {
         $batches = Batch::where("camp_id", $this->campFullData->id)->get();
 
         if (!$user->canAccessResource(new \App\Models\Applicant, 'read', $this->campFullData, 'onlyCheckAvailability') && $user->id != 1) {
-            return "<h3>沒有權限：瀏覽任何學員</h3>";
+            return "<h3>沒有權限瀏覽任何學員，或您尚未被指派任何學員</h3>";
         }
         ini_set('max_execution_time', -1);
         ini_set("memory_limit", -1);
