@@ -55,4 +55,5 @@
     <x-general.search-component :columns="$columns_zhtw" :camp="$campFullData" :$groups :currentBatch="$current_batch" :$queryStr :$isShowLearners :$isShowVolunteers :queryRoles="$queryRoles ?? null" :$applicants :registeredVolunteers="$registeredVolunteers ?? collect([])" />
     <x-table.applicant-list :columns="$columns_zhtw" :$applicants :$isShowVolunteers :$isShowLearners :$isSetting :registeredVolunteers="$registeredVolunteers ?? collect([])" :$isSettingCarer />
 @endif
+    <a href="#top" class="text-danger font-weight-bold">↑TOP</a>
 @endsection
