@@ -1010,12 +1010,14 @@ class BackendController extends Controller {
             if (str_contains($camp->table, 'vcamp')) {
                 $theCamp = Vcamp::find($camp->id)->mainCamp;
                 $theStr = "義工";
+                $target = Volunteer::find($applicant->applicant_id);
             }
             else {
                 $theCamp = $camp;
                 $theStr = "學員";
+                $target = $applicant;
             }
-            if (!\App\Models\User::find(auth()->id())?->canAccessResource($applicant, 'read', $theCamp, target: $applicant)) {
+            if (!\App\Models\User::find(auth()->id())?->canAccessResource($applicant, 'read', $theCamp, target: $target)) {
                 return "<h1>您沒有權限查看此資料(" . $theStr . ")</h1>";
             }
 
