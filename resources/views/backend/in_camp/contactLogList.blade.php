@@ -42,7 +42,7 @@
                     @endif
                 </td>
                 <td>
-                    @if($currentUser->canAccessResource(new App\Models\ContactLog(), 'delete', $campFullData))
+                    @if($currentUser->canAccessResource(new App\Models\ContactLog(), 'delete', $campFullData, target: $applicant))
                         <form action="{{ route('removeContactLog', $camp_id) }}" method="post">
                             @csrf
                             <input type="hidden" name="contactlog_id" value="{{ $contactlog->id }}">
