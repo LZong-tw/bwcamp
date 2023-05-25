@@ -208,6 +208,10 @@ class User extends Authenticatable
                                 ->orWhere("position", "like", "%關服組%");
                         })->firstWhere('all_group', 1));
                     }
+
+                    if ($class == "App\Models\ContactLog") {
+                        return $roles->firstWhere('group_id', $target->group_id);
+                    }
                     return false;
                 // 3: person
                 case 3:
