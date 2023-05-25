@@ -14,18 +14,19 @@ class Admin
      * @return mixed
      */
     public function handle($request, Closure $next) {
-        $userPermission = auth()->user()->getPermission('all');
-        $isAdmin = 0;
-        foreach($userPermission as $p){
-            if($p->level == 1) {
-                $isAdmin = 1;
-            }
-        }
-        if($isAdmin) {
-            return $next($request);
-        }
-        else{
-            abort(401, 'Unauthorized.');
-        }
+        // $userPermission = auth()->user()->getPermission('all');
+        // $isAdmin = 0;
+        // foreach($userPermission as $p){
+        //     if($p->level == 1) {
+        //         $isAdmin = 1;
+        //     }
+        // }
+        // if($isAdmin) {
+        //     return $next($request);
+        // }
+        // else{
+        //     abort(401, 'Unauthorized.');
+        // }
+        return $next($request);
     }
 }
