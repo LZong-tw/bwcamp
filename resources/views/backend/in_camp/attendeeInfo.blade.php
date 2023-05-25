@@ -191,7 +191,7 @@
             @if($currentUser->canAccessResource(new App\Models\ContactLog(), 'read', $campFullData, target: $applicant))
                 <div class="col-md-8">
                     <span class="btn btn-info">關懷記錄</span><br>
-                    @if($currentUser->canAccessResource(new App\Models\ContactLog(), 'create', $campFullData))
+                    @if($currentUser->canAccessResource(new App\Models\ContactLog(), 'create', $campFullData, target: $applicant))
                         <form action="{{ route('addContactLog', $camp->id) }}" method="POST">
                             <a id="new"></a>
                             @csrf

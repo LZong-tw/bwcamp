@@ -10,7 +10,7 @@
     </style>
     <h4>學員關懷記錄</h4>
     <h5 class="d-inline-block">關懷記錄列表：{{ $applicant->name }}　</h5>
-    @if($currentUser->canAccessResource(new App\Models\ContactLog(), 'create', $campFullData))
+    @if($currentUser->canAccessResource(new App\Models\ContactLog(), 'create', $campFullData, target: $applicant))
         <a href="{{ route('showAddContactLogs', [$camp_id, $applicant->id]) }}" class="btn btn-success d-inline-block" style="margin-bottom: 10px">新增關懷記錄</a>
     @endif
     @if(\Session::has('message'))
@@ -26,8 +26,8 @@
             <th>記錄者</th>
             <th>記錄時間</th>
             <th>修改時間</th>
-            @if($currentUser->canAccessResource(new App\Models\ContactLog(), 'update', $campFullData)) <th scope="col" class="text-nowrap">修改</th> @endif
-            @if($currentUser->canAccessResource(new App\Models\ContactLog(), 'delete', $campFullData)) <th scope="col" class="text-nowrap">刪除</th> @endif
+            @if($currentUser->canAccessResource(new App\Models\ContactLog(), 'update', $campFullData, target: $applicant)) <th scope="col" class="text-nowrap">修改</th> @endif
+            @if($currentUser->canAccessResource(new App\Models\ContactLog(), 'delete', $campFullData, target: $applicant)) <th scope="col" class="text-nowrap">刪除</th> @endif
         </tr>
         @foreach($contactlogs as $contactlog)
             <tr>
@@ -37,7 +37,7 @@
                 <td>{{ $contactlog->created_at }}</td>
                 <td>{{ $contactlog->updated_at }}</td>
                 <td>
-                    @if($currentUser->canAccessResource(new App\Models\ContactLog(), 'update', $campFullData))
+                    @if($currentUser->canAccessResource(new App\Models\ContactLog(), 'update', $campFullData, target: $applicant))
                         <a href="{{ route('showModifyContactLog', [$camp_id, $contactlog->id]) }}" class="btn btn-primary">修改</a>
                     @endif
                 </td>
