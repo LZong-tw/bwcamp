@@ -29,26 +29,6 @@ class StatController extends BackendController
                         ),
                         'rows' => array()
                     );
-                    // [
-                    //     "cols" => [
-                    //         [
-                    //             "id" => "date",
-                    //             'label' => '日期',
-                    //             'type' => 'date'
-                    //         ],
-                    //         [
-                    //             'id'=>'people',
-                    //             'label'=>'人數',
-                    //             'type'=>'number'
-                    //         ],
-                    //         [
-                    //             'id'=>'annotation',
-                    //             'role'=>'annotation',
-                    //             'type'=>'number'
-                    //         ]
-                    //     ],
-                    //     "rows" => []
-                    // ]
         for($i = 0; $i < $rows; $i ++) {
             $record = $array[$i];
             $year = (int) substr($record['date'], 0, 4);
@@ -131,7 +111,7 @@ class StatController extends BackendController
         return view('backend.statistics.county', compact('GChartData',  'total'));
     }
 
-    public function birthyearStat(){
+    /*public function birthyearStat(){
         $applicants = Applicant::select(\DB::raw('CONCAT(birthyear, "(", YEAR(CURDATE()) - birthyear, "歲)") as birthyear, count(*) as total'))
         ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
@@ -157,6 +137,39 @@ class StatController extends BackendController
             )));
             $total = $total + $record['total'];
         }
+        $GChartData = json_encode($GChartData);
+
+        return view('backend.statistics.birthyear', compact('GChartData',  'total'));
+    }*/
+
+    public function birthyearStat(){
+        //0-9,10-19 ...
+        $applicants = Applicant::select(\DB::raw('CONCAT(FLOOR((YEAR(CURDATE()) - birthyear)/10)*10,"-",FLOOR((YEAR(CURDATE()) - birthyear)/10)*10+9) as agerange, count(*) as total'))
+        ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
+        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+        ->where('camps.id', $this->campFullData->id)
+        ->groupBy('agerange')->orderBy('agerange')->get();
+        $rows = count($applicants);
+        $array = $applicants->toArray();
+        $i = 0 ;
+        $total = 0 ;
+        $GChartData = array('cols'=> array(
+                        array('id'=>'agerange','label'=>'年齡範圍','type'=>'string'),
+                        array('id'=>'people','label'=>'人數','type'=>'number'),
+                        array('id'=>'annotation','role'=>'annotation','type'=>'number')
+                    ),
+                    'rows' => array());
+        for($i = 0; $i < $rows; $i ++) {
+            $record = $array[$i];
+            array_push($GChartData['rows'], array('c' => array(
+                array('v' => ($record['agerange'] == null) ? '其他' : $record['agerange']),
+                array('v' => intval($record['total'])),
+                array('v' => intval($record['total']))
+            )));
+            $total = $total + $record['total'];
+        }
+
         $GChartData = json_encode($GChartData);
 
         return view('backend.statistics.birthyear', compact('GChartData',  'total'));
