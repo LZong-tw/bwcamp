@@ -96,6 +96,11 @@ class CampDataService
                     'unit_subarea' => $request->unit_address
                 ]);
             }
+            elseif ($request->unit_subarea == "999") {
+                $request->merge([
+                    'unit_subarea' => $request->unit_address
+                ]);
+            }
             else {
                 $request->merge([
                     'unit_subarea' => \Str::substr($request->unit_address, 3)

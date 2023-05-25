@@ -198,15 +198,19 @@ class User extends Authenticatable
                     } elseif (str_contains($class, "Volunteer")) {
                         return $roles->firstWhere(
                             'group_id',
-                            $resource->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id
+                            $resource->user->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id
                         )
                         ||
-                        ($resource->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id &&
+                        ($resource->user->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id &&
                         $this->roles()->where("camp_id", $camp->id)->where(function ($query) {
                             $query->where("position", "like", "%關懷小組%")
                                 ->orWhere("position", "like", "%關懷服務組%")
                                 ->orWhere("position", "like", "%關服組%");
                         })->firstWhere('all_group', 1));
+                    }
+
+                    if ($class == "App\Models\ContactLog") {
+                        return $roles->firstWhere('group_id', $target->group_id);
                     }
                     return false;
                 // 3: person

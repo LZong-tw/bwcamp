@@ -9,6 +9,39 @@ class StatController extends BackendController
 {
     use EmailConfiguration;
 
+    public function ageRangeStat(){
+        //0-9,10-19 ...
+        $applicants = Applicant::select(\DB::raw('CONCAT(FLOOR((YEAR(CURDATE()) - birthyear)/10)*10,"-",FLOOR((YEAR(CURDATE()) - birthyear)/10)*10+9) as agerange, count(*) as total'))
+        ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
+        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+        ->where('camps.id', $this->campFullData->id)
+        ->groupBy('agerange')->orderBy('agerange')->get();
+        $rows = count($applicants);
+        $array = $applicants->toArray();
+        $i = 0 ;
+        $total = 0 ;
+        $GChartData = array('cols'=> array(
+                        array('id'=>'agerange','label'=>'年齡級距','type'=>'string'),
+                        array('id'=>'people','label'=>'人數','type'=>'number'),
+                        array('id'=>'annotation','role'=>'annotation','type'=>'number')
+                    ),
+                    'rows' => array());
+        for($i = 0; $i < $rows; $i ++) {
+            $record = $array[$i];
+            array_push($GChartData['rows'], array('c' => array(
+                array('v' => ($record['agerange'] == null) ? '其他' : $record['agerange']),
+                array('v' => intval($record['total'])),
+                array('v' => intval($record['total']))
+            )));
+            $total = $total + $record['total'];
+        }
+
+        $GChartData = json_encode($GChartData);
+
+        return view('backend.statistics.agerange', compact('GChartData',  'total'));
+    }
+
     public function appliedDateStat() {
         $applicants = Applicant::select(\DB::raw('DATE_FORMAT(applicants.created_at, "%Y-%m-%d") as date, count(*) as total'))
         ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
@@ -44,6 +77,71 @@ class StatController extends BackendController
         $GChartData = json_encode($GChartData);
         
         return view('backend.statistics.appliedDate', compact('GChartData',  'total'));
+    }
+
+    public function favoredEventStat(){
+        $applicants = Applicant::select(\DB::raw('ecamp.favored_event as event, count(*) as total'))
+        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+        ->join('ecamp', 'ecamp.applicant_id', '=', 'applicants.id')
+        ->where('camps.id', $this->campFullData->id)
+        ->groupBy('event')->get();        
+        $rows = count($applicants);
+        $array = $applicants->toArray();
+
+        $GChartData = array('cols'=> array(
+                        array('id'=>'way','label'=>'管道','type'=>'string'),
+                        array('id'=>'people','label'=>'人數','type'=>'number'),
+                        array('id'=>'annotation','role'=>'annotation','type'=>'number')
+                    ),
+                    'rows' => array());
+        //split            
+        $events_all = array();
+        $k = 0;
+        for($i = 0; $i < $rows; $i++) {
+            $record = $array[$i];
+            if ($record['event'] == null) continue;
+            $events_split = explode("||/",$record['event']);
+            $events_split_cnt = count($events_split);
+            for ($j = 0; $j < $events_split_cnt; $j++) {
+                $events_all[$k]['event'] = $events_split[$j];
+                $events_all[$k]['total'] = $record['total'];
+                $k++;
+            }
+        }
+       
+        //combined
+        sort($events_all);
+        $events_all_cnt = count($events_all);
+
+        $events_list = array();
+        $events_list[0] = $events_all[0];
+        $j = 0;
+        for($i = 1; $i < $events_all_cnt; $i++) {
+            $record = $events_all[$i];
+            if ($events_list[$j]['event'] == $record['event']) {   //if same, add total
+                $events_list[$j]['total'] += $record['total'];
+            } else {    //if diff, create item
+                $j++;
+                $events_list[$j] = $record;
+            }
+        }
+
+        $events_list_cnt = count($events_list);
+        $total = 0 ;
+        for($i = 0; $i < $events_list_cnt; $i ++) {
+            $record = $events_list[$i];
+            array_push($GChartData['rows'], array('c' => array(
+                array('v' => $record['event']),
+                array('v' => intval($record['total'])),
+                array('v' => intval($record['total']))
+            )));
+            $total = $total + $record['total'];
+        }
+
+        $GChartData = json_encode($GChartData);
+
+        return view('backend.statistics.favoredEvent', compact('GChartData','total','rows'));
     }
 
     public function genderStat() {
@@ -111,7 +209,7 @@ class StatController extends BackendController
         return view('backend.statistics.county', compact('GChartData',  'total'));
     }
 
-    /*public function birthyearStat(){
+    public function birthyearStat(){
         $applicants = Applicant::select(\DB::raw('CONCAT(birthyear, "(", YEAR(CURDATE()) - birthyear, "歲)") as birthyear, count(*) as total'))
         ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
@@ -137,39 +235,6 @@ class StatController extends BackendController
             )));
             $total = $total + $record['total'];
         }
-        $GChartData = json_encode($GChartData);
-
-        return view('backend.statistics.birthyear', compact('GChartData',  'total'));
-    }*/
-
-    public function birthyearStat(){
-        //0-9,10-19 ...
-        $applicants = Applicant::select(\DB::raw('CONCAT(FLOOR((YEAR(CURDATE()) - birthyear)/10)*10,"-",FLOOR((YEAR(CURDATE()) - birthyear)/10)*10+9) as agerange, count(*) as total'))
-        ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
-        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
-        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
-        ->where('camps.id', $this->campFullData->id)
-        ->groupBy('agerange')->orderBy('agerange')->get();
-        $rows = count($applicants);
-        $array = $applicants->toArray();
-        $i = 0 ;
-        $total = 0 ;
-        $GChartData = array('cols'=> array(
-                        array('id'=>'agerange','label'=>'年齡範圍','type'=>'string'),
-                        array('id'=>'people','label'=>'人數','type'=>'number'),
-                        array('id'=>'annotation','role'=>'annotation','type'=>'number')
-                    ),
-                    'rows' => array());
-        for($i = 0; $i < $rows; $i ++) {
-            $record = $array[$i];
-            array_push($GChartData['rows'], array('c' => array(
-                array('v' => ($record['agerange'] == null) ? '其他' : $record['agerange']),
-                array('v' => intval($record['total'])),
-                array('v' => intval($record['total']))
-            )));
-            $total = $total + $record['total'];
-        }
-
         $GChartData = json_encode($GChartData);
 
         return view('backend.statistics.birthyear', compact('GChartData',  'total'));
@@ -237,7 +302,7 @@ class StatController extends BackendController
         }
         $GChartData = json_encode($GChartData);
 
-        return view('backend.statistics.regionStat', compact('GChartData',  'total'));
+        return view('backend.statistics.region', compact('GChartData',  'total'));
     }
 
     public function schoolOrCourseStat(){
@@ -269,7 +334,7 @@ class StatController extends BackendController
         }
         $GChartData = json_encode($GChartData);
 
-        return view('backend.statistics.schoolOrCourseStat', compact('GChartData',  'total'));
+        return view('backend.statistics.schoolOrCourse', compact('GChartData',  'total'));
     }
 
     public function admissionStat(){
@@ -458,6 +523,9 @@ class StatController extends BackendController
                 $total = $total + $record['total'];
             }
             $GChartDataF = json_encode($GChartData);
+        } else {
+            $GChartDataM = json_encode($GChartData);
+            $GChartDataF = json_encode($GChartData);
         }
 
         return view('backend.statistics.education', compact('GChartDataAll', 'GChartDataM', 'GChartDataF', 'total'));
@@ -507,7 +575,6 @@ class StatController extends BackendController
 
         $rows = count($applicants);
         $array = $applicants->toArray();
-
         $i = 0 ;
         $total = 0 ;
         $GChartData = array('cols'=> array(
@@ -527,7 +594,7 @@ class StatController extends BackendController
         }
         $GChartData = json_encode($GChartData);
 
-        return view('backend.statistics.industryStat', compact('GChartData',  'total'));
+        return view('backend.statistics.industry', compact('GChartData',  'total'));
     }
 
     public function jobPropertyStat(){
@@ -562,6 +629,6 @@ class StatController extends BackendController
         }
         $GChartData = json_encode($GChartData);
 
-        return view('backend.statistics.jobPropertyStat', compact('GChartData',  'total'));
+        return view('backend.statistics.jobProperty', compact('GChartData',  'total'));
     }
 }
