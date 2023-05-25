@@ -1,6 +1,6 @@
 @extends('backend.master')
 @section('content')
-    <h2>{{ $campFullData->abbreviation }} 統計資料：年齡範圍</h2>
+    <h2>{{ $campFullData->abbreviation }} 統計資料：年次(歲)</h2>
     <!--Div that will hold the column chart-->
     <table class='columns'>
         <tr>
