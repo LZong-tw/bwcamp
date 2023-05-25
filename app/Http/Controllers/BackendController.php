@@ -1018,7 +1018,7 @@ class BackendController extends Controller {
                 $theStr = "學員";
                 $target = $applicant;
             }
-            if (!\App\Models\User::find(auth()->id())?->canAccessResource($applicant, 'read', $theCamp, target: $target)) {
+            if (!\App\Models\User::find(auth()->id())?->canAccessResource($target, 'read', $theCamp, target: $target)) {
                 return "<h1>您沒有權限查看此資料(" . $theStr . ")</h1>";
             }
 
