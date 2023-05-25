@@ -138,6 +138,7 @@ class Applicant extends Model {
     }
 
     public function getBirthdateAttribute() {
+        $this->birthyear = (string)$this->birthyear;
         return match ($this->birthyear && $this->birthmonth && $this->birthday) {
             true => Carbon::parse("{$this->birthyear}-{$this->birthmonth}-{$this->birthday}")->format('Y-m-d'),
             false => match ($this->birthyear && $this->birthmonth) {
