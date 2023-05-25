@@ -467,6 +467,19 @@ return [
             ],
         ],
 
+        'avcamp' => [
+            "name" => [
+                "name" => "姓名",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "gender" => [
+                "name" => "性別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+        ],
+
         'ceocamp' => [
             "batch" => [
                 "name" => "梯次",
@@ -990,6 +1003,18 @@ return [
                 "name" => "關懷記錄",
                 "sort" => 0,
                 "for_query" => 0,
+            ],
+        ],
+        'yvcamp' => [
+            "name" => [
+                "name" => "姓名",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "gender" => [
+                "name" => "性別",
+                "sort" => 1,
+                "for_query" => 1,
             ],
         ],
     ]
