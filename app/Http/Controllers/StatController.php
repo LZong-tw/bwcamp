@@ -22,7 +22,7 @@ class StatController extends BackendController
         $i = 0 ;
         $total = 0 ;
         $GChartData = array('cols'=> array(
-                        array('id'=>'agerange','label'=>'年齡範圍','type'=>'string'),
+                        array('id'=>'agerange','label'=>'年齡級距','type'=>'string'),
                         array('id'=>'people','label'=>'人數','type'=>'number'),
                         array('id'=>'annotation','role'=>'annotation','type'=>'number')
                     ),
