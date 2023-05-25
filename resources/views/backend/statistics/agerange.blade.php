@@ -23,13 +23,13 @@
             var data = new google.visualization.DataTable({!! $GChartData !!});
     
             // Set chart options
-            var piechart_options = {'title':'年次(歲)統計，共 {{ $total }} 人',
+            var piechart_options = {'title':'年齡級距統計，共 {{ $total }} 人',
                             'hAxis': {
                             'title':'報名人數',
                             'titleTextStyle': {'bold':true,'ilatic':false},
                             },
                             'vAxis': {
-                            'title':'年次(歲)',
+                            'title':'年齡級距(歲)',
                             'titleTextStyle': {'bold':true,'ilatic':false},
                             },
                             'width':450,

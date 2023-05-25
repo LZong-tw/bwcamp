@@ -187,17 +187,20 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
     Route::post("/contactLog/remove", [BackendController::class, "removeContactLog"])->name("removeContactLog");
 
     Route::get("/registration/groupAttendList", "BackendController@showGroupAttendList")->name("showGroupAttendList");
+    //----- Statistics -----
+    Route::get("/statistics/ageRange", [StatController::class, "ageRangeStat"])->name("ageRangeStat");
     Route::get("/statistics/appliedDate", [StatController::class, "appliedDateStat"])->name("appliedDateStat");
     Route::get("/statistics/gender", [StatController::class, "genderStat"])->name("genderStat");
     Route::get("/statistics/county", [StatController::class, "countyStat"])->name("countyStat");
     Route::get("/statistics/birthyear", [StatController::class, "birthyearStat"])->name("birthyearStat");
+    Route::get("/statistics/favoredEvent", [StatController::class, "favoredEventStat"])->name("favoredEventStat");
     Route::get("/statistics/way", [StatController::class, "wayStat"])->name("wayStat");
     Route::get("/statistics/batches", [StatController::class, "batchesStat"])->name("batchesStat");
     Route::get("/statistics/schoolOrCourse", [StatController::class, "schoolOrCourseStat"])->name("schoolOrCourseStat");
-    Route::get("/statistics/regionStat", [StatController::class, "regionStat"])->name("regionStat");
-    Route::get("/statistics/educationStat", [StatController::class, "educationStat"])->name("educationStat");
-    Route::get("/statistics/industryStat", [StatController::class, "industryStat"])->name("industryStat");
-    Route::get("/statistics/jobPropertyStat", [StatController::class, "jobPropertyStat"])->name("jobPropertyStat");
+    Route::get("/statistics/region", [StatController::class, "regionStat"])->name("regionStat");
+    Route::get("/statistics/education", [StatController::class, "educationStat"])->name("educationStat");
+    Route::get("/statistics/industry", [StatController::class, "industryStat"])->name("industryStat");
+    Route::get("/statistics/jobProperty", [StatController::class, "jobPropertyStat"])->name("jobPropertyStat");
     Route::get("/statistics/gsTest", [StatController::class, "gsTest"])->name("gsTest");
     Route::get("/statistics/admission", [StatController::class, "admissionStat"])->name("admissionStat");
     Route::get("/statistics/checkin", [StatController::class, "checkinStat"])->name("checkinStat");
