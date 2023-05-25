@@ -242,7 +242,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputAddress' class='col-md-2 control-label text-md-right'>現居住地點</label>
         <div class='col-md-2'>
-            <select name="county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value); if(this.options[this.options.selectedIndex].value == '其他'){ handleHiddenCustomField('show') } else { handleHiddenCustomField('hide') }" required>
+            <select name="county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value); if(this.options[this.options.selectedIndex].value == '其他'){ handleHiddenCustomField('show') } else { handleHiddenCustomField('hide') } if(this.options[this.options.selectedIndex].value == '海外'){ handleOverseas('set') } else { handleOverseas('unset') }" required>
                 <option value=''>- 請先選縣市 -</option>
                 <option value='臺北市'>臺北市</option>
                 <option value='新北市'>新北市</option>
@@ -267,7 +267,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <option value='金門縣'>金門縣</option>
                 <option value='連江縣'>連江縣</option>
                 <option value='南海諸島'>南海諸島</option>
-                <option value='其他'>其他</option>
+                <option value='海外'>海外</option>
             </select>
         </div>
         <div class='col-md-2'>
@@ -353,7 +353,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputUnitCounty' class='col-md-2 control-label text-md-right'>服務地點</label>
         <div class='col-md-2'>
-            <select name="unit_county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value, 'unit'); if(this.options[this.options.selectedIndex].value == '其他'){ handleHiddenCustomField('show', 'unit') } else { handleHiddenCustomField('hide', 'unit') }" required>
+            <select name="unit_county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value, 'unit'); if(this.options[this.options.selectedIndex].value == '其他'){ handleHiddenCustomField('show', 'unit') } else { handleHiddenCustomField('hide', 'unit') } if(this.options[this.options.selectedIndex].value == '海外'){ handleOverseas('set', 'unit') } else { handleOverseas('unset', 'unit') }" required>
                 <option value=''>- 請選擇縣市 -</option>
                 <option value='臺北市'>臺北市</option>
                 <option value='新北市'>新北市</option>
@@ -378,7 +378,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <option value='金門縣'>金門縣</option>
                 <option value='連江縣'>連江縣</option>
                 <option value='南海諸島'>南海諸島</option>
-                <option value='其他'>其他</option>
+                <option value='海外'>海外</option>
             </select>
         </div>
         <div class='col-md-2'>
@@ -1153,6 +1153,10 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                             selects[i].value = applicant_data[selects[i].name];
                             if (selects[i].name == 'unit_county'){
                                 Address(applicant_data[selects[i].name], 'unit');
+                                if (applicant_data[selects[i].name].includes('海外')) {
+                                    document.getElementsByName('unit_address')[0].value = applicant_data["unit_county"] + applicant_data["unit_subarea"];
+                                    continue;
+                                }
                                 var selectElement = document.getElementById("unit_subarea");
 
                                 // Get the options of the select element
@@ -1183,6 +1187,33 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                                 }
                                 continue;
                             }
+
+                            if(applicant_data["address"].includes("海外")){
+                                for (var j = 0; j < document.getElementsByName('county')[0].options.length; j++){
+                                    if (document.getElementsByName('county')[0].options[j].value == '海外'){
+                                        document.getElementsByName('county')[0].options[j].selected = true;
+                                        Address('海外');
+                                        handleOverseas('set');
+                                    }
+                                }
+                                continue;
+                            }
+
+                            if(applicant_data["address"].includes("新竹市")){
+                                for (var j = 0; j < document.getElementsByName('county')[0].options.length; j++){
+                                    if (document.getElementsByName('county')[0].options[j].value == '新竹市'){
+                                        document.getElementsByName('county')[0].options[j].selected = true;
+                                        Address('新竹市');
+                                    }
+                                }
+                                for (var j = 0; j < document.getElementsByName('subarea')[0].options.length; j++){
+                                    if (document.getElementsByName('subarea')[0].options[j].text == '新竹市'){
+                                        document.getElementsByName('subarea')[0].options[j].selected = true;
+                                    }
+                                }
+                                continue;
+                            }
+
                             var characters = applicant_data["address"].split('');
 
                             // Create an empty array to store the two elements.
@@ -1193,6 +1224,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 
                             // Add the last three characters to the second element.
                             elements.push(characters.slice(3).join(''));
+
                             selects[i].value = elements[0];
                             Address(elements[0]);
                             var selectElement = document.getElementById("subarea");
@@ -1256,8 +1288,15 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         else if(inputs[i].type == "text"){
                             inputs[i].value = applicant_data[inputs[i].name];
                         }
-                        else if(inputs[i].type == "hidden" && (inputs[i].name == 'address' || inputs[i].name == 'unit_address')){
-                            inputs[i].value = applicant_data[inputs[i].name];
+                        else if(inputs[i].type == "hidden" && inputs[i].name == 'address'){
+                            if (applicant_data["address"].includes("新竹市")) {
+                                Address("新竹市");
+                                document.getElementById('subarea').options[1].selected = true;
+                            }
+                            inputs[i].value = applicant_data[inputs[i].name] + applicant_data["subarea"];
+                        }
+                        else if(inputs[i].type == "hidden" && (inputs[i].name == 'unit_address' && !applicant_data["unit_county"].includes("海外"))){
+                            inputs[i].value = applicant_data["unit_county"] + applicant_data["unit_subarea"];
                         }
                         if(inputs[i].name == 'emailConfirm'){
                             inputs[i].value = applicant_data['email'];

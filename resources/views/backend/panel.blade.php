@@ -63,9 +63,15 @@
                         <li>
                             <a href="{{ route("countyStat", $campFullData->id) }}">區域縣市</a>
                         </li>
+                        @if($campFullData->table == "ycamp")
                         <li>
-                            <a href="{{ route("birthyearStat", $campFullData->id) }}">年齡範圍</a>
+                            <a href="{{ route("birthyearStat", $campFullData->id) }}">年次(歲)</a>
                         </li>
+                        @else
+                        <li>
+                            <a href="{{ route("ageRangeStat", $campFullData->id) }}">年齡級距</a>
+                        </li>
+                        @endif
                         @if($campFullData->table == "ycamp")
                             <li>
                                 <a href="{{ route("wayStat", $campFullData->id) }}">管道統計</a>
@@ -106,6 +112,11 @@
                         @if($campFullData->table == "acamp" ||$campFullData->table == "ceocamp" || $campFullData->table == "ecamp")
                             <li>
                                 <a href="{{ route("jobPropertyStat", $campFullData->id) }}">工作屬性</a>
+                            </li>
+                        @endif
+                        @if($campFullData->table == "ecamp")
+                            <li>
+                                <a href="{{ route("favoredEventStat", $campFullData->id) }}">有興趣活動</a>
                             </li>
                         @endif
                         @if($campFullData->table == "tcamp")
