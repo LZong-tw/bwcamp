@@ -154,7 +154,7 @@ class Applicant extends Model {
         if (is_string($this->birthdate)) {
             return Carbon::parse($this->birthdate)->diff(now())->format('%y');
         }
-        return $this->birthdate->diff(now())->format('%y');
+        return $this->birthdate?->diff(now())->format('%y');
     }
 
     public function getGenderZhTwAttribute() {
