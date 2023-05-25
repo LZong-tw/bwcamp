@@ -1145,7 +1145,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     let complementPivot = 0;
                     let complementData = applicant_data["blisswisdom_type_complement"] ? applicant_data["blisswisdom_type_complement"].split("||/") : null;
                     // console.log(inputs);
-                    console.log(applicant_data);
                     for (var i = 0; i < selects.length; i++){
                         if(typeof applicant_data[selects[i].name] !== "undefined"){
                             if (selects[i].name == 'unit_subarea'){
@@ -1155,7 +1154,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                             if (selects[i].name == 'unit_county'){
                                 Address(applicant_data[selects[i].name], 'unit');
                                 if (applicant_data[selects[i].name].includes('海外')) {
-                                    document.getElementsByName('unit_address')[0].value = applicant_data["unit_county"];
+                                    document.getElementsByName('unit_address')[0].value = applicant_data["unit_county"] + applicant_data["unit_subarea"];
                                     continue;
                                 }
                                 var selectElement = document.getElementById("unit_subarea");
@@ -1195,6 +1194,21 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                                         document.getElementsByName('county')[0].options[j].selected = true;
                                         Address('海外');
                                         handleOverseas('set');
+                                    }
+                                }
+                                continue;
+                            }
+
+                            if(applicant_data["address"].includes("新竹市")){
+                                for (var j = 0; j < document.getElementsByName('county')[0].options.length; j++){
+                                    if (document.getElementsByName('county')[0].options[j].value == '新竹市'){
+                                        document.getElementsByName('county')[0].options[j].selected = true;
+                                        Address('新竹市');
+                                    }
+                                }
+                                for (var j = 0; j < document.getElementsByName('subarea')[0].options.length; j++){
+                                    if (document.getElementsByName('subarea')[0].options[j].text == '新竹市'){
+                                        document.getElementsByName('subarea')[0].options[j].selected = true;
                                     }
                                 }
                                 continue;
@@ -1275,10 +1289,14 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                             inputs[i].value = applicant_data[inputs[i].name];
                         }
                         else if(inputs[i].type == "hidden" && inputs[i].name == 'address'){
-                            inputs[i].value = applicant_data[inputs[i].name];
+                            if (applicant_data["address"].includes("新竹市")) {
+                                Address("新竹市");
+                                document.getElementById('subarea').options[1].selected = true;
+                            }
+                            inputs[i].value = applicant_data[inputs[i].name] + applicant_data["subarea"];
                         }
                         else if(inputs[i].type == "hidden" && (inputs[i].name == 'unit_address' && !applicant_data["unit_county"].includes("海外"))){
-                            inputs[i].value = applicant_data["unit_county"];
+                            inputs[i].value = applicant_data["unit_county"] + applicant_data["unit_subarea"];
                         }
                         if(inputs[i].name == 'emailConfirm'){
                             inputs[i].value = applicant_data['email'];
