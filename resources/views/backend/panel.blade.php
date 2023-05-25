@@ -113,6 +113,8 @@
                             <li>
                                 <a href="{{ route("jobPropertyStat", $campFullData->id) }}">工作屬性</a>
                             </li>
+                        @endif
+                        @if($campFullData->table == "ecamp")
                             <li>
                                 <a href="{{ route("favoredEventStat", $campFullData->id) }}">有興趣活動</a>
                             </li>
