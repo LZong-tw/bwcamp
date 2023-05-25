@@ -267,7 +267,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <option value='金門縣'>金門縣</option>
                 <option value='連江縣'>連江縣</option>
                 <option value='南海諸島'>南海諸島</option>
-                <option value='其他'>其他</option>
+                <option value='海外'>海外</option>
             </select>
         </div>
         <div class='col-md-2'>
@@ -378,7 +378,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <option value='金門縣'>金門縣</option>
                 <option value='連江縣'>連江縣</option>
                 <option value='南海諸島'>南海諸島</option>
-                <option value='其他'>其他</option>
+                <option value='海外'>海外</option>
             </select>
         </div>
         <div class='col-md-2'>
