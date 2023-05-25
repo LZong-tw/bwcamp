@@ -15,6 +15,7 @@ use App\Services\ApplicantService;
 use App\Services\BackendService;
 use App\Models\Camp;
 use App\Models\Applicant;
+use App\Models\Volunteer;
 use App\Models\Batch;
 use App\Models\CheckIn;
 use App\Models\ContactLog;
