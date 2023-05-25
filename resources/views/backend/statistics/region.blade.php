@@ -42,9 +42,9 @@
             var barchart_options = piechart_options;
     
             // Instantiate and draw our chart, passing in some options.
-            var piechart = new google.visualization.PieChart(document.getElementById('piechart_div'));
-            piechart.draw(data, piechart_options);
-    
+            /*var piechart = new google.visualization.PieChart(document.getElementById('piechart_div'));
+            piechart.draw(data, piechart_options);*/
+                                
             // Instantiate and draw our chart, passing in some options.
             var barchart = new google.visualization.BarChart(document.getElementById('barchart_div'));
             barchart.draw(data, barchart_options);
