@@ -152,11 +152,6 @@ class User extends Authenticatable
             return false;
         }
         $class = get_class($resource);
-        if ($context == "volunteerList") {
-            if(str_contains($class, "Applicant") || str_contains($class, "User")) {
-                $class = "App\Models\Volunteer";
-            }
-        }
 
         // 全域權限
         $permissions = $this->permissions;
@@ -207,6 +202,18 @@ class User extends Authenticatable
                                 ->orWhere("position", "like", "%關懷服務組%")
                                 ->orWhere("position", "like", "%關服組%");
                         })->firstWhere('all_group', 1));
+                    } elseif (str_contains($class, "User")) {
+                        return $roles->firstWhere(
+                                'group_id',
+                                $target->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id
+                            )
+                            ||
+                            ($target->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id &&
+                                $this->roles()->where("camp_id", $camp->id)->where(function ($query) {
+                                    $query->where("position", "like", "%關懷小組%")
+                                        ->orWhere("position", "like", "%關懷服務組%")
+                                        ->orWhere("position", "like", "%關服組%");
+                                })->firstWhere('all_group', 1));
                     }
 
                     if ($class == "App\Models\ContactLog") {
