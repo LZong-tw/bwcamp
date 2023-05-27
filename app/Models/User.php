@@ -170,7 +170,7 @@ class User extends Authenticatable
                     return true;
                 // 1: volunteer_large_group
                 case 1:
-                    if ($class == "App\Models\Volunteer" && $resource->roles) {
+                    if ($class == "App\Models\Volunteer" && $resource->user?->roles) {
                         return $resource->roles->whereIn("section", $this->roles()->where('camp_id', $camp->id)->pluck("section"))->count();
                     }
                     if ($class == "App\Models\Applicant" && $resource->user?->roles) {
