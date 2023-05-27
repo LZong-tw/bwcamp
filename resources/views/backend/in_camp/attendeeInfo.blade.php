@@ -227,7 +227,7 @@
             @foreach($applicant->dynamic_stats as $stat)
                 <br>
                 <div class="row mt-3">
-                    <a href="{{ $stat->google_sheet_url }}" target="_blank" class="btn btn-primary">電訪調查表連結</a>
+                    <a href="{{ $stat->google_sheet_url }}" target="_blank" class="btn btn-primary mb-3">電訪調查表連結</a>
                     <br>
                     <iframe src="{{ $stat->google_sheet_url }}">Your browser isn't compatible</iframe>
                 </div>
