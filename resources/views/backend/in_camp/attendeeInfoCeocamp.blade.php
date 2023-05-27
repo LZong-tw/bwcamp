@@ -222,6 +222,15 @@
             @endif
         </div>
     </div>
+    @if ($applicant->dynamic_stats)
+        <div class="container">
+            @foreach($applicant->dynamic_stats as $stat)
+                <div class="row">
+                    <iframe src="{{ $stat->google_sheet_url }}">Your browser isn't compatible</iframe>
+                </div>
+            @endforeach
+        </div>
+    @endif
 @endif
 <script>
         function enableEditRemark(){
