@@ -8,6 +8,12 @@
     .card-link:hover{
         color: #33B2FF!important;
     }
+    iframe {
+        overflow: scroll;
+        width: 100%;
+        height: 80%;
+        border: 0;
+    }
 </style>
 @if($errors->any())
     @foreach ($errors->all() as $message)
@@ -219,8 +225,9 @@
     @if ($applicant->dynamic_stats)
         <div class="container">
             @foreach($applicant->dynamic_stats as $stat)
+                <br>
                 <div class="row">
-                    <iframe src="{{ $stat->google_sheet_url }}" width="100%">Your browser isn't compatible</iframe>
+                    <iframe src="{{ $stat->google_sheet_url }}">Your browser isn't compatible</iframe>
                 </div>
             @endforeach
         </div>
