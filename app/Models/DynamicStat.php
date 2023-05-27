@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class DynamicStat extends Model
 {
     protected $fillable = [
-        'google_sheet_url',
+        'applicant_id', 'google_sheet_url',
     ];
 }
