@@ -226,7 +226,7 @@
         <div class="container">
             @foreach($applicant->dynamic_stats as $stat)
                 <div class="row">
-                    <iframe src="{{ $stat->google_sheet_url }}">Your browser isn't compatible</iframe>
+                    <iframe src="{{ $stat->google_sheet_url }}" width="100%">Your browser isn't compatible</iframe>
                 </div>
             @endforeach
         </div>
