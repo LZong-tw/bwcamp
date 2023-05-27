@@ -137,6 +137,11 @@ class Applicant extends Model {
         return $this->belongsToMany(\App\User::class, 'carer_applicant_xrefs', 'applicant_id', 'user_id');
     }
 
+    public function dynamic_stats()
+    {
+        return $this->hasMany(DynamicStat::class);
+    }
+
     public function getBirthdateAttribute() {
         return match ($this->birthyear && $this->birthmonth && $this->birthday) {
             true => Carbon::parse("{$this->birthyear}-{$this->birthmonth}-{$this->birthday}")->format('Y-m-d'),
