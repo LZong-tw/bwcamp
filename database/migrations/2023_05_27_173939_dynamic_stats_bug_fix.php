@@ -8,7 +8,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('dynamic_stats', function (Blueprint $table) {
-            $table->integer('applicant_id')->change()->after('id');
+            $table->integer('applicant_id')->after('id');
         });
     }
 };
