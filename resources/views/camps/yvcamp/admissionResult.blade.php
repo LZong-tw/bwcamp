@@ -1,4 +1,4 @@
-@extends('camps.ycamp.layout')
+@extends('camps.yvcamp.layout')
 @section('content')
     @if(Session::has('error'))
         <div class="alert alert-danger" role="alert">
