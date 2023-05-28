@@ -18,6 +18,13 @@
             {{ \Session::get('message') }}
         </div>
     @endif
+    @if($errors->any())
+        @foreach ($errors->all() as $message)
+            <div class='alert alert-danger' role='alert'>
+                {{ $message }}
+            </div>
+        @endforeach
+    @endif
 
     <table class="table table-bordered">
         <tr>

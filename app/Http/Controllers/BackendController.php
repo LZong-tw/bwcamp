@@ -1929,6 +1929,9 @@ class BackendController extends Controller {
             //dd($formData);
             $contactlog_id = $formData['contactlog_id'];
             $contactlog = ContactLog::find($contactlog_id);
+            if (!$contactlog) {
+                return back()->withErrors(['找不到關懷記錄。']);
+            }
             $contactlog->update($formData);
             \Session::flash('message', "關懷記錄修改成功。");
             return redirect()->route("showContactLogs", [$camp_id, $applicant->id]);
@@ -1947,6 +1950,9 @@ class BackendController extends Controller {
         $formData = $request->toArray();
         $contactlog_id = $formData['contactlog_id'];
         $contactlog = ContactLog::find($contactlog_id);
+        if (!$contactlog) {
+            return back()->withErrors(['找不到關懷記錄。']);
+        }
         $applicant_id = $contactlog->applicant_id;
         $contactlog->update($formData);
         \Session::flash('message', "關懷記錄修改成功。");
