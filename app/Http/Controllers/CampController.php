@@ -280,7 +280,6 @@ class CampController extends Controller
      *
      */
     public function campViewRegistrationData(Request $request) {
-        // dd($request);
         $applicant = null;
         $isModify = false;
         $campTable = $this->camp_data->table;

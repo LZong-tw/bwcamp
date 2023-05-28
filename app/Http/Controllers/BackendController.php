@@ -1062,10 +1062,14 @@ class BackendController extends Controller {
         }
         if(str_contains($camp->table, "vcamp")) {
             return view('backend.in_camp.volunteerInfo', compact('camp','batch','applicant','contactlog'));
+        } elseif($camp->table == "acamp") {
+            return view('backend.in_camp.attendeeInfoAcamp', compact('camp','batch','applicant','contactlog'));
         } elseif($camp->table == "ceocamp") {
             return view('backend.in_camp.attendeeInfoCeocamp', compact('camp','batch','applicant','contactlog'));
         } elseif($camp->table == "ecamp") {
             return view('backend.in_camp.attendeeInfoEcamp', compact('camp','batch','applicant','contactlog'));
+        } elseif($camp->table == "ycamp") {
+            return view('backend.in_camp.attendeeInfoYcamp', compact('camp','batch','applicant','contactlog'));
         } else {
             return view('backend.in_camp.attendeeInfo', compact('camp','batch','applicant','contactlog'));
         }
