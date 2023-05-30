@@ -1100,7 +1100,7 @@ class BackendController extends Controller {
             $request->session()->flash('message', '已刪除該關懷員');
         }
         else {
-            return redirect()->route("showAttendeeInfoGET", ["camp_id" => $request->camp_id, "snORadmittedSN" => $request->applicant_id])->withErrors(['發生錯誤'])
+            return redirect()->route("showAttendeeInfoGET", ["camp_id" => $request->camp_id, "snORadmittedSN" => $request->applicant_id])->withErrors(['發生錯誤']);
         }
         return redirect()->route("showAttendeeInfoGET", ["camp_id" => $request->camp_id, "snORadmittedSN" => $request->applicant_id]);
     }
