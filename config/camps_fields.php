@@ -190,6 +190,7 @@ return [
         "birthyear" => "出生年",
         "birthmonth" => "出生月",
         "birthday" => "出生日",
+        "carers" => "關懷員",
         "introducer_name" => "推薦人",
         "introducer_participated" => "推薦人廣論研討班別",
         "introducer_phone" => "推薦人手機號碼",
