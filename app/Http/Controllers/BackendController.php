@@ -581,6 +581,16 @@ class BackendController extends Controller {
                             }
                             continue;
                         }
+                        if ($v == "關懷員") {
+                            $str = $applicant->carers->flatten()->pluck('name')->implode('、');
+                            if(!$str || $str == ""){
+                                array_push($rows, '="無"');
+                            }
+                            else{
+                                array_push($rows, '="' . $str . '"');
+                            }
+                            continue;
+                        }
                         // 使用正規表示式抓出日期欄
                         if(preg_match('/\d\d\d\d-\d\d-\d\d/', $key)){
                             if(isset($checkInData)){
