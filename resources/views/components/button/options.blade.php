@@ -1,7 +1,9 @@
 <div>
     <!-- Always remember that you are absolutely unique. Just like everyone else. - Margaret Mead -->
     <p align="right">
-        <a href="{{ route("showLearners", ($isShowVolunteers ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?download=1" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">匯出資料</a>
+        @if(!str_contains($campFullData->table, 'ceo'))
+            <a href="{{ route("showLearners", ($isShowVolunteers ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?download=1" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">匯出資料</a>
+        @endif
         @if($isShowLearners)            &nbsp;&nbsp;
             @if ($currentUser->isAbleTo('\App\Models\Applicant.create'))
                 <a href="{{ route("showRegistration", $campFullData->id) }}" rel="noopener noreferrer" class="btn btn-danger mb-3" target="_blank">新增學員</a>    &nbsp;&nbsp;
