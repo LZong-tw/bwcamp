@@ -41,7 +41,7 @@
             <li>請配合政府最新防疫規範及大會指定防疫措施辦理。</li>
         </ol>
         <li>營隊活動，請務必參加。</li>
-        <table width="100%" style="table-layout:fixed; border: 1;">
+        <table width="100%" style="table-layout:fixed; border: 1px solid black; border-collapse: collapse;">
             <tr>
                 <td>活動</td>
                 <td>日期</td>
