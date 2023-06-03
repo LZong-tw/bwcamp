@@ -94,14 +94,12 @@ class CheckInController extends Controller {
                                     ->where(function($query) use ($request, $group, $number) {
                                         $query->where('id', $request->query_str);
                                         if ($group) {
-                                            $query->where(function ($query) use ($group) {
-                                                $query->where('group_id', $group?->id);
-                                            });
+                                            $query->orWhere('group_id', $group?->id);
                                         }
                                         if ($number) {
-                                            $query->where(function ($query) use ($group, $number) {
+                                            $query->orWhere(function ($query) use ($group, $number) {
                                                 $query->where('group_id', $group?->id);
-                                                $query->orWhere('number_id', $number?->id);
+                                                $query->where('number_id', $number?->id);
                                             });
                                         }
                                         $query->orWhere('name', 'like', '%' . $request->query_str . '%')
