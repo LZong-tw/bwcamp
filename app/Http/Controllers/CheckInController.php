@@ -91,6 +91,7 @@ class CheckInController extends Controller {
                                             $query->where('is_attend', 1);
                                         }
                                     })
+                                    ->whereNotNull('groud_id')
                                     ->where(function($query) use ($request, $group, $number) {
                                         $query->where('id', $request->query_str);
                                         if ($group) {
