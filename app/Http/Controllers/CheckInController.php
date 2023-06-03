@@ -63,12 +63,12 @@ class CheckInController extends Controller {
     public function query(Request $request) {
         $group = null;
         $number = null;
-        if(\Str::length($request->query_str) == 5){
+        if (preg_match("/\p{Han}+/u", $request->query_str) && \Str::length($request->query_str) == 3) {
+            $group = substr($request->query_str, 0, 9);
+        }
+        elseif(\Str::length($request->query_str) == 5){
             $group = substr($request->query_str, 0, 3);
             $number = substr($request->query_str, 3, 2);
-        }
-        if(\Str::length($request->query_str) == 3){
-            $group = substr($request->query_str, 0, 3);
         }
         $constraint = function($query){ $query->where('camps.id', $this->camp->id); };
         if ($group) {
