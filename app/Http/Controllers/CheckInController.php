@@ -149,7 +149,7 @@ class CheckInController extends Controller {
                     'msg' => '<h4 class="text-danger">找不到' . $dataStr[$pivot][0] . '，請檢查後重試</h4>'
                 ]);
             }
-            $str = $resultStr[$pivot][0] . '：' . $applicant->batch->name . '<br>' . $dataStr[$pivot][2] . '：' . $applicant->group . $applicant->number . '<br>' . $dataStr[$pivot][3] . '：' . $applicant->name;
+            $str = $resultStr[$pivot][0] . '：' . $applicant->batch->name . '<br>' . $dataStr[$pivot][2] . '：' . $applicant->group?->alias . $applicant->number?->number . '<br>' . $dataStr[$pivot][3] . '：' . $applicant->name;
             if($applicant->deposit - $applicant->fee < 0){
                 return response()->json([
                     'msg' => $str . '<h4 class="text-danger">未繳費，無法報到</h4>'
