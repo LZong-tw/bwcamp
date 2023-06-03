@@ -19,7 +19,7 @@
                         <a href="{{ route("backendIndex") }}" class="btn btn-success">後台首頁</a>
                     @endif
                     @if(auth()->user()->getPermission()->level <= 6 || \App\Models\OrgUser::where('user_id', auth()->user()->id)->count() > 0)
-                        <a href="/checkin?t={{ time() }}" target="_blank" class="btn btn-primary">報到系統</a>
+                        <a href="{{ route("selectCamp") }}" target="_blank" class="btn btn-primary">報到系統</a>
                     @endif
                 </div>
             </div>
