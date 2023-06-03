@@ -137,10 +137,10 @@ class BackendController extends Controller {
     }
 
     public function admission(Request $request) {
-        if (!$this->isVcamp && !$this->user->canAccessResource('\App\Models\Applicant', 'read', $this->campFullData) && $this->user->id != 1) {
+        if (!$this->isVcamp && !$this->user->canAccessResource(new \App\Models\Applicant, 'read', $this->campFullData) && $this->user->id != 1) {
             return "<h3>沒有權限：瀏覽任何學員</h3>";
         }
-        if ($this->isVcamp && !$this->user->canAccessResource('\App\Models\Volunteer', 'read', $this->campFullData) && $this->user->id != 1) {
+        if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer, 'read', $this->campFullData) && $this->user->id != 1) {
             return "<h3>沒有權限：瀏覽任何義工</h3>";
         }
         if ($request->isMethod('POST')) {
@@ -206,10 +206,10 @@ class BackendController extends Controller {
     }
 
     public function batchAdmission(Request $request) {
-        if (!$this->isVcamp && !$this->user->canAccessResource('\App\Models\Applicant', 'read', $this->campFullData) && $this->user->id != 1) {
+        if (!$this->isVcamp && !$this->user->canAccessResource(new \App\Models\Applicant, 'read', $this->campFullData) && $this->user->id != 1) {
             return "<h3>沒有權限：瀏覽任何學員</h3>";
         }
-        if ($this->isVcamp && !$this->user->canAccessResource('\App\Models\Volunteer', 'read', $this->campFullData) && $this->user->id != 1) {
+        if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer, 'read', $this->campFullData) && $this->user->id != 1) {
             return "<h3>沒有權限：瀏覽任何義工</h3>";
         }
         if ($request->isMethod('POST')) {
@@ -267,10 +267,10 @@ class BackendController extends Controller {
     }
 
     public function showBatchCandidate(Request $request){
-        if (!$this->isVcamp && !$this->user->canAccessResource('\App\Models\Applicant', 'read', $this->campFullData) && $this->user->id != 1) {
+        if (!$this->isVcamp && !$this->user->canAccessResource(new \App\Models\Applicant, 'read', $this->campFullData) && $this->user->id != 1) {
             return "<h3>沒有權限：瀏覽任何學員</h3>";
         }
-        if ($this->isVcamp && !$this->user->canAccessResource('\App\Models\Volunteer', 'read', $this->campFullData) && $this->user->id != 1) {
+        if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer, 'read', $this->campFullData) && $this->user->id != 1) {
             return "<h3>沒有權限：瀏覽任何義工</h3>";
         }
         $applicants = explode(",", $request->snORadmittedSN);
@@ -300,10 +300,10 @@ class BackendController extends Controller {
     }
 
     public function showCandidate(Request $request){
-        if (!$this->isVcamp && !$this->user->canAccessResource('\App\Models\Applicant', 'read', $this->campFullData) && $this->user->id != 1) {
+        if (!$this->isVcamp && !$this->user->canAccessResource(new \App\Models\Applicant, 'read', $this->campFullData) && $this->user->id != 1) {
             return "<h3>沒有權限：瀏覽任何學員</h3>";
         }
-        if ($this->isVcamp && !$this->user->canAccessResource('\App\Models\Volunteer', 'read', $this->campFullData) && $this->user->id != 1) {
+        if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer, 'read', $this->campFullData) && $this->user->id != 1) {
             return "<h3>沒有權限：瀏覽任何義工</h3>";
         }
         $groupAndNumber = $this->applicantService->groupAndNumberSeperator($request->snORadmittedSNorName);
@@ -327,10 +327,10 @@ class BackendController extends Controller {
     }
 
     public function showRegistration() {
-        if (!$this->isVcamp && !$this->user->canAccessResource('\App\Models\Applicant', 'read', $this->campFullData) && $this->user->id != 1) {
+        if (!$this->isVcamp && !$this->user->canAccessResource(new \App\Models\Applicant, 'read', $this->campFullData) && $this->user->id != 1) {
             return "<h3>沒有權限：瀏覽任何學員</h3>";
         }
-        if ($this->isVcamp && !$this->user->canAccessResource('\App\Models\Volunteer', 'read', $this->campFullData) && $this->user->id != 1) {
+        if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer, 'read', $this->campFullData) && $this->user->id != 1) {
             return "<h3>沒有權限：瀏覽任何義工</h3>";
         }
         $user_batch_or_region = null;
@@ -342,10 +342,10 @@ class BackendController extends Controller {
     }
 
     public function showRegistrationList() {
-        if (!$this->isVcamp && !$this->user->canAccessResource('\App\Models\Applicant', 'read', $this->campFullData) && $this->user->id != 1) {
+        if (!$this->isVcamp && !$this->user->canAccessResource(new \App\Models\Applicant, 'read', $this->campFullData) && $this->user->id != 1) {
             return "<h3>沒有權限：瀏覽任何學員</h3>";
         }
-        if ($this->isVcamp && !$this->user->canAccessResource('\App\Models\Volunteer', 'read', $this->campFullData) && $this->user->id != 1) {
+        if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer, 'read', $this->campFullData) && $this->user->id != 1) {
             return "<h3>沒有權限：瀏覽任何義工</h3>";
         }
         $batches = Batch::where("camp_id", $this->campFullData->id)->get();
@@ -653,10 +653,10 @@ class BackendController extends Controller {
     }
 
     public function changeBatchOrRegion(Request $request){
-        if (!$this->isVcamp && !$this->user->canAccessResource('\App\Models\Applicant', 'read', $this->campFullData) && $this->user->id != 1) {
+        if (!$this->isVcamp && !$this->user->canAccessResource(new \App\Models\Applicant, 'read', $this->campFullData) && $this->user->id != 1) {
             return "<h3>沒有權限：瀏覽任何學員</h3>";
         }
-        if ($this->isVcamp && !$this->user->canAccessResource('\App\Models\Volunteer', 'read', $this->campFullData) && $this->user->id != 1) {
+        if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer, 'read', $this->campFullData) && $this->user->id != 1) {
             return "<h3>沒有權限：瀏覽任何義工</h3>";
         }
         if ($request->isMethod('POST')) {
@@ -710,10 +710,10 @@ class BackendController extends Controller {
     }
 
     public function showGroupList() {
-        if (!$this->isVcamp && !$this->user->canAccessResource('\App\Models\Applicant', 'read', $this->campFullData) && $this->user->id != 1) {
+        if (!$this->isVcamp && !$this->user->canAccessResource(new \App\Models\Applicant, 'read', $this->campFullData) && $this->user->id != 1) {
             return "<h3>沒有權限：瀏覽任何學員</h3>";
         }
-        if ($this->isVcamp && !$this->user->canAccessResource('\App\Models\Volunteer', 'read', $this->campFullData) && $this->user->id != 1) {
+        if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer, 'read', $this->campFullData) && $this->user->id != 1) {
             return "<h3>沒有權限：瀏覽任何義工</h3>";
         }
         $batches = Batch::with('groups', 'groups.applicants')->where('camp_id', $this->camp_id)->get()->all();
@@ -753,10 +753,10 @@ class BackendController extends Controller {
     }
 
     public function showNotAdmitted() {
-        if (!$this->isVcamp && !$this->user->canAccessResource('\App\Models\Applicant', 'read', $this->campFullData) && $this->user->id != 1) {
+        if (!$this->isVcamp && !$this->user->canAccessResource(new \App\Models\Applicant, 'read', $this->campFullData) && $this->user->id != 1) {
             return "<h3>沒有權限：瀏覽任何學員</h3>";
         }
-        if ($this->isVcamp && !$this->user->canAccessResource('\App\Models\Volunteer', 'read', $this->campFullData) && $this->user->id != 1) {
+        if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer, 'read', $this->campFullData) && $this->user->id != 1) {
             return "<h3>沒有權限：瀏覽任何義工</h3>";
         }
         $batches = Batch::where('camp_id', $this->camp_id)->get();
@@ -778,10 +778,10 @@ class BackendController extends Controller {
     }
 
     public function showGroup(Request $request){
-        if (!$this->isVcamp && !$this->user->canAccessResource('\App\Models\Applicant', 'read', $this->campFullData) && $this->user->id != 1) {
+        if (!$this->isVcamp && !$this->user->canAccessResource(new \App\Models\Applicant, 'read', $this->campFullData) && $this->user->id != 1) {
             return "<h3>沒有權限：瀏覽任何學員</h3>";
         }
-        if ($this->isVcamp && !$this->user->canAccessResource('\App\Models\Volunteer', 'read', $this->campFullData) && $this->user->id != 1) {
+        if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer, 'read', $this->campFullData) && $this->user->id != 1) {
             return "<h3>沒有權限：瀏覽任何義工</h3>";
         }
         $batch_id = $request->route()->parameter('batch_id');
@@ -879,10 +879,10 @@ class BackendController extends Controller {
     }
 
     public function showGroupAttendList() {
-        if (!$this->isVcamp && !$this->user->canAccessResource('\App\Models\Applicant', 'read', $this->campFullData) && $this->user->id != 1) {
+        if (!$this->isVcamp && !$this->user->canAccessResource(new \App\Models\Applicant, 'read', $this->campFullData) && $this->user->id != 1) {
             return "<h3>沒有權限：瀏覽任何學員</h3>";
         }
-        if ($this->isVcamp && !$this->user->canAccessResource('\App\Models\Volunteer', 'read', $this->campFullData) && $this->user->id != 1) {
+        if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer, 'read', $this->campFullData) && $this->user->id != 1) {
             return "<h3>沒有權限：瀏覽任何義工</h3>";
         }
         $batches = Batch::where('camp_id', $this->camp_id)->get()->all();
