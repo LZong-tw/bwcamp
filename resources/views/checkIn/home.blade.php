@@ -88,7 +88,7 @@
                         <tr id="{{ $applicant->id }}">
                             @if($camp->table != 'coupon')
                                 <td class="align-middle">{{ $applicant->group }}</td>
-                                <td class="align-middle">{{ $applicant->number ?? -- }}</td>
+                                <td class="align-middle">{{ $applicant->number ?? "--" }}</td>
                             @else
                                 <td class="align-middle">{{ $applicant->group }}{{ $applicant->number }}</td>
                             @endif
