@@ -151,7 +151,7 @@ class CheckInController extends Controller {
             }
             if ($applicant->camp->id != $this->camp->id) {
                 return response()->json([
-                    'msg' => '<h4 class="text-danger">該學員 / 義工報名的是' . $applicant->camp->abbreviation ?? $applicant->camp->fullName . '。非屬本營隊，請檢查後重試</h4>'
+                    'msg' => '<h4 class="text-danger">該學員 / 義工報名的是' . $applicant->camp->abbreviation ?? $applicant->camp->fullName . '，非屬本營隊，請檢查後重試</h4>'
                 ]);
             }
             $str = $resultStr[$pivot][0] . '：' . $applicant->batch->name . '<br>' . $dataStr[$pivot][2] . '：' . $applicant->group?->alias . $applicant->number?->number . '<br>' . $dataStr[$pivot][3] . '：' . $applicant->name;
