@@ -21,20 +21,43 @@ class CheckInController extends Controller {
      */
     public function __construct(CampDataService $campDataService, ApplicantService $applicantService, Request $request) {
         $this->middleware('auth');
-        $camp = Batch::orderBy(\DB::raw('ABS(DATEDIFF(`batch_start`, NOW()))'))->first()->camp;
-        $request->camp_id = $camp->id;
         $this->middleware('permitted');
-        $this->camp = $camp;
+        if ($request->route()->uri != 'checkin/selectCamp') {
+            $camp = $request->camp_id ? Camp::find($request->camp_id) : throw new \Exception('請選擇營隊。');
+            $this->camp = $camp;
+            if($this->camp->table == 'ycamp' || $this->camp->table == 'acamp'){
+                $this->has_attend_data = true;
+            }
+            View::share('camp', $this->camp);
+        }
         $this->campDataService = $campDataService;
         $this->applicantService = $applicantService;
-        if($this->camp->table == 'ycamp' || $this->camp->table == 'acamp'){
-            $this->has_attend_data = true;
-        }
-        View::share('camp', $this->camp);
+        $this->persist(camp: $camp ?? null);
+    }
+
+    public function persist(...$args) {
+        $that = $this;
+        // https://laracasts.com/discuss/channels/laravel/authuser-return-null-in-construct
+        $this->middleware(function ($request, $next) use ($that, $args) {
+            $that->user = \App\Models\User::find(auth()->user()->id);
+            $that->isVcamp = str_contains($args["camp"], "vcamp");
+            View::share('currentUser', $that->user);
+            return $next($request);
+        });
     }
 
     public function index() {
         return view('checkIn.home');
+    }
+
+    public function selectCamp() {
+        $camps = $this->user->roles->map(function($role){
+            return $role->camp;
+        })->unique();
+        if ($camps->count() == 0 && $this->user->id == 1) {
+            $camps = Camp::orderByDesc('id')->get();
+        }
+        return view('checkIn.select', compact('camps'));
     }
 
     public function query(Request $request) {

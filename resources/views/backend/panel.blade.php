@@ -293,9 +293,11 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="nav navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link card-link" href="/checkin?t={{ time() }}" target="_blank">報到系統</a>
-                        </li>
+                        @if(isset($campFullData))
+                            <li class="nav-item">
+                                <a class="nav-link card-link" href="/checkin?camp_id={{ $campFullData->id }}&t={{ time() }}" target="_blank">本營隊報到系統</a>
+                            </li>
+                        @endif
                         @if(auth()->user()->getPermission()->level == 1 || (isset($currentUser) && $currentUser->canAccessResource(new \App\Models\Camp, "update", $campFullData)))
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route("campManagement") }}" target="_blank">營隊管理</a>
