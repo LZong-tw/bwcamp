@@ -72,7 +72,7 @@ class CheckInController extends Controller {
         }
         $constraint = function($query){ $query->where('camps.id', $this->camp->id); };
         if ($group) {
-            $group = $this->camp->groups->where('alias', 'like', '%' . $group . '%')->first();
+            $group = $this->camp->groups()->where('alias', 'like', '%' . $group . '%')->first();
         }
         if ($number) {
             $number = $this->camp->groups->each(function($group) use ($number) {
