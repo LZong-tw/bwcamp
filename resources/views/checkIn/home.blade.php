@@ -88,7 +88,7 @@
                         <tr id="{{ $applicant->id }}">
                             @if($camp->table != 'coupon')
                                 <td class="align-middle">{{ $applicant->group }}</td>
-                                <td class="align-middle">{{ $applicant->number }}</td>
+                                <td class="align-middle">{{ $applicant->number ?? -- }}</td>
                             @else
                                 <td class="align-middle">{{ $applicant->group }}{{ $applicant->number }}</td>
                             @endif
@@ -127,6 +127,7 @@
                                         <form action="/checkin/un-checkin" method="POST" class="d-inline" name="uncheckIn{{ $applicant->id }}">
                                             @csrf
                                             <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
+                                            <input type="hidden" name="camp_id" value="{{ $applicant->camp->id }}">
                                             <input type="hidden" name="check_in_date" value="{{ $checkInData->check_in_date }} ">
                                             <input type="hidden" name="query_str" value="{{ old("query_str") }}">
                                             <input type="submit" value="取消" onclick="this.value = '取消中'; this.disabled = true; document.uncheckIn{{ $applicant->id }}.submit();" class="btn btn-danger">
@@ -135,6 +136,7 @@
                                         <form action="/checkin/checkin" method="POST" name="checkIn{{ $applicant->id }}">
                                             @csrf
                                             <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
+                                            <input type="hidden" name="camp_id" value="{{ $applicant->camp->id }}">
                                             <input type="hidden" name="query_str" value="{{ old("query_str") }}">
                                             <input type="submit" value="報到" onclick="this.value = '報到中'; this.disabled = true; document.checkIn{{ $applicant->id }}.submit();" class="btn btn-success" id="btn{{ $applicant->id }}">
                                         </form>
@@ -149,6 +151,7 @@
                                         <form action="/checkin/checkin" method="POST" name="checkIn{{ $applicant->id }}">
                                             @csrf
                                             <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
+                                            <input type="hidden" name="camp_id" value="{{ $applicant->camp->id }}">
                                             <input type="hidden" name="query_str" value="{{ old("query_str") }}">
                                             <input type="submit" value="兌換" onclick="this.value = '兌換中'; this.disabled = true; document.checkIn{{ $applicant->id }}.submit();" class="btn btn-success" id="btn{{ $applicant->id }}">
                                         </form>
