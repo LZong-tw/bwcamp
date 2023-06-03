@@ -90,7 +90,11 @@ class CheckInController extends Controller {
                                     })
                                     ->where(function($query) use ($request, $group, $number) {
                                         $query->where('id', $request->query_str);
-                                        $query->orWhere('group_id', $group?->id);
+                                        if ($group) {
+                                            $query->where(function ($query) use ($group) {
+                                                $query->where('group_id', $group?->id);
+                                            });
+                                        }
                                         if ($number) {
                                             $query->where(function ($query) use ($group, $number) {
                                                 $query->where('group_id', $group?->id);
@@ -149,6 +153,16 @@ class CheckInController extends Controller {
             if($applicant->deposit - $applicant->fee < 0){
                 return response()->json([
                     'msg' => $str . '<h4 class="text-danger">未繳費，無法報到</h4>'
+                ]);
+            }
+            if($applicant->is_admitted == 0){
+                return response()->json([
+                    'msg' => $str . '<h4 class="text-danger">未錄取，無法報到</h4>'
+                ]);
+            }
+            if(!$applicant->group_id){
+                return response()->json([
+                    'msg' => $str . '<h4 class="text-danger">未分組，無法報到</h4>'
                 ]);
             }
             if($pivot == 1){
