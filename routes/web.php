@@ -95,6 +95,7 @@ Route::middleware(["admin"])->group(function () {
 });
 
 Route::group(["prefix" => "checkin", ], function () {
+    Route::get("/selectCamp", [CheckInController::class, "selectCamp"])->name("selectCamp");
     Route::get("/", [CheckInController::class, "index"]);
     Route::get("/query", [CheckInController::class, "query"]);
     Route::post("/checkin", [CheckInController::class, "checkIn"]);
