@@ -67,6 +67,9 @@ class CheckInController extends Controller {
             $group = substr($request->query_str, 0, 3);
             $number = substr($request->query_str, 3, 2);
         }
+        if(\Str::length($request->query_str) == 3){
+            $group = substr($request->query_str, 0, 3);
+        }
         $constraint = function($query){ $query->where('camps.id', $this->camp->id); };
         if ($group) {
             $group = $this->camp->groups->where('alias', $group)->first();
@@ -160,7 +163,7 @@ class CheckInController extends Controller {
                     'msg' => $str . '<h4 class="text-danger">未繳費，無法報到</h4>'
                 ]);
             }
-            if($applicant->is_admitted == 0){
+            if(!$applicant->is_admitted){
                 return response()->json([
                     'msg' => $str . '<h4 class="text-danger">未錄取，無法報到</h4>'
                 ]);
