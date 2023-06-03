@@ -72,7 +72,7 @@ class CheckInController extends Controller {
         }
         $constraint = function($query){ $query->where('camps.id', $this->camp->id); };
         if ($group) {
-            $group = $this->camp->groups->where('alias', $group)->first();
+            $group = $this->camp->groups->where('alias', 'like', '%' . $group . '%')->first();
         }
         if ($number) {
             $number = $this->camp->groups->each(function($group) use ($number) {
@@ -91,7 +91,7 @@ class CheckInController extends Controller {
                                             $query->where('is_attend', 1);
                                         }
                                     })
-                                    ->whereNotNull('groud_id')
+                                    ->whereNotNull('group_id')
                                     ->where(function($query) use ($request, $group, $number) {
                                         $query->where('id', $request->query_str);
                                         if ($group) {
