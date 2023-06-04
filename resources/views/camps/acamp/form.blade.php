@@ -570,7 +570,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <label><input type="checkbox" class="motivation" name=motivation[] value='交朋友' > 交朋友</label> <br/>
             <label><input type="checkbox" class="motivation" name=motivation[] value='認識福智' > 認識福智</label> <br/>
             <label>
-                <input type="checkbox" name=motivation[] value='其它' id="motivation_other_checkbox" onclick="setMotivationOther(this)"> 其它：
+                <input type="checkbox" class="motivation" name=motivation[] value='其它' id="motivation_other_checkbox" onclick="setMotivationOther(this)"> 其它：
                 <input type="text" name="motivation_other" id="motivation_other_text" class="form-control" onclick="motivation_other_checkbox.checked = true; this.required = true;">
                 <div class="invalid-feedback" id="motivation-invalid">
                     請選擇報名動機，若選其它請自行填寫。
@@ -590,7 +590,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <label><input type="checkbox" class="blisswisdom_type" name=blisswisdom_type[] value='卓越青年營' > 卓越青年營(卓青營)</label> <br/>
             <label><input type="checkbox" class="blisswisdom_type" name=blisswisdom_type[] value='廣論研討班' > 廣論研討班</label> <br/>
             <label>
-                <input type="checkbox" name=blisswisdom_type[] value='其它' id="blisswisdom_type_other_checkbox" onclick="setBlisswidomTypeOther(this)"> 其它：
+                <input type="checkbox" class="blisswisdom_type" name=blisswisdom_type[] value='其它' id="blisswisdom_type_other_checkbox" onclick="setBlisswidomTypeOther(this)"> 其它：
                 <input type="text" name="blisswisdom_type_other" id="blisswisdom_type_other_text" class="form-control" onclick="blisswisdom_type_other_checkbox.checked = true; this.required = true;">
                 <div class="invalid-feedback" id="blisswisdom_type-invalid">
                     請選擇曾參與的營隊或課程，若選其它請自行填寫。
