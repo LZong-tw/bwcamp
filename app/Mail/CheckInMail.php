@@ -13,16 +13,17 @@ class CheckInMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $applicant, $attachment;
+    public $applicant, $org, $attachment;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($applicant, $attachment = null) {
+    public function __construct($applicant, $org = null, $attachment = null) {
         //
         $this->applicant = $applicant;
+        $this->org = $org;
         $this->attachment = $attachment;
     }
 

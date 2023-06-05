@@ -168,7 +168,11 @@
                             <a href="{{ route("batchAdmissionGET", $campFullData->id) }}">批次錄取</a>
                         </li>
                         <li>
+                            @if(str_contains($campFullData->table, "vcamp"))
+                            <a href="{{ route("showSectionList", $campFullData->id) }}">組別名單查詢/下載<br>寄送錄取通知信<br>寄送報到通知信</a>
+                            @else
                             <a href="{{ route("showGroupList", $campFullData->id) }}">組別名單查詢/下載<br>寄送錄取通知信<br>寄送報到通知信</a>
+                            @endif
                         </li>
                         <li>
                             <a href="{{ route("showNotAdmitted", $campFullData->id) }}" class="text-warning">寄送未錄取通知信</a>

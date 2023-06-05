@@ -14,7 +14,7 @@ class SendCheckInMail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, EmailConfiguration;
 
-    protected $applicant;
+    protected $applicant,$org;
 
     protected $tries = 400;
 
@@ -23,10 +23,10 @@ class SendCheckInMail implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($applicant_id)
+    public function __construct($applicant_id,$org_id = null)
     {
-        //
         $this->applicant = \App\Models\Applicant::find($applicant_id);
+        $this->org = \App\Models\CampOrg::find($org_id); //for vcamp
     }
 
     /**
@@ -44,7 +44,8 @@ class SendCheckInMail implements ShouldQueue
             $pdf = \App::make('dompdf.wrapper');
             $pdf->loadHTML($this->applicant->batch->camp->abbreviation . '<br>流水號：' . $this->applicant->group . $this->applicant->number . '<br>優惠碼：' . $this->applicant->name . '<br><img src="data:image/png;base64,' . $qr_code . '" alt="barcode" height="200px"/>')->setPaper('a6');
         }
-        elseif($this->applicant->batch->camp->table != ''){
+        elseif($this->applicant->batch->camp->table != '' 
+            && $this->applicant->batch->camp->table != 'evcamp'){
             $qr_code = \DNS2D::getBarcodePNG('{"applicant_id":' . $this->applicant->id . '}', 'QRCODE');
             $pdf = \App::make('dompdf.wrapper');
             $pdf->loadHTML($this->applicant->batch->camp->fullName . ' QR code 報到單<br>梯次：' . $this->applicant->batch->name . '<br>錄取序號：' . $this->applicant->group . $this->applicant->number . '<br>姓名：' . $this->applicant->name . '<br><img src="data:image/png;base64,' . $qr_code . '" alt="barcode" height="200px"/>')->setPaper('a6');
@@ -52,7 +53,7 @@ class SendCheckInMail implements ShouldQueue
         $attachment = isset($pdf) ? $pdf->output() : null;
         // 動態載入電子郵件設定
         $this->setEmail($this->applicant->batch->camp->table, $this->applicant->batch->camp->variant);
-        \Mail::to($this->applicant->email)->send(new \App\Mail\CheckInMail($this->applicant, $attachment));
+        \Mail::to($this->applicant->email)->send(new \App\Mail\CheckInMail($this->applicant, $this->org, $attachment));
     }
 
 
