@@ -125,6 +125,12 @@ return [
         'password' => env('ECAMP_MAIL_PASSWORD'),
     ],
 
+    'evcamp' => [
+        'address' => env('EVCAMP_MAIL_USERNAME', 'hello@example.com'),
+        'username' => env('EVCAMP_MAIL_USERNAME'),
+        'password' => env('EVCAMP_MAIL_PASSWORD'),
+    ],
+
     'ycamp' => [
         'address' => env('YCAMP_MAIL_USERNAME', 'hello@example.com'),
         'username' => env('YCAMP_MAIL_USERNAME'),

@@ -166,8 +166,10 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
     Route::post("/registration/sendNotAdmittedMail", "BackendController@sendNotAdmittedMail")->name("sendNotAdmittedMail");
     Route::post("/registration/sendCheckInMail", "BackendController@sendCheckInMail")->name("sendCheckInMail");
     Route::get("/registration/groupList", "BackendController@showGroupList")->name("showGroupList");
+    Route::get("/registration/sectionList", "BackendController@showSectionList")->name("showSectionList");
     Route::get("/registration/showNotAdmitted", "BackendController@showNotAdmitted")->name("showNotAdmitted");
     Route::get("/registration/group/{batch_id}/{group}", "BackendController@showGroup")->name("showGroup");
+    Route::get("/registration/section/{org_id}", "BackendController@showSection")->name("showSection");
     Route::get("/inCamp/trafficList", "BackendController@showTrafficList")->name("showTrafficList");
     Route::get("/inCamp/volunteerPhoto", "BackendController@showVolunteerPhoto")->name("showVolunteerPhoto");
 

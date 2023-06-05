@@ -79,6 +79,10 @@ class Applicant extends Model {
         return $this->hasOne(Ecamp::class, 'applicant_id', 'id');
     }
 
+    public function evcamp() {
+        return $this->hasOne(Evcamp::class, 'applicant_id', 'id');
+    }
+
     public function hcamp() {
         return $this->hasOne(Hcamp::class, 'applicant_id', 'id');
     }
