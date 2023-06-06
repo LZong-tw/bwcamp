@@ -28,7 +28,7 @@ class CheckInController extends Controller {
                 $this->camp = $camp;
             }
             elseif ($request->route()->uri == 'checkin') {
-                return redirect()->route('selectCamp');
+                return \Redirect::to(route('selectCamp'))->send();
             }
             else {
                 return "<h3>請選擇營隊</h3>";
