@@ -23,8 +23,16 @@ class CheckInController extends Controller {
         $this->middleware('auth');
         $this->middleware('permitted');
         if ($request->route()->uri != 'checkin/selectCamp') {
-            $camp = $request->camp_id ? Camp::find($request->camp_id) : throw new \Exception('請選擇營隊。');
-            $this->camp = $camp;
+            if ($request->camp_id) {
+                $camp = Camp::find($request->camp_id);
+                $this->camp = $camp;
+            }
+            elseif ($request->route()->uri == 'checkin') {
+                return redirect()->route('selectCamp');
+            }
+            else {
+                return "<h3>請選擇營隊</h3>";
+            }
             if($this->camp->table == 'ycamp' || $this->camp->table == 'acamp'){
                 $this->has_attend_data = true;
             }
