@@ -414,6 +414,23 @@ return [
         "profile_agree" => "個人資料允許",
     ],
 
+    'yvcamp' => [
+        "sn" => "報名序號",
+        "bName" => "梯次",
+        "group" => "組別",
+        "number" => "座號",
+        "region" => "區域",
+        "applied_at" => "報名日期",
+        "name" => "姓名",
+        "gender" => "生理性別",
+        "nationality" => "國籍",
+        "birthyear" => "出生年",
+        "birthmonth" => "出生月",
+        "birthday" => "出生日",
+        "habbit" => "興趣",
+        "email" => "電子郵件",
+    ],
+
     'display' => [
         'acamp' => [
             "batch" => [
