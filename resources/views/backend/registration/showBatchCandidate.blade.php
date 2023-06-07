@@ -31,7 +31,7 @@
                 </thead>
                 @foreach ($applicants as $applicant)
                     <tr>
-                        <td>{{ $applicant->applicant_id }}</td>
+                        <td>{{ $applicant->id }}</td>
                         <td>
                             {{ $applicant->name }}({{ $applicant->gender }})
                         </td>
