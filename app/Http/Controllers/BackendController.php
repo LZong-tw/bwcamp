@@ -546,18 +546,18 @@ class BackendController extends Controller {
                 }
                 if((!isset($signData) || count($signData) == 0)) {
                     if(!isset($checkInDates)) {
-                        $columns = array_merge($columns, config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table));
+                        $columns = array_merge($columns, config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table) ?? []);
                     }
                     else {
-                        $columns = array_merge($columns, config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $checkInDates);
+                        $columns = array_merge($columns, config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table) ?? [], $checkInDates);
                     }
                 }
                 else {
                     if(!isset($checkInDates)) {
-                        $columns = array_merge($columns, config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $signDateTimesCols);
+                        $columns = array_merge($columns, config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table) ?? [], $signDateTimesCols);
                     }
                     else {
-                        $columns = array_merge($columns, config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $checkInDates, $signDateTimesCols);
+                        $columns = array_merge($columns, config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table) ?? [], $checkInDates, $signDateTimesCols);
                     }
                 }
                 // 2022 一般教師營需要
@@ -872,7 +872,7 @@ class BackendController extends Controller {
                     }
                 }
                 else{
-                    $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table));
+                    $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table) ?? []);
                 }
                 fputcsv($file, $columns);
 
@@ -1329,18 +1329,18 @@ class BackendController extends Controller {
                 fwrite($file, "\xEF\xBB\xBF");
                 if((!isset($signData) || count($signData) == 0)) {
                     if(!isset($checkInDates)) {
-                        $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table));
+                        $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table) ?? []);
                     }
                     else {
-                        $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $checkInDates);
+                        $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table) ?? [], $checkInDates);
                     }
                 }
                 else {
                     if(!isset($checkInDates)) {
-                        $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $signDateTimesCols);
+                        $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table) ?? [], $signDateTimesCols);
                     }
                     else {
-                        $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table), $checkInDates, $signDateTimesCols);
+                        $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table) ?? [], $checkInDates, $signDateTimesCols);
                     }
                 }
                 // 2022 一般教師營需要
