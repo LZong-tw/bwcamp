@@ -72,7 +72,7 @@ class BackendService
         if (!$batch->num_groups) {
             throw new \Exception("梯次沒有設定組數");
         }
-        return ($batch->groups?->count() ?? 0) < $batch->num_groups;
+        return ($batch->groups?->count() ?? 0) <= $batch->num_groups;
     }
 
     public function processGroup(Applicant $applicant, string $group = null): ApplicantsGroup
