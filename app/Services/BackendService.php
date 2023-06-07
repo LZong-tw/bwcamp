@@ -86,7 +86,7 @@ class BackendService
                 return $group;
             }
         } elseif ($applicant->batch->num_groups && !$this->checkBatchCanAddMoreGroup($applicant->batch)) {
-            $group = ApplicantsGroup::firstOrFail([
+            $group = ApplicantsGroup::firstOrCreate([
                 'batch_id' => $applicant->batch_id,
                 'alias' => $group,
             ]);
