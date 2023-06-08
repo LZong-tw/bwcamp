@@ -366,6 +366,7 @@ return [
 
     'ycamp' => [
         "sn" => "報名序號",
+        "is_attend" => "參加意願",
         "bName" => "梯次",
         "group" => "組別",
         "number" => "座號",
