@@ -232,9 +232,9 @@ class CampDataService
                 $formData["region"] = '台北';
             }
 
-            if ($formData["school"] == '國立臺南藝術大學' or $formData["school"] == '台灣首府大學' or $formData["school"] == '南榮技術學院' or $formData["school"] == '敏惠醫護管理專校' or $formData["school"] == '真理大學麻豆校區') {
+            /*if ($formData["school"] == '國立臺南藝術大學' or $formData["school"] == '台灣首府大學' or $formData["school"] == '南榮技術學院' or $formData["school"] == '敏惠醫護管理專校' or $formData["school"] == '真理大學麻豆校區') {
                 $formData["region"] = '雲嘉';
-            }
+            }*/
             // 2021 年特殊需求：梯次即學校區域
             // 2022 年特殊需求：梯次即學校區域
             $special_years = [2021, 2022];
