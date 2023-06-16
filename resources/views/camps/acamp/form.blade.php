@@ -1179,10 +1179,10 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                                 // Get the options of the select element
                                 var options = selectElement.options;
                                 // Iterate through the options
-                                for (var i = 0; i < options.length; i++) {
+                                for (var j = 0; j < options.length; j++) {
                                     // Check if the text equals to the specific text
-                                    if (options[i].text == applicant_data['transportation']) {
-                                        options[i].selected = true;
+                                    if (options[j].text == applicant_data['transportation']) {
+                                        options[j].selected = true;
                                     }
                                 }
                             }
