@@ -1,7 +1,7 @@
 {{--
     參考頁面：http://youngone.bwyouth.org/2020/form/index.php
 --}}
-<?
+<?php
 header("Cache-Control: no-cache, no-store, must-revalidate, post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
