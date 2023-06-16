@@ -104,7 +104,7 @@
                 <input type="text" class="form-control col-4" name="introducer_name[]" value="{{ !is_null(old("introducer_name")) ? old("introducer_name")[0] : null }}">
             </div>
             <input type="submit" value="搜尋" class="btn btn-primary">
-            <input type="reset" value="清除篩選條件 - 顥示所有@if($isShowLearners && $isShowVolunteers)關懷員@elseif($isShowVolunteers)義工@else學員@endif" class="ml-3 btn btn-danger"  onclick="window.location=window.location.href">
+            <input type="reset" value="清除篩選條件 - 顯示所有@if($isShowLearners && $isShowVolunteers)關懷員@elseif($isShowVolunteers)義工@else學員@endif" class="ml-3 btn btn-danger"  onclick="window.location=window.location.href">
         </form>
     @endif
     @if ($groups && !$isShowVolunteers)
