@@ -1174,6 +1174,18 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                                     }
                                 }
                             }
+                            if (selects[i].name == 'transportation') {
+                                var selectElement = document.getElementsByName("transportation")[0];
+                                // Get the options of the select element
+                                var options = selectElement.options;
+                                // Iterate through the options
+                                for (var i = 0; i < options.length; i++) {
+                                    // Check if the text equals to the specific text
+                                    if (options[i].text == applicant_data['transportation']) {
+                                        options[i].selected = true;
+                                    }
+                                }
+                            }
                         }
                         if (selects[i].name == 'county'){
                             // Split the string into an array of characters.
