@@ -77,6 +77,7 @@ class BackendService
 
     public function processGroup(Applicant $applicant, string $group = null): ApplicantsGroup
     {
+        $flag = 0;
         if ($applicant->batch->num_groups && $this->checkBatchCanAddMoreGroup($applicant->batch)) {
             $group = ApplicantsGroup::firstOrCreate([
                 'batch_id' => $applicant->batch_id,
@@ -85,11 +86,20 @@ class BackendService
             if ($group) {
                 return $group;
             }
+            else {
+                $flag = 1;
+            }
         } elseif ($applicant->batch->num_groups && !$this->checkBatchCanAddMoreGroup($applicant->batch)) {
             $group = ApplicantsGroup::firstOrCreate([
                 'batch_id' => $applicant->batch_id,
                 'alias' => $group,
             ]);
+            if ($group) {
+                return $group;
+            }
+            else {
+                $flag = 2;
+            }
         }
         elseif (!$applicant->batch->num_groups) {
             return ApplicantsGroup::firstOrCreate([
@@ -97,8 +107,11 @@ class BackendService
                 'alias' => $group,
             ]);
         }
-
-        throw new \Exception('組別處理發生異常狀況');
+        if (app()->bound('sentry')) {
+            \Sentry\captureMessage('組別處理發生異常狀況，營隊編號：' . $applicant->batch->camp_id . '，梯次編號：' . $applicant->batch_id . '，報名序號：' . $applicant->id . '，組別：' . $group . '，標記：' . $flag);
+        }        
+        logger('組別處理發生異常狀況，營隊編號：' . $applicant->batch->camp_id . '，梯次編號：' . $applicant->batch_id . '，報名序號：' . $applicant->id . '，組別：' . $group . '，標記：' . $flag);
+        return '<h2>組別處理發生異常狀況，請聯絡系統管理員</h2>';
     }
 
     public function setGroup(Applicant $applicant, string $group = null): Applicant
