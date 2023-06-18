@@ -32,21 +32,27 @@
             </form>
             <a href="{{ route('showPaymentForm', [$campFullData->id, $candidate->applicant_id]) }}" class="btn btn-primary" target="_blank" style="margin-top: 10px">顯示繳費單</a>
         </p>
-        <form action="{{ route("admission", $campFullData->id) }}" method="post" class="form-horizontal">
-            @csrf
-            <input type="hidden" name="id" value="{{ $candidate->applicant_id }}">
-            @if(isset($candidate->group) && isset($candidate->number))
-                輸入正取序號(共五碼)：<input type="text" name="admittedSN" class="form-control" placeholder="請確認錄取梯次前綴後再送出修改" pattern=".{5}" required id="admittedSN">
-                本梯次正取序號前綴：{{ $candidate->getBatch->admission_suffix }}
-                <br><br>
-                <input type="submit" class="btn btn-warning" value="修改錄取序號">
-                <input type="submit" name="clear" class="btn btn-danger" value="清除錄取序號" onclick="document.getElementById('admittedSN').required = false;">
-            @else
-                輸入正取序號(共五碼)：<input type="text" name="admittedSN" class="form-control" placeholder="" value="{{ $candidate->getBatch->admission_suffix }}" pattern=".{5}" required>
-                <br>
-                <input type="submit" class="btn btn-success" value="確認錄取">
-            @endif
-        </form><br>
+        @if($candidate->deleted_at)
+            <div class="alert alert-danger">
+                已取消報名
+            </div>
+        @else
+            <form action="{{ route("admission", $campFullData->id) }}" method="post" class="form-horizontal">
+                @csrf
+                <input type="hidden" name="id" value="{{ $candidate->applicant_id }}">
+                @if(isset($candidate->group) && isset($candidate->number))
+                    輸入正取序號(共五碼)：<input type="text" name="admittedSN" class="form-control" placeholder="請確認錄取梯次前綴後再送出修改" pattern=".{5}" required id="admittedSN">
+                    本梯次正取序號前綴：{{ $candidate->getBatch->admission_suffix }}
+                    <br><br>
+                    <input type="submit" class="btn btn-warning" value="修改錄取序號">
+                    <input type="submit" name="clear" class="btn btn-danger" value="清除錄取序號" onclick="document.getElementById('admittedSN').required = false;">
+                @else
+                    輸入正取序號(共五碼)：<input type="text" name="admittedSN" class="form-control" placeholder="" value="{{ $candidate->getBatch->admission_suffix }}" pattern=".{5}" required>
+                    <br>
+                    <input type="submit" class="btn btn-success" value="確認錄取">
+                @endif
+            </form><br>
+        @endif
         <a href="{{ route("admissionGET", $campFullData->id) }}" class="btn btn-primary">下一筆</a>
     @else
         <p>
