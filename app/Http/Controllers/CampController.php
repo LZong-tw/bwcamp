@@ -446,6 +446,10 @@ class CampController extends Controller
         $campTable = $this->camp_data->table;
         $camp = $this->camp_data;
         $applicant = null;
+        $request->validate([
+            'name' => 'required',
+            'sn' => 'required|integer'
+        ]);
         if($request->name != null && $request->sn != null) {
             $applicant = Applicant::with('batch', 'camp')
                 ->select('applicants.*', $campTable . '.*', 'applicants.id as applicant_id')
