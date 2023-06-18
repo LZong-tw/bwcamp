@@ -328,7 +328,7 @@ class CheckInController extends Controller {
                 \Session::flash('message', "該筆報到資料已不存在。");
             }
         } catch (\Exception $e) {
-            if ($this->shouldReport($e) && app()->bound('sentry')) {
+            if (app()->bound('sentry')) {
                 app('sentry')->captureException($e);
                 \Sentry\captureMessage('取消報到過程發生未知錯誤。');
             }
