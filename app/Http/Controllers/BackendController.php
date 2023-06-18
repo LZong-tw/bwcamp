@@ -177,7 +177,7 @@ class BackendController extends Controller
                     $message = "錄取完成。";
                 }
                 else {
-                    $message = "錄取失敗，請檢查學員組數是否已達上限無法再新增。";
+                    $error = "錄取失敗，請檢查學員組數是否已達上限無法再新增。";
                 }
             }
             $candidate = $this->applicantService->fetchApplicantData(
