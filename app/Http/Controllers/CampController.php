@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Camp;
 use App\Models\Batch;
 use App\Models\Applicant;
+use App\Models\Traffic;
 use App\Services\CampDataService;
 use App\Services\ApplicantService;
 use Carbon\Carbon;
@@ -452,7 +453,20 @@ class CampController extends Controller
                 ->where('applicants.id', $request->sn)
                 ->where('name', $request->name)
                 ->withTrashed()->first();
+            //MCH: applicant's id is not correct??
+            $applicant1 = Applicant::find($request->sn);
         }
+        if($applicant1->batch->id == 132 && $applicant1->traffic == null) {
+            //for 2023 ycamp, if null, create one
+            $newTraffic = array();
+            $newTraffic['applicant_id'] = $applicant->applicant_id;
+            $newTraffic['depart_from'] = "自往";
+            $newTraffic['back_to'] = "自回";
+            $newTraffic['fare'] = "0";
+            $newTraffic['deposit'] = "0";
+            Traffic::create($newTraffic);
+        }
+        $traffic = $applicant1->traffic;
 
         if($applicant && $applicant->camp->id == $camp->id) {
             $applicant = $this->applicantService->checkPaymentStatus($applicant);
@@ -482,8 +496,8 @@ class CampController extends Controller
                     $applicant->xaddr = '台北市南京東路四段165號九樓 福智學堂';
                 }
             }
-            return view('camps.' . $campTable . ".admissionResult")->with('applicant', $applicant);
-        } else {
+            return view('camps.' . $campTable . ".admissionResult", compact('applicant','traffic'));
+        } else{
             return back()->withInput()->withErrors(["找不到報名資料，請確認是否已成功報名，或是輸入了錯誤的查詢資料。"]);
         }
     }
@@ -526,10 +540,16 @@ class CampController extends Controller
     public function toggleAttend(Request $request)
     {
         $applicant = Applicant::find($request->id);
-        if($request->confirmation_no) {
-            $applicant->is_attend = 0;
+        //other camps
+        if($request->camp == "ycamp") {
+            if($request->cancel) {$applicant->is_attend = 0;}
+            else {$applicant->is_attend = 1;} 
         } else {
-            $applicant->is_attend = !isset($applicant->is_attend) ? 1 : !$applicant->is_attend;
+            if($request->confirmation_no) {
+                $applicant->is_attend = 0;
+            } else{
+                $applicant->is_attend = !isset($applicant->is_attend) ? 1 : !$applicant->is_attend;
+            }
         }
         $applicant->save();
         $applicant = $this->applicantService->checkPaymentStatus($applicant);
@@ -546,8 +566,48 @@ class CampController extends Controller
         return redirect()->back();
     }
 
-    public function showCampPayment()
-    {
+    public function modifyTraffic(Request $request) {
+        $applicant = Applicant::find($request->id);
+        $traffic = $applicant->traffic;
+        $traffic->depart_from = $request->depart_from;
+        $traffic->back_to = $request->back_to;
+        if ($request->camp == "ycamp") {
+            if ($request->depart_from == "台北專車")
+                $from_fare = 400;
+            elseif  ($request->depart_from == "桃園專車")
+                $from_fare = 350;
+            elseif  ($request->depart_from == "新竹專車")
+                $from_fare = 250;
+            elseif  ($request->depart_from == "台中專車")
+                $from_fare = 200;
+            elseif  ($request->depart_from == "台南專車")
+                $from_fare = 200;
+            elseif  ($request->depart_from == "高雄專車")
+                $from_fare = 350;
+            else
+                $from_fare = 0;
+
+            if ($request->back_to == "台北專車")
+                $back_fare = 400;
+            elseif  ($request->back_to == "桃園專車")
+                $back_fare = 350;
+            elseif  ($request->back_to == "新竹專車")
+                $back_fare = 250;
+            elseif  ($request->back_to == "台中專車")
+                $back_fare = 200;
+            elseif  ($request->back_to == "台南專車")
+                $back_fare = 200;
+            elseif  ($request->back_to == "高雄專車")
+                $back_fare = 350;
+            else
+                $back_fare = 0;
+        }
+        $traffic->fare = $from_fare + $back_fare;
+        $traffic->save();
+        return redirect(route('showadmit', ['batch_id' => $applicant->batch_id, 'sn' => $applicant->id, 'name' => $applicant->name]));
+    }
+
+    public function showCampPayment() {
         return view('camps.' . $this->camp_data->table . '.payment');
     }
 
