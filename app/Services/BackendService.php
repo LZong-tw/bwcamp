@@ -75,7 +75,7 @@ class BackendService
         return ($batch->groups?->count() ?? 0) < $batch->num_groups;
     }
 
-    public function processGroup(Applicant $applicant, string $group = null): ApplicantsGroup | string
+    public function processGroup(Applicant $applicant, string $group = null): ApplicantsGroup | null | string
     {
         $flag = 0;
         if ($applicant->batch->num_groups && $this->checkBatchCanAddMoreGroup($applicant->batch)) {
@@ -98,7 +98,7 @@ class BackendService
                 return $group;
             }
             else {
-                $flag = 2;
+                return null;
             }
         }
         elseif (!$applicant->batch->num_groups) {
@@ -114,9 +114,12 @@ class BackendService
         return '<h2>組別處理發生異常狀況，請聯絡系統管理員</h2>';
     }
 
-    public function setGroup(Applicant $applicant, string $group = null): Applicant
+    public function setGroup(Applicant $applicant, string $group = null): Applicant | false
     {
         $group = $this->processGroup($applicant, $group);
+        if (!$group) {
+            return false;
+        }
         if (!$applicant->is_admitted) {
             $this->setAdmitted($applicant, true);
         }
