@@ -72,14 +72,14 @@ class BackendService
         if (!$batch->num_groups) {
             throw new \Exception("梯次沒有設定組數");
         }
-        return ($batch->groups?->count() ?? 0) <= $batch->num_groups;
+        return ($batch->groups?->count() ?? 0) < $batch->num_groups;
     }
 
-    public function processGroup(Applicant $applicant, string $group = null): ApplicantsGroup
+    public function processGroup(Applicant $applicant, string $group = null): ApplicantsGroup | string
     {
         $flag = 0;
         if ($applicant->batch->num_groups && $this->checkBatchCanAddMoreGroup($applicant->batch)) {
-            $group = ApplicantsGroup::firstOrCreate([
+            $group = ApplicantsGroup::query()->firstOrCreate([
                 'batch_id' => $applicant->batch_id,
                 'alias' => $group,
             ]);
@@ -90,10 +90,10 @@ class BackendService
                 $flag = 1;
             }
         } elseif ($applicant->batch->num_groups && !$this->checkBatchCanAddMoreGroup($applicant->batch)) {
-            $group = ApplicantsGroup::firstOrCreate([
+            $group = ApplicantsGroup::query()->where([
                 'batch_id' => $applicant->batch_id,
                 'alias' => $group,
-            ]);
+            ])->first();
             if ($group) {
                 return $group;
             }
@@ -102,7 +102,7 @@ class BackendService
             }
         }
         elseif (!$applicant->batch->num_groups) {
-            return ApplicantsGroup::firstOrCreate([
+            return ApplicantsGroup::query()->firstOrCreate([
                 'batch_id' => $applicant->batch_id,
                 'alias' => $group,
             ]);
