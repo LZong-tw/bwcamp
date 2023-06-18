@@ -171,10 +171,14 @@ class BackendController extends Controller
                     return view('backend.registration.showCandidate', compact('candidate', 'error'));
                 }
                 $this->backendService->setAdmitted($candidate, 1);
-                $this->backendService->setGroup($candidate, $group);
-                $this->backendService->setNumber($candidate, $number);
-                $this->applicantService->fillPaymentData($candidate);
-                $message = "錄取完成。";
+                if ($this->backendService->setGroup($candidate, $group)) {
+                    $this->backendService->setNumber($candidate, $number);
+                    $this->applicantService->fillPaymentData($candidate);
+                    $message = "錄取完成。";
+                }
+                else {
+                    $message = "錄取失敗，請檢查學員組數是否已達上限無法再新增。";
+                }
             }
             $candidate = $this->applicantService->fetchApplicantData(
                 $this->campFullData->id,
@@ -250,11 +254,15 @@ class BackendController extends Controller
                 }
                 if (!$skip) {
                     $this->backendService->setAdmitted($candidate, 1);
-                    $this->backendService->setGroup($candidate, $group);
-                    $this->backendService->setNumber($candidate, $number);
-                    $candidate = $this->applicantService->fillPaymentData($candidate);
-                    $applicant = $candidate->save();
-                    array_push($message, $candidate->name . "，錄取序號" . $request->admittedSN[$key] . "錄取完成。");
+                    if ($this->backendService->setGroup($candidate, $group)) {
+                        $this->backendService->setNumber($candidate, $number);
+                        $candidate = $this->applicantService->fillPaymentData($candidate);
+                        $applicant = $candidate->save();
+                        array_push($message, $candidate->name . "，錄取序號" . $request->admittedSN[$key] . "錄取完成。");
+                    }
+                    else {
+                        array_push($error, $candidate->name . "，報名序號" . $id . "錄取失敗，請檢查學員組數是否已達上限無法再新增。");
+                    }
                 }
                 $applicant = $this->applicantService->Mandarization($candidate);
                 array_push($applicants, $applicant);
