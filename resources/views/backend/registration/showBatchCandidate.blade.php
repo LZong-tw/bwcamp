@@ -47,7 +47,9 @@
                                 @endif
                             @endif
                             @if($applicant->deleted_at !== null)
-                                已取消
+                                <div class="text-danger">
+                                    已取消
+                                </div>
                             @endif
                         </td>
                     </tr>
