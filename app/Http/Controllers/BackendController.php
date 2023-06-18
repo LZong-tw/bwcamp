@@ -148,6 +148,8 @@ class BackendController extends Controller
         if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer(), 'read', Vcamp::find($this->campFullData->id)->mainCamp) && $this->user->id > 2) {
             return "<h3>沒有權限：瀏覽任何義工</h3>";
         }
+        $message = null;
+        $error = null;
         if ($request->isMethod('POST')) {
             $candidate = Applicant::find($request->id);
             if($request->get("clear") == "清除錄取序號") {
@@ -186,7 +188,7 @@ class BackendController extends Controller
                 idOrName: $candidate->id,
             );
             $candidate = $this->applicantService->Mandarization($candidate);
-            return view('backend.registration.showCandidate', compact('candidate', 'message'));
+            return view('backend.registration.showCandidate', compact('candidate', 'message', 'error'));
         } else {
             $candidates = Applicant::select('applicants.*')
             ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
