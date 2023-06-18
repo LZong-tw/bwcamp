@@ -318,10 +318,21 @@ class CheckInController extends Controller {
     }
 
     public function uncheckIn(Request $request) {
-        if(CheckIn::where('applicant_id', $request->applicant_id)->where('check_in_date', $request->check_in_date)->first()->delete()){
-            \Session::flash('message', "報消報到成功。");
-        }
-        else{
+        $record = CheckIn::where('applicant_id', $request->applicant_id)->where('check_in_date', $request->check_in_date)->first();
+        try {
+            if($record) {
+                $record->delete();
+                \Session::flash('message', "報消報到成功。");
+            }
+            else{
+                \Session::flash('message', "該筆報到資料已不存在。");
+            }
+        } catch (\Exception $e) {
+            if ($this->shouldReport($e) && app()->bound('sentry')) {
+                app('sentry')->captureException($e);
+                \Sentry\captureMessage('取消報到過程發生未知錯誤。');
+            }
+            logger($e->getMessage());
             return back()->withErrors(['取消報到過程發生未知錯誤。']);
         }
         return back();
