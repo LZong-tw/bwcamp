@@ -39,7 +39,7 @@
 
                 <h5>錄取/報到通知</h5>
                 <div class="ml-2 mb-2">請詳閱<a href="{{ url('downloads/ycamp2023/【2023第56屆大專青年生命成長營】錄取通知單.pdf') }}">錄取/報到通知</a>，內含報到資訊、必帶物品，及交通資訊等等。</div>
-                <div class="ml-2 mb-2"><a href="{{ url('downloads/ycamp2023/【2023第56屆大專青年生命成長營】錄取通知單.pdf') }}" class="btn btn-primary" target="_blank" style="margin-top: 10px">下載錄取/報到通知</a></div><br>
+                <div class="ml-2 mb-2"><a href="{{ url('downloads/ycamp2023/【2023第56屆大專青年生命成長營】錄取通知單.pdf') }}" download class="btn btn-primary" target="_blank" style="margin-top: 10px">下載錄取/報到通知</a></div><br>
 
                 <h5>放棄參加</h5>                
                 <form class="ml-2 mb-2" action="{{ route('toggleAttend', $batch_id) }}" method="POST" id="attendcancel">
