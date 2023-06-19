@@ -108,7 +108,11 @@ class ApplicantService
         $candidate->store_second_barcode = $paymentFlow->getStoreSecondBarcode();
         $candidate->store_third_barcode = $paymentFlow->getStoreThirdBarcode($candidate->fee);
         $candidate->bank_second_barcode = $paymentFlow->getBankSecondBarcode();
-        $candidate->bank_third_barcode = $paymentFlow->getBankThirdBarcode($candidate->fee);
+        if($candidate->batch->camp->table == "ycamp") {
+            $candidate->bank_third_barcode = $paymentFlow->getBankThirdBarcode($candidate->traffic->fare);
+        } else {
+            $candidate->bank_third_barcode = $paymentFlow->getBankThirdBarcode($candidate->fee);
+        }
         $candidate->deposit = $candidate->deposit == null || $candidate->deposit == 0 ? 0 : $candidate->deposit;
         $candidate->save();
         return $candidate;
