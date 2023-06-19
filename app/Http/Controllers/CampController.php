@@ -460,7 +460,7 @@ class CampController extends Controller
                 ->where('name', $request->name)
                 ->withTrashed()->first();
         }
-
+        
         if($applicant && $applicant->camp->id == $camp->id) {
             //MCH: applicant's id is not correct??
             $applicant1 = Applicant::find($request->sn);
@@ -473,8 +473,14 @@ class CampController extends Controller
                 $newTraffic['fare'] = "0";
                 $newTraffic['deposit'] = "0";
                 Traffic::create($newTraffic);
+                //relink applicant1 and newly created traffic??
+                $applicant1 = Applicant::find($request->sn);
+                //update barcode
+                $applicant1 = $this->applicantService->fillPaymentData($applicant1);
+                $applicant1->save();
             }
             $traffic = $applicant1->traffic;
+
             $applicant = $this->applicantService->checkPaymentStatus($applicant);
             //for 2023大專教師營
             if ($applicant->camp->table == 'utcamp') {
@@ -611,6 +617,10 @@ class CampController extends Controller
         }
         $traffic->fare = $from_fare + $back_fare;
         $traffic->save();
+        //update barcode
+        $applicant = $this->applicantService->fillPaymentData($applicant);
+        $applicant->save();
+
         return redirect(route('showadmit', ['batch_id' => $applicant->batch_id, 'sn' => $applicant->id, 'name' => $applicant->name]));
     }
 

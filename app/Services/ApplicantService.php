@@ -106,7 +106,11 @@ class ApplicantService
         $paymentFlow = new PaymentflowService($data);
         $candidate->store_first_barcode = $paymentFlow->getStoreFirstBarcode();
         $candidate->store_second_barcode = $paymentFlow->getStoreSecondBarcode();
-        $candidate->store_third_barcode = $paymentFlow->getStoreThirdBarcode($candidate->fee);
+        if($candidate->batch->camp->table == "ycamp") {
+            $candidate->store_third_barcode = $paymentFlow->getStoreThirdBarcode($candidate->traffic->fare);
+        } else {
+            $candidate->store_third_barcode = $paymentFlow->getStoreThirdBarcode($candidate->fee);
+        }
         $candidate->bank_second_barcode = $paymentFlow->getBankSecondBarcode();
         if($candidate->batch->camp->table == "ycamp") {
             $candidate->bank_third_barcode = $paymentFlow->getBankThirdBarcode($candidate->traffic->fare);
