@@ -210,7 +210,6 @@ class BackendController extends Controller
         if(!$download) {
             return view('camps.' . $applicant->batch->camp->table . '.paymentForm', compact('applicant', 'download'));
         } else {
-            \PDF::setOption(['defaultFont' => '微軟正黑體']);
             return \PDF::loadView('camps.' . $applicant->batch->camp->table . '.paymentFormPDF', compact('applicant'))->setPaper('a3')->download(Carbon::now()->format('YmdHis') . $applicant->batch->camp->table . $applicant->id . '.pdf');
         }
     }
@@ -1026,7 +1025,6 @@ class BackendController extends Controller
         $applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant));
 
         if($request->download) {
-            \PDF::setOption(['defaultFont' => '微軟正黑體']);
             return \PDF::loadView('backend.in_camp.volunteerPhoto', compact('applicants', 'batches'))->download(Carbon::now()->format('YmdHis') . $camp->table . '義工名冊.pdf');
         }
 
