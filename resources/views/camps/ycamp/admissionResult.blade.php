@@ -153,7 +153,7 @@
                 <p class="card-text">親愛的 {{ $applicant->name }} 同學您好</p>
                 <p class="card-text indent">非常感謝您報名參加「{{ $camp_data->fullName }}」，由於本活動報名人數踴躍，且場地有限，非常抱歉未能在第一階段錄取您。我們已將您列入優先備取名單，若有遞補機會，基金會將儘速通知您!</p>
                 <p class="card-text indent">開學後，各區福青學堂定期都有精彩的課程活動，竭誠歡迎您的參與!也祝福您學業順利，吉祥如意！</p>
-                <h3>各區福青學堂資訊</h3>
+                <h5>各區福青學堂資訊</h5>
                 <div class="container">
                     <div class="row">
                         <div class="col-md-6">
