@@ -16,7 +16,7 @@
 <h2 class="center">{{ $applicant->batch->camp->fullName }}<br>備取通知單</h2>
 <font size="3">
 <p class="card-text">親愛的 {{ $applicant->name }} 同學您好</p>
-<p class="card-text indent">非常感謝您報名參加「{{ $campFullData->fullName }}」，由於本活動報名人數踴躍，且場地有限，非常抱歉未能在第一階段錄取您。我們已將您列入優先備取名單，若有遞補機會，基金會將儘速通知您!</p>
+<p class="card-text indent">非常感謝您報名參加「{{ $applicant->batch->camp->fullName }}」，由於本活動報名人數踴躍，且場地有限，非常抱歉未能在第一階段錄取您。我們已將您列入優先備取名單，若有遞補機會，基金會將儘速通知您!</p>
 <p class="card-text indent">開學後，各區福青學堂定期都有精彩的課程活動，竭誠歡迎您的參與!也祝福您學業順利，吉祥如意！</p>
 </font>
 <br>
