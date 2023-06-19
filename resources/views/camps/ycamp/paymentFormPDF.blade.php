@@ -4,6 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>paymentForm</title>
     <style>
+        body { font-family:  '微軟正黑體'; } 
         .table, table.table td{
             border: 1px solid black;
             border-collapse: collapse;
