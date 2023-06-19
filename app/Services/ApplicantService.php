@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 
 use App\Models\Applicant;
@@ -6,8 +7,9 @@ use Carbon\Carbon;
 
 class ApplicantService
 {
-    public function Mandarization($applicant){
-        switch($applicant->gender){
+    public function Mandarization($applicant)
+    {
+        switch($applicant->gender) {
             case "M":
                 $applicant->gender = "男";
                 break;
@@ -18,7 +20,8 @@ class ApplicantService
         return $applicant;
     }
 
-    public function groupAndNumberSeperator($admittedSN){
+    public function groupAndNumberSeperator($admittedSN)
+    {
         $group = substr($admittedSN, 0, 3);
         $number = substr($admittedSN, 3, strlen($admittedSN));
         return compact('group', 'number');
@@ -34,7 +37,8 @@ class ApplicantService
      * @param 報名者座號
      * @return \App\Models\Applicant
      */
-    public function fetchApplicantData($camp_id, $table, $idOrName = null, $group = null, $number = null) {
+    public function fetchApplicantData($camp_id, $table, $idOrName = null, $group = null, $number = null)
+    {
         $applicant = Applicant::select('applicants.*', $table . '.*', $table . '.id as ""')
             ->join($table, 'applicants.id', '=', $table . '.applicant_id')
             ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
@@ -67,18 +71,19 @@ class ApplicantService
         return $applicant;
     }
 
-    public function checkIfPaidEarlyBird($applicant) {
+    public function checkIfPaidEarlyBird($applicant)
+    {
         // 須為已錄取
         // 如果已錄取，或營隊有早鳥且報名者已付清款項，則跳過
-        if($applicant->is_admitted || ($applicant->batch->camp->has_early_bird && ($applicant->fee - $applicant->deposit <= 0))){
+        if($applicant->is_admitted || ($applicant->batch->camp->has_early_bird && ($applicant->fee - $applicant->deposit <= 0))) {
             return $applicant;
         }
         // 快樂營其他(無論有無早鳥)，僅檢查報名者是否錄取，未錄取表示未繳費完成，則填入繳費資料
-        else if($applicant->batch->camp->table == "hcamp" && !$applicant->is_admitted){
+        elseif($applicant->batch->camp->table == "hcamp" && !$applicant->is_admitted) {
             $applicant = $this->fillPaymentData($applicant);
         }
         // 其他(無論有無早鳥)，僅檢查報名者是否錄取，已錄取則填入繳費資料
-        else if($applicant->batch->camp->table != "hcamp" && $applicant->is_admitted){
+        elseif($applicant->batch->camp->table != "hcamp" && $applicant->is_admitted) {
             $applicant = $this->fillPaymentData($applicant);
         }
         return $applicant;
@@ -94,8 +99,9 @@ class ApplicantService
      * @param 營隊完整資料
      * @return 一個報名者 model
      */
-    public function fillPaymentData($candidate){
-        if(!config('camps_payments.' . $candidate->batch->camp->table)){
+    public function fillPaymentData($candidate)
+    {
+        if(!config('camps_payments.' . $candidate->batch->camp->table)) {
             return $candidate;
         }
         $data = array_merge(config('camps_payments.general'), config('camps_payments.' . $candidate->batch->camp->table));
@@ -122,24 +128,22 @@ class ApplicantService
         return $candidate;
     }
 
-    public function checkPaymentStatus($applicant){
+    public function checkPaymentStatus($applicant)
+    {
         $applicant->showCheckInInfo = 0;
-        if($applicant->deposit == 0){
+        if($applicant->deposit == 0) {
             $status = "未繳費";
-            if($applicant->fee == 0){
+            if($applicant->fee == 0) {
                 $status = "無費用";
                 $applicant->showCheckInInfo = 1;
             }
-        }
-        elseif($applicant->fee - $applicant->deposit > 0){
+        } elseif($applicant->fee - $applicant->deposit > 0) {
             $status = "已繳部分金額，尚餘" . ($applicant->fee - $applicant->deposit) . "元";
             $applicant->showCheckInInfo = 1;
-        }
-        elseif($applicant->fee - $applicant->deposit < 0){
+        } elseif($applicant->fee - $applicant->deposit < 0) {
             $status = "已繳費，溢繳" . ($applicant->deposit - $applicant->fee) . "元";
             $applicant->showCheckInInfo = 1;
-        }
-        else{
+        } else {
             $status = "已繳費";
             $applicant->showCheckInInfo = 1;
         }
@@ -147,21 +151,22 @@ class ApplicantService
         return $applicant;
     }
 
-    public function retriveApplicantForSignInSignOut($request) {
+    public function retriveApplicantForSignInSignOut($request)
+    {
         // $group = substr($request->admitted_no, 0, 3);
         // $number = substr($request->admitted_no, 3, 2);
         $applicant =  Applicant::where('is_admitted', 1)
-                            ->where(function($query) use ($request){
+                            ->where(function ($query) use ($request) {
                                 // $query->where('id', $request->query_str)
                                 // ->orWhere('name', 'like', '%' . $request->query_str . '%')
                                 $query->where('name', 'like', $request->name)
                                       ->where(function ($query) use ($request) {
-                                           $query->where(\DB::raw("replace(mobile, '-', '')"), 'like', '%' . $request->mobile . '%')
-                                                ->orWhere(\DB::raw("replace(mobile, '(', '')"), 'like', '%' . $request->mobile . '%')
-                                                ->orWhere(\DB::raw("replace(mobile, ')', '')"), 'like', '%' . $request->mobile . '%')
-                                                ->orWhere(\DB::raw("replace(mobile, '（', '')"), 'like', '%' . $request->mobile . '%')
-                                                ->orWhere(\DB::raw("replace(mobile, '）', '')"), 'like', '%' . $request->mobile . '%');
-                                    });
+                                          $query->where(\DB::raw("replace(mobile, '-', '')"), 'like', '%' . $request->mobile . '%')
+                                               ->orWhere(\DB::raw("replace(mobile, '(', '')"), 'like', '%' . $request->mobile . '%')
+                                               ->orWhere(\DB::raw("replace(mobile, ')', '')"), 'like', '%' . $request->mobile . '%')
+                                               ->orWhere(\DB::raw("replace(mobile, '（', '')"), 'like', '%' . $request->mobile . '%')
+                                               ->orWhere(\DB::raw("replace(mobile, '）', '')"), 'like', '%' . $request->mobile . '%');
+                                      });
                             })
                             // ->where([['group', $group], ['number', $number]])
                             ->orderBy('id', 'desc')->first();
@@ -171,7 +176,8 @@ class ApplicantService
         return $applicant;
     }
 
-    public function generatesSignMessage($applicant) {
+    public function generatesSignMessage($applicant)
+    {
         $signInSignOutObject = $applicant->batch->canSignNow();
         if ($signInSignOutObject) {
             $str = $signInSignOutObject->isSignIn() ? "簽到" : "簽退";
