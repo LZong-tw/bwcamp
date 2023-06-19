@@ -525,12 +525,14 @@ class CampController extends Controller
         $applicant = Applicant::find($request->applicant_id);
         $applicant = $this->applicantService->checkIfPaidEarlyBird($applicant);
         $applicant->save();
+        \PDF::setOption(['defaultFont' => '微軟正黑體']);
         return \PDF::loadView('camps.' . $this->camp_data->table . '.paymentFormPDF', compact('applicant'))->setPaper('a3')->download('Payment_' . \Carbon\Carbon::now()->format('YmdHis') . $applicant->id . '.pdf');
     }
 
     public function downloadCheckInNotification(Request $request)
     {
         $applicant = Applicant::find($request->applicant_id);
+        \PDF::setOption(['defaultFont' => '微軟正黑體']);
         return \PDF::loadView('camps.' . $this->camp_data->table . '.checkInMail', compact('applicant'))->download(\Carbon\Carbon::now()->format('YmdHis') . $this->camp_data->table . $applicant->id . '報到通知單.pdf');
     }
 
