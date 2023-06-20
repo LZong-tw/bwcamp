@@ -107,16 +107,16 @@
 <table style="width: 100%; border: 0;">
     <tr><td></td></tr>
     <tr>
-        <td>
-	    <a style="font-size: 1.5em; margin-left: 25%;">{{ $applicant->batch->camp->fullName }} 錄取繳費通知單</a>
+        <td align="center">
+	    <a style="font-size: 1.5em;">{{ $applicant->batch->camp->fullName }} 錄取繳費通知單</a>
         <td>
     <tr>
 </table>
 <table style="width: 100%; table-layout:fixed; border: 0;">
     <tr>
-        <td>姓名：{{ $applicant->name }}</td>
-        <td>報名序號：{{ $applicant->id }}</td>
-        <td>錄取編號：{{ $applicant->group }}{{ $applicant->number }}</td>
+        <td align="center">姓名：{{ $applicant->name }}</td>
+        <td align="center">報名序號：{{ $applicant->id }}</td>
+        <td align="center">錄取編號：{{ $applicant->group }}{{ $applicant->number }}</td>
     </tr>
 </table>
 恭喜您錄取「{{ $applicant->batch->camp->fullName }}」！竭誠歡迎您的到來，期待與您共享這場心靈饗宴，希望您能獲得豐盛的收穫。您選擇交通的方式及費用如下：
