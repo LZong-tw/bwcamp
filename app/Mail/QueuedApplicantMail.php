@@ -10,16 +10,24 @@ use Illuminate\Queue\SerializesModels;
 
 class QueuedApplicantMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
-    public $applicant, $applicant_id, $camp, $campData, $camp_data, $admission_announcing_date_Weekday, $isGetSN;
+    public $applicant;
+    public $applicant_id;
+    public $camp;
+    public $campData;
+    public $camp_data;
+    public $admission_announcing_date_Weekday;
+    public $isGetSN;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($applicant_id, $campOrVariant, $isGetSN = false) {
+    public function __construct($applicant_id, $campOrVariant, $isGetSN = false)
+    {
         //
         $this->applicant_id = $applicant_id;
         $this->camp = $campOrVariant;
@@ -31,7 +39,8 @@ class QueuedApplicantMail extends Mailable
      *
      * @return $this
      */
-    public function build() {
+    public function build()
+    {
         $this->withSwiftMessage(function ($message) {
             $headers = $message->getHeaders();
             $headers->addTextHeader('time', time());
@@ -48,13 +57,11 @@ class QueuedApplicantMail extends Mailable
             if ($this->camp == 'ceocamp') {
                 return $this->subject($this->applicant->batch->camp->abbreviation . '推薦報名完成')
                     ->view('camps.' . $this->applicant->batch->camp->table . ".applicantMail");
-            }
-            else {
+            } else {
                 return $this->subject($this->applicant->batch->camp->abbreviation . '報名完成')
                     ->view('camps.' . $this->applicant->batch->camp->table . ".applicantMail");
             }
-        }
-        else{
+        } else {
             return $this->subject($this->applicant->batch->camp->abbreviation . '序號查詢')
                     ->view('camps.' . $this->applicant->batch->camp->table . ".SNMail");
         }
