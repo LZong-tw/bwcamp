@@ -103,6 +103,7 @@ class ApplicantService
         $data["繳費期限"] = $candidate->batch->camp->set_payment_deadline ?? "000000";
         $data["銷帳編號"] = $data["銷帳流水號前1碼"] . str_pad($candidate->id, 5, '0', STR_PAD_LEFT);
         if ($candidate->batch->camp->table == "ycamp") {
+            // todo: 應釐清學員的 fee 和交通的 fare 之間的差別
             $candidate->fee = $candidate->traffic?->fare ?? 0;
         } else {
             $candidate->fee = $candidate->batch->camp->set_fee ?? 0;

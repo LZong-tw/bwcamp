@@ -37,10 +37,13 @@ class QueuedApplicantMail extends Mailable
             $headers->addTextHeader('time', time());
         });
         $this->applicant = Applicant::find($this->applicant_id);
+        if (!$this->applicant) {
+            return;
+        }
         $this->campData = $this->applicant->batch->camp;
         $this->camp_data = $this->campData;
         $this->admission_announcing_date_Weekday = \Carbon\Carbon::create($this->campData->admission_announcing_date)->locale(\App::getLocale())->isoFormat("dddd");
-        
+
         if(!$this->isGetSN) {
             if ($this->camp == 'ceocamp') {
                 return $this->subject($this->applicant->batch->camp->abbreviation . '推薦報名完成')
