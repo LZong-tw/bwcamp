@@ -50,8 +50,9 @@ class SendAdmittedMail implements ShouldQueue, ShouldBeUnique
             \Mail::to($applicant->email)->send(new \App\Mail\AdmittedMail($applicant, $applicant->batch->camp));
         }
         else{
-            $paymentFile = \PDF::loadView('camps.' . $applicant->batch->camp->table . '.paymentFormPDF', compact('applicant'))->download();
-            \Mail::to($applicant->email)->send(new \App\Mail\AdmittedMail($applicant, $applicant->batch->camp, $paymentFile));
+            $paymentFile = \PDF::loadView('camps.' . $applicant->batch->camp->table . '.paymentFormPDF', compact('applicant'))->output();
+            $attachment = new \Symfony\Component\Mime\Part\Attachment($paymentFile, 'payment.pdf', 'application/pdf');
+            \Mail::to($applicant->email)->send(new \App\Mail\AdmittedMail($applicant, $applicant->batch->camp, $attachment));
         }
 
     }
