@@ -46,7 +46,7 @@
                                     <input type="text" name="admittedSN[]" value="{{ $applicant->group.$applicant->number }}" class="form-control" required pattern=".{5}">
                                 @endif
                             @endif
-                            @if($applicant->deleted_at !== null)
+                            @if(isset($applicant->deleted_at) && $applicant->deleted_at !== null)
                                 <div class="text-danger">
                                     已取消
                                 </div>
