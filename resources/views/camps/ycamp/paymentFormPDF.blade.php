@@ -8,7 +8,7 @@
             font-family: 'msjh';
             font-style: normal;
             font-weight: normal;
-            src: url(./msjh.ufm);
+            src: url('{{ storage_path('fonts/msjh.ttf') }}') format('truetype');
         }
         .table, table.table td{
             border: 1px solid black;
@@ -28,7 +28,7 @@
             line-height: 15px;
             font-size: 14px;
             word-wrap: break-word;
-            font-family: 'msjh';
+            font-family: arial, "Microsoft JhengHei", "微軟正黑體", "msjh", sans-serif !important;
         }
         .right{
             float: right;
@@ -44,7 +44,7 @@
     </style>
 </head>
 <body>
-財團法人福智文教基金會
+<a style="font-family: 'msjh'">財團法人福智文教基金會</a>
 <p style="float:right; clear: both; margin-top:180px; margin-right: -6px">代</p>
 <p style="float:right; clear: both; margin-top:210px; margin-right: -6px">收</p>
 <p style="float:right; clear: both; margin-top:240px; margin-right: -6px">行</p>
