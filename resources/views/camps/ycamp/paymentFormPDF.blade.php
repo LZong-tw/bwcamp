@@ -23,7 +23,7 @@
             padding-top: 10px;
             padding-left: 10px;
         }
-        html,body{
+        html, body, h2, h3 {
             {{-- line-height 及 font-size 已達極限 --}}
             line-height: 15px;
             font-size: 14px;
@@ -61,7 +61,7 @@
             &nbsp;&nbsp;代號011 → 輸入銷帳編號輸入應繳金額，<br>
             &nbsp;&nbsp;跨行轉帳須支付手續費。 <br>
             ＊超商繳納：請持本繳款單至7-11、全家、萊爾富、OK<br>
-            &nbsp;&nbsp;繳費，免付手續費。<br> 
+            &nbsp;&nbsp;繳費，免付手續費。<br>
             ＊臨櫃匯款：收款行=上海商業儲蓄銀行南京東路分行，<br>
             &nbsp;&nbsp;銀行代碼=0110406、戶名=財團法人福智文教基金會，<br>
             &nbsp;&nbsp;帳號=銷帳編號(14碼)，須自付手續費。
@@ -94,7 +94,7 @@
                     <td class="padding">
                         <img src="data:image/png;base64,{{ \DNS1D::getBarcodePNG($applicant->bank_second_barcode, 'C39', 1, 30) }}" alt="barcode" style="padding-top: 3px"/><br>
                         <a class="small" style="padding-top: 3px"> 銷帳編號：{{ $applicant->bank_second_barcode }}</a>
-                        <br>                  
+                        <br>
                         <img src="data:image/png;base64,{{ \DNS1D::getBarcodePNG($applicant->bank_third_barcode, 'C39', 1, 30) }}" alt="barcode" style="padding-top: 12px"/><br>
                         <a class="small">應繳金額：{{ $applicant->bank_third_barcode }}</a>
                         <a style="float: right; right:10px">銀行代號：011</a>
@@ -130,7 +130,7 @@
     <li>發票：本交通服務為代收代付，故不提供發票，敬請見諒。</li>
     <li>退費：車資繳交後視為已訂位，恕不退費。</li>
 </ul>
-<a class="right">財團法人福智文教基金會　敬啟</a><br>  
+<a class="right">財團法人福智文教基金會　敬啟</a><br>
 <a class="right">{{ \Carbon\Carbon::now()->year }}  年　{{ \Carbon\Carbon::now()->month }}  月 　 {{ \Carbon\Carbon::now()->day }}  日</a>
 </body>
 </html>
