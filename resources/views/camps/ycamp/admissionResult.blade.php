@@ -35,7 +35,7 @@
                 營隊日期：{{ $applicant->batch->batch_start }}(五) ~ {{ $applicant->batch->batch_end }}(一)，共4天<br>
                 營隊地點：{{ $applicant->batch->locationName }}({{ $applicant->batch->location }})<br>
                 </p>
-                <p class="card-text text-indent">此次營隊報名人數超過1,500人，錄取1,100 名，竭誠歡迎您的到來！請詳閱錄取/報到通知，並於6月28日(三)前回覆交通方式！祝福您營隊收穫滿滿。</p><br>
+                <p class="card-text text-indent">此次營隊報名人數超過1,500人，錄取1,100 名，竭誠歡迎您的到來！請詳閱錄取/報到通知，並於6月28日(三) [延至7/5(三)] 前回覆交通方式！祝福您營隊收穫滿滿。</p><br>
 
                 <h5>錄取/報到通知</h5>
                 <div class="ml-2 mb-2">請詳閱<a href="{{ url('downloads/ycamp2023/【2023第56屆大專青年生命成長營】錄取通知單.pdf') }}">錄取/報到通知</a>，內含報到資訊、必帶物品，及交通資訊等等。</div>
