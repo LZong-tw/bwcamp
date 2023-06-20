@@ -5,7 +5,7 @@
 </style>
 <h2 class="center">{{ $applicant->batch->camp->fullName }}<br>【錄取/報到通知單】</h2>
 <p class="card-text">親愛的 {{ $applicant->name }} 同學您好：</p>
-<p class="card-text text-indent">非常恭喜您錄取「{{ $campFullData->fullName }}」！</p>
+<p class="card-text text-indent">非常恭喜您錄取「{{ $capplicant->batch->camp->fullName }}」！</p>
 <p class="card-text text-indent">
 您的報名序號：{{ $applicant->id }}<br>
 您的錄取編號：{{ $applicant->group }}{{ $applicant->number }}<br>
