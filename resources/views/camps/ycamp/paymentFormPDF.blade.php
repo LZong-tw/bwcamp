@@ -4,6 +4,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>paymentForm</title>
     <style>
+        @font—face {
+            font-family: 'msyh';
+            font-style: normal;
+            font-weight: normal;
+            src: url(./msjh.ttf) format('truetype');
+        }
         .table, table.table td{
             border: 1px solid black;
             border-collapse: collapse;
@@ -22,6 +28,7 @@
             line-height: 15px;
             font-size: 14px;
             word-wrap: break-word;
+            font—family: 'msjh';
         }
         .right{
             float: right;
