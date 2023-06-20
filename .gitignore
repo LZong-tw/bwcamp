@@ -21,3 +21,4 @@ _ide_helper_models.php
 public/phpMyAdmin/*
 .idea/
 storage/fonts/installed-fonts.json
+storage/fonts/msjh_*
