@@ -7,7 +7,6 @@
         @font-face {
             font-family: 'msjh';
             font-style: normal;
-            font-weight: normal;
             src: url('{{ storage_path('fonts/msjh.ttf') }}') format('truetype');
         }
         .table, table.table td{
@@ -28,7 +27,7 @@
             line-height: 15px;
             font-size: 14px;
             word-wrap: break-word;
-            font-family: arial, "Microsoft JhengHei", "微軟正黑體", "msjh", sans-serif !important;
+            font-family: "msjh", sans-serif !important;
         }
         .right{
             float: right;
@@ -105,7 +104,14 @@
     </tr>
 </table>
 <hr>
-<h2 class="center">{{ $applicant->batch->camp->fullName }} 錄取繳費通知單</h2>
+<table style="width: 100%; border: 0;">
+    <tr><td></td></tr>
+    <tr>
+        <td>
+	    <a style="font-size: 1.5em; margin-left: 25%;">{{ $applicant->batch->camp->fullName }} 錄取繳費通知單</a>
+        <td>
+    <tr>
+</table>
 <table style="width: 100%; table-layout:fixed; border: 0;">
     <tr>
         <td>姓名：{{ $applicant->name }}</td>
@@ -119,8 +125,7 @@
     <li>回程：{{ $applicant->traffic->back_to }}</li>
     <li>費用：{{ $applicant->traffic->fare }}元</li>
 </ul>
-
-<h3>【注意事項】</h3>
+<a style="font-size: 1.17em;">【注意事項】</a>
 <ul>
     <li>繳費時間：請於{{ \Carbon\Carbon::now()->year }}年{{ substr($applicant->batch->camp->payment_deadline, 2, 2) }}月{{ substr($applicant->batch->camp->payment_deadline, 4, 2) }}日前完成繳費，<a style="color: red;">逾時將視同放棄搭乘專車！</a>
     <li>繳費方式：請見上面繳費單說明。</li>
