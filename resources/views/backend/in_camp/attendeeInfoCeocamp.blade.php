@@ -144,22 +144,24 @@
 
         <button type="submit">Submit</button>
     </form> --}}
-    <form method="POST" class="alert alert-primary" name="filesForm" enctype="multipart/form-data">
-        @csrf
-        @if($applicant->files)
-            @foreach(json_decode($applicant->files) as $file)
-                <div class="row">
-                    <div class="col-md-8">
-                        <img src="{{ url("/backend/" . $applicant->camp->id . "/image/" . $file) }}" width=80>
+    <div class="row">
+        <form method="POST" class="alert alert-primary" name="filesForm" enctype="multipart/form-data">
+            @csrf
+            @if($applicant->files)
+                @foreach(json_decode($applicant->files) as $file)
+                    <div class="row">
+                        <div class="col-md-8">
+                            <img src="{{ url("/backend/" . $applicant->camp->id . "/image/" . $file) }}" width=80>
+                        </div>
                     </div>
-                </div>
-            @endforeach
-        @endif
-        <input type="file" name="file1" id="">
-        <input type="file" name="file2" id="">
-        <input type="button" class="btn btn-success" value="上傳" onclick="document.filesForm.submit()">
-        <button type="reset" class="btn btn-danger">重設</button>
-    </form>
+                @endforeach
+            @endif
+            <input type="file" name="file1" id="">
+            <input type="file" name="file2" id="">
+            <input type="button" class="btn btn-success" value="上傳" onclick="document.filesForm.submit()">
+            <button type="reset" class="btn btn-danger">重設</button>
+        </form>
+    </div>
     <div class="container">
         <div class="row">
             <div class="col-md-4">
