@@ -147,6 +147,7 @@
     <div class="container alert alert-primary">
         <div class="row">
             <div class="col-md-12">
+                <span class="text-danger font-weight-bold">注意：應一次上傳兩個檔案</span>
                 <form method="POST" class="" name="filesForm" enctype="multipart/form-data">
                     @csrf
                     @if($applicant->files)
