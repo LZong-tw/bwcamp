@@ -26,7 +26,7 @@
             錄取查詢
         </div>
         <div class="card-body">
-            @if($applicant->is_admitted)
+            @if($applicant->is_admitted && !$applicant->deleted_at)
                 <p class="card-text">親愛的 {{ $applicant->name }} 同學您好</p>
                 <p class="card-text text-indent">非常恭喜您錄取「{{ $camp_data->fullName }}」！</p>
                 <p class="card-text text-indent">
@@ -143,6 +143,7 @@
                 <p class="card-text indent">感謝您報名「{{ $camp_data->fullName }}」，錄取作業正在進行中，請稍後再進行錄取查詢。感謝您的耐心等待！</p>
                 <p class="card-text text-right">財團法人福智文教基金會 敬啟</p>
                 <p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
+            @elseif($applicant->deleted_at)
             @else
 <!--
                 <p class="card-text">親愛的 {{ $applicant->name }} 同學您好</p>
