@@ -177,8 +177,7 @@ class BackendController extends Controller
                     $this->backendService->setNumber($candidate, $number);
                     $this->applicantService->fillPaymentData($candidate);
                     $message = "錄取完成。";
-                }
-                else {
+                } else {
                     $error = "錄取失敗，請檢查學員組數是否已達上限無法再新增。";
                 }
             }
@@ -261,8 +260,7 @@ class BackendController extends Controller
                         $candidate = $this->applicantService->fillPaymentData($candidate);
                         $applicant = $candidate->save();
                         array_push($message, $candidate->name . "，錄取序號" . $request->admittedSN[$key] . "錄取完成。");
-                    }
-                    else {
+                    } else {
                         array_push($error, $candidate->name . "，報名序號" . $id . "錄取失敗，請檢查學員組數是否已達上限無法再新增。");
                     }
                 }
@@ -329,8 +327,7 @@ class BackendController extends Controller
         $candidate = $this->applicantService->fetchApplicantData($this->campFullData->id, $this->campFullData->table, $request->snORadmittedSNorName, $group, $number);
         if($candidate) {
             $candidate = $this->applicantService->Mandarization($candidate);
-        }
-        else {
+        } else {
             return "<h3>學員已取消或查無此學員</h3>";
         }
 
