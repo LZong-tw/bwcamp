@@ -23,6 +23,7 @@ use App\Models\Traffic;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
+use Intervention\Image\Facades\Image;
 use View;
 use App\Traits\EmailConfiguration;
 use App\Models\SignInSignOut;
@@ -1077,7 +1078,42 @@ class BackendController extends Controller
             $this->campFullData->table,
             $request->snORadmittedSN,
         );
-
+        if ($request->isMethod("POST")) {
+            try {
+                $disk = \Storage::disk('local');
+                $path = 'media/';
+                if(request()->hasFile('file1')) {
+                    $file1 = request()->file('file1');
+                    $name1 = $file1->hashName();
+                }
+                if(request()->hasFile('file2')) {
+                    $file2 = request()->file('file2');
+                    $name2 = $file2->hashName();
+                }
+                $files = [];
+                if($file1 ?? false) {
+                    $disk->put($path, $file1);
+                    $image = Image::make(storage_path($path . $name1))->resize(800, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+                    $image->save(storage_path($path . $name1));
+                    $files[] = $path . $name1;
+                }
+                if($file2 ?? false) {
+                    $disk->put($path, $file2);
+                    $image = Image::make(storage_path($path . $name2))->resize(800, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+                    $image->save(storage_path($path . $name2));
+                    $files[] = $path . $name2;
+                }
+                if($applicant) {
+                    $applicant->update(["files" => json_encode($files)]);
+                }
+            } catch(\Throwable $e) {
+                logger($e);
+            }
+        }
         if($applicant) {
             if (str_contains($camp->table, 'vcamp')) {
                 $theCamp = Vcamp::find($camp->id)->mainCamp;
