@@ -144,16 +144,13 @@
 
         <button type="submit">Submit</button>
     </form> --}}
-    <form method="POST" class="alert alert-primary" name="filesForm">
+    <form method="POST" class="alert alert-primary" name="filesForm" enctype="multipart/form-data">
         @csrf
         @if($applicant->files)
             @foreach(json_decode($applicant->files) as $file)
                 <div class="row">
                     <div class="col-md-8">
-{{--                        <a href="{{ route('downloadApplicantFile', [$camp->id, $file->id]) }}">{{ $file->name }}</a>--}}
-                    </div>
-                    <div class="col-md-4">
-{{--                        <a href="{{ route('deleteApplicantFile', [$camp->id, $file->id]) }}" class="btn btn-danger">刪除</a>--}}
+                        <img src="{{ url("/backend/" . $applicant->camp->id . "/image/" . $file) }}" width=80>
                     </div>
                 </div>
             @endforeach

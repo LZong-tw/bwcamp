@@ -1082,12 +1082,12 @@ class BackendController extends Controller
             try {
                 $disk = \Storage::disk('local');
                 $path = 'media/';
-                if(request()->hasFile('file1')) {
-                    $file1 = request()->file('file1');
+                if($request->hasFile('file1')) {
+                    $file1 = $request->file('file1');
                     $name1 = $file1->hashName();
                 }
-                if(request()->hasFile('file2')) {
-                    $file2 = request()->file('file2');
+                if($request->hasFile('file2')) {
+                    $file2 = $request->file('file2');
                     $name2 = $file2->hashName();
                 }
                 $files = [];
@@ -1108,8 +1108,9 @@ class BackendController extends Controller
                     $files[] = $path . $name2;
                 }
                 if($applicant) {
-                    $applicant->files = json_encode($files);
-                    $applicant->save();
+                    $a = Applicant::find($applicant->id);
+                    $a->files = json_encode($files);
+                    $a->save();
                 }
             } catch(\Throwable $e) {
                 logger($e);
@@ -1837,6 +1838,13 @@ class BackendController extends Controller
         $applicant = Applicant::find($id);
         if ($applicant->avatar) {
             return response()->file(base_path(\Storage::disk('local')->url($applicant->avatar)));
+        }
+        return '無';
+    }
+
+    public function getMediaImage($camp_id, $path) {
+        if (file_exists(base_path(\Storage::disk('local')->url("media/" . $path)))) {
+            return response()->file(base_path(\Storage::disk('local')->url("media/" . $path)));
         }
         return '無';
     }
