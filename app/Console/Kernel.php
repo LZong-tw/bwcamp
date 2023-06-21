@@ -26,6 +26,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('check:Accounting tcamp')->dailyAt("16:30");
         // $schedule->command('check:Accounting hcamp')->dailyAt("16:30");
+        $schedule->command('media-library:delete-old-temporary-uploads')->daily();
     }
 
     /**

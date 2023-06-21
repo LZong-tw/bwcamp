@@ -23,7 +23,7 @@ use App\Http\Controllers\Auth\RolesAssignmentController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::mediaLibrary();
 Route::get("/", Index::class);
 Route::resource("sign_page", SignController::class);
 Route::post("sign/search", [ArrayedSignController::class, 'search'])->name("sign_page.search");

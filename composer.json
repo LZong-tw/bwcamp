@@ -25,7 +25,8 @@
         "rap2hpoutre/laravel-log-viewer": "^2.2",
         "santigarcor/laratrust": "^7.1",
         "sentry/sentry-laravel": "^3.0",
-        "spatie/laravel-medialibrary": "^10.0.0"
+        "spatie/laravel-medialibrary": "^10.0.0",
+        "spatie/laravel-medialibrary-pro": "^2.0.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8",
@@ -44,6 +45,10 @@
             "type": "vcs",
             "url": "https://github.com/vladislavtkachenko/dompdf.git",
             "canonical": false
+        },
+        {
+            "type": "composer",
+            "url": "https://satis.spatie.be"
         }
     ],
     "config": {
