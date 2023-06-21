@@ -12,9 +12,15 @@ use Illuminate\Queue\Middleware\WithoutOverlapping;
 
 class SendApplicantMail implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, EmailConfiguration;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
+    use EmailConfiguration;
 
-    protected $applicant, $isGetSN, $campOrVariant;
+    protected $applicant;
+    protected $isGetSN;
+    protected $campOrVariant;
 
     /**
      * Create a new job instance.
