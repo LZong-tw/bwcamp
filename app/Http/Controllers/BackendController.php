@@ -330,6 +330,9 @@ class BackendController extends Controller
         if($candidate) {
             $candidate = $this->applicantService->Mandarization($candidate);
         }
+        else {
+            return "<h3>學員已取消或查無此學員</h3>";
+        }
 
         if(isset($request->change)) {
             $batches = Batch::where('camp_id', $this->campFullData->id)->get();
