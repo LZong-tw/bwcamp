@@ -77,7 +77,7 @@ class SignController extends Controller {
             ]);
         }
         $applicant = $this->applicantService->retriveApplicantForSignInSignOut($request);
-        if (!$applicant) {
+        if (!$applicant || $applicant->deleted_at) {
             return back()->withErrors('查無報名資料，請重新輸入或與關懷員回報');
         }
         [$message, $signInSignOutObject] = $this->applicantService->generatesSignMessage($applicant);

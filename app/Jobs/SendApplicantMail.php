@@ -39,7 +39,7 @@ class SendApplicantMail implements ShouldQueue
         sleep(3);
         ini_set('memory_limit', -1);
         $applicant = $this->applicant;
-        if (!$applicant) {
+        if (!$applicant || $applicant->deleted_at) {
             return;
         }
         $camp = $applicant->batch->camp;
