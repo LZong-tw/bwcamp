@@ -144,11 +144,12 @@
 
         <button type="submit">Submit</button>
     </form> --}}
-    <form method="POST">
+    <form method="POST" class="alert alert-primary">
         @csrf
         <input type="file" name="file1" id="">
         <input type="file" name="file2" id="">
-
+        <button type="submit" class="btn btn-success">上傳</button>
+        <button type="reset" class="btn btn-danger">重設</button>
     </form>
     <div class="container">
         <div class="row">
