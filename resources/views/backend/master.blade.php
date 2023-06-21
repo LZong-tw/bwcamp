@@ -26,6 +26,7 @@
     <script src="{{ asset('js/popper_1.14.0.min.js') }}"></script>
     <!-- Bootstrap JS -->
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('vendor/livewire/livewire.js') }}"></script>
     <style>
         .card-link{
             color: #3F86FB!important;

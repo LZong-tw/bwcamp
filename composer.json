@@ -20,10 +20,12 @@
         "laravel/telescope": "^4.9",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.0",
+        "livewire/livewire": "^2.12",
         "milon/barcode": "^9.0",
         "rap2hpoutre/laravel-log-viewer": "^2.2",
         "santigarcor/laratrust": "^7.1",
-        "sentry/sentry-laravel": "^3.0"
+        "sentry/sentry-laravel": "^3.0",
+        "spatie/laravel-medialibrary": "^10.0.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8",
@@ -99,7 +101,8 @@
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "@php artisan package:discover --ansi",
+            "@php artisan vendor:publish --force --tag=livewire:assets --ansi"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
