@@ -462,9 +462,8 @@ class CampController extends Controller
         }
         
         if($applicant && $applicant->camp->id == $camp->id) {
-            //MCH: applicant's id is not correct??
-            $applicant1 = Applicant::find($request->sn);
-            if($applicant1->batch->id == 132 && $applicant1->traffic == null) {
+            $applicant->id = $applicant->applicant_id;
+            if($applicant->batch->id == 132 && $applicant->traffic == null) {
                 //for 2023 ycamp, if null, create one
                 $newTraffic = array();
                 $newTraffic['applicant_id'] = $applicant->applicant_id;
