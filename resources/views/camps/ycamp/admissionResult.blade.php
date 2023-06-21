@@ -66,7 +66,7 @@
                     預計6/27(二)後開放登記。登記截止時間順延至7/5(三)
                     <br>
                     <br>
-                    <!--
+                    {{--
                     <form class="ml-2 mb-2" action="{{ route('modifyTraffic', $batch_id) }}" method="POST" id="selecttraffic">
                         @csrf
                         <div class="ml-0 mb-2">交通方式預設為自往及自回</div>
@@ -111,14 +111,14 @@
                         </div>
                         <input class="btn btn-success" type="submit" value="確認修改" id="confirmtraffic" name="confirmtraffic">
                     </form><br>
-                    <div class="ml-2 mb-2">應交費用：{{ $traffic->fare }}；已交費用：{{ $traffic->deposit }}</div>
+                    <div class="ml-2 mb-2">應交費用：{{ $traffic?->fare ?? '未定' }}；已交費用：{{ $traffic?->deposit ?? 0 }}</div>
 
                     <form action="{{ route('downloadPaymentForm', $batch_id) }}" method="POST">
                         @csrf
                         <input type="hidden" name="applicant_id" value="{{ $applicant->applicant_id }}">
                         <input type="submit" class="btn btn-primary" value="下載繳費單">
                     </form>
-                    -->
+                    --}}
                 @endif
 
                 <h5>聯絡我們</h5>
