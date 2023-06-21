@@ -138,7 +138,7 @@
 {{--    <br>--}}
     <form method="POST">
         @csrf
-        Name: <input type="text" name="name" value="{{ old('name', $formSubmission->name) }}">
+        Name: <input type="text" name="name">
 
         <x-media-library-attachment multiple name="images"/>
 
