@@ -144,7 +144,7 @@
 
         <button type="submit">Submit</button>
     </form> --}}
-    <form method="POST" class="alert alert-primary">
+    <form method="POST" class="alert alert-primary" name="filesForm">
         @csrf
         @if($applicant->files)
             @foreach(json_decode($applicant->files) as $file)
@@ -160,7 +160,7 @@
         @endif
         <input type="file" name="file1" id="">
         <input type="file" name="file2" id="">
-        <input type="button" class="btn btn-success" value="上傳">
+        <input type="button" class="btn btn-success" value="上傳" onclick="document.filesForm.submit()">
         <button type="reset" class="btn btn-danger">重設</button>
     </form>
     <div class="container">
