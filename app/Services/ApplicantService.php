@@ -120,6 +120,9 @@ class ApplicantService
     }
 
     public function checkPaymentStatus($applicant){
+        if (!$applicant) {
+            return null;
+        }
         $applicant->showCheckInInfo = 0;
         if($applicant->deposit == 0){
             $status = "未繳費";
