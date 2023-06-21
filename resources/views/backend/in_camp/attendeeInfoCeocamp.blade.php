@@ -100,7 +100,7 @@
         @if ($applicant->deleted_at)
             <div class="text-danger">
                 本學員已取消報名。
-            </div>            
+            </div>
         @else
             <div class="row d-flex justify-content-end">
                 <form class="mr-4 mb-2" action="{{ route('toggleAttendBackend', $applicant->batch->id) }}" method="POST">
@@ -136,13 +136,19 @@
 {{--        @endif--}}
 {{--    </div>--}}
 {{--    <br>--}}
-    <form method="POST">
+    {{-- <form method="POST">
         @csrf
         Name: <input type="text" name="name">
 
         <x-media-library-attachment multiple name="images"/>
 
         <button type="submit">Submit</button>
+    </form> --}}
+    <form method="POST">
+        @csrf
+        <input type="file" name="file1" id="">
+        <input type="file" name="file2" id="">
+
     </form>
     <div class="container">
         <div class="row">
