@@ -1108,7 +1108,8 @@ class BackendController extends Controller
                     $files[] = $path . $name2;
                 }
                 if($applicant) {
-                    $applicant->update(["files" => json_encode($files)]);
+                    $applicant->files = json_encode($files);
+                    $applicant->save();
                 }
             } catch(\Throwable $e) {
                 logger($e);
