@@ -21,6 +21,7 @@
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.0",
         "livewire/livewire": "^2.12",
+        "maatwebsite/excel": "^3.1",
         "milon/barcode": "^9.0",
         "rap2hpoutre/laravel-log-viewer": "^2.2",
         "santigarcor/laratrust": "^7.1",
