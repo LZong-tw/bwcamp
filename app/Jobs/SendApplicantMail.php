@@ -39,6 +39,9 @@ class SendApplicantMail implements ShouldQueue
         sleep(3);
         ini_set('memory_limit', -1);
         $applicant = $this->applicant;
+        if (!$applicant) {
+            return;
+        }
         $camp = $applicant->batch->camp;
         $this->campOrVariant = $camp->variant ? $camp->variant : $camp->table;
         // 動態載入電子郵件設定
