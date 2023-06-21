@@ -27,6 +27,8 @@ use Intervention\Image\Facades\Image;
 use View;
 use App\Traits\EmailConfiguration;
 use App\Models\SignInSignOut;
+use App\Exports\ApplicantsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BackendController extends Controller
 {
@@ -1742,6 +1744,13 @@ class BackendController extends Controller
                 ->with('groups', $this->campFullData->roles)
                 ->with('queryStr', $queryStr ?? '')
                 ->with('queryRoles', $queryRoles ?? '');
+    }
+
+    public function export()
+    {
+        ini_set('memory_limit', -1);
+        ini_set('max_execution_time', 0);
+        return Excel::download(new ApplicantsExport(), 'applicants.xlsx');
     }
 
     public function showCarers(Request $request)
