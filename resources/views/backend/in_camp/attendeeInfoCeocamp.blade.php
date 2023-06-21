@@ -136,7 +136,14 @@
 {{--        @endif--}}
 {{--    </div>--}}
 {{--    <br>--}}
+    <form method="POST">
+        @csrf
+        Name: <input type="text" name="name" value="{{ old('name', $formSubmission->name) }}">
 
+        <x-media-library-attachment multiple name="images"/>
+
+        <button type="submit">Submit</button>
+    </form>
     <div class="container">
         <div class="row">
             <div class="col-md-4">
