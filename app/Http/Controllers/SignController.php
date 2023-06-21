@@ -7,11 +7,12 @@ use App\Models\Applicant;
 use App\Models\SignInSignOut;
 use App\Services\ApplicantService;
 
-class SignController extends Controller {
-
+class SignController extends Controller
+{
     protected $applicantService;
-    
-    public function __construct(ApplicantService $applicantService) {
+
+    public function __construct(ApplicantService $applicantService)
+    {
         $this->applicantService = $applicantService;
     }
 
@@ -42,7 +43,8 @@ class SignController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $applicant = Applicant::find($request->applicant_id);
         if($applicant->hasAlreadySigned($request->availability_id)) {
             return "請勿重複簽到/退";
@@ -57,19 +59,20 @@ class SignController extends Controller {
             return view('sign.home', compact('applicant', 'isSigned'))
                     ->with('signInfo', $signInSignOutObject)
                     ->with("message", [
-                        "status" => false, 
+                        "status" => false,
                         "message" => "發生未預期的錯誤，請關懷員回報問題及目前頁面截圖"
                     ])
                     ->with("name", $applicant->name)
                     ->with("mobile", $applicant->mobile);
         }
         return app()->call(SignController::class . "@search", [
-            "request" => $request, 
+            "request" => $request,
             "applicant" => $applicant
         ]);
     }
 
-    public function search(Request $request, $applicant = null) {
+    public function search(Request $request, $applicant = null)
+    {
         if($applicant) {
             $request->request->add([
                 "name" => $applicant->name,
