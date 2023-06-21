@@ -147,7 +147,7 @@
     <form method="POST" class="alert alert-primary">
         @csrf
         @if($applicant->files)
-            @foreach($applicant->files as $file)
+            @foreach(json_decode($applicant->files) as $file)
                 <div class="row">
                     <div class="col-md-8">
 {{--                        <a href="{{ route('downloadApplicantFile', [$camp->id, $file->id]) }}">{{ $file->name }}</a>--}}
