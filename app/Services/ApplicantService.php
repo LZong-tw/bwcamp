@@ -120,7 +120,7 @@ class ApplicantService
     }
 
     public function checkPaymentStatus($applicant){
-        if (!$applicant) {
+        if (!$applicant || $applicant->deleted_at) {
             return null;
         }
         $applicant->showCheckInInfo = 0;
