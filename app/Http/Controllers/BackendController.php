@@ -1108,9 +1108,11 @@ class BackendController extends Controller
                     $files[] = $path . $name2;
                 }
                 if($applicant) {
+                    $applicant->refresh();
                     $a = Applicant::find($applicant->id);
                     $a->files = json_encode($files);
                     $a->save();
+                    $applicant->refresh();
                 }
             } catch(\Throwable $e) {
                 logger($e);
