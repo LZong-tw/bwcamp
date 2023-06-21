@@ -146,6 +146,18 @@
     </form> --}}
     <form method="POST" class="alert alert-primary">
         @csrf
+        @if($applicant->files)
+            @foreach($applicant->files as $file)
+                <div class="row">
+                    <div class="col-md-8">
+{{--                        <a href="{{ route('downloadApplicantFile', [$camp->id, $file->id]) }}">{{ $file->name }}</a>--}}
+                    </div>
+                    <div class="col-md-4">
+{{--                        <a href="{{ route('deleteApplicantFile', [$camp->id, $file->id]) }}" class="btn btn-danger">刪除</a>--}}
+                    </div>
+                </div>
+            @endforeach
+        @endif
         <input type="file" name="file1" id="">
         <input type="file" name="file2" id="">
         <button type="submit" class="btn btn-success">上傳</button>
