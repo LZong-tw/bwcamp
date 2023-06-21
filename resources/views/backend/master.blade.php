@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="{{ asset('css/backend.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/media.css') }}">
 
     <!-- Font Awesome JS -->
     <script defer src="{{ asset('js/solid.js') }}"></script>
