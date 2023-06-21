@@ -8,7 +8,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('applicants', function (Blueprint $table) {
-            $table->json('files')->nullable()->after('remark');
+            $table->text('files')->nullable()->after('remark');
         });
     }
 };
