@@ -160,7 +160,7 @@
         @endif
         <input type="file" name="file1" id="">
         <input type="file" name="file2" id="">
-        <button type="submit" class="btn btn-success">上傳</button>
+        <input type="button" class="btn btn-success" value="上傳">
         <button type="reset" class="btn btn-danger">重設</button>
     </form>
     <div class="container">
