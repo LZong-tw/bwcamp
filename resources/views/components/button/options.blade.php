@@ -2,7 +2,7 @@
     <!-- Always remember that you are absolutely unique. Just like everyone else. - Margaret Mead -->
     <p align="right">
         @if(!str_contains($campFullData->table, 'ceo'))
-            <a href="{{ route("export", $campFullData->id) }}" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">匯出資料</a>
+            <a href="{{ route("export", $campFullData->id) }}?vcamp={{ $isShowVolunteers }}" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">匯出資料</a>
         @endif
         @if($isShowLearners)            &nbsp;&nbsp;
             @if ($currentUser->isAbleTo('\App\Models\Applicant.create'))
