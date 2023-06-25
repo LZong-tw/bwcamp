@@ -142,10 +142,14 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
                         $applicant->$key = "無";
                         continue;
                     }
+                    if (!file_exists(base_path(storage_path('app/' . $applicant->avatar)))) {
+                        $applicant->$key = "無";
+                        continue;
+                    }
                     $drawing = new Drawing();
                     $drawing->setName($applicant->name);
                     $drawing->setDescription($applicant->name . '的照片');
-                    $drawing->setPath(\Storage::disk('local')->get($applicant->avatar));
+                    $drawing->setPath(base_path(storage_path($applicant->avatar)));
                     $drawing->setHeight(50);
                     $colName = $this->getNameFromNumber($colPosition);
                     $drawing->setCoordinates($colName . $rowPosition);
