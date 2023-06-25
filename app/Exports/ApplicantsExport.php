@@ -147,11 +147,11 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
                 }
                 if ($v == "關懷員") {
                     if ($this->user->canAccessResource(new CarerApplicantXref, 'read', $this->camp, target: $applicant)) {
-                        $str = $applicant->carers->flatten()->pluck('name')->implode('、');
-                        if (!$str || $str == "") {
+                        if ($applicant->carers) {
+                            $applicant->$key = $applicant->carers->flatten()->pluck('name')->implode('、');
+                        }
+                        else {
                             $applicant->$key = "無";
-                        } else {
-                            $applicant->$key = $str;
                         }
                     } else {
                         unset($this->columns[$key]);
@@ -160,11 +160,11 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
                 }
                 if ($key == "contactlog") {
                     if ($this->user->canAccessResource(new ContactLog, 'read', $this->camp, target: $applicant)) {
-                        $str = $applicant->contactLogs->flatten()->pluck('content')->implode('\n');
-                        if (!$str || $str == "") {
+                        if ($applicant->contactlog) {
+                            $applicant->$key = $applicant->contactLogs->flatten()->pluck('content')->implode('\n');
+                        }
+                        else {
                             $applicant->$key = "無";
-                        } else {
-                            $applicant->$key = $str;
                         }
                     } else {
                         unset($this->columns[$key]);
