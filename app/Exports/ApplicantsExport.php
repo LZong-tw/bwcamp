@@ -19,8 +19,10 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
 class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
 {
-    protected $columns, $applicants, $user;
-    public function __construct(protected Camp $camp,)
+    protected $columns;
+    protected $applicants;
+    protected $user;
+    public function __construct(protected Camp $camp)
     {
         $this->user = \App\Models\User::find(auth()->id());
         if($this->camp->applicants()) {
@@ -130,7 +132,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
         $rowPosition = 1;
         $colPosition = 0;
         foreach ($applicants as $a_key => $applicant) {
-            if (!$this->user->canAccessResource(new Applicant, 'read', $this->camp, target: $applicant)) {
+            if (!$this->user->canAccessResource(new Applicant(), 'read', $this->camp, target: $applicant)) {
                 $applicants->forget($a_key);
                 continue;
             }
@@ -146,11 +148,10 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
                     $drawing->setCoordinates($colName . $rowPosition);
                 }
                 if ($v == "關懷員") {
-                    if ($this->user->canAccessResource(new CarerApplicantXref, 'read', $this->camp, target: $applicant)) {
+                    if ($this->user->canAccessResource(new CarerApplicantXref(), 'read', $this->camp, target: $applicant)) {
                         if ($applicant->carers) {
                             $applicant->$key = $applicant->carers->flatten()->pluck('name')->implode('、');
-                        }
-                        else {
+                        } else {
                             $applicant->$key = "無";
                         }
                     } else {
@@ -159,11 +160,10 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
                     }
                 }
                 if ($key == "contactlog") {
-                    if ($this->user->canAccessResource(new ContactLog, 'read', $this->camp, target: $applicant)) {
+                    if ($this->user->canAccessResource(new ContactLog(), 'read', $this->camp, target: $applicant)) {
                         if ($applicant->contactlog) {
                             $applicant->$key = $applicant->contactLogs->flatten()->pluck('content')->implode('\n');
-                        }
-                        else {
+                        } else {
                             $applicant->$key = "無";
                         }
                     } else {
@@ -173,7 +173,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
                 }
                 // 使用正規表示式抓出日期欄
                 if(preg_match('/\d\d\d\d-\d\d-\d\d/', $key)) {
-                    if ($this->user->canAccessResource(new CheckIn, 'read', $this->camp, target: $applicant)) {
+                    if ($this->user->canAccessResource(new CheckIn(), 'read', $this->camp, target: $applicant)) {
                         // 填充報到資料
                         if(in_array($applicant->id, $checkInData[$key])) {
                             $applicant->$key = "⭕";
@@ -185,7 +185,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
                         continue;
                     }
                 } elseif(str_contains($key, "SIGN_")) {
-                    if ($this->user->canAccessResource(new SignInSignOut, 'read', $this->camp, target: $applicant)) {
+                    if ($this->user->canAccessResource(new SignInSignOut(), 'read', $this->camp, target: $applicant)) {
                         // 填充簽到資料
                         if($signData[substr($key, 5)]['applicants']->contains($applicant->id)) {
                             $applicant->$key = "✔️";
@@ -197,7 +197,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
                         continue;
                     }
                 } elseif($key == "role_section") {
-                    if ($this->user->canAccessResource(new CampOrg, 'read', $this->camp, target: $applicant)) {
+                    if ($this->user->canAccessResource(new CampOrg(), 'read', $this->camp, target: $applicant)) {
                         $roles = "";
                         $aRoles = $applicant->user?->roles()->where('camp_id', $applicant->vcamp->mainCamp->id)->get() ?? [];
                         foreach ($aRoles as $k => $role) {
@@ -212,7 +212,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
                         continue;
                     }
                 } elseif($key == "role_position") {
-                    if ($this->user->canAccessResource(new CampOrg, 'read', $this->camp, target: $applicant)) {
+                    if ($this->user->canAccessResource(new CampOrg(), 'read', $this->camp, target: $applicant)) {
                         $roles = "";
                         $aRoles = $applicant->user?->roles()->where('camp_id', $applicant->vcamp->mainCamp->id)->get() ?? [];
                         foreach ($aRoles as $k => $role) {
@@ -248,7 +248,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
         ]);
     }
 
-    public function map($applicant) : array
+    public function map($applicant): array
     {
         $result = [];
         foreach ($this->columns as $key => $value) {
@@ -257,7 +257,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
         return $result;
     }
 
-    public function headings() : array
+    public function headings(): array
     {
         $result = [];
         foreach ($this->columns as $key => $value) {
@@ -266,7 +266,8 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
         return $result;
     }
 
-    function getNameFromNumber($num) {
+    public function getNameFromNumber($num)
+    {
         $numeric = $num % 26;
         $letter = chr(65 + $numeric);
         $num2 = (int)($num / 26);
