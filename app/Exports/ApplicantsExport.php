@@ -138,6 +138,10 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
             $rowPosition++;
             foreach($this->columns as $key => $v) {
                 if ($key == "avatar") {
+                    if ($applicant->avatar == null) {
+                        $applicant->$key = "無";
+                        continue;
+                    }
                     $drawing = new Drawing();
                     $drawing->setName($applicant->name);
                     $drawing->setDescription($applicant->name . '的照片');
