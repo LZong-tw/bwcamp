@@ -1457,11 +1457,13 @@ class BackendController extends Controller
         ini_set('max_execution_time', 0);
         if ($request->input('vcamp')) {
             $camp = Camp::find($this->campFullData->vcamp->id);
+            $filename = $camp->name . '學員名單.xlsx';
         }
         else {
             $camp = $this->campFullData;
+            $filename = $camp->name . '義工名單.xlsx';
         }
-        return Excel::download(new ApplicantsExport($camp), 'applicants.xlsx');
+        return Excel::download(new ApplicantsExport($camp), $filename);
     }
 
     public function showCarers(Request $request)
