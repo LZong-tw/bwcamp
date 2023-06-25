@@ -1455,7 +1455,13 @@ class BackendController extends Controller
     {
         ini_set('memory_limit', -1);
         ini_set('max_execution_time', 0);
-        return Excel::download(new ApplicantsExport($this->campFullData), 'applicants.xlsx');
+        if ($request->input('vcamp')) {
+            $camp = Camp::find($this->campFullData->vcamp->id);
+        }
+        else {
+            $camp = $this->campFullData;
+        }
+        return Excel::download(new ApplicantsExport($camp), 'applicants.xlsx');
     }
 
     public function showCarers(Request $request)
