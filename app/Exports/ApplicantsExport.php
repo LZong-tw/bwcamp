@@ -161,7 +161,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
                 if ($key == "contactlog") {
                     if ($this->user->canAccessResource(new ContactLog, 'read', $this->camp, target: $applicant)) {
                         if ($applicant->contactlog) {
-                            $applicant->$key = $applicant->contactLogs->flatten()->pluck('content')->implode('\n');
+                            $applicant->$key = $applicant->contactlog->flatten()->pluck('content')->implode('\n');
                         }
                         else {
                             $applicant->$key = "無";

@@ -108,6 +108,10 @@ class Applicant extends Model {
     }
 
     public function contactlog() {
+        return $this->contactlogs();
+    }
+
+    public function contactlogs() {
         return $this->hasMany(ContactLog::class);
     }
 
