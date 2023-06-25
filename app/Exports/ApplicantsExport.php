@@ -142,7 +142,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
                         $applicant->$key = "無";
                         continue;
                     }
-                    if (!file_exists(base_path(storage_path('app/' . $applicant->avatar)))) {
+                    if (!file_exists(base_path(storage_path($applicant->avatar)))) {
                         $applicant->$key = "無";
                         continue;
                     }
