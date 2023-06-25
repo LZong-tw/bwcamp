@@ -9,6 +9,7 @@ use App\Models\CampOrg;
 use App\Models\CarerApplicantXref;
 use App\Models\CheckIn;
 use App\Models\ContactLog;
+use App\Models\SignInSignOut;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
