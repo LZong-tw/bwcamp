@@ -107,14 +107,19 @@ class ApplicantsExport implements FromCollection, WithHeadings, WithMapping
 
     public function map($applicant): array
     {
-        return [
-            $applicant->id,
-            $applicant->name,
-        ];
+        $result = [];
+        foreach ($this->columns as $key => $value) {
+            $result[] = $applicant->$key;
+        }
+        return $result;
     }
 
     public function headings(): array
     {
-        return ['題號', '正確', '選擇', '題目', '選項1', '選項2', '選項3', '選項4'];
+        $result = [];
+        foreach ($this->columns as $key => $value) {
+            $result[] = $value;
+        }
+        return $result;
     }
 }
