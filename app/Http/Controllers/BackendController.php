@@ -576,6 +576,8 @@ class BackendController extends Controller
                     $pos = 44;
                     $columns = array_merge($columns, array_slice($columns, 0, $pos), ["lamrim" => "廣論班"], array_slice($columns, $pos));
                 }
+                unset($columns["carers"]);
+                unset($columns["care_log"]);
                 fputcsv($file, $columns);
 
                 foreach ($applicants as $applicant) {
@@ -598,11 +600,9 @@ class BackendController extends Controller
                             // } else {
                             //     array_push($rows, '="' . $str . '"');
                             // }
-                            unset($columns[$key]);
                             continue;
                         }
                         if ($key == "care_log") {
-                            unset($columns[$key]);
                             continue;
                         }
                         // 使用正規表示式抓出日期欄
