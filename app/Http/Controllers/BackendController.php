@@ -1109,12 +1109,16 @@ class BackendController extends Controller
                     $image->save(storage_path($path . $name2));
                     $files[] = $path . $name2;
                 }
-                if($applicant) {
-                    $applicant->refresh();
+                if($applicant && count($files) > 0) {
                     $a = Applicant::find($applicant->applicant_id);
                     $a->files = json_encode($files);
                     $a->save();
-                    $applicant->refresh();
+                    $a->refresh();
+                    $applicant = $this->applicantService->fetchApplicantData(
+                        $this->campFullData->id,
+                        $this->campFullData->table,
+                        $request->snORadmittedSN,
+                    );
                 }
             } catch(\Throwable $e) {
                 logger($e);
