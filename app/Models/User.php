@@ -243,7 +243,7 @@ class User extends Authenticatable
                     return false;
             }
         }
-        elseif ((str_contains($class, "Applicant") || str_contains($class, "Volunteer")) && $action == "read") {
+        elseif ($target && ((str_contains($class, "Applicant") || str_contains($class, "Volunteer")) && $action == "read")) {
             if ($context == "vcampExport") {
                 $camp = Vcamp::query()->find($target->camp->id)->mainCamp;
             }
@@ -260,7 +260,7 @@ class User extends Authenticatable
                     ->orWhere("position", "like", "%關服組%");
             })->firstWhere('all_group', 1));
         }
-        elseif (str_contains($class, "User") && $context == "vcamp" && $action == "read") {
+        elseif ($target && (str_contains($class, "User") && $context == "vcamp" && $action == "read")) {
             $roles = $this->roles()->where('group_id', '<>', null)->where("camp_id", $camp->id);
             return $roles->firstWhere(
                     'group_id',
