@@ -1111,7 +1111,7 @@ class BackendController extends Controller
                 }
                 if($applicant) {
                     $applicant->refresh();
-                    $a = Applicant::find($applicant->id);
+                    $a = Applicant::find($applicant->applicant_id);
                     $a->files = json_encode($files);
                     $a->save();
                     $applicant->refresh();
