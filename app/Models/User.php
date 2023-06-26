@@ -245,7 +245,7 @@ class User extends Authenticatable
         }
         elseif (str_contains($camp->table, "vcamp")) {
             $roles = $this->roles()->where('group_id', '<>', null)->where("camp_id", $camp->id);
-            if ((str_contains($class, "Applicant") || str_contains($class, "Volunteer")) {
+            if (str_contains($class, "Applicant") || str_contains($class, "Volunteer")) {
                 return $roles->firstWhere(
                     'group_id',
                     $target->user?->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id
