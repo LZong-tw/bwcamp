@@ -18,4 +18,14 @@ class ContactLog extends Model
     ];
 
     protected $guarded = [];
+
+    public function applicant()
+    {
+        return $this->belongsTo('App\Models\Applicant');
+    }
+
+    public function takenby()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
 }
