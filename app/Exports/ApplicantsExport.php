@@ -181,7 +181,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
                         continue;
                     }
                 }
-                if ($key == "contactlog") {
+                if ($key == "care_log") {
                     if ($this->user->canAccessResource(new ContactLog, 'read', $this->camp, target: $applicant)) {
                         if ($applicant->contactlogs) {
                             $applicant->$key = "";
