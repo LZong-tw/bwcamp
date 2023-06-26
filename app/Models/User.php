@@ -243,34 +243,33 @@ class User extends Authenticatable
                     return false;
             }
         }
-        elseif (str_contains($camp->table, "vcamp")) {
+        elseif ((str_contains($class, "Applicant") || str_contains($class, "Volunteer")) && $context == "vcamp") {
             $roles = $this->roles()->where('group_id', '<>', null)->where("camp_id", $camp->id);
-            if (str_contains($class, "Applicant") || str_contains($class, "Volunteer")) {
-                return $roles->firstWhere(
+            return $roles->firstWhere(
+                'group_id',
+                $target->user?->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id
+            )
+            ||
+            ($target->user?->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id &&
+            $this->roles()->where("camp_id", $camp->id)->where(function ($query) {
+                $query->where("position", "like", "%關懷小組%")
+                    ->orWhere("position", "like", "%關懷服務組%")
+                    ->orWhere("position", "like", "%關服組%");
+            })->firstWhere('all_group', 1));
+        }
+        elseif (str_contains($class, "User") && $context == "vcamp") {
+            $roles = $this->roles()->where('group_id', '<>', null)->where("camp_id", $camp->id);
+            return $roles->firstWhere(
                     'group_id',
-                    $target->user?->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id
+                    $target->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id
                 )
                 ||
-                ($target->user?->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id &&
-                $this->roles()->where("camp_id", $camp->id)->where(function ($query) {
-                    $query->where("position", "like", "%關懷小組%")
-                        ->orWhere("position", "like", "%關懷服務組%")
-                        ->orWhere("position", "like", "%關服組%");
-                })->firstWhere('all_group', 1));
-            }
-            elseif (str_contains($class, "User")) {
-                return $roles->firstWhere(
-                        'group_id',
-                        $target->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id
-                    )
-                    ||
-                    ($target->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id &&
-                        $this->roles()->where("camp_id", $camp->id)->where(function ($query) {
-                            $query->where("position", "like", "%關懷小組%")
-                                ->orWhere("position", "like", "%關懷服務組%")
-                                ->orWhere("position", "like", "%關服組%");
-                        })->firstWhere('all_group', 1));
-            }
+                ($target->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id &&
+                    $this->roles()->where("camp_id", $camp->id)->where(function ($query) {
+                        $query->where("position", "like", "%關懷小組%")
+                            ->orWhere("position", "like", "%關懷服務組%")
+                            ->orWhere("position", "like", "%關服組%");
+                    })->firstWhere('all_group', 1));
         }
         else {
             return false;

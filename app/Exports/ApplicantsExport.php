@@ -131,7 +131,14 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
         $rowPosition = 1;
         $colPosition = 0;
         foreach ($applicants as $a_key => $applicant) {
-            if (!$this->user->canAccessResource(new Applicant, 'read', $this->camp, target: $applicant)) {
+            if (
+                !$this->user->canAccessResource(
+                new Applicant,
+                'read',
+                $this->camp,
+                target: $applicant,
+                context: str_contains($this->camp->table, "vcamp") ? "vcamp" : null)
+            ) {
                 $applicants->forget($a_key);
                 continue;
             }
