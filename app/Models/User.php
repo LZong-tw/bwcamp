@@ -243,7 +243,10 @@ class User extends Authenticatable
                     return false;
             }
         }
-        elseif ((str_contains($class, "Applicant") || str_contains($class, "Volunteer")) && $context == "vcamp" && $action == "read") {
+        elseif ((str_contains($class, "Applicant") || str_contains($class, "Volunteer")) && $action == "read") {
+            if ($context == "vcampExport") {
+                $camp = $target->camp;
+            }
             $roles = $this->roles()->where('group_id', '<>', null)->where("camp_id", $camp->id);
             return $roles->firstWhere(
                 'group_id',
