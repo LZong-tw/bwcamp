@@ -245,7 +245,7 @@ class User extends Authenticatable
         }
         elseif ((str_contains($class, "Applicant") || str_contains($class, "Volunteer")) && $action == "read") {
             if ($context == "vcampExport") {
-                $camp = $target->camp;
+                $camp = Vcamp::query()->find($target->camp->id)->mainCamp;
             }
             $roles = $this->roles()->where('group_id', '<>', null)->where("camp_id", $camp->id);
             return $roles->firstWhere(
