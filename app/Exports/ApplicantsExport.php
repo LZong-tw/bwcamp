@@ -158,7 +158,12 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
                     $applicant->$key = $applicant->user->roles->pluck('applicant_group.alias')->implode('、');
                 }
                 if ($v == "關懷員") {
-                    if ($this->user->canAccessResource(new CarerApplicantXref, 'read', $this->camp, target: $applicant)) {
+                    if ($this->user->canAccessResource(
+                        new CarerApplicantXref,
+                        'read',
+                        $this->camp,
+                        target: $applicant
+                    )) {
                         if ($applicant->carers) {
                             $applicant->$key = $applicant->carers->flatten()->pluck('name')->implode('、');
                         }
