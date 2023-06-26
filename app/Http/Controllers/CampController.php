@@ -459,17 +459,15 @@ class CampController extends Controller
                 ->where('applicants.id', $request->sn)
                 ->where('name', $request->name)
                 ->withTrashed()->first();
-            //MCH: applicant's id is not correct??
-            $applicant1 = Applicant::find($request->sn);
         }
         
         if($applicant && $applicant->camp->id == $camp->id) {
             $traffic = null;
             $applicant->id = $applicant->applicant_id;
-            if($applicant1->batch->id == 132 && $applicant1->traffic == null) {
+            if($applicant->batch->id == 132 && $applicant->traffic == null) {
                 //for 2023 ycamp, if null, create one
                 $newTraffic = array();
-                $newTraffic['applicant_id'] = $applicant1->id;
+                $newTraffic['applicant_id'] = $applicant->id;
                 $newTraffic['depart_from'] = "自往";
                 $newTraffic['back_to'] = "自回";
                 $newTraffic['fare'] = "0";
@@ -481,7 +479,10 @@ class CampController extends Controller
                 $applicant1 = $this->applicantService->fillPaymentData($applicant1);
                 $applicant1->save();
                 $traffic = $applicant1->traffic;
-            }
+	    } else {
+		//if not null, retrieve it 
+		$traffic = $applicant->traffic;
+	    }
 
             $applicant = $this->applicantService->checkPaymentStatus($applicant);
             //for 2023大專教師營
