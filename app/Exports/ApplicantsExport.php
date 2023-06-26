@@ -183,9 +183,9 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
                 }
                 if ($key == "contactlog") {
                     if ($this->user->canAccessResource(new ContactLog, 'read', $this->camp, target: $applicant)) {
-                        if ($applicant->contactlog) {
+                        if ($applicant->contactlogs) {
                             $applicant->$key = "";
-                            foreach ($applicant->contactlog as $contactlog) {
+                            foreach ($applicant->contactlogs as $contactlog) {
                                 $applicant->$key .= $contactlog->takenby->name . " @ " . $contactlog->created_at . ": " . $contactlog->notes . PHP_EOL;
                             }
                         }
