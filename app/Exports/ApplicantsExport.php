@@ -154,6 +154,9 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
                     $colName = $this->getNameFromNumber($colPosition);
                     $drawing->setCoordinates($colName . $rowPosition);
                 }
+                if ($key == "group" && str_contains($this->camp->table, "vcamp")) {
+                    $applicant->$key = $applicant->user->roles->pluck('applicant_group.alias')->implode('、');
+                }
                 if ($v == "關懷員") {
                     if ($this->user->canAccessResource(new CarerApplicantXref, 'read', $this->camp, target: $applicant)) {
                         if ($applicant->carers) {
