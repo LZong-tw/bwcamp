@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('yvcamp', function (Blueprint $table) {
             //
-            $table->text('self_intro')->nullable()->after('applicant_id');;      //班級護持記錄
+            $table->text('self_intro')->nullable()->after('applicant_id');;      //自我介紹
         });
     }
 

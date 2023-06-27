@@ -749,7 +749,8 @@ class BackendController extends Controller
                                 })->groupBy('region')->get();
             foreach($batch->regions as &$region) {
                 $region->groups = Applicant::select('group_id', \DB::raw('count(*) as groupApplicantsCount'))
-                    ->where('batch_id', $batch->id)
+                    ->join('applicants_groups','applicants_groups.id','=','applicants.group_id')
+                    ->where('applicants.batch_id', $batch->id)
                     ->where('region', $region->region)
                     ->where('is_admitted', 1)
                     ->where(function ($query) {
@@ -762,10 +763,12 @@ class BackendController extends Controller
                             $query->whereNotNull('number_id');
                         }
                     })
+                    ->orderBy('applicants_groups.alias')
                     ->groupBy('group_id')->get();
                 $region->groups->each(function (&$applicant) {
                     $applicant->group = $applicant->groupRelation->alias;
                 });
+                //dd($region->groups->first());
                 $region->region = $region->region ?? "其他";
             }
         }
