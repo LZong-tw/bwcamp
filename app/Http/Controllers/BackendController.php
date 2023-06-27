@@ -576,7 +576,9 @@ class BackendController extends Controller
                     $pos = 44;
                     $columns = array_merge($columns, array_slice($columns, 0, $pos), ["lamrim" => "廣論班"], array_slice($columns, $pos));
                 }
-                unset($columns["carers"]);
+                if ($this->campFullData->table != "ceocamp") {
+                    unset($columns["carers"]);
+                }
                 unset($columns["care_log"]);
                 fputcsv($file, $columns);
 
@@ -593,16 +595,13 @@ class BackendController extends Controller
                             }
                             continue;
                         }
-                        if ($v == "關懷員") {
-                            if ($this->campFullData->table == "ceocamp") {
-                                $str = $applicant->carers->flatten()->pluck('name')->implode('、');
-                                if(!$str || $str == "") {
-                                    array_push($rows, '="無"');
-                                } else {
-                                    array_push($rows, '="' . $str . '"');
-                                }
+                        if ($v == "關懷員" && $this->campFullData->table == "ceocamp") {
+                            $str = $applicant->carers->flatten()->pluck('name')->implode('、');
+                            if(!$str || $str == "") {
+                                array_push($rows, '="無"');
+                            } else {
+                                array_push($rows, '="' . $str . '"');
                             }
-                            continue;
                         }
                         if ($key == "care_log") {
                             continue;
