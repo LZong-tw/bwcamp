@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      *
@@ -15,7 +14,8 @@ return new class extends Migration
     {
         Schema::table('yvcamp', function (Blueprint $table) {
             //
-            $table->text('self_intro')->nullable()->after('applicant_id');;      //班級護持記錄
+            $table->text('self_intro')->nullable()->after('applicant_id');
+            ;      //班級護持記錄
         });
     }
 
