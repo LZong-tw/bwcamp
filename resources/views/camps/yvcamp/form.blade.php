@@ -146,6 +146,16 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>  
     </div>
 
+    <div class='row form-group required'>
+        <label for='inputSelfIntro' class='col-md-2 control-label text-md-right'>我是誰</label>
+        <div class='col-md-10'>
+            <textarea class='form-control' rows=2 required  name='self_intro' id=inputSelfIntro placeholder='請簡單說明你是誰，例如：第X組輔導員、教務組、報到組等等，方便後台管理員設定權限。'></textarea>
+            <div class="invalid-feedback">
+                請填寫本欄位
+            </div>
+        </div>
+    </div>
+
     <input type='hidden' name="profile_agree" value='0'>
     <input type='hidden' name="portrait_agree" value='0'>
 

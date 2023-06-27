@@ -12,7 +12,7 @@ class Yvcamp extends Model
     public $resourceNameInMandarin = '大專營義工特殊欄位';
 
     protected $fillable = [
-        'applicant_id'
+        'applicant_id','self_intro'
     ];
 
     protected $guarded = [];
