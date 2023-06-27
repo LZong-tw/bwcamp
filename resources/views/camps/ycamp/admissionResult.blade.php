@@ -41,7 +41,7 @@
                 <div class="ml-2 mb-2">請詳閱<a href="{{ url('downloads/ycamp2023/【2023第56屆大專青年生命成長營】錄取通知單.pdf') }}">錄取/報到通知</a>，內含報到資訊、必帶物品，及交通資訊等等。</div>
                 <div class="ml-2 mb-2"><a href="{{ url('downloads/ycamp2023/【2023第56屆大專青年生命成長營】錄取通知單.pdf') }}" download class="btn btn-primary" target="_blank" style="margin-top: 10px">下載錄取/報到通知</a></div><br>
 
-                <h5>放棄參加</h5>                
+                <h5>放棄參加</h5>
                 <form class="ml-2 mb-2" action="{{ route('toggleAttend', $batch_id) }}" method="POST" id="attendcancel">
                     @csrf
                     <input type="hidden" name="id" value="{{ $applicant->applicant_id ?? $applicant->id }}">
@@ -113,12 +113,13 @@
                         <input class="btn btn-success" type="submit" value="確認修改" id="confirmtraffic" name="confirmtraffic">
                     </form><br>
                     <div class="ml-2 mb-2">應交費用：{{ $traffic?->fare ?? '未定' }}；已交費用：{{ $traffic?->deposit ?? 0 }}</div>
-
-                    <form action="{{ route('downloadPaymentForm', $batch_id) }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="applicant_id" value="{{ $applicant->applicant_id }}">
-                        <input type="submit" class="btn btn-primary" value="下載繳費單">
-                    </form>
+                    @if($traffic?->fare > 0)
+                        <form action="{{ route('downloadPaymentForm', $batch_id) }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="applicant_id" value="{{ $applicant->applicant_id }}">
+                            <input type="submit" class="btn btn-primary" value="下載繳費單">
+                        </form>
+                    @endif
                 @endif
 
                 <h5>聯絡我們</h5>
@@ -202,8 +203,8 @@
                             03-831-6305<br>
                             花蓮市中華路243號2樓<br>
                             </p>
-                        </div>  
-                    </div>   
+                        </div>
+                    </div>
                 </div>
                 <!--
                 <p class="card-text indent"><a href="http://bwfoce.org/web" target="_blank" rel="noopener noreferrer">http://bwfoce.org/web</a></p>
@@ -256,7 +257,7 @@
                 console.log(traffic_data);
                 for (var i = 0; i < selects.length; i++){
                     if(typeof traffic_data[selects[i].name] !== "undefined"){
-                        selects[i].value = traffic_data[selects[i].name]; 
+                        selects[i].value = traffic_data[selects[i].name];
                     }
                 }
             })();
