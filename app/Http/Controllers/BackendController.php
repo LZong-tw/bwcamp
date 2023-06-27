@@ -594,12 +594,14 @@ class BackendController extends Controller
                             continue;
                         }
                         if ($v == "關懷員") {
-                            // $str = $applicant->carers->flatten()->pluck('name')->implode('、');
-                            // if(!$str || $str == "") {
-                            //     array_push($rows, '="無"');
-                            // } else {
-                            //     array_push($rows, '="' . $str . '"');
-                            // }
+                            if ($this->campFullData->table == "ceocamp") {
+                                $str = $applicant->carers->flatten()->pluck('name')->implode('、');
+                                if(!$str || $str == "") {
+                                    array_push($rows, '="無"');
+                                } else {
+                                    array_push($rows, '="' . $str . '"');
+                                }
+                            }
                             continue;
                         }
                         if ($key == "care_log") {
