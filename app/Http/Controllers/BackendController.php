@@ -602,6 +602,7 @@ class BackendController extends Controller
                             } else {
                                 array_push($rows, '="' . $str . '"');
                             }
+                            continue;
                         }
                         if ($key == "care_log") {
                             continue;
