@@ -191,7 +191,7 @@
                                 $files = $applicant->files ? json_decode($applicant->files) : [];
                             @endphp
                             @foreach($files as $file)
-                                <img href="{{ url("/backend/" . $applicant->camp->id . "/file/" . $file) }}" width=80><br>
+                                <img src="{{ url("/backend/" . $applicant->camp->id . "/file/" . $file) }}" width=80><br>
                             @endforeach
                         </td>
                     @elseif($key == "name")
