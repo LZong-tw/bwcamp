@@ -91,8 +91,8 @@
 </table>
 恭喜您錄取「{{ $applicant->batch->camp->fullName }}」！竭誠歡迎您的到來，期待與您共享這場心靈饗宴，希望您能獲得豐盛的收穫。您選擇交通的方式及費用如下：
 <ul>
-    <li>去程：{{ $applicant->traffic->depart_from }}</li>
-    <li>回程：{{ $applicant->traffic->back_to }}</li>
+    <li>去程：{{ $applicant->traffic?->depart_from ?? "未定" }}</li>
+    <li>回程：{{ $applicant->traffic?->back_to ?? "未定" }}</li>
     <li>費用：{{ $applicant->traffic?->fare ?? 0 }}元</li>
 </ul>
 
