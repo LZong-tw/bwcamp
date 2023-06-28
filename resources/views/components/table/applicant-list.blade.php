@@ -190,7 +190,7 @@
                             @php
                                 $files = $applicant->files ? json_decode($applicant->files) : [];
                             @endphp
-                            @foreach(files as $file)
+                            @foreach($files as $file)
                                 <img href="{{ url("/backend/" . $applicant->camp->id . "/file/" . $file) }}" width=80><br>
                             @endforeach
                         </td>
