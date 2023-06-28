@@ -52,7 +52,7 @@
         </table>
         共 {{ $count }} 位
         <br><br>
-        <h5>全程自往</h5>
+        <h5>自往+自回</h5>
         <table class="table table-bordered">
             <tr>
                 <th>姓名</th>
@@ -61,7 +61,7 @@
                 $count = 0;    
             @endphp
             @foreach ($applicants as $applicant)
-                @if($applicant->$camp->traffic_depart == "自往" && $applicant->$camp->traffic_return == "自往")
+                @if($applicant->traffic != null && $applicant->traffic->depart_from == "自往" && $applicant->traffic->back_to == "自回")
                     <tr>
                         <td>{{ $applicant->name }}</td>
                     </tr>

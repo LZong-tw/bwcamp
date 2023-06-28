@@ -768,7 +768,6 @@ class BackendController extends Controller
                 $region->groups->each(function (&$applicant) {
                     $applicant->group = $applicant->groupRelation->alias;
                 });
-                //dd($region->groups->first());
                 $region->region = $region->region ?? "其他";
             }
         }
@@ -1012,17 +1011,19 @@ class BackendController extends Controller
             return "<h1>本次營隊沒有統計交通</h1>";
         }
         $traffic_depart = Applicant::select(
-            \DB::raw($camp . '.traffic_depart as traffic_depart, count(*) as count')
-        )->join($camp, $camp . '.applicant_id', '=', 'applicants.id')
-            ->where('traffic_depart', '<>', '自往')
-            ->whereIn('batch_id', $batch_ids)
-            ->groupBy($camp . '.traffic_depart')->get();
+            \DB::raw('traffic'.'.depart_from as traffic_depart, count(*) as count')
+        )->join('traffic', 'traffic'.'.applicant_id', '=', 'applicants.id')
+        //->where('traffic'.'.depart_from', '<>', '自往')
+        ->whereIn('batch_id', $batch_ids)
+        ->groupBy('traffic_depart')->get();
+
         $traffic_return = Applicant::select(
-            \DB::raw($camp . '.traffic_return as traffic_return, count(*) as count')
-        )->join($camp, $camp . '.applicant_id', '=', 'applicants.id')
-            ->where('traffic_return', '<>', '自往')
-            ->whereIn('batch_id', $batch_ids)
-            ->groupBy($camp . '.traffic_return')->get();
+            \DB::raw('traffic'.'.back_to as traffic_return, count(*) as count')
+        )->join('traffic', 'traffic'.'.applicant_id', '=', 'applicants.id')
+        //->where('traffic'.'.back_to', '<>', '自回')
+        ->whereIn('batch_id', $batch_ids)
+        ->groupBy('traffic_return')->get();
+            
         return view('backend.in_camp.traffic_list', compact('batches', 'applicants', 'traffic_depart', 'traffic_return', 'camp'));
     }
 
