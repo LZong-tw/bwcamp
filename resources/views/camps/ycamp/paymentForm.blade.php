@@ -34,7 +34,7 @@
             ＊上海銀行繳納：請持本繳款單至全台上海商業儲蓄銀行臨櫃繳納，免手續費。<br>
             ＊ATM 轉帳：選擇「轉帳」或「繳費」→ 輸入上海銀行<br>
             &nbsp;&nbsp;代號011 → 輸入銷帳編號輸入應繳金額，跨行轉帳須支付手續費。 <br>
-            ＊超商繳納：請持本繳款單至7-11、全家、萊爾富、OK 繳費，免付手續費。<br> 
+            ＊超商繳納：請持本繳款單至7-11、全家、萊爾富、OK 繳費，免付手續費。<br>
             ＊臨櫃匯款：收款行 = 上海商業儲蓄銀行南京東路分行，<br>
             &nbsp;&nbsp;銀行代碼 = 0110406，戶名 = 財團法人福智文教基金會<br>
             &nbsp;&nbsp;帳號 = 銷帳編號(14碼)，須自付手續費。
@@ -43,7 +43,7 @@
     <tr>
         <td>
             繳費期限：{{ \Carbon\Carbon::now()->year }}/{{ substr($applicant->batch->camp->payment_deadline, 2, 2) }}/{{ substr($applicant->batch->camp->payment_deadline, 4, 2) }}<br>
-            應繳金額：{{ $applicant->traffic->fare }}
+            應繳金額：{{ $applicant->traffic?->fare ?? 0 }}
         </td>
     </tr>
     <tr>
@@ -63,7 +63,7 @@
         <td class="padding">
             <img src="data:image/png;base64,{{ \DNS1D::getBarcodePNG($applicant->bank_second_barcode, 'C39', 1, 30) }}" alt="barcode" style="padding-top: 3px"/><br>
             <a class="small" style="padding-top: 3px"> 銷帳編號：{{ $applicant->bank_second_barcode }}</a>
-            <br>                  
+            <br>
             <img src="data:image/png;base64,{{ \DNS1D::getBarcodePNG($applicant->bank_third_barcode, 'C39', 1, 30) }}" alt="barcode" style="padding-top: 12px"/><br>
             <a class="small">應繳金額：{{ $applicant->bank_third_barcode }}</a>
             <a style="float: right; right:10px">銀行代號：011</a>
@@ -93,7 +93,7 @@
 <ul>
     <li>去程：{{ $applicant->traffic->depart_from }}</li>
     <li>回程：{{ $applicant->traffic->back_to }}</li>
-    <li>費用：{{ $applicant->traffic->fare }}元</li>
+    <li>費用：{{ $applicant->traffic?->fare ?? 0 }}元</li>
 </ul>
 
 <h3>【注意事項】</h3>
@@ -106,5 +106,5 @@
     <li>發票：本交通服務為代收代付，故不提供發票，敬請見諒。</li>
     <li>退費：車資繳交後視為已訂位，恕不退費。</li>
 </ul>
-<a class="right">財團法人福智文教基金會　敬啟</a><br>  
+<a class="right">財團法人福智文教基金會　敬啟</a><br>
 <a class="right">{{ \Carbon\Carbon::now()->year }}  年　{{ \Carbon\Carbon::now()->month }}  月 　 {{ \Carbon\Carbon::now()->day }}  日</a>

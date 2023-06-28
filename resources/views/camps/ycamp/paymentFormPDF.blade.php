@@ -70,7 +70,7 @@
                 <tr>
                     <td>
                         繳費期限：{{ \Carbon\Carbon::now()->year }}/{{ substr($applicant->batch->camp->payment_deadline, 2, 2) }}/{{ substr($applicant->batch->camp->payment_deadline, 4, 2) }}<br>
-                        應繳金額：{{ $applicant->traffic->fare }}
+                        應繳金額：{{ $applicant->traffic?->fare ?? 0 }}
                     </td>
                 </tr>
                 <tr>
@@ -121,9 +121,9 @@
 </table>
 恭喜您錄取「{{ $applicant->batch->camp->fullName }}」！竭誠歡迎您的到來，期待與您共享這場心靈饗宴，希望您能獲得豐盛的收穫。您選擇交通的方式及費用如下：
 <ul>
-    <li>去程：{{ $applicant->traffic->depart_from }}</li>
-    <li>回程：{{ $applicant->traffic->back_to }}</li>
-    <li>費用：{{ $applicant->traffic->fare }}元</li>
+    <li>去程：{{ $applicant->traffic?->depart_from ?? "未定" }}</li>
+    <li>回程：{{ $applicant->traffic?->back_to ?? "未定" }}</li>
+    <li>費用：{{ $applicant->traffic?->fare ?? 0 }}元</li>
 </ul>
 <a style="font-size: 1.17em;">【注意事項】</a>
 <ul>
