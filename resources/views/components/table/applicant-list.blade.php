@@ -187,7 +187,10 @@
                         </td>
                     @elseif($key == "files" && $applicant->files)
                         <td>
-                            @foreach($applicant->files as $file)
+                            @php
+                                $files = $applicant->files ? json_decode($applicant->files) : [];
+                            @endphp
+                            @foreach(files as $file)
                                 <img href="{{ url("/backend/" . $applicant->camp->id . "/file/" . $file) }}" width=80><br>
                             @endforeach
                         </td>
