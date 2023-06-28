@@ -1023,7 +1023,7 @@ class BackendController extends Controller
         //->where('traffic'.'.back_to', '<>', '自回')
         ->whereIn('batch_id', $batch_ids)
         ->groupBy('traffic_return')->get();
-            
+
         return view('backend.in_camp.traffic_list', compact('batches', 'applicants', 'traffic_depart', 'traffic_return', 'camp'));
     }
 
@@ -1583,8 +1583,8 @@ class BackendController extends Controller
 
     public function getFile($camp_id, $file)
     {
-        if ($file && file_exists(base_path(\Storage::disk('local')->url($file)))) {
-            return response()->file(base_path(\Storage::disk('local')->url($file)));
+        if ($file && file_exists(base_path(\Storage::disk('local')->url('media/' . $file)))) {
+            return response()->file(base_path(\Storage::disk('local')->url('media/' . $file)));
         }
         return response('無', 404);
     }
