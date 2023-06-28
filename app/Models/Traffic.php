@@ -10,6 +10,7 @@ class Traffic extends Model {
 
     //
     protected $fillable = [
+        'applicant_id', 'depart_from', 'back_to', 'fare', 'deposit'
     ];
 
     public $resourceNameInMandarin = '交通資料';
