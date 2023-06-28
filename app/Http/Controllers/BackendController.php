@@ -1580,6 +1580,14 @@ class BackendController extends Controller
         return response('無', 404);
     }
 
+    public function getFile($camp_id, $file)
+    {
+        if ($file && file_exists(base_path(\Storage::disk('local')->url($file)))) {
+            return response()->file(base_path(\Storage::disk('local')->url($file)));
+        }
+        return response('無', 404);
+    }
+
     public function getMediaImage($camp_id, $path) {
         if (file_exists(base_path(\Storage::disk('local')->url("media/" . $path)))) {
             return response()->file(base_path(\Storage::disk('local')->url("media/" . $path)));

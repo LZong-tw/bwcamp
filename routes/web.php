@@ -151,6 +151,7 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
     });
     Route::get("/", "BackendController@campIndex")->name("campIndex");
     Route::get("/avatar/{id}", "BackendController@getAvatar")->name("getAvatar");
+    Route::get("/file/{file}", "BackendController@getFile")->name("getFile");
     Route::get("/image/media/{path}", "BackendController@getMediaImage")->name("getMediaImage");
     Route::get("/logs", "\Rap2hpoutre\LaravelLogViewer\LogViewerController@index")->middleware("permitted")->name("logs");
     Route::get("/registration/admission", "BackendController@admission")->name("admissionGET");

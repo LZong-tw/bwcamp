@@ -185,6 +185,12 @@
                         <td>
                             <img src="{{ url("/backend/" . $applicant->camp->id . "/avatar/" . $applicant->id) }}" width=80 alt="{{ $applicant->name }}">
                         </td>
+                    @elseif($key == "files" && $applicant->files)
+                        <td>
+                            @foreach($applicant->files as $file)
+                                <img href="{{ url("/backend/" . $applicant->camp->id . "/file/" . $file) }}" width=80><br>
+                            @endforeach
+                        </td>
                     @elseif($key == "name")
                         <td>
                             <a href="{{ route('showAttendeeInfoGET', ($isShowVolunteers ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->applicant_id }}" target="_blank">{{ $applicant->name }}</a>&nbsp;(報名序號：{{ $applicant->id }})
