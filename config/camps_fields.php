@@ -273,6 +273,7 @@ return [
         "region" => "區域",
         "applied_at" => "報名日期",
         "name" => "姓名",
+        "files" => "上傳的檔案",
         "gender" => "生理性別",
         "birthyear" => "出生年",
         "birthmonth" => "出生月",
