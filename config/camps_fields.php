@@ -530,6 +530,11 @@ return [
                 "sort" => 1,
                 "for_query" => 1,
             ],
+            "files" => [
+                "name" => "上傳的檔案",
+                "sort" => 0,
+                "for_query" => 0,
+            ],
             "industry" => [
                 "name" => "產業別",
                 "sort" => 1,
