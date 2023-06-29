@@ -152,7 +152,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
                         $applicant->$key = "無";
                         continue;
                     }
-                    $applicant->forget($key);
+                    $applicant->unset($key);
                     $drawing = new Drawing();
                     $drawing->setName($applicant->name);
                     $drawing->setDescription($applicant->name . '的照片');
@@ -168,7 +168,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
                         continue;
                     }
                     $files = json_decode($applicant->files);
-                    $applicant->forget($key);
+                    $applicant->unset($key);
                     foreach ($files as $file) {
                         if (!file_exists(storage_path($file))) {
                             $applicant->$key = "無";
