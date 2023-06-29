@@ -136,8 +136,8 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection, Wit
                 $applicant,
                 'read',
                 $this->camp,
-                target: $applicant,
-                context: str_contains($this->camp->table, "vcamp") ? "vcampExport" : null)
+                context: str_contains($this->camp->table, "vcamp") ? "vcampExport" : null,
+                target: $applicant)
             ) {
                 $applicants->forget($a_key);
                 continue;
@@ -323,7 +323,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection, Wit
         foreach ($this->applicants as $a_key => &$applicant) {
             $rowPosition++;
             $colPosition = 0;
-            foreach($this->columns as $key => $v) {
+            foreach ($this->columns as $key => $v) {
                 if ($key == "avatar" && $applicant->avatar != "無") {
                     $drawing = new Drawing();
                     $drawing->setName($applicant->name);
@@ -348,5 +348,6 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection, Wit
                 }
                 $colPosition++;
             }
+        }
     }
 }
