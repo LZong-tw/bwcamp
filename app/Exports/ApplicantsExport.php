@@ -159,6 +159,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
                     $drawing->setHeight(50);
                     $colName = $this->getNameFromNumber($colPosition);
                     $drawing->setCoordinates($colName . $rowPosition);
+                    continue;
                 }
                 if ($key == "files") {
                     if ($applicant->files == null) {
@@ -169,7 +170,6 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
                     foreach ($files as $file) {
                         if (!file_exists(storage_path($file))) {
                             $applicant->$key = "無";
-                            continue;
                         }
                         else {
                             $drawing = new Drawing();
@@ -181,9 +181,11 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
                             $drawing->setCoordinates($colName . $rowPosition);
                         }
                     }
+                    continue;
                 }
                 if ($key == "group" && str_contains($this->camp->table, "vcamp") && $applicant->user?->roles) {
                     $applicant->$key = $applicant->user->roles->pluck('applicant_group.alias')->implode('、');
+                    continue;
                 }
                 if ($v == "關懷員") {
                     if ($this->user->canAccessResource(
@@ -202,6 +204,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
                         unset($this->columns[$key]);
                         continue;
                     }
+                    continue;
                 }
                 if ($key == "care_log") {
                     if ($this->user->canAccessResource(new ContactLog, 'read', $this->camp, target: $applicant)) {
