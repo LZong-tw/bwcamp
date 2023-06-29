@@ -148,17 +148,36 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
                         $applicant->$key = "無";
                         continue;
                     }
-                    if (!file_exists(base_path(storage_path($applicant->avatar)))) {
+                    if (!file_exists(storage_path($applicant->avatar))) {
                         $applicant->$key = "無";
                         continue;
                     }
                     $drawing = new Drawing();
                     $drawing->setName($applicant->name);
                     $drawing->setDescription($applicant->name . '的照片');
-                    $drawing->setPath(base_path(storage_path($applicant->avatar)));
+                    $drawing->setPath(storage_path($applicant->avatar));
                     $drawing->setHeight(50);
                     $colName = $this->getNameFromNumber($colPosition);
                     $drawing->setCoordinates($colName . $rowPosition);
+                }
+                if ($key == "files") {
+                    if ($applicant->files == null) {
+                        $applicant->$key = "無";
+                        continue;
+                    }
+                    if (!file_exists(storage_path($applicant->files))) {
+                        $applicant->$key = "無";
+                        continue;
+                    }
+                    foreach (json_decode($applicant->files) as $file) {
+                        $drawing = new Drawing();
+                        $drawing->setName($applicant->name);
+                        $drawing->setDescription($applicant->name . '的照片');
+                        $drawing->setPath(storage_path($file));
+                        $drawing->setHeight(50);
+                        $colName = $this->getNameFromNumber($colPosition);
+                        $drawing->setCoordinates($colName . $rowPosition);
+                    }
                 }
                 if ($key == "group" && str_contains($this->camp->table, "vcamp") && $applicant->user?->roles) {
                     $applicant->$key = $applicant->user->roles->pluck('applicant_group.alias')->implode('、');
