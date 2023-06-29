@@ -320,11 +320,12 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection, Wit
     public function drawings()
     {
         $rowPosition = 1;
+        $drawings = [];
         foreach ($this->applicants as $a_key => &$applicant) {
             $rowPosition++;
             $colPosition = 0;
             foreach ($this->columns as $key => $v) {
-                if ($key == "avatar" && $applicant->avatar != "無") {
+                if ($key == "avatar" && $applicant->avatar != "無" && str_contains($applicant->avatar, '.')) {
                     $drawing = new Drawing();
                     $drawing->setName($applicant->name);
                     $drawing->setDescription($applicant->name . '的照片');
@@ -332,11 +333,15 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection, Wit
                     $drawing->setHeight(50);
                     $colName = $this->getNameFromNumber($colPosition);
                     $drawing->setCoordinates($colName . $rowPosition);
+                    $drawings[] = $drawing;
                     continue;
                 }
                 if ($key == "files" && $applicant->avatar != "無") {
                     $files = json_decode($applicant->files);
                     foreach ($files as $file) {
+                        if (!str_contains($file, '.')) {
+                            continue;
+                        }
                         $drawing = new Drawing();
                         $drawing->setName($applicant->name);
                         $drawing->setDescription($applicant->name . '的照片');
@@ -344,10 +349,12 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection, Wit
                         $drawing->setHeight(50);
                         $colName = $this->getNameFromNumber($colPosition);
                         $drawing->setCoordinates($colName . $rowPosition);
+                        $drawings[] = $drawing;
                     }
                 }
                 $colPosition++;
             }
         }
+        return $drawings;
     }
 }
