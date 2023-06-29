@@ -16,9 +16,10 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
+use Maatwebsite\Excel\Concerns\WithDrawings;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
-class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
+class ApplicantsExport implements WithHeadings, WithMapping, FromCollection, WithDrawings
 {
     protected $columns, $applicants, $user;
     public function __construct(protected Camp $camp,)
