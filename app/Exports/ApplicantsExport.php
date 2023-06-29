@@ -317,12 +317,13 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
         return $result;
     }
 
-    private function getNameFromNumber($num) {
+    public function getNameFromNumber($num): string
+    {
         $numeric = $num % 26;
         $letter = chr(65 + $numeric);
         $num2 = (int)($num / 26);
         if ($num2 > 0) {
-            return getNameFromNumber($num2 - 1) . $letter;
+            return self::getNameFromNumber($num2 - 1) . $letter;
         } else {
             return $letter;
         }
