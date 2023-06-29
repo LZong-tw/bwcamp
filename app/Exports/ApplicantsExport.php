@@ -129,7 +129,6 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
             }
         }
         $rowPosition = 1;
-        $colPosition = 0;
         foreach ($applicants as $a_key => $applicant) {
             if (!$this->user->canAccessResource(
                 $applicant,
@@ -142,6 +141,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
                 continue;
             }
             $rowPosition++;
+            $colPosition = 0;
             foreach($this->columns as $key => $v) {
                 if ($key == "avatar") {
                     if ($applicant->avatar == null) {
