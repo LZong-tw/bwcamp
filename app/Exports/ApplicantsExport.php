@@ -129,7 +129,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
             }
         }
         $rowPosition = 1;
-        foreach ($applicants as $a_key => $applicant) {
+        foreach ($applicants as $a_key => &$applicant) {
             if (!$this->user->canAccessResource(
                 $applicant,
                 'read',
@@ -152,6 +152,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
                         $applicant->$key = "無";
                         continue;
                     }
+                    $applicant->forget($key);
                     $drawing = new Drawing();
                     $drawing->setName($applicant->name);
                     $drawing->setDescription($applicant->name . '的照片');
@@ -167,6 +168,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
                         continue;
                     }
                     $files = json_decode($applicant->files);
+                    $applicant->forget($key);
                     foreach ($files as $file) {
                         if (!file_exists(storage_path($file))) {
                             $applicant->$key = "無";
