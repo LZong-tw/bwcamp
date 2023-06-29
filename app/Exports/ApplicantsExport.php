@@ -21,7 +21,9 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
 class ApplicantsExport implements WithHeadings, WithMapping, FromCollection, WithDrawings
 {
-    protected $columns, $applicants, $user;
+    protected $columns;
+    protected $applicants;
+    protected $user;
     public function __construct(protected Camp $camp,)
     {
         $this->user = \App\Models\User::find(auth()->id());
@@ -129,7 +131,6 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection, Wit
                 $applicant->is_cancelled = "否";
             }
         }
-        $rowPosition = 1;
         foreach ($applicants as $a_key => &$applicant) {
             if (!$this->user->canAccessResource(
                 $applicant,
@@ -141,8 +142,6 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection, Wit
                 $applicants->forget($a_key);
                 continue;
             }
-            $rowPosition++;
-            $colPosition = 0;
             foreach($this->columns as $key => $v) {
                 if ($key == "avatar") {
                     if ($applicant->avatar == null) {
@@ -154,13 +153,6 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection, Wit
                         continue;
                     }
                     $applicant->offsetUnset($key);
-                    $drawing = new Drawing();
-                    $drawing->setName($applicant->name);
-                    $drawing->setDescription($applicant->name . '的照片');
-                    $drawing->setPath(storage_path($applicant->avatar));
-                    $drawing->setHeight(50);
-                    $colName = $this->getNameFromNumber($colPosition);
-                    $drawing->setCoordinates($colName . $rowPosition);
                     continue;
                 }
                 if ($key == "files") {
@@ -173,15 +165,6 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection, Wit
                     foreach ($files as $file) {
                         if (!file_exists(storage_path($file))) {
                             $applicant->$key = "無";
-                        }
-                        else {
-                            $drawing = new Drawing();
-                            $drawing->setName($applicant->name);
-                            $drawing->setDescription($applicant->name . '的照片');
-                            $drawing->setPath(storage_path($file));
-                            $drawing->setHeight(50);
-                            $colName = $this->getNameFromNumber($colPosition);
-                            $drawing->setCoordinates($colName . $rowPosition);
                         }
                     }
                     continue;
@@ -284,7 +267,6 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection, Wit
                         continue;
                     }
                 }
-                $colPosition++;
             }
         }
         $this->applicants = $applicants;
@@ -333,5 +315,38 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection, Wit
         } else {
             return $letter;
         }
+    }
+
+    public function drawings()
+    {
+        $rowPosition = 1;
+        foreach ($this->applicants as $a_key => &$applicant) {
+            $rowPosition++;
+            $colPosition = 0;
+            foreach($this->columns as $key => $v) {
+                if ($key == "avatar" && $applicant->avatar != "無") {
+                    $drawing = new Drawing();
+                    $drawing->setName($applicant->name);
+                    $drawing->setDescription($applicant->name . '的照片');
+                    $drawing->setPath(storage_path($applicant->avatar));
+                    $drawing->setHeight(50);
+                    $colName = $this->getNameFromNumber($colPosition);
+                    $drawing->setCoordinates($colName . $rowPosition);
+                    continue;
+                }
+                if ($key == "files" && $applicant->avatar != "無") {
+                    $files = json_decode($applicant->files);
+                    foreach ($files as $file) {
+                        $drawing = new Drawing();
+                        $drawing->setName($applicant->name);
+                        $drawing->setDescription($applicant->name . '的照片');
+                        $drawing->setPath(storage_path($file));
+                        $drawing->setHeight(50);
+                        $colName = $this->getNameFromNumber($colPosition);
+                        $drawing->setCoordinates($colName . $rowPosition);
+                    }
+                }
+                $colPosition++;
+            }
     }
 }
