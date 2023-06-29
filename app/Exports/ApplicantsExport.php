@@ -317,7 +317,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection
         return $result;
     }
 
-    function getNameFromNumber($num) {
+    private function getNameFromNumber($num) {
         $numeric = $num % 26;
         $letter = chr(65 + $numeric);
         $num2 = (int)($num / 26);
