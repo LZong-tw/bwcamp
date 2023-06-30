@@ -314,7 +314,7 @@ class CampController extends Controller
         if($applicant) {
             // 取得報名者梯次資料
             $camp = $applicant->batch->camp;
-            $applicant->forget('files'); // files 僅供後台備註使用，同時，現在 files 的記錄方式若轉為 Json，在前端會出錯
+            $applicant->offsetUnset('files'); // files 僅供後台備註使用，同時，現在 files 的記錄方式若轉為 Json，在前端會出錯
             $applicant_data = $applicant->toJson();
             $applicant_data = str_replace("\\r", "", $applicant_data);
             $applicant_data = str_replace("\\n", "", $applicant_data);
