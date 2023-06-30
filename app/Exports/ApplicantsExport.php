@@ -336,8 +336,8 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection, Wit
                     $drawings[] = $drawing;
                     continue;
                 }
-                if ($key == "files" && $applicant->avatar != "無") {
-                    $files = json_decode($applicant->files);
+                $files = json_decode($applicant->files);
+                if ($key == "files" && $applicant->files != "無" && $files) {
                     foreach ($files as $file) {
                         if (!str_contains($file, '.')) {
                             continue;
