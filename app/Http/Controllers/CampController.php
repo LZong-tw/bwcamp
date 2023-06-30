@@ -314,6 +314,7 @@ class CampController extends Controller
         if($applicant) {
             // 取得報名者梯次資料
             $camp = $applicant->batch->camp;
+            $applicant->forget('files'); // files 僅供後台備註使用，同時，現在 files 的記錄方式若轉為 Json，在前端會出錯
             $applicant_data = $applicant->toJson();
             $applicant_data = str_replace("\\r", "", $applicant_data);
             $applicant_data = str_replace("\\n", "", $applicant_data);
@@ -446,7 +447,7 @@ class CampController extends Controller
         $campTable = $this->camp_data->table;
         $camp = $this->camp_data;
         $applicant = null;
-        
+
         $request->validate([
             'name' => 'required',
             'sn' => 'required|integer'
@@ -460,7 +461,7 @@ class CampController extends Controller
                 ->where('name', $request->name)
                 ->withTrashed()->first();
         }
-        
+
         if($applicant && $applicant->camp->id == $camp->id) {
             $traffic = null;
             $applicant->id = $applicant->applicant_id;
@@ -480,7 +481,7 @@ class CampController extends Controller
                 $applicant1->save();
                 $traffic = $applicant1->traffic;
 	    } else {
-		//if not null, retrieve it 
+		//if not null, retrieve it
 		$traffic = $applicant->traffic;
 	    }
 

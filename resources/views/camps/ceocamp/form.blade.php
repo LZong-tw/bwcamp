@@ -1006,9 +1006,6 @@
         @if(isset($applicant_data))
             {{-- 回填報名資料 --}}
             (function() {
-                @php
-                    $applicant_data->forget('files');
-                @endphp
                 let applicant_data = JSON.parse('{!! $applicant_data !!}');
                 let inputs = document.getElementsByTagName('input');
                 let selects = document.getElementsByTagName('select');
