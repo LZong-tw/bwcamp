@@ -49,19 +49,20 @@
                     <td>{{ $applicant->phone_home }}</td>
                 @endif
                 <td>{{ $applicant->region }}</td>
-                @if($applicant->is_attend === 1)
-                    <td style='color: green;'>參加</td>
-                @elseif($applicant->is_attend === 0)
-                    <td style='color: red;'>不參加</td>
-                @elseif($applicant->is_attend === 2)
-                    <td style='color: #ffb429;'>尚未決定</td>
-                @elseif($applicant->is_attend === 3)
-                    <td style='color: pink;'>聯絡不上</td>
-                @elseif($applicant->is_attend === 4)
-                    <td style='color: seagreen;'>無法全程</td>
-                @else
-                    <td style='color: rgb(0, 132, 255);'>尚未聯絡</td>
-                @endif
+                @switch($applicant->is_attend)
+                    @case(1)
+                        <td style='color: green;'>參加</td> @break
+                    @case(0)
+                        <td style='color: red;'>不參加</td> @break
+                    @case(2)
+                        <td style='color: #ffb429;'>尚未決定</td> @break
+                    @case(3)
+                        <td style='color: pink;'>聯絡不上</td> @break
+                    @case(4)
+                        <td style='color: seagreen;'>無法全程</td> @break
+                    @default
+                        <td style='color: rgb(0, 132, 255);'>尚未聯絡</td>
+                @endswitch
                 <td>{!! $applicant->is_paid == "是" ? "<a style='color: green;'>是</a>" : "<a style='color: red;'>否</a>" !!}</td>
                 <td>
                     <input type="checkbox" name="sns[]" value="{{ $applicant->sn }}" class="selected">

@@ -182,6 +182,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection, Wit
                         4 => $applicant->$key = "無法全程",
                         default => $applicant->$key = "尚未聯絡"
                     };
+                    continue;
                 }
                 if ($v == "關懷員") {
                     if ($this->user->canAccessResource(
