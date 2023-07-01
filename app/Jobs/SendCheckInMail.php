@@ -44,12 +44,17 @@ class SendCheckInMail implements ShouldQueue
             $pdf = \App::make('dompdf.wrapper');
             $pdf->loadHTML($this->applicant->batch->camp->abbreviation . '<br>流水號：' . $this->applicant->group . $this->applicant->number . '<br>優惠碼：' . $this->applicant->name . '<br><img src="data:image/png;base64,' . $qr_code . '" alt="barcode" height="200px"/>')->setPaper('a6');
         }
-        elseif($this->applicant->batch->camp->table != '' 
+        elseif($this->applicant->batch->camp->table != ''
             && $this->applicant->batch->camp->table != 'ceovcamp'
             && $this->applicant->batch->camp->table != 'evcamp'){
             $qr_code = \DNS2D::getBarcodePNG('{"applicant_id":' . $this->applicant->id . '}', 'QRCODE');
             $pdf = \App::make('dompdf.wrapper');
-            $pdf->loadHTML($this->applicant->batch->camp->fullName . ' QR code 報到單<br>梯次：' . $this->applicant->batch->name . '<br>錄取序號：' . $this->applicant->group . $this->applicant->number . '<br>姓名：' . $this->applicant->name . '<br><img src="data:image/png;base64,' . $qr_code . '" alt="barcode" height="200px"/>')->setPaper('a6');
+            if ($this->applicant->number) {
+                $pdf->loadHTML($this->applicant->batch->camp->fullName . ' QR code 報到單<br>梯次：' . $this->applicant->batch->name . '<br>錄取序號：' . $this->applicant->group . $this->applicant->number . '<br>姓名：' . $this->applicant->name . '<br><img src="data:image/png;base64,' . $qr_code . '" alt="barcode" height="200px"/>')->setPaper('a6');
+            }
+            else {
+                $pdf->loadHTML($this->applicant->batch->camp->fullName . ' QR code 報到單<br>梯次：' . $this->applicant->batch->name . '<br>組別：' . $this->applicant->group . '<br>姓名：' . $this->applicant->name . '<br><img src="data:image/png;base64,' . $qr_code . '" alt="barcode" height="200px"/>')->setPaper('a6');
+            }
         }
         $attachment = isset($pdf) ? $pdf->output() : null;
         // 動態載入電子郵件設定
