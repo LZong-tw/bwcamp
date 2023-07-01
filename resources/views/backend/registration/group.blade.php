@@ -26,6 +26,7 @@
                     <th>家中電話</th>
                 @endif
                 <th>分區</th>
+                <th>參加意願</th>
                 <th>已繳費</th>
                 <th>選取<br>全選<input type="checkbox" name="selectAll" onclick="toggler()"></th>
             </tr>
@@ -48,6 +49,19 @@
                     <td>{{ $applicant->phone_home }}</td>
                 @endif
                 <td>{{ $applicant->region }}</td>
+                @if($applicant->is_attend === 1)
+                    <td style='color: green;'>參加</td>
+                @elseif($applicant->is_attend === 0)
+                    <td style='color: red;'>不參加</td>
+                @elseif($applicant->is_attend === 2)
+                    <td style='color: #ffb429;'>尚未決定</td>
+                @elseif($applicant->is_attend === 3)
+                    <td style='color: pink;'>聯絡不上</td>
+                @elseif($applicant->is_attend === 4)
+                    <td style='color: seagreen;'>無法全程</td>
+                @else
+                    <td style='color: rgb(0, 132, 255);'>尚未聯絡</td>
+                @endif
                 <td>{!! $applicant->is_paid == "是" ? "<a style='color: green;'>是</a>" : "<a style='color: red;'>否</a>" !!}</td>
                 <td>
                     <input type="checkbox" name="sns[]" value="{{ $applicant->sn }}" class="selected">
