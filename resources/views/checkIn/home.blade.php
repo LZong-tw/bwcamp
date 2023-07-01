@@ -72,7 +72,11 @@
                 <tr class="table-active">
                     @if($camp->table != 'coupon')
                         <th style="width: 20%">組別</th>
-                        <th style="width: 20%">編號</th>
+                        @if($camp->table != 'ceocamp' || $camp->table != 'ecamp')
+                            <th style="width: 20%">編號</th>
+                        @else
+                            <th style="width: 20%">報名序號</th>
+                        @endif
                         <th style="width: 20%">姓名</th>
                         <th style="width: 20%">狀態</th>
                         <th style="width: 15%">動作</th>
@@ -88,7 +92,11 @@
                         <tr id="{{ $applicant->id }}">
                             @if($camp->table != 'coupon')
                                 <td class="align-middle">{{ $applicant->group }}</td>
-                                <td class="align-middle">{{ $applicant->number ?? "--" }}</td>
+                                @if($camp->table != 'ceocamp' || $camp->table != 'ecamp')
+                                    <td class="align-middle">{{ $applicant->number ?? "--" }}</td>
+                                @else
+                                    <td class="align-middle">{{ $applicant->id }}</td>
+                                @endif
                             @else
                                 <td class="align-middle">{{ $applicant->group }}{{ $applicant->number }}</td>
                             @endif

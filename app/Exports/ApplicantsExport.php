@@ -173,6 +173,16 @@ class ApplicantsExport implements WithHeadings, WithMapping, FromCollection, Wit
                     $applicant->$key = $applicant->user->roles->pluck('applicant_group.alias')->implode('、');
                     continue;
                 }
+                if($key == "is_attend") {
+                    match ($applicant->$key) {
+                        0 => $applicant->$key = "不參加",
+                        1 => $applicant->$key = "參加",
+                        2 => $applicant->$key = "尚未決定",
+                        3 => $applicant->$key = "聯絡不上",
+                        4 => $applicant->$key = "無法全程",
+                        default => $applicant->$key = "尚未聯絡"
+                    };
+                }
                 if ($v == "關懷員") {
                     if ($this->user->canAccessResource(
                         new CarerApplicantXref,
