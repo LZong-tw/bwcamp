@@ -336,7 +336,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
             $rowPosition++;
             $colPosition = 0;
             foreach ($this->columns as $key => $v) {
-                if ($key == "avatar" && $applicant->avatar != "無" && str_contains($applicant->avatar, '.')) {
+                if ($key == "avatar" && str_contains($applicant->avatar, '.')) {
                     $drawing = new Drawing();
                     $drawing->setName($applicant->name);
                     $drawing->setDescription($applicant->name . '的照片');
@@ -346,7 +346,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
                     $drawing->setCoordinates($colName . $rowPosition);
                     $drawings[] = $drawing;
                 }
-                if ($key == "files" && $applicant->files != "無") {
+                if ($key == "files" && str_contains($applicant->files, '.')) {
                     $files = json_decode($applicant->files);
                     foreach ($files ?? [] as $file) {
                         if (str_contains($file, '.')) {
