@@ -19,7 +19,7 @@ use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\WithDrawings;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
-class ApplicantsExport implements WithHeadings, WithMapping, FromCollection, WithDrawings
+class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromView
 {
     protected $columns;
     protected $applicants;
