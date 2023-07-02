@@ -92,17 +92,17 @@ class TestExport implements FromView, WithDrawings
 
     public function drawings()
     {
-//        $drawings = [];
-//        foreach ($this->applicants as $applicant) {
-//            $drawing = new Drawing();
-//            $drawing->setName('666');
-//            $drawing->setDescription('的照片');
-//            $drawing->setPath(storage_path("avatars/hif3rejxFpXe33sYO15kpcK6xXf0B9nAFc0BmKgF.png"));
-//            $drawing->setHeight(50);
-//            $drawing->setCoordinates("B3");
-//            $drawings[] = $drawing;
-//        }
-//        return $drawings;
+        //        $drawings = [];
+        //        foreach ($this->applicants as $applicant) {
+        //            $drawing = new Drawing();
+        //            $drawing->setName('666');
+        //            $drawing->setDescription('的照片');
+        //            $drawing->setPath(storage_path("avatars/hif3rejxFpXe33sYO15kpcK6xXf0B9nAFc0BmKgF.png"));
+        //            $drawing->setHeight(50);
+        //            $drawing->setCoordinates("B3");
+        //            $drawings[] = $drawing;
+        //        }
+        //        return $drawings;
         $rowPosition = 1;
         $drawings = [];
         foreach ($this->applicants as $a_key => &$applicant) {
@@ -117,7 +117,7 @@ class TestExport implements FromView, WithDrawings
                     $drawing->setHeight(50);
                     $colName = $this->getNameFromNumber($colPosition);
                     $drawing->setCoordinates($colName . $rowPosition);
-//                    $drawing->setCoordinates("B3");
+                    //                    $drawing->setCoordinates("B3");
                     $drawings[] = $drawing;
                 }
                 $files = json_decode($applicant->files);
@@ -131,7 +131,7 @@ class TestExport implements FromView, WithDrawings
                             $drawing->setHeight(50);
                             $colName = $this->getNameFromNumber($colPosition);
                             $drawing->setCoordinates($colName . $rowPosition);
-//                            $drawing->setCoordinates("E3");
+                            //                            $drawing->setCoordinates("E3");
                             $drawings[] = $drawing;
                         }
                     }

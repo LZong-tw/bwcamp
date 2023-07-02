@@ -110,7 +110,7 @@ Route::group(["prefix" => "checkin", ], function () {
     Route::get("/detailedStat", [CheckInController::class, "detailedStatOptimized"]);
 });
 
-Route::group(["prefix" => "backend/campManage"], function(){
+Route::group(["prefix" => "backend/campManage"], function () {
     Route::get("/list", [AdminController::class, "campManagement"])->name("campManagement");
     //Camps
     Route::post("/list/add", [AdminController::class, "addCamp"])->name("addCamp");
@@ -224,7 +224,7 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
     Route::post("/customMail/send", "BackendController@sendCustomMail")->name("sendMail");
     Route::get("/customMail/selectMailTarget", "BackendController@selectMailTarget")->name("selectMailTarget");
     Route::get("/permissionScopes", [PermissionController::class, "showPermissionScope"])->name("permissionScopes");
-//    Route::get("/roles", [PermissionController::class, "showRoles"])->name("roles");
+    //    Route::get("/roles", [PermissionController::class, "showRoles"])->name("roles");
     Route::resource("sign", SignBackendController::class)
             ->names([
                 "index" => "sign_back",
