@@ -1,49 +1,55 @@
-<style>
+{{-- <style>
     u{
         color: red;
     }
-</style>
+</style> --}}
 <body style="font-size:16px;">
-<h2 class="center">{{ $applicant->batch->camp->fullName }} 報到通知單</h2>
+<h2 class="center">{{ $applicant->batch->camp->fullName }}</h2>
+<h2 class="center">報&nbsp;到&nbsp;通&nbsp;知&nbsp;單</h2>
 <table width="100%" style="table-layout:fixed; border: 0;">
     <tr>
-        <td>梯次：{{ $applicant->batch->name }}</td>
         <td>姓名：{{ $applicant->name }}</td>
-        <td>錄取編號：{{ $applicant->group }}{{ $applicant->number }}</td>
+        <td>序號：{{ $applicant->id }}</td>
         <td>組別：{{ $applicant->group }}</td>
+        <td>場次：{{ $applicant->batch->name }}</td>
     </tr>
 </table>
 <table width="100%" style="table-layout:fixed; border: 0; word-wrap: break-word;">
-<tr><td>        
+<tr><td>
+感謝您報名「2023企業主管生命成長營」，歡迎您參加本研習活動，我們誠摯歡迎您來共享這場心靈饗宴。為使研習進行順利，請詳閱下列須知。
 @if($applicant->batch->name == "台北")
     <ol>
-        <li>報到時間：</li>
-        <ol type="A">
-            <li>1/30(六)：08:30〜08:50</li>
-            <li>1/31(日)：08:30〜08:50</li>
-        </ol>
-        <li>報到地點：台北市大安區復興南路二段52號 (大安高工)</li>
-        <li>報到流程：請於報到時以手機出示附件之【QR code】（或列印出紙本）辦理報到。</li>
-        <li>交通方式：</li>
-        <ol type="A">
-            <li>聯營：20、22、38、41、204、226、0東、信義線，在「復興南路口站」下車，步行2分鐘即達。</li>
-            <li>聯營：74、278、685在「大安高工站」下車，步行1分鐘即達。</li>
-            <li>捷運：大安站</li>
-        </ol>
-        <li>注意事項：</li>
-        <ol type="A">
-            <li>校區不提供停車位，請儘量搭乘大眾交通工具來校，若開車前來，需請自行尋找停車位。</li>
-            <li>請自備環保杯、環保筷。</li>
-        </ol>
-        <li>防疫規定：</li>
-        <ol type="A">
-            <li>實施實(聯)名制：並於集會、活動期間拍照，以利掌握參加人員資料及其在集會活動中之相對位置。</li>
-            <li>衛生防護措施：請配合落實量測體溫、噴酒精、全程配戴口罩(用餐時間除外)等個人衛生防護措施，不開放發燒者進入場所或參與活動，會加強環境清潔消毒。</li>
-            <li>若因配合政府防疫措施，活動有任何更改，將公佈於活動官方網站，敬請密切注意。</li>
-        </ol>
-        <li>營隊活動報導：請見【哈特麥1D】粉絲頁，1/25熱烈推出<a href="https://www.facebook.com/heartmind1d">https://www.facebook.com/heartmind1d</a></li>
-        <li>諮詢窗口：諮詢窗口：台北場 劉小姐 (02)2545-3788#529</li>
+        <li>
+            報到時間：7/14&nbsp;(五)&nbsp;13:00~13:40<br>
+            　　　　　7/15&nbsp;(六)&nbsp;08:00~08:50<br>
+            　　　　　7/16&nbsp;(日)&nbsp;08:00~08:50
+        </li>
+        <li>
+            營隊上課時間：7/14&nbsp;(五)&nbsp; 13:00~13:40<br>
+            　　　　　　　7/15&nbsp;(六)&nbsp;08:00~08:50<br>
+            　　　　　　　7/16&nbsp;(日)&nbsp;08:00~08:50
+        </li>
+        <li>報到地點：東吳大學外雙溪校區&nbsp;綜合大樓&nbsp;（台北市士林區臨溪路70號）</li>
+        <li>
+            交　　通：<br>
+            本基金會在7/14(五)&nbsp;12:00~13:30<br>
+            　　　　　7/15(六)&nbsp;06:45~08:30<br>
+            　　　　　7/16(日)&nbsp;06:45~08:30<br>
+            於以下地點提供交通接駁服務，現場將有穿著黃色背心的義工協助引導。
+            <ol type="a">
+                <li>捷運淡水線&nbsp;&nbsp;劍潭站&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2號出口</li>
+                <li>捷運文湖線&nbsp;&nbsp;劍南路站&nbsp;&nbsp;2號出口</li>
+            </ol>
+            <br>
+            騎機車前往會場者，每次停車費20元，請自備零錢投幣，現場不找零。
+        </li>
+        <li>若有任何問題，歡迎與關懷員聯絡反應。</li>
     </ol>
+    &nbsp;建議攜帶物品：<br>
+    　　　 隨身背包、文具用品、環保水杯（壺）、禦寒薄外套<br>
+    　　　 身份證、健保卡&nbsp;(遇緊急狀況就醫時使用)<br>
+    　　　 個人常用藥物<br>
+    &nbsp;<u><strong>報到時請攜帶附件之報到用 QR Code 報到單。</strong></u>
 @endif
 @if($applicant->batch->name == "桃園")
     <ol>
@@ -195,67 +201,80 @@
 @endif
 @if($applicant->batch->name == "台南")
     <ol>
-        <li>報到時間：</li>
-        <ol type="A">
-            <li>1/30(六) 08:30〜08:50</li>
-            <li>1/31(日) 08:30〜08:50</li>
-        </ol>
-        <li>報到地點：台南市永康區中山南路 193 號 (台南高工營建科技館)</li>
-        <li>報到流程：請於報到時以手機出示附件之【QR code】（或列印出紙本）辦理報到。</li>
-        <li>交通方式：</li>
-        <ol type="A">
-            <li>【汽機車】:可停入學校停車場，請依義工引導停放。</li>
-            <li>【火車】:請搭到大橋火車站，再步行約16分鐘可抵達。大會於營隊當天早上8:00-8:45備有接駁車，請跟各組關懷員登記。</li>
-            <li>【高鐵】:請於台南高鐵站站內，轉乘台鐵沙崙線，至大橋火車站下車，再步行或搭接駁車。</li>
-            <li>【公車】:請搭乘「興南客運」往永康、新化、南化、玉井、楠西之班車,至「南工站」下車。</li>
-        </ol>
-        <li>注意事項：請自備環保杯、環保筷。</li>
-        <li>防疫規定：</li>
-        <ol type="A">
-            <li>實施實(聯)名制：並於集會、活動期間拍照，以利掌握參加人員資料及其在集會活動中之相對位置。</li>
-            <li>衛生防護措施：請配合落實量測體溫、噴酒精、全程配戴口罩(用餐時間除外)等個人衛生防護措施，不開放發燒者進入場所或參與活動，會加強環境清潔消毒。</li>
-            <li>若因配合政府防疫措施，活動有任何更改，將公佈於活動官方網站，敬請密切注意。</li>
-        </ol>
-        <li>營隊活動報導：請見【哈特麥1D】粉絲頁，1/25熱烈推出<a href="https://www.facebook.com/heartmind1d">https://www.facebook.com/heartmind1d</a></li>
-        <li>諮詢窗口：台南場 許小姐  06-2646831#412</li>
+        <li>
+            報到時間：7/14&nbsp;(五)&nbsp;13:00~13:40<br>
+            　　　　　7/15&nbsp;(六)&nbsp;08:00~08:50<br>
+            　　　　　7/16&nbsp;(日)&nbsp;08:00~08:50
+        </li>
+        <li>
+            營隊上課時間：7/14&nbsp;(五)&nbsp;13:50~18:00<br>
+            　　　　　　　7/15&nbsp;(六)&nbsp;09:00~18:00<br>
+            　　　　　　　7/16&nbsp;(日)&nbsp;09:00~18:10
+        </li>
+        <li>
+            報到地點：台南市大成國中綜合大樓1F&nbsp;(地址：臺南市南區西門路一段306號)
+        </li>
+        <li>
+            交通參考：<br>
+            <ol type="i">
+                <li>搭公車站名：
+                    <ol type="a">
+                        <li>台南火車站公車(南站-新興國小站)<br>
+                            台南火車站(南站)公車1,綠17,藍24,紅幹線<br>
+                            新興國小站下步行3分鐘</li>
+                        <li>台南火車站公車(北站-台南站)<br>
+                            台南火車站(北站)公車2,5,11,18,紅2<br>
+                            台南站(健康路口)下步行6分鐘</li>
+                    </ol>
+                </li>
+                <li>高鐵接駁巴士(2號出口、第1月台)<br>
+                    H31&nbsp;往台南市政府高鐵接駁公車<br>
+                    大億麗緻酒店站(小西門)下步行13分鐘</li>
+                <li>自行開車(汽車/機車/共乘等)，請依現場義工引導停車。</li>
+            </ol>
+        </li>
+        <li>若有任何問題，歡迎與關懷員聯絡反應。</li>
     </ol>
+    &nbsp;建議攜帶物品：<br>
+    　　　 隨身背包、文具用品、環保水杯（壺）、環保筷、<strong>禦寒薄外套</strong><br>
+    　　　 身份證、健保卡&nbsp;(遇緊急狀況就醫時使用)、請配戴口罩<br>
+    　　　 個人常用藥物<br>
+    &nbsp;<u><strong>報到時請攜帶附件之報到用 QR Code 報到單。</strong></u>
 @endif
 @if($applicant->batch->name == "高雄")
     <ol>
-        <li>報到時間：</li>
-        <ol type="A">
-            <li>1/30(六) 08:30〜08:50</li>
-            <li>1/31(日) 08:30〜08:50</li>
-        </ol>
-        <li>報到地點：高雄市仁武區仁勇路400號</li>
-        <li>報到流程：請於報到時以手機出示附件之【QR code】（或列印出紙本）辦理報到。</li>
-        <li>交通方式：</li>
-        <ol type="A">
-            <strong>【免費接駁車】8:00準時發車</strong>
-            <li><strong>高鐵左營站</strong>:彩虹市集7-11前遊覽車專用停車格。</li>
-            ＊搭乘台鐵: 下車後上二樓出站，右轉往高鐵大廳走，星巴克前左轉直走到底，出2號門後搭手扶梯下樓，會看到義工引導。<br>
-            ＊搭乘捷運:出站後左轉，直走至下一個路口，右轉上手扶梯後左轉，會看到義工引導。
-            <li><strong>2.高雄文化中心五福路正門口</strong></li>    
-        </ol>
-        【自行前往】<br>
-        汽機車請依義工引導停放。
-        <li>注意事項：</li>
-        <ol type="A">
-            <li>本院區停車位有限，請儘量共乘或搭接駁車。</li>
-            <li>請自備環保杯、環保筷。</li>
-        </ol>
-        <li>防疫規定：</li>
-        <ol type="A">
-            <li>實施實(聯)名制：並於集會、活動期間拍照，以利掌握參加人員資料及其在集會活動中之相對位置。</li>
-            <li>衛生防護措施：請配合落實量測體溫、噴酒精、全程配戴口罩(用餐時間除外)等個人衛生防護措施，不開放發燒者進入場所或參與活動，會加強環境清潔消毒。</li>
-            <li>若因配合政府防疫措施，活動有任何更改，將公佈於活動官方網站，敬請密切注意。</li>
-        </ol>
-        <li>營隊活動報導：請見【哈特麥1D】粉絲頁，1/25熱烈推出<a href="https://www.facebook.com/heartmind1d">https://www.facebook.com/heartmind1d</a></li>
-        <li>諮詢窗口：高雄場 胡小姐 (07)9769341#417</li>
+        <li>
+            <u><strong>報到時間</strong></u>：7/14&nbsp;(五)&nbsp;12:50~13:20<br>
+            　　　　　7/15&nbsp;(六)&nbsp;08:00~08:50<br>
+            　　　　　7/16&nbsp;(日)&nbsp;08:00~08:50
+        </li>
+        <li>
+            <u>上課時間</u>：7/14&nbsp;(五)&nbsp;13:20~18:00<br>
+            　　　　　7/15&nbsp;(六)&nbsp;09:00~18:00<br>
+            　　　　　7/16&nbsp;(日)&nbsp;09:00~18:10
+        </li>
+        <li>
+            <u>報到地點</u>：中華電信學院高雄所教學大樓6F<br>
+            　　　　　（高雄市仁武區仁勇路400號）
+        </li>
+        <li>
+            <u>交　　通</u>：參閱以下中華電信學院高雄所-交通資訊說明<br>
+            　　　　　<a href="https://www.chtti.cht.com.tw/portal/traffic_info_kaohsiung.jsp">https://www.chtti.cht.com.tw/portal/traffic_info_kaohsiung.jsp</a><br>
+            　　　　　※現場備有汽機車停車位，請依義工引導停車。<br>
+            　　　　　然因車位數量有限，敬請提早入場。謝謝合作！
+        </li>
+        <li>若有任何問題，歡迎與關懷員聯絡反應，或來電&nbsp;(07)281-9498&nbsp;企業營報名報到組。</li>
     </ol>
+    &nbsp;建議攜帶物品：<br>
+    　　　 口罩、隨身背包、文具用品、環保水杯（壺）、禦寒薄外套<br>
+    　　　 身份證、健保卡&nbsp;(遇緊急狀況就醫時使用)<br>
+    　　　 個人常用藥物<br>
+    &nbsp;<u><strong>報到時請攜帶附件之報到用 QR Code 報到單。</strong></u>
 @endif
 </td></tr>
+<tr><td align="right">
+主辦單位：財團法人福智文教基金會　敬邀<br>
+{{ \Carbon\Carbon::now()->year }}  年　{{ \Carbon\Carbon::now()->month }}  月 　 {{ \Carbon\Carbon::now()->day }}  日
+</td></tr>
 </table>
-<a class="right">財團法人福智文教基金會　謹此</a><br> 
-<a class="right">{{ \Carbon\Carbon::now()->year }}  年　{{ \Carbon\Carbon::now()->month }}  月 　 {{ \Carbon\Carbon::now()->day }}  日</a>
 </body>
