@@ -345,22 +345,20 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
                     $colName = $this->getNameFromNumber($colPosition);
                     $drawing->setCoordinates($colName . $rowPosition);
                     $drawings[] = $drawing;
-                    continue;
                 }
-                $files = json_decode($applicant->files);
-                if ($key == "files" && $applicant->files != "無" && $files) {
-                    foreach ($files as $file) {
-                        if (!str_contains($file, '.')) {
-                            continue;
+                if ($key == "files" && $applicant->files != "無") {
+                    $files = json_decode($applicant->files);
+                    foreach ($files ?? [] as $file) {
+                        if (str_contains($file, '.')) {
+                            $drawing = new Drawing();
+                            $drawing->setName($applicant->name);
+                            $drawing->setDescription($applicant->name . '的照片');
+                            $drawing->setPath(storage_path($file));
+                            $drawing->setHeight(50);
+                            $colName = $this->getNameFromNumber($colPosition);
+                            $drawing->setCoordinates($colName . $rowPosition);
+                            $drawings[] = $drawing;
                         }
-                        $drawing = new Drawing();
-                        $drawing->setName($applicant->name);
-                        $drawing->setDescription($applicant->name . '的照片');
-                        $drawing->setPath(storage_path($file));
-                        $drawing->setHeight(50);
-                        $colName = $this->getNameFromNumber($colPosition);
-                        $drawing->setCoordinates($colName . $rowPosition);
-                        $drawings[] = $drawing;
                     }
                 }
                 $colPosition++;
