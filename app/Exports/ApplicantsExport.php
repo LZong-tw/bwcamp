@@ -17,6 +17,7 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\WithDrawings;
+use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
 class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromView
@@ -328,6 +329,9 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public function drawings()
     {
         $rowPosition = 1;
