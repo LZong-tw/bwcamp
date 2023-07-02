@@ -51,6 +51,10 @@ Route::post("profile/update", "Auth\UserController@updateProfile")->name("profil
 
 Route::get("/home", "HomeController@index")->name("home");
 
+//Route::get("/testExport/{camp_id}", function ($camp_id) {
+//    return \Maatwebsite\Excel\Facades\Excel::download(new \App\Exports\TestExport($camp_id), 'test.xlsx');
+//});
+
 Route::group(["prefix" => "camp/{batch_id}"], function () {
     Route::get("/", "CampController@campIndex");
     Route::match(["get", "post"], "/registration", "CampController@campRegistration")->name("registration");
