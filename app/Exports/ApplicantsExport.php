@@ -153,6 +153,8 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
                         $applicant->$key = "無";
                         continue;
                     }
+                    $applicant->avatar_location = $applicant->avatar;
+                    $applicant->offsetUnset('avatar');
                     continue;
                 }
                 if ($key == "files") {
@@ -166,6 +168,8 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
                             $applicant->$key = "無";
                         }
                     }
+                    $applicant->files_location = $applicant->files;
+                    $applicant->offsetUnset('files');
                     continue;
                 }
                 if ($key == "group" && str_contains($this->camp->table, "vcamp") && $applicant->user?->roles) {
@@ -338,23 +342,22 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
             $rowPosition++;
             $colPosition = 0;
             foreach ($this->columns as $key => $v) {
-                if ($key == "avatar" && is_file(storage_path($applicant->avatar)) && file_exists(storage_path($applicant->avatar))) {
+                if ($key == "avatar" && is_file(storage_path($applicant->avatar_location)) && file_exists(storage_path($applicant->avatar_location))) {
                     try {
                         $drawing = new Drawing();
                         $drawing->setName($applicant->name);
                         $drawing->setDescription($applicant->name . '的照片');
-                        $drawing->setPath(storage_path($applicant->avatar));
+                        $drawing->setPath(storage_path($applicant->avatar_location));
                         $drawing->setHeight(50);
                         $colName = $this->getNameFromNumber($colPosition);
                         $drawing->setCoordinates($colName . $rowPosition);
                         $drawings[] = $drawing;
-                        $applicant->$key = "";
                     }
                     catch (\Exception $e) {
                     }
                 }
                 if ($key == "files") {
-                    $files = json_decode($applicant->files);
+                    $files = json_decode($applicant->files_location);
                     foreach ($files ?? [] as $file) {
                         try {
                             if (is_file(storage_path($file)) && file_exists(storage_path($file))) {
