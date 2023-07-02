@@ -342,34 +342,36 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
             foreach ($this->columns as $key => $v) {
                 if ($key == "avatar") {
                     try {
-                        $drawing = new Drawing();
-                        $drawing->setName($applicant->name);
-                        $drawing->setDescription($applicant->name . '的照片');
-                        $drawing->setPath(storage_path($applicant->avatar));
-                        $drawing->setHeight(50);
-                        $colName = $this->getNameFromNumber($colPosition);
-                        $drawing->setCoordinates($colName . $rowPosition);
-                        $drawings[] = $drawing;
+                        if (is_file(storage_path($applicant->avatar))) {
+                            $drawing = new Drawing();
+                            $drawing->setName($applicant->name);
+                            $drawing->setDescription($applicant->name . '的照片');
+                            $drawing->setPath(storage_path($applicant->avatar));
+                            $drawing->setHeight(50);
+                            $colName = $this->getNameFromNumber($colPosition);
+                            $drawing->setCoordinates($colName . $rowPosition);
+                            $drawings[] = $drawing;
+                        }
                     }
-                    catch (Exception $e) {
-                        continue;
+                    catch (\Exception $e) {
                     }
                 }
                 if ($key == "files") {
                     $files = json_decode($applicant->files);
                     foreach ($files ?? [] as $file) {
                         try {
-                            $drawing = new Drawing();
-                            $drawing->setName($applicant->name);
-                            $drawing->setDescription($applicant->name . '的照片');
-                            $drawing->setPath(storage_path($file));
-                            $drawing->setHeight(50);
-                            $colName = $this->getNameFromNumber($colPosition);
-                            $drawing->setCoordinates($colName . $rowPosition);
-                            $drawings[] = $drawing;
+                            if (is_file(storage_path($file))) {
+                                $drawing = new Drawing();
+                                $drawing->setName($applicant->name);
+                                $drawing->setDescription($applicant->name . '的照片');
+                                $drawing->setPath(storage_path($file));
+                                $drawing->setHeight(50);
+                                $colName = $this->getNameFromNumber($colPosition);
+                                $drawing->setCoordinates($colName . $rowPosition);
+                                $drawings[] = $drawing;
+                            }
                         }
-                        catch (Exception $e) {
-                            continue;
+                        catch (\Exception $e) {
                         }
                     }
                 }
