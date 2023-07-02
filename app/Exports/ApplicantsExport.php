@@ -153,7 +153,6 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
                         $applicant->$key = "無";
                         continue;
                     }
-                    $applicant->offsetUnset($key);
                     continue;
                 }
                 if ($key == "files") {
@@ -162,7 +161,6 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
                         continue;
                     }
                     $files = json_decode($applicant->files);
-                    $applicant->offsetUnset($key);
                     foreach ($files as $file) {
                         if (!file_exists(storage_path($file))) {
                             $applicant->$key = "無";
