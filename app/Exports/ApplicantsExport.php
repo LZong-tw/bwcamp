@@ -25,7 +25,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
     protected $columns;
     protected $applicants;
     protected $user;
-    public function __construct(protected Camp $camp,)
+    public function __construct(protected Camp $camp)
     {
         $this->user = \App\Models\User::find(auth()->id());
         if($this->camp->applicants()) {
@@ -138,7 +138,8 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
                 'read',
                 $this->camp,
                 context: str_contains($this->camp->table, "vcamp") ? "vcampExport" : null,
-                target: $applicant)
+                target: $applicant
+            )
             ) {
                 $applicants->forget($a_key);
                 continue;
@@ -185,15 +186,14 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
                 }
                 if ($v == "關懷員") {
                     if ($this->user->canAccessResource(
-                        new CarerApplicantXref,
+                        new CarerApplicantXref(),
                         'read',
                         $this->camp,
                         target: $applicant
                     )) {
                         if ($applicant->carers) {
                             $applicant->$key = $applicant->carers->flatten()->pluck('name')->implode('、');
-                        }
-                        else {
+                        } else {
                             $applicant->$key = "無";
                         }
                     } else {
@@ -203,7 +203,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
                     continue;
                 }
                 if ($key == "care_log") {
-                    if ($this->user->canAccessResource(new ContactLog, 'read', $this->camp, target: $applicant)) {
+                    if ($this->user->canAccessResource(new ContactLog(), 'read', $this->camp, target: $applicant)) {
                         if ($applicant->contactlogs) {
                             $applicant->$key = "";
                             foreach ($applicant->contactlogs as $count => $contactlog) {
@@ -212,8 +212,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
                                     $applicant->$key .= PHP_EOL;
                                 }
                             }
-                        }
-                        else {
+                        } else {
                             $applicant->$key = "無";
                         }
                     } else {
@@ -223,7 +222,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
                 }
                 // 使用正規表示式抓出日期欄
                 if(preg_match('/\d\d\d\d-\d\d-\d\d/', $key)) {
-                    if ($this->user->canAccessResource(new CheckIn, 'read', $this->camp, target: $applicant)) {
+                    if ($this->user->canAccessResource(new CheckIn(), 'read', $this->camp, target: $applicant)) {
                         // 填充報到資料
                         if(in_array($applicant->id, $checkInData[$key])) {
                             $applicant->$key = "⭕";
@@ -235,7 +234,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
                         continue;
                     }
                 } elseif(str_contains($key, "SIGN_")) {
-                    if ($this->user->canAccessResource(new SignInSignOut, 'read', $this->camp, target: $applicant)) {
+                    if ($this->user->canAccessResource(new SignInSignOut(), 'read', $this->camp, target: $applicant)) {
                         // 填充簽到資料
                         if($signData[substr($key, 5)]['applicants']->contains($applicant->id)) {
                             $applicant->$key = "✔️";
@@ -247,7 +246,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
                         continue;
                     }
                 } elseif($key == "role_section") {
-                    if ($this->user->canAccessResource(new CampOrg, 'read', $this->camp, target: $applicant)) {
+                    if ($this->user->canAccessResource(new CampOrg(), 'read', $this->camp, target: $applicant)) {
                         $roles = "";
                         $aRoles = $applicant->user?->roles()->where('camp_id', $applicant->vcamp->mainCamp->id)->get() ?? [];
                         foreach ($aRoles as $k => $role) {
@@ -262,7 +261,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
                         continue;
                     }
                 } elseif($key == "role_position") {
-                    if ($this->user->canAccessResource(new CampOrg, 'read', $this->camp, target: $applicant)) {
+                    if ($this->user->canAccessResource(new CampOrg(), 'read', $this->camp, target: $applicant)) {
                         $roles = "";
                         $aRoles = $applicant->user?->roles()->where('camp_id', $applicant->vcamp->mainCamp->id)->get() ?? [];
                         foreach ($aRoles as $k => $role) {
@@ -297,7 +296,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
         ]);
     }
 
-    public function map($applicant) : array
+    public function map($applicant): array
     {
         $result = [];
         foreach ($this->columns as $key => $value) {
@@ -306,7 +305,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
         return $result;
     }
 
-    public function headings() : array
+    public function headings(): array
     {
         $result = [];
         foreach ($this->columns as $key => $value) {
@@ -348,8 +347,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
                         $colName = $this->getNameFromNumber($colPosition);
                         $drawing->setCoordinates($colName . $rowPosition);
                         $drawings[] = $drawing;
-                    }
-                    catch (\Exception $e) {
+                    } catch (\Exception $e) {
                     }
                 }
                 if ($key == "files") {
@@ -364,8 +362,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
                             $colName = $this->getNameFromNumber($colPosition);
                             $drawing->setCoordinates($colName . $rowPosition);
                             $drawings[] = $drawing;
-                        }
-                        catch (\Exception $e) {
+                        } catch (\Exception $e) {
                         }
                     }
                 }
