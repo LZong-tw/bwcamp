@@ -24,10 +24,16 @@
                     <th>就讀科系所 / 年級</th>
                     <th>行動電話</th>
                     <th>家中電話</th>
+                    <th>去程交通</th>
+                    <th>回程交通</th>
+                    <th>應交</th>
+                    <th>已交</th>
                 @endif
                 <th>分區</th>
                 <th>參加意願</th>
+                @if($camp_data->table != "ycamp")
                 <th>已繳費</th>
+                @endif
                 <th>選取<br>全選<input type="checkbox" name="selectAll" onclick="toggler()"></th>
             </tr>
         </thead>
@@ -47,6 +53,10 @@
                     <td>{{ $applicant->department }} / {{ $applicant->grade }}</td>
                     <td>{{ $applicant->mobile }}</td>
                     <td>{{ $applicant->phone_home }}</td>
+                    <td>{{ $applicant->depart_from }}</td>
+                    <td>{{ $applicant->back_to }}</td>
+                    <td>{{ $applicant->fee }}</td>
+                    <td>{{ $applicant->deposit }}</td>
                 @endif
                 <td>{{ $applicant->region }}</td>
                 @switch($applicant->is_attend)
@@ -63,7 +73,9 @@
                     @default
                         <td style='color: rgb(0, 132, 255);'>尚未聯絡</td>
                 @endswitch
+                @if($camp_data->table != "ycamp")
                 <td>{!! $applicant->is_paid == "是" ? "<a style='color: green;'>是</a>" : "<a style='color: red;'>否</a>" !!}</td>
+                @endif
                 <td>
                     <input type="checkbox" name="sns[]" value="{{ $applicant->sn }}" class="selected">
                 </td>
