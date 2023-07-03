@@ -45,9 +45,9 @@ class checkPayment extends Command
             'host'     => config('camps_payments.scsb_ftp.host'),
             'username' => config('camps_payments.scsb_ftp.username'),
             'password' => config('camps_payments.scsb_ftp.password'),
-            'port'     => '21',
-            'passive'  => '1',
-            'timeout'  => '30',
+            'port'     => 21,
+            'passive'  => true,
+            'timeout'  => 30,
         ]); 
         // 當日對帳檔檔名格式
         $filenamePattern = \Carbon\Carbon::now()->format("Ymd") . config('camps_payments.' . $this->argument('camp') . '.對帳檔檔名後綴'); 
