@@ -914,6 +914,17 @@ class BackendController extends Controller
         if($request->showAttend) {
             return view('backend.in_camp.groupAttend', compact('applicants'));
         }
+        foreach ($applicants as $applicant) {
+            $traffic = Traffic::where('applicant_id', '=', $applicant->applicant_id)->first();
+            if ($traffic == null) {
+                $applicant->depart_from = '尚未登記';
+                $applicant->back_to = '尚未登記';
+            } else {
+                //dd($traffic);
+                $applicant->depart_from = $traffic->depart_from;
+                $applicant->back_to = $traffic->back_to;
+            }
+        }
         return view('backend.registration.group', compact('applicants'));
     }
 
