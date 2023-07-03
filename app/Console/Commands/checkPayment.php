@@ -45,9 +45,9 @@ class checkPayment extends Command
             'host'     => '203.67.41.68',
             'username' => 'user040',
             'password' => '01120085',
-            'port'     => '21',
-            'passive'  => '1',
-            'timeout'  => '30',
+            'port'     => 21,
+            'passive'  => true,
+            'timeout'  => 30,
         ]); 
         // 當日對帳檔檔名格式
         $filenamePattern = \Carbon\Carbon::now()->format("Ymd") . config('camps_payments.' . $this->argument('camp') . '.對帳檔檔名後綴'); 
