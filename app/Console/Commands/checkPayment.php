@@ -8,7 +8,7 @@ use App\Traits\EmailConfiguration;
 class checkPayment extends Command
 {
     use EmailConfiguration;
-    
+
     /**
      * The name and signature of the console command.
      *
@@ -30,7 +30,7 @@ class checkPayment extends Command
      */
     public function __construct()
     {
-        parent::__construct(); 
+        parent::__construct();
     }
 
     /**
@@ -48,44 +48,41 @@ class checkPayment extends Command
             'port'     => 21,
             'passive'  => true,
             'timeout'  => 30,
-        ]); 
+        ]);
         // 當日對帳檔檔名格式
-        $filenamePattern = \Carbon\Carbon::now()->format("Ymd") . config('camps_payments.' . $this->argument('camp') . '.對帳檔檔名後綴'); 
+        $filenamePattern = \Carbon\Carbon::now()->format("Ymd") . config('camps_payments.' . $this->argument('camp') . '.對帳檔檔名後綴');
         $filename = '';
-        if(!$this->option('file')){
-            try{
+        if(!$this->option('file')) {
+            try {
                 // 2. 取得檔案列表
                 $fileList = $ftp->files();
                 // 3. 比對檔名，符合即下載（正常情況下只會有一個檔案）
-                foreach($fileList as $fileName){
-                    if(\Str::contains($fileName, $filenamePattern) && !\Str::contains($fileName, ".END")){
+                foreach($fileList as $fileName) {
+                    if(\Str::contains($fileName, $filenamePattern) && !\Str::contains($fileName, ".END")) {
                         $content = $ftp->get($fileName);
                         $filename = $fileName;
                         \Storage::disk('local')->put('payment_data/' . $filename, $content);
                     }
                 }
-            }
-            catch(\Exception $e){
+            } catch(\Exception $e) {
                 $emails = config('camps_payments.' . $this->argument('camp') . '.email');
-                foreach($emails as $email){
-                    \Mail::send([], [], function ($message) use ($email){
+                foreach($emails as $email) {
+                    \Mail::send([], [], function ($message) use ($email) {
                         $message->to($email)
                           ->subject($this->argument('camp') . " 上海銀行自動對帳結果")
-                          ->setBody("今日無對帳資料"); 
+                          ->setBody("今日無對帳資料");
                     });
                 }
             }
-        }
-        else{
+        } else {
             $filename = $this->option('file');
         }
         // 4. Parse 對帳資料
-        try{
+        try {
             $records = \Storage::disk("local")->get('payment_data/' . $filename);
-        }
-        catch(\Exception $e){
+        } catch(\Exception $e) {
             logger($e);
-            $this->info("找不到檔案");   
+            $this->info("找不到檔案");
             return;
         }
         $records = \Str::of($records)->explode(PHP_EOL);
@@ -96,10 +93,10 @@ class checkPayment extends Command
         $this->info("開始讀檔 : storage/payment_data/" . $filename);
         $mailContent = "開始讀檔 : storage/payment_data/" . $filename . "\n";
         $arrayList = array();
-        foreach($records as $record){
+        foreach($records as $record) {
             if(\Str::length($record) > 0) {
                 $type = \Str::substr($record, 0, 1);
-                switch($type) { 
+                switch($type) {
                     case 1: // 首筆
                         if(\Str::length($record) == 9) {
                             $fileData = \Str::substr($record, 1, 8);
@@ -110,7 +107,7 @@ class checkPayment extends Command
                         }
                         break;
                     case 2: // 明細
-                        if(\Str::substr($record, 30, 1) == config('camps_payments.' . $this->argument('camp') . '.銷帳流水號前1碼')){
+                        if(\Str::substr($record, 30, 1) == config('camps_payments.' . $this->argument('camp') . '.銷帳流水號前1碼')) {
                             if(\Str::length($record) == 48) {
                                 $accountData = [];
                                 $accountData["代收類別"] = (string)\Str::of(\Str::substr($record, 1, 6))->trim(' ');
@@ -123,9 +120,9 @@ class checkPayment extends Command
                             } else {
                                 $this->info('BankFileParsing : 明細 length != 48');
                                 $mailContent .= "BankFileParsing : 明細 length != 48\n";
-                            } 
-                        }                        
-                        break; 
+                            }
+                        }
+                        break;
                     case 3: // 結尾
                         if(\Str::length($record) == 25) {
                             $sum = \Str::substr($record, 1, 15);
@@ -135,60 +132,58 @@ class checkPayment extends Command
                         } else {
                             $this->info("BankFileParsing : 明細 length != 25");
                             $mailContent .= "BankFileParsing : 明細 length != 25\n";
-                        } 
+                        }
                         break;
                 }
             }
-        }   
-        $this->info("讀檔完畢");   
-        $mailContent .= "讀檔完畢\n"; 
+        }
+        $this->info("讀檔完畢");
+        $mailContent .= "讀檔完畢\n";
         // 5. 將對帳資料寫入資料庫
-        if(count($arrayList) > 0){
-            try{
+        if(count($arrayList) > 0) {
+            try {
                 foreach($arrayList as $item) {
                     \DB::table('accounting_scsb')->insert(
-                        ['name' => array_key_exists($item["代收類別"], config('camps_payments.' . $this->argument('camp') . '.scsb_enum')) ? config('camps_payments.' . $this->argument('camp') . '.scsb_enum')[$item["代收類別"]] : $item["代收類別"], 
+                        ['name' => array_key_exists($item["代收類別"], config('camps_payments.' . $this->argument('camp') . '.scsb_enum')) ? config('camps_payments.' . $this->argument('camp') . '.scsb_enum')[$item["代收類別"]] : $item["代收類別"],
                          'creditted_at' => \Carbon\Carbon::createFromFormat('Ymd', $item["入帳日期"]),
                          'paid_at' => \Carbon\Carbon::createFromFormat('Ymd', $item["繳費日期"]),
                          'accounting_sn' => $item["銷帳流水號"],
-                         'accounting_no' => $item["銷帳帳號"],                         
+                         'accounting_no' => $item["銷帳帳號"],
                          'amount' => $item["繳款金額"],
                          'created_at' => \Carbon\Carbon::now(),
                          'updated_at' => \Carbon\Carbon::now(),]
                     );
                     $applicant = \App\Models\Applicant::where('bank_second_barcode', $item["銷帳帳號"])->orderBy("id", "desc")->first();
-                    if($applicant){
+                    if($applicant) {
                         $applicant->deposit = $applicant->deposit + $item["繳款金額"];
-                        if($this->argument('camp') == 'hcamp'){
+                        if($this->argument('camp') == 'hcamp') {
                             $applicant->is_admitted = 1;
                         }
                         $applicant->save();
-                    }                    
+                    }
                 }
-                $this->info("資料庫寫入完成");   
+                $this->info("資料庫寫入完成");
                 $mailContent .= "資料庫寫入完成\n";
-            }
-            catch(\Exception $e){
+            } catch(\Exception $e) {
                 logger($e);
-                $this->info("資料庫寫入錯誤");   
+                $this->info("資料庫寫入錯誤");
                 $mailContent .= "資料庫寫入錯誤\n";
-            } 
-        }
-        else{
+            }
+        } else {
             $this->info("今日無營隊所屬入帳資料");
             $mailContent .= "今日無營隊所屬入帳資料\n";
         }
-        // 6. 對帳資料 raw 檔改名 
+        // 6. 對帳資料 raw 檔改名
         \Storage::move('payment_data/' . $filename, 'payment_data/history/' . $filename);
         // 7. 寄出通知信
         $emails = config('camps_payments.' . $this->argument('camp') . '.email');
         // 動態載入電子郵件設定
         $this->setEmail($this->argument('camp'));
-        foreach($emails as $email){
-            \Mail::send([], [], function ($message) use ($email, $fileData, $mailContent){
+        foreach($emails as $email) {
+            \Mail::send([], [], function ($message) use ($email, $fileData, $mailContent) {
                 $message->to($email)
                   ->subject($this->argument('camp') . " 上海銀行自動對帳結果 - 檔案日期: " . $fileData)
-                  ->setBody($mailContent); 
+                  ->setBody($mailContent);
             });
         }
         return 0;
