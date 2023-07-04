@@ -865,7 +865,7 @@ class BackendController extends Controller
                                     ['groupRelation.alias', 'asc'],
                                     ['numberRelation.number', 'asc'],
                                     ['is_paid', 'desc']
-                                ]);
+                                ])->values();
         if(isset($request->download)) {
             $fileName = $this->campFullData->abbreviation . $group . "組名單" . Carbon::now()->format('YmdHis') . '.csv';
             $headers = array(
