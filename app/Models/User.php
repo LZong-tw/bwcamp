@@ -180,7 +180,7 @@ class User extends Authenticatable
                         return $resource->roles->whereIn("section", $this->roles()->where('camp_id', $camp->id)->pluck("section"))->count();
                     }
                     if ($probing) {
-                        dd("first if, case 1", $forInspect, $resource, $action, $camp, $context, $target);
+                        dd("first if, case 1", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
                     }
                     return false;
                 // 2: learner_group
@@ -223,7 +223,7 @@ class User extends Authenticatable
                         return $roles->firstWhere('group_id', $target->group_id);
                     }
                     if ($probing) {
-                        dd("first if, case 2", $forInspect, $resource, $action, $camp, $context, $target);
+                        dd("first if, case 2", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
                     }
                     return false;
                 // 3: person
@@ -245,12 +245,12 @@ class User extends Authenticatable
                         return $this->caresLearners->where('group_id', '<>', null)->where("id", $target->id)->first();
                     }
                     if ($probing) {
-                        dd("first if, case 3", $forInspect, $resource, $action, $camp, $context, $target);
+                        dd("first if, case 3", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
                     }
                     return false;
                 default:
                     if ($probing) {
-                        dd("first if, case default", $forInspect, $resource, $action, $camp, $context, $target);
+                        dd("first if, case default", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
                     }
                     return false;
             }
@@ -261,7 +261,7 @@ class User extends Authenticatable
             }
             $roles = $this->roles()->where('group_id', '<>', null)->where("camp_id", $camp->id);
             if ($probing) {
-                dd("second if", $forInspect, $resource, $action, $camp, $context, $target);
+                dd("second if", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
             }
             return $roles->firstWhere(
                 'group_id',
@@ -278,7 +278,7 @@ class User extends Authenticatable
         elseif ($target && (str_contains($class, "User") && $context == "vcamp" && $action == "read")) {
             $roles = $this->roles()->where('group_id', '<>', null)->where("camp_id", $camp->id);
             if ($probing) {
-                dd("third if", $forInspect, $resource, $action, $camp, $context, $target);
+                dd("third if", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
             }
             return $roles->firstWhere(
                     'group_id',
@@ -294,7 +294,7 @@ class User extends Authenticatable
         }
         else {
             if ($probing) {
-                dd("else, all faild.", $forInspect, $resource, $action, $camp, $context, $target);
+                dd("else, all faild.", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
             }
             return false;
         }
