@@ -27,6 +27,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
     protected $user;
     public function __construct(protected Camp $camp,)
     {
+        libxml_use_internal_errors(true);
         $this->user = \App\Models\User::find(auth()->id());
         if($this->camp->applicants()) {
             // 參加者報到日期
@@ -284,6 +285,11 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
             }
         }
         $this->applicants = $applicants;
+    }
+
+    public function __destruct()
+    {
+        libxml_use_internal_errors(false);
     }
     /**
     * @return \Illuminate\Support\Collection
