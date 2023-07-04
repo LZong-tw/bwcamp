@@ -62,13 +62,13 @@
                 @if($applicant->is_attend === 1)
                     <td style='color: green;'>參加</td>
                 @elseif($applicant->is_attend === 0)
-                    <td style='color: red;'>不參加</td> @break
+                    <td style='color: red;'>不參加</td>
                 @elseif($applicant->is_attend === 2)
-                    <td style='color: #ffb429;'>尚未決定</td> @break
+                    <td style='color: #ffb429;'>尚未決定</td>
                 @elseif($applicant->is_attend === 3)
-                    <td style='color: pink;'>聯絡不上</td> @break
+                    <td style='color: pink;'>聯絡不上</td>
                 @elseif($applicant->is_attend === 4)
-                    <td style='color: seagreen;'>無法全程</td> @break
+                    <td style='color: seagreen;'>無法全程</td>
                 @else
                     <td style='color: rgb(0, 132, 255);'>尚未聯絡</td>
                 @endif
