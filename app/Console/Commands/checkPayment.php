@@ -163,6 +163,12 @@ class checkPayment extends Command
                             $applicant->is_admitted = 1;
                         }
                         $applicant->save();
+
+                        if ($this->argument('camp') == 'ycamp') {
+                            $traffic = $applicant->traffic;
+                            $traffic->deposit = $applicant->deposit;
+                            $traffic->save();
+                        }
                     }                    
                 }
                 $this->info("資料庫寫入完成");   
