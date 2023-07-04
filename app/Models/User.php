@@ -151,6 +151,9 @@ class User extends Authenticatable
         if (!$resource) {
             return false;
         }
+        if ($context == "vcampExport") {
+            $camp = Vcamp::query()->find($target->camp->id)->mainCamp;
+        }
         $class = get_class($resource);
 
         // 全域權限
@@ -256,9 +259,6 @@ class User extends Authenticatable
             }
         }
         elseif ($target && ((str_contains($class, "Applicant") || str_contains($class, "Volunteer")) && $action == "read")) {
-            if ($context == "vcampExport") {
-                $camp = Vcamp::query()->find($target->camp->id)->mainCamp;
-            }
             $roles = $this->roles()->where('group_id', '<>', null)->where("camp_id", $camp->id);
             if ($probing) {
                 dd("second if", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
