@@ -144,7 +144,7 @@ class User extends Authenticatable
         return $parsed;
     }
 
-    public function canAccessResource($resource, $action, $camp, $context = null, $target = null) {
+    public function canAccessResource($resource, $action, $camp, $context = null, $target = null, $probbing = null) {
         if (!$this->camp_roles) {
             $this->camp_roles = $this->permissionsRolesParser($camp);
         }
@@ -178,6 +178,9 @@ class User extends Authenticatable
                     }
                     if (($class == "App\Models\User" || $class == "App\User") && $resource->roles) {
                         return $resource->roles->whereIn("section", $this->roles()->where('camp_id', $camp->id)->pluck("section"))->count();
+                    }
+                    if ($probbing) {
+                        dd("first if, case 1", $forInspect, $resource, $action, $camp, $context, $target);
                     }
                     return false;
                 // 2: learner_group
@@ -219,6 +222,9 @@ class User extends Authenticatable
                     if ($class == "App\Models\ContactLog") {
                         return $roles->firstWhere('group_id', $target->group_id);
                     }
+                    if ($probbing) {
+                        dd("first if, case 2", $forInspect, $resource, $action, $camp, $context, $target);
+                    }
                     return false;
                 // 3: person
                 case 3:
@@ -238,8 +244,14 @@ class User extends Authenticatable
                     if ($class == "App\Models\ContactLog") {
                         return $this->caresLearners->where('group_id', '<>', null)->where("id", $target->id)->first();
                     }
+                    if ($probbing) {
+                        dd("first if, case 3", $forInspect, $resource, $action, $camp, $context, $target);
+                    }
                     return false;
                 default:
+                    if ($probbing) {
+                        dd("first if, case default", $forInspect, $resource, $action, $camp, $context, $target);
+                    }
                     return false;
             }
         }
@@ -248,6 +260,9 @@ class User extends Authenticatable
                 $camp = Vcamp::query()->find($target->camp->id)->mainCamp;
             }
             $roles = $this->roles()->where('group_id', '<>', null)->where("camp_id", $camp->id);
+            if ($probbing) {
+                dd("second if", $forInspect, $resource, $action, $camp, $context, $target);
+            }
             return $roles->firstWhere(
                 'group_id',
                 $target->user?->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id
@@ -262,6 +277,9 @@ class User extends Authenticatable
         }
         elseif ($target && (str_contains($class, "User") && $context == "vcamp" && $action == "read")) {
             $roles = $this->roles()->where('group_id', '<>', null)->where("camp_id", $camp->id);
+            if ($probbing) {
+                dd("third if", $forInspect, $resource, $action, $camp, $context, $target);
+            }
             return $roles->firstWhere(
                     'group_id',
                     $target->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id
@@ -275,6 +293,9 @@ class User extends Authenticatable
                     })->firstWhere('all_group', 1));
         }
         else {
+            if ($probbing) {
+                dd("else, all faild.", $forInspect, $resource, $action, $camp, $context, $target);
+            }
             return false;
         }
     }
