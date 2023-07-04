@@ -191,10 +191,15 @@ class checkPayment extends Command
         // 動態載入電子郵件設定
         $this->setEmail($this->argument('camp'));
         foreach($emails as $email){
-            \Mail::send([], [], function ($message) use ($email, $fileData, $mailContent){
+            /*\Mail::send([], [], function ($message) use ($email, $fileData, $mailContent){
                 $message->to($email)
                   ->subject($this->argument('camp') . " 上海銀行自動對帳結果 - 檔案日期: " . $fileData)
                   ->setBody($mailContent); 
+            });*/
+            //laravel9
+            \Mail::raw($mailContent, function ($message) use ($email, $fileData){
+                $message->to($email)
+                  ->subject($this->argument('camp') . " 上海銀行自動對帳結果 - 檔案日期: " . $fileData); 
             });
         }
         return 0;
