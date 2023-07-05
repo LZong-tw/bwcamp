@@ -141,10 +141,10 @@
                     <div class="row">
                         <span class="col-12">
                             @if ($currentBatch && $currentBatch->id == $group->batch->id)
-                                {{ $group->alias }}: <span class="text-primary">{{ $applicants->filter(function ($applicant) { return $applicant->gender == 'M'; })->count() }}</span> / <span class="text-danger">{{ $applicants->filter(function ($applicant) { return $applicant->gender == 'F'; })->count() }}</span> / <span class="text-success">{{ $applicants->count() }}</span> / <span class="text-info">{{ $applicants->filter(function ($applicant) { return
+                                總計: <span class="text-primary">{{ $applicants->filter(function ($applicant) { return $applicant->gender == 'M'; })->count() }}</span> / <span class="text-danger">{{ $applicants->filter(function ($applicant) { return $applicant->gender == 'F'; })->count() }}</span> / <span class="text-success">{{ $applicants->count() }}</span> / <span class="text-info">{{ $applicants->filter(function ($applicant) { return
                     $applicant->deleted_at; })->count() }}
                             @elseif (!$currentBatch)
-                                {{ $group->batch->name }}&nbsp;-&nbsp;{{ $group->alias }}: <span class="text-primary">{{ $applicants->filter(function ($applicant) { return $applicant->gender == 'M'; })->count() }}</span> / <span class="text-danger">{{ $applicants->filter(function ($applicant) { return $applicant->gender == 'F'; })->count() }}</span> / <span class="text-success">{{ $applicants->count() }}</span> / <span class="text-info">{{ $applicants->filter(function ($applicant) { return
+                                {{ $group->batch->name }}&nbsp;-&nbsp;總計: <span class="text-primary">{{ $applicants->filter(function ($applicant) { return $applicant->gender == 'M'; })->count() }}</span> / <span class="text-danger">{{ $applicants->filter(function ($applicant) { return $applicant->gender == 'F'; })->count() }}</span> / <span class="text-success">{{ $applicants->count() }}</span> / <span class="text-info">{{ $applicants->filter(function ($applicant) { return
                     $applicant->deleted_at; })->count() }}
                             @endif
                         </span>
