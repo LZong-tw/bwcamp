@@ -140,7 +140,7 @@
             @empty
             @endforelse
         </div>
-        <div class="alert alert-secondary mt-0 mb-0">
+        <div class="alert alert-success mt-0 mb-0">
             <div class="row">
                 <span class="col-12">
                     全營隊總計: <span class="text-primary">{{ $applicants->filter(function ($applicant) { return $applicant->gender == 'M'; })->count() }}</span> / <span class="text-danger">{{ $applicants->filter(function ($applicant) { return $applicant->gender == 'F'; })->count() }}</span> / <span class="text-success">{{ $applicants->count() }}</span> / <span class="text-info">{{ $applicants->filter(function ($applicant) { return $applicant->deleted_at; })->count() }}</span>
