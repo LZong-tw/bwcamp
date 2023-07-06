@@ -187,6 +187,10 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
     Route::get("/inCamp/deleteUserRole", "BackendController@deleteUserRole")->name("deleteUserRole");
     Route::get("/inCamp/deleteApplicantGroupAndNumber", "BackendController@deleteApplicantGroupAndNumber")->name("deleteApplicantGroupAndNumber");
     Route::get("/inCamp/deleteApplicantCarer", "BackendController@deleteApplicantCarer")->name("deleteApplicantCarer");
+
+    //GSheet
+    Route::get("/inCamp/gsFeedback/{applicant_id}", "SheetController@showGSFeedback")->name("showGSFeedback");
+    
     //Remark
     Route::post("/remark/edit", [BackendController::class, "editRemark"])->name("editRemark");
     //Contact Log
@@ -232,3 +236,9 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
                 "destroy" => "sign_delete_back"
             ]);
 });
+
+/* GSheet Test
+Route::get('/sheet', 'SheetController@Sheet');
+Route::get('/sheetadd', 'SheetController@AddSheet');
+Route::get('/sheettest', 'SheetController@TestSheet');
+*/
