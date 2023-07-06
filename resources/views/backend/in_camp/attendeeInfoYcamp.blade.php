@@ -216,6 +216,9 @@
             @endif
         </div>
     </div>
+    <div class="container">
+    <a href="{{ route('showGSFeedback', [$camp->id, $applicant->applicant_id]) }}">回饋單內容在這裡</a>
+    </div>
 @endif
 <script>
         function enableEditRemark(){
