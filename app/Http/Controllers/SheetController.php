@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Services\GSheetService;
 use App\Models\Applicant;
 
-
 class SheetController extends Controller
 {
     protected $gsheetservice;
@@ -48,11 +47,12 @@ class SheetController extends Controller
             $i = $i+1;
         }
         $key1 = array_search($name_tg, $names);
-        if ($key1 == false)
+        if ($key1 == false) {
             $contents = null;
-        else
+        } else {
             $contents = $sheets[$key1];
+        }
 
-        return view('backend.in_camp.gsFeedback', compact('titles','contents'));
+        return view('backend.in_camp.gsFeedback', compact('titles', 'contents'));
     }
 }

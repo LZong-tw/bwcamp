@@ -11,7 +11,7 @@ class GSheetService
      */
     public function Sheet($sheet_id, $sheet_name)
     {
-        return Sheets::spreadsheet($sheet_id)->sheet($sheet_name); 
+        return Sheets::spreadsheet($sheet_id)->sheet($sheet_name);
     }
 
     /**
