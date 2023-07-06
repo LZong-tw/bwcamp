@@ -2,13 +2,13 @@
     <!-- Happiness is not something readymade. It comes from your own actions. - Dalai Lama -->
     <div class="alert-primary mb-3 border border-secondary rounded col-8 py-2">
         <span>查詢條件：@if($queryRoles != "")
-                {{ "(" }}@foreach($queryRoles as $role)
+                {{ "(" }}@foreach($queryRoles ?? [] as $role)
                     {{ $role->batch?->name ?? "不分梯" }}: {{ $role->section }}-{{ $role->position }}@if(!$loop->last || str_contains($queryStr, "(1 = 1)")) or @endif
                 @endforeach
             @elseif ($queryRoles !="" && request()->isMethod('post'))
                {{ "( " }}
             @endif
-            {{ str_replace("(1 = 1)", "未分組 )", $queryStr) ?? "無" }}
+            @if ($queryStr){{ str_replace("(1 = 1)", "未分組 )", $queryStr) ?? "無" }}@endif
         </span>
     </div>
     @if($isShowVolunteers || $camp->table != "ceocamp")
@@ -40,7 +40,7 @@
                     <label class="align-items-center"><input type="checkbox" name="group_id[]" value="na" @checked(is_array(old('group_id')) ? in_array("na", old('group_id')) : false)> 未分組</label>
                     {{-- todo: 待組織職務轉至梯次後做簡化 --}}
                     @if ($groups && !$isShowVolunteers)
-                        @forelse($groups as $group)
+                        @forelse($groups ?? [] as $group)
                             @if(!$currentUser->canAccessResource($group, 'read', $camp))
                                 @continue
                             @endif
@@ -52,7 +52,7 @@
                         @empty
                         @endforelse
                     @elseif ($groups)
-                        @forelse($groups as $group)
+                        @forelse($groups ?? [] as $group)
                             @if ($group->position != 'root')
                                 <label class="align-items-center"><input type="checkbox" name="group_id[]" value="{{ $group->id }}" @checked(is_array(old('group_id')) ? in_array($group->id, old('group_id')) : false) class="ml-2"> {{ $group->section }}{{ $group->position }}</label>
                             @endif
@@ -82,7 +82,7 @@
                 <select name="industry[]" id="" class="form-control col-4">
                     <option value="" @selected(is_array(old('industry')) ? in_array("", old('industry')) : false)>請選擇</option>
                     @if ($industries)
-                        @forelse($industries as $industry)
+                        @forelse($industries ?? [] as $industry)
                             <option value="{{ $industry }}" @selected(is_array(old('industry')) ? in_array($industry, old('industry')) : false)>{{ $industry }}</option>
                         @empty
                         @endforelse
@@ -116,7 +116,7 @@
                     }
                 }
             @endphp
-            @forelse($groups->values() as $key => $group)
+            @forelse($groups->values() ?? [] as $key => $group)
                 @if(!$currentUser->canAccessResource($group, 'read', $camp))
                     @continue
                 @endif
