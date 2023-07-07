@@ -12,9 +12,14 @@ use Illuminate\Queue\Middleware\WithoutOverlapping;
 
 class SendCheckInMail implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, EmailConfiguration;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
+    use EmailConfiguration;
 
-    protected $applicant,$org;
+    protected $applicant;
+    protected $org;
 
     protected $tries = 400;
 
@@ -23,7 +28,7 @@ class SendCheckInMail implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($applicant_id,$org_id = null)
+    public function __construct($applicant_id, $org_id = null)
     {
         $this->applicant = \App\Models\Applicant::find($applicant_id);
         $this->org = \App\Models\CampOrg::find($org_id); //for vcamp
@@ -39,28 +44,24 @@ class SendCheckInMail implements ShouldQueue
         //
         sleep(3);
         ini_set('memory_limit', -1);
-        if($this->applicant->batch->camp->table == 'coupon'){
+        if($this->applicant->batch->camp->table == 'coupon') {
             $qr_code = \DNS2D::getBarcodePNG('{"coupon_code":"' . $this->applicant->name . '"}', 'QRCODE');
             $pdf = \App::make('dompdf.wrapper');
             $pdf->loadHTML($this->applicant->batch->camp->abbreviation . '<br>流水號：' . $this->applicant->group . $this->applicant->number . '<br>優惠碼：' . $this->applicant->name . '<br><img src="data:image/png;base64,' . $qr_code . '" alt="barcode" height="200px"/>')->setPaper('a6');
-        }
-        elseif($this->applicant->batch->camp->table != ''
+        } elseif($this->applicant->batch->camp->table != ''
             && $this->applicant->batch->camp->table != 'ceovcamp'
-            && $this->applicant->batch->camp->table != 'evcamp'){
+            && $this->applicant->batch->camp->table != 'evcamp') {
             $qr_code = \DNS2D::getBarcodePNG('{"applicant_id":' . $this->applicant->id . '}', 'QRCODE');
             $pdf = \App::make('dompdf.wrapper');
             if ($this->applicant->number) {
                 $pdf->loadHTML($this->applicant->batch->camp->fullName . ' QR code 報到單<br>梯次：' . $this->applicant->batch->name . '<br>錄取序號：' . $this->applicant->group . $this->applicant->number . '<br>姓名：' . $this->applicant->name . '<br><img src="data:image/png;base64,' . $qr_code . '" alt="barcode" height="200px"/>')->setPaper('a6');
-            }
-            elseif ($this->applicant->batch->camp->table == "ecamp" && $this->applicant->batch->name == "雲嘉") {
+            } elseif ($this->applicant->batch->camp->table == "ecamp" && $this->applicant->batch->name == "雲嘉") {
                 if ($this->applicant->group == "第一組") {
                     $pdf->loadHTML($this->applicant->batch->camp->fullName . ' QR code 報到單<br>梯次：' . $this->applicant->batch->name . '<br>組別：第十一組<br>姓名：' . $this->applicant->name . '<br><img src="data:image/png;base64,' . $qr_code . '" alt="barcode" height="200px"/>')->setPaper('a6');
-                }
-                else {
+                } else {
                     $pdf->loadHTML($this->applicant->batch->camp->fullName . ' QR code 報到單<br>梯次：' . $this->applicant->batch->name . '<br>組別：第十二組<br>姓名：' . $this->applicant->name . '<br><img src="data:image/png;base64,' . $qr_code . '" alt="barcode" height="200px"/>')->setPaper('a6');
                 }
-            }
-            else {
+            } else {
                 $pdf->loadHTML($this->applicant->batch->camp->fullName . ' QR code 報到單<br>梯次：' . $this->applicant->batch->name . '<br>組別：' . $this->applicant->group . '<br>姓名：' . $this->applicant->name . '<br><img src="data:image/png;base64,' . $qr_code . '" alt="barcode" height="200px"/>')->setPaper('a6');
             }
         }
