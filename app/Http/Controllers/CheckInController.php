@@ -236,9 +236,9 @@ class CheckInController extends Controller {
                                 $query->where('is_attend', 1);
                             }
                         })
-                        ->where(\DB::raw('fee - deposit'), '<=', 0)
+                        ->where(\DB::raw("fee - deposit"), "<=", \DB::raw('0'))
                         ->whereNotNull('group_id')
-                        ->where('group_id', '<>', '')
+                        ->where('group_id', '<>', \DB::raw('""'))
                         ->where([['batch_start', '<=', Carbon::today()], ['batch_end', '>=', Carbon::today()]])->get();
             $checkedInCount = CheckIn::where('check_in_date', Carbon::today()->format('Y-m-d'))->whereIn('applicant_id', $applicants->pluck('id'))->count();
             $applicants = $applicants->count();
@@ -257,7 +257,9 @@ class CheckInController extends Controller {
         $allApplicants = Applicant::select('applicants.id')
                             ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                             ->where('batchs.camp_id', $this->camp->id)
-                            ->where(\DB::raw('fee - deposit'), '<=', 0)
+                            ->where(\DB::raw("fee - deposit"), "<=", \DB::raw('0'))
+                            ->whereNotNull('group_id')
+                            ->where('group_id', '<>', \DB::raw('""'))
                             ->where(function($query){
                                 if($this->has_attend_data){
                                     $query->where('is_attend', 1);
@@ -290,14 +292,14 @@ class CheckInController extends Controller {
         $allBatchesApplicants = Applicant::select('applicants.id')
                             ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                             ->where('batchs.camp_id', $this->camp->id)
-                            ->where(\DB::raw("fee - deposit"), "<=", 0)
+                            ->where(\DB::raw("fee - deposit"), "<=", \DB::raw('0'))
                             ->whereNotNull('group_id')
+                            ->where('group_id', '<>', \DB::raw('""'))
                             ->where(function($query){
                                 if($this->has_attend_data){
                                     $query->where('is_attend', 1);
                                 }
                             })
-                            ->where('group_id', '<>', '')
                             ->get();
         // 取得報到資料
         $checkedInData = CheckIn::where('check_in_date', Carbon::today()->format('Y-m-d'))->whereIn('applicant_id', $allBatchesApplicants->pluck('applicants.id'))->get();
