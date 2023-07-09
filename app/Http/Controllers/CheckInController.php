@@ -240,7 +240,7 @@ class CheckInController extends Controller {
                         ->whereNotNull('group_id')
                         ->where('group_id', '<>', \DB::raw('""'))
                         ->where([['batch_start', '<=', Carbon::today()], ['batch_end', '>=', Carbon::today()]])->get();
-            $checkedInCount = CheckIn::where('check_in_date', Carbon::today()->format('Y-m-d'))->whereIn('applicant_id', $applicants->pluck('id'))->count();
+            $checkedInCount = CheckIn::where('check_in_date', Carbon::today()->format('Y-m-d'))->whereIn('applicant_id', $applicants)->count();
             $applicants = $applicants->count();
             return response()->json([
                 'msg' => $checkedInCount . ' / ' . ($applicants - $checkedInCount)
@@ -266,7 +266,7 @@ class CheckInController extends Controller {
                                 }
                             })
                             ->get();
-        $checkedInData = CheckIn::where('check_in_date', Carbon::today()->format('Y-m-d'))->whereIn('applicant_id', $allApplicants->pluck('applicants.id'))->get();
+        $checkedInData = CheckIn::where('check_in_date', Carbon::today()->format('Y-m-d'))->whereIn('applicant_id', $allApplicants)->get();
         $checkedInApplicants = Applicant::select('batchs.name', \DB::raw('count(*) as count'))
                     ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                     ->where('batchs.camp_id', $this->camp->id)
@@ -302,7 +302,7 @@ class CheckInController extends Controller {
                             })
                             ->get();
         // 取得報到資料
-        $checkedInData = CheckIn::where('check_in_date', Carbon::today()->format('Y-m-d'))->whereIn('applicant_id', $allBatchesApplicants->pluck('applicants.id'))->get();
+        $checkedInData = CheckIn::where('check_in_date', Carbon::today()->format('Y-m-d'))->whereIn('applicant_id', $allBatchesApplicants)->get();
         // 取得梯次
         $batches = Batch::where("camp_id", $this->camp->id)->where([['batch_start', '<=', Carbon::today()], ['batch_end', '>=', Carbon::today()]])->get();
         $batchArray = array();
