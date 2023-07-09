@@ -228,8 +228,8 @@ class CheckInController extends Controller {
 
     public function realtimeStat() {
         try{
-            $checkedInCount = CheckIn::where('check_in_date', Carbon::today()->format('Y-m-d'))->count();
-            $applicants = Applicant::join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+            $applicants = Applicant::select('applicants.id')
+                        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                         ->where('batchs.camp_id', $this->camp->id)
                         ->where(function($query){
                             if($this->has_attend_data){
@@ -239,8 +239,9 @@ class CheckInController extends Controller {
                         ->where(\DB::raw('fee - deposit'), '<=', 0)
                         ->whereNotNull('group_id')
                         ->where('group_id', '<>', '')
-                        ->where([['batch_start', '<=', Carbon::today()], ['batch_end', '>=', Carbon::today()]])
-                        ->count();
+                        ->where([['batch_start', '<=', Carbon::today()], ['batch_end', '>=', Carbon::today()]])->get();
+            $checkedInCount = CheckIn::where('check_in_date', Carbon::today()->format('Y-m-d'))->whereIn('applicant_id', $applicants->pluck('id'))->count();
+            $applicants = $applicants->count();
             return response()->json([
                 'msg' => $checkedInCount . ' / ' . ($applicants - $checkedInCount)
             ]);
@@ -253,16 +254,17 @@ class CheckInController extends Controller {
     }
 
     public function detailedStat(Request $request) {
-        $checkedInData = CheckIn::where('check_in_date', Carbon::today()->format('Y-m-d'))->get();
-        $allApplicants = Applicant::join('batchs', 'batchs.id', '=', 'applicants.batch_id')
-                    ->where('batchs.camp_id', $this->camp->id)
-                    ->where(\DB::raw('fee - deposit'), '<=', 0)
-                    ->where(function($query){
-                        if($this->has_attend_data){
-                            $query->where('is_attend', 1);
-                        }
-                    })
-                    ->get();
+        $allApplicants = Applicant::select('applicants.id')
+                            ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+                            ->where('batchs.camp_id', $this->camp->id)
+                            ->where(\DB::raw('fee - deposit'), '<=', 0)
+                            ->where(function($query){
+                                if($this->has_attend_data){
+                                    $query->where('is_attend', 1);
+                                }
+                            })
+                            ->get();
+        $checkedInData = CheckIn::where('check_in_date', Carbon::today()->format('Y-m-d'))->whereIn('applicant_id', $allApplicants->pluck('id'))->get();
         $checkedInApplicants = Applicant::select('batchs.name', \DB::raw('count(*) as count'))
                     ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                     ->where('batchs.camp_id', $this->camp->id)
@@ -285,8 +287,19 @@ class CheckInController extends Controller {
     }
 
     public function detailedStatOptimized(Request $request) {
+        $allBatchesApplicants = Applicant::join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+                            ->where('batchs.camp_id', $this->camp->id)
+                            ->where(\DB::raw("fee - deposit"), "<=", 0)
+                            ->whereNotNull('group_id')
+                            ->where(function($query){
+                                if($this->has_attend_data){
+                                    $query->where('is_attend', 1);
+                                }
+                            })
+                            ->where('group_id', '<>', '')
+                            ->count();
         // 取得報到資料
-        $checkedInData = CheckIn::where('check_in_date', Carbon::today()->format('Y-m-d'))->get();
+        $checkedInData = CheckIn::where('check_in_date', Carbon::today()->format('Y-m-d'))->whereIn('applicant_id', $allBatchesApplicants->pluck('id'))->get();
         // 取得梯次
         $batches = Batch::where("camp_id", $this->camp->id)->where([['batch_start', '<=', Carbon::today()], ['batch_end', '>=', Carbon::today()]])->get();
         $batchArray = array();
@@ -295,16 +308,18 @@ class CheckInController extends Controller {
         $allApplicants = null;
         $checkedInApplicants = null;
         foreach($batches as $key => $batch){
-            $allApplicants = Applicant::where(\DB::raw("fee - deposit"), "<=", 0)
-                                ->where("batch_id", $batch->id)
-                                ->whereNotNull('group_id')
-                                ->where(function($query){
-                                    if($this->has_attend_data){
-                                        $query->where('is_attend', 1);
-                                    }
-                                })
-                                ->where('group_id', '<>', '')
-                                ->count();
+            $allApplicants = Applicant::join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+                            ->where('batchs.camp_id', $this->camp->id)
+                            ->where(\DB::raw("fee - deposit"), "<=", 0)
+                            ->where("batch_id", $batch->id)
+                            ->whereNotNull('group_id')
+                            ->where(function($query){
+                                if($this->has_attend_data){
+                                    $query->where('is_attend', 1);
+                                }
+                            })
+                            ->where('group_id', '<>', '')
+                            ->count();
             $checkedInApplicants = Applicant::where("batch_id", $batch->id)
                                 ->whereIn('applicants.id', $checkedInData->pluck('applicant_id'))
                                 ->count();
