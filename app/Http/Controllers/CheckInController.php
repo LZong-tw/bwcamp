@@ -264,7 +264,7 @@ class CheckInController extends Controller {
                                 }
                             })
                             ->get();
-        $checkedInData = CheckIn::where('check_in_date', Carbon::today()->format('Y-m-d'))->whereIn('applicant_id', $allApplicants->pluck('id'))->get();
+        $checkedInData = CheckIn::where('check_in_date', Carbon::today()->format('Y-m-d'))->whereIn('applicant_id', $allApplicants->pluck('applicants.id'))->get();
         $checkedInApplicants = Applicant::select('batchs.name', \DB::raw('count(*) as count'))
                     ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                     ->where('batchs.camp_id', $this->camp->id)
@@ -299,7 +299,7 @@ class CheckInController extends Controller {
                             ->where('group_id', '<>', '')
                             ->get();
         // 取得報到資料
-        $checkedInData = CheckIn::where('check_in_date', Carbon::today()->format('Y-m-d'))->whereIn('applicant_id', $allBatchesApplicants->pluck('id'))->get();
+        $checkedInData = CheckIn::where('check_in_date', Carbon::today()->format('Y-m-d'))->whereIn('applicant_id', $allBatchesApplicants->pluck('applicants.id'))->get();
         // 取得梯次
         $batches = Batch::where("camp_id", $this->camp->id)->where([['batch_start', '<=', Carbon::today()], ['batch_end', '>=', Carbon::today()]])->get();
         $batchArray = array();
