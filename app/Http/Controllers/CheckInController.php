@@ -287,7 +287,8 @@ class CheckInController extends Controller {
     }
 
     public function detailedStatOptimized(Request $request) {
-        $allBatchesApplicants = Applicant::join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+        $allBatchesApplicants = Applicant::select('applicants.id')
+                            ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                             ->where('batchs.camp_id', $this->camp->id)
                             ->where(\DB::raw("fee - deposit"), "<=", 0)
                             ->whereNotNull('group_id')
