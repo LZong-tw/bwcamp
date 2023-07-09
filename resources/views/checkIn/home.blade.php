@@ -178,6 +178,7 @@
     <footer class="fixed-bottom footer pb-2 pt-2 text-center">
         <a href="/checkin/detailedStat?camp_id={{ $camp->id }}" target="_blank">今日全梯次累積報到人數 / 未報到人數： <span id="stat">查詢中</span></a>
     </footer>
+    <br><br><br>
 </div>
 <div id="CenterDIV">
     <div class="divFloat card-body text-center">
