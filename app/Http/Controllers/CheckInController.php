@@ -297,7 +297,7 @@ class CheckInController extends Controller {
                                 }
                             })
                             ->where('group_id', '<>', '')
-                            ->count();
+                            ->get();
         // 取得報到資料
         $checkedInData = CheckIn::where('check_in_date', Carbon::today()->format('Y-m-d'))->whereIn('applicant_id', $allBatchesApplicants->pluck('id'))->get();
         // 取得梯次
