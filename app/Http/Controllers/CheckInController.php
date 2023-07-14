@@ -37,6 +37,7 @@ class CheckInController extends Controller {
                 $this->has_attend_data = true;
             }
             View::share('camp', $this->camp);
+            View::share('has_attend_data', $this->has_attend_data);
         }
         $this->campDataService = $campDataService;
         $this->applicantService = $applicantService;
