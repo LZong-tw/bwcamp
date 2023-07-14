@@ -585,6 +585,10 @@ class CampController extends Controller
     public function modifyTraffic(Request $request) {
         $applicant = Applicant::find($request->id);
         $traffic = $applicant->traffic;
+        if (!$traffic) {
+            $traffic = new Traffic;
+            $traffic->applicant_id = $applicant->id;
+        }
         $traffic->depart_from = $request->depart_from;
         $traffic->back_to = $request->back_to;
         if ($request->camp == "ycamp") {
