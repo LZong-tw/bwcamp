@@ -79,9 +79,6 @@
                             <th style="width: 20%">報名序號</th>
                         @endif
                         <th style="width: 20%">姓名</th>
-                        @if(!$has_attend_data)
-                            <th>參加回覆</th>
-                        @endif
                         <th style="width: 20%">狀態</th>
                         <th style="width: 15%">動作</th>
                     @else
@@ -104,20 +101,25 @@
                             @else
                                 <td class="align-middle">{{ $applicant->group }}{{ $applicant->number }}</td>
                             @endif
-                            <td class="align-middle">{{ $applicant->name }}</td>
-                            @if($applicant->is_attend === 1)
-                                <td style='color: green;' class="align-middle">參加</td>
-                            @elseif($applicant->is_attend === 0)
-                                <td style='color: red;' class="align-middle">不參加</td>
-                            @elseif($applicant->is_attend === 2)
-                                <td style='color: #ffb429;' class="align-middle">尚未決定</td>
-                            @elseif($applicant->is_attend === 3)
-                                <td style='color: pink;' class="align-middle">聯絡不上</td>
-                            @elseif($applicant->is_attend === 4)
-                                <td style='color: seagreen;' class="align-middle">無法全程</td>
-                            @else
-                                <td style='color: rgb(0, 132, 255);' class="align-middle">尚未聯絡</td>
-                            @endif
+                            <td class="align-middle">
+                                {{ $applicant->name }}
+                                @if(!$has_attend_data)
+                                    <br>
+                                    @if($applicant->is_attend === 1)
+                                        <a style='color: green;' class="align-middle">參加</a>
+                                    @elseif($applicant->is_attend === 0)
+                                        <a style='color: red;' class="align-middle">不參加</a>
+                                    @elseif($applicant->is_attend === 2)
+                                        <a style='color: #ffb429;' class="align-middle">尚未決定</a>
+                                    @elseif($applicant->is_attend === 3)
+                                        <a style='color: pink;' class="align-middle">聯絡不上</a>
+                                    @elseif($applicant->is_attend === 4)
+                                        <a style='color: seagreen;' class="align-middle">無法全程</a>
+                                    @else
+                                        <a style='color: rgb(0, 132, 255);' class="align-middle">尚未聯絡</a>
+                                    @endif
+                                @endif
+                            </td>
                             <td class="align-middle">
                                 @php
                                     $is_check_in = 0;
