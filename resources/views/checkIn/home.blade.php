@@ -104,19 +104,18 @@
                             <td class="align-middle">
                                 {{ $applicant->name }}
                                 @if(!$has_attend_data)
-                                    <br>
                                     @if($applicant->is_attend === 1)
-                                        <a style='color: green;' class="align-middle">參加</a>
+                                        <p style='color: rgb(26, 170, 26);' class="align-middle">參加</p>
                                     @elseif($applicant->is_attend === 0)
-                                        <a style='color: red;' class="align-middle">不參加</a>
+                                        <p style='color: red;' class="align-middle">不參加</p>
                                     @elseif($applicant->is_attend === 2)
-                                        <a style='color: #ffb429;' class="align-middle">尚未決定</a>
+                                        <p style='color: #ffb429;' class="align-middle">尚未決定</p>
                                     @elseif($applicant->is_attend === 3)
-                                        <a style='color: pink;' class="align-middle">聯絡不上</a>
+                                        <p style='color: pink;' class="align-middle">聯絡不上</p>
                                     @elseif($applicant->is_attend === 4)
-                                        <a style='color: seagreen;' class="align-middle">無法全程</a>
+                                        <p style='color: rgb(14, 115, 58);' class="align-middle">無法全程</p>
                                     @else
-                                        <a style='color: rgb(0, 132, 255);' class="align-middle">尚未聯絡</a>
+                                        <p style='color: rgb(0, 132, 255);' class="align-middle">尚未聯絡</p>
                                     @endif
                                 @endif
                             </td>
