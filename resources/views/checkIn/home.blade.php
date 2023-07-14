@@ -38,6 +38,7 @@
 <div class="container">
     <h2 class="mt-4 text-center">福智營隊報到系統</h2>
     <h5 class="text-center">當前報到營隊：{{ $camp->fullName }}<br>報到日期：{{ \Carbon\Carbon::today()->format('Y-m-d') }}</h5>
+    <h6 class="text-center">可輸入報名序號、組別、錄取編號、姓名、手機</h6>
     <form action="/checkin/query" id="query">
         <div class="form-group input-group">
             <input type="hidden" value="{{ $camp->id }}" name="camp_id">
