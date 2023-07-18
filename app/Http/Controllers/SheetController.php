@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Services\GSheetService;
 use App\Models\Applicant;
 
-
 class SheetController extends Controller
 {
     protected $gsheetservice;
@@ -66,7 +65,7 @@ class SheetController extends Controller
 
         //multiple name columns
         $keys = array_keys($titles, '姓名');
-        
+
         foreach($keys as $key) {
             $i = 0;
             foreach ($sheets as $row) {
@@ -74,19 +73,20 @@ class SheetController extends Controller
                 $i = $i+1;
             }
             $key1 = array_search($name_tg, $names);
-            if ($key1 <> false) break;
+            if ($key1 <> false) {
+                break;
+            }
         }
-        
+
         if ($key1 == false) {
             $contents = null;
             $content_count = 0;
-        }
-        else {
+        } else {
             //to deal with content_count < title_count
             $contents = $sheets[$key1];
             $content_count = count($contents);
         }
 
-        return view('backend.in_camp.gsFeedback', compact('titles','contents','content_count'));
+        return view('backend.in_camp.gsFeedback', compact('titles', 'contents', 'content_count'));
     }
 }
