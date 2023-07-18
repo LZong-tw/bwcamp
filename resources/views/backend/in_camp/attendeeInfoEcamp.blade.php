@@ -229,6 +229,12 @@
                     <b>無關懷記錄</b>
                     @endif
                     <a href="{{ route('showContactLogs', [$camp->id, $applicant->applicant_id]) }}" class="btn btn-secondary float-right">更多關懷記錄</a><br><br>
+                    <h5>回饋單內容</h5>
+                    <div class="container">
+                    <a href="{{ route('showGSFeedback', [$camp->id, $applicant->applicant_id,1]) }}">第一天回饋單</a><br>
+                    <a href="{{ route('showGSFeedback', [$camp->id, $applicant->applicant_id,2]) }}">第二天回饋單</a><br>
+                    <a href="{{ route('showGSFeedback', [$camp->id, $applicant->applicant_id,3]) }}">第三天回饋單</a>
+                    </div>
                 </div>
             @endif
         </div>

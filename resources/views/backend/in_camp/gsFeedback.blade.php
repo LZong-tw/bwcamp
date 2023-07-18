@@ -20,8 +20,12 @@
     <table class="table table-bordered">
         @foreach($titles as $idx => $value)
         <tr>
-            <td scope="col" class="text-nowrap">{{ $titles[$idx] }}</td>
-            <td scope="col" class="text-nowrap">{{ $contents[$idx] }}</td>
+            <td scope="col">{{ $titles[$idx] }}</td>
+            @if($idx<$content_count)
+            <td scope="col">{{ $contents[$idx] }}</td>
+            @else
+            <td scope="col"> </td>
+            @endif
         </tr>
         @endforeach
     </table>
