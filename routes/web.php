@@ -189,7 +189,7 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
     Route::get("/inCamp/deleteApplicantCarer", "BackendController@deleteApplicantCarer")->name("deleteApplicantCarer");
 
     //GSheet
-    Route::get("/inCamp/gsFeedback/{applicant_id}/{day}", "SheetController@showGSFeedback")->name("showGSFeedback");
+    Route::get("/inCamp/gsFeedback/{applicant_id}/{day?}", "SheetController@showGSFeedback")->name("showGSFeedback");
     
     //Remark
     Route::post("/remark/edit", [BackendController::class, "editRemark"])->name("editRemark");
