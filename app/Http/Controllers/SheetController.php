@@ -47,14 +47,17 @@ class SheetController extends Controller
         if ($request->day==1) {
             config([
                 'google.post_spreadsheet_id' => '1Bdnv5ehYLCYv_8RYhtbqVS2rseOuoxdaVvP2Ehi6egM',
+                'google.post_sheet_id' => '表單回應 1',
             ]);
         } elseif ($request->day==2) {
             config([
                 'google.post_spreadsheet_id' => '1JCeg9KBNM4jQXDjPP-Zi0kcuJogkYc9CajK-53IQCeU',
+                'google.post_sheet_id' => '表單回應 1',
             ]);
         } else {
             config([
                 'google.post_spreadsheet_id' => '10QLfLM2nbJcfB58mJ2TscRHtiJetYx47vi8bEETYens',
+                'google.post_sheet_id' => '表單回應 1',
             ]);
         }
 

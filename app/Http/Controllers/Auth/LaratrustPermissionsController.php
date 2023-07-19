@@ -59,7 +59,7 @@ class LaratrustPermissionsController extends BackendController
                                         (str_contains($item->resource, "CampOrg") &&
                                             str_contains($item->action, "create"));
                                 })->count();
-            if (!($canDoPermissions && $canDoRoles) && $that->user->id != 1) {
+            if (!($canDoPermissions && $canDoRoles) && $that->user->id > 2) {
                 return response("<h1>權限不足</h1>");
             }
             return $next($request);
