@@ -24,8 +24,7 @@ class LaratrustPermissionsController extends BackendController
         ApplicantService $applicantService,
         BackendService $backendService,
         Request $request
-    )
-    {
+    ) {
         $this->backendService = $backendService;
         $this->campDataService = $campDataService;
         $this->applicantService = $applicantService;
@@ -39,7 +38,8 @@ class LaratrustPermissionsController extends BackendController
         $this->checkPermission($request);
     }
 
-    public function checkPermission($request) {
+    public function checkPermission($request)
+    {
         $that = $this;
         $this->middleware(function ($request, $next) use (&$that) {
             $that->user = \App\Models\User::with("roles.permissions")->find(auth()->user()->id);
