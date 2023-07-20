@@ -977,10 +977,19 @@ class BackendController extends Controller
                     $query->whereNotNull('alias');
                 })
                 ->groupBy('region')->get();
+            $tmp = collect([]);
+            foreach (config('camps_fields.regions.ycamp') ?? [] as $region) {
+                if($batch->regions->where('region', $region)->count()) {
+                    $tmp->push($batch->regions->where('region', $region)->first());
+                }
+            }
+            $batch->regions = $tmp->flatten();
             foreach($batch->regions as &$region) {
-                $region->groups = Applicant::select('id', 'group_id', \DB::raw("count(*) as count,
+                $region->groups = Applicant::with('groupRelation')->select('id', 'group_id', \DB::raw("count(*) as count,
                                         SUM(case when is_attend is null then 1 else 0 end) as null_sum,
                                         SUM(case when is_attend = 1 then 1 else 0 end) as attend_sum,
+                                        SUM(case when (is_attend = 1 and gender = 'M') then 1 else 0 end) as attend_sum_m,
+                                        SUM(case when (is_attend = 1 and gender = 'F') then 1 else 0 end) as attend_sum_f,
                                         SUM(case when is_attend = 0 then 1 else 0 end) as not_attend_sum,
                                         SUM(case when is_attend = 2 then 1 else 0 end) as not_decided_yet_sum,
                                         SUM(case when is_attend = 3 then 1 else 0 end) as couldnt_contact_sum,
@@ -995,7 +1004,9 @@ class BackendController extends Controller
                         }
                     })
                     ->groupBy('group_id')->get();
+                $region->groups = $region->groups->sortBy("groupRelation.alias");
                 $region->region = $region->region ?? "其他";
+
             }
         }
         return view('backend.in_camp.groupAttendList')->with('batches', $batches);
@@ -1038,7 +1049,7 @@ class BackendController extends Controller
         ->whereIn('batch_id', $batch_ids)
         ->groupBy('traffic_return')->get();
 
-        return view('backend.in_camp.traffic_list', compact('batches', 'applicants', 'traffic_depart', 'traffic_return', 'camp'));
+        return view('backend.in_camp.trafficList', compact('batches', 'applicants', 'traffic_depart', 'traffic_return', 'camp'));
     }
 
     public function showVolunteerPhoto(Request $request)
@@ -1905,7 +1916,7 @@ class BackendController extends Controller
 
     public function switchToUser($id)
     {
-        if (auth()->user()->email != "lzong.tw@gmail.com") {
+        if (auth()->user()->email != "lzong.tw@gmail.com" || auth()->user()->email != "minchen.ho@blisswisdom.org") {
             return abort(500);
         }
         try {
