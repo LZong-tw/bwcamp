@@ -12,9 +12,9 @@
     @foreach ($batches as $batch)
         <h4>梯次：{{ $batch->name }}</h4>
         <table>
-            <tr>
-                @foreach ($batch->regions as $region)
-                <td style="vertical-align: top;">
+            @foreach ($batch->regions as $region)
+            <tr style="vertical-align: top;">
+                <td>
                     <table class="table table-bordered">
                         <thead>
                             <tr class="bg-primary text-white">
@@ -83,8 +83,8 @@
                         </tr>
                     </table>
                 </td>
-                @endforeach
             </tr>
+            @endforeach
         </table>
         <hr>
     @endforeach
