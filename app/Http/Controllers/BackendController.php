@@ -1715,7 +1715,7 @@ class BackendController extends Controller
         foreach($batches as &$batch) {
             $batch->regions = Applicant::select('region')->where('batch_id', $batch->id)->where('is_admitted', 1)->groupBy('region')->get();
             foreach($batch->regions as &$region) {
-                $region->groups = Applicant::select('group', \DB::raw('count(*) as count'))->where('batch_id', $batch->id)->where('region', $region->region)->where('is_admitted', 1)->groupBy('group')->get();
+                $region->groups = Applicant::select('group_id', \DB::raw('count(*) as count'))->where('batch_id', $batch->id)->where('region', $region->region)->where('is_admitted', 1)->groupBy('group_id')->get();
                 $region->region = $region->region ?? "其他";
             }
         }
@@ -1736,8 +1736,9 @@ class BackendController extends Controller
         } elseif($request->target == 'batch') { // 梯次錄取人士
             $receivers = Applicant::select('batch_id', 'email')->where('is_admitted', 1)->whereNotNull(['group', 'number'])->where([['group', '<>', ''], ['number', '<>', '']])->where('batch_id', $request->batch_id)->get();
         } elseif($request->target == 'group') { // 梯次組別錄取人士
-            $receivers = Applicant::select('batch_id', 'email')->where('is_admitted', 1)->where('group', '=', $request->group_no)->where('batch_id', $request->batch_id)->get();
+            $receivers = Applicant::select('batch_id', 'email')->where('is_admitted', 1)->where('group_id', '=', $request->group_id)->where('batch_id', $request->batch_id)->get();
         }
+        dd($receivers);
         $files = array();
         for($i  = 0; $i < 3; $i++) {
             if ($request->hasFile('attachment' . $i) && $request->file('attachment' . $i)->isValid()) {
