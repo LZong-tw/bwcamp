@@ -1738,7 +1738,6 @@ class BackendController extends Controller
         } elseif($request->target == 'group') { // 梯次組別錄取人士
             $receivers = Applicant::select('batch_id', 'email')->where('is_admitted', 1)->where('group_id', '=', $request->group_id)->where('batch_id', $request->batch_id)->get();
         }
-        dd($receivers);
         $files = array();
         for($i  = 0; $i < 3; $i++) {
             if ($request->hasFile('attachment' . $i) && $request->file('attachment' . $i)->isValid()) {
