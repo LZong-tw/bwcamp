@@ -18,12 +18,14 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr class="bg-primary text-white">
-                                <th colspan="8">{{ $region->region }}</th>
+                                <th colspan="10">{{ $region->region }}</th>
                             </tr>
                             <tr class="bg-secondary text-white">
                                 <th>組別</th>
                                 <th>錄取人數</th>
                                 <th>回覆參加人數</th>
+                                <th>回覆參加人數(男)</th>
+                                <th>回覆參加人數(女)</th>
                                 <th>回覆不參加人數</th>
                                 <th>尚未決定人數</th>
                                 <th>聯絡不上人數</th>
@@ -33,6 +35,8 @@
                         </thead>
                         @php
                             $attend_sum_total = 0;
+                            $attend_sum_f_total = 0;
+                            $attend_sum_m_total = 0;
                             $not_attend_sum_total = 0;
                             $not_decided_yet_sum_total = 0;
                             $couldnt_contact_sum_total = 0;
@@ -46,6 +50,8 @@
                                 </td>
                                 <td>{{ $group->count }}</td>
                                 <td>{!! "<a style='color: green;'>" . $group->attend_sum . "</a>" !!}</td>
+                                <td>{!! "<a style='color: green;'>" . $group->attend_sum_m . "</a>" !!}</td>
+                                <td>{!! "<a style='color: green;'>" . $group->attend_sum_f . "</a>" !!}</td>
                                 <td>{!! "<a style='color: red;'>" . $group->not_attend_sum . "</a>" !!}</td>
                                 <td>{!! "<a style='color: #ffb429;'>" . $group->not_decided_yet_sum . "</a>" !!}</td>
                                 <td>{!! "<a style='color: pink;'>" . $group->couldnt_contact_sum . "</a>" !!}</td>
@@ -53,6 +59,8 @@
                                 <td>{!! "<a style='color: rgb(0, 132, 255);'>" . $group->null_sum . "</a>" !!}</td>
                                 @php
                                     $attend_sum_total += $group->attend_sum;
+                                    $attend_sum_m_total += $group->attend_sum_m;
+                                    $attend_sum_f_total += $group->attend_sum_f;
                                     $not_attend_sum_total += $group->not_attend_sum;
                                     $not_decided_yet_sum_total += $group->not_decided_yet_sum;
                                     $couldnt_contact_sum_total += $group->couldnt_contact_sum;
@@ -65,6 +73,8 @@
                             <td>合計</td>
                             <td>{{ $attend_sum_total + $not_attend_sum_total + $not_decided_yet_sum_total + $couldnt_contact_sum_total + $cant_full_event_sum_total + $null_sum_total }}</td>
                             <td>{{ $attend_sum_total }}</td>
+                            <td>{{ $attend_sum_m_total }}</td>
+                            <td>{{ $attend_sum_f_total }}</td>
                             <td>{{ $not_attend_sum_total }}</td>
                             <td>{{ $not_decided_yet_sum_total }}</td>
                             <td>{{ $couldnt_contact_sum_total }}</td>
