@@ -180,8 +180,7 @@ class BackendController extends Controller
                     $this->backendService->setNumber($candidate, $number);
                     $this->applicantService->fillPaymentData($candidate);
                     $message = "錄取完成。";
-                }
-                else {
+                } else {
                     $error = "錄取失敗，請檢查學員組數是否已達上限無法再新增。";
                 }
             }
@@ -264,8 +263,7 @@ class BackendController extends Controller
                         $candidate = $this->applicantService->fillPaymentData($candidate);
                         $applicant = $candidate->save();
                         array_push($message, $candidate->name . "，錄取序號" . $request->admittedSN[$key] . "錄取完成。");
-                    }
-                    else {
+                    } else {
                         array_push($error, $candidate->name . "，報名序號" . $id . "錄取失敗，請檢查學員組數是否已達上限無法再新增。");
                     }
                 }
@@ -332,8 +330,7 @@ class BackendController extends Controller
         $candidate = $this->applicantService->fetchApplicantData($this->campFullData->id, $this->campFullData->table, $request->snORadmittedSNorName, $group, $number);
         if($candidate) {
             $candidate = $this->applicantService->Mandarization($candidate);
-        }
-        else {
+        } else {
             return "<h3>學員已取消或查無此學員</h3>";
         }
 
@@ -749,7 +746,7 @@ class BackendController extends Controller
                                 })->groupBy('region')->get();
             foreach($batch->regions as &$region) {
                 $region->groups = Applicant::select('group_id', \DB::raw('count(*) as groupApplicantsCount'))
-                    ->join('applicants_groups','applicants_groups.id','=','applicants.group_id')
+                    ->join('applicants_groups', 'applicants_groups.id', '=', 'applicants.group_id')
                     ->where('applicants.batch_id', $batch->id)
                     ->where('region', $region->region)
                     ->where('is_admitted', 1)
@@ -887,8 +884,7 @@ class BackendController extends Controller
                 if($template) {
                     if($this->campFullData->table == 'tcamp') {
                         $columns = ["admitted_no" => "錄取序號", "name" => "姓名", "idno" => "身分證字號", "unit_county" => "服務單位所在縣市", "unit" => "服務單位", "workshop_credit_type" => "研習時數類型"];
-                    }
-                    else {
+                    } else {
                         $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table) ?? []);
                     }
                 } else {
@@ -1498,8 +1494,7 @@ class BackendController extends Controller
         if ($request->input('vcamp')) {
             $camp = Camp::find($this->campFullData->vcamp->id);
             $filename = $camp->fullName . '義工名單' . Carbon::now()->format('YmdHis') .  '.xlsx';
-        }
-        else {
+        } else {
             $camp = $this->campFullData;
             $filename = $camp->fullName . '學員名單' . Carbon::now()->format('YmdHis') .  '.xlsx';
         }
@@ -1614,7 +1609,8 @@ class BackendController extends Controller
         return response('無', 404);
     }
 
-    public function getMediaImage($camp_id, $path) {
+    public function getMediaImage($camp_id, $path)
+    {
         if (file_exists(base_path(\Storage::disk('local')->url("media/" . $path)))) {
             return response()->file(base_path(\Storage::disk('local')->url("media/" . $path)));
         }
