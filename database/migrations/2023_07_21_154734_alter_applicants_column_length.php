@@ -8,26 +8,26 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('applicants', function (Blueprint $table) {
-            $table->string('name')->change();
-            $table->string('english_name')->change();
-            $table->string('nationality')->change();
-            $table->string('mobile')->change();
-            $table->string('phone_home')->change();
-            $table->string('phone_work')->change();
-            $table->string('fax')->change();
-            $table->string('line')->change();
-            $table->string('wechat')->change();
-            $table->string('email')->change();
-            $table->string('emergency_name')->change();
-            $table->string('emergency_fax')->change();
-            $table->string('emergency_mobile')->change();
-            $table->string('emergency_relationship')->change();
-            $table->string('emergency_phone_home')->change();
-            $table->string('emergency_phone_work')->change();
-            $table->string('introducer_email')->change();
-            $table->string('introducer_name')->change();
-            $table->string('introducer_phone')->change();
-            $table->string('introducer_relationship')->change();
+            $table->string('name', 255)->change();
+            $table->string('english_name', 255)->change();
+            $table->string('nationality', 255)->change();
+            $table->string('mobile', 255)->change();
+            $table->string('phone_home', 255)->change();
+            $table->string('phone_work', 255)->change();
+            $table->string('fax', 255)->change();
+            $table->string('line', 255)->change();
+            $table->string('wechat', 255)->change();
+            $table->string('email', 255)->change();
+            $table->string('emergency_name', 255)->change();
+            $table->string('emergency_fax', 255)->change();
+            $table->string('emergency_mobile', 255)->change();
+            $table->string('emergency_relationship', 255)->change();
+            $table->string('emergency_phone_home', 255)->change();
+            $table->string('emergency_phone_work', 255)->change();
+            $table->string('introducer_email', 255)->change();
+            $table->string('introducer_name', 255)->change();
+            $table->string('introducer_phone', 255)->change();
+            $table->string('introducer_relationship', 255)->change();
         });
     }
 };
