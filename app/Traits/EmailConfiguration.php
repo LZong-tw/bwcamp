@@ -2,11 +2,15 @@
 
 namespace App\Traits;
 
-trait EmailConfiguration {
-    public static function setEmail($camp, $variant = null) {
-        if($variant){ $camp = $variant; }
+trait EmailConfiguration
+{
+    public static function setEmail($camp, $variant = null)
+    {
+        if($variant) {
+            $camp = $variant;
+        }
         $config = \Config::get('mail.' . $camp);
-        if($config && $config['username']){
+        if($config && $config['username']) {
             config([
                 'mail.mailers.smtp.username' => $config['username'],
                 'mail.mailers.smtp.password' => $config['password'],
