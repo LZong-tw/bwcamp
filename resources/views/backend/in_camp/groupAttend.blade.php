@@ -9,8 +9,8 @@
                 <th>報名序號</th>
                 <th>錄取編號</th>
                 <th>姓名</th>
-                {{-- <th>生理性別</th>
-                @if($camp_data->table == "tcamp")
+                <th>生理性別</th>
+                {{-- @if($camp_data->table == "tcamp")
                     <th>縣市 / 區鄉鎮</th>
                     <th>服務單位 / 職稱</th>
                 @endif
@@ -31,8 +31,8 @@
                 <td>{{ $applicant->sn }}</td>
                 <td>{{ $applicant->group }}{{ $applicant->number }}</td>
                 <td>{{ $applicant->name }}</td>
-                {{-- <td>{{ $applicant->gender }}</td>
-                @if($camp_data->table == "tcamp")
+                <td>{{ $applicant->gender }}</td>
+                {{-- @if($camp_data->table == "tcamp")
                     <td>{{ $applicant->county }} / {{ $applicant->district }}</td>
                     <td>{{ $applicant->unit }} / {{ $applicant->title }}</td>
                 @endif

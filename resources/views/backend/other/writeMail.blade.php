@@ -7,7 +7,7 @@
             全體錄取人士
         @elseif(request()->target == 'batch') 
             {{ \App\Models\Batch::find(request()->batch_id)->name }} 梯次錄取人士
-        @elseif(request()->target == 'group') 
+        @elseif(request()->target == 'group_id') 
             {{ \App\Models\Batch::find(request()->batch_id)->name }} 梯次 {{ request()->group_no }} 組錄取人士
         @endif
     </h5>
@@ -15,7 +15,7 @@
         @csrf
         <input type="hidden" name="target" value="{{ request()->target }}">
         <input type="hidden" name="batch_id" value="{{ request()->batch_id }}">
-        <input type="hidden" name="group_no" value="{{ request()->group_no }}">
+        <input type="hidden" name="group_id" value="{{ request()->group_id }}">
         <input type="hidden" name="camp_id" value="{{ $campFullData->id }}">
         <div class='row form-group required'>
             <label for='inputName' class='col-md-1 control-label text-md-left'>主旨</label>

@@ -25,7 +25,7 @@
                         @endphp
                         @foreach ($region->groups as $group)
                             <tr>
-                                <td><a href="{{ route("writeMail", $campFullData->id) }}?target=group&batch_id={{ $batch->id }}&group_no={{ $group->group }}" class="card-link">{{ $group->group }}</a></td>
+                                <td><a href="{{ route("writeMail", $campFullData->id) }}?target=group&batch_id={{ $batch->id }}&group_id={{ $group->groupRelation->id }}" class="card-link">{{ $group->groupRelation->alias }}</a></td>
                                 <td>{{ $group->count }}</td>
                                 @php
                                     $count = $count + $group->count;
