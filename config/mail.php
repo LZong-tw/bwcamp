@@ -84,69 +84,96 @@ return [
     */
 
     'from' => [
-        // 'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'address' => env('MAIL_USERNAME', 'hello@example.com'),
+        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+        //'address' => env('MAIL_USERNAME', 'hello@example.com'),
+        'username' => env('MAIL_USERNAME'),
+        'password' => env('MAIL_PASSWORD'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
-    'tcamp' => [
-        'address' => env('TCAMP_MAIL_USERNAME', 'hello@example.com'),
-        'username' => env('TCAMP_MAIL_USERNAME'),
-        'password' => env('TCAMP_MAIL_PASSWORD'),
+    'acamp' => [
+        'address' => env('ACAMP_MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'username' => env('ACAMP_MAIL_USERNAME'),
+        'password' => env('ACAMP_MAIL_PASSWORD'),
+        'name' => env('ACAMP_MAIL_FROM_NAME'),
     ],
 
-    'utcamp' => [
-        'address' => env('UTCAMP_MAIL_USERNAME', 'hello@example.com'),
-        'username' => env('UTCAMP_MAIL_USERNAME'),
-        'password' => env('UTCAMP_MAIL_PASSWORD'),
-    ],
-
-    'hcamp' => [
-        'address' => env('HCAMP_MAIL_USERNAME', 'hello@example.com'),
-        'username' => env('HCAMP_MAIL_USERNAME'),
-        'password' => env('HCAMP_MAIL_PASSWORD'),
+    'acamp' => [
+        'address' => env('AVCAMP_MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'username' => env('AVCAMP_MAIL_USERNAME'),
+        'password' => env('AVCAMP_MAIL_PASSWORD'),
+        'name' => env('AVCAMP_MAIL_FROM_NAME'),
     ],
 
     'ceocamp' => [
-        'address' => env('CEOCAMP_MAIL_USERNAME', 'hello@example.com'),
+        'address' => env('CEOCAMP_MAIL_FROM_ADDRESS', 'hello@example.com'),
         'username' => env('CEOCAMP_MAIL_USERNAME'),
         'password' => env('CEOCAMP_MAIL_PASSWORD'),
+        'name' => env('CEOCAMP_MAIL_FROM_NAME'),
     ],
 
     'ceovcamp' => [
-        'address' => env('CEOVCAMP_MAIL_USERNAME', 'hello@example.com'),
+        'address' => env('CEOVCAMP_MAIL_FROM_ADDRESS', 'hello@example.com'),
         'username' => env('CEOVCAMP_MAIL_USERNAME'),
         'password' => env('CEOVCAMP_MAIL_PASSWORD'),
+        'name' => env('CEOVCAMP_MAIL_FROM_NAME'),
     ],
 
     'ecamp' => [
         'address' => env('ECAMP_MAIL_USERNAME', 'hello@example.com'),
         'username' => env('ECAMP_MAIL_USERNAME'),
         'password' => env('ECAMP_MAIL_PASSWORD'),
+        'name' => env('ECAMP_MAIL_FROM_NAME'),
     ],
 
     'evcamp' => [
-        'address' => env('EVCAMP_MAIL_USERNAME', 'hello@example.com'),
+        'address' => env('EVCAMP_MAIL_FROM_ADDRESS', 'hello@example.com'),
         'username' => env('EVCAMP_MAIL_USERNAME'),
         'password' => env('EVCAMP_MAIL_PASSWORD'),
+        'name' => env('EVCAMP_MAIL_FROM_NAME'),
+    ],
+
+    'hcamp' => [
+        'address' => env('HCAMP_MAIL_USERNAME', 'hello@example.com'),
+        'username' => env('HCAMP_MAIL_USERNAME'),
+        'password' => env('HCAMP_MAIL_PASSWORD'),
+        'name' => env('HCAMP_MAIL_FROM_NAME'),
+    ],
+
+    'tcamp' => [
+        'address' => env('TCAMP_MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'username' => env('TCAMP_MAIL_USERNAME'),
+        'password' => env('TCAMP_MAIL_PASSWORD'),
+        'name' => env('TCAMP_MAIL_FROM_NAME'),
+    ],
+
+    'utcamp' => [
+        'address' => env('UTCAMP_MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'username' => env('UTCAMP_MAIL_USERNAME'),
+        'password' => env('UTCAMP_MAIL_PASSWORD'),
+        'name' => env('UTCAMP_MAIL_FROM_NAME'),
+
     ],
 
     'ycamp' => [
-        'address' => env('YCAMP_MAIL_USERNAME', 'hello@example.com'),
+        'address' => env('YCAMP_MAIL_FROM_ADDRESS', 'hello@example.com'),
         'username' => env('YCAMP_MAIL_USERNAME'),
         'password' => env('YCAMP_MAIL_PASSWORD'),
+        'name' => env('YCAMP_MAIL_FROM_NAME'),
     ],
 
-    'acamp' => [
-        'address' => env('ACAMP_MAIL_USERNAME', 'hello@example.com'),
-        'username' => env('ACAMP_MAIL_USERNAME'),
-        'password' => env('ACAMP_MAIL_PASSWORD'),
+    'yvcamp' => [
+        'address' => env('YVCAMP_MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'username' => env('YVCAMP_MAIL_USERNAME'),
+        'password' => env('YVCAMP_MAIL_PASSWORD'),
+        'name' => env('YVCAMP_MAIL_FROM_NAME'),
     ],
 
     'coupon' => [
-        'address' => env('COUPON_MAIL_USERNAME', 'hello@example.com'),
+        'address' => env('COUPON_MAIL_FROM_ADDRESS', 'hello@example.com'),
         'username' => env('COUPON_MAIL_USERNAME'),
         'password' => env('COUPON_MAIL_PASSWORD'),
+        'name' => env('COUPON_MAIL_FROM_NAME'),
     ],
 
     /*

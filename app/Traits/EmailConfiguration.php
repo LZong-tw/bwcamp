@@ -11,6 +11,7 @@ trait EmailConfiguration {
                 'mail.mailers.smtp.username' => $config['username'],
                 'mail.mailers.smtp.password' => $config['password'],
                 'mail.from.address' => $config['address'],
+                'mail.from.name' => $config['name'],
             ]);
         }
         app()->register('Illuminate\Mail\MailServiceProvider');
