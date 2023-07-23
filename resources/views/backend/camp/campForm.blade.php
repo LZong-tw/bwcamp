@@ -33,6 +33,8 @@
                     <option value="utcamp" @if(isset($camp) && $camp->table == "utcamp") selected @endif>大專教師營</option>
                     <option value="ycamp" @if(isset($camp) && $camp->table == "ycamp") selected @endif>大專營</option>
                     <option value="yvcamp" @if(isset($camp) && $camp->table == "yvcamp") selected @endif>大專營義工</option>
+                    <option value="lrcamp" @if(isset($camp) && $camp->table == "lrcamp") selected @endif>研討班</option>
+                    <option value="lrvcamp" @if(isset($camp) && $camp->table == "lrvcamp") selected @endif>研討班護持</option>
                     <option value="coupon" @if(isset($camp) && $camp->table == "coupon") selected @endif>優惠碼/劵</option>
                 </select>
             </div>
