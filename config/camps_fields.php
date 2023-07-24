@@ -473,6 +473,19 @@ return [
     'regions' => [
         'ycamp' => ['台北','桃園','新竹','台中','雲嘉','台南','高雄','海外'],
     ],
+
+    'contact_correction_fields' => [
+        "ycamp" => [
+            'name' => "姓名",
+            "group" => "組別",
+            "number" => "座號",
+            "school" => "學校",
+            "department" => "系所",
+            "grade" => "年級",
+            "mobile" => "手機號碼",
+            "email" => "電子郵件",
+        ],
+    ],
     
     'display' => [
         'acamp' => [
@@ -738,6 +751,11 @@ return [
             //                "sort" => 1,
             //                "for_query" => 0,
             //            ],
+            "files" => [
+                "name" => "上傳的檔案",
+                "sort" => 0,
+                "for_query" => 0,
+            ],
             "birthdate" => [
                 "name" => "出生年月日",
                 "sort" => 1,

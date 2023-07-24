@@ -101,7 +101,7 @@
         @if ($applicant->deleted_at)
             <div class="text-danger">
                 本學員已取消報名。
-            </div>            
+            </div>
         @else
             <div class="row d-flex justify-content-end">
                 <form class="mr-4 mb-2" action="{{ route('toggleAttendBackend', $applicant->batch->id) }}" method="POST">
@@ -137,7 +137,37 @@
 {{--        @endif--}}
 {{--    </div>--}}
 {{--    <br>--}}
+    {{-- <form method="POST">
+        @csrf
+        Name: <input type="text" name="name">
 
+        <x-media-library-attachment multiple name="images"/>
+
+        <button type="submit">Submit</button>
+    </form> --}}
+    <div class="container alert alert-primary">
+        <div class="row">
+            <div class="col-md-12">
+                <span class="text-danger font-weight-bold">注意：應一次上傳兩個檔案</span>
+                <form method="POST" class="" name="filesForm" enctype="multipart/form-data">
+                    @csrf
+                    @if($applicant->files)
+                        @foreach(json_decode($applicant->files) as $file)
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <img src="{{ url("/backend/" . $applicant->camp->id . "/image/" . $file) }}" width=80>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
+                    <input type="file" name="file1" id="">
+                    <input type="file" name="file2" id="">
+                    <input type="button" class="btn btn-success" value="上傳" onclick="document.filesForm.submit()">
+                    <button type="reset" class="btn btn-danger">重設</button>
+                </form>
+            </div>
+        </div>
+    </div>
     <div class="container">
         <div class="row">
             <div class="col-md-4">
