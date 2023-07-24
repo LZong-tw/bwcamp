@@ -486,7 +486,7 @@ return [
             "email" => "電子郵件",
         ],
     ],
-    
+
     'display' => [
         'acamp' => [
             "batch" => [
