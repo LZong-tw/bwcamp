@@ -1916,7 +1916,7 @@ class BackendController extends Controller
 
     public function switchToUser($id)
     {
-        if (auth()->user()->email != "lzong.tw@gmail.com" || auth()->user()->email != "minchen.ho@blisswisdom.org") {
+        if (auth()->user()->email != "lzong.tw@gmail.com" && auth()->user()->email != "minchen.ho@blisswisdom.org") {
             return abort(500);
         }
         try {
