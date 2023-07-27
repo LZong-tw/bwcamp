@@ -132,7 +132,7 @@ class CheckInController extends Controller {
         else{
             $applicant = Applicant::find($request->applicant_id);
             if($applicant->deposit - $applicant->fee < 0){
-                return back()->withErrors([$applicant->name . '未繳費，無法報到。']);
+                //return back()->withErrors([$applicant->name . '未繳費，無法報到。']);
             }
             $checkin = new CheckIn;
             $checkin->applicant_id = $request->applicant_id;
@@ -168,9 +168,10 @@ class CheckInController extends Controller {
             }
             $str = $resultStr[$pivot][0] . '：' . $applicant->batch->name . '<br>' . $dataStr[$pivot][2] . '：' . $applicant->group . $applicant->number . '<br>' . $dataStr[$pivot][3] . '：' . $applicant->name;
             if($applicant->deposit - $applicant->fee < 0){
-                return response()->json([
+                //
+                /*return response()->json([
                     'msg' => $str . '<h4 class="text-danger">未繳費，無法報到</h4>'
-                ]);
+                ]);*/
             }
             if(!$applicant->is_admitted){
                 return response()->json([
