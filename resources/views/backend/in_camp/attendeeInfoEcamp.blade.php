@@ -148,7 +148,7 @@
     <div class="container alert alert-primary">
         <div class="row">
             <div class="col-md-12">
-                <span class="text-danger font-weight-bold">注意：應一次上傳兩個檔案</span>
+                {{-- <span class="text-danger font-weight-bold">注意：應一次上傳兩個檔案</span> --}}
                 <form method="POST" class="" name="filesForm" enctype="multipart/form-data">
                     @csrf
                     @if($applicant->files)
@@ -259,7 +259,7 @@
                     <b>無關懷記錄</b>
                     @endif
                     <a href="{{ route('showContactLogs', [$camp->id, $applicant->applicant_id]) }}" class="btn btn-secondary float-right">更多關懷記錄</a><br><br>
-                    
+
                     <h5>回饋單內容</h5>
                     <div class="container">
                     <a href="{{ route('showGSFeedback', [$camp->id, $applicant->applicant_id,1]) }}">第一天回饋單</a><br>
