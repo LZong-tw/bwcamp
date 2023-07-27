@@ -10,6 +10,16 @@
     </style>
     <h2>{{ $campFullData->abbreviation }} 回覆參加</h2>
     @foreach ($batches as $batch)
+        @php
+            $attend_sum_batch = 0;
+            $attend_sum_f_batch = 0;
+            $attend_sum_m_batch = 0;
+            $not_attend_sum_batch = 0;
+            $not_decided_yet_sum_batch = 0;
+            $couldnt_contact_sum_batch = 0;
+            $cant_full_event_sum_batch = 0;
+            $null_sum_batch = 0;
+        @endphp
         <h4>梯次：{{ $batch->name }}</h4>
         <table>
             @foreach ($batch->regions as $region)
@@ -80,11 +90,58 @@
                             <td>{{ $couldnt_contact_sum_total }}</td>
                             <td>{{ $cant_full_event_sum_total }}</td>
                             <td>{{ $null_sum_total }}</td>
+                            @php
+                                $attend_sum_batch += $attend_sum_total;
+                                $attend_sum_f_batch += $attend_sum_f_total;
+                                $attend_sum_m_batch += $attend_sum_m_total;
+                                $not_attend_sum_batch += $not_attend_sum_total;
+                                $not_decided_yet_sum_batch += $not_decided_yet_sum_total;
+                                $couldnt_contact_sum_batch += $couldnt_contact_sum_total;
+                                $cant_full_event_sum_batch += $cant_full_event_sum_total;
+                                $null_sum_batch += $null_sum_total;
+                            @endphp
                         </tr>
                     </table>
                 </td>
             </tr>
             @endforeach
+        </table>
+        <table>
+            <tr style="vertical-align: top;">
+                <td>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="bg-warning text-white">
+                                <th colspan="10">梯次合計</th>
+                            </tr>
+                            <tr class="bg-secondary text-white">
+                                <th>組別</th>
+                                <th>錄取人數</th>
+                                <th>回覆參加人數</th>
+                                <th>回覆參加人數(男)</th>
+                                <th>回覆參加人數(女)</th>
+                                <th>回覆不參加人數</th>
+                                <th>尚未決定人數</th>
+                                <th>聯絡不上人數</th>
+                                <th>無法全程人數</th>
+                                <th>未回覆 / 尚未聯絡人數</th>
+                            </tr>
+                        </thead>
+                        <tr class="bg-success text-white">
+                            <td>合計</td>
+                            <td>{{ $attend_sum_batch + $not_attend_sum_batch + $not_decided_yet_sum_batch + $couldnt_contact_sum_batch + $cant_full_event_sum_batch + $null_sum_batch }}</td>
+                            <td>{{ $attend_sum_batch }}</td>
+                            <td>{{ $attend_sum_m_batch }}</td>
+                            <td>{{ $attend_sum_f_batch }}</td>
+                            <td>{{ $not_attend_sum_batch }}</td>
+                            <td>{{ $not_decided_yet_sum_batch }}</td>
+                            <td>{{ $couldnt_contact_sum_batch }}</td>
+                            <td>{{ $cant_full_event_sum_batch }}</td>
+                            <td>{{ $null_sum_batch }}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
         </table>
         <hr>
     @endforeach
