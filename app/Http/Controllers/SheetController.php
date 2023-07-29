@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\GSheetService;
 use App\Models\Applicant;
+use App\Models\Camp;
 
 
 class SheetController extends Controller
@@ -91,5 +92,48 @@ class SheetController extends Controller
         }
 
         return view('backend.in_camp.gsFeedback', compact('titles','contents','content_count'));
+    }
+
+    public function importGSApplicants(Request $request)
+    {
+        config([
+            'google.post_spreadsheet_id' => '1g6gvbuLeEXz8W4QtMLPGhMpZ_u_Mu73OfmR3ems_9SI',
+            'google.post_sheet_id' => '0729',
+        ]);
+        $camp = Camp::find($request->camp_id);
+        $table = $camp->table;
+
+        $sheets = $this->gsheetservice->Get(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
+        $titles = $sheets[0];
+        $num_cols = count($titles);
+        $num_rows = count($sheets);
+
+        $success_count = 0;
+        for ($i=1; $i<$num_rows; $i++) {
+            $data = $sheets[$i];
+            $j=0;
+            for ($j=0; $j<$num_cols; $j++) {
+                $title_data[$titles[$j]] = $data[$j];
+            }
+            $applicant = Applicant::select('applicants.*')
+                ->where('batch_id', $title_data['batch_id'])
+                ->where('name', $title_data['name'])
+                ->where('email', $title_data['email'])->first();
+
+            if ($applicant) {   //if exist, skip
+                continue;   
+            } else {            //create new
+                $applicant = \DB::transaction(function () use ($title_data,$table) {
+                    $applicant = Applicant::create($title_data);
+                    $title_data['applicant_id'] = $applicant->id;
+                    $model = '\\App\\Models\\' . ucfirst($table);
+                    $model::create($title_data);
+                    return $applicant;
+                });
+                $success_count++;
+            }
+        }
+        dd($success_count);
+        //return view('backend.in_camp.gsFeedback', compact('titles','contents','content_count'));
     }
 }

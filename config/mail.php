@@ -176,6 +176,14 @@ return [
         'name' => env('COUPON_MAIL_FROM_NAME'),
     ],
 
+    'ses_coupon' => [
+        'host' => env('SES_MAIL_HOST'),
+        'address' => env('SES_COUPON_MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'username' => env('SES_COUPON_MAIL_USERNAME'),
+        'password' => env('SES_COUPON_MAIL_PASSWORD'),
+        'name' => env('SES_COUPON_MAIL_FROM_NAME'),
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Markdown Mail Settings
