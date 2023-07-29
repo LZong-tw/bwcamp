@@ -2,17 +2,20 @@
 
 namespace App\Traits;
 
-trait EmailConfiguration {
-    public static function setEmail($camp, $variant = null) {
-        if($variant){ $camp = $variant; }
+trait EmailConfiguration
+{
+    public static function setEmail($camp, $variant = null)
+    {
+        if($variant) {
+            $camp = $variant;
+        }
         $config = \Config::get('mail.ses_' . $camp);
         if (!$config) {
             $config = \Config::get('mail.' . $camp);
-        }
-        else {
+        } else {
             config(['mail.mailers.smtp.host' => $config['host']]);
         }
-        if($config && $config['username']){
+        if($config && $config['username']) {
             config([
                 'mail.mailers.smtp.username' => $config['username'],
                 'mail.mailers.smtp.password' => $config['password'],
