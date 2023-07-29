@@ -190,6 +190,7 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
 
     //GSheet
     Route::get("/inCamp/gsFeedback/{applicant_id}/{day?}", "SheetController@showGSFeedback")->name("showGSFeedback");
+    Route::get("/inCamp/gsImport", "SheetController@importGSApplicants")->name("importGSApplicants");
     
     //Remark
     Route::post("/remark/edit", [BackendController::class, "editRemark"])->name("editRemark");

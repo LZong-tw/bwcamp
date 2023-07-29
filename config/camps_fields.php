@@ -486,6 +486,15 @@ return [
             "email" => "電子郵件",
         ],
     ],
+
+    'traffic_correction_fields' => [
+        "ycamp" => [
+            'name' => "姓名",
+            "group" => "組別",
+            "number" => "座號",
+            "back_to" => "回程交通",
+        ],
+    ],
     
     'display' => [
         'acamp' => [
