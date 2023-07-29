@@ -32,8 +32,10 @@ class CustomMail extends Mailable
      * @return $this
      */
     public function build() {
-        sleep(10);
-        logger( \Config::get('mail'));
+        logger( \Config::get('mail'));        
+        if(!str_contains(config('mail.mailers.smtp.host'),"amazon")) {
+            sleep(10);
+        }
         $this->withSwiftMessage(function ($message) {
             $headers = $message->getHeaders();
             $headers->addTextHeader('time', time());
