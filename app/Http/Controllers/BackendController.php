@@ -743,7 +743,7 @@ class BackendController extends Controller
                                 ->where('is_admitted', 1)
                                 ->whereNotNull('group_id')
                                 ->where(function ($query) {
-                                    if ($this->campFullData->table != "ceocamp" && $this->campFullData->table != "ecamp") {
+                                    if ($this->campFullData->table != "ceocamp" && $this->campFullData->table != "ecamp" && $this->campFullData->table != "coupon") {
                                         $query->whereNotNull('number_id');
                                     }
                                 })->groupBy('region')->get();
@@ -759,7 +759,7 @@ class BackendController extends Controller
                         }
                     })->whereNotNull('group_id')
                     ->where(function ($query) {
-                        if ($this->campFullData->table != "ceocamp" && $this->campFullData->table != "ecamp") {
+                        if ($this->campFullData->table != "ceocamp" && $this->campFullData->table != "ecamp" && $this->campFullData->table != "coupon") {
                             $query->whereNotNull('number_id');
                         }
                     })
@@ -999,7 +999,7 @@ class BackendController extends Controller
                     ->where('is_admitted', 1)
                     ->whereNotNull('group_id')
                     ->where(function ($query) {
-                        if (!$this->campFullData->table == 'ecamp' || !$this->campFullData->table == 'ceocamp') {
+                        if (!$this->campFullData->table == 'ecamp' || !$this->campFullData->table == 'ceocamp' || !$this->campFullData->table == 'coupon') {
                             $query->whereNotNull('number_id');
                         }
                     })
@@ -1734,7 +1734,7 @@ class BackendController extends Controller
             $batch_ids = $camp->batchs()->pluck('id')->toArray();
             $receivers = Applicant::select('batch_id', 'email')->where('is_admitted', 1)->whereNotNull(['group_id', 'number_id'])->where([['group_id', '<>', ''], ['number_id', '<>', '']])->whereIn('batch_id', $batch_ids)->get();
         } elseif($request->target == 'batch') { // 梯次錄取人士
-            $receivers = Applicant::select('batch_id', 'email')->where('is_admitted', 1)->whereNotNull(['group', 'number'])->where([['group', '<>', ''], ['number', '<>', '']])->where('batch_id', $request->batch_id)->get();
+            $receivers = Applicant::select('batch_id', 'email')->where('is_admitted', 1)->whereNotNull(['group_id', 'number_id'])->where([['group_id', '<>', ''], ['number_id', '<>', '']])->where('batch_id', $request->batch_id)->get();
         } elseif($request->target == 'group') { // 梯次組別錄取人士
             $receivers = Applicant::select('batch_id', 'email')->where('is_admitted', 1)->where('group_id', '=', $request->group_id)->where('batch_id', $request->batch_id)->get();
         }

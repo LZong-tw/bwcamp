@@ -109,6 +109,7 @@ class SheetController extends Controller
         $num_rows = count($sheets);
 
         $success_count = 0;
+        $fail_count = 0;
         for ($i=1; $i<$num_rows; $i++) {
             $data = $sheets[$i];
             $j=0;
@@ -121,6 +122,7 @@ class SheetController extends Controller
                 ->where('email', $title_data['email'])->first();
 
             if ($applicant) {   //if exist, skip
+                $fail_count++;
                 continue;   
             } else {            //create new
                 $applicant = \DB::transaction(function () use ($title_data,$table) {
@@ -133,7 +135,9 @@ class SheetController extends Controller
                 $success_count++;
             }
         }
-        dd($success_count);
+        $stat['success'] = $success_count;
+        $stat['fail'] = $fail_count;
+        dd($stat);
         //return view('backend.in_camp.gsFeedback', compact('titles','contents','content_count'));
     }
 }
