@@ -9,16 +9,21 @@ use Illuminate\Queue\SerializesModels;
 
 class CustomMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
-    public $subject, $content, $attachment, $camp;
+    public $subject;
+    public $content;
+    public $attachment;
+    public $camp;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($subject, $content, $attachment, $campOrVariant) {
+    public function __construct($subject, $content, $attachment, $campOrVariant)
+    {
         //
         $this->subject = $subject;
         $this->content = $content;
@@ -31,9 +36,10 @@ class CustomMail extends Mailable
      *
      * @return $this
      */
-    public function build() {
-        logger( \Config::get('mail'));        
-        if(!str_contains(config('mail.mailers.smtp.host'),"amazon")) {
+    public function build()
+    {
+        logger(\Config::get('mail'));
+        if(!str_contains(config('mail.mailers.smtp.host'), "amazon")) {
             sleep(10);
         }
         $this->withSwiftMessage(function ($message) {
@@ -43,12 +49,12 @@ class CustomMail extends Mailable
         $email = $this->subject($this->subject)->view("backend.other.customMailView");
         $attachmentCount = count($this->attachment);
         $attachments = null;
-        if($attachmentCount > 0){
-            foreach($this->attachment as $attachment){
+        if($attachmentCount > 0) {
+            foreach($this->attachment as $attachment) {
                 $attachments[storage_path('attachment/' . $attachment)]['as'] = \Str::substr($attachment, 10);
                 $attachments[storage_path('attachment/' . $attachment)]['mime'] = \Storage::mimeType('attachment/' . $attachment);
             }
-            foreach($attachments as $filePath => $fileParameters){
+            foreach($attachments as $filePath => $fileParameters) {
                 $email->attach($filePath, $fileParameters);
             }
         }
