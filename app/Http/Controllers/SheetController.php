@@ -112,7 +112,6 @@ class SheetController extends Controller
         $fail_count = 0;
         for ($i=1; $i<$num_rows; $i++) {
             $data = $sheets[$i];
-            $j=0;
             for ($j=0; $j<$num_cols; $j++) {
                 $title_data[$titles[$j]] = $data[$j];
             }
@@ -121,9 +120,10 @@ class SheetController extends Controller
                 ->where('name', $title_data['name'])
                 ->where('email', $title_data['email'])->first();
 
-            if ($applicant) {   //if exist, skip
+            if ($applicant) {   //if exist, update
+                $applicant->group_id = $title_data['group_id'];
+                $applicant->save();
                 $fail_count++;
-                continue;   
             } else {            //create new
                 $applicant = \DB::transaction(function () use ($title_data,$table) {
                     $applicant = Applicant::create($title_data);
@@ -133,6 +133,10 @@ class SheetController extends Controller
                     return $applicant;
                 });
                 $success_count++;
+            }
+            if ($i % 500 == 0) {
+                sleep(5);
+                //dd($fail_count);
             }
         }
         $stat['success'] = $success_count;
