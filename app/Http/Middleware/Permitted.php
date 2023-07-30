@@ -15,6 +15,9 @@ class Permitted
      * @return mixed
      */
     public function handle($request, Closure $next) {
+        if (!auth()->check()) {
+            return abort(404);
+        }
         /**
          * todo: Request resolver: 檢查目前使用者是否可以取得目標資源
          */
