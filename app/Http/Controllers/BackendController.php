@@ -253,6 +253,10 @@ class BackendController extends Controller
                     array_push($error, $candidate->name . "，錄取序號" . $request->admittedSN[$key] . "重複，沒有針對此人執行任何動作。");
                     $skip = true;
                 }
+                if (!$candidate) {
+                    array_push($error, "報名序號" . $id . "不存在，沒有針對此報名序號執行任何動作。");
+                    $skip = true;
+                }
                 if($candidate->deleted_at) {
                     array_push($error, $candidate->name . "，報名序號" . $id . "已取消報名，沒有針對此人執行任何動作。");
                     $skip = true;
