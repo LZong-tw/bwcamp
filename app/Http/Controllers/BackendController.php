@@ -883,12 +883,30 @@ class BackendController extends Controller
 
             $template = $request->template ?? 0;
 
+            foreach ($applicants as $applicant) {
+                $applicant->id = $applicant->applicant_id;
+            }
+
+            if ($template==2) {
+                $columns = config('camps_fields.form_accomodation.' . $this->campFullData->table) ?? [];
+                $camp = $this->campFullData;
+                return view('camps.' . $this->campFullData->table . '.formAccomodation', compact( 'camp','group','applicants','columns'));
+            } elseif ($template==3) {
+                $columns = config('camps_fields.form_contact.' . $this->campFullData->table) ?? [];
+                $camp = $this->campFullData;
+                return view('camps.' . $this->campFullData->table . '.formContact', compact( 'camp','group','applicants','columns'));
+            } elseif ($template==4) {
+                $columns = config('camps_fields.form_traffic.' . $this->campFullData->table) ?? [];
+                $camp = $this->campFullData;
+                return view('camps.' . $this->campFullData->table . '.formTraffic', compact( 'camp','group','applicants','columns'));
+            }
+
             $callback = function () use ($applicants, $template) {
                 $file = fopen('php://output', 'w');
                 // 先寫入此三個字元使 Excel 能正確辨認編碼為 UTF-8
                 // http://jeiworld.blogspot.com/2009/09/phpexcelutf-8csv.html
                 fwrite($file, "\xEF\xBB\xBF");
-                if($template) {
+                if ($template==1) {  //下載樣板
                     if($this->campFullData->table == 'tcamp') {
                         $columns = ["admitted_no" => "錄取序號", "name" => "姓名", "idno" => "身分證字號", "unit_county" => "服務單位所在縣市", "unit" => "服務單位", "workshop_credit_type" => "研習時數類型"];
                     }

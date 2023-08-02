@@ -474,11 +474,26 @@ return [
         'ycamp' => ['台北','桃園','新竹','台中','雲嘉','台南','高雄','海外'],
     ],
 
-    'contact_correction_fields' => [
+    'form_accomodation' => [
         "ycamp" => [
-            'name' => "姓名",
-            "group" => "組別",
-            "number" => "座號",
+            "admitted_no" => "錄取編號",
+            "name" => "姓名",
+            "gender" => "性別",
+            "mobile" => "手機號碼",
+            //底下為空格欄位
+            "empty1" => "報到",
+            "empty2" => "床位",
+            "empty3" => "預排",
+            "empty4" => "備註(遲到)",
+        ],
+    ],
+
+    'form_contact' => [
+        "ycamp" => [
+            "emptys" => "確認",
+            "admitted_no" => "錄取編號",
+            "name" => "姓名",
+            "gender" => "性別",
             "school" => "學校",
             "department" => "系所",
             "grade" => "年級",
@@ -487,12 +502,15 @@ return [
         ],
     ],
 
-    'traffic_correction_fields' => [
+    'form_traffic' => [
         "ycamp" => [
-            'name' => "姓名",
-            "group" => "組別",
-            "number" => "座號",
+            "emptys" => "確認",
+            "admitted_no" => "錄取編號",
+            "name" => "姓名",
+            "depart_from" => "去程交通",
             "back_to" => "回程交通",
+            "fare" => "應交車資",
+            "deposit" => "已交車資",
         ],
     ],
     

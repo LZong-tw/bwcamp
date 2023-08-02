@@ -1,9 +1,12 @@
 @extends('backend.master')
 @section('content')
     <div>
-        <h2 class="d-inline-block">{{ $campFullData->abbreviation }} {{ $batch->name }} {{ request()->group }}組 組別名單</h2>
+        <h2 class="d-inline-block">{{ $campFullData->abbreviation }} {{ $batch->name }} {{ request()->group }}組 組別名單</h2><br>
         <a href="{{ route('showGroup', [$campFullData->id, $batch->id, request()->group]) }}?download=1" class="btn btn-primary d-inline-block" style="margin-bottom: 14px">下載名單</a>
         <a href="{{ route('showGroup', [$campFullData->id, $batch->id, request()->group]) }}?download=1&template=1" class="btn btn-secondary d-inline-block" style="margin-bottom: 14px">下載名單樣板</a>
+        <a href="{{ route('showGroup', [$campFullData->id, $batch->id, request()->group]) }}?download=1&template=2" class="btn btn-success d-inline-block" style="margin-bottom: 14px">下載宿舍安排單</a>
+        <a href="{{ route('showGroup', [$campFullData->id, $batch->id, request()->group]) }}?download=1&template=3" class="btn btn-info d-inline-block" style="margin-bottom: 14px">下載通訊資料確認表</a>
+        <a href="{{ route('showGroup', [$campFullData->id, $batch->id, request()->group]) }}?download=1&template=4" class="btn btn-warning d-inline-block" style="margin-bottom: 14px">下載回程交通確認表</a>
     </div>
     <form action="" method="post" name="sendEmailByGroup">
     <table class="table table-bordered">
