@@ -890,7 +890,8 @@ class BackendController extends Controller
             if ($template==2) {
                 $columns = config('camps_fields.form_accomodation.' . $this->campFullData->table) ?? [];
                 $camp = $this->campFullData;
-                return view('camps.' . $this->campFullData->table . '.formAccomodation', compact( 'camp','group','applicants','columns'));
+                //return view('camps.' . $this->campFullData->table . '.formAccomodation', compact( 'camp','group','applicants','columns'));
+                return \PDF::loadView('camps.' . $this->campFullData->table . '.formAccomodation', compact( 'camp','group','applicants','columns'))->setPaper('a3')->download(Carbon::now()->format('YmdHis') . $this->campFullData->table . $group . 'Accomodation.pdf');
             } elseif ($template==3) {
                 $columns = config('camps_fields.form_contact.' . $this->campFullData->table) ?? [];
                 $camp = $this->campFullData;
@@ -898,7 +899,8 @@ class BackendController extends Controller
             } elseif ($template==4) {
                 $columns = config('camps_fields.form_traffic.' . $this->campFullData->table) ?? [];
                 $camp = $this->campFullData;
-                return view('camps.' . $this->campFullData->table . '.formTraffic', compact( 'camp','group','applicants','columns'));
+                //return view('camps.' . $this->campFullData->table . '.formTraffic', compact( 'camp','group','applicants','columns'));
+                return \PDF::loadView('camps.' . $this->campFullData->table . '.formTraffic', compact( 'camp','group','applicants','columns'))->setPaper('a3')->download(Carbon::now()->format('YmdHis') . $this->campFullData->table . $group . 'Traffic.pdf');
             }
 
             $callback = function () use ($applicants, $template) {

@@ -8,8 +8,8 @@
         text-align: center;
     }
     .padding{
-        padding-top: 10px;
-        padding-left: 10px;
+        padding-top: 6px;  //10
+        padding-left: 6px;  //10
     }
     html,body{
         padding:15px;
@@ -76,6 +76,9 @@
     </tr>
 </table>
 <h4>【報到暨床位安排】</h4>
+@php
+    $emptylines = 20;
+@endphp
 <table class="table table-bordered" width="100%" >
     <tr>
         @foreach($columns as $key => $val)
@@ -83,21 +86,38 @@
         @endforeach
     </tr>    
     @foreach($applicants as $applicant)
-    @if($applicant->gender == "M")
+        @if($applicant->gender == "M")
+            @php
+                $emptylines--;
+            @endphp
+            <tr>
+            @foreach($columns as $key => $val)
+                @if($key == "admitted_no")
+                <td>{{ $applicant->group }}{{ $applicant->number }}</td>
+                @elseif($key == "gender")
+                <td>男</td>
+                @else
+                <td>{{ $applicant->$key }}</td>
+                @endif
+            @endforeach
+            </tr>
+        @endif
+    @endforeach
+
+    @if ($emptylines<0) 
+        @php
+            $emptylines=5;
+        @endphp
+    @endif
+    @for($l = 0; $l < $emptylines; $l++)
     <tr>
         @foreach($columns as $key => $val)
-            @if($key == "admitted_no")
-            <td>{{ $applicant->group }}{{ $applicant->number }}</td>
-            @elseif($key == "gender")
-            <td>男</td>
-            @else
-            <td>{{ $applicant->$key }}</td>
-            @endif
+            <td>　</td>
         @endforeach
     </tr>
-    @endif
-    @endforeach
+    @endfor
 </table>
+
 <h2 class="center">{{ $camp->fullName }} 報名報到暨宿舍安排單</h2>
 <table class="table table-bordered" width="100%" >
     <tr>
@@ -147,6 +167,9 @@
     </tr>
 </table>
 <h4>【報到暨床位安排】</h4>
+@php
+    $emptylines = 20;
+@endphp
 <table class="table table-bordered" width="100%" >
     <tr>
         @foreach($columns as $key => $val)
@@ -154,18 +177,34 @@
         @endforeach
     </tr>    
     @foreach($applicants as $applicant)
-    @if($applicant->gender == "F")
+        @if($applicant->gender == "F")
+            @php
+                $emptylines--;
+            @endphp
+            <tr>
+            @foreach($columns as $key => $val)
+                @if($key == "admitted_no")
+                <td>{{ $applicant->group }}{{ $applicant->number }}</td>
+                @elseif($key == "gender")
+                <td>女</td>
+                @else
+                <td>{{ $applicant->$key }}</td>
+                @endif
+            @endforeach
+            </tr>
+        @endif
+    @endforeach
+
+    @if ($emptylines<0) 
+        @php
+            $emptylines=5;
+        @endphp
+    @endif
+    @for($l = 0; $l < $emptylines; $l++)
     <tr>
         @foreach($columns as $key => $val)
-            @if($key == "admitted_no")
-            <td>{{ $applicant->group }}{{ $applicant->number }}</td>
-            @elseif($key == "gender")
-            <td>女</td>
-            @else
-            <td>{{ $applicant->$key }}</td>
-            @endif
+            <td>　</td>
         @endforeach
     </tr>
-    @endif
-    @endforeach
+    @endfor
 </table>
