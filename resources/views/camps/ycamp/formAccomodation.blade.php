@@ -33,7 +33,8 @@
 {{--
 <a href="{{ route('showPaymentForm', [$applicant->batch->camp_id, $applicant->id]) }}?download=1" target="_blank">下載繳費單</a>
 --}}
-<h2 class="center" style="font-family: 'msjh'">{{ $camp->fullName }} 報名報到暨宿舍安排單</h2>
+{{-- 用 h 系列標籤，中文字型會壞掉 --}}
+<a class="center" style="font-size: 1.17em;">{{ $camp->fullName }} 報名報到暨宿舍安排單</a>
 <table class="table table-bordered" width="740px">
     <tr>
         <td>男生</td>
