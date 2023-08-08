@@ -33,7 +33,7 @@
 {{--
 <a href="{{ route('showPaymentForm', [$applicant->batch->camp_id, $applicant->id]) }}?download=1" target="_blank">下載繳費單</a>
 --}}
-{{-- 在正式環境用  h 系列標籤，中文字型會壞掉 --}}
+{{-- 在正式環境用 h 系列標籤，中文字型會壞掉 --}}
 <a style="font-size: 2em;">{{ $camp->fullName }} 報名報到暨宿舍安排單</a>
 <table class="table table-bordered" width="740px">
     <tr>
@@ -43,7 +43,7 @@
         <td>輔導員手機：</td>
     </tr>
 </table>
-{{-- 在正式環境用  h 系列標籤，中文字型會壞掉 --}}
+{{-- 在正式環境用 h 系列標籤，中文字型會壞掉 --}}
 <a style="font-size: 1em;">【住宿概況】</a>
 <table class="table" width="740px">
     <tr>
@@ -83,7 +83,7 @@
         <td>　</td><td>　</td>
     </tr>
 </table>
-{{-- 在正式環境用  h 系列標籤，中文字型會壞掉 --}}
+{{-- 在正式環境用 h 系列標籤，中文字型會壞掉 --}}
 <a style="font-size: 1em;">【報到暨床位安排】</a>
 @php
     $emptylines = 20;
@@ -136,7 +136,7 @@
         <td>輔導員手機：</td>
     </tr>
 </table>
-{{-- 在正式環境用  h 系列標籤，中文字型會壞掉 --}}
+{{-- 在正式環境用 h 系列標籤，中文字型會壞掉 --}}
 <a style="font-size: 1em;">【住宿概況】</a>
 <table class="table" width="740px">
     <tr>
@@ -176,7 +176,7 @@
         <td>　</td><td>　</td>
     </tr>
 </table>
-{{-- 在正式環境用  h 系列標籤，中文字型會壞掉 --}}
+{{-- 在正式環境用 h 系列標籤，中文字型會壞掉 --}}
 <a style="font-size: 1em;">【報到暨床位安排】</a>
 @php
     $emptylines = 20;
