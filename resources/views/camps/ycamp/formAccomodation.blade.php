@@ -28,63 +28,63 @@
 <a href="{{ route('showPaymentForm', [$applicant->batch->camp_id, $applicant->id]) }}?download=1" target="_blank">下載繳費單</a>
 --}}
 <h2 class="center">{{ $camp->fullName }} 報名報到暨宿舍安排單</h2>
-<table class="table table-bordered" width="100%" >
+<table class="table table-bordered" width="740px">
     <tr>
         <td>男生</td>
         <td>{{ $group }}組</td>
         <td>輔導員：</td>
-        <td>輔導員手機：</td>        
+        <td>輔導員手機：</td>
     </tr>
 </table>
 <h4>【住宿概況】</h4>
-<table class="table" width="100%" >
+<table class="table" width="740px">
     <tr>
         <td>棟別_戶別</td>
         <td>　</td><td>　</td>
         <td>　</td><td>　</td>
         <td>　</td><td>　</td>
         <td>　</td>
-        <td>總數</td>        
-    </tr>    
+        <td>總數</td>
+    </tr>
     <tr>
         <td>房號</td>
         <td>　</td><td>　</td>
         <td>　</td><td>　</td>
         <td>　</td><td>　</td>
-        <td>　</td><td>　</td>        
+        <td>　</td><td>　</td>
     </tr>
     <tr>
         <td>提供床位數(含預留)</td>
         <td>　</td><td>　</td>
         <td>　</td><td>　</td>
         <td>　</td><td>　</td>
-        <td>　</td><td>　</td>        
+        <td>　</td><td>　</td>
     </tr>
     <tr>
         <td>實際報到床位數</td>
         <td>　</td><td>　</td>
         <td>　</td><td>　</td>
         <td>　</td><td>　</td>
-        <td>　</td><td>　</td>        
+        <td>　</td><td>　</td>
     </tr>
     <tr>
         <td>空床數</td>
         <td>　</td><td>　</td>
         <td>　</td><td>　</td>
         <td>　</td><td>　</td>
-        <td>　</td><td>　</td>        
+        <td>　</td><td>　</td>
     </tr>
 </table>
 <h4>【報到暨床位安排】</h4>
 @php
     $emptylines = 20;
 @endphp
-<table class="table table-bordered" width="100%" >
+<table class="table table-bordered" width="740px">
     <tr>
         @foreach($columns as $key => $val)
         <td>{{ $val }}</td>
         @endforeach
-    </tr>    
+    </tr>
     @foreach($applicants as $applicant)
         @if($applicant->gender == "M")
             @php
@@ -104,7 +104,7 @@
         @endif
     @endforeach
 
-    @if ($emptylines<0) 
+    @if ($emptylines<0)
         @php
             $emptylines=5;
         @endphp
@@ -119,63 +119,63 @@
 </table>
 
 <h2 class="center">{{ $camp->fullName }} 報名報到暨宿舍安排單</h2>
-<table class="table table-bordered" width="100%" >
+<table class="table table-bordered" width="740px">
     <tr>
         <td>女生</td>
         <td>{{ $group }}組</td>
         <td>輔導員：</td>
-        <td>輔導員手機：</td>        
+        <td>輔導員手機：</td>
     </tr>
 </table>
 <h4>【住宿概況】</h4>
-<table class="table" width="100%" >
+<table class="table" width="740px">
     <tr>
         <td>棟別_戶別</td>
         <td>　</td><td>　</td>
         <td>　</td><td>　</td>
         <td>　</td><td>　</td>
         <td>　</td>
-        <td>總數</td>        
-    </tr>    
+        <td>總數</td>
+    </tr>
     <tr>
         <td>房號</td>
         <td>　</td><td>　</td>
         <td>　</td><td>　</td>
         <td>　</td><td>　</td>
-        <td>　</td><td>　</td>        
+        <td>　</td><td>　</td>
     </tr>
     <tr>
         <td>提供床位數(含預留)</td>
         <td>　</td><td>　</td>
         <td>　</td><td>　</td>
         <td>　</td><td>　</td>
-        <td>　</td><td>　</td>        
+        <td>　</td><td>　</td>
     </tr>
     <tr>
         <td>實際報到床位數</td>
         <td>　</td><td>　</td>
         <td>　</td><td>　</td>
         <td>　</td><td>　</td>
-        <td>　</td><td>　</td>        
+        <td>　</td><td>　</td>
     </tr>
     <tr>
         <td>空床數</td>
         <td>　</td><td>　</td>
         <td>　</td><td>　</td>
         <td>　</td><td>　</td>
-        <td>　</td><td>　</td>        
+        <td>　</td><td>　</td>
     </tr>
 </table>
 <h4>【報到暨床位安排】</h4>
 @php
     $emptylines = 20;
 @endphp
-<table class="table table-bordered" width="100%" >
+<table class="table table-bordered" width="740px">
     <tr>
         @foreach($columns as $key => $val)
         <td>{{ $val }}</td>
         @endforeach
-    </tr>    
+    </tr>
     @foreach($applicants as $applicant)
         @if($applicant->gender == "F")
             @php
@@ -195,7 +195,7 @@
         @endif
     @endforeach
 
-    @if ($emptylines<0) 
+    @if ($emptylines<0)
         @php
             $emptylines=5;
         @endphp
