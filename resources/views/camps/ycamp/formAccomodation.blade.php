@@ -1,4 +1,9 @@
 <style>
+    @font-face {
+        font-family: 'msjh';
+        font-style: normal;
+        src: url('{{ storage_path('fonts/msjh.ttf') }}') format('truetype');
+    }
     .table, table.table td{
         border: 1px solid black;
         border-collapse: collapse;
@@ -28,7 +33,7 @@
 {{--
 <a href="{{ route('showPaymentForm', [$applicant->batch->camp_id, $applicant->id]) }}?download=1" target="_blank">下載繳費單</a>
 --}}
-<h2 style="font-family: 'msjh'"><center>{{ $camp->fullName }} 報名報到暨宿舍安排單</center></h2>
+<h2 class="center">{{ $camp->fullName }} 報名報到暨宿舍安排單</h2>
 <table class="table table-bordered" width="740px">
     <tr>
         <td>男生</td>
