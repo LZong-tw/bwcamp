@@ -43,7 +43,7 @@
     </style>
 </head>
 <body>
-{{-- 在正式環境用  h 系列標籤，中文字型會壞掉 --}}
+{{-- 在正式環境用 h 系列標籤，中文字型會壞掉 --}}
 <a style="font-family: 'msjh'">財團法人福智文教基金會</a>
 <p style="float:right; clear: both; margin-top:180px; margin-right: -6px">代</p>
 <p style="float:right; clear: both; margin-top:210px; margin-right: -6px">收</p>
