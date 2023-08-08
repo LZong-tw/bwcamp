@@ -15,6 +15,7 @@
         padding:15px;
         height:297mm;
         width:210mm;
+        font-family: "msjh", sans-serif !important;
     }
     .right{
         float: right;
@@ -27,7 +28,7 @@
 {{--
 <a href="{{ route('showPaymentForm', [$applicant->batch->camp_id, $applicant->id]) }}?download=1" target="_blank">下載繳費單</a>
 --}}
-<h2 class="center" style="font-family: 'msjh'">{{ $camp->fullName }} 報名報到暨宿舍安排單</h2>
+<h2 class="center">{{ $camp->fullName }} 報名報到暨宿舍安排單</h2>
 <table class="table table-bordered" width="740px">
     <tr>
         <td>男生</td>
