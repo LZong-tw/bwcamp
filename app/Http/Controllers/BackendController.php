@@ -1064,6 +1064,7 @@ class BackendController extends Controller
         )->join('traffic', 'traffic'.'.applicant_id', '=', 'applicants.id')
         //->where('traffic'.'.depart_from', '<>', '自往')
         ->whereIn('batch_id', $batch_ids)
+        ->where('is_attend', 1)
         ->groupBy('traffic_depart')->get();
 
         $traffic_return = Applicant::select(
@@ -1071,6 +1072,7 @@ class BackendController extends Controller
         )->join('traffic', 'traffic'.'.applicant_id', '=', 'applicants.id')
         //->where('traffic'.'.back_to', '<>', '自回')
         ->whereIn('batch_id', $batch_ids)
+        ->where('is_attend', 1)
         ->groupBy('traffic_return')->get();
 
         return view('backend.in_camp.trafficList', compact('batches', 'applicants', 'traffic_depart', 'traffic_return', 'camp'));
