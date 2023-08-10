@@ -16,6 +16,7 @@
             <tr>
                 <th>地點</th>
                 <th>人數</th>
+                <th>動作</th>
             </tr>
             @php
                 $count_depart = 0;    
@@ -24,6 +25,8 @@
                 <tr>
                     <td>{{ $t->traffic_depart }}</td>
                     <td>{{ $t->count }}</td>
+                    <td><a href="{{ route("showTrafficListLoc", $campFullData->id) }}?batch_id={{ $batch->id }}&depart_from={{ $t->traffic_depart }}" class="btn btn-info">看名單</a>
+                    <a href="{{ route("showTrafficListLoc", $campFullData->id) }}?batch_id={{ $batch->id }}&depart_from={{ $t->traffic_depart }}" class="btn btn-warning">下載名單(待完成)</a></td>
                 </tr>
                 @php
                     $count_depart += $t->count;    
@@ -36,6 +39,7 @@
             <tr>
                 <th>地點</th>
                 <th>人數</th>
+                <th>動作</th>
             </tr>
             @php
                 $count_return = 0;    
@@ -44,6 +48,8 @@
                 <tr>
                     <td>{{ $t->traffic_return }}</td>
                     <td>{{ $t->count }}</td>
+                    <td><a href="{{ route("showTrafficListLoc", $campFullData->id) }}?batch_id={{ $batch->id }}&depart_from={{ $t->traffic_return }}" class="btn btn-info">看名單</a>
+                    <a href="{{ route("showTrafficListLoc", $campFullData->id) }}?batch_id={{ $batch->id }}&depart_from={{ $t->traffic_return }}" class="btn btn-warning">下載名單(待完成)</a></td>
                 </tr>
                 @php
                     $count_return += $t->count;    

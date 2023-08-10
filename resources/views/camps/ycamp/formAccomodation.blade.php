@@ -7,14 +7,14 @@
     .table, table.table td{
         border: 1px solid black;
         border-collapse: collapse;
-        padding: 10px;
+        padding: 8px;   //10px;
     }
     .center{
         text-align: center;
     }
     .padding{
-        padding-top: 6px;  //10
-        padding-left: 6px;  //10
+        padding-top: 6px;  //10px;
+        padding-left: 6px;  //10px;
     }
     html,body{
         padding:15px;
@@ -86,7 +86,7 @@
 {{-- 在正式環境用 h 系列標籤，中文字型會壞掉 --}}
 <a style="font-size: 1em;">【報到暨床位安排】</a>
 @php
-    $emptylines = 20;
+    $emptylines = 18;
 @endphp
 <table class="table table-bordered" width="740px">
     <tr>
@@ -121,7 +121,11 @@
     @for($l = 0; $l < $emptylines; $l++)
     <tr>
         @foreach($columns as $key => $val)
-            <td>　</td>
+                @if($key == "admitted_no")
+                <td>{{ $applicant->group }}</td>
+                @else
+                <td>　</td>
+                @endif
         @endforeach
     </tr>
     @endfor
@@ -179,7 +183,7 @@
 {{-- 在正式環境用 h 系列標籤，中文字型會壞掉 --}}
 <a style="font-size: 1em;">【報到暨床位安排】</a>
 @php
-    $emptylines = 20;
+    $emptylines = 18;
 @endphp
 <table class="table table-bordered" width="740px">
     <tr>
@@ -214,7 +218,11 @@
     @for($l = 0; $l < $emptylines; $l++)
     <tr>
         @foreach($columns as $key => $val)
-            <td>　</td>
+                @if($key == "admitted_no")
+                <td>{{ $applicant->group }}</td>
+                @else
+                <td>　</td>
+                @endif
         @endforeach
     </tr>
     @endfor
