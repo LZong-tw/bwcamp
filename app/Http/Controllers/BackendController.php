@@ -1049,7 +1049,7 @@ class BackendController extends Controller
         return back();
     }
 
-    public function showTrafficList()
+    public function showTrafficList(Request $request)
     {
         $camp = $this->campFullData->table;
         $batches = $this->campFullData->batchs;
@@ -1076,6 +1076,53 @@ class BackendController extends Controller
         ->groupBy('traffic_return')->get();
 
         return view('backend.in_camp.trafficList', compact('batches', 'applicants', 'traffic_depart', 'traffic_return', 'camp'));
+    }
+
+    public function showTrafficListLoc(Request $request)
+    {
+        if (!$this->isVcamp && !$this->user->canAccessResource(new \App\Models\Applicant(), 'read', $this->campFullData, 'onlyCheckAvailability') && $this->user->id > 2) {
+            return "<h3>沒有權限：瀏覽任何學員</h3>";
+        }
+        if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer(), 'read', Vcamp::find($this->campFullData->id)->mainCamp, 'onlyCheckAvailability') && $this->user->id > 2) {
+            return "<h3>沒有權限：瀏覽任何義工</h3>";
+        }
+        $batch_id = $_GET['batch_id'] ?? null;
+        $depart_from = $_GET['depart_from'] ?? null;
+        $back_to = $_GET['back_to'] ?? null;
+
+        if($depart_from) {
+            $applicants = Applicant::select('Applicants.*')
+            ->join('traffic', 'traffic'.'.applicant_id', '=', 'applicants.id')
+            ->where('batch_id', $batch_id)
+            ->where('is_attend', 1)
+            ->where('depart_from', $depart_from)
+            ->get();
+        }
+        if($back_to) {
+            $applicants = Applicant::select('Applicants.*')
+            ->join('traffic', 'traffic'.'.applicant_id', '=', 'applicants.id')
+            ->where('batch_id', $batch_id)
+            ->where('is_attend', 1)
+            ->where('back_to', $back_to)
+            ->get();
+        }
+        $applicants = $applicants->sortBy([
+                                    ['groupRelation.alias', 'asc'],
+                                    ['numberRelation.number', 'asc'],
+                                    ['is_paid', 'desc']
+                                ])->values();
+        //dd($applicants);
+        $batch = Batch::find($batch_id);
+        $camp_name = $batch->camp->abbreviation;
+        $batch_name = $batch->name;
+        if ($depart_from) {
+            $direction = "去程";
+            $location = $depart_from;
+        } else {
+            $direction = "回程";
+            $location = $back_to;
+        }
+        return view('backend.in_camp.trafficListLoc', compact('camp_name', 'batch_name','direction','location','applicants'));
     }
 
     public function showVolunteerPhoto(Request $request)

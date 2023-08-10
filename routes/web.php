@@ -179,6 +179,7 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
     Route::get("/registration/group/{batch_id}/{group}", "BackendController@showGroup")->name("showGroup");
     Route::get("/registration/section/{org_id}", "BackendController@showSection")->name("showSection");
     Route::get("/inCamp/trafficList", "BackendController@showTrafficList")->name("showTrafficList");
+    Route::get("/inCamp/trafficListLoc", "BackendController@showTrafficListLoc")->name("showTrafficListLoc");
     Route::get("/inCamp/volunteerPhoto", "BackendController@showVolunteerPhoto")->name("showVolunteerPhoto");
 
     Route::get("/inCamp/queryAttendee", "BackendController@queryAttendee")->name("queryAttendee");
