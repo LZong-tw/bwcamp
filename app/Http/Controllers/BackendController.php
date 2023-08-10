@@ -1091,7 +1091,7 @@ class BackendController extends Controller
         $back_to = $_GET['back_to'] ?? null;
 
         if($depart_from) {
-            $applicants = Applicant::select('Applicants.*')
+            $applicants = Applicant::select('applicants.*')
             ->join('traffic', 'traffic'.'.applicant_id', '=', 'applicants.id')
             ->where('batch_id', $batch_id)
             ->where('is_attend', 1)
