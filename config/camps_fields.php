@@ -490,7 +490,7 @@ return [
 
     'form_contact' => [
         "ycamp" => [
-            "emptys" => "確認",
+            "empty" => "確認",
             "admitted_no" => "錄取編號",
             "name" => "姓名",
             "gender" => "性別",
@@ -505,7 +505,7 @@ return [
     //交通確認表(各組)
     'form_traffic_confirm' => [
         "ycamp" => [
-            "emptys" => "確認",
+            "empty" => "確認",
             "admitted_no" => "錄取編號",
             "name" => "姓名",
             "depart_from" => "去程交通",
@@ -524,8 +524,9 @@ return [
             "back_to" => "回程交通",
             "fare" => "應交車資",
             "deposit" => "已交車資",
-            "is_cash" => "現金繳納",
+            "cash" => "現金繳納",
             "is_attend" => "參加意願",
+            "is_checkin" => "是否報到",
             "notes" => "備註",              //非remark
             "applicant_id" => "報名序號",
         ],
@@ -535,7 +536,7 @@ return [
     'form_traffic_loc' => [
         "ycamp" => [
             "no" => "編號",
-            "emptys" => "簽到",
+            "empty" => "簽到",
             "admitted_no" => "錄取編號",
             "name" => "姓名",
             "gender" => "性別",
