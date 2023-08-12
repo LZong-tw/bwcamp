@@ -49,10 +49,19 @@
             <td>男</td>
             @elseif($key == "gender" && $applicant->$key == "F")
             <td>女</td>
-            @elseif($key == "depart_from" || $key == "back_to" || $key == "fare" || $key == "deposit" )
+            @elseif($key == "deposit")
+                {{-- use traffic.deposit --}}
+                @if(isset($applicant->traffic->$key))
+                <td>{{ $applicant->traffic->$key }}</td>
+                @else
+                <td></td>
+                @endif
+            @elseif(isset($applicant->$key))
+            <td>{{ $applicant->$key }}</td>
+            @elseif(isset($applicant->traffic->$key))
             <td>{{ $applicant->traffic->$key }}</td>
             @else
-            <td>{{ $applicant->$key }}</td>
+            <td></td>
             @endif
         @endforeach
     </tr>

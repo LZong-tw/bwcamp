@@ -882,17 +882,17 @@ class BackendController extends Controller
             $columns = config('camps_fields.form_accomodation.' . $this->campFullData->table) ?? [];
             $camp = $this->campFullData;
             //return view('camps.' . $this->campFullData->table . '.formAccomodation', compact( 'camp','group','applicants','columns'));
-            return \PDF::loadView('camps.' . $this->campFullData->table . '.formAccomodation', compact( 'camp','group','applicants','columns'))->setPaper('a3')->download(Carbon::now()->format('YmdHis') . $this->campFullData->table . $group . 'Accomodation.pdf');
+            return \PDF::loadView('camps.' . $this->campFullData->table . '.formAccomodation', compact( 'camp','group','applicants','columns'))->setPaper('a3')->download($this->campFullData->table . $group .'Accomodation'. Carbon::now()->format('YmdHis') . '.pdf');
         } elseif (isset($request->download)&&$template==3) {
             $columns = config('camps_fields.form_contact.' . $this->campFullData->table) ?? [];
             $camp = $this->campFullData;
             //return view('camps.' . $this->campFullData->table . '.formContact', compact( 'camp','group','applicants','columns'));
-            return \PDF::loadView('camps.' . $this->campFullData->table . '.formContact', compact( 'camp','group','applicants','columns'))->setPaper('a3','landscape')->download(Carbon::now()->format('YmdHis') . $this->campFullData->table . $group . 'Contact.pdf');
+            return \PDF::loadView('camps.' . $this->campFullData->table . '.formContact', compact( 'camp','group','applicants','columns'))->setPaper('a3','landscape')->download($this->campFullData->table . $group .'Contact'. Carbon::now()->format('YmdHis') .'.pdf');
         } elseif (isset($request->download)&&$template==4) {
             $columns = config('camps_fields.form_traffic_confirm.' . $this->campFullData->table) ?? [];
             $camp = $this->campFullData;
             //return view('camps.' . $this->campFullData->table . '.formTraffic', compact( 'camp','group','applicants','columns'));
-            return \PDF::loadView('camps.' . $this->campFullData->table . '.formTraffic', compact( 'camp','group','applicants','columns'))->setPaper('a3')->download(Carbon::now()->format('YmdHis') . $this->campFullData->table . $group . 'Traffic.pdf');
+            return \PDF::loadView('camps.' . $this->campFullData->table . '.formTraffic', compact( 'camp','group','applicants','columns'))->setPaper('a3')->download($this->campFullData->table . $group .'Traffic'. Carbon::now()->format('YmdHis') .'.pdf');
         }
 
         if(isset($request->download)) {
@@ -1069,19 +1069,22 @@ class BackendController extends Controller
         //download one batch_id
         if ($download) {
             //取消但有繳費也要篩進來因為要對帳
-            $applicants = Applicant::select('applicants.*')
-            ->join('traffic', 'traffic'.'.applicant_id', '=', 'applicants.id')
+            $applicants = Applicant::has('traffic')
+            ->with('traffic')
             ->where('batch_id', $batch_id)
+            ->where('is_admitted', 1)
             ->get();
-            
             $applicants = $applicants->sortBy([
                                         ['groupRelation.alias', 'asc'],
                                         ['numberRelation.number', 'asc'],
-                                        ['is_paid', 'desc']
+                                        //['is_paid', 'desc']
                                     ])->values();
-
             $batch = Batch::find($batch_id);
             $columns = config('camps_fields.form_traffic.' . $this->campFullData->table) ?? [];
+
+            //$applicant1 = Applicant::find('19374');
+            //$applicant1 = Applicant::find('16973');
+            //dd($applicant1->checkInData->first()->check_in_date);
 
             $fileName = $this->campFullData->abbreviation . $batch->name . "梯車資繳納明細" . Carbon::now()->format('YmdHis') . '.csv';
             $headers = array(
@@ -1093,7 +1096,7 @@ class BackendController extends Controller
                     "Expires"             => "0"
             );    
 
-            $callback = function () use ($applicants,$columns) {
+            $callback = function () use ($applicants,$columns,$batch) {
                 $file = fopen('php://output', 'w');
                 // 先寫入此三個字元使 Excel 能正確辨認編碼為 UTF-8
                 // http://jeiworld.blogspot.com/2009/09/phpexcelutf-8csv.html
@@ -1106,8 +1109,14 @@ class BackendController extends Controller
                         $data = null;
                         if($key == "admitted_no") {
                             $data = $applicant->group . $applicant->number;
+                        } elseif($key == "is_checkin") {
+                            if (isset($applicant->checkInData->first()->check_in_date))
+                                    $data = 1;                            
                         } else {
-                            $data = $applicant->$key;
+                            if (isset($applicant->$key))
+                                $data = $applicant->$key;
+                            else
+                                $data = $applicant->traffic->$key;
                         }
                         $rows[] = '="' . $data . '"';
                     }
