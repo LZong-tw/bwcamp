@@ -502,7 +502,8 @@ return [
         ],
     ],
 
-    'form_traffic' => [
+    //交通確認表(各組)
+    'form_traffic_confirm' => [
         "ycamp" => [
             "emptys" => "確認",
             "admitted_no" => "錄取編號",
@@ -510,6 +511,35 @@ return [
             "depart_from" => "去程交通",
             "back_to" => "回程交通",
             "fare" => "應交車資",
+            "deposit" => "已交車資",
+        ],
+    ],
+
+    //交通總表
+    'form_traffic' => [
+        "ycamp" => [
+            "admitted_no" => "錄取編號",
+            "name" => "姓名",
+            "depart_from" => "去程交通",
+            "back_to" => "回程交通",
+            "fare" => "應交車資",
+            "deposit" => "已交車資",
+            "is_cash" => "現金繳納",
+            "is_attend" => "參加意願",
+            "notes" => "備註",              //非remark
+            "applicant_id" => "報名序號",
+        ],
+    ],
+
+    //搭車表(各上車處)
+    'form_traffic_loc' => [
+        "ycamp" => [
+            "no" => "編號",
+            "emptys" => "簽到",
+            "admitted_no" => "錄取編號",
+            "name" => "姓名",
+            "gender" => "性別",
+            "mobile" => "手機",
             "deposit" => "已交車資",
         ],
     ],

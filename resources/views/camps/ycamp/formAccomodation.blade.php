@@ -29,6 +29,9 @@
     u{
         color: red;
     }
+    .page-break {
+        page-break-after: always;
+    }
 </style>
 {{--
 <a href="{{ route('showPaymentForm', [$applicant->batch->camp_id, $applicant->id]) }}?download=1" target="_blank">下載繳費單</a>
@@ -130,6 +133,7 @@
     </tr>
     @endfor
 </table>
+<div class="page-break"></div>
 {{-- 在正式環境用 h 系列標籤，中文字型會壞掉 --}}
 <a style="font-size: 2em;">{{ $camp->fullName }} 報名報到暨宿舍安排單</a>
 <table class="table table-bordered" width="740px">
