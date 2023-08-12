@@ -98,7 +98,7 @@ class SheetController extends Controller
     {
         config([
             'google.post_spreadsheet_id' => '1g6gvbuLeEXz8W4QtMLPGhMpZ_u_Mu73OfmR3ems_9SI',
-            'google.post_sheet_id' => '0729',
+            'google.post_sheet_id' => '0812',
         ]);
         $camp = Camp::find($request->camp_id);
         $table = $camp->table;
@@ -122,6 +122,7 @@ class SheetController extends Controller
 
             if ($applicant) {   //if exist, update
                 $applicant->group_id = $title_data['group_id'];
+                $applicant->region = $title_data['region'];
                 $applicant->save();
                 $fail_count++;
             } else {            //create new
