@@ -1,20 +1,26 @@
 <style>
+    @font-face {
+        font-family: 'msjh';
+        font-style: normal;
+        src: url('{{ storage_path('fonts/msjh.ttf') }}') format('truetype');
+    }
     .table, table.table td{
         border: 1px solid black;
         border-collapse: collapse;
-        padding: 10px;
+        padding: 8px;   //10px;
     }
     .center{
         text-align: center;
     }
     .padding{
-        padding-top: 10px;
-        padding-left: 10px;
+        padding-top: 6px;  //10px;
+        padding-left: 6px;  //10px;
     }
     html,body{
         padding:15px;
         height:297mm;
         width:210mm;
+        font-family: "msjh", sans-serif !important;
     }
     .right{
         float: right;
@@ -27,8 +33,9 @@
 {{--
 <a href="{{ route('showPaymentForm', [$applicant->batch->camp_id, $applicant->id]) }}?download=1" target="_blank">下載繳費單</a>
 --}}
-<h2 class="center">{{ $camp->fullName }} 通訊資料確認表</h2>
-<table class="table table-bordered" width="100%" >
+{{-- 在正式環境用 h 系列標籤，中文字型會壞掉；portrait 740px；landscape 740x1.414=1046px--}}
+<a style="font-size: 2em;">{{ $camp->fullName }} 通訊資料確認表</a>
+<table class="table table-bordered" width="1046px">
     <tr>
         @foreach($columns as $key => $val)
         <td>{{ $val }}</td>

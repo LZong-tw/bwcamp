@@ -8,7 +8,7 @@
             color: #33B2FF!important;
         }
     </style>
-    <h2>{{ $camp_name }}{{ $batch_name }}梯〈{{ $direction }}〉〈{{ $location }}〉交通名單</h2>
+    <h2>{{ $camp->abbreviation }}{{ $batch->name }}梯〈{{ $direction }}〉〈{{ $location }}〉交通名單</h2>
         @php
             $count=1;
         @endphp

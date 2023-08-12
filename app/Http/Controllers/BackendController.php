@@ -751,6 +751,7 @@ class BackendController extends Controller
                                         $query->whereNotNull('number_id');
                                     }
                                 })->groupBy('region')->get();
+            //dd($batch->regions);
             foreach($batch->regions as &$region) {
                 $region->groups = Applicant::select('group_id', \DB::raw('count(*) as groupApplicantsCount'))
                     ->join('applicants_groups','applicants_groups.id','=','applicants.group_id')
@@ -870,6 +871,30 @@ class BackendController extends Controller
                                     ['numberRelation.number', 'asc'],
                                     ['is_paid', 'desc']
                                 ])->values();
+
+        foreach ($applicants as $applicant) {
+            $applicant->id = $applicant->applicant_id;
+        }
+
+        $template = $request->template ?? 0;
+
+        if (isset($request->download)&&$template==2) {
+            $columns = config('camps_fields.form_accomodation.' . $this->campFullData->table) ?? [];
+            $camp = $this->campFullData;
+            //return view('camps.' . $this->campFullData->table . '.formAccomodation', compact( 'camp','group','applicants','columns'));
+            return \PDF::loadView('camps.' . $this->campFullData->table . '.formAccomodation', compact( 'camp','group','applicants','columns'))->setPaper('a3')->download(Carbon::now()->format('YmdHis') . $this->campFullData->table . $group . 'Accomodation.pdf');
+        } elseif (isset($request->download)&&$template==3) {
+            $columns = config('camps_fields.form_contact.' . $this->campFullData->table) ?? [];
+            $camp = $this->campFullData;
+            //return view('camps.' . $this->campFullData->table . '.formContact', compact( 'camp','group','applicants','columns'));
+            return \PDF::loadView('camps.' . $this->campFullData->table . '.formContact', compact( 'camp','group','applicants','columns'))->setPaper('a3','landscape')->download(Carbon::now()->format('YmdHis') . $this->campFullData->table . $group . 'Contact.pdf');
+        } elseif (isset($request->download)&&$template==4) {
+            $columns = config('camps_fields.form_traffic_confirm.' . $this->campFullData->table) ?? [];
+            $camp = $this->campFullData;
+            //return view('camps.' . $this->campFullData->table . '.formTraffic', compact( 'camp','group','applicants','columns'));
+            return \PDF::loadView('camps.' . $this->campFullData->table . '.formTraffic', compact( 'camp','group','applicants','columns'))->setPaper('a3')->download(Carbon::now()->format('YmdHis') . $this->campFullData->table . $group . 'Traffic.pdf');
+        }
+
         if(isset($request->download)) {
             $fileName = $this->campFullData->abbreviation . $group . "組名單" . Carbon::now()->format('YmdHis') . '.csv';
             $headers = array(
@@ -880,28 +905,6 @@ class BackendController extends Controller
                 "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
                 "Expires"             => "0"
             );
-
-            $template = $request->template ?? 0;
-
-            foreach ($applicants as $applicant) {
-                $applicant->id = $applicant->applicant_id;
-            }
-
-            if ($template==2) {
-                $columns = config('camps_fields.form_accomodation.' . $this->campFullData->table) ?? [];
-                $camp = $this->campFullData;
-                //return view('camps.' . $this->campFullData->table . '.formAccomodation', compact( 'camp','group','applicants','columns'));
-                return \PDF::loadView('camps.' . $this->campFullData->table . '.formAccomodation', compact( 'camp','group','applicants','columns'))->setPaper('a3')->download(Carbon::now()->format('YmdHis') . $this->campFullData->table . $group . 'Accomodation.pdf');
-            } elseif ($template==3) {
-                $columns = config('camps_fields.form_contact.' . $this->campFullData->table) ?? [];
-                $camp = $this->campFullData;
-                return view('camps.' . $this->campFullData->table . '.formContact', compact( 'camp','group','applicants','columns'));
-            } elseif ($template==4) {
-                $columns = config('camps_fields.form_traffic.' . $this->campFullData->table) ?? [];
-                $camp = $this->campFullData;
-                //return view('camps.' . $this->campFullData->table . '.formTraffic', compact( 'camp','group','applicants','columns'));
-                return \PDF::loadView('camps.' . $this->campFullData->table . '.formTraffic', compact( 'camp','group','applicants','columns'))->setPaper('a3')->download(Carbon::now()->format('YmdHis') . $this->campFullData->table . $group . 'Traffic.pdf');
-            }
 
             $callback = function () use ($applicants, $template) {
                 $file = fopen('php://output', 'w');
@@ -1051,6 +1054,9 @@ class BackendController extends Controller
 
     public function showTrafficList(Request $request)
     {
+        $batch_id = $_GET['batch_id'] ?? null;
+        $download = $_GET['download'] ?? null;
+
         $camp = $this->campFullData->table;
         $batches = $this->campFullData->batchs;
         $batch_ids = $batches->pluck('id');
@@ -1059,23 +1065,77 @@ class BackendController extends Controller
         if(!\Schema::hasColumn($camp, 'traffic_depart') && $trafficData->count() == 0) {
             return "<h1>本次營隊沒有統計交通</h1>";
         }
-        $traffic_depart = Applicant::select(
-            \DB::raw('traffic'.'.depart_from as traffic_depart, count(*) as count')
-        )->join('traffic', 'traffic'.'.applicant_id', '=', 'applicants.id')
-        //->where('traffic'.'.depart_from', '<>', '自往')
-        ->whereIn('batch_id', $batch_ids)
-        ->where('is_attend', 1)
-        ->groupBy('traffic_depart')->get();
 
-        $traffic_return = Applicant::select(
-            \DB::raw('traffic'.'.back_to as traffic_return, count(*) as count')
-        )->join('traffic', 'traffic'.'.applicant_id', '=', 'applicants.id')
-        //->where('traffic'.'.back_to', '<>', '自回')
-        ->whereIn('batch_id', $batch_ids)
-        ->where('is_attend', 1)
-        ->groupBy('traffic_return')->get();
+        //download one batch_id
+        if ($download) {
+            //取消但有繳費也要篩進來因為要對帳
+            $applicants = Applicant::select('applicants.*')
+            ->join('traffic', 'traffic'.'.applicant_id', '=', 'applicants.id')
+            ->where('batch_id', $batch_id)
+            ->get();
+            
+            $applicants = $applicants->sortBy([
+                                        ['groupRelation.alias', 'asc'],
+                                        ['numberRelation.number', 'asc'],
+                                        ['is_paid', 'desc']
+                                    ])->values();
 
-        return view('backend.in_camp.trafficList', compact('batches', 'applicants', 'traffic_depart', 'traffic_return', 'camp'));
+            $batch = Batch::find($batch_id);
+            $columns = config('camps_fields.form_traffic.' . $this->campFullData->table) ?? [];
+
+            $fileName = $this->campFullData->abbreviation . $batch->name . "梯車資繳納明細" . Carbon::now()->format('YmdHis') . '.csv';
+            $headers = array(
+                    "Content-Encoding"    => "Big5",
+                    "Content-type"        => "text/csv; charset=big5",
+                    "Content-Disposition" => "attachment; filename=$fileName",
+                    "Pragma"              => "no-cache",
+                    "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+                    "Expires"             => "0"
+            );    
+
+            $callback = function () use ($applicants,$columns) {
+                $file = fopen('php://output', 'w');
+                // 先寫入此三個字元使 Excel 能正確辨認編碼為 UTF-8
+                // http://jeiworld.blogspot.com/2009/09/phpexcelutf-8csv.html
+                fwrite($file, "\xEF\xBB\xBF");
+                fputcsv($file, $columns);
+
+                foreach ($applicants as $applicant) {
+                    $rows = array();
+                    foreach($columns as $key => $v) {
+                        $data = null;
+                        if($key == "admitted_no") {
+                            $data = $applicant->group . $applicant->number;
+                        } else {
+                            $data = $applicant->$key;
+                        }
+                        $rows[] = '="' . $data . '"';
+                    }
+                    fputcsv($file, $rows);
+                }
+
+                fclose($file);
+            };
+            return response()->stream($callback, 200, $headers);
+        } else {
+            $traffic_depart = Applicant::select(
+                \DB::raw('traffic'.'.depart_from as traffic_depart, count(*) as count')
+            )->join('traffic', 'traffic'.'.applicant_id', '=', 'applicants.id')
+            //->where('traffic'.'.depart_from', '<>', '自往')
+            ->whereIn('batch_id', $batch_ids)
+            ->where('is_attend', 1)
+            ->groupBy('traffic_depart')->get();
+
+            $traffic_return = Applicant::select(
+                \DB::raw('traffic'.'.back_to as traffic_return, count(*) as count')
+            )->join('traffic', 'traffic'.'.applicant_id', '=', 'applicants.id')
+            //->where('traffic'.'.back_to', '<>', '自回')
+            ->whereIn('batch_id', $batch_ids)
+            ->where('is_attend', 1)
+            ->groupBy('traffic_return')->get();
+
+            return view('backend.in_camp.trafficList', compact('batches', 'applicants', 'traffic_depart', 'traffic_return', 'camp'));
+        }
     }
 
     public function showTrafficListLoc(Request $request)
@@ -1089,6 +1149,7 @@ class BackendController extends Controller
         $batch_id = $_GET['batch_id'] ?? null;
         $depart_from = $_GET['depart_from'] ?? null;
         $back_to = $_GET['back_to'] ?? null;
+        $download = $_GET['download'] ?? null;
 
         if($depart_from) {
             $applicants = Applicant::select('applicants.*')
@@ -1099,7 +1160,7 @@ class BackendController extends Controller
             ->get();
         }
         if($back_to) {
-            $applicants = Applicant::select('Applicants.*')
+            $applicants = Applicant::select('applicants.*')
             ->join('traffic', 'traffic'.'.applicant_id', '=', 'applicants.id')
             ->where('batch_id', $batch_id)
             ->where('is_attend', 1)
@@ -1111,10 +1172,8 @@ class BackendController extends Controller
                                     ['numberRelation.number', 'asc'],
                                     ['is_paid', 'desc']
                                 ])->values();
-        //dd($applicants);
         $batch = Batch::find($batch_id);
-        $camp_name = $batch->camp->abbreviation;
-        $batch_name = $batch->name;
+        $camp = $this->campFullData;
         if ($depart_from) {
             $direction = "去程";
             $location = $depart_from;
@@ -1122,7 +1181,52 @@ class BackendController extends Controller
             $direction = "回程";
             $location = $back_to;
         }
-        return view('backend.in_camp.trafficListLoc', compact('camp_name', 'batch_name','direction','location','applicants'));
+        $columns = config('camps_fields.form_traffic_loc.' . $this->campFullData->table) ?? [];
+
+        if ($download) {
+            $fileName = $this->campFullData->abbreviation . $batch->name . "梯" . $direction .$location . Carbon::now()->format('YmdHis') . '.csv';
+            $headers = array(
+                    "Content-Encoding"    => "Big5",
+                    "Content-type"        => "text/csv; charset=big5",
+                    "Content-Disposition" => "attachment; filename=$fileName",
+                    "Pragma"              => "no-cache",
+                    "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+                    "Expires"             => "0"
+            );    
+
+            $callback = function () use ($applicants,$columns) {
+                $file = fopen('php://output', 'w');
+                // 先寫入此三個字元使 Excel 能正確辨認編碼為 UTF-8
+                // http://jeiworld.blogspot.com/2009/09/phpexcelutf-8csv.html
+                fwrite($file, "\xEF\xBB\xBF");
+
+                fputcsv($file, $columns);
+                $count=1;
+                foreach ($applicants as $applicant) {
+                    $rows = array();
+                    foreach($columns as $key => $v) {
+                        $data = null;
+                        if($key == "admitted_no") {
+                            $data = $applicant->group . $applicant->number;
+                        } elseif($key == "no") {
+                            $data = $count;
+                            $count++;
+                        } else {
+                            $data = $applicant->$key;
+                        }
+                        $rows[] = '="' . $data . '"';
+                    }
+                    fputcsv($file, $rows);
+                }
+
+                fclose($file);
+            };
+            return response()->stream($callback, 200, $headers);
+
+
+        } else {
+            return view('backend.in_camp.trafficListLoc', compact('camp','batch','direction','location','applicants','columns'));
+        }
     }
 
     public function showVolunteerPhoto(Request $request)
