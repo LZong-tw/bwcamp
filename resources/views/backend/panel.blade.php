@@ -181,7 +181,7 @@
                             <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">修改繳費資料</a>
                         </li>
                         <li>
-                            <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">設定取消參加</a>
+                            <a href="{{ route("modifyAttendGET", $campFullData->id) }}">設定取消參加</a>
                         </li>
                     </ul>
                 </li>
