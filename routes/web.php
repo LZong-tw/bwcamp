@@ -162,6 +162,7 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
     Route::get("/registration/showPaymentForm/{applicant_id}", "BackendController@showPaymentForm")->name("showPaymentForm");
     Route::get("/registration/batchAdmission", "BackendController@batchAdmission")->name("batchAdmissionGET");
     Route::post("/registration/showCandidate", "BackendController@showCandidate")->name("showCandidate");
+    Route::get("/registration/showCandidate", "BackendController@showCandidate")->name("showCandidateGET");
     Route::post("/registration/showBatchCandidate", "BackendController@showBatchCandidate")->name("showBatchCandidate");
     Route::post("/registration/admission", "BackendController@admission")->name("admission");
     Route::post("/registration/batchAdmission", "BackendController@batchAdmission")->name("batchAdmission");
@@ -178,6 +179,7 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
     Route::get("/registration/showNotAdmitted", "BackendController@showNotAdmitted")->name("showNotAdmitted");
     Route::get("/registration/group/{batch_id}/{group}", "BackendController@showGroup")->name("showGroup");
     Route::get("/registration/section/{org_id}", "BackendController@showSection")->name("showSection");
+    Route::get("/registration/modifyAttend", "BackendController@modifyAttend")->name("modifyAttendGET");
     Route::get("/inCamp/trafficList", "BackendController@showTrafficList")->name("showTrafficList");
     Route::get("/inCamp/trafficListLoc", "BackendController@showTrafficListLoc")->name("showTrafficListLoc");
     Route::get("/inCamp/volunteerPhoto", "BackendController@showVolunteerPhoto")->name("showVolunteerPhoto");

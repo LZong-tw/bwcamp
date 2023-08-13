@@ -345,11 +345,18 @@ class BackendController extends Controller
             $batches = Batch::where('camp_id', $this->campFullData->id)->get();
             return view('backend.registration.changeBatchOrRegionForm', compact('candidate', 'batches'));
         }
-
+        //修改繳費資料/現場手動繳費
         if(\Str::contains(request()->headers->get('referer'), 'accounting')) {
             $candidate = $this->applicantService->checkPaymentStatus($candidate);
             return view('backend.modifyAccounting', ['applicant' => $candidate]);
         }
+        //設定取消參加
+        //dd($request);
+        if(\Str::contains(request()->headers->get('referer'), 'modifyAttend') || $request->isMethod("GET")) {
+            $candidate = $this->applicantService->checkPaymentStatus($candidate);
+            return view('backend.modifyAttend', ['applicant' => $candidate]);
+        }
+
         return view('backend.registration.showCandidate', compact('candidate'));
     }
 
@@ -1875,19 +1882,73 @@ class BackendController extends Controller
         if ($request->isMethod('POST')) {
             $applicant = Applicant::find($request->id);
             $admitted_sn = $applicant->group.$applicant->number;
-            if($admitted_sn == $request->double_check || $applicant->id == $request->double_check) {
-                $applicant->deposit = $applicant->fee;
-                $applicant->save();
-                $applicant = $this->applicantService->checkPaymentStatus($applicant);
-                $message = "繳費完成 / 已繳金額設定完成。";
+            //dd($request->cash);
+            if($this->campFullData->table == 'ycamp' && $request->cash>0) {
+                $traffic = $applicant->traffic;
+                if ($request->is_add == 'add')
+                    $traffic->cash = $traffic->cash + $request->cash;
+                else
+                    $traffic->cash = $request->cash;
+                $traffic->sum = $traffic->deposit + $traffic->cash;
+                $traffic->save();
+                $message = "手動繳費完成。";
                 return view("backend.modifyAccounting", compact("applicant", "message"));
             } else {
-                $error = "報名序號錯誤。";
-                $applicant = $this->applicantService->checkPaymentStatus($applicant);
-                return view("backend.modifyAccounting", compact("applicant", "error"));
+                if($admitted_sn == $request->double_check || $applicant->id == $request->double_check) {
+                    $applicant->deposit = $applicant->fee;
+                    $applicant->save();
+                    $applicant = $this->applicantService->checkPaymentStatus($applicant);
+                    $message = "繳費完成 / 已繳金額設定完成。";
+                    return view("backend.modifyAccounting", compact("applicant", "message"));
+                } else {
+                    $error = "報名序號錯誤。";
+                    $applicant = $this->applicantService->checkPaymentStatus($applicant);
+                    return view("backend.modifyAccounting", compact("applicant", "error"));
+                }
             }
         }
-        return view("backend.findAccounting");
+        else { //$request->isMethod('GET')
+            $title = "現場手動繳費 / 修改繳費資料";
+            $campFullData = $this->campFullData;
+            return view("backend.findApplicant",compact("campFullData","title"));
+        }
+    }
+
+    public function modifyAttend(Request $request)
+    {
+        if ($request->isMethod('POST')) {
+            $applicant = Applicant::find($request->id);
+            $admitted_sn = $applicant->group.$applicant->number;
+            //dd($request->cash);
+            if($this->campFullData->table == 'ycamp' && $request->cash>0) {
+                $traffic = $applicant->traffic;
+                if ($request->is_add == 'add')
+                    $traffic->cash = $traffic->cash + $request->cash;
+                else
+                    $traffic->cash = $request->cash;
+                $traffic->sum = $traffic->deposit + $traffic->cash;
+                $traffic->save();
+                $message = "手動繳費完成。";
+                return view("backend.modifyAccounting", compact("applicant", "message"));
+            } else {
+                if($admitted_sn == $request->double_check || $applicant->id == $request->double_check) {
+                    $applicant->deposit = $applicant->fee;
+                    $applicant->save();
+                    $applicant = $this->applicantService->checkPaymentStatus($applicant);
+                    $message = "繳費完成 / 已繳金額設定完成。";
+                    return view("backend.modifyAccounting", compact("applicant", "message"));
+                } else {
+                    $error = "報名序號錯誤。";
+                    $applicant = $this->applicantService->checkPaymentStatus($applicant);
+                    return view("backend.modifyAccounting", compact("applicant", "error"));
+                }
+            }
+        }
+        else { //$request->isMethod('GET')
+            $title = "設定取消參加";
+            $campFullData = $this->campFullData;
+            return view("backend.findApplicant",compact("campFullData","title"));
+        }
     }
 
     public function customMail(Request $request)
