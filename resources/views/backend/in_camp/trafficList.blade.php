@@ -48,8 +48,8 @@
                 <tr>
                     <td>{{ $t->traffic_return }}</td>
                     <td>{{ $t->count }}</td>
-                    <td><a href="{{ route("showTrafficListLoc", $campFullData->id) }}?batch_id={{ $batch->id }}&depart_from={{ $t->traffic_return }}&download=0" class="btn btn-info">看名單</a>
-                    <a href="{{ route("showTrafficListLoc", $campFullData->id) }}?batch_id={{ $batch->id }}&depart_from={{ $t->traffic_return }}&download=1" class="btn btn-warning">下載名單</a></td>
+                    <td><a href="{{ route("showTrafficListLoc", $campFullData->id) }}?batch_id={{ $batch->id }}&back_to={{ $t->traffic_return }}&download=0" class="btn btn-info">看名單</a>
+                    <a href="{{ route("showTrafficListLoc", $campFullData->id) }}?batch_id={{ $batch->id }}&back_to={{ $t->traffic_return }}&download=1" class="btn btn-warning">下載名單</a></td>
                 </tr>
                 @php
                     $count_return += $t->count;    
