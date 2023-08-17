@@ -863,6 +863,7 @@ class BackendController extends Controller
                             }
                         })
                         ->get();
+
         foreach($applicants as $applicant) {
             if($applicant->fee > 0) {
                 if($applicant->fee - $applicant->deposit <= 0) {
@@ -873,34 +874,49 @@ class BackendController extends Controller
             } else {
                 $applicant->is_paid = "無費用";
             }
+            $applicant->id = $applicant->applicant_id;
+            $applicant = $this->applicantService->Mandarization($applicant);    //M/F->男/女
+            //是否報到
+            if (isset($applicant->checkInData->first()->check_in_date))
+                $applicant->is_checkin = 1;
+            else
+                $applicant->is_checkin = 0;
         }
+
         $applicants = $applicants->sortBy([
                                     ['groupRelation.alias', 'asc'],
                                     ['numberRelation.number', 'asc'],
                                     ['is_paid', 'desc']
                                 ])->values();
 
-        foreach ($applicants as $applicant) {
-            $applicant->id = $applicant->applicant_id;
-        }
-
         $template = $request->template ?? 0;
+        $camp = $this->campFullData;
 
         if (isset($request->download)&&$template==2) {
+            $form_title = "報名報到暨宿舍安排單";
+            $form_width = "740px";  //portrait
             $columns = config('camps_fields.form_accomodation.' . $this->campFullData->table) ?? [];
-            $camp = $this->campFullData;
-            //return view('camps.' . $this->campFullData->table . '.formAccomodation', compact( 'camp','group','applicants','columns'));
-            return \PDF::loadView('camps.' . $this->campFullData->table . '.formAccomodation', compact( 'camp','group','applicants','columns'))->setPaper('a3')->download($this->campFullData->table . $group .'Accomodation'. Carbon::now()->format('YmdHis') . '.pdf');
+            //return view('camps.' . $this->campFullData->table . '.formAccomodation', compact( 'form_title','form_width','columns','camp','group','applicants'));
+            return \PDF::loadView('camps.' . $this->campFullData->table . '.formAccomodation', compact('form_title','form_width','columns','camp','group','applicants'))->setPaper('a3')->download($this->campFullData->table . $group . $form_title . Carbon::now()->format('YmdHis') . '.pdf');
         } elseif (isset($request->download)&&$template==3) {
+            $form_title = "通訊資料確認表";
+            $form_width = "1046px"; //landscape
             $columns = config('camps_fields.form_contact.' . $this->campFullData->table) ?? [];
-            $camp = $this->campFullData;
-            //return view('camps.' . $this->campFullData->table . '.formContact', compact( 'camp','group','applicants','columns'));
-            return \PDF::loadView('camps.' . $this->campFullData->table . '.formContact', compact( 'camp','group','applicants','columns'))->setPaper('a3','landscape')->download($this->campFullData->table . $group .'Contact'. Carbon::now()->format('YmdHis') .'.pdf');
+            //return view('camps.' . $this->campFullData->table . '.formContact', compact('form_title','form_width','columns','camp','group','applicants'));
+            return \PDF::loadView('camps.' . $this->campFullData->table . '.formGroup', compact( 'form_title','form_width','columns','camp','group','applicants'))->setPaper('a3','landscape')->download($this->campFullData->table . $group . $form_title . Carbon::now()->format('YmdHis') .'.pdf');
         } elseif (isset($request->download)&&$template==4) {
+            $form_title = "回程交通確認表";
+            $form_width = "740px";  //portrait
             $columns = config('camps_fields.form_traffic_confirm.' . $this->campFullData->table) ?? [];
-            $camp = $this->campFullData;
-            //return view('camps.' . $this->campFullData->table . '.formTraffic', compact( 'camp','group','applicants','columns'));
-            return \PDF::loadView('camps.' . $this->campFullData->table . '.formTraffic', compact( 'camp','group','applicants','columns'))->setPaper('a3')->download($this->campFullData->table . $group .'Traffic'. Carbon::now()->format('YmdHis') .'.pdf');
+            //return view('camps.' . $this->campFullData->table . '.formTraffic', compact('form_title','form_width','columns','camp','group','applicants'));
+            return \PDF::loadView('camps.' . $this->campFullData->table . '.formGroup', compact( 'form_title','form_width','columns','camp','group','applicants'))->setPaper('a3')->download($this->campFullData->table . $group . $form_title . Carbon::now()->format('YmdHis') .'.pdf');
+        } elseif (isset($request->download)&&$template==5) {
+            $form_title = "報到學員名單";
+            $form_width = "740px";  //portrait
+            $columns = config('camps_fields.form_checkin.' . $this->campFullData->table) ?? [];
+
+            //return view('camps.' . $this->campFullData->table . '.formGroup', compact('form_title','form_width','columns','camp','group','applicants'));
+            return \PDF::loadView('camps.' . $this->campFullData->table . '.formGroup', compact( 'form_title','form_width','columns','camp','group','applicants'))->setPaper('a3')->download($this->campFullData->table . $group . $form_title . Carbon::now()->format('YmdHis') .'.pdf');
         }
 
         if(isset($request->download)) {

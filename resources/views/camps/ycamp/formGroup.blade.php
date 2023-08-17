@@ -34,8 +34,8 @@
 <a href="{{ route('showPaymentForm', [$applicant->batch->camp_id, $applicant->id]) }}?download=1" target="_blank">下載繳費單</a>
 --}}
 {{-- 在正式環境用 h 系列標籤，中文字型會壞掉；portrait 740px；landscape 740x1.414=1046px--}}
-<a style="font-size: 2em;">{{ $camp->fullName }} 通訊資料確認表</a>
-<table class="table table-bordered" width="1046px">
+<a style="font-size: 2em;">{{ $camp->fullName }} {{ $form_title }}</a>
+<table class="table table-bordered" width={{ $form_width }}>
     <tr>
         @foreach($columns as $key => $val)
         <td>{{ $val }}</td>
@@ -46,12 +46,19 @@
         @foreach($columns as $key => $val)
             @if($key == "admitted_no")
             <td>{{ $applicant->group }}{{ $applicant->number }}</td>
-            @elseif($key == "gender" && $applicant->$key == "M")
-            <td>男</td>
-            @elseif($key == "gender" && $applicant->$key == "F")
-            <td>女</td>
-            @else
+            @elseif($key == "deposit")
+                {{-- use traffic.deposit --}}
+                @if(isset($applicant->traffic->$key))
+                <td>{{ $applicant->traffic->$key }}</td>
+                @else
+                <td></td>
+                @endif
+            @elseif(isset($applicant->$key))
             <td>{{ $applicant->$key }}</td>
+            @elseif(isset($applicant->traffic->$key))
+            <td>{{ $applicant->traffic->$key }}</td>
+            @else
+            <td></td>
             @endif
         @endforeach
     </tr>

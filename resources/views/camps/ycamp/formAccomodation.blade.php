@@ -33,12 +33,9 @@
         page-break-after: always;
     }
 </style>
-{{--
-<a href="{{ route('showPaymentForm', [$applicant->batch->camp_id, $applicant->id]) }}?download=1" target="_blank">下載繳費單</a>
---}}
 {{-- 在正式環境用 h 系列標籤，中文字型會壞掉 --}}
-<a style="font-size: 2em;">{{ $camp->fullName }} 報名報到暨宿舍安排單</a>
-<table class="table table-bordered" width="740px">
+<a style="font-size: 2em;">{{ $camp->fullName }} {{ $form_title }}</a>
+<table class="table table-bordered" width="{{ $form_width }}">
     <tr>
         <td>男生</td>
         <td>{{ $group }}組</td>
@@ -91,14 +88,14 @@
 @php
     $emptylines = 18;
 @endphp
-<table class="table table-bordered" width="740px">
+<table class="table table-bordered" width="{{ $form_width }}">
     <tr>
         @foreach($columns as $key => $val)
         <td>{{ $val }}</td>
         @endforeach
     </tr>
     @foreach($applicants as $applicant)
-        @if($applicant->gender == "M")
+        @if($applicant->gender == "男")
             @php
                 $emptylines--;
             @endphp
@@ -106,8 +103,6 @@
             @foreach($columns as $key => $val)
                 @if($key == "admitted_no")
                 <td>{{ $applicant->group }}{{ $applicant->number }}</td>
-                @elseif($key == "gender")
-                <td>男</td>
                 @else
                 <td>{{ $applicant->$key }}</td>
                 @endif
@@ -135,8 +130,8 @@
 </table>
 <div class="page-break"></div>
 {{-- 在正式環境用 h 系列標籤，中文字型會壞掉 --}}
-<a style="font-size: 2em;">{{ $camp->fullName }} 報名報到暨宿舍安排單</a>
-<table class="table table-bordered" width="740px">
+<a style="font-size: 2em;">{{ $camp->fullName }} {{ $form_title }}</a>
+<table class="table table-bordered" width="{{ $form_width }}">
     <tr>
         <td>女生</td>
         <td>{{ $group }}組</td>
@@ -146,7 +141,7 @@
 </table>
 {{-- 在正式環境用 h 系列標籤，中文字型會壞掉 --}}
 <a style="font-size: 1em;">【住宿概況】</a>
-<table class="table" width="740px">
+<table class="table" width="{{ $form_width }}">
     <tr>
         <td>棟別_戶別</td>
         <td>　</td><td>　</td>
@@ -189,14 +184,14 @@
 @php
     $emptylines = 18;
 @endphp
-<table class="table table-bordered" width="740px">
+<table class="table table-bordered" width="{{ $form_width }}">
     <tr>
         @foreach($columns as $key => $val)
         <td>{{ $val }}</td>
         @endforeach
     </tr>
     @foreach($applicants as $applicant)
-        @if($applicant->gender == "F")
+        @if($applicant->gender == "女")
             @php
                 $emptylines--;
             @endphp
@@ -204,8 +199,6 @@
             @foreach($columns as $key => $val)
                 @if($key == "admitted_no")
                 <td>{{ $applicant->group }}{{ $applicant->number }}</td>
-                @elseif($key == "gender")
-                <td>女</td>
                 @else
                 <td>{{ $applicant->$key }}</td>
                 @endif
