@@ -515,6 +515,16 @@ return [
         ],
     ],
 
+    'form_checkin' => [
+        "ycamp" => [
+            "admitted_no" => "錄取編號",
+            "name" => "姓名",
+            "school" => "學校",
+            "department" => "系所",
+            "is_checkin" => "是否報到",
+        ],
+    ],
+
     //交通總表
     'form_traffic' => [
         "ycamp" => [
