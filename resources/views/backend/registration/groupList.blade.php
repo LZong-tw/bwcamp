@@ -9,6 +9,9 @@
         }
     </style>
     <h2>{{ $campFullData->abbreviation }} 組別名單</h2>
+    @if($campFullData->table == 'ycamp')
+    <p class="text-info">輔導組表格：請點選各組下載輔導組表格</p>
+    @endif
     @foreach ($batches as $batch)
         <h4>梯次：{{ $batch->name }}</h4>
         <table>
