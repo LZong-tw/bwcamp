@@ -199,14 +199,20 @@
                         <li>
                             <a href="{{route('showTrafficList', $campFullData->id) }}">交通名單</a>
                         </li>
+                    @if($campFullData->table == "ycamp")
                         <li>
-                            <a href="#">輔導組表格</a>
+                            <a href="{{ route('showGroupList', $campFullData->id) }}">輔導組表格</a>
                         </li>
+                    @endif
                         <li>
                             <a href="{{ route('sign_back', $campFullData->id) }}">設定簽到退時間</a>
                         </li>
                         <li>
+                        @if($campFullData->table == "ycamp")
+                            <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">現場手動繳費<br>修改繳費資料<br>修改交通</a>
+                        @else
                             <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">現場手動繳費<br>修改繳費資料</a>
+                        @endif
                         </li>
                     </ul>
                 </li>

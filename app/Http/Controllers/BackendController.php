@@ -347,6 +347,7 @@ class BackendController extends Controller
         }
         //修改繳費資料/現場手動繳費
         if(\Str::contains(request()->headers->get('referer'), 'accounting')) {
+            //checkPaymentStatus() 檢查完繳費狀況後會 return applicant
             $candidate = $this->applicantService->checkPaymentStatus($candidate);
             return view('backend.modifyAccounting', ['applicant' => $candidate]);
         }
@@ -1882,15 +1883,31 @@ class BackendController extends Controller
         if ($request->isMethod('POST')) {
             $applicant = Applicant::find($request->id);
             $admitted_sn = $applicant->group.$applicant->number;
-            //dd($request->cash);
-            if($this->campFullData->table == 'ycamp' && $request->cash>0) {
+            if($this->campFullData->table == 'ycamp') {
                 $traffic = $applicant->traffic;
+                //尚未登記，建新的Traffic
+                if (!$traffic) {
+                    $traffic = new Traffic;
+                    $traffic->applicant_id = $applicant->id;
+                }
+                //更新去程交通、回桯交通及應繳車資
+                $traffic->depart_from = $request->depart_from;
+                $traffic->back_to = $request->back_to;
+                $fare_depart_from = config('camps_payments.fare_depart_from.'.$this->campFullData->table) ?? [];
+                $fare_back_to = config('camps_payments.fare_back_to.'.$this->campFullData->table) ?? [];
+
+                $traffic->fare = ($fare_depart_from[$traffic->depart_from] ?? 0) + ($fare_back_to[$traffic->back_to] ?? 0);
+                //更新現金繳費金額
                 if ($request->is_add == 'add')
                     $traffic->cash = $traffic->cash + $request->cash;
                 else
                     $traffic->cash = $request->cash;
+                //重新計算已繳總額
                 $traffic->sum = $traffic->deposit + $traffic->cash;
                 $traffic->save();
+                //update barcode
+                $applicant = $this->applicantService->fillPaymentData($applicant);
+                $applicant->save();
                 $message = "手動繳費完成。";
                 return view("backend.modifyAccounting", compact("applicant", "message"));
             } else {
