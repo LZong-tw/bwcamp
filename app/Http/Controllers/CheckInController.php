@@ -77,7 +77,7 @@ class CheckInController extends Controller {
             $group = substr($request->query_str, 0, 9);
         }
         elseif(\Str::length($request->query_str) == 3) {
-            $group = substr($request->query_str);
+            $group = $request->query_str;
         }
         elseif(\Str::length($request->query_str) == 5){
             $group = substr($request->query_str, 0, 3);
