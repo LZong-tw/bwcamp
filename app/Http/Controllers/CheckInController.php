@@ -86,15 +86,12 @@ class CheckInController extends Controller {
         $constraint = function($query){ $query->where('camps.id', $this->camp->id); };
         if ($group) {
             $group = $this->camp->groups()->where('alias', 'like', '%' . $group . '%')->first();
-        }
-        if ($number) {
-            $number = $this->camp->groups->each(function($group) use ($number) {
-                return $group->numbers->filter(function($n) use ($number) {
-                    return $n->number == $number;
-                });
-            })->filter(function($group) {
-                return $group->applicants->count() > 0;
-            })->first();
+            if ($number) {
+                $number = $group->numbers
+                            ->filter(function ($n) use ($number) {
+                                return $n->number == $number;
+                            })->first();
+            }
         }
         $applicants = Applicant::with(['batch', 'batch.camp' => $constraint, 'groupRelation', 'numberRelation'])
                                     ->whereHas('batch.camp', $constraint)
