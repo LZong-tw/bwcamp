@@ -87,10 +87,7 @@ class CheckInController extends Controller {
         if ($group) {
             $group = $this->camp->groups()->where('alias', 'like', '%' . $group . '%')->first();
             if ($number) {
-                $number = $group->numbers
-                            ->filter(function ($n) use ($number) {
-                                return $n->number == $number;
-                            })->first();
+                $number = $group->numbers()->where("number", $number)->get();
             }
         }
         $applicants = Applicant::with(['batch', 'batch.camp' => $constraint, 'groupRelation', 'numberRelation'])
@@ -103,14 +100,14 @@ class CheckInController extends Controller {
                                     })
                                     ->whereNotNull('group_id')
                                     ->where(function($query) use ($request, $group, $number) {
-                                        $query->where('id', $request->query_str);
+                                        $query->where('applicants.id', $request->query_str);
                                         if ($group && !$number) {
                                             $query->orWhere('group_id', $group?->id);
                                         }
                                         if ($number && $group) {
                                             $query->orWhere(function ($query) use ($group, $number) {
                                                 $query->where('group_id', $group?->id);
-                                                $query->where('number_id', $number?->id);
+                                                $query->whereIn('number_id', $number?->pluck('id'));
                                             });
                                         }
                                         $query->orWhere('name', 'like', '%' . $request->query_str . '%')
