@@ -76,6 +76,9 @@ class CheckInController extends Controller {
             (str_contains($request->query_str, '第') && str_contains($request->query_str, '組'))) {
             $group = substr($request->query_str, 0, 9);
         }
+        elseif(\Str::length($request->query_str) == 3) {
+            $group = substr($request->query_str);
+        }
         elseif(\Str::length($request->query_str) == 5){
             $group = substr($request->query_str, 0, 3);
             $number = substr($request->query_str, 3, 2);
@@ -104,10 +107,10 @@ class CheckInController extends Controller {
                                     ->whereNotNull('group_id')
                                     ->where(function($query) use ($request, $group, $number) {
                                         $query->where('id', $request->query_str);
-                                        if ($group) {
+                                        if ($group && !$number) {
                                             $query->orWhere('group_id', $group?->id);
                                         }
-                                        if ($number) {
+                                        if ($number && $group) {
                                             $query->orWhere(function ($query) use ($group, $number) {
                                                 $query->where('group_id', $group?->id);
                                                 $query->where('number_id', $number?->id);
