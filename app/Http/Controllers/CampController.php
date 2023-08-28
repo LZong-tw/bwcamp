@@ -100,7 +100,7 @@ class CampController extends Controller
     public function campRegistrationFormSubmitted(Request $request)
     {
         // 檢查電子郵件是否一致
-        if($request->email != $request->emailConfirm) {
+        if(isset($request->emailConfirm) && ($request->email != $request->emailConfirm)) {
             return view("errorPage")->with('error', '電子郵件不一致，請檢查是否輸入錯誤。');
         }
 

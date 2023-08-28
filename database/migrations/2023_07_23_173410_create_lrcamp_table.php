@@ -23,12 +23,12 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->string('level')->nullable();
             $table->string('job_property')->nullable();
-            $table->text('experience')->nullable();   
-            $table->string('employees')->nullable();   
-            $table->string('direct_managed_employees')->nullable();   
-            $table->string('industry')->nullable();   
-            $table->string('after_camp_available_day')->nullable();   
-            $table->string('favored_event')->nullable();   
+            $table->text('experience')->nullable();
+            $table->string('employees')->nullable();
+            $table->string('direct_managed_employees')->nullable();
+            $table->string('industry')->nullable();
+            $table->string('after_camp_available_day')->nullable();
+            $table->string('favored_event')->nullable();
             $table->timestamps();
         });
     }
