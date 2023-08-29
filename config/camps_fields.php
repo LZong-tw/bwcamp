@@ -622,6 +622,42 @@ return [
             ],
         ],
 
+        'actcamp' => [
+            "name" => [
+                "name" => "姓名",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "gender" => [
+                "name" => "性別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "emergency_name" => [
+                "name" => "聯絡人姓名",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "emergency_phone" => [
+                "name" => "聯絡人電話",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+        ],
+
+        'actvcamp' => [
+            "name" => [
+                "name" => "姓名",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "gender" => [
+                "name" => "性別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+        ],
+
         'ceocamp' => [
             "batch" => [
                 "name" => "梯次",
