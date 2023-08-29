@@ -18,7 +18,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('applicant_id')->constrained('applicants');
             $table->string('category')->nullable();         //身份別
-            $table->string('transportation')->nullable();   //交通方式            
+            $table->string('transportation')->nullable();   //交通方式 
+            $table->string('substitute_name')->nullable();
+            $table->string('substitute_phone')->nullable();
+            $table->string('substitute_email')->nullable();
             $table->timestamps();
         });
     }

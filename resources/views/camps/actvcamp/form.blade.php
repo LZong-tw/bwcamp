@@ -45,16 +45,6 @@
         </div>
     </div>
 
-    <div class='row form-group required'> 
-    <label for='inputLRClass' class='col-md-2 control-label text-md-right'>廣論研討班別</label>
-        <div class='col-md-10'>
-            <input type='text' required name='lrclass' value='' class='form-control' id='inputLRClass'>
-            <div class="invalid-feedback">
-                請填寫廣論研討班別
-            </div>
-        </div>
-    </div>
-
     <div class='row form-group required'>
         <label for='inputName' class='col-md-2 control-label text-md-right'>中文姓名</label>
         <div class='col-md-10'>
@@ -133,96 +123,12 @@
     <div class='row form-group required'>
         <label for='inputSelfIntro' class='col-md-2 control-label text-md-right'>我是誰</label>
         <div class='col-md-10'>
-            <textarea class='form-control' rows=2 required  name='self_intro' id=inputSelfIntro placeholder='請簡單說明你是誰，例如：第X組輔導員、教務組、報到組等等，方便後台管理員設定權限。'></textarea>
+            <textarea class='form-control' rows=2 required  name='self_intro' id=inputSelfIntro placeholder='請簡單說明你是誰，例如：第X組關懷員、教務組、報到組等等，方便後台管理員設定權限。'></textarea>
             <div class="invalid-feedback">
                 請填寫本欄位
             </div>
         </div>
     </div>
-
-    <hr>
-    <h5 class='form-control-static'>保險內容及投保資料</h5>
-    <h6>保險內容：
-        保額：意外險：XXX萬；意外醫療：XXX萬
-        受益人：法定繼承人
-    </h6>
-    <h6>投保資料（報名者）：</h6>
-    <br>
-
-    <div class='row form-group required'>
-        <label for='inputBirth' class='col-md-2 control-label text-md-right'>生日</label>
-        <div class='date col-md-10' id='inputBirth'>
-            <div class='row form-group required'>
-                <div class="col-md-1">
-                    西元
-                </div>
-                <div class="col-md-3">
-                    <input type='number' required class='form-control' name='birthyear' min=1900 max='{{ \Carbon\Carbon::now()->subYears(16)->year }}' value='' placeholder=''>
-                    <div class="invalid-feedback">
-                        未填寫或日期不正確
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    年
-                </div>
-                <div class="col-md-2">
-                    <input type='number' required class='form-control' name='birthmonth' min=1 max=12 value='' placeholder=''>
-                    <div class="invalid-feedback">
-                        未填寫或日期不正確
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    月
-                </div>
-                <div class="col-md-3">
-                    <input type='number' required class='form-control' name='birthday' min=1 max=31 value='' placeholder=''>
-                    <div class="invalid-feedback">
-                        未填寫或日期不正確
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    日
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class='row form-group required'>
-        <label for='inputNationName' class='col-md-2 control-label text-md-right'>國籍</label>
-        <div class='col-md-2'>
-        <select class='form-control' name='nationality' id='inputNationName'>
-            <option value='美國' >美國</option>
-            <option value='加拿大' >加拿大</option>
-            <option value='澳大利亞' >澳大利亞</option>
-            <option value='紐西蘭' >紐西蘭</option>
-            <option value='中國' >中國</option>
-            <option value='香港' >香港</option>
-            <option value='澳門' >澳門</option>
-            <option value='台灣' selected>台灣</option>
-            <option value='韓國' >韓國</option>
-            <option value='日本' >日本</option>
-            <option value='蒙古' >蒙古</option>
-            <option value='新加坡' >新加坡</option>
-            <option value='馬來西亞' >馬來西亞</option>
-            <option value='菲律賓' >菲律賓</option>
-            <option value='印尼' >印尼</option>
-            <option value='泰國' >泰國</option>
-            <option value='越南' >越南</option>
-            <option value='其它' >其它</option>
-        </select>
-        </div>
-    </div>
-
-    <div class='row form-group required'>
-        <label for='inputID' class='col-md-2 control-label text-md-right'>身份證字號</label>
-        <div class='col-md-10'>
-            <input type='text' name='idno' value='' class='form-control' id='inputID' placeholder='僅作為申請保險用' @if(isset($isModify) && $isModify) disabled @endif>
-            <div class="invalid-feedback">
-                未填寫身份證字號（申請保險用）
-            </div>
-        </div>
-    </div>
-    <hr>
 
     <input type='hidden' name="profile_agree" value='0'>
     <input type='hidden' name="portrait_agree" value='0'>
