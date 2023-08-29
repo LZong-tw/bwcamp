@@ -10,7 +10,7 @@
         </div>
         <div class="card-body">
             <p class="card-text">
-                恭喜您已完成{{ $camp_data->fullName }}網路報名程序，
+                感謝您報名{{ $camp_data->fullName }}，報名手續已完成，
                 @include('camps.actcamp.successMessages')
             </p>
             <form action="{{ route("queryview", $applicant->batch_id) }}" method="post" class="d-inline">
@@ -19,7 +19,7 @@
                 <input type="hidden" name="name" value="{{ $applicant->name }}">
                 <button class="btn btn-primary">檢視報名資料</button>
             </form>
-            <a href="{{ $camp_data->site_url }}" class="btn btn-primary">回營隊首頁</a>
+            <a href="{{ route('registration', $applicant->batch_id) }}" class="btn btn-info">再報名一位</a>
         </div>
     </div>
 @stop
