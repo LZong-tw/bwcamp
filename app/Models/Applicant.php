@@ -67,14 +67,14 @@ class Applicant extends Model {
         return $this->hasOne(Acamp::class, 'applicant_id', 'id');
     }
     public function avcamp() {
-        return $this->hasOne(Acamp::class, 'applicant_id', 'id');
+        return $this->hasOne(Avcamp::class, 'applicant_id', 'id');
     }
 
     public function actcamp() {
-        return $this->hasOne(Acamp::class, 'applicant_id', 'id');
+        return $this->hasOne(Actcamp::class, 'applicant_id', 'id');
     }
     public function actvcamp() {
-        return $this->hasOne(Acamp::class, 'applicant_id', 'id');
+        return $this->hasOne(Actvamp::class, 'applicant_id', 'id');
     }
     
     public function ceocamp() {
@@ -103,6 +103,9 @@ class Applicant extends Model {
 
     public function ycamp() {
         return $this->hasOne(Ycamp::class, 'applicant_id', 'id');
+    }
+    public function yvcamp() {
+        return $this->hasOne(Yvcamp::class, 'applicant_id', 'id');
     }
 
     public function signData($orderBy = "desc") {
