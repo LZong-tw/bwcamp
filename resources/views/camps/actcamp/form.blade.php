@@ -111,6 +111,51 @@
     </div>
 
     <!-- 依「身份別」選項而顯示的部分 -->
+    @if(isset($applicant_data) && \Str::contains($applicant_raw_data->category, "親友"))
+    <div id=contact>
+        <div class="row form-group required">
+            <label for='inputEmergencyName' class="col-md-2 control-label text-md-right">聯絡人姓名</label>
+            <div class="col-md-10">
+                <input type="text" required class="form-control" name="emergency_name" value="" >
+                <div class="invalid-feedback">請填寫本欄位</div>
+            </div>
+        </div>
+        <div class="row form-group required">
+            <label for='inputEmergencyMobile' class="col-md-2 control-label text-md-right">聯絡人電話</label>
+            <div class="col-md-10">
+                <input type="tel" required class="form-control" name="emergency_mobile" value="" placeholder='格式：0912345678'>
+                <div class="invalid-feedback">請填寫本欄位</div>
+            </div>
+        </div>        
+        <div class="row form-group required">
+            <label for='inputEmergencyRelationship' class="col-md-2 control-label text-md-right">關係</label>
+            <div class="col-md-10">
+                <div class="text-info">報名者是聯絡人的</div>
+                <select required name="emergency_relationship" class="form-control">
+                    <option value="">- 請選擇 -</option>
+                    <option value="配偶">配偶</option>
+                    <option value="父親">父親</option>
+                    <option value="母親">母親</option>
+                    <option value="兄弟">兄弟</option>
+                    <option value="姊妹">姊妹</option>
+                    <option value="朋友">朋友</option>
+                    <option value="同事">同事</option>
+                    <option value="子女">子女</option>
+                    <option value="其他">其他</option>
+                </select>
+            </div>
+        </div>
+        <div class='row form-group required'>
+            <label for='inputEmail' class='col-md-2 control-label text-md-right'>電子郵件</label>
+            <div class='col-md-10'>
+                <input type='email' required name='email' value='' class='form-control' id='inputEmail' placeholder='請提供報名者或聯絡人電子郵件，以利寄送報名確認及活動通知。'>
+                <div class="invalid-feedback">
+                    郵件不正確
+                </div>
+            </div>
+        </div>
+    </div>
+    @else
     <div id=contact>
         <div class='row form-group required'>
             <label for='inputMobile' class='col-md-2 control-label text-md-right'>行動電話</label>
@@ -131,6 +176,7 @@
             </div>
         </div>
     </div>
+    @endif
 
     <script language='javascript'>
     function contact_field(show) {
