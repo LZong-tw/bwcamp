@@ -39,21 +39,21 @@ class CheckInMail extends Mailable
         });
         if($this->applicant->batch->camp->table == 'coupon'){
             return $this->subject($this->applicant->batch->camp->fullName)
-                    ->view('camps.' . $this->applicant->batch->camp->table . ".checkInMail")
-                    ->attachData($this->attachment, $this->applicant->batch->camp->abbreviation . '.pdf', [
-                        'mime' => 'application/pdf',
-                    ]);
+                    ->view('camps.' . $this->applicant->batch->camp->table . ".checkInMail", ['applicant' => $this->applicant]);
+//                    ->attachData($this->attachment, $this->applicant->batch->camp->abbreviation . '.pdf', [
+//                        'mime' => 'application/pdf',
+//                    ]);
         }
         elseif(!$this->attachment){
             return $this->subject($this->applicant->batch->camp->abbreviation . '報到通知')
-                    ->view('camps.' . $this->applicant->batch->camp->table . ".checkInMail");            
+                    ->view('camps.' . $this->applicant->batch->camp->table . ".checkInMail");
         }
         else{
             return $this->subject($this->applicant->batch->camp->abbreviation . '報到通知')
                     ->view('camps.' . $this->applicant->batch->camp->table . ".checkInMail")
                     ->attachData($this->attachment, $this->applicant->batch->camp->abbreviation . $this->applicant->id . $this->applicant->name . 'QR code 報到單.pdf', [
                         'mime' => 'application/pdf',
-                    ]);            
+                    ]);
         }
     }
 
@@ -63,6 +63,6 @@ class CheckInMail extends Mailable
             return [
                 Attachment::fromPath(public_path('downloads/tcamp2023/schedule.pdf')),
             ];
-        } 
+        }
     }
 }
