@@ -6,9 +6,11 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+
 //use Traffic;
 
-class Applicant extends Model {
+class Applicant extends Model
+{
     use SoftDeletes;
 
     //
@@ -34,107 +36,132 @@ class Applicant extends Model {
         return $this->hasOneThrough(User::class, UserApplicantXref::class, 'applicant_id', 'id', 'id', 'user_id');
     }
 
-//    public function roles()
-//    {
-//        return $this->user()->first()?->belongsToMany(CampOrg::class, 'org_user', 'user_id', 'org_id')->where('camp_id', $this->camp->id) ?? collect([]);
-//    }
+    //    public function roles()
+    //    {
+    //        return $this->user()->first()?->belongsToMany(CampOrg::class, 'org_user', 'user_id', 'org_id')->where('camp_id', $this->camp->id) ?? collect([]);
+    //    }
 
-    public function batch() {
+    public function batch()
+    {
         return $this->belongsTo(Batch::class);
     }
 
-    public function camp() {
+    public function camp()
+    {
         return $this->hasOneThrough(Camp::class, Batch::class, 'id', 'id', 'batch_id', 'camp_id');
     }
 
-    public function vcamp() {
+    public function vcamp()
+    {
         return $this->hasOneThrough(Vcamp::class, Batch::class, 'id', 'id', 'batch_id', 'camp_id');
     }
 
-    public function getBatch() {
+    public function getBatch()
+    {
         return $this->belongsTo(Batch::class, 'batch_id', 'id');
     }
 
-    public function checkInData() {
+    public function checkInData()
+    {
         return $this->hasMany(CheckIn::class);
     }
 
-    public function traffic() {
+    public function traffic()
+    {
         return $this->hasOne(Traffic::class, 'applicant_id', 'id');
     }
 
-    public function acamp() {
+    public function acamp()
+    {
         return $this->hasOne(Acamp::class, 'applicant_id', 'id');
     }
-    public function avcamp() {
+    public function avcamp()
+    {
         return $this->hasOne(Avcamp::class, 'applicant_id', 'id');
     }
 
-    public function actcamp() {
+    public function actcamp()
+    {
         return $this->hasOne(Actcamp::class, 'applicant_id', 'id');
     }
-    public function actvcamp() {
+    public function actvcamp()
+    {
         return $this->hasOne(Actvamp::class, 'applicant_id', 'id');
     }
-    
-    public function ceocamp() {
+
+    public function ceocamp()
+    {
         return $this->hasOne(Ceocamp::class, 'applicant_id', 'id');
     }
 
-    public function ceovcamp() {
+    public function ceovcamp()
+    {
         return $this->hasOne(Ceovcamp::class, 'applicant_id', 'id');
     }
 
-    public function ecamp() {
+    public function ecamp()
+    {
         return $this->hasOne(Ecamp::class, 'applicant_id', 'id');
     }
 
-    public function evcamp() {
+    public function evcamp()
+    {
         return $this->hasOne(Evcamp::class, 'applicant_id', 'id');
     }
 
-    public function hcamp() {
+    public function hcamp()
+    {
         return $this->hasOne(Hcamp::class, 'applicant_id', 'id');
     }
 
-    public function tcamp() {
+    public function tcamp()
+    {
         return $this->hasOne(Tcamp::class, 'applicant_id', 'id');
     }
 
-    public function ycamp() {
+    public function ycamp()
+    {
         return $this->hasOne(Ycamp::class, 'applicant_id', 'id');
     }
-    public function yvcamp() {
+    public function yvcamp()
+    {
         return $this->hasOne(Yvcamp::class, 'applicant_id', 'id');
     }
 
-    public function signData($orderBy = "desc") {
+    public function signData($orderBy = "desc")
+    {
         return $this->hasMany(SignInSignOut::class)->orderBy('id', $orderBy);
     }
 
-    public function sign_in_info() {
+    public function sign_in_info()
+    {
         return $this->hasMany(SignInSignOut::class)->whereType('in');
     }
 
-    public function sign_out_info() {
+    public function sign_out_info()
+    {
         return $this->hasMany(SignInSignOut::class)->whereType('out');
     }
 
-    public function contactlog() {
+    public function contactlog()
+    {
         return $this->contactlogs();
     }
 
-    public function contactlogs() {
+    public function contactlogs()
+    {
         return $this->hasMany(ContactLog::class);
     }
 
-    public function hasSignedThisTime($datetime) {
+    public function hasSignedThisTime($datetime)
+    {
         return $this->signData()->whereHas('referencedAvailability', function ($q) use ($datetime) {
             $q->where([['start', '<=', $datetime], ['end', '>=', $datetime]]);
         })->first();
     }
 
-    public function hasAlreadySigned($availability_id) {
+    public function hasAlreadySigned($availability_id)
+    {
         return $this->signData()->whereAvailabilityId($availability_id)->first();
     }
 
@@ -163,7 +190,8 @@ class Applicant extends Model {
         return $this->hasMany(DynamicStat::class);
     }
 
-    public function getBirthdateAttribute() {
+    public function getBirthdateAttribute()
+    {
         return match ($this->birthyear && $this->birthmonth && $this->birthday) {
             true => Carbon::parse("{$this->birthyear}-{$this->birthmonth}-{$this->birthday}")->format('Y-m-d'),
             false => match ($this->birthyear && $this->birthmonth) {
@@ -176,14 +204,16 @@ class Applicant extends Model {
         };
     }
 
-    public function getAgeAttribute() {
+    public function getAgeAttribute()
+    {
         if (is_string($this->birthdate)) {
             return Carbon::parse($this->birthdate)->diff(now())->format('%y');
         }
         return $this->birthdate?->diff(now())->format('%y');
     }
 
-    public function getGenderZhTwAttribute() {
+    public function getGenderZhTwAttribute()
+    {
         return $this->gender == 'M' ? '男' : '女';
     }
 
