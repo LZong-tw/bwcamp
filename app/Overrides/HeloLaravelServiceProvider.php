@@ -18,7 +18,8 @@ use Swift_Mailer;
 
 class HeloLaravelServiceProvider extends ServiceProvider
 {
-    use EmailConfiguration, CreatesMailers;
+    use EmailConfiguration;
+    use CreatesMailers;
 
     /**
      * Bootstrap the application services.
@@ -71,7 +72,9 @@ class HeloLaravelServiceProvider extends ServiceProvider
         // on the mailer. This allows us to resolve mailer classes via containers
         // for maximum testability on said classes instead of passing Closures.
         $mailer = new Mailer(
-            $app['view'], $app['swift.mailer'], $app['events']
+            $app['view'],
+            $app['swift.mailer'],
+            $app['events']
         );
 
         if ($app->bound('queue')) {
@@ -100,7 +103,10 @@ class HeloLaravelServiceProvider extends ServiceProvider
         // on the mailer. This allows us to resolve mailer classes via containers
         // for maximum testability on said classes instead of passing Closures.
         $mailer = new Laravel7Mailer(
-            'smtp', $app['view'], $swiftMailer, $app['events']
+            'smtp',
+            $app['view'],
+            $swiftMailer,
+            $app['events']
         );
 
         if ($app->bound('queue')) {
@@ -121,7 +127,7 @@ class HeloLaravelServiceProvider extends ServiceProvider
     {
         $defaultDriver = $app['mail.manager']->getDefaultDriver();
         $config = $this->getConfig($defaultDriver);
-        
+
         // We get Symfony Transport from Laravel 9 mailer
         $symfonyTransport = $app['mail.manager']->getSymfonyTransport();
 
@@ -129,7 +135,10 @@ class HeloLaravelServiceProvider extends ServiceProvider
         // on the mailer. This allows us to resolve mailer classes via containers
         // for maximum testability on said classes instead of passing Closures.
         $mailer = new Laravel7Mailer(
-            'smtp', $app['view'], $symfonyTransport, $app['events']
+            'smtp',
+            $app['view'],
+            $symfonyTransport,
+            $app['events']
         );
 
         if ($app->bound('queue')) {
