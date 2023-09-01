@@ -52,7 +52,7 @@
     @csrf
     <input type="hidden" name="isModify" value="1">
     <div class="page-header form-group">
-        <h4>報名資料修改</h4>
+        <h4>報名資料修改/取消報名</h4>
     </div>
     <div class='row form-group'>
         <label for='inputName' class='col-md-2'>姓名</label>
@@ -81,7 +81,7 @@
     <div class=row>
         <div class='col-md-4'></div>
         <div class='col-md-8'>
-            <INPUT type=submit name=sub class='btn btn-success' value='修改資料'>
+            <INPUT type=submit name=sub class='btn btn-success' value='修改資料/取消報名'>
             <INPUT type=reset  class='btn btn-danger' value='清除重來'>
         </div>
     </div>

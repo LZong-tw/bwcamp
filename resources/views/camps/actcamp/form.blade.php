@@ -478,13 +478,38 @@
             </label>
         </div>
     </div>
-        
+    <!--- 預設參加 -->
+    @if(!isset($isModify))
+    <input type='hidden' name="is_attend" value='1'>
+    @else
+    <hr>
+    <div class='row form-group required'>
+        <label for='inputIsAttend' class='col-md-2 control-label text-md-right'>取消或恢復參加</label>
+        <div class='col-md-10'>
+            <label class=radio-inline>
+                <input type=radio required name='is_attend' value=1 > 參加/恢復參加
+                <div class="invalid-feedback">
+                    請選擇參加與否
+                </div>
+            </label> 
+            <label class=radio-inline>
+                <input type=radio required name='is_attend' value=0 > 取消參加
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label>
+        </div>
+    </div>
+    <hr>
+    @endif
+
     <div class="row form-group text-danger tips d-none">
         <div class='col-md-2'></div>
         <div class='col-md-10'>
             請檢查是否有未填寫或格式錯誤的欄位。
         </div>
     </div>
+
 
     <!--- 確認送出 -->
     <div class='row form-group'>
@@ -505,6 +530,7 @@
             @endif
         </div>
     </div>
+
     </form>
             
     <script>        
