@@ -20,6 +20,15 @@ trait EmailConfiguration {
                 'mail.from.name' => $config['name'],
             ]);
         }
+        elseif (app()->isLocal()) {
+            config([
+                'mail.mailers.smtp.username' => env('MAIL_USERNAME'),
+                'mail.mailers.smtp.password' => env('MAIL_PASSWORD'),
+                'mail.mailers.smtp.host' => env('MAIL_HOST'),
+                'mail.from.address' => env('MAIL_FROM_ADDRESS'),
+                'mail.from.name' => env('MAIL_FROM_NAME'),
+            ]);
+        }
         app()->register('Illuminate\Mail\MailServiceProvider');
         if (app()->isLocal()) {
             app()->register(\App\Overrides\HeloLaravelServiceProvider::class);

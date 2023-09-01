@@ -11,12 +11,14 @@ use Illuminate\Support\Str;
 use BeyondCode\HeloLaravel\Laravel7Mailer;
 use BeyondCode\HeloLaravel\Mailer;
 use BeyondCode\HeloLaravel\TestMailCommand;
+use BeyondCode\HeloLaravel\MailManager;
+use BeyondCode\HeloLaravel\CreatesMailers;
 use App\Traits\EmailConfiguration;
 use Swift_Mailer;
 
 class HeloLaravelServiceProvider extends ServiceProvider
 {
-    use EmailConfiguration;
+    use EmailConfiguration, CreatesMailers;
 
     /**
      * Bootstrap the application services.
@@ -27,11 +29,7 @@ class HeloLaravelServiceProvider extends ServiceProvider
             return;
         }
 
-        $instance = app()->make(Mailer::class);
-
-        Mail::swap($instance);
-
-        app()->instance(MailerContract::class, $instance);
+        $this->bootMailable();
 
         if ($this->app->runningInConsole()) {
             View::addNamespace('helo', __DIR__ . '/../resources/views');
@@ -123,7 +121,7 @@ class HeloLaravelServiceProvider extends ServiceProvider
     {
         $defaultDriver = $app['mail.manager']->getDefaultDriver();
         $config = $this->getConfig($defaultDriver);
-
+        
         // We get Symfony Transport from Laravel 9 mailer
         $symfonyTransport = $app['mail.manager']->getSymfonyTransport();
 
@@ -153,6 +151,28 @@ class HeloLaravelServiceProvider extends ServiceProvider
         return $this->app['config']['mail.driver']
             ? $this->app['config']['mail']
             : $this->app['config']["mail.mailers.{$name}"];
+    }
+
+    protected function bootMailable()
+    {
+        if ($this->version() < 10) {
+            $instance = app()->make(Mailer::class);
+
+            Mail::swap($instance);
+
+            $this->app->instance(MailerContract::class, $instance);
+        } else {
+            Mail::swap(new MailManager($this->app));
+        }
+    }
+
+    private function version($app = null): int
+    {
+        if (! $app) {
+            $app = $this->app;
+        }
+
+        return (int) collect(explode('.', $app->version()))->first();
     }
 
     /**

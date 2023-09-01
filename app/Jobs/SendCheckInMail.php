@@ -42,7 +42,9 @@ class SendCheckInMail implements ShouldQueue
         if($this->applicant->batch->camp->table == 'coupon'){
             $qr_code = \DNS2D::getBarcodePNG('{"coupon_code":"' . $this->applicant->name . '"}', 'QRCODE');
             $pdf = \App::make('dompdf.wrapper');
-            $pdf->loadHTML($this->applicant->batch->camp->abbreviation . '<br>流水號：' . $this->applicant->group . $this->applicant->number . '<br>優惠碼：' . $this->applicant->name . '<br><img src="data:image/png;base64,' . $qr_code . '" alt="barcode" height="200px"/>')->setPaper('a6');
+             $pdf->loadHTML($this->applicant->batch->camp->abbreviation . '<br>流水號：' . $this->applicant->group . $this->applicant->number . '<br>優惠碼：' . $this->applicant->name . '<br><img src="data:image/png;base64,' . $qr_code . '" alt="barcode" height="200px"/>')->setPaper('a6');
+            $bg = base64_encode(file_get_contents(storage_path("app/bg.jpg")));
+//            $pdf->loadHTML('<html><style>body { margin: 0; } @page { margin: 0; }</style><body background="data:image/jpg;base64,' . $bg . '"></body></html>')->setPaper('a6');
         }
         elseif($this->applicant->batch->camp->table != ''
             && $this->applicant->batch->camp->table != 'ceovcamp'
