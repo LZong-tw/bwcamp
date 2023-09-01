@@ -31,10 +31,10 @@
 
 <body background="{{ url("img/bg.jpg") }}" style="background-repeat: no-repeat; background-size: 650px;">
 <img src="data:image/png;base64,{{ \DNS2D::getBarcodePNG('{"applicant_id":"' . $applicant->id . '"}', 'QRCODE') }}" alt="" width="180px" style="margin-left: 406px; margin-top: 698px;">
-<div style="margin-left: 106px; font-size: 64px;margin-top: -250px;">
+<div style="margin-left: 90px; font-size: 64px;margin-top: -250px;">
     {{ $applicant->name }}
 </div>
-<div style="margin-left: 106px;margin-top: 85px;font-size: 40px;">
+<div style="margin-left: 90px;margin-top: 85px;font-size: 36px;">
     {{ $applicant->group }} 排 {{ $applicant->number }} 號
 </div>
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
