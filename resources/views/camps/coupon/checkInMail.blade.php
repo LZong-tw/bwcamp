@@ -35,7 +35,7 @@
     {{ $applicant->name }}
 </div>
 <div style="margin-left: 90px;margin-top: 85px;font-size: 36px;">
-    {{ $applicant->group }} 排 {{ $applicant->number }} 號
+    {{ $applicant->group }}{{ $applicant->number }} 號
 </div>
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 </body>
