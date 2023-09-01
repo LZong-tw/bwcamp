@@ -20,7 +20,7 @@ class Applicant extends Model {
         'fax', 'line', 'wechat', 'email', 'zipcode', 'address',
         'emergency_name', 'emergency_relationship', 'emergency_mobile', 'emergency_phone_home', 'emergency_phone_work', 'emergency_fax',
         'introducer_name', 'introducer_relationship', 'introducer_phone', 'introducer_email', 'introducer_participated',
-        'portrait_agree', 'profile_agree', 'expectation', 'tax_id_no'
+        'portrait_agree', 'profile_agree', 'expectation','fee', 'tax_id_no'
     ];
 
     public $resourceNameInMandarin = '一般學員資料';

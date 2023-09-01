@@ -17,10 +17,10 @@
         參訪日期：2023/9/17(日)<br>
         遊覽車發車時間：早上7:50(8:00準時發車)<br>
         遊覽車搭車地點：福智台北學苑對面彰化銀行(南京東路四段126號)<br>
-        活動費用：成人600元／國小300元／幼稚園免費<br>
+        活動費用：成人600元／國小300元／幼稚園免費(費用於活動當天繳交)<br>
         <br>
         【報名注意事項】<br>
-        若代親友報名，請分開填寫報名表及提供投保資料。<br>
+        若代親友報名，請分開填寫報名表。<br>
         若代親友報名，聯絡人必須是一同參加之企業營學員或義工。<br>
         若您在填寫表格時遇到困難，請洽詢您企業營的關懷員<br>
     </div>
@@ -273,7 +273,7 @@
         <label for='inputTransportation' class='col-md-2 control-label text-md-right'>交通方式</label>
         <div class='col-md-10'>
             <label class=radio-inline>
-                <input type=radio required name='transportation' value=開車自往 > 開車自往
+                <input type=radio required name='transportation' value=自往 > 自往
                 <div class="invalid-feedback">
                     請選擇交通方式
                 </div>
@@ -283,16 +283,41 @@
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
+            {{--
             <label class=radio-inline>
                 <input type=radio required name='transportation' value=其它 > 其它
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
             </label>
+            --}}
         </div>
     </div>
-
+    <div class='row form-group required'>
+        <label for='inputTransportation' class='col-md-2 control-label text-md-right'>活動費用</label>
+        <div class='col-md-10'>
+            <label class=radio-inline>
+                <input type=radio required name='fee' value=600 > 大人600
+                <div class="invalid-feedback">
+                    請選擇交通方式
+                </div>
+            </label> 
+            <label class=radio-inline>
+                <input type=radio required name='fee' value=300 > 國小300
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label>
+            <label class=radio-inline>
+                <input type=radio required name='fee' value=0 > 幼稚園以下免費
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label>
+        </div>
+    </div>
+{{--
     <hr>
     <h5 class='form-control-static'>保險內容及投保資料</h5>
     <h6>保險內容：
@@ -409,6 +434,7 @@
         </div>
     </div>
     <hr>
+--}}
     
     <!--- 同意書 -->
     <div class='row form-group required'>
