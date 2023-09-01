@@ -8,4 +8,6 @@
     }
 </style>
 
-<body background="data:image/jpg;base64,{{ $bg }}"></body>
+<body>
+<img src="{{ $message->embed(storage_path("app/bg.jpg")) }}" alt="">
+</body>
