@@ -97,6 +97,21 @@ return [
         "portrait_agree" => "肖像權",
     ],
 
+    'actcamp' => [
+        "sn" => "報名序號",
+        "group" => "組別",
+        "number" => "座號",
+        "applied_at" => "報名日期",
+        "name" => "姓名",
+        "mobile" => "行動電話",
+        "email" => "電子郵件",
+        "emergency_name" => "聯絡人姓名",
+        "emergency_mobile" => "聯絡人電話",
+        "emergency_relationship" => "關係",
+        "portrait_agree" => "肖像權",
+        "profile_agree" => "個人資料允許",
+    ],
+
     'tcamp' => [
         "sn" => "報名序號",
         "applied_at" => "報名日期",
