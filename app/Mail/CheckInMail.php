@@ -11,16 +11,20 @@ use Illuminate\Mail\Mailables\Attachment;
 
 class CheckInMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
-    public $applicant, $org, $attachment;
+    public $applicant;
+    public $org;
+    public $attachment;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($applicant, $org = null, $attachment = null) {
+    public function __construct($applicant, $org = null, $attachment = null)
+    {
         //
         $this->applicant = $applicant;
         $this->org = $org;
@@ -32,23 +36,22 @@ class CheckInMail extends Mailable
      *
      * @return $this
      */
-    public function build() {
+    public function build()
+    {
         $this->withSwiftMessage(function ($message) {
             $headers = $message->getHeaders();
             $headers->addTextHeader('time', time());
         });
-        if($this->applicant->batch->camp->table == 'coupon'){
+        if($this->applicant->batch->camp->table == 'coupon') {
             return $this->subject($this->applicant->batch->camp->fullName)
                     ->view('camps.' . $this->applicant->batch->camp->table . ".checkInMail", ['applicant' => $this->applicant]);
-//                    ->attachData($this->attachment, $this->applicant->batch->camp->abbreviation . '.pdf', [
-//                        'mime' => 'application/pdf',
-//                    ]);
-        }
-        elseif(!$this->attachment){
+            //                    ->attachData($this->attachment, $this->applicant->batch->camp->abbreviation . '.pdf', [
+            //                        'mime' => 'application/pdf',
+            //                    ]);
+        } elseif(!$this->attachment) {
             return $this->subject($this->applicant->batch->camp->abbreviation . '報到通知')
                     ->view('camps.' . $this->applicant->batch->camp->table . ".checkInMail");
-        }
-        else{
+        } else {
             return $this->subject($this->applicant->batch->camp->abbreviation . '報到通知')
                     ->view('camps.' . $this->applicant->batch->camp->table . ".checkInMail")
                     ->attachData($this->attachment, $this->applicant->batch->camp->abbreviation . $this->applicant->id . $this->applicant->name . 'QR code 報到單.pdf', [
