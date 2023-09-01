@@ -14,13 +14,13 @@ class Applicant extends Model {
     //
     protected $fillable = [
         'batch_id', 'name', 'english_name', 'region', 'avatar','gender',
-        'group_id', 'number_id', 'is_admitted', 'is_paid', 'is_attended',
+        'group_id', 'number_id', 'is_admitted', 'is_paid', 'is_attend',
         'birthyear', 'birthmonth', 'birthday', 'age_range', 'nationality', 'idno',
         'is_foreigner', 'is_allow_notified', 'mobile', 'phone_home', 'phone_work',
         'fax', 'line', 'wechat', 'email', 'zipcode', 'address',
         'emergency_name', 'emergency_relationship', 'emergency_mobile', 'emergency_phone_home', 'emergency_phone_work', 'emergency_fax',
         'introducer_name', 'introducer_relationship', 'introducer_phone', 'introducer_email', 'introducer_participated',
-        'portrait_agree', 'profile_agree', 'expectation', 'tax_id_no'
+        'portrait_agree', 'profile_agree', 'expectation','fee', 'tax_id_no'
     ];
 
     public $resourceNameInMandarin = '一般學員資料';
@@ -66,7 +66,17 @@ class Applicant extends Model {
     public function acamp() {
         return $this->hasOne(Acamp::class, 'applicant_id', 'id');
     }
+    public function avcamp() {
+        return $this->hasOne(Avcamp::class, 'applicant_id', 'id');
+    }
 
+    public function actcamp() {
+        return $this->hasOne(Actcamp::class, 'applicant_id', 'id');
+    }
+    public function actvcamp() {
+        return $this->hasOne(Actvamp::class, 'applicant_id', 'id');
+    }
+    
     public function ceocamp() {
         return $this->hasOne(Ceocamp::class, 'applicant_id', 'id');
     }
@@ -93,6 +103,9 @@ class Applicant extends Model {
 
     public function ycamp() {
         return $this->hasOne(Ycamp::class, 'applicant_id', 'id');
+    }
+    public function yvcamp() {
+        return $this->hasOne(Yvcamp::class, 'applicant_id', 'id');
     }
 
     public function signData($orderBy = "desc") {

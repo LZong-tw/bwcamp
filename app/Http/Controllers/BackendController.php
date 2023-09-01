@@ -353,7 +353,7 @@ class BackendController extends Controller
         }
         //設定取消參加
         //dd($request);
-        if(\Str::contains(request()->headers->get('referer'), 'modifyAttend') || $request->isMethod("GET")) {
+        if(\Str::contains(request()->headers->get('referer'), 'modifyAttend') || (\Str::contains(request()->headers->get('referer'), 'modifyAttend') && $request->isMethod("GET"))) {
             $candidate = $this->applicantService->checkPaymentStatus($candidate);
             return view('backend.modifyAttend', ['applicant' => $candidate]);
         }
