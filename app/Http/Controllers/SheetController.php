@@ -98,7 +98,7 @@ class SheetController extends Controller
     {
         config([
             'google.post_spreadsheet_id' => '1g6gvbuLeEXz8W4QtMLPGhMpZ_u_Mu73OfmR3ems_9SI',
-            'google.post_sheet_id' => '0812',
+            'google.post_sheet_id' => '0821',
         ]);
         $camp = Camp::find($request->camp_id);
         $table = $camp->table;
