@@ -897,30 +897,37 @@ class BackendController extends Controller
             $form_width = "740px";  //portrait
             $columns = config('camps_fields.form_accomodation.' . $this->campFullData->table) ?? [];
             //return view('camps.' . $this->campFullData->table . '.formAccomodation', compact( 'form_title','form_width','columns','camp','group','applicants'));
-            return \PDF::loadView('camps.' . $this->campFullData->table . '.formAccomodation', compact('form_title','form_width','columns','camp','group','applicants'))->setPaper('a3')->download($this->campFullData->table . $group . $form_title . Carbon::now()->format('YmdHis') . '.pdf');
+            return \PDF::loadView('camps.' . $this->campFullData->table . '.formAccomodation', compact('form_title','form_width','columns','camp','group','applicants'))->setPaper('a3')->download($this->campFullData->abbreviation . $group . $form_title . Carbon::now()->format('YmdHis') . '.pdf');
         } elseif (isset($request->download)&&$template==3) {
             $form_title = "通訊資料確認表";
             $form_width = "1046px"; //landscape
             $columns = config('camps_fields.form_contact.' . $this->campFullData->table) ?? [];
             //return view('camps.' . $this->campFullData->table . '.formContact', compact('form_title','form_width','columns','camp','group','applicants'));
-            return \PDF::loadView('camps.' . $this->campFullData->table . '.formGroup', compact( 'form_title','form_width','columns','camp','group','applicants'))->setPaper('a3','landscape')->download($this->campFullData->table . $group . $form_title . Carbon::now()->format('YmdHis') .'.pdf');
+            return \PDF::loadView('camps.' . $this->campFullData->table . '.formGroup', compact( 'form_title','form_width','columns','camp','group','applicants'))->setPaper('a3','landscape')->download($this->campFullData->abbreviation . $group . $form_title . Carbon::now()->format('YmdHis') .'.pdf');
         } elseif (isset($request->download)&&$template==4) {
             $form_title = "回程交通確認表";
             $form_width = "740px";  //portrait
             $columns = config('camps_fields.form_traffic_confirm.' . $this->campFullData->table) ?? [];
             //return view('camps.' . $this->campFullData->table . '.formTraffic', compact('form_title','form_width','columns','camp','group','applicants'));
-            return \PDF::loadView('camps.' . $this->campFullData->table . '.formGroup', compact( 'form_title','form_width','columns','camp','group','applicants'))->setPaper('a3')->download($this->campFullData->table . $group . $form_title . Carbon::now()->format('YmdHis') .'.pdf');
-        } elseif (isset($request->download)&&$template==5) {
+            return \PDF::loadView('camps.' . $this->campFullData->table . '.formGroup', compact( 'form_title','form_width','columns','camp','group','applicants'))->setPaper('a3')->download($this->campFullData->abbreviation . $group . $form_title . Carbon::now()->format('YmdHis') .'.pdf');
+        } elseif (isset($request->download)&&$template==50) {
             $form_title = "報到學員名單";
             $form_width = "740px";  //portrait
             $columns = config('camps_fields.form_checkin.' . $this->campFullData->table) ?? [];
-
             //return view('camps.' . $this->campFullData->table . '.formGroup', compact('form_title','form_width','columns','camp','group','applicants'));
-            return \PDF::loadView('camps.' . $this->campFullData->table . '.formGroup', compact( 'form_title','form_width','columns','camp','group','applicants'))->setPaper('a3')->download($this->campFullData->table . $group . $form_title . Carbon::now()->format('YmdHis') .'.pdf');
+            return \PDF::loadView('camps.' . $this->campFullData->table . '.formGroup', compact( 'form_title','form_width','columns','camp','group','applicants'))->setPaper('a3')->download($this->campFullData->abbreviation . $group . $form_title . Carbon::now()->format('YmdHis') .'.pdf');
         }
 
         if(isset($request->download)) {
-            $fileName = $this->campFullData->abbreviation . $group . "組名單" . Carbon::now()->format('YmdHis') . '.csv';
+            if ($template==1) { //名單樣板=名單for now
+                $fileName = $this->campFullData->abbreviation . $group . "組名單樣板" . Carbon::now()->format('YmdHis') . '.csv';
+            } elseif ($template==51) {
+                $form_title = "報到學員名單";
+                $fileName = $this->campFullData->abbreviation . $group . $form_title . Carbon::now()->format('YmdHis') .'.csv';
+            } else {    //名單
+                $fileName = $this->campFullData->abbreviation . $group . "組名單" . Carbon::now()->format('YmdHis') . '.csv';
+            }
+
             $headers = array(
                 "Content-Encoding"    => "Big5",
                 "Content-type"        => "text/csv; charset=big5",
@@ -935,14 +942,16 @@ class BackendController extends Controller
                 // 先寫入此三個字元使 Excel 能正確辨認編碼為 UTF-8
                 // http://jeiworld.blogspot.com/2009/09/phpexcelutf-8csv.html
                 fwrite($file, "\xEF\xBB\xBF");
-                if ($template==1) {  //下載樣板
+                if ($template==1) {  //名單樣板＝名單for now
                     if($this->campFullData->table == 'tcamp') {
                         $columns = ["admitted_no" => "錄取序號", "name" => "姓名", "idno" => "身分證字號", "unit_county" => "服務單位所在縣市", "unit" => "服務單位", "workshop_credit_type" => "研習時數類型"];
                     }
                     else {
                         $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table) ?? []);
                     }
-                } else {
+                } elseif ($template==51) {  //報到學員名單
+                    $columns = config('camps_fields.form_checkin.' . $this->campFullData->table) ?? [];
+                } else {    //名單
                     $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table) ?? []);
                 }
                 fputcsv($file, $columns);
