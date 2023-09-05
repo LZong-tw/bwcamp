@@ -120,7 +120,7 @@ return [
         "mobile" => "行動電話",
         "email" => "電子郵件",
     ],
-    
+
     'tcamp' => [
         "sn" => "報名序號",
         "applied_at" => "報名日期",
@@ -579,7 +579,7 @@ return [
             "deposit" => "已交車資",
         ],
     ],
-    
+
     'display' => [
         'acamp' => [
             "batch" => [
