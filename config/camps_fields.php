@@ -641,11 +641,11 @@ return [
         'actcamp' => [
             "name" => [
                 "name" => "姓名",
-                "sort" => 0,
+                "sort" => 1,
                 "for_query" => 1,
             ],
-            "gender" => [
-                "name" => "性別",
+            "category" => [
+                "name" => "身份別",
                 "sort" => 1,
                 "for_query" => 1,
             ],
@@ -654,8 +654,33 @@ return [
                 "sort" => 1,
                 "for_query" => 1,
             ],
-            "emergency_phone" => [
+            "emergency_mobile" => [
                 "name" => "聯絡人電話",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "emergency_relationship" => [
+                "name" => "關係",
+                "sort" => 0,
+                "for_query" => 0,
+            ],
+            "mobile" => [
+                "name" => "行動電話",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "email" => [
+                "name" => "電子郵件",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "transportation" => [
+                "name" => "交通方式",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "fee" => [
+                "name" => "活動費用",
                 "sort" => 1,
                 "for_query" => 1,
             ],
@@ -667,9 +692,14 @@ return [
                 "sort" => 0,
                 "for_query" => 1,
             ],
-            "gender" => [
-                "name" => "性別",
-                "sort" => 1,
+            "mobile" => [
+                "name" => "行動電話",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "email" => [
+                "name" => "電子郵件",
+                "sort" => 0,
                 "for_query" => 1,
             ],
         ],
