@@ -99,19 +99,28 @@ return [
 
     'actcamp' => [
         "sn" => "報名序號",
-        "group" => "組別",
-        "number" => "座號",
         "applied_at" => "報名日期",
         "name" => "姓名",
-        "mobile" => "行動電話",
-        "email" => "電子郵件",
+        "category" => "身份別",
         "emergency_name" => "聯絡人姓名",
         "emergency_mobile" => "聯絡人電話",
         "emergency_relationship" => "關係",
+        "mobile" => "行動電話",
+        "email" => "電子郵件",
+        "transportation" => "交通方式",
+        "fee" => "活動費用",
         "portrait_agree" => "肖像權",
         "profile_agree" => "個人資料允許",
     ],
 
+    'actvcamp' => [
+        "sn" => "報名序號",
+        "applied_at" => "報名日期",
+        "name" => "姓名",
+        "mobile" => "行動電話",
+        "email" => "電子郵件",
+    ],
+    
     'tcamp' => [
         "sn" => "報名序號",
         "applied_at" => "報名日期",
