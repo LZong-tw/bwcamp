@@ -109,6 +109,7 @@ return [
         "email" => "電子郵件",
         "transportation" => "交通方式",
         "fee" => "活動費用",
+        "is_attend" => "是否參加",
         "portrait_agree" => "肖像權",
         "profile_agree" => "個人資料允許",
     ],
@@ -120,7 +121,7 @@ return [
         "mobile" => "行動電話",
         "email" => "電子郵件",
     ],
-    
+
     'tcamp' => [
         "sn" => "報名序號",
         "applied_at" => "報名日期",
@@ -690,6 +691,11 @@ return [
             ],
             "fee" => [
                 "name" => "活動費用",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "is_attend" => [
+                "name" => "是否參加",
                 "sort" => 1,
                 "for_query" => 1,
             ],
