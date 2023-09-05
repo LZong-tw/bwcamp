@@ -532,6 +532,7 @@ return [
 
     'form_checkin' => [
         "ycamp" => [
+            "sn" => "報名序號",
             "admitted_no" => "錄取編號",
             "name" => "姓名",
             "school" => "學校",
