@@ -580,7 +580,7 @@ return [
             "deposit" => "已交車資",
         ],
     ],
-    
+
     'display' => [
         'acamp' => [
             "batch" => [
