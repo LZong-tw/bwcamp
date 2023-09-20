@@ -173,6 +173,17 @@ return [
         "profile_agree" => "個人資料允許",
     ],
 
+    'tvcamp' => [
+        "name" => "姓名",
+        "gender" => "生理性別",
+        "unit" => "服務單位",
+        "title" => "職稱",
+        "mobile" => "手機",
+        "line" => "LineID",
+        "email" => "Email",
+    ],
+
+
     'utcamp' => [
         "sn" => "報名序號",
         "applied_at" => "報名日期",
@@ -202,6 +213,17 @@ return [
         "portrait_agree" => "肖像權",
         "profile_agree" => "個人資料允許",
     ],
+
+    'utvcamp' => [
+        "name" => "姓名",
+        "gender" => "生理性別",
+        "unit" => "服務單位",
+        "title" => "職稱",
+        "mobile" => "手機",
+        "line" => "LineID",
+        "email" => "Email",
+    ],
+
 
     'ceocamp' => [
         "sn" => "報名序號",
@@ -1134,6 +1156,24 @@ return [
             ],
         ],
 
+        'actvcamp' => [
+            "name" => [
+                "name" => "姓名",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "mobile" => [
+                "name" => "行動電話",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "email" => [
+                "name" => "電子郵件",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+        ],
+
         'utcamp' => [
             "batch" => [
                 "name" => "梯次",
@@ -1194,6 +1234,24 @@ return [
                 "name" => "關懷記錄",
                 "sort" => 0,
                 "for_query" => 0,
+            ],
+        ],
+
+        'actvcamp' => [
+            "name" => [
+                "name" => "姓名",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "mobile" => [
+                "name" => "行動電話",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "email" => [
+                "name" => "電子郵件",
+                "sort" => 0,
+                "for_query" => 1,
             ],
         ],
 
