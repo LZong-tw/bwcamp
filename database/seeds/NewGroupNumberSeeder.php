@@ -16,7 +16,7 @@ class NewGroupNumberSeeder extends Seeder
 
     public function run()
     {
-        Applicant::where('group_legacy', '!=', null)->chunkById(5, function ($applicants) {
+        Applicant::where('group_legacy', '!=', null)->where('group_id', null)->chunkById(5, function ($applicants) {
             DB::transaction(function () use ($applicants) {
                 foreach ($applicants as $applicant) {
                     $this->backendService->setGroup($applicant, $applicant->group_legacy);
