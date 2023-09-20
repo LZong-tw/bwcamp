@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('tvcamp', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('applicant_id')->constrained('applicants')->after('id');
-            $table->text('self_intro')->nullable()->after('applicant_id');      //自我介紹
+            $table->foreignId('applicant_id')->constrained('applicants');
+            $table->text('self_intro')->nullable();      //自我介紹
             $table->timestamps();
         });
     }
