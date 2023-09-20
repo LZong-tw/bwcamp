@@ -32,7 +32,7 @@
                 @if(($isSetting ?? false) || ($isSettingCarer ?? false))
                     <th></th>
                 @endif
-                @foreach ($columns as $key => $item)
+                @foreach ($columns ?? [] as $key => $item)
                     @if($isSettingCarer && ($key == 'mobile' || $key == 'email' || $key == 'zipcode' || $key == 'address' || $key == 'birthdate' || $key == 'after_camp_available_day' || $key == 'region'))
                     @elseif($isSettingCarer && ($key == 'participation_mode'))
                         <th class="text-center" data-field="is_attend" data-sortable="1">參加意願</th>
