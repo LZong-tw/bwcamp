@@ -76,7 +76,12 @@ class CheckInController extends Controller {
             (str_contains($request->query_str, '第') && str_contains($request->query_str, '組'))) {
             $group = substr($request->query_str, 0, 9);
         }
-        elseif(\Str::length($request->query_str) == 3) {
+        elseif(\Str::length($request->query_str) == 3 ||
+                in_array($request->query_str,
+                ["貴賓", "後補名單", "知音", "得獎相關人員", "其他", "福業汐止物流",
+                "僧伽護持聯誼會", "班幹部", "傳心", "里仁", "幕僚", "台北學苑管理處",
+                "台北學苑淨智處", "淨智北區", "淨智總部", "慈心總部", "台北學苑文教處", "文教總部"]
+        )) {
             $group = $request->query_str;
         }
         elseif(\Str::length($request->query_str) == 5){
