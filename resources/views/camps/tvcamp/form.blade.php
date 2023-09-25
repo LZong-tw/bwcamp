@@ -13,7 +13,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     @include('partials.counties_areas_script')
     @if(!isset($isBackend))
         <div class='alert alert-info' role='alert'>
-            您在本網站所填寫的個人資料，僅用於此次大專營的報名及活動聯絡之用。
+            您在本網站所填寫的個人資料，僅用於此次教師營義工的報名及活動聯絡之用。
         </div>
     @endif
 
