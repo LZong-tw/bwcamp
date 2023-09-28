@@ -602,7 +602,7 @@ return [
             "deposit" => "已交車資",
         ],
     ],
-    
+
     'display' => [
         'acamp' => [
             "batch" => [
@@ -1154,7 +1154,7 @@ return [
                 "sort" => 0,
                 "for_query" => 0,
             ],
-        ],        
+        ],
 
         'utvcamp' => [
             "name" => [
