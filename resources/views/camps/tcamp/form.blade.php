@@ -729,12 +729,12 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <p class='form-control-static text-primary mb-0'>
                 <label>
                     <input type='radio' required name='portrait_agree' value='1'>
-                    我同意主辦單位
+                    我同意主辦方就所報名之
                     <!-- Button trigger modal -->
                     <button type="button" class="text-primary" data-toggle="modal" data-target="#exampleModalCenter">
-                    在營隊期間拍照、錄影之活動記錄
+                    活動或課程進行期間內所採訪或拍攝或攝影
                     </button>
-                    ，使用於營隊及主辦單位的非營利教育推廣使用，包括以書面和網路方式呈現。
+                    之文字與影像進行合理範圍內之招生或使用（官網活動花絮等）。
                 </label>
             </p>
             <input type='radio' class='d-none' name="portrait_agree" value='0'>
