@@ -186,7 +186,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <h5 class='form-control-static text-primary'>聯絡方式</h5>
     <!--<p class="form-control-static text-danger">＊因需寄發教材資料及通知，請務必填寫正確</p>-->
     <div class='row form-group required'>
-        <label for='inputCell' class='col-md-2 control-label text-md-right'>行動電話</label>
+        <label for='inputCell' class='col-md-2 control-label text-md-right'>聯絡電話(手機)</label>
         <div class='col-md-10'>
             <input type=tel required name='mobile' value='' class='form-control' id='inputCell' pattern='09\d{8}' placeholder='格式：0912345678'>
             <div class="invalid-feedback">
@@ -196,14 +196,21 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class='row form-group'>
-        <label for='inputTelHome' class='col-md-2 control-label text-md-right'>家中電話</label>
+        <label for='inputTelWork' class='col-md-2 control-label text-md-right'>聯絡電話(O)</label>
+        <div class='col-md-10'>
+            <input type=tel  name='phone_work' value='' class='form-control' id='inputTelWork' placeholder='格式：0225452546'>
+        </div>
+    </div>
+
+    <div class='row form-group'>
+        <label for='inputTelHome' class='col-md-2 control-label text-md-right'>聯絡電話(H)</label>
         <div class='col-md-10'>
             <input type=tel  name='phone_home' value='' class='form-control' id='inputTelHome' placeholder='格式：0225452546'>
         </div>
     </div>
 
     <div class='row form-group required'>
-        <label for='inputEmail' class='col-md-2 control-label text-md-right'>電子郵件</label>
+        <label for='inputEmail' class='col-md-2 control-label text-md-right'>電子信箱</label>
         <div class='col-md-10'>
             <input type='email' required name='email' value='' class='form-control' id='inputEmail' placeholder='請務必填寫正確，以利營隊相關訊息通知'>
             <div class="invalid-feedback">
@@ -221,12 +228,43 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </script>
 
     <div class='row form-group required'>
-        <label for='inputEmail' class='col-md-2 control-label text-md-right'>確認電子郵件</label>
+        <label for='inputEmail' class='col-md-2 control-label text-md-right'>確認電子信箱</label>
         <div class='col-md-10'>
             <input type='email' required name='emailConfirm' value='' class='form-control' id='inputEmailConfirm' placeholder='請再次填寫，確認郵件正確'>
             {{-- data-match='#inputEmail' data-match-error='郵件不符合' placeholder='請再次填寫確認郵件填寫正確' --}}
             <div class="invalid-feedback">
                 未確認電子郵件
+            </div>
+        </div>
+    </div>
+
+    <div class='row form-group'>
+        <label for='inputLineID' class='col-md-2 control-label text-md-right'>LINE ID</label>
+        <div class='col-md-10'>
+            <input type=text name='line' value='' class='form-control' id='inputLineID'>
+        </div>
+    </div>
+
+    <div class='row form-group required'>
+        <label for='inputEmail' class='col-md-2 control-label text-md-right'>願意收到福智文教基金會電子報</label>
+        <div class="col-md-10">
+            <div class="form-check form-check-inline">
+                <label class="form-check-label">
+                    <input type="radio" name="is_allow_notified" value="1" required>
+                    是
+                    <div class="invalid-feedback">
+                        請選擇一項
+                    </div>
+                </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <label class="form-check-label">
+                    <input type="radio" name="is_allow_notified" value="0" required>
+                    否
+                    <div class="invalid-feedback">
+                        &nbsp;
+                    </div>
+                </label>
             </div>
         </div>
     </div>
@@ -248,7 +286,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class='row form-group'>
-        <label class='col-md-2 control-label text-md-right'>推薦人</label>
+        <label class='col-md-2 control-label text-md-right'>介紹人</label>
         <div class='col-md-10'>
             <div class='row form-group'>
                 <div class='col-md-2'>
@@ -288,30 +326,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </span>
     -----是否參加過福智舉辦活動----->
 
-    <div class='row form-group required'>
-        <label for='inputEmail' class='col-md-2 control-label text-md-right'>願意收到福智文教基金會電子報</label>
-        <div class="col-md-10">
-            <div class="form-check form-check-inline">
-                <label class="form-check-label">
-                    <input type="radio" name="is_allow_notified" value="1" required>
-                    是
-                    <div class="invalid-feedback">
-                        請選擇一項
-                    </div>
-                </label>
-            </div>
-            <div class="form-check form-check-inline">
-                <label class="form-check-label">
-                    <input type="radio" name="is_allow_notified" value="0" required>
-                    否
-                    <div class="invalid-feedback">
-                        &nbsp;
-                    </div>
-                </label>
-            </div>
-        </div>
-    </div>
-
     <div class='row form-group'>
         <label for='inputExpect' class='col-md-2 control-label text-md-right'>您對營隊的期許</label>
         <div class='col-md-10'>
@@ -319,6 +333,61 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             {{-- <div class="invalid-feedback">
                 請填寫本欄位
             </div> --}}
+        </div>
+    </div>
+
+    <div class='row form-group'>
+        <label class='col-md-2 control-label text-md-right'>緊急聯絡人</label>
+        <div class='col-md-10'>
+            <div class='row form-group'>
+                <div class='col-md-12 text-primary'>
+                    ＊＊＊緊急聯絡人資訊僅作營隊活動中緊急聯絡所需＊＊＊
+                </div>
+            </div>
+            <div class='row form-group'>
+                <div class='col-md-2'>
+                    姓名<label class='text-danger'>＊</label>
+                </div>
+                <div class='col-md-10'>
+                    <input type='text' class='form-control' name="emergency_name" value='' required>
+                    <div class="invalid-feedback">
+                    未填寫緊急聯絡人姓名
+                    </div>
+                </div>
+            </div>
+            <div class='row form-group'>
+                <div class='col-md-2 required'>
+                    關係<label class='text-danger'>＊</label>
+                </div>
+                <div class='col-md-10'>
+                    <select name="emergency_relationship" class="form-control" required>
+                        <option value=''>- 請選擇 -</option>
+                        <option value='配偶'>配偶</option>
+                        <option value='父親'>父親</option>
+                        <option value='母親'>母親</option>
+                        <option value='兄弟'>兄弟</option>
+                        <option value='姊妹'>姊妹</option>
+                        <option value='朋友'>朋友</option>
+                        <option value='同事'>同事</option>
+                        <option value='子女'>子女</option>
+                        <option value='其他'>其他</option>
+                    </select>
+                    <div class="invalid-feedback">
+                    未填寫緊急聯絡人關係
+                    </div>
+                </div>
+            </div>
+            <div class='row form-group'>
+                <div class='col-md-2 required'>
+                    手機<label class='text-danger'>＊</label>
+                </div>
+                <div class='col-md-10'>
+                    <input type='tel' class='form-control' name="emergency_mobile" value='' required>
+                    <div class="invalid-feedback">
+                    未填寫緊急聯絡人手機
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
