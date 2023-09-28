@@ -1157,23 +1157,79 @@ return [
         ],        
 
         'utvcamp' => [
-            "name" => "姓名",
-            "gender" => "生理性別",
-            "unit" => "服務單位",
-            "title" => "職稱",
-            "mobile" => "手機",
-            "line" => "LineID",
-            "email" => "Email",
+            "name" => [
+                "name" => "姓名",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "gender" => [
+                "name" => "生理性別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "unit" => [
+                "name" => "服務單位",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "title" => [
+                "name" => "職稱",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "mobile" => [
+                "name" => "手機",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "line" => [
+                "name" => "LineID",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "email" => [
+                "name" => "Email",
+                "sort" => 0,
+                "for_query" => 1,
+            ]
         ],
 
         'tvcamp' => [
-            "name" => "姓名",
-            "gender" => "生理性別",
-            "unit" => "服務單位",
-            "title" => "職稱",
-            "mobile" => "手機",
-            "line" => "LineID",
-            "email" => "Email",
+            "name" => [
+                "name" => "姓名",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "gender" => [
+                "name" => "生理性別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "unit" => [
+                "name" => "服務單位",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "title" => [
+                "name" => "職稱",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "mobile" => [
+                "name" => "手機",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "line" => [
+                "name" => "LineID",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "email" => [
+                "name" => "Email",
+                "sort" => 0,
+                "for_query" => 1,
+            ]
         ],
 
         'actvcamp' => [
