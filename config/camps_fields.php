@@ -1154,6 +1154,26 @@ return [
                 "sort" => 0,
                 "for_query" => 0,
             ],
+        ],        
+
+        'utvcamp' => [
+            "name" => "姓名",
+            "gender" => "生理性別",
+            "unit" => "服務單位",
+            "title" => "職稱",
+            "mobile" => "手機",
+            "line" => "LineID",
+            "email" => "Email",
+        ],
+
+        'tvcamp' => [
+            "name" => "姓名",
+            "gender" => "生理性別",
+            "unit" => "服務單位",
+            "title" => "職稱",
+            "mobile" => "手機",
+            "line" => "LineID",
+            "email" => "Email",
         ],
 
         'actvcamp' => [
