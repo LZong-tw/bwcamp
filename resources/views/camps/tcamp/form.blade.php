@@ -498,11 +498,11 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 </div>
             </div>
             <div class='row form-group required'>
-                <label for='inputTransportation' class='col-md-2 control-label text-md-right'>
+                <label for='inputTransportationDepart' class='col-md-2 control-label text-md-right'>
                     去程
                 </label>
                 <div class='col-md-10'>
-                    <select required class='form-control' name='transportation' onChange=''>
+                    <select required class='form-control' name='transportation_depart' onChange=''>
                         <option value='' selected>- 請選擇 -</option>
                         <option value='屏東火車站至大仁科大接駁' >屏東火車站至大仁科大接駁</option>
                         <option value='左營高鐵站至大仁科大接駁' >左營高鐵站至大仁科大接駁</option>
@@ -511,11 +511,11 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 </div>
             </div>
             <div class='row form-group required'>
-                <label for='inputTransportation' class='col-md-2 control-label text-md-right'>
+                <label for='inputTransportationBack' class='col-md-2 control-label text-md-right'>
                     回程
                 </label>
                 <div class='col-md-10'>
-                    <select required class='form-control' name='transportation' onChange=''>
+                    <select required class='form-control' name='transportation_back' onChange=''>
                         <option value='' selected>- 請選擇 -</option>
                         <option value='大仁科大至屏東火車站接駁' >大仁科大至屏東火車站接駁</option>
                         <option value='大仁科大至左營高鐵站接駁' >大仁科大至左營高鐵站接駁</option>
@@ -525,9 +525,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     </div>
-
-
-
 
     <div class='row form-group'>
         <label class='col-md-2 control-label text-md-right'>介紹人<br>(若無免填)</label>
