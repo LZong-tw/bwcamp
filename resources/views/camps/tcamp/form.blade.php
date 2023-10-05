@@ -13,13 +13,13 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     @include('partials.counties_areas_script')
     @if(!$camp_data->variant)
         <div class="alert alert-warning">
-            <h5>報名期間：111年11月01日(二)起至111年12月04日(日)止</h5>
-            <h5>研習時間：112年01月31日(二)起至112年02月01日(三)止</h5>
+            <h5>報名期間：112年10月16日(一)起至112年11月19日(日)止</h5>
+            <h5>研習時間：113年01月27日(六)起至113年01月30日(二)止</h5>
             <h5>研習時數：凡參加研習者依規定核發研習時數或數位研習證書</h5>
-            <!--h6>指導單位：教育部生命教育中心</h6-->
-            <h6>主辦單位：財團法人福智文教基金會</h6>
+            <h6>指導單位：教育部生命教育中心</h6>
+            <h6>主辦單位：財團法人福智文教基金會、大仁科技大學</h6>
             <h6>合辦單位：國立臺中教育大學通識教育中心、桃園市立內壢高級中等學校</h6>
-            <h6>協辦單位：國立高雄科技大學、明新科技大學、臺南市立大成國民中學、福智學校財團法人、基隆市瑪陵國民小學、屏東縣立大路關國民中小學、全臺福智青年社</h6>
+            <h6>協辦單位：福智學校財團法人、基隆市瑪陵國民小學、屏東縣立大路關國民小學</h6>
         </div>
     @endif
     <div class='alert alert-info' role='alert'>
@@ -375,7 +375,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputEmail' class='col-md-2 control-label text-md-right'>電子郵件</label>
         <div class='col-md-10'>
-            <input type='email' required name='email' value='' class='form-control' id='inputEmail' placeholder='寄發錄取通知用，請務必正確填寫'>
+            <input type='email' required name='email' value='' class='form-control' id='inputEmail' placeholder='請務必填寫正確，以利營隊相關訊息通知'>
             <div class="invalid-feedback">
                 未填寫電子郵件，或格式不正確
             </div>
@@ -401,6 +401,29 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
+    <div class='row form-group required'>
+        <label for='inputEmail' class='col-md-2 control-label text-md-right'>願意收到福智文教基金會電子報</label>
+        <div class="col-md-10">
+            <div class="form-check form-check-inline">
+                <label class="form-check-label">
+                    <input type="radio" name="is_allow_notified" value="1" required>
+                    是
+                    <div class="invalid-feedback">
+                        請選擇一項
+                    </div>
+                </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <label class="form-check-label">
+                    <input type="radio" name="is_allow_notified" value="0" required>
+                    否
+                    <div class="invalid-feedback">
+                        &nbsp;
+                    </div>
+                </label>
+            </div>
+        </div>
+    </div>
 
 
     <div class='row form-group'>
@@ -466,58 +489,48 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-
-    <div class='row form-group required'>
-        <label for='inputTransportation' class='col-md-2 control-label text-md-right'>交通方式</label>
-        <div class="col-md-10">
+    <div class='row form-group'>
+        <label class='col-md-2 control-label text-md-right'>交通需求</label>
+        <div class='col-md-10'>
             <div class='row form-group'>
                 <div class='col-md-12 text-primary'>
                     ＊＊＊僅供大會接駁規劃用，活動前另有義工個別聯繫確認＊＊＊
                 </div>
             </div>
-            <div class="form-check form-check-inline">
-                <label class="form-check-label">
-                    <input type="radio" name="transportation" value="自行前往" required>
-                    自行前往
-                    <div class="invalid-feedback">
-                        請選擇一項
-                    </div>
+            <div class='row form-group required'>
+                <label for='inputTransportation' class='col-md-2 control-label text-md-right'>
+                    去程
                 </label>
+                <div class='col-md-10'>
+                    <select required class='form-control' name='transportation' onChange=''>
+                        <option value='' selected>- 請選擇 -</option>
+                        <option value='屏東火車站至大仁科大接駁' >屏東火車站至大仁科大接駁</option>
+                        <option value='左營高鐵站至大仁科大接駁' >左營高鐵站至大仁科大接駁</option>
+                        <option value='自行前往無以上需求' >自行前往無以上需求</option>
+                    </select>
+                </div>
             </div>
-            <div class="form-check form-check-inline">
-                <label class="form-check-label">
-                    <input type="radio" name="transportation" value="屏東火車站專車接駁" required>
-                    屏東火車站專車接駁
-                    <div class="invalid-feedback">
-                        &nbsp;
-                    </div>
+            <div class='row form-group required'>
+                <label for='inputTransportation' class='col-md-2 control-label text-md-right'>
+                    回程
                 </label>
-            </div>
-            <div class="form-check form-check-inline">
-                <label class="form-check-label">
-                    <input type="radio" name="is_allow_notified" value="左營高鐵站專車接駁" required>
-                    左營高鐵站專車接駁
-                    <div class="invalid-feedback">
-                        &nbsp;
-                    </div>
-                </label>
+                <div class='col-md-10'>
+                    <select required class='form-control' name='transportation' onChange=''>
+                        <option value='' selected>- 請選擇 -</option>
+                        <option value='大仁科大至屏東火車站接駁' >大仁科大至屏東火車站接駁</option>
+                        <option value='大仁科大至左營高鐵站接駁' >大仁科大至左營高鐵站接駁</option>
+                        <option value='自行返回無以上需求' >自行返回無以上需求</option>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
 
 
-    <div class='row form-group'>
-        <label for='inputExpect' class='col-md-2 control-label text-md-right'>我對這次活動的期望</label>
-        <div class='col-md-10'>
-            <textarea class='form-control' rows=2 name='expectation' id=inputExpect></textarea>
-            {{-- <div class="invalid-feedback">
-                請填寫本欄位
-            </div> --}}
-        </div>
-    </div>
+
 
     <div class='row form-group'>
-        <label class='col-md-2 control-label text-md-right'>介紹人<br>(無則免填)</label>
+        <label class='col-md-2 control-label text-md-right'>介紹人<br>(若無免填)</label>
         <div class='col-md-10'>
             <div class='row form-group'>
                 <div class='col-md-2'>
@@ -665,6 +678,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
+    @if(!isset($camp_data->variant) || $camp_data->variant != 'utcamp')
         <div class='row form-group'>
             <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>對哪些活動有興趣(可複選)</label>
             <div class='col-md-10'>
@@ -697,30 +711,53 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
 
-    <div class='row form-group required'>
-        <label for='isAllowNotified' class='col-md-2 control-label text-md-right'>願意收到福智文教基金會電子報</label>
-        <div class="col-md-10">
-            <div class="form-check form-check-inline">
-                <label class="form-check-label">
-                    <input type="radio" name="is_allow_notified" value="1" required>
-                    是
-                    <div class="invalid-feedback">
-                        請選擇一項
+    @else
+        <div class='row form-group'>
+            <label class='col-md-2 control-label text-md-right'>推薦人</label>
+            <div class='col-md-10'>
+                <div class='row form-group'>
+                    <div class='col-md-2'>
+                        姓名：
                     </div>
-                </label>
-            </div>
-            <div class="form-check form-check-inline">
-                <label class="form-check-label">
-                    <input type="radio" name="is_allow_notified" value="0" required>
-                    否
-                    <div class="invalid-feedback">
-                        &nbsp;
+                    <div class='col-md-10'>
+                        <input type='text'class='form-control' name="introducer_name" value=''>
                     </div>
-                </label>
+                    {{-- <div class="invalid-feedback">
+                        請填寫本欄位
+                    </div> --}}
+                </div>
+
+                <div class='row form-group'>
+                    <div class='col-md-2'>
+                        關係：
+                    </div>
+                    <div class='col-md-10'>
+                        <select name="introducer_relationship" class="form-control">
+                            <option value=''>- 請選擇 -</option>
+                            <option value='配偶'>配偶</option>
+                            <option value='學生'>學生</option>
+                            <option value='父母'>父母</option>
+                            <option value='兄弟姊妹'>兄弟姊妹</option>
+                            <option value='朋友'>朋友</option>
+                            <option value='同事'>同事</option>
+                            <option value='子女'>子女</option>
+                            <option value='其他'>其他</option>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    @endif
 
+    <div class='row form-group'>
+        <label for='inputExpect' class='col-md-2 control-label text-md-right'>我對這次活動的期望</label>
+        <div class='col-md-10'>
+            <textarea class='form-control' rows=2 name='expectation' id=inputExpect></textarea>
+            {{-- <div class="invalid-feedback">
+                請填寫本欄位
+            </div> --}}
+        </div>
+    </div>
 
     <!--- 同意書 -->
     <div class='row form-group required'>

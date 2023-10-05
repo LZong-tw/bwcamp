@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::table('tcamp', function (Blueprint $table) {
             //
-            $table->string('transportation')->nullable()->after('blisswisdom_type_complement');;      //交通方式
+            $table->string('transportation_depart')->nullable()->after('blisswisdom_type_complement');;      //交通方式
+            $table->string('transportation_back')->nullable()->after('transportation_depart');;      //交通方式
         });
     }
 
@@ -28,7 +29,8 @@ return new class extends Migration
     {
         Schema::table('tcamp', function (Blueprint $table) {
             //
-            $table->dropColumn('transportation');
+            $table->dropColumn('transportation_depart');
+            $table->dropColumn('transportation_back');
         });
     }
 };
