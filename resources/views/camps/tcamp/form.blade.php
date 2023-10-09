@@ -18,7 +18,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <h5>研習時數：凡參加研習者依規定核發研習時數或數位研習證書</h5>
             <h6>指導單位：教育部生命教育中心</h6>
             <h6>主辦單位：財團法人福智文教基金會、大仁科技大學</h6>
-            <h6>合辦單位：國立臺中教育大學通識教育中心、桃園市立內壢高級中等學校</h6>
             <h6>協辦單位：福智學校財團法人、基隆市瑪陵國民小學、屏東縣立大路關國民小學</h6>
         </div>
     @endif
@@ -210,20 +209,11 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
 
         <div class='row form-group required'>
-        <label for='inputUnit' class='col-md-2 control-label text-md-right'>服務單位名稱/校名</label>
-            <div class='col-md-10'>
-                <input type=text required name='unit' value='' class='form-control' id='inputUnit'>
-                <div class="invalid-feedback crumb">
-                    未填寫服務單位名稱/校名
-                </div>
-            </div>
-        </div>
-
-        <div class='row form-group required'>
             <label for='inputUnitCounty' class='col-md-2 control-label text-md-right'>服務單位所在縣市</label>
             <div class='col-md-10'>
                 <select required class='form-control' name='unit_county'' onChange='SchooList(this.options[this.options.selectedIndex].value);'>
                     <option value='' selected>- 請先選縣市 -</option>
+                    <option value='海外' >海外</option>
                     <option value='臺北市' >臺北市</option>
                     <option value='新北市' >新北市</option>
                     <option value='基隆市' >基隆市</option>
@@ -246,14 +236,30 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     <option value='澎湖縣' >澎湖縣</option>
                     <option value='金門縣' >金門縣</option>
                     <option value='連江縣' >連江縣</option>
-                    <option value='南海諸島' >南海諸島</option>
-                    <option value='海外' >海外</option>
                 </select>
                 <div class="invalid-feedback crumb">
                     未選擇服務單位所在縣市
                 </div>
             </div>
         </div>
+
+        <div class='row form-group'>
+            <label for='inputNationName' class='col-md-2 control-label text-md-right'>國籍</label>
+            <div class='col-md-10'>
+                <input type=text name='nationality' value='' class='form-control' id='inputNationName' placeholder='如服務單位所在縣市為海外，請加註您的國籍'>
+            </div>
+        </div>
+
+        <div class='row form-group required'>
+        <label for='inputUnit' class='col-md-2 control-label text-md-right'>服務單位名稱/校名</label>
+            <div class='col-md-10'>
+                <input type=text required name='unit' value='' class='form-control' id='inputUnit'>
+                <div class="invalid-feedback crumb">
+                    未填寫服務單位名稱/校名
+                </div>
+            </div>
+        </div>
+
     @elseif($camp_data->variant == "utcamp")
         <div class="row form-group required">
             <label
@@ -375,7 +381,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputEmail' class='col-md-2 control-label text-md-right'>電子郵件</label>
         <div class='col-md-10'>
-            <input type='email' required name='email' value='' class='form-control' id='inputEmail' placeholder='請務必填寫正確，以利營隊相關訊息通知'>
+            <input type='email' required name='email' value='' class='form-control' id='inputEmail' placeholder='請務必填寫正確，以便寄發錄取通知單、報到通知單等'>
             <div class="invalid-feedback">
                 未填寫電子郵件，或格式不正確
             </div>
@@ -592,7 +598,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </span>
     @else
         <div class='row form-group'>
-            <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>之前是否曾參加過「福智教師生命成長營」</label>
+            <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>是否參加過<b><u>住宿型</u></b>「福智教師生命成長營」</label>
             <div class='col-md-10'>
                 <div class="form-check form-check-inline">
                     <label class="form-check-label">
@@ -697,7 +703,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 </div>
             </div>
         </div>
-
+{{--
         <div class='row form-group'>
             <label for='inputAvailableDay' class='col-md-2 control-label text-md-right'>營隊結束後，若有後續課程開課，請問您比較方便參加的時段？(可複選)</label>
             <div class='col-md-10'>
@@ -707,7 +713,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <label><input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='寒暑假' > 寒暑假</label> <br/>
             </div>
         </div>
-
+--}}
     @else
         <div class='row form-group'>
             <label class='col-md-2 control-label text-md-right'>推薦人</label>
@@ -817,6 +823,8 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     </div>
+
+    <input type="hidden" name="is_attend" value=1>
 
     <div class="row form-group text-danger tips d-none">
         <div class='col-md-2'></div>
