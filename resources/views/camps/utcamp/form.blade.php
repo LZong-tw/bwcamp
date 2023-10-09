@@ -210,6 +210,48 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class='row form-group required'>
+            <label for='inputAddress' class='col-md-2 control-label text-md-right'>居住縣市</label>
+            <div class='col-md-10'>
+                <select required class='form-control' name='address'>
+                    <option value='' selected>- 請選縣市 -</option>
+                    <option value='臺北市' >臺北市</option>
+                    <option value='新北市' >新北市</option>
+                    <option value='基隆市' >基隆市</option>
+                    <option value='宜蘭縣' >宜蘭縣</option>
+                    <option value='花蓮縣' >花蓮縣</option>
+                    <option value='桃園市' >桃園市</option>
+                    <option value='新竹市' >新竹市</option>
+                    <option value='新竹縣' >新竹縣</option>
+                    <option value='苗栗縣' >苗栗縣</option>
+                    <option value='臺中市' >臺中市</option>
+                    <option value='彰化縣' >彰化縣</option>
+                    <option value='南投縣' >南投縣</option>
+                    <option value='雲林縣' >雲林縣</option>
+                    <option value='嘉義市' >嘉義市</option>
+                    <option value='嘉義縣' >嘉義縣</option>
+                    <option value='臺南市' >臺南市</option>
+                    <option value='高雄市' >高雄市</option>
+                    <option value='屏東縣' >屏東縣</option>
+                    <option value='臺東縣' >臺東縣</option>
+                    <option value='澎湖縣' >澎湖縣</option>
+                    <option value='金門縣' >金門縣</option>
+                    <option value='連江縣' >連江縣</option>
+                    <option value='其它' >其它</option>
+                </select>
+                <div class="invalid-feedback crumb">
+                    未選擇居住縣市
+                </div>
+            </div>
+    </div>
+
+    <div class='row form-group'>
+        <label for='inputLineID' class='col-md-2 control-label text-md-right'>LINE ID</label>
+        <div class='col-md-10'>
+            <input type=text name='line' value='' class='form-control' id='inputLineID'>
+        </div>
+    </div>
+
+    <div class='row form-group required'>
         <label for='inputEmail' class='col-md-2 control-label text-md-right'>電子信箱</label>
         <div class='col-md-10'>
             <input type='email' required name='email' value='' class='form-control' id='inputEmail' placeholder='請務必填寫正確，以利營隊相關訊息通知'>
@@ -235,13 +277,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <div class="invalid-feedback">
                 未確認電子郵件
             </div>
-        </div>
-    </div>
-
-    <div class='row form-group'>
-        <label for='inputLineID' class='col-md-2 control-label text-md-right'>LINE ID</label>
-        <div class='col-md-10'>
-            <input type=text name='line' value='' class='form-control' id='inputLineID'>
         </div>
     </div>
 
@@ -272,7 +307,8 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group'>
         <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>如何得知報名訊息(可複選)</label>
         <div class='col-md-10'>
-            <label><input type="checkbox" name=info_source[] value='親友/同事推薦' > 親友/同事推薦</label> <br/>
+            <label><input type="checkbox" name=info_source[] value='親友推薦' > 親友推薦</label> <br/>
+            <label><input type="checkbox" name=info_source[] value='同事推薦' > 同事推薦</label> <br/>
             <label><input type="checkbox" name=info_source[] value='學校公文' > 學校公文</label> <br/>
             <label><input type="checkbox" name=info_source[] value='宣傳海報/小卡' > 宣傳海報/小卡</label> <br/>
             <label><input type="checkbox" name=info_source[] value='福智文教基金會官網' > 福智文教基金會官網</label> <br/>
