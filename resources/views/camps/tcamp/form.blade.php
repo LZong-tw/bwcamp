@@ -212,7 +212,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <label for='inputUnitCounty' class='col-md-2 control-label text-md-right'>服務單位所在縣市</label>
             <div class='col-md-10'>
                 <select required class='form-control' name='unit_county'' onChange='SchooList(this.options[this.options.selectedIndex].value);'>
-                    <option value='' selected>- 請先選縣市 -</option>
+                    <option value='' selected>- 請選縣市 -</option>
                     <option value='海外' >海外</option>
                     <option value='臺北市' >臺北市</option>
                     <option value='新北市' >新北市</option>
