@@ -130,7 +130,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 -->
-
+{{--
     <div class='row form-group required'>
         <label for='inputBirth' class='col-md-2 control-label text-md-right'>研習時數申請</label>
         <div class='col-md-10'>
@@ -156,7 +156,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     </div>
-
+--}}
     <div class='row form-group'>
         <label class = 'col-md-2'></label>
         <label class = 'col-md-10 text-primary'>若您的服務學校/單位不在下面選單中，請在「行政區」選「其他」，即可自填服務學校/單位。</label>
