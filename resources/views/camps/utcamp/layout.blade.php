@@ -6,10 +6,10 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name='description' content='「教育是人類升沈的樞紐」邀請您報名參加教師生命成長營。' />
     <meta name='author' content='福智文教基金會'>
-    <meta property='og:url' content='http://bwfoce.org/2023utcamp/'/>
+    <meta property='og:url' content='https://bwfoce.org/tcamp/'/>
     <meta property='og:title' content='{{ $camp_data->abbreviation }}'/>
     <meta property='og:description' content='「教育是人類升沈的樞紐」邀請您報名參加教師生命成長營。' />
-    <meta property='og:image' content='http://bwfoce.org/2023utcamp/'/>
+    <meta property='og:image' content='https://bwfoce.org/tcamp/'/>
     {{-- <link rel='icon' href='/camp/favicon.ico'> --}}
     <title> {{ $camp_data->fullName }} </title>
     <!-- Bootstrap core CSS -->
@@ -20,11 +20,11 @@
     <link href='{{ asset('css/camp.css') }}' rel='stylesheet'>
     <!-- jQuery library-->
     {{-- <script src='{{ asset('js/jquery-3.5.1.min.js') }}'></script> --}}
-{{--    <script src="{{ asset('js/popper.2.11.6.min.js') }}"></script>--}}
+    <script src="{{ asset('js/popper.2.11.6.min.js') }}"></script>
     <!-- Bootstrap core JS -->
     {{-- <script src='{{ asset('js/bootstrap.bundle.min.js') }}'></script> --}}
     <!-- Bootstrap confirmation JS -->
-{{--    <script src='{{ asset('js/bootstrap-confirmation.min.js') }}'></script>--}}
+    <script src='{{ asset('js/bootstrap-confirmation.min.js') }}'></script>
 </head>
 <BODY>
 <div id='fb-root'></div>
@@ -46,7 +46,7 @@
                     {{-- <li class="nav-item active"> --}}
                     {{-- <span class="sr-only">(current)</span> --}}
                     <li class="nav-item">
-                        <a class="nav-link" href="https://bwfoce.org/2023utcamp">營隊資訊</a>
+                        <a class="nav-link" href="{{ $camp_data->site_url }}">營隊資訊</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('registration', $batch_id) }}">報名表單</a>
@@ -54,17 +54,21 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('query', $batch_id) }}">報名查詢/修改</a>
                     </li>
-                    {{-- <li class="nav-item">
+                    {{-- 
+                        <li class="nav-item">
                         <a class="nav-link" href="{{ route('payment', $batch_id) }}">線上繳費</a>
-                    </li> --}}
+                        </li> 
+                    --}}
                     @if(\Carbon\Carbon::now() >= \Carbon\Carbon::createFromFormat("Y-m-d", $camp_data->admission_announcing_date))
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route("queryadmitGET", $batch_id) }}">錄取查詢</a>
                         </li>
                     @endif
-                    {{-- <li class="nav-item">
+                    {{-- 
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ url("downloads/utcamp2024/2024第32屆教師生命成長營大專教職員梯-活動簡章_含課表紙本報名表_R2.docx") }}">課程表</a>
-                    </li> --}}
+                    </li>
+                    --}}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url("downloads/utcamp2024/2024第32屆教師生命成長營大專教職員梯-活動簡章_含課表紙本報名表_R2.docx") }}">報名簡章(含課表)下載</a>
                     </li>

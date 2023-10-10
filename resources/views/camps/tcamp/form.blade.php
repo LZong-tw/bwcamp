@@ -1,6 +1,3 @@
-{{--
-    參考頁面：https://youth.blisswisdom.org/camp/winter/form/index_addto.php
-    --}}
 <?
 header("Cache-Control: no-cache, no-store, must-revalidate, post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
@@ -11,7 +8,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 @section('content')
     @include('partials.schools_script')
     @include('partials.counties_areas_script')
-    @if(!$camp_data->variant)
         <div class="alert alert-warning">
             <h5>報名期間：112年10月16日(一)起至112年11月19日(日)止</h5>
             <h5>研習時間：113年01月27日(六)起至113年01月30日(二)止</h5>
@@ -20,13 +16,12 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <h6>主辦單位：財團法人福智文教基金會、大仁科技大學</h6>
             <h6>協辦單位：福智學校財團法人、基隆市瑪陵國民小學、屏東縣立大路關國民小學</h6>
         </div>
-    @endif
     <div class='alert alert-info' role='alert'>
         您在本網站所填寫的個人資料，僅用於此次教師營的報名及活動聯絡之用。
     </div>
 
     <div class='page-header form-group'>
-        <h4>{{ $camp_data->fullName }} {{ $batch->name }}場 線上報名表</h4>
+        <h4>{{ $camp_data->fullName }} {{ $batch->name }}梯 線上報名表</h4>
     </div>
 <span id="tcamp-layout">
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
@@ -64,12 +59,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     @endif
-    @if($camp_data->variant ?? null == 'utcamp')
-        {{-- 大專教師營 --}}
-        <div id="utcamp-unit-and-batch-section" class="m-0 p-0">
-            <utcamp-unit-and-batch-section></utcamp-unit-and-batch-section>
-        </div>
-    @endif
+
     <div class='row form-group required'>
         <label for='inputName' class='col-md-2 control-label text-md-right'>姓名</label>
         <div class='col-md-10'>
@@ -390,7 +380,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 
     <script language='javascript'>
         window.addEventListener("load", function() {
-            $('#inputEmail').bind("cut copy paste", function (e) {
+            $('#inputEmail').bind("cut copy paste", function(e) {
                 e.preventDefault();
             })
         });
@@ -966,8 +956,8 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         //??
         function toggleComplement(val) {
             let blisswisdom_type_complements = $('input').filter(function() {
-                                                            return this.name.match(/blisswisdom_type_complement\[\d\]/);
-                                                        });
+        return this.name.match(/blisswisdom_type_complement\[\d\]/);
+        });
             for (var i = 0; i < blisswisdom_type_complements.length; i++) {
                 blisswisdom_type_complements[i].required = val;
             }
@@ -1096,6 +1086,4 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         }
     </style>
 @stop
-{{--
-    參考頁面：https://youth.blisswisdom.org/camp/winter/form/index_addto.php
-    --}}
+

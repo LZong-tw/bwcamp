@@ -247,7 +247,7 @@ class CampDataService
                 }
             }
         }
-        else if($camp == "tcamp" && isset($formData["unit_county"])){
+        else if($camp == ("tcamp" || "utcamp") && isset($formData["unit_county"])){
             $region = "";
             $north = array ("臺北市", "基隆市", "新北市", "宜蘭縣", "花蓮縣", "金門縣", "連江縣");
             $central = array ("臺中市", "彰化縣", "南投縣");
