@@ -13,7 +13,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class='page-header form-group'>
-        <h4>{{ $camp_data->fullName }} {{ $batch->name }} 線上報名表</h4>
+        <h4>{{ $camp_data->fullName }} {{ $batch->name }}梯 線上報名表</h4>
     </div>
 <span id="utcamp-layout">
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
@@ -51,7 +51,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     @endif
-
 
     <div class='row form-group required'>
         <label for='inputName' class='col-md-2 control-label text-md-right'>姓名</label>
@@ -261,11 +260,11 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-    <script type="module">
+    <script language='javascript'>
         window.addEventListener("load", function() {
-            $('#inputEmail').bind("cut copy paste",function(e) {
+            $('#inputEmail').bind("cut copy paste", function(e) {
                 e.preventDefault();
-            });
+            })
         });
     </script>
 
@@ -516,7 +515,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </form>
 </span>
 
-    <script type="module">
+    <script>
         window.addEventListener("load", function() {
             $('[data-toggle="confirmation"]').confirmation({
                 rootSelector: '[data-toggle=confirmation]',
@@ -564,7 +563,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                             }
                             document.Camp.classList.add('was-validated');
                         }
-            });
+            })
         });
         (function() {
             'use strict';
@@ -628,10 +627,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         }
         //??
         function toggleComplement(val) {
-            let blisswisdom_type_complements =
-                    $('input').filter(function() {
-                        return this.name.match(/blisswisdom_type_complement\[\d\]/);
-                    });
+            let blisswisdom_type_complements = $('input').filter(function() {
+        return this.name.match(/blisswisdom_type_complement\[\d\]/);
+        });
             for (var i = 0; i < blisswisdom_type_complements.length; i++) {
                 blisswisdom_type_complements[i].required = val;
             }
@@ -760,6 +758,4 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         }
     </style>
 @stop
-{{--
-    參考頁面：https://youth.blisswisdom.org/camp/winter/form/index_addto.php
-    --}}
+
