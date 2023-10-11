@@ -84,11 +84,21 @@ class CampController extends Controller
         } else {
             $registration_end = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $this->camp_data->registration_end . "23:59:59");
         }
-        $final_registration_end = $this->camp_data->final_registration_end ? \Carbon\Carbon::createFromFormat("Y-m-d", $this->camp_data->final_registration_end)->endOfDay() : \Carbon\Carbon::today();
+        $registration_start = \Carbon\Carbon::createFromFormat("Y-m-d", $this->camp_data->registration_start)->startOfDay();
+        $final_registration_end = $this->camp_data->final_registration_end ? \Carbon\Carbon::createFromFormat("Y-m-d", 
+        $this->camp_data->final_registration_end)->endOfDay() : \Carbon\Carbon::today();
+        
         if($today > $registration_end && !isset($request->isBackend)) {
-            return view('camps.' . $this->camp_data->table . '.outdated');
+            //超過前台報名期限
+            return view('camps.' . $this->camp_data->table . '.outdated')->with('outdatedMessage', '報名期限已過，敬請見諒。');
         } elseif(isset($request->isBackend) && $today > $final_registration_end) {
-            return view('camps.' . $this->camp_data->table . '.outdated')->with('isBackend', '超出最終報名日。');
+            //超過後台最終報名期限
+            return view('camps.' . $this->camp_data->table . '.outdated')
+            ->with('isBackend', '超出最終報名日。')
+            ->with('outdatedMessage', '報名期限已過，敬請見諒。');
+        } elseif($today < $registration_start && !isset($request->isBackend)) {
+            //尚未開放
+            return view('camps.' . $this->camp_data->table . '.outdated')->with('outdatedMessage', '尚未開放報名。');
         } else {
             return view('camps.' . $this->camp_data->table . '.form')
                     ->with('isBackend', $request->isBackend)

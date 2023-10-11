@@ -22,7 +22,7 @@ class RestrictLocal
         if($host == "bwcamp.bwfoce.org") {
             return $next($request);
         }
-        else if($host == "bw.camp" && ($ip == "127.0.0.1" or $ip == "::1")) {
+        else if(($host == "bw.camp" || $host == "bwcamp.minuet.com") && ($ip == "127.0.0.1" or $ip == "::1")) {
             return $next($request);
         }
         else{
