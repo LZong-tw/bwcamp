@@ -232,14 +232,52 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 </div>
             </div>
         </div>
-
+{{--        
         <div class='row form-group'>
             <label for='inputNationName' class='col-md-2 control-label text-md-right'>國籍</label>
             <div class='col-md-10'>
                 <input type=text name='nationality' value='' class='form-control' id='inputNationName' placeholder='如服務單位所在縣市為海外，請加註您的國籍'>
             </div>
         </div>
+--}}
+        <div class='row form-group'>
+            <label for='inputNationName' class='col-md-2 control-label text-md-right'>國籍</label>
+            <div class='col-md-10'>
+                <div class='row form-group'>
+                    <div class='col-md-12 text-primary'>
+                        ＊＊＊如服務單位所在縣市為海外，請加註您的國籍＊＊＊
+                    </div>
+                </div>
 
+                <div class='row form-group'>
+                    <div class='col-md-4'>
+                    <select class='form-control' name='nationality' id='inputNationName'>
+                        <option value='美國' >美國</option>
+                        <option value='加拿大' >加拿大</option>
+                        <option value='澳大利亞' >澳大利亞</option>
+                        <option value='紐西蘭' >紐西蘭</option>
+                        <option value='中國' >中國</option>
+                        <option value='香港' >香港</option>
+                        <option value='澳門' >澳門</option>
+                        <option value='台灣' selected>台灣</option>
+                        <option value='韓國' >韓國</option>
+                        <option value='日本' >日本</option>
+                        <option value='蒙古' >蒙古</option>
+                        <option value='新加坡' >新加坡</option>
+                        <option value='馬來西亞' >馬來西亞</option>
+                        <option value='菲律賓' >菲律賓</option>
+                        <option value='印尼' >印尼</option>
+                        <option value='泰國' >泰國</option>
+                        <option value='越南' >越南</option>
+                        <option value='其它' >其它</option>
+                    </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        
         <div class='row form-group required'>
         <label for='inputUnit' class='col-md-2 control-label text-md-right'>服務單位名稱/校名</label>
             <div class='col-md-10'>
@@ -494,7 +532,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 </div>
             </div>
             <div class='row form-group required'>
-                <label for='inputTransportationDepart' class='col-md-2 control-label text-md-right'>
+                <label for='inputTransportationDepart' class='col-md-2 control-label'>
                     去程
                 </label>
                 <div class='col-md-10'>
@@ -507,7 +545,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 </div>
             </div>
             <div class='row form-group required'>
-                <label for='inputTransportationBack' class='col-md-2 control-label text-md-right'>
+                <label for='inputTransportationBack' class='col-md-2 control-label'>
                     回程
                 </label>
                 <div class='col-md-10'>
