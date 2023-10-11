@@ -21,11 +21,9 @@ class RestrictLocal
         $allowed_ip = ["127.0.0.1"];
         if($host == "bwcamp.bwfoce.org") {
             return $next($request);
-        }
-        else if(($host == "bw.camp" || $host == "bwcamp.minuet.com") && ($ip == "127.0.0.1" or $ip == "::1")) {
+        } elseif(($host == "bw.camp" || $host == "bwcamp.minuet.com") && ($ip == "127.0.0.1" or $ip == "::1")) {
             return $next($request);
-        }
-        else{
+        } else {
             return abort(404);
         }
     }
