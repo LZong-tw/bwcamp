@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      *
@@ -15,8 +14,10 @@ return new class extends Migration
     {
         Schema::table('utcamp', function (Blueprint $table) {
             //
-            $table->string('transportation_depart')->nullable()->after('blisswisdom_type');;      //交通方式
-            $table->string('transportation_back')->nullable()->after('transportation_depart');;      //交通方式
+            $table->string('transportation_depart')->nullable()->after('blisswisdom_type');
+            ;      //交通方式
+            $table->string('transportation_back')->nullable()->after('transportation_depart');
+            ;      //交通方式
         });
     }
 
