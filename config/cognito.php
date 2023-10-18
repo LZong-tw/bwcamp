@@ -104,7 +104,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | This option controls the cognito MFA configuration for the assigned user.
-    | 
+    |
     |
     | MFA_NONE, MFA_ENABLED
     |
@@ -251,7 +251,7 @@ return [
     | Allow new user to set the password and have verified
     |--------------------------------------------------------------------------
     |
-    | This option enables the user to set the password and have that verified 
+    | This option enables the user to set the password and have that verified
     | during the to invitation for the new user. The default value is set to true.
     |
     */
