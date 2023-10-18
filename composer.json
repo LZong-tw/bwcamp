@@ -12,6 +12,7 @@
         "barryvdh/laravel-dompdf": "^2.0",
         "doctrine/dbal": "^3.5",
         "dompdf/dompdf": "^2.0",
+        "ellaisys/aws-cognito": "^1.2",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^3.0",
         "guzzlehttp/guzzle": "^7.5",

@@ -40,9 +40,9 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-
+        // https://github.com/ellaisys/aws-cognito
         'api' => [
-            'driver' => 'token',
+            'driver' => 'cognito-token',
             'provider' => 'users',
             'hash' => false,
         ],

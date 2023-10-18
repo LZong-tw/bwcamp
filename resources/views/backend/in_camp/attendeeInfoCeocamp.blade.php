@@ -136,14 +136,14 @@
 {{--        @endif--}}
 {{--    </div>--}}
 {{--    <br>--}}
-    {{-- <form method="POST">
+    <form method="POST">
         @csrf
         Name: <input type="text" name="name">
 
         <x-media-library-attachment multiple name="images"/>
 
         <button type="submit">Submit</button>
-    </form> --}}
+    </form>
     <div class="container alert alert-primary">
         <div class="row">
             <div class="col-md-12">
