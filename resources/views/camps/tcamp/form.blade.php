@@ -436,6 +436,68 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class='row form-group required'>
+        <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>是否參加過「福智教師生命成長營」(寒假舉辦)</label>
+        <div class='col-md-10'>
+            <div class="form-check form-check-inline">
+                <label class="form-check-label">
+                    <input type="radio" required name="is_attend_tcamp" value='1' onclick="toggleTcampYear(1)"> 是
+                    <div class="invalid-feedback">
+                        請選擇項目
+                    </div>
+                </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <label class="form-check-label">
+                    <input type="radio" required name="is_attend_tcamp" value='0' onclick="toggleTcampYear(0)"> 否
+                    <div class="invalid-feedback">
+                        &nbsp;
+                    </div>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class='row form-group required' style="display: none;" id="tcamp_year_row">
+        <label for='inputTcampYear' class='col-md-2 control-label text-md-right'>參加年度(西元)</label>
+        <div class='col-md-10' id='inputTcampYear'>
+            <input type='number' class='form-control' name='tcamp_year' id='tcamp_year' min=1993 max='{{ \Carbon\Carbon::now()->year }}' value='' placeholder='大約年度即可'>
+            <div class="invalid-feedback">
+                未填寫參加年度，或格式不正確
+            </div>
+        </div>
+    </div>
+
+    <div class='row form-group required' >
+        <label for='inputIsBW' class='col-md-2 control-label text-md-right'>福智廣論研討班學員</label>
+        <div class='col-md-10'>
+            <div class="form-check form-check-inline">
+                <label class="form-check-label">
+                    <input type="radio" required name="is_blisswisdom" value='1' onclick="toggleLRClass(1)"> 是
+                    <div class="invalid-feedback">
+                        請選擇項目
+                    </div>
+                </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <label class="form-check-label">
+                    <input type="radio" required name="is_blisswisdom" value='0' onclick="toggleLRClass(0)"> 否
+                    <div class="invalid-feedback">
+                        &nbsp;
+                    </div>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class='row form-group required' style="display: none;" id="lrclass_row">
+            <label for='inputLRClass' class='col-md-2 control-label text-md-right'>廣論研討班別</label>
+            <div class='col-md-10'>
+                <input type='text' name='lrclass' id='lrclass' value='' class='form-control' id='inputLRClass' placeholder='請詳填廣論研討班別，例：北14宗001班'>
+                <div class="invalid-feedback">
+                    請詳填廣論研討班別，例：北14宗001班
+                </div>
+            </div>
+     </div>
+
+    <div class='row form-group required'>
         <label for='inputEmail' class='col-md-2 control-label text-md-right'>願意收到福智文教基金會電子報</label>
         <div class="col-md-10">
             <div class="form-check form-check-inline">
@@ -620,11 +682,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <!-- 有點複雜的「是否參加過福智活動」的調查 -->
-    @if($camp_data->variant ?? null == 'utcamp')
-        <span id="utcamp-is-blisswisdom">
-            <utcamp-is-blisswisdom></utcamp-is-blisswisdom>
-        </span>
-    @else
+    <!--
         <div class='row form-group'>
             <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>是否參加過<b><u>住宿型</u></b>「福智教師生命成長營」</label>
             <div class='col-md-10'>
@@ -692,7 +750,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 </div>
             </div>
         </div>
-    @endif
+    -->
 
     <div class='row form-group'>
         <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>如何得知報名訊息(可複選)</label>
@@ -991,7 +1049,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         function toggleBTCrequired() {
             document.getElementById('blisswisdom_type_complement').required = !document.getElementById('blisswisdom_type_complement').required ? true : false;
         }
-        //??
         function toggleComplement(val) {
             let blisswisdom_type_complements = $('input').filter(function() {
         return this.name.match(/blisswisdom_type_complement\[\d\]/);
@@ -1006,14 +1063,24 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 $("#complement_row").hide();
             }
         }
+        function toggleLRClass(val) {
+            if(val) {
+                $("#lrclass_row").show();
+                document.getElementById('lrclass').required = true;
+            }
+            else {
+                $("#lrclass_row").hide();
+                document.getElementById('lrclass').required = false;
+            }
+        }
         function toggleTcampYear(val) {
             if(val) {
                 $("#tcamp_year_row").show();
-                document.getElementById('inputTcampYear').required = true;
+                document.getElementById('tcamp_year').required = true;
             }
             else {
                 $("#tcamp_year_row").hide();
-                document.getElementById('inputTcampYear').required = false;
+                document.getElementById('tcamp_year').required = false;
             }
         }
 
