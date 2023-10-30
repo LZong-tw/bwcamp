@@ -161,9 +161,10 @@ return [
         //"never_attend_any_stay_over_tcamps" => "未曾參加過住宿型福智教師生命成長營",
         "is_attend_tcamp" => "是否參加過教師營",
         "tcamp_year" => "參加教師營年度",
-        "is_blisswisdom" => "是否參加過福智其它活動",
-        "blisswisdom_type" => "參加過的福智活動(選項)",
-        "blisswisdom_type_complement" => "參加過的福智活動(其它)",
+        "is_blisswisdom" => "是否參加過福智其它活動/是否為廣論學員",
+        //"blisswisdom_type" => "參加過的福智活動(選項)",
+        //"blisswisdom_type_complement" => "參加過的福智活動(其它)",
+        "lrclass" => "廣論班別",
         "info_source" => "得知管道",
         "interesting" => "有興趣的主題(選項)",
         "interesting_complement" => "有興趣的主題(其它)",
@@ -171,6 +172,8 @@ return [
         "expectation" => "對活動的期望",
         "portrait_agree" => "肖像權",
         "profile_agree" => "個人資料允許",
+        "transportation_depart" => "去程交通",
+        "transportation_back" =>"回程交通",
     ],
 
     'tvcamp' => [
@@ -212,6 +215,8 @@ return [
         "expectation" => "對活動的期望",
         "portrait_agree" => "肖像權",
         "profile_agree" => "個人資料允許",
+        "transportation_depart" => "去程交通",
+        "transportation_back" =>"回程交通",
     ],
 
     'utvcamp' => [
