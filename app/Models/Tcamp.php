@@ -16,7 +16,7 @@ class Tcamp extends Model
         'interesting', 'interesting_complement', 'after_camp_available_day', 'years_teached', 'education',
         'school_or_course', 'subject_teaches', 'position', 'title',
         'unit', 'unit_county', 'unit_district',
-        'is_blisswisdom', 'blisswisdom_type', 'blisswisdom_type_complement', 'transportation_depart', 'transportation_back'
+        'is_blisswisdom', 'blisswisdom_type', 'blisswisdom_type_complement', 'lrclass','transportation_depart', 'transportation_back'
     ];
 
     protected $guarded = [];

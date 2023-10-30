@@ -142,7 +142,7 @@ class CampDataService
 
     public function handleRegion($formData, $camp, $camp_id = null){
         // 報名者分區
-        if($camp == "ycamp"){
+        if(($camp == "ycamp") || ($camp == "utcamp")){
             // 大專營
             $value1 = array (
                     "",
@@ -223,8 +223,14 @@ class CampDataService
             );
 
             for($i = 1; $i < count ( $value1 ); $i ++) {
-                if ($formData["school_location"] == $value1 [$i]) {
-                    $formData["region"] = $value3 [$i];
+                if ($camp == "utcamp") {
+                    if ($formData["unit_county"] == $value1 [$i]) {
+                        $formData["region"] = $value3 [$i];
+                    }
+                } else {
+                    if ($formData["school_location"] == $value1 [$i]) {
+                        $formData["region"] = $value3 [$i];
+                    }
                 }
             }
 
@@ -247,7 +253,7 @@ class CampDataService
                 }
             }
         }
-        else if($camp == ("tcamp" || "utcamp") && isset($formData["unit_county"])){
+        else if($camp == ("tcamp") && isset($formData["unit_county"])){
             $region = "";
             $north = array ("臺北市", "基隆市", "新北市", "宜蘭縣", "花蓮縣", "金門縣", "連江縣");
             $central = array ("臺中市", "彰化縣", "南投縣");
