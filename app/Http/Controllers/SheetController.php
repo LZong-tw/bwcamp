@@ -97,8 +97,10 @@ class SheetController extends Controller
     public function importGSApplicants(Request $request)
     {
         config([
-            'google.post_spreadsheet_id' => '1g6gvbuLeEXz8W4QtMLPGhMpZ_u_Mu73OfmR3ems_9SI',
-            'google.post_sheet_id' => '0821',
+            //'google.post_spreadsheet_id' => '1g6gvbuLeEXz8W4QtMLPGhMpZ_u_Mu73OfmR3ems_9SI',
+            //'google.post_sheet_id' => '0821',
+            'google.post_spreadsheet_id' => '1Bl1c5lVA3JrZl6EqCiAiSKnDktHzh6ts3NclrSfUWO0',
+            'google.post_sheet_id' => '1028',
         ]);
         $camp = Camp::find($request->camp_id);
         $table = $camp->table;
@@ -121,7 +123,7 @@ class SheetController extends Controller
                 ->where('email', $title_data['email'])->first();
 
             if ($applicant) {   //if exist, update
-                $applicant->group_id = $title_data['group_id'];
+                //$applicant->group_id = $title_data['group_id'];
                 $applicant->region = $title_data['region'];
                 $applicant->save();
                 $fail_count++;
