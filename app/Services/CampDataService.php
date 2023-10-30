@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 
 use App\Models\Camp;
@@ -8,7 +9,8 @@ use App;
 
 class CampDataService
 {
-    public function getCampData($batch_id) {
+    public function getCampData($batch_id)
+    {
         //營隊基本資料
         $camp_data = Batch::find($batch_id)?->camp;
         if (!$camp_data) {
@@ -27,7 +29,8 @@ class CampDataService
         ];
     }
 
-    public function checkBoxToArray($request) {
+    public function checkBoxToArray($request)
+    {
         // 各營隊客製化欄位特殊處理
         // 大專營：參加過的福智活動
         // 企業營：有興趣參加活動的類別、方便參加的時段
@@ -95,13 +98,11 @@ class CampDataService
                 $request->merge([
                     'unit_subarea' => $request->unit_address
                 ]);
-            }
-            elseif ($request->unit_subarea == "999") {
+            } elseif ($request->unit_subarea == "999") {
                 $request->merge([
                     'unit_subarea' => $request->unit_address
                 ]);
-            }
-            else {
+            } else {
                 $request->merge([
                     'unit_subarea' => \Str::substr($request->unit_address, 3)
                 ]);
@@ -126,25 +127,26 @@ class CampDataService
      *
      * @return \App\Models\Camp
      */
-    public function getAvailableCamps($permission) {
+    public function getAvailableCamps($permission)
+    {
         $camps = array();
-        foreach($permission as $p){
+        foreach($permission as $p) {
             if($p->level == 1) {
                 $camps = Camp::all()->reverse();
                 break;
-            }
-            else if($p->level >= 2 && $p->level <= 4) {
+            } elseif($p->level >= 2 && $p->level <= 4) {
                 array_push($camps, Camp::where('id', $p->camp_id)->first());
             }
         }
         return $camps;
     }
 
-    public function handleRegion($formData, $camp, $camp_id = null){
+    public function handleRegion($formData, $camp, $camp_id = null)
+    {
         // 報名者分區
-        if(($camp == "ycamp") || ($camp == "utcamp")){
+        if(($camp == "ycamp") || ($camp == "utcamp")) {
             // 大專營
-            $value1 = array (
+            $value1 = array(
                     "",
                     "臺北市",
                     "新北市",
@@ -170,7 +172,7 @@ class CampDataService
                     "海外"
             );
 
-            $value2 = array (
+            $value2 = array(
                     "請選擇",
                     "臺北市",
                     "新北市",
@@ -196,7 +198,7 @@ class CampDataService
                     "海外"
             );
 
-            $value3 = array (
+            $value3 = array(
                     "",
                     "台北",
                     "台北",
@@ -222,7 +224,7 @@ class CampDataService
                     "海外"
             );
 
-            for($i = 1; $i < count ( $value1 ); $i ++) {
+            for($i = 1; $i < count($value1); $i ++) {
                 if ($camp == "utcamp") {
                     if ($formData["unit_county"] == $value1 [$i]) {
                         $formData["region"] = $value3 [$i];
@@ -247,65 +249,70 @@ class CampDataService
             if(in_array(Carbon::now()->year, $special_years)) {
                 if($formData["region"] != "海外") {
                     $formData["batch_id"] = Batch::where('camp_id', $camp_id)->where('name', $formData["region"])->first()?->id;
-                }
-                else {
+                } else {
                     $formData["batch_id"] = Batch::where('camp_id', $camp_id)->where('name', '台北')->first()?->id;
                 }
             }
-        }
-        else if($camp == ("tcamp") && isset($formData["unit_county"])){
+        } elseif($camp == ("tcamp") && isset($formData["unit_county"])) {
             $region = "";
-            $north = array ("臺北市", "基隆市", "新北市", "宜蘭縣", "花蓮縣", "金門縣", "連江縣");
-            $central = array ("臺中市", "彰化縣", "南投縣");
-            $chiayi = array ("嘉義縣", "嘉義市", "雲林縣");
-            $south = array ("高雄市", "屏東縣", "澎湖縣", "臺東縣", "南海諸島");
+            $north = array("臺北市", "基隆市", "新北市", "宜蘭縣", "花蓮縣", "金門縣", "連江縣");
+            $central = array("臺中市", "彰化縣", "南投縣");
+            $chiayi = array("嘉義縣", "嘉義市", "雲林縣");
+            $south = array("高雄市", "屏東縣", "澎湖縣", "臺東縣", "南海諸島");
             $MiauLiInHsinChu = collect(["興華國中", "興華高中", "信義國小", "蟠桃國小", "建國國小", "信德國小", "新興國小", "后庄國小", "斗煥國小", "僑善國小", "尖山國小", "永貞國小", "六合國小", "頭份國小", "建國國中", "文英國中", "頭份國中", "大同高中", "君毅高中", "山佳國小", "新南國小", "竹興國小", "海口國小", "頂埔國小", "大埔國小", "照南國小", "竹南國小", "照南國中", "竹南國中", "大同國中", "君毅國中"]);
 
-            foreach($north as $ele){
-                if(strpos($formData["unit_county"], $ele) !== false) $region = "台北";
-            }
-
-            for($k = 0; $k < Count($central); $k++){
-                if(strpos($formData["unit_county"], $central[$k]) !== false) $region = "台中";
-            }
-
-            for($l = 0; $l < Count($chiayi); $l++){
-                if($formData["unit_county"] == $chiayi[$l]) $region = "雲嘉";
-            }
-
-            for($m = 0; $m < Count($south); $m++){
-                if(strpos($formData["unit_county"], $south[$m]) !== false)	$region = "高雄";
-            }
-
-            if($formData["unit_county"] == "苗栗縣"){
-                if(isset($formData["unit_district"]) && ($formData["unit_district"] == "頭份鎮" || $formData["unit_district"] == "竹南鎮")) {
-                    $region = "新竹";
+            foreach($north as $ele) {
+                if(strpos($formData["unit_county"], $ele) !== false) {
+                    $region = "台北";
                 }
-                elseif($MiauLiInHsinChu->first(function ($item) use ($formData) {
-                    return str_contains($formData["unit"], $item);
-                })) {
-                    $region = "新竹";
-                }
-                else{
+            }
+
+            for($k = 0; $k < Count($central); $k++) {
+                if(strpos($formData["unit_county"], $central[$k]) !== false) {
                     $region = "台中";
                 }
             }
 
-            if($formData["unit_county"] == "臺南市"){
+            for($l = 0; $l < Count($chiayi); $l++) {
+                if($formData["unit_county"] == $chiayi[$l]) {
+                    $region = "雲嘉";
+                }
+            }
+
+            for($m = 0; $m < Count($south); $m++) {
+                if(strpos($formData["unit_county"], $south[$m]) !== false) {
+                    $region = "高雄";
+                }
+            }
+
+            if($formData["unit_county"] == "苗栗縣") {
+                if(isset($formData["unit_district"]) && ($formData["unit_district"] == "頭份鎮" || $formData["unit_district"] == "竹南鎮")) {
+                    $region = "新竹";
+                } elseif($MiauLiInHsinChu->first(function ($item) use ($formData) {
+                    return str_contains($formData["unit"], $item);
+                })) {
+                    $region = "新竹";
+                } else {
+                    $region = "台中";
+                }
+            }
+
+            if($formData["unit_county"] == "臺南市") {
                 $region = "台南";
             }
-            if($formData["unit_county"] == "桃園市"){
+            if($formData["unit_county"] == "桃園市") {
                 $region = "桃園";
             }
-            if($formData["unit_county"] == "新竹縣" || $formData["unit_county"] == "新竹市"){
+            if($formData["unit_county"] == "新竹縣" || $formData["unit_county"] == "新竹市") {
                 $region = "新竹";
             }
 
-            if($region == "") $region = "其他";
+            if($region == "") {
+                $region = "其他";
+            }
 
             $formData["region"] = $region;
-        }
-        else if($camp == "hcamp" && isset($formData["county"])){
+        } elseif($camp == "hcamp" && isset($formData["county"])) {
             $region = "";
             $north = ["臺北市", "基隆市", "新北市", "宜蘭縣", "桃園市", "新竹縣", "新竹市"];
             $central = ["臺中市", "苗栗縣", "彰化縣", "南投縣", "雲林縣"];
@@ -313,74 +320,100 @@ class CampDataService
             $south = ["高雄市", "屏東縣", "臺南市", "澎湖縣", "嘉義縣", "嘉義市", "南海諸島"];
             $kimma = ["連江縣", "金門縣"];
 
-            foreach($north as $ele){
-                if(strpos($formData["county"], $ele) !== false) { $region = "北部"; }
+            foreach($north as $ele) {
+                if(strpos($formData["county"], $ele) !== false) {
+                    $region = "北部";
+                }
             }
 
-            foreach($central as $ele){
-                if(strpos($formData["county"], $ele) !== false) { $region = "中部"; }
+            foreach($central as $ele) {
+                if(strpos($formData["county"], $ele) !== false) {
+                    $region = "中部";
+                }
             }
 
-            foreach($east as $ele){
-                if(strpos($formData["county"], $ele) !== false) { $region = "東部"; }
+            foreach($east as $ele) {
+                if(strpos($formData["county"], $ele) !== false) {
+                    $region = "東部";
+                }
             }
 
-            foreach($south as $ele){
-                if(strpos($formData["county"], $ele) !== false) { $region = "南部"; }
+            foreach($south as $ele) {
+                if(strpos($formData["county"], $ele) !== false) {
+                    $region = "南部";
+                }
             }
 
-            foreach($kimma as $ele){
-                if(strpos($formData["county"], $ele) !== false) { $region = "金馬"; }
+            foreach($kimma as $ele) {
+                if(strpos($formData["county"], $ele) !== false) {
+                    $region = "金馬";
+                }
             }
 
-            if($region == "") { $region = "其他"; }
+            if($region == "") {
+                $region = "其他";
+            }
 
             $formData["region"] = $region;
-        }
-        else if($camp == "acamp"){
+        } elseif($camp == "acamp") {
             $region = "";
-            $taipei = array ("臺北市", "新北市", "宜蘭縣", "花蓮縣", "金門縣", "連江縣");
-            $keelung = array ("基隆市", "新北市汐止區", "新北市瑞芳區", "新北市平溪區", "新北市貢寮區", "新北市雙溪區");
-            $taoyuan = array ("桃園市");
-            $hsinchu = array ("新竹市", "新竹縣");
-            $taichung = array ("苗栗縣","臺中市", "彰化縣", "南投縣");
-            $yunchia = array ("雲林縣", "嘉義市", "嘉義縣");
-            $tainan = array ("臺南市");
-            $kaohsiung = array ("高雄市", "屏東縣", "澎湖縣", "臺東縣", "南海諸島");
+            $taipei = array("臺北市", "新北市", "宜蘭縣", "花蓮縣", "金門縣", "連江縣");
+            $keelung = array("基隆市", "新北市汐止區", "新北市瑞芳區", "新北市平溪區", "新北市貢寮區", "新北市雙溪區");
+            $taoyuan = array("桃園市");
+            $hsinchu = array("新竹市", "新竹縣");
+            $taichung = array("苗栗縣","臺中市", "彰化縣", "南投縣");
+            $yunchia = array("雲林縣", "嘉義市", "嘉義縣");
+            $tainan = array("臺南市");
+            $kaohsiung = array("高雄市", "屏東縣", "澎湖縣", "臺東縣", "南海諸島");
 
             //用「後續課程地點」來決定分區的參考地點; 「皆可」則使用「上班附近」
             if ($formData["class_location"] == "住家附近") {
                 $addr = $formData["address"];
-            }
-            else {
+            } else {
                 $addr = $formData["unit_address"];
             }
 
             //先做區域大分區
-            foreach($taipei as $ele){
-                if(strpos($addr, $ele) !== false) { $region = "北區"; }
+            foreach($taipei as $ele) {
+                if(strpos($addr, $ele) !== false) {
+                    $region = "北區";
+                }
             }
             //基隆要在北區後面，因為新北市有幾個區需override成基隆
-            foreach($keelung as $ele){
-                if(strpos($addr, $ele) !== false) { $region = "基隆"; }
+            foreach($keelung as $ele) {
+                if(strpos($addr, $ele) !== false) {
+                    $region = "基隆";
+                }
             }
-            foreach($taoyuan as $ele){
-                if(strpos($addr, $ele) !== false) { $region = "桃區"; }
+            foreach($taoyuan as $ele) {
+                if(strpos($addr, $ele) !== false) {
+                    $region = "桃區";
+                }
             }
-            foreach($hsinchu as $ele){
-                if(strpos($addr, $ele) !== false) { $region = "竹區"; }
+            foreach($hsinchu as $ele) {
+                if(strpos($addr, $ele) !== false) {
+                    $region = "竹區";
+                }
             }
-            foreach($taichung as $ele){
-                if(strpos($addr, $ele) !== false) { $region = "中區"; }
+            foreach($taichung as $ele) {
+                if(strpos($addr, $ele) !== false) {
+                    $region = "中區";
+                }
             }
-            foreach($yunchia as $ele){
-                if(strpos($addr, $ele) !== false) { $region = "雲嘉"; }
+            foreach($yunchia as $ele) {
+                if(strpos($addr, $ele) !== false) {
+                    $region = "雲嘉";
+                }
             }
-            foreach($tainan as $ele){
-                if(strpos($addr, $ele) !== false) { $region = "台南"; }
+            foreach($tainan as $ele) {
+                if(strpos($addr, $ele) !== false) {
+                    $region = "台南";
+                }
             }
-            foreach($kaohsiung as $ele){
-                if(strpos($addr, $ele) !== false) { $region = "高屏"; }
+            foreach($kaohsiung as $ele) {
+                if(strpos($addr, $ele) !== false) {
+                    $region = "高屏";
+                }
             }
 
             //「北區」裡的主管/儲訓幹部/專門技術人員改成「北苑」
@@ -389,7 +422,9 @@ class CampDataService
                 $region = "北苑";
             }
 
-            if($region == "") { $region = "其他"; }
+            if($region == "") {
+                $region = "其他";
+            }
 
             $formData["region"] = $region;
         }
