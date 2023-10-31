@@ -142,7 +142,7 @@ class CampDataService
 
     public function handleRegion($formData, $camp, $camp_id = null){
         // 報名者分區
-        if(($camp == "ycamp") || ($camp == "utcamp")){
+        if(($camp == "ycamp") || ($camp == "ycamp")){
             // 大專營
             $value1 = array (
                     "",
