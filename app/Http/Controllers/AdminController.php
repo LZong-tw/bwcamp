@@ -137,6 +137,9 @@ class AdminController extends BackendController {
         $formData = $request->toArray();
         $camp = Camp::create($formData);
         $campName = $formData["abbreviation"];
+        foreach($request->regions ?? [] as $region){
+            $camp->regions()->attach($region);
+        }
         \Session::flash('message', $campName . " 新增成功。");
         return redirect()->route("campManagement");
     }
@@ -150,6 +153,10 @@ class AdminController extends BackendController {
         $camp = Camp::find($camp_id);
         $camp->update($formData);
         $campName = $formData["abbreviation"];
+        $camp->regions()->detach();
+        foreach($request->regions ?? [] as $region){
+            $camp->regions()->attach($region);
+        }
         if ($request->vcamp_id) {
             CampVcampXref::updateOrCreate(["camp_id" => $camp_id], ["vcamp_id" => $request->vcamp_id]);
         }
