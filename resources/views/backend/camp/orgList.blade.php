@@ -20,6 +20,7 @@
         <tr>
             <th>ID</th>
             <th>梯次</th>
+            <th>區域</th>
             <th>大組名稱</th>
             <th>小組及職務名稱</th>
             <th>綁定的學員組別</th>
@@ -32,6 +33,7 @@
             <tr>
                 <td>{{ $org->id }}</td>
                 <td>{{ $org->batch?->name ?? "不限" }}</td>
+                <td>{{ $org->region?->name ?? "不限" }}</td>
                 @if($org->position == 'root')
                 <td class="font-weight-bold">{{ $org->section }}</td>
                 @else

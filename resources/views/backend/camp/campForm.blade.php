@@ -67,6 +67,17 @@
                 <input type="text" name="abbreviation" id="" class='form-control' required value="{{ $camp->abbreviation ?? "" }}">
             </div>
         </div>
+        @php
+            $regions = \App\Models\Region::all();
+        @endphp
+        <div class='row form-group required'>
+            <label for='inputName' class='col-md-2 control-label'>關懷區域</label>
+            <div class='col-md-6'>
+                @foreach($regions as $region)
+                    <label><input type="checkbox" name="regions[]" id="" value="{{ $region->id }}" @if(isset($camp->regions) && $camp->regions->contains($region->id)) checked @endif> {{ $region->name }}</label>
+                @endforeach
+            </div>
+        </div>
         <div class='row form-group required'>
             <label for='inputName' class='col-md-2 control-label'>測試用</label>
             <div class='col-md-6'>

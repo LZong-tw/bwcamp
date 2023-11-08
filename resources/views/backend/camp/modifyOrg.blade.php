@@ -28,6 +28,17 @@
             </div>
         </div>
         <div class='row form-group'>
+            <label for='inputPos' class='col-md-2 control-label'>區域</label>
+            <div class='col-md-6'>
+                <select name="region_id" id="" class="form-control">
+                    <option value="">不限</option>
+                    @foreach($camp->regions ?? [] as $region)
+                        <option value="{{ $region->id }}" {{ $region->id == $org->region_id ? "selected" : "" }}>{{ $region->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class='row form-group'>
             <label for='inputSec' class='col-md-2 control-label'>大組名稱</label>
             @if($org->position == 'root')
             <div class='col-md-6'>
