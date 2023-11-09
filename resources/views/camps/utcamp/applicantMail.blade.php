@@ -16,7 +16,7 @@
             錄取名單將於 2021-01-05 開放查詢：https://bwfoce.org/tcamp/ <br>
         @endif
         --}}
-        錄取名單將於 2023-12-01 開放查詢：https://bwfoce.org/tcamp/ <br>
+        錄取名單將於 2023-12-04 開放查詢：https://bwfoce.org/tcamp/ <br>
         <br>
         洽詢電話：(週一 ~ 週五 上午10時 ~ 下午5時)<br>
                 (02)7714-6066 分機 20318 邱先生<br>
