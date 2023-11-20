@@ -9,7 +9,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     @include('partials.schools_script')
     @include('partials.counties_areas_script')
         <div class="alert alert-warning">
-            <h5>報名期間：112年10月16日(一)起至112年11月19日(日)止</h5>
+            <h5>報名期間：112年10月16日(一)起至112年11月26日(日)止</h5>
             <h5>研習時間：113年01月27日(六)起至113年01月30日(二)止</h5>
             <h5>研習時數：凡參加研習者依規定核發研習時數或數位研習證書</h5>
             <h6>指導單位：教育部生命教育中心</h6>
