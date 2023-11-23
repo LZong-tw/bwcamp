@@ -421,6 +421,36 @@ return [
         "is_child_blisswisdommed" => "孩子曾在的福智文教系統",
     ],
 
+    'icamp' => [
+        "sn" => "報名序號",
+        "bName" => "梯次",
+        "applied_at" => "報名日期",
+        "nationality" => "區域",
+        "lrclass" => "研討班別",
+        "name" => "姓名",
+        "gender" => "生理性別",
+        "phone_home" => "在台電話",
+        "birthyear" => "出生年",
+        "birthmonth" => "出生月",
+        "birthday" => "出生日",
+        "email" => "Email",
+        "participation_mode" => "正行報名",
+        "transportation_depart" => "去程交通調查",
+        "transportation_back" => "回程交通調查",
+        "is_attend" => "備註(特殊需求)",
+        "after_camp_available_day" => "其它(問題)",
+    ],
+
+    'ivcamp' => [
+        "name" => "姓名",
+        "gender" => "生理性別",
+        "unit" => "服務單位",
+        "title" => "職稱",
+        "mobile" => "手機",
+        "line" => "LineID",
+        "email" => "Email",
+    ],
+
     'ycamp' => [
         "sn" => "報名序號",
         "is_attend" => "參加意願",
@@ -1095,6 +1125,72 @@ return [
                 "name" => "可護持日期",
                 "sort" => 1,
                 "for_query" => 0,
+            ],
+        ],
+
+        'icamp' => [
+            "id" => [
+                "name" => "報名序號",
+                "sort" => 1,
+                "for_query" => 0,
+            ],
+            "batch" => [
+                "name" => "梯次",
+                "sort" => 1,
+                "for_query" => 0,
+            ],
+            "name" => [
+                "name" => "姓名",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "gender" => [
+                "name" => "性別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "birthdate" => [
+                "name" => "出生年月日",
+                "sort" => 1,
+                "for_query" => 0,
+            ],
+            "phone_home" => [
+                "name" => "在台電話",
+                "sort" => 0,
+                "for_query" => 0,
+            ],
+            "email" => [
+                "name" => "Email",
+                "sort" => 1,
+                "for_query" => 0,
+            ],
+        ],
+
+        'ivcamp' => [
+            "batch" => [
+                "name" => "報名梯次",
+                "sort" => 1,
+                "for_query" => 0,
+            ],
+            "roles" => [
+                "name" => "職務組別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "position" => [
+                "name" => "職務",
+                "sort" => 1,
+                "for_query" => 0,
+            ],
+            "name" => [
+                "name" => "姓名",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "gender" => [
+                "name" => "性別",
+                "sort" => 1,
+                "for_query" => 1,
             ],
         ],
 
