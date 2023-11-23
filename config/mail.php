@@ -98,7 +98,7 @@ return [
         'name' => env('ACAMP_MAIL_FROM_NAME'),
     ],
 
-    'acamp' => [
+    'avcamp' => [
         'address' => env('AVCAMP_MAIL_FROM_ADDRESS', 'hello@example.com'),
         'username' => env('AVCAMP_MAIL_USERNAME'),
         'password' => env('AVCAMP_MAIL_PASSWORD'),
@@ -140,6 +140,20 @@ return [
         'name' => env('HCAMP_MAIL_FROM_NAME'),
     ],
 
+    'icamp' => [
+        'address' => env('ICAMP_MAIL_USERNAME', 'hello@example.com'),
+        'username' => env('ICAMP_MAIL_USERNAME'),
+        'password' => env('ICAMP_MAIL_PASSWORD'),
+        'name' => env('ICAMP_MAIL_FROM_NAME'),
+    ],
+
+    'ivcamp' => [
+        'address' => env('IVCAMP_MAIL_USERNAME', 'hello@example.com'),
+        'username' => env('IVCAMP_MAIL_USERNAME'),
+        'password' => env('IVCAMP_MAIL_PASSWORD'),
+        'name' => env('IVCAMP_MAIL_FROM_NAME'),
+    ],
+
     'tcamp' => [
         'address' => env('TCAMP_MAIL_FROM_ADDRESS', 'hello@example.com'),
         'username' => env('TCAMP_MAIL_USERNAME'),
@@ -147,12 +161,25 @@ return [
         'name' => env('TCAMP_MAIL_FROM_NAME'),
     ],
 
+    'tvcamp' => [
+        'address' => env('TVCAMP_MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'username' => env('TVCAMP_MAIL_USERNAME'),
+        'password' => env('TVCAMP_MAIL_PASSWORD'),
+        'name' => env('TVCAMP_MAIL_FROM_NAME'),
+    ],
+
     'utcamp' => [
         'address' => env('UTCAMP_MAIL_FROM_ADDRESS', 'hello@example.com'),
         'username' => env('UTCAMP_MAIL_USERNAME'),
         'password' => env('UTCAMP_MAIL_PASSWORD'),
         'name' => env('UTCAMP_MAIL_FROM_NAME'),
+    ],
 
+    'utvcamp' => [
+        'address' => env('UTVCAMP_MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'username' => env('UTVCAMP_MAIL_USERNAME'),
+        'password' => env('UTVCAMP_MAIL_PASSWORD'),
+        'name' => env('UTVCAMP_MAIL_FROM_NAME'),
     ],
 
     'ycamp' => [

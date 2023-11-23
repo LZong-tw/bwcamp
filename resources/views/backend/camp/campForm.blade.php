@@ -31,6 +31,8 @@
                     <option value="ecamp" @if(isset($camp) && $camp->table == "ecamp") selected @endif>企業營</option>
                     <option value="evcamp" @if(isset($camp) && $camp->table == "evcamp") selected @endif>企業營義工</option>
                     <option value="hcamp" @if(isset($camp) && $camp->table == "hcamp") selected @endif>快樂營</option>
+                    <option value="icamp" @if(isset($camp) && $camp->table == "icamp") selected @endif>國際事務處營隊</option>
+                    <option value="ivcamp" @if(isset($camp) && $camp->table == "ivcamp") selected @endif>國際事務處營隊義工</option>
                     <option value="tcamp" @if(isset($camp) && $camp->table == "tcamp") selected @endif>教師營</option>
                     <option value="tvcamp" @if(isset($camp) && $camp->table == "tvcamp") selected @endif>教師營義工</option>
                     <option value="utcamp" @if(isset($camp) && $camp->table == "utcamp") selected @endif>大專教師營</option>
