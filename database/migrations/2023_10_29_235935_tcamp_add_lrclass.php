@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('tcamp', function (Blueprint $table) {
             //
-            $table->string('lrclass')->nullable()->after('blisswisdom_type_complement');;      //交通方式
+            $table->string('lrclass')->nullable()->after('blisswisdom_type_complement');      //交通方式
         });
     }
 

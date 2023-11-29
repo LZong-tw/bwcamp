@@ -76,7 +76,7 @@
     @yield('content')
     <!-- Site footer -->
     <footer class='footer'>
-        <p class=text-center>&copy; 財團法人福智文教基金會</p>
+        <p class=text-center>&copy; 國際事務法會報名服務處</p>
     </footer>
 </div>
 </body></html>
