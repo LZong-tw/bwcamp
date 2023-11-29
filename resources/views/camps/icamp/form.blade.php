@@ -175,15 +175,63 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-    <div class='row form-group required' style="display: none;">
+    <div class='row form-group required'>
+        <label for='inputEnglishName' class='col-md-2 control-label text-md-right'>護照英文姓名</label>
+        <div class='col-md-10'>
+            <input type='text' name='english_name' value='' class='form-control' id='inputEnglishName' placeholder='請填寫護照英文全名' required>
+        </div>
+        <div class="invalid-feedback">
+            請填寫姓名
+        </div>
+    </div>
+    
+    <div class='row form-group required'>
         <label for='inputID' class='col-md-2 control-label text-md-right'>護照號碼(台商請填身分證字號)</label>
         <div class='col-md-10'>
-            <input type='text' name='idno' value='' class='form-control' id='inputID' placeholder='' @if(isset($isModify) && $isModify) disabled @endif>
+            <input type='text' name='idno' value='' class='form-control' id='inputID' placeholder='' required>
             <div class="invalid-feedback">
                 未填寫護照號碼/身份證字號
             </div>
         </div>
     </div>
+
+    <div class='row form-group required'>
+        <label for='inputPassportExpiryDate' class='col-md-2 control-label text-md-right'>護照到期日</label>
+        <div class='date col-md-10' id='inputPassportExpiryDate'>
+            <div class='row form-group required'>
+                <div class="col-md-1">
+                    西元
+                </div>
+                <div class="col-md-3">
+                    <input type='number' required class='form-control' name='passport_expiry_year' min='{{ \Carbon\Carbon::now()->year }}' max='{{ \Carbon\Carbon::now()->addYears(20)->year }}' value='' placeholder=''>
+                    <div class="invalid-feedback">
+                        未填寫或日期不正確
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    年
+                </div>
+                <div class="col-md-2">
+                    <input type='number' required class='form-control' name='passport_expiry_month' min=1 max=12 value='' placeholder=''>
+                    <div class="invalid-feedback">
+                        未填寫或日期不正確
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    月
+                </div>
+                <div class="col-md-3">
+                    <input type='number' required class='form-control' name='passport_expiry_day' min=1 max=31 value='' placeholder=''>
+                    <div class="invalid-feedback">
+                        未填寫或日期不正確
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    日
+                </div>
+            </div>
+        </div>
+    </div>    
 
     <div class='row form-group required'>
         <label for='inputEmail' class='col-md-2 control-label text-md-right'>電子郵件</label>
@@ -213,8 +261,8 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <label for='inputPaticipationMode' class='col-md-2 control-label text-md-right'>正行報名</label>
         <div class='col-md-10'>
             <p class='form-control-static text-info'>
-            【全程】2/19報到，2/20~2/25，其中2/21唐卡展、大自然莊園，2/23參訪根本道場。團費 6000元<br>
-            【後半程】2/22報到，2/23參訪根本道場，2/24祈願法會＋上師薈供，2/25迎慈尊、下午唐卡展。團費3500元<br>
+            【全程】2/19報到，2/20~2/25正行<br>
+            【後半程】2/22報到，2/23~2/25正行<br>
             </p>
             <label class=radio-inline>
                 <input type=radio required name='participation_mode' value='全程' > 全程
@@ -246,7 +294,13 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 </div>
             </label>
             <label class=radio-inline>
-                <input type=radio required name='transportation_depart' value='自往' > 自往
+                <input type=radio required name='transportation_depart' value='自往(報名全程)' > 自往(報名全程)
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label>
+            <label class=radio-inline>
+                <input type=radio required name='transportation_depart' value='自往(報名後半程)' > 自往(報名後半程)
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
@@ -259,47 +313,90 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <div class='col-md-10'>
             <p class='form-control-static text-info'>
             【團進團出】跟著新、馬、港 大團團進團出<br>
-            【希求大會安排搭車】<br>
-            　　下車點選項：園區、台北學苑、高雄左營<br>
-            　　車資自付，依終點及搭車人數不同另行收費，人數未達最低搭車人數，則不另行安排，將改為自行離開<br>
+            【希求大會安排搭車】車資車上自付，可先登記，若未發車，請改為自理<br>
             </p>
             <label class=radio-inline>
-                <input type=radio required name='transportation_back' value='團進團出' > 團進團出
+                <input type=radio required name='transportation_back' value='團進團出' id='transportation_back_group' onclick="setTransportationBack(this)"> 團進團出
                 <div class="invalid-feedback">
                     請選擇回程交通
                 </div>
             </label>
+            <br>
             <label class=radio-inline>
-                <input type=radio required name='transportation_back' value='自回' > 自回
+                <input type=radio required name='transportation_back' value='自回' id='transportation_back_self' onclick="setTransportationBack(this)"> 自回
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
             </label>
+            <br>
             <label class=radio-inline>
-                <input type=radio required name='transportation_back' value='回園區' > 回園區
+                <input type=radio required name='transportation_back' value='希求大會安排搭車' id='transportation_back_bus' onclick="setTransportationBack(this)"> 希求大會安排搭車
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
             </label>
-            <label class=radio-inline>
-                <input type=radio required name='transportation_back' value='回台北學苑' > 回台北學苑
+            <br>
+            <label>
+                <input type="text" name="transportation_back_location" id="transportation_back_location" class="form-control" onclick="transportation_back_bus.checked = true; this.required = true;" placeholder='請填寫下車地點'>
                 <div class="invalid-feedback">
-                    &nbsp;
+                    請填寫下車地點
                 </div>
             </label>
-            <label class=radio-inline>
-                <input type=radio required name='transportation_back' value='回高雄左營' > 回高雄左營
-                <div class="invalid-feedback">
-                    &nbsp;
+
+        </div>
+    </div>
+
+    <div class='row form-group required'>
+        <label class='col-md-2 control-label text-md-right'>緊急聯絡人</label>
+        <div class='col-md-10'>
+            <div class='row form-group'>
+                <div class='col-md-2'>
+                    姓名：
                 </div>
-            </label>
+                <div class='col-md-10'>
+                    <input type='text'class='form-control' name="emergency_name" value='' required>
+                </div>
+                <div class="invalid-feedback">
+                    請填寫本欄位
+                </div>
+            </div>
+            <div class='row form-group'>
+                <div class='col-md-2'>
+                    聯絡電話：
+                </div>
+                <div class='col-md-10'>
+                    <input type='tel' class='form-control' name="emergency_mobile" value='' required>
+                </div>
+                <div class="invalid-feedback">
+                    請填寫本欄位
+                </div>
+            </div>   
         </div>
     </div>
 
     <div class='row form-group'>
-        <label for='inputSpecialNeeds' class='col-md-2 control-label text-md-right'>備註</label>
+        <label for='inputAcommodationNeeds' class='col-md-2 control-label text-md-right'>住宿特殊需求</label>
         <div class='col-md-10'>
-            <textarea class=form-control rows=2 name='special_needs' id=inputGoal placeholder='如有特殊需求ex:下床鋪需求、行動不便請備註原因，特殊飲食需求等'></textarea>
+            <textarea class=form-control rows=2 name='acommodation_needs' id=inputAcommodationNeeds placeholder='非必填。需求如：下床、打呼房等。請簡要說明。
+'></textarea>
+            <div class="invalid-feedback">
+                請填寫本欄位
+            </div>
+        </div>
+    </div>
+    <div class='row form-group'>
+        <label for='inputDietaryNeeds' class='col-md-2 control-label text-md-right'>飲食特殊需求</label>
+        <div class='col-md-10'>
+            <textarea class=form-control rows=2 name='dietary_needs' id=inputDietaryNeeds placeholder='非必填。需求如：花生過敏等。請簡要說明。'></textarea>
+            <div class="invalid-feedback">
+                請填寫本欄位
+            </div>
+        </div>
+    </div>
+    <div class='row form-group'>
+        <label for='inputOtherNeeds' class='col-md-2 control-label text-md-right'>其它特殊需求</label>
+        <div class='col-md-10'>
+            <textarea class=form-control rows=2 name='other_needs' id=inputOtherNeeds placeholder='非必填。需求如：輪椅等。請簡要說明。'></textarea>
             <div class="invalid-feedback">
                 請填寫本欄位
             </div>
@@ -307,17 +404,57 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class='row form-group'>
-        <label for='inputQuestions' class='col-md-2 control-label text-md-right'>其它</label>
+        <label for='inputQuestions' class='col-md-2 control-label text-md-right'>備註</label>
         <div class='col-md-10'>
-            <textarea class=form-control rows=2 name='questions' id=inputGoal placeholder='若有問題，請在此提出'></textarea>
+            <textarea class=form-control rows=2 name='questions' id=inputGoal placeholder='若有其它問題，請在此提出'></textarea>
             <div class="invalid-feedback">
                 請填寫本欄位
             </div>
         </div>
     </div>
 
-    <input type='hidden' name="profile_agree" value='0'>
-    <input type='hidden' name="portrait_agree" value='0'>
+    <!--- 同意書 -->
+    <div class='row form-group required'>
+        <label for='inputTerm' class='col-md-2 control-label text-md-right'>個人資料</label>
+        <div class='col-md-10 form-check'>
+            <p class='form-control-static text-danger'>
+            主辦單位於本次營隊取得之個人資料，於營隊期間及後續主辦單位舉辦之活動，作為訊息通知、行政處理等非營利目的之使用，不會提供給無關之其他私人單位使用。
+            </p>
+            <label class=radio-inline>
+                <input type='radio' required name="profile_agree" value='1' checked> 我同意
+                <div class="invalid-feedback">
+                    請圈選本欄位
+                </div>
+            </label>
+            <label class=radio-inline>
+                <input type='radio' required name="profile_agree" value='0' > 我不同意
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label>
+        </div>
+    </div>
+
+    <div class='row form-group required'>
+        <label for='inputTerm' class='col-md-2 control-label text-md-right'>肖像權</label>
+        <div class='col-md-10 form-check'>
+            <p class='form-control-static text-danger'>
+            主辦單位在營隊期間拍照/錄影之活動記錄，可使用於營隊及主辦單位的非營利教育推廣使用，並以網路方式推播。
+            </p>
+            <label class=radio-inline>
+                <input type='radio' required name="portrait_agree" value='1' checked> 我同意
+                <div class="invalid-feedback">
+                    請圈選本欄位
+                </div>
+            </label>
+            <label class=radio-inline>
+                <input type='radio' required name="portrait_agree" value='0' > 我不同意
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label>
+        </div>
+    </div>
 
     <div class="row form-group text-danger tips d-none">
         <div class='col-md-2'></div>
@@ -426,70 +563,20 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         * Ready functions.
         * Executes commands after the web page is loaded.
         */
+
+        function setTransportationBack(radio_ele) {
+            // 檢查 radio_ele.id == "transportation_back_bus" 是否被勾選
+            // console.log(radio_ele.id);
+            if(radio_ele.id == "transportation_back_bus") {
+                // 被勾選: 把 transportation_back_location required = true
+                document.getElementById("transportation_back_location").required = true;
+            }
+            else {
+                // 否則:把 transportation_back_location required = false
+                document.getElementById("transportation_back_location").required = false;
+            }
+        }
 {{--
-        document.onreadystatechange = () => {
-            if (document.readyState === 'complete') {
-                document.getElementById('motivation_other_checkbox').addEventListener("change", function(){
-                    document.Camp.motivation_other.required = document.getElementById('motivation_other_checkbox').checked;
-                });
-                document.getElementById('blisswisdom_type_other_checkbox').addEventListener("change", function(){
-                    document.Camp.blisswisdom_type_other.required = document.getElementById('blisswisdom_type_other_checkbox').checked;
-                });
-                /**
-                * 是否在學校或教育單位任職，勾選後顯示/隱藏任職單位相關欄位。
-                */
-                rowIsEducating = document.getElementById("rowIsEducating");
-                document.getElementById("is_educating_y").addEventListener("change", showFields);
-                document.getElementById("is_educating_n").addEventListener("change", hideFields);
-                if(document.getElementById("is_educating_n").checked){
-                    hideFields();
-                }
-                /**
-                * 任職機關/任教學程，勾選後顯示對應職稱。
-                */
-                categories = document.getElementsByName("school_or_course");
-                for(let i = 0; i < categories.length; i++){
-                    categories[i].addEventListener("click", changeJobTitleList);
-                    categories[i].addEventListener("change", changeJobTitleList);
-                }
-
-                /**
-                * 選擇職稱後，將職稱填至欄位中。
-                */
-                titles = document.getElementsByName("data[12]");
-                for(let i = 0; i < titles.length; i++){
-                    titles[i].addEventListener("click", fillTheTitle);
-                    titles[i].addEventListener("change", fillTheTitle);
-                }
-            }
-        };
---}}
-        function setMotivationOther(checkbox_ele) {
-            // 檢查 checkbox_ele 是否被勾選
-            //console.log(checkbox_ele.checked);
-            if(checkbox_ele.checked) {
-            // 被勾選: 把 language_other_text required = true
-                document.getElementById("motivation_other_text").required = true;
-            }
-            else {
-            // 否則:把 language_other_text required = false
-                document.getElementById("motivation_other_text").required = false;
-            }
-        }
-
-        function setBlisswisdomTypeOther(checkbox_ele) {
-            // 檢查 checkbox_ele 是否被勾選
-            //console.log(checkbox_ele.checked);
-            if(checkbox_ele.checked) {
-            // 被勾選: 把 language_other_text required = true
-                document.getElementById("blisswisdom_type_other_text").required = true;
-            }
-            else {
-            // 否則:把 language_other_text required = false
-                document.getElementById("blisswisdom_type_other_text").required = false;
-            }
-        }
-
         function showFields(){
             rowIsEducating.innerHTML = "<div class='row form-group required'>" +
                 "    <label for='inputSchoolOrCourse' class='col-md-2 control-label text-md-right'>任職機關/任教學程</label>" +
@@ -566,6 +653,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             rowIsEducating.innerHTML = '';
             document.getElementById("tip").innerHTML = '';
         }
+--}}
 
         function setUnrequired(elements){
             for(let i = 0; i < elements.length; i++){
