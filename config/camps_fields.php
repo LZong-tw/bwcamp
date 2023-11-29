@@ -175,7 +175,7 @@ return [
         "portrait_agree" => "肖像權",
         "profile_agree" => "個人資料允許",
         "transportation_depart" => "去程交通",
-        "transportation_back" =>"回程交通",
+        "transportation_back" => "回程交通",
     ],
 
     'tvcamp' => [
@@ -218,7 +218,7 @@ return [
         "portrait_agree" => "肖像權",
         "profile_agree" => "個人資料允許",
         "transportation_depart" => "去程交通",
-        "transportation_back" =>"回程交通",
+        "transportation_back" => "回程交通",
     ],
 
     'utvcamp' => [
@@ -647,7 +647,7 @@ return [
             "deposit" => "已交車資",
         ],
     ],
-    
+
     'display' => [
         'acamp' => [
             "batch" => [
@@ -1265,7 +1265,7 @@ return [
                 "sort" => 0,
                 "for_query" => 0,
             ],
-        ],        
+        ],
 
         'utvcamp' => [
             "name" => [
