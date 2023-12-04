@@ -23,6 +23,5 @@
     &emsp;&emsp;關注「幸福心學堂online」FB社團：<a href="https://www.facebook.com/groups/bwfoce.happiness.new" target="_blank" rel="noopener noreferrer">https://www.facebook.com/groups/bwfoce.happiness.new</a><br>
     <br>
     祝福&emsp;教安，健康平安！
-@endif
 <a class="right">財團法人福智文教基金會&emsp;謹此</a><br>
 <a class="right">{{ now()->year }}&emsp;年&emsp;{{ now()->month }}&emsp;月&emsp;{{ now()->day }}&emsp;日</a>

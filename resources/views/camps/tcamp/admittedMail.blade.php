@@ -17,7 +17,7 @@
 <table width="100%" style="table-layout:fixed; border: 0;">
     <tr>
         <td>地點：{{ $applicant->batch->locationName }}</td>
-        <td>時間：{{ $applicant->batch_start }}-{{ $applicant->batch->batch_end }}</td>
+        <td>時間：{{ $applicant->batch->batch_start }}-{{ $applicant->batch->batch_end }}</td>
     </tr>
     <tr>
         <td>姓名：{{ $applicant->name }}</td>
