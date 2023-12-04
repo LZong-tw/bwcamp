@@ -35,7 +35,7 @@
                                         <td><u>{{ $applicant->group }}</u></td>
                                         </tr>
                                 </table>
-                                &emsp;&emsp;恭喜您錄取「2023教師生命成長營」！竭誠歡迎您的到來。<br>
+                                &emsp;&emsp;恭喜您錄取「{{ $applicant->batch->camp->fullName }}」！竭誠歡迎您的到來。<br>
                                 &emsp;&emsp;相關營隊訊息，將於營隊三周前寄發「報到通知單」，請記得到電子信箱收信。<br>
                                 &emsp;&emsp;也歡迎加入[幸福心學堂online]臉書社團，收取營隊訊息和教育新知。<br>
                                 &emsp;&emsp;很期待與您共享這場心靈的饗宴，預祝您歡喜學習，收穫滿滿。<br>
@@ -48,16 +48,12 @@
                                 <div class="ml-4 mb-2">
                                     <a href="https://bwfoce.org" target="_blank" rel="noopener noreferrer">https://bwfoce.org</a><br>
                                 </div>
-                                <h5>各區諮詢窗口（請於周一至周五 10:00~17:30 來電）</h5>
+                                <h5>諮詢窗口</h5>
                                 <div class="ml-4 mb-2">
-                                    臺北場　劉小姐　02-25453788 #529<br>
-                                    桃園場　李小姐　03-2756133 #1324<br>
-                                    新竹場　張小姐　03-5325566 #246<br>
-                                    臺中場　廖小姐　04-37069300 #621400<br>
-                                    雲林場　陳小姐　05-5370133 #303<br>
-                                    　　　　方先生　05-2833940 #305<br>
-                                    臺南場　吳小姐　06-2646831 #412<br>
-                                    高雄場　林小姐　07-9769341 #417<br>
+                                    營隊相關訊息我們會有義工與您聯繫，或諮詢窗口（請於周一至周五 10:00~17:30 來電）<br>
+                                    陳昶安&emsp;先生<br>
+                                    電話：07-9743280#68601<br>
+                                    Email：ca7974zz@gmail.com<br>
                                 </div>
                                 {{-- <h4>營隊資訊</h4>
                                 <div class="ml-4 mb-2">
@@ -65,7 +61,7 @@
                                     本次活動採線上舉辦。 <br>
                                     連線軟體與帳號：Zoom&nbsp;(請事先下載安裝，當日09:00將開放連線)：<br>
                                     Zoom 帳號：95556824059 密碼：703112
-                                    </div> --}}
+                                    </div>
                                 <br><br>
                                 <h4>請回覆確認參加</h4>
                                 <div class="ml-4 mb-2">
@@ -88,8 +84,8 @@
                                             <input class="btn btn-success" type="submit" value="確認參加">
                                         @endif
                                     </form>
-                                    {{-- 全程參與者，發給研習證明文件。 --}}
-                                </div>
+                                    全程參與者，發給研習證明文件。 
+                                </div>--}}
                             </p>
                             <br><br>
                             <input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>
@@ -110,13 +106,12 @@
                                 　　非常感謝您的報名，由於我們的場地容量的侷限性，不克錄取，造成您的不便，敬請見諒包涵！ <br><br>
                                 　　福智文教基金會在全省各縣市的分支機構，平日都設有適合各年齡層的多元心靈提升課程，誠摯歡迎您的參與！<br><br>
                                 　　關注「福智文教基金會」網站：<a href="https://bwfoce.org" target="_blank" rel="noopener noreferrer">https://bwfoce.org</a><br>
-                                　　關注「幸福心學堂online」FB社團：<a href="https://www.facebook.com/groups/bwfoce.happiness.new/" target="_blank" rel="noopener noreferrer">https://www.facebook.com/groups/bwfoce.happiness.new/</a><br>
+                                　　關注「幸福心學堂online」FB社團：<a href="https://www.facebook.com/groups/bwfoce.happiness.new/" target="_blank" rel="noopener noreferrer">https://www.facebook.com/groups/bwfoce.happiness.new</a><br>
                                 <br>
                                 祝福　教安，健康平安！
                             </p>
-                            <a class="right">財團法人福智文教基金會　敬啟</a><br>
-                            <a class="right">{{ \Carbon\Carbon::now()->year }}  年　{{ \Carbon\Carbon::now()->month }}  月  {{ \Carbon\Carbon::now()->day }}  日</a>
-                            <br><br>
+                            <p class="right">財團法人福智文教基金會　敬啟</p>
+                            <p class="right">{{ \Carbon\Carbon::now()->year }}  年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
                             <input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>
                             <a href="{{ $camp_data->site_url }}" class="btn btn-primary">回營隊首頁</a>
                         </div>
