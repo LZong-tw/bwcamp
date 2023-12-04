@@ -161,6 +161,14 @@ return [
         'name' => env('TCAMP_MAIL_FROM_NAME'),
     ],
 
+    'ses_tcamp' => [
+        'host' => env('SES_MAIL_HOST'),
+        'address' => env('SES_TCAMP_MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'username' => env('SES_TCAMP_MAIL_USERNAME'),
+        'password' => env('SES_TCAMP_MAIL_PASSWORD'),
+        'name' => env('SES_TCAMP_MAIL_FROM_NAME'),
+    ],
+
     'tvcamp' => [
         'address' => env('TVCAMP_MAIL_FROM_ADDRESS', 'hello@example.com'),
         'username' => env('TVCAMP_MAIL_USERNAME'),
