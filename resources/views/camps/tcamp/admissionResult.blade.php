@@ -62,15 +62,15 @@
                                     連線軟體與帳號：Zoom&nbsp;(請事先下載安裝，當日09:00將開放連線)：<br>
                                     Zoom 帳號：95556824059 密碼：703112
                                     </div>
-                                <br><br>
-                                <h4>請回覆確認參加</h4>
+                                <br><br> --}}
+                                <h5>參加狀態</h5>
                                 <div class="ml-4 mb-2">
                                     @if(!isset($applicant->is_attend))
                                         <div class="ml-4 mb-2 text-primary">狀態：未回覆參加。</div>
                                     @elseif($applicant->is_attend)
-                                        <div class="ml-4 mb-2 text-success">狀態：已確認參加。</div>
+                                        <div class="ml-4 mb-2 text-success">狀態：已確認參加。如欲取消請按取消參加。</div>
                                     @else
-                                        <div class="ml-4 mb-2 text-danger">狀態：不參加。</div>
+                                        <div class="ml-4 mb-2 text-danger">狀態：取消參加。如欲恢復參加請按確認參加。</div>
                                     @endif
                                     <form class="ml-4 mb-2" action="{{ route('toggleAttend', $batch_id) }}" method="POST">
                                         @csrf
@@ -84,8 +84,8 @@
                                             <input class="btn btn-success" type="submit" value="確認參加">
                                         @endif
                                     </form>
-                                    全程參與者，發給研習證明文件。 
-                                </div>--}}
+                                    {{--全程參與者，發給研習證明文件。--}}
+                                </div>
                             </p>
                             <br><br>
                             <input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>
