@@ -7,18 +7,18 @@ header("Pragma: no-cache");
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 ?>
-@extends('camps.yvcamp.layout')
+@extends('camps.ivcamp.layout')
 @section('content')
     @include('partials.schools_script')
     @include('partials.counties_areas_script')
     @if(!isset($isBackend))
         <div class='alert alert-info' role='alert'>
-            您在本網站所填寫的個人資料，僅用於此次大專營的報名及活動聯絡之用。
+            您在本網站所填寫的個人資料，僅用於此次法會的報名及活動聯絡之用。
         </div>
     @endif
 
     <div class='page-header form-group'>
-        <h4>{{ $camp_data->fullName }}線上報名表</h4>
+        <h4>{{ $camp_data->fullName }} 線上報名表</h4>
     </div>
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
 @if(!isset($isModify) || $isModify)
@@ -37,9 +37,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 
     @if(isset($applicant_data))
     <div class='row form-group'>
-        <label for='inputBatch' class='col-md-2 control-label text-md-right'>營隊梯次</label>
+        <label for='inputBatch' class='col-md-2 control-label text-md-right'>營隊日期</label>
         <div class='col-md-10'>
-                <h3>{{ $applicant_raw_data->batch->name . '梯' }} {{ $applicant_raw_data->batch->batch_start }} ~ {{ $applicant_raw_data->batch->batch_end }} </h3>
+                <h3>{{ $applicant_raw_data->batch->batch_start }} ~ {{ $applicant_raw_data->batch->batch_end }} </h3>
                 {{-- <h3>線上 {{ $applicant_raw_data->batch->batch_start }} ~ {{ $applicant_raw_data->batch->batch_end }} </h3> --}}
                 <input type='hidden' name='applicant_id' value='{{ $applicant_id }}'>
         </div>
@@ -62,6 +62,16 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 請填寫姓名
             </div>
        </div>
+    </div>
+
+    <div class='row form-group required'> 
+    <label for='inputLRClass' class='col-md-2 control-label text-md-right'>廣論研討班別</label>
+        <div class='col-md-10'>
+            <input type='text' required name='lrclass' value='' class='form-control' id='inputLRClass' placeholder='請詳填廣論研討班別，例：北14宗001班'>
+            <div class="invalid-feedback">
+                請詳填廣論研討班別，例：北14宗001班
+            </div>
+        </div>
     </div>
 
     <div class="row form-group required">
@@ -89,9 +99,77 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class='row form-group required'>
+        <label for='inr>putBirth' class='col-md-2 control-label text-md-right'>出生年月日<br>(投保用)</label>
+        <div class='date col-md-10' id='inputBirth'>
+            <div class='row form-group required'>
+                <div class="col-md-1">
+                    西元
+                </div>
+                <div class="col-md-3">
+                    <input type='number' required class='form-control' name='birthyear' min=1985 max='{{ \Carbon\Carbon::now()->subYears(16)->year }}' value='' placeholder=''>
+                    <div class="invalid-feedback">
+                        未填寫或日期不正確
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    年
+                </div>
+                <div class="col-md-2">
+                    <input type='number' required class='form-control' name='birthmonth' min=1 max=12 value='' placeholder=''>
+                    <div class="invalid-feedback">
+                        未填寫或日期不正確
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    月
+                </div>
+                <div class="col-md-3">
+                    <input type='number' required class='form-control' name='birthday' min=1 max=31 value='' placeholder=''>
+                    <div class="invalid-feedback">
+                        未填寫或日期不正確
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    日
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class='row form-group required'>
+        <label for='inputID' class='col-md-2 control-label text-md-right'>身分證字號<br>(投保用)</label>
+        <div class='col-md-10'>
+            <input type='text' name='idno' value='' class='form-control' id='inputID' placeholder='' required>
+            <div class="invalid-feedback">
+                請填寫身份證字號
+            </div>
+        </div>
+    </div>
+
+    <div class='row form-group required'>
+        <label for='inputCell' class='col-md-2 control-label text-md-right'>手機號碼</label>
+        <div class='col-md-10'>
+            <input type=tel required name='mobile' value='' class='form-control' id='inputCell' placeholder='格式：0912345678'>
+            <div class="invalid-feedback">
+                請填寫手機號碼
+            </div>
+        </div>
+    </div>
+
+    <div class='row form-group'> 
+    <label for='inputLineID' class='col-md-2 control-label text-md-right'>LINE ID</label>
+        <div class='col-md-10'>
+            <input type='text' name='line' value='' class='form-control' id='inputLineID'>
+            <div class="invalid-feedback crumb">
+                請填寫LINE ID
+            </div>
+        </div>
+    </div>
+
+    <div class='row form-group required'>
         <label for='inputEmail' class='col-md-2 control-label text-md-right'>電子郵件</label>
         <div class='col-md-10'>
-            <input type='email' required name='email' value='' class='form-control' id='inputEmail' placeholder='請務必填寫正確，以利營隊相關訊息通知' @if(isset($isModify) && $isModify) disabled @endif>
+            <input type='email' required name='email' value='' class='form-control' id='inputEmail' placeholder='請務必填寫正確，以利法會相關訊息通知' @if(isset($isModify) && $isModify) disabled @endif>
             <div class="invalid-feedback">
                 未填電子信箱或格式不正確
             </div>
@@ -115,43 +193,49 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
+    {{-- 專長 --}}
     <div class='row form-group required'>
-        <label for='inputCell' class='col-md-2 control-label text-md-right'>行動電話</label>
-        <div class='col-md-10'>
-            <input type=tel required  name='mobile' value='' class='form-control' id='inputCell' placeholder='格式：0912345678'>
-            <div class="invalid-feedback">
-                請填寫行動電話
-            </div>
+        <label for='inputExpertise' class='col-md-2 control-label text-md-right'>專長(多選)</label>
+        <div class='col-md-10 required'>
+            <label><input type="checkbox" name=expertise[] value='電腦文書處理' > 電腦文書處理</label> <br/>
+            <label><input type="checkbox" name=expertise[] value='視聽操作' > 視聽操作</label> <br/>
+            <label><input type="checkbox" name=expertise[] value='影片剪輯' > 影片剪輯</label> <br/>
+            <label><input type="checkbox" name=expertise[] value='拍照/攝影' > 拍照/攝影</label> <br/>
+            <label><input type="checkbox" name=expertise[] value='主持/活動帶動' > 主持/活動帶動</label> <br/>
+            <label>
+                <input type="checkbox" name=expertise[] value='其它' id="expertise_other_checkbox" onclick="setExpertiseOther(this)"> 其它：
+                <input type="text" name="expertise_other" id="expertise_other_text" class="form-control" onclick="expertise_other_checkbox.checked = true; this.required = true;">
+                <div class="invalid-feedback">
+                    請選擇專長，若選其它請填寫何種專長。
+                </div>
+            </label>
+            {{-- 其它 --}}
         </div>
     </div>
 
     <div class='row form-group required'>
-        <label for='Region' class='col-md-2 control-label text-md-right'>區域</label>
+        <label for='inputGroupPriority1' class='col-md-2 control-label text-md-right'>護持組別第1志願</label>
         <div class='col-md-10'>
-            <select required class='form-control' name='region' onChange=''>
+            <p class='form-control-static text-info'>
+            說明：尊重各位的志願選填，會優先考量，但最終分組會依各組需求人數安排，若無法如願，敬請見諒！</p>
+            <select required class='form-control' name='group_priority1' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
-                <option value='總部' >總部</option>
-                <option value='台北' >台北</option>
-                <option value='桃園' >桃園</option>
-                <option value='新竹' >新竹</option>
-                <option value='台中' >台中</option>
-                <option value='雲嘉' >雲嘉</option>
-                <option value='台南' >台南</option>
-                <option value='高雄' >高雄</option>
-                <option value='其它' >其它</option>
+                <option value='秘書組' >秘書組</option>
+                <option value='教育組' >教育組</option>
+                <option value='由大組安排即可' >由大組安排即可</option>
             </select>
             <div class="invalid-feedback">
-                請選擇區域
+                請選擇護持組別第1志願
             </div>
         </div>  
     </div>
 
-    <div class='row form-group required'>
-        <label for='inputSelfIntro' class='col-md-2 control-label text-md-right'>我是誰</label>
+    <div class='row form-group'>
+        <label for='inputIntroducerName' class='col-md-2 control-label text-md-right'>介紹人<br>(若無免填)</label>
         <div class='col-md-10'>
-            <textarea class='form-control' rows=2 required  name='self_intro' id=inputSelfIntro placeholder='請簡單說明你是誰，例如：第X組輔導員、教務組、報到組等等，方便後台管理員設定權限。'></textarea>
+            <input type='text' name='introducer_name' value='' class='form-control' id='inputIntroducerName' placeholder='若您今年是透過某位師兄師姊的邀請加入義工，請填寫他/她的姓名'>
             <div class="invalid-feedback">
-                請填寫本欄位
+                請填寫介紹人姓名
             </div>
         </div>
     </div>
@@ -193,17 +277,32 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             btnCancelLabel: "再檢查一下",
             popout: true,
             onConfirm: function() {
-                        if (document.Camp.checkValidity() === false) {
-                            $(".tips").removeClass('d-none');
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        else{
-                            $(".tips").addClass('d-none');
-                            document.Camp.submit();
-                        }
-                        document.Camp.classList.add('was-validated');
-                    }
+                if($('.participation_dates').filter(':checked').length < 1) {
+                    document.Camp.checkValidity();
+                    event.preventDefault();
+                    event.stopPropagation();
+                    $(".tips").removeClass('d-none');
+                    $('#participation_dates-invalid').show();
+                }
+                else{
+                    document.Camp.checkValidity();
+                    event.preventDefault();
+                    event.stopPropagation();
+                    $(".tips").removeClass('d-none');
+                    $('#participation_dates-invalid').hide();
+                }
+
+                if (document.Camp.checkValidity() === false) {
+                    $(".tips").removeClass('d-none');
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                else{
+                    $(".tips").addClass('d-none');
+                    document.Camp.submit();
+                }
+                document.Camp.classList.add('was-validated');
+            }
         });
 
         /**
@@ -236,6 +335,19 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             }, false);
         })();        
     
+        function setExpertiseOther(checkbox_ele) {
+            // 檢查 checkbox_ele 是否被勾選
+            //console.log(checkbox_ele.checked);
+            if(checkbox_ele.checked) {
+                // 被勾選: 把 transport_other_text required = true
+                document.getElementById("expertise_other_text").required = true;
+            }
+            else {
+                // 否則:把 transport_other_text required = false
+                document.getElementById("expertise_other_text").required = false;
+            }
+        }
+
         @if(isset($applicant_data))
             {{-- 回填報名資料 --}}
             (function() {

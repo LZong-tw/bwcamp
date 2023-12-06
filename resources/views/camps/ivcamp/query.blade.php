@@ -1,4 +1,4 @@
-@extends('camps.yvcamp.layout')
+@extends('camps.ivcamp.layout')
 @section('content')
 @if($errors->any())
     @foreach ($errors->all() as $message)

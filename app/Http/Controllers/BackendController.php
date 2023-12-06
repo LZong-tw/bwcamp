@@ -1414,7 +1414,7 @@ class BackendController extends Controller
         if(isset($applicant->favored_event)) {
             $applicant->favored_event_split = explode("||/", $applicant->favored_event);
         }
-        if(isset($applicant->expertise)) {
+        if(isset($applicant->expertise)) {  //ivcamp
             $applicant->expertise_split = explode("||/", $applicant->expertise);
         }
         if(isset($applicant->language)) {
@@ -1423,7 +1423,7 @@ class BackendController extends Controller
         if(isset($applicant->after_camp_available_day)) {
             $applicant->after_camp_available_day_split = explode("||/", $applicant->after_camp_available_day);
         }
-        if(isset($applicant->participation_dates)) {    //evcamp
+        if(isset($applicant->participation_dates)) {    //evcamp,icamp
             $applicant->participation_dates_split = explode("||/", $applicant->participation_dates);
         }
         if(isset($applicant->contact_time)) {

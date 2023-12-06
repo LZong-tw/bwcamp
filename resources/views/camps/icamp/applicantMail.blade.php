@@ -13,7 +13,7 @@
     @endif
     <br>
     查詢網址：{{ $campData->site_url }}<br>
-    洽詢郵件：陳玉蕊師姐，電郵：yurai.chen@blisswisdom.org<br>
+    洽詢郵件：施佳妤師姐，電郵：international@blisswisdom.org<br>
     <br>
     <br>
 <blockquote>國際事務法會報名服務處  敬啟</blockquote>
