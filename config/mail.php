@@ -147,11 +147,27 @@ return [
         'name' => env('ICAMP_MAIL_FROM_NAME'),
     ],
 
+    'ses_icamp' => [
+        'host' => env('SES_MAIL_HOST'),
+        'address' => env('SES_ICAMP_MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'username' => env('SES_ICAMP_MAIL_USERNAME'),
+        'password' => env('SES_ICAMP_MAIL_PASSWORD'),
+        'name' => env('SES_ICAMP_MAIL_FROM_NAME'),
+    ],
+
     'ivcamp' => [
         'address' => env('IVCAMP_MAIL_USERNAME', 'hello@example.com'),
         'username' => env('IVCAMP_MAIL_USERNAME'),
         'password' => env('IVCAMP_MAIL_PASSWORD'),
         'name' => env('IVCAMP_MAIL_FROM_NAME'),
+    ],
+
+    'ses_ivcamp' => [
+        'host' => env('SES_MAIL_HOST'),
+        'address' => env('SES_IVCAMP_MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'username' => env('SES_IVCAMP_MAIL_USERNAME'),
+        'password' => env('SES_IVCAMP_MAIL_PASSWORD'),
+        'name' => env('SES_IVCAMP_MAIL_FROM_NAME'),
     ],
 
     'tcamp' => [
