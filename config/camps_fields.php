@@ -428,7 +428,7 @@ return [
         "bName" => "梯次",
         "applied_at" => "報名日期",
         "nationality" => "區域",
-        "lrclass" => "研討班別",
+        "lrclass" => "廣論研討班別",
         "name" => "姓名",
         "gender" => "生理性別",
         "phone_home" => "在台電話",
@@ -442,9 +442,10 @@ return [
         "passport_expiry_month" => "護照到期月",
         "passport_expiry_day" => "護照到期日",
         "participation_mode" => "正行報名",
+        "participation_dates" => "正行報名(單日)",
         "transportation_depart" => "去程交通調查",
-        "transportation_back" => "回程交通調查",
-        "transportation_back_location" => "回程交通下車點",
+        "transportation_back" => "回程/單日交通調查",
+        "transportation_back_location" => "回程/單日交通下車點",
         "acommodation_needs" => "住宿特殊需求",
         "dietary_needs" => "飲食特殊需求",
         "other_needs" => "其它特殊需求",
@@ -452,13 +453,21 @@ return [
     ],
 
     'ivcamp' => [
+        "sn" => "報名序號",
         "name" => "姓名",
+        "lrclass" => "廣論研討班別",
         "gender" => "生理性別",
-        "unit" => "服務單位",
-        "title" => "職稱",
-        "mobile" => "手機",
+        "birthyear" => "出生年",
+        "birthmonth" => "出生月",
+        "birthday" => "出生日",
+        "idno" => "護身分證字號",
+        "mobile" => "手機號碼",
         "line" => "LineID",
         "email" => "Email",
+        "expertise" => "專長",
+        "expertise_other" => "專長：自填",
+        "group_priority1" => "組別志願1",
+        "introducer_name" => "介紹人姓名",
     ],
 
     'ycamp' => [
@@ -1159,11 +1168,6 @@ return [
                 "sort" => 1,
                 "for_query" => 1,
             ],
-            "birthdate" => [
-                "name" => "出生年月日",
-                "sort" => 1,
-                "for_query" => 0,
-            ],
             "phone_home" => [
                 "name" => "在台電話",
                 "sort" => 0,
@@ -1174,11 +1178,31 @@ return [
                 "sort" => 1,
                 "for_query" => 0,
             ],
+            "participation_mode" => [
+                "name" => "正行報名",
+                "sort" => 1,
+                "for_query" => 0,
+            ],
+            "transportation_depart" => [
+                "name" => "去程交通",
+                "sort" => 1,
+                "for_query" => 0,
+            ],
+            "transportation_back" => [
+                "name" => "回程/單日交通",
+                "sort" => 1,
+                "for_query" => 0,
+            ],
+            "transportation_back_location" => [
+                "name" => "搭車地點",
+                "sort" => 1,
+                "for_query" => 0,
+            ],
         ],
 
         'ivcamp' => [
-            "batch" => [
-                "name" => "報名梯次",
+            "id" => [
+                "name" => "報名序號",
                 "sort" => 1,
                 "for_query" => 0,
             ],
@@ -1200,6 +1224,21 @@ return [
             "gender" => [
                 "name" => "性別",
                 "sort" => 1,
+                "for_query" => 1,
+            ],
+            "group_priority1" => [
+                "name" => "組別志願1",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "expertise" => [
+                "name" => "專長",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "expertise_other" => [
+                "name" => "專長:自填",
+                "sort" => 0,
                 "for_query" => 1,
             ],
         ],

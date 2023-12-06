@@ -63,10 +63,10 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ $camp_data->site_url }}">課程表</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url("downloads/acamp2023/2023卓越青年生命探索營報名簡章20230408R4.pdf") }}">報名簡章下載</a>
-                    </li>
                     --}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url("downloads/icamp2024/2024祈願請法團報名簡章.pdf") }}">報名簡章及課程表下載</a>
+                    </li>
                 </ul>
             </div>
         </div>

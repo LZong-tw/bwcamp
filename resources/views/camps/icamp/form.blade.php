@@ -18,7 +18,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class='page-header form-group'>
-        <h4>{{ $camp_data->fullName }}線上報名表</h4>
+        <h4>{{ $camp_data->fullName }} {{ $batch->name }} 報名表</h4>
     </div>
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
 @if(!isset($isModify) || $isModify)
@@ -137,6 +137,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
+    @if(!\Str::contains($batch->name, "單日"))
     <div class='row form-group required'>
         <label for='inputBirth' class='col-md-2 control-label text-md-right'>出生年月日（保險用）</label>
         <div class='date col-md-10' id='inputBirth'>
@@ -232,6 +233,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     </div>    
+    @endif
 
     <div class='row form-group required'>
         <label for='inputEmail' class='col-md-2 control-label text-md-right'>電子郵件</label>
@@ -257,6 +259,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
+    @if(!\Str::contains($batch->name, "單日"))
     <div class='row form-group required'>
         <label for='inputPaticipationMode' class='col-md-2 control-label text-md-right'>正行報名</label>
         <div class='col-md-10'>
@@ -278,7 +281,24 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </label>
         </div>
     </div>
+    @else
+    <div class='row form-group required' >
+        <label for='inputParticipationDates' class='col-md-2 control-label text-md-right'>正行報名(可複選)</label>
+        <div class='col-md-10'>
+            <label><input type="checkbox" name=participation_dates[] value='0220(二)' > 0220(二)</label> <br/>
+            <label><input type="checkbox" name=participation_dates[] value='0221(三)' > 0221(三)</label> <br/>
+            <label><input type="checkbox" name=participation_dates[] value='0222(四)' > 0222(四)</label> <br/>
+            <label><input type="checkbox" name=participation_dates[] value='0223(五)' > 0223(五)</label> <br/>
+            <label><input type="checkbox" name=participation_dates[] value='0224(六)' > 0224(六)</label> <br/>
+            <label><input type="checkbox" name=participation_dates[] value='0225(日)' > 0225(日)</label> <br/>
+            <div class="invalid-feedback" id="participation_dates-invalid">
+                請選擇報名日期。
+            </div>
+        </div>
+    </div>
+    @endif
 
+    @if(!\Str::contains($batch->name, "單日"))
     <div class='row form-group required'>
         <label for='inputTransportationDepart' class='col-md-2 control-label text-md-right'>去程交通調查</label>
         <div class='col-md-10'>
@@ -345,7 +365,40 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 
         </div>
     </div>
+    @else
+    <div class='row form-group required'>
+        <label for='inputTransportationBack' class='col-md-2 control-label text-md-right'>交通方式</label>
+        <div class='col-md-10'>
+            <p class='form-control-static text-info'>
+            說明：選擇登記遊覽車者，請先預填搭車地點，如：國館、高雄等。承辦人員會再回覆您是否發車、車資、以及發車時間等訊息。
+            <br>
+            </p>
+            <label class=radio-inline>
+                <input type=radio required name='transportation_back' value='自往' id='transportation_back_self' onclick="setTransportationBack(this)"> 自往
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label>
+            <br>
+            <label class=radio-inline>
+                <input type=radio required name='transportation_back' value='登記遊覽車' id='transportation_back_bus' onclick="setTransportationBack(this)"> 登記遊覽車
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label>
+            <br>
+            <label>
+                <input type="text" name="transportation_back_location" id="transportation_back_location" class="form-control" onclick="transportation_back_bus.checked = true; this.required = true;" placeholder='請填寫搭車地點'>
+                <div class="invalid-feedback">
+                    請填寫下搭車地點
+                </div>
+            </label>
 
+        </div>
+    </div>
+    @endif
+
+    @if(!\Str::contains($batch->name, "單日"))
     <div class='row form-group required'>
         <label class='col-md-2 control-label text-md-right'>緊急聯絡人</label>
         <div class='col-md-10'>
@@ -402,6 +455,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     </div>
+    @endif
 
     <div class='row form-group'>
         <label for='inputQuestions' class='col-md-2 control-label text-md-right'>備註</label>
@@ -413,6 +467,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
+    @if(!\Str::contains($batch->name, "單日"))
     <!--- 同意書 -->
     <div class='row form-group required'>
         <label for='inputTerm' class='col-md-2 control-label text-md-right'>個人資料</label>
@@ -455,6 +510,10 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </label>
         </div>
     </div>
+    @else
+    <input type='hidden' name="profile_agree" value='0'>
+    <input type='hidden' name="portrait_agree" value='0'>
+    @endif
 
     <div class="row form-group text-danger tips d-none">
         <div class='col-md-2'></div>
