@@ -65,7 +65,10 @@
                     </li>
                     --}}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url("downloads/icamp2024/2024祈願請法團報名簡章.pdf") }}">報名簡章及課程表下載</a>
+                    <a class="nav-link" href="{{ url("downloads/icamp2024/2024祈願請法團報名簡章.pdf") }}">報名簡章及課程表下載(繁體版)</a> 
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="{{ url("downloads/icamp2024/2024祈愿请法团报名简章.pdf") }}">报名简章及课程表下载(简体版)</a>
                     </li>
                 </ul>
             </div>

@@ -259,12 +259,13 @@
                     <b>無關懷記錄</b>
                     @endif
                     <a href="{{ route('showContactLogs', [$camp->id, $applicant->applicant_id]) }}" class="btn btn-secondary float-right">更多關懷記錄</a><br><br>
-
+                    
                     <h5>回饋單內容</h5>
                     <div class="container">
                     <a href="{{ route('showGSFeedback', [$camp->id, $applicant->applicant_id,1]) }}">第一天回饋單</a><br>
                     <a href="{{ route('showGSFeedback', [$camp->id, $applicant->applicant_id,2]) }}">第二天回饋單</a><br>
-                    <a href="{{ route('showGSFeedback', [$camp->id, $applicant->applicant_id,3]) }}">第三天回饋單</a>
+                    <a href="{{ route('showGSFeedback', [$camp->id, $applicant->applicant_id,3]) }}">第三天回饋單</a><br>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSc4-fAX9Iejvd_NevVGr0mX08gHDrTPPRXHVajIb0IVfRSIlw/viewform?edit2=2_ABaOnucpYw-IWruXDslR5P0xhu-AAftQRVAPrV9nlpuDe9u5yPFEn0QmXPRluGsU_0tNghY" target="_blank" class="btn btn-primary mb-3">電訪調查表連結</a>
                     </div>
                 </div>
             @endif
@@ -281,6 +282,15 @@
             @endforeach
         </div>
     @endif
+
+    <div class="container">
+        <div class="row mt-3">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSc4-fAX9Iejvd_NevVGr0mX08gHDrTPPRXHVajIb0IVfRSIlw/viewform?edit2=2_ABaOnucpYw-IWruXDslR5P0xhu-AAftQRVAPrV9nlpuDe9u5yPFEn0QmXPRluGsU_0tNghY" target="_blank" class="btn btn-primary mb-3">電訪調查表連結</a>
+            <br>
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSc4-fAX9Iejvd_NevVGr0mX08gHDrTPPRXHVajIb0IVfRSIlw/viewform?edit2=2_ABaOnucpYw-IWruXDslR5P0xhu-AAftQRVAPrV9nlpuDe9u5yPFEn0QmXPRluGsU_0tNghY">Your browser isn't compatible</iframe>
+        </div>
+    </div>
+
 @endif
 <script>
         function enableEditRemark(){
