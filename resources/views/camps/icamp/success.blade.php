@@ -10,8 +10,10 @@
         </div>
         <div class="card-body">
             <p class="card-text">
-                恭喜您已完成{{ $camp_data->fullName }} 網路報名程序。您所填寫的個人資料，僅用於本活動的報名及聯絡之用。大會將依個人資料保護法及相關法令之規定善盡保密責任。<br>
-                @include('camps.icamp.successMessages')
+                感謝您報名{{ $applicant->batch->camp->fullName }}，報名手續已完成，<br>
+                您在本活動所填寫的個人資料，僅用於本活動報名及聯絡之用。<br>
+                大會將依個人資料保護法及相關法令之規定善盡保密責任。<br>
+                請記下您的<span class="text-danger font-weight-bold">《 報名序號：{{ $applicant->id }} 》</span>作為日後查詢使用。<br><br>
             </p>
             <form action="{{ route("queryview", $applicant->batch_id) }}" method="post" class="d-inline">
                 @csrf

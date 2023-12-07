@@ -9,10 +9,8 @@
         </div>
         <div class="card-body">
             <p class="card-text">
-                您成功修改報名 {{ $camp_data->fullName }} 的個人資料。<br>
-<!--
-                @include('camps.icamp.successMessages')
--->
+                您成功修改報名 {{ $applicant->batch->camp->fullName }} 的個人資料。<br>
+                請記下您的<span class="text-danger font-weight-bold">《 報名序號：{{ $applicant->id }} 》</span>作為日後查詢使用。<br><br>
             </p>
             <form action="{{ route("queryview", $applicant->batch_id) }}" method="post" class="d-inline">
                 @csrf
