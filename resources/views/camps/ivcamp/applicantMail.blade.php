@@ -5,10 +5,10 @@
     大會將依個人資料保護法及相關法令之規定善盡保密責任。<br>
     請記下您的報名序號： <strong>{{ $applicant->id }}</strong> 作為日後查詢使用。<br>
     <br>
-    若有問題，請洽
-    國際事務課 施佳妤 
-    電話：02-7714-6000＃60322（週一至週五 10:00~17:30）
-    電子信箱：international@blisswisdom.org
+    若有問題，請洽<br>
+    國際事務課 施佳妤<br>
+    電話：02-7714-6000＃60322（週一至週五 10:00~17:30）<br>
+    電子信箱：international@blisswisdom.org<br>
     <br>
     <br>
 <blockquote>國際事務法會報名服務處  敬啟</blockquote>
