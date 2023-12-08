@@ -105,7 +105,7 @@
                     西元
                 </div>
                 <div class="col-md-3">
-                    <input type='number' required class='form-control' name='birthyear' min=1930 max='{{ \Carbon\Carbon::now()->subYears(16)->year }}' value='' placeholder=''>
+                    <input type='number' required class='form-control' name='birthyear' min='{{ \Carbon\Carbon::now()->subYears(90)->year }}' max='{{ \Carbon\Carbon::now()->subYears(10)->year }}' value='' placeholder=''>
                 </div>
                 <div class="col-md-1">
                     年
