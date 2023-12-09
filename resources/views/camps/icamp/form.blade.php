@@ -18,14 +18,14 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class='page-header form-group'>
-        <h4>{{ $camp_data->fullName }} {{ $batch->name }} 報名表</h4>
+        <h4>{{ $camp_data->fullName }} @if(!\Str::contains($batch->name, "唐卡展")) {{ $batch->name }} @endif 報名表</h4>
     </div>
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
 @if(!isset($isModify) || $isModify)
-    <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form'>
+    <form method='post' action='{{ route("formSubmit", [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form'>
 {{-- 以上皆非: 檢視資料狀態 --}}
 @else
-    <form action="{{ route("queryupdate", $applicant_batch_id) }}" method="post" class="d-inline" name='Camp' >
+    <form action='{{ route("queryupdate", $applicant_batch_id) }}' method="post" class="d-inline" name='Camp' >
 @endif
     @csrf
     <div class='row form-group'>
@@ -259,7 +259,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-    @if(!\Str::contains($batch->name, "單日"))
+    @if(\Str::contains($batch->name, "全半程"))
     <div class='row form-group required'>
         <label for='inputPaticipationMode' class='col-md-2 control-label text-md-right'>正行報名</label>
         <div class='col-md-10'>
@@ -281,7 +281,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </label>
         </div>
     </div>
-    @else
+    @elseif(\Str::contains($batch->name, "單日"))
     <div class='row form-group required' >
         <label for='inputParticipationDates' class='col-md-2 control-label text-md-right'>正行報名(可複選)</label>
         <div class='col-md-10'>
@@ -296,9 +296,39 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     </div>
+    @else
+    <div class='row form-group required'>
+        <label for='inputPaticipationMode' class='col-md-2 control-label text-md-right'>正行報名(單選)</label>
+        <div class='col-md-10'>
+            <label class=radio-inline>
+                <input type=radio required name='participation_mode' value='0123(二)' > 0123(二)
+                <div class="invalid-feedback">
+                    請選擇正行報名日期
+                </div>
+            </label><br>
+            <label class=radio-inline>
+                <input type=radio required name='participation_mode' value='0130(二)' > 0130(二)
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label><br>
+            <label class=radio-inline>
+                <input type=radio required name='participation_mode' value='0227(二)' > 0227(二)
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label><br>
+            <label class=radio-inline>
+                <input type=radio required name='participation_mode' value='0301(五)' > 0301(五)
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div><br>
+            </label>
+        </div>
+    </div>
     @endif
 
-    @if(!\Str::contains($batch->name, "單日"))
+    @if(\Str::contains($batch->name, "全半程"))
     <div class='row form-group required'>
         <label for='inputTransportationDepart' class='col-md-2 control-label text-md-right'>去程交通調查</label>
         <div class='col-md-10'>
@@ -365,7 +395,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 
         </div>
     </div>
-    @else
+    @elseif(\Str::contains($batch->name, "單日"))
     <div class='row form-group required'>
         <label for='inputTransportationBack' class='col-md-2 control-label text-md-right'>交通方式</label>
         <div class='col-md-10'>
@@ -394,6 +424,42 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 </div>
             </label>
 
+        </div>
+    </div>
+    @else
+    <div class='row form-group required'>
+        <label for='inputTransportationDepart' class='col-md-2 control-label text-md-right'>去程交通調查</label>
+        <div class='col-md-10'>
+            <label class=radio-inline>
+                <input type=radio required name='transportation_depart' value='團進團出' > 團進團出
+                <div class="invalid-feedback">
+                    請選擇去程交通
+                </div>
+            </label>
+            <label class=radio-inline>
+                <input type=radio required name='transportation_depart' value='自往' > 自往
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label>
+        </div>
+    </div>
+
+    <div class='row form-group required'>
+        <label for='inputTransportationBack' class='col-md-2 control-label text-md-right'>回程交通調查</label>
+        <div class='col-md-10'>
+            <label class=radio-inline>
+                <input type=radio required name='transportation_back' value='團進團出' id='transportation_back_group'> 團進團出
+                <div class="invalid-feedback">
+                    請選擇回程交通
+                </div>
+            </label>
+            <label class=radio-inline>
+                <input type=radio required name='transportation_back' value='自回' id='transportation_back_self'> 自回
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label>
         </div>
     </div>
     @endif
@@ -430,8 +496,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group'>
         <label for='inputAcommodationNeeds' class='col-md-2 control-label text-md-right'>住宿特殊需求</label>
         <div class='col-md-10'>
-            <textarea class=form-control rows=2 name='acommodation_needs' id=inputAcommodationNeeds placeholder='非必填。需求如：下床、打呼房等。請簡要說明。
-'></textarea>
+            <textarea class=form-control rows=2 name='acommodation_needs' id=inputAcommodationNeeds placeholder='非必填。需求如：下床、打呼房等。請簡要說明。'></textarea>
             <div class="invalid-feedback">
                 請填寫本欄位
             </div>
