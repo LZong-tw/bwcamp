@@ -128,8 +128,8 @@ return [
         "bName" => "梯次",
         "group" => "組別",
         "number" => "座號",
-
         "is_admitted" => "錄取",
+        "is_attend" => "參加意願",
         "region" => "區域",
         "name" => "姓名",
         "gender" => "生理性別",
@@ -1254,6 +1254,11 @@ return [
                 "sort" => 1,
                 "for_query" => 1,
             ],
+            "number" => [
+                "name" => "座號",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
             "name" => [
                 "name" => "姓名",
                 "sort" => 0,
@@ -1274,23 +1279,28 @@ return [
                 "sort" => 1,
                 "for_query" => 1,
             ],
+            "title" => [
+                "name" => "職稱",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
             "unit_county" => [
                 "name" => "服務單位所在縣市",
                 "sort" => 1,
                 "for_query" => 1,
             ],
-            "department" => [
-                "name" => "服務系所/部門",
-                "sort" => 1,
-                "for_query" => 1,
-            ],
-            "position" => [
-                "name" => "身份別",
+            "mobile" => [
+                "name" => "行動電話",
                 "sort" => 0,
                 "for_query" => 1,
             ],
-            "title" => [
-                "name" => "職稱",
+            "line" => [
+                "name" => "LineID",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "email" => [
+                "name" => "Email",
                 "sort" => 0,
                 "for_query" => 1,
             ],
@@ -1345,6 +1355,16 @@ return [
         ],
 
         'tvcamp' => [
+            "id" => [
+                "name" => "報名序號",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "region" => [
+                "name" => "區別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
             "name" => [
                 "name" => "姓名",
                 "sort" => 1,
@@ -1355,14 +1375,14 @@ return [
                 "sort" => 1,
                 "for_query" => 1,
             ],
-            "unit" => [
-                "name" => "服務單位",
+            "roles" => [
+                "name" => "職務組別",
                 "sort" => 1,
                 "for_query" => 1,
             ],
-            "title" => [
-                "name" => "職稱",
-                "sort" => 0,
+            "position" => [
+                "name" => "職務",
+                "sort" => 1,
                 "for_query" => 1,
             ],
             "mobile" => [
