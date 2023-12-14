@@ -11,7 +11,7 @@ class DynamicStat extends Model
         'urltable_id', 'urltable_type', 'purpose', 'google_sheet_url', 'spreadsheet_id', 'sheet_name'
     ];
 
-    public function urltable():MorphTo
+    public function urltable(): MorphTo
     {
         return $this->morphTo();
     }

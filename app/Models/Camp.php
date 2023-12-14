@@ -42,19 +42,23 @@ class Camp extends Model
         'cancellation_deadline' => 'date'
     ];
 
-    public function batchs() {
+    public function batchs()
+    {
         return $this->hasMany('App\Models\Batch');
     }
 
-    public function regions() {
+    public function regions()
+    {
         return $this->belongsToMany(Region::class, 'region_camp_xref', 'camp_id', 'region_id');
     }
 
-    public function applicants() {
+    public function applicants()
+    {
         return $this->hasManyThrough(Applicant::class, Batch::class);
     }
 
-    public function organizations() {
+    public function organizations()
+    {
         return $this->hasMany(CampOrg::class);
     }
 
@@ -72,18 +76,19 @@ class Camp extends Model
     {
         return $this->hasOneThrough(Vcamp::class, CampVcampXref::class, 'camp_id', 'id', 'id', 'vcamp_id');
     }
-    public function allSignAvailabilities() {
+    public function allSignAvailabilities()
+    {
         return $this->hasManyThrough(BatchSignInAvailibility::class, Batch::class);
     }
 
     // 決定當下的費用是原價或早鳥價
-    public function getSetFeeAttribute(){
-        if($this->early_bird_last_day){
+    public function getSetFeeAttribute()
+    {
+        if($this->early_bird_last_day) {
             $early_bird_last_day = Carbon::createFromFormat('Y-m-d', $this->early_bird_last_day);
-            if($this->has_early_bird && Carbon::today()->lte($early_bird_last_day)){
+            if($this->has_early_bird && Carbon::today()->lte($early_bird_last_day)) {
                 return $this->early_bird_fee;
-            }
-            else{
+            } else {
                 return $this->fee;
             }
         }
@@ -92,18 +97,17 @@ class Camp extends Model
     }
 
     // 決定當下的繳費期限是最終繳費期限或早鳥繳費期限
-    public function getSetPaymentDeadlineAttribute(){
-        if($this->has_early_bird){
+    public function getSetPaymentDeadlineAttribute()
+    {
+        if($this->has_early_bird) {
             $early_bird_last_day = Carbon::createFromFormat('Y-m-d', $this->early_bird_last_day);
             if(Carbon::today()->lte($early_bird_last_day) &&
-                ($this->attributes['table'] == 'tcamp' || $this->attributes['table'] == 'hcamp')){
+                ($this->attributes['table'] == 'tcamp' || $this->attributes['table'] == 'hcamp')) {
                 return $early_bird_last_day->subYears(1911)->format('ymd');
-            }
-            else{
+            } else {
                 return $this->payment_deadline;
             }
-        }
-        else{
+        } else {
             return $this->payment_deadline;
         }
     }
