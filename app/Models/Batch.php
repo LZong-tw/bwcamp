@@ -15,19 +15,23 @@ class Batch extends Model
 
     protected $fillable = ['camp_id', 'name', 'admission_suffix', 'batch_start', 'batch_end', 'is_appliable', 'is_late_registration_end', 'late_registration_end', 'locationName', 'location', 'check_in_day', 'tel', 'num_groups'];
 
-    public function camp() {
+    public function camp()
+    {
         return $this->belongsTo(Camp::class);
     }
 
-    public function groups() {
+    public function groups()
+    {
         return $this->hasMany(ApplicantsGroup::class);
     }
 
-    public function applicants() {
+    public function applicants()
+    {
         return $this->hasMany(Applicant::class);
     }
 
-    public function sign_info($date = null) {
+    public function sign_info($date = null)
+    {
         $relation = $this->hasMany(BatchSignInAvailibility::class, 'batch_id')->orderBy('start', 'asc');
         if ($date) {
             $relation = $relation->where('start', 'like', "%{$date}%")->get();
@@ -35,7 +39,8 @@ class Batch extends Model
         return $relation;
     }
 
-    public function canSignNow() {
+    public function canSignNow()
+    {
         return $this->hasOne(BatchSignInAvailibility::class, 'batch_id')
                 ->where([['start', '<=', now()], ['end', '>=', now()]])->first();
     }
