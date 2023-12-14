@@ -158,9 +158,14 @@ class Applicant extends Model {
         return $this->belongsToMany(\App\User::class, 'carer_applicant_xrefs', 'applicant_id', 'user_id');
     }
 
-    public function dynamic_stats()
+    /*public function dynamic_stats()
     {
         return $this->hasMany(DynamicStat::class);
+    }*/
+
+    public function dynamic_stats()
+    {
+        return $this->morphMany(DynamicStat::class, 'urltable');
     }
 
     public function getBirthdateAttribute() {

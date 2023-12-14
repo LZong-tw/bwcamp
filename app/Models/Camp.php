@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Carbon\Carbon;
 
 class Camp extends Model
@@ -110,5 +111,10 @@ class Camp extends Model
     public static function getCampTable($batch_id)
     {
         return Camp::select('table as tableName')->join('batchs', 'batchs.camp_id', '=', 'camps.id')->where('batchs.id', $batch_id)->first()->tableName;
+    }
+
+    public function dynamic_stats(): MorphMany
+    {
+        return $this->morphMany(DynamicStat::class, 'urltable');
     }
 }
