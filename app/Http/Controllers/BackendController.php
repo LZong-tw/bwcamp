@@ -28,6 +28,7 @@ use View;
 use App\Traits\EmailConfiguration;
 use App\Models\SignInSignOut;
 use App\Exports\ApplicantsExport;
+use App\Services\GSheetService;
 use Maatwebsite\Excel\Facades\Excel;
 
 class BackendController extends Controller
@@ -37,6 +38,7 @@ class BackendController extends Controller
     protected $campDataService;
     protected $applicantService;
     protected $backendService;
+    protected $gsheetService;
     protected $batch_id;
     protected $camp_data;
     protected $batch;
@@ -51,12 +53,15 @@ class BackendController extends Controller
         CampDataService $campDataService,
         ApplicantService $applicantService,
         BackendService $backendService,
+        GSheetService $gsheetService,
         Request $request
     ) {
         $this->middleware('auth');
         $this->campDataService = $campDataService;
         $this->applicantService = $applicantService;
         $this->backendService = $backendService;
+        $this->gsheetService = $gsheetService;
+
         if ($request->route()->parameter('batch_id')) {
             // 營隊資料，存入 view 全域
             $this->batch_id = $request->route()->parameter('batch_id');
@@ -1429,6 +1434,22 @@ class BackendController extends Controller
         if(isset($applicant->contact_time)) {
             $applicant->contact_time_split = explode("||/", $applicant->contact_time);
         }
+
+        //get urls for each applicant
+        if ($camp->dynamic_stats) {
+            $applicant->url = "";
+            foreach($camp->dynamic_stats as $stat) {
+                $sheet = $this->gsheetService->Get($stat->spreadsheet_id, $stat->sheet_name);
+                //look-up applicant_id
+                foreach ($sheet as $row) {
+                    if ($row[0] == $applicant->applicant_id) {
+                        $dynamic_stat_urls[$stat->purpose] = $row[1];
+                        break;
+                    }
+                }
+            }
+        }
+        //dd($dynamic_stat_urls);
         if(str_contains($camp->table, "vcamp")) {
             return view('backend.in_camp.volunteerInfo', compact('camp', 'batch', 'applicant', 'contactlog'));
         } elseif($camp->table == "acamp") {
@@ -1436,7 +1457,7 @@ class BackendController extends Controller
         } elseif($camp->table == "ceocamp") {
             return view('backend.in_camp.attendeeInfoCeocamp', compact('camp', 'batch', 'applicant', 'contactlog'));
         } elseif($camp->table == "ecamp") {
-            return view('backend.in_camp.attendeeInfoEcamp', compact('camp', 'batch', 'applicant', 'contactlog'));
+            return view('backend.in_camp.attendeeInfoEcamp', compact('camp', 'batch', 'applicant', 'contactlog', 'dynamic_stat_urls'));
         } elseif($camp->table == "ycamp") {
             return view('backend.in_camp.attendeeInfoYcamp', compact('camp', 'batch', 'applicant', 'contactlog'));
         } else {

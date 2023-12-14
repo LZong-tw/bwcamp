@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Batch extends Model
 {
@@ -37,5 +38,10 @@ class Batch extends Model
     public function canSignNow() {
         return $this->hasOne(BatchSignInAvailibility::class, 'batch_id')
                 ->where([['start', '<=', now()], ['end', '>=', now()]])->first();
+    }
+
+    public function dynamic_stats(): MorphMany
+    {
+        return $this->morphMany(DynamicStat::class, 'urltable');
     }
 }

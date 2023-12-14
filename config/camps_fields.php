@@ -176,6 +176,8 @@ return [
         "profile_agree" => "個人資料允許",
         "transportation_depart" => "去程交通",
         "transportation_back" =>"回程交通",
+        "carers" => "關懷員",
+        "care_log" => "關懷記錄",
     ],
 
     'tvcamp' => [
@@ -1157,6 +1159,11 @@ return [
                 "name" => "梯次",
                 "sort" => 1,
                 "for_query" => 0,
+            ],
+            "nationality" => [
+                "name" => "區域",
+                "sort" => 1,
+                "for_query" => 1,
             ],
             "name" => [
                 "name" => "姓名",

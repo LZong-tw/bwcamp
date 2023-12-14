@@ -265,13 +265,12 @@
                     <a href="{{ route('showGSFeedback', [$camp->id, $applicant->applicant_id,1]) }}">第一天回饋單</a><br>
                     <a href="{{ route('showGSFeedback', [$camp->id, $applicant->applicant_id,2]) }}">第二天回饋單</a><br>
                     <a href="{{ route('showGSFeedback', [$camp->id, $applicant->applicant_id,3]) }}">第三天回饋單</a><br>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSc4-fAX9Iejvd_NevVGr0mX08gHDrTPPRXHVajIb0IVfRSIlw/viewform?edit2=2_ABaOnucpYw-IWruXDslR5P0xhu-AAftQRVAPrV9nlpuDe9u5yPFEn0QmXPRluGsU_0tNghY" target="_blank" class="btn btn-primary mb-3">電訪調查表連結</a>
                     </div>
                 </div>
             @endif
         </div>
     </div>
-    @if ($applicant->dynamic_stats)
+    @if($applicant->dynamic_stats)
         <div class="container">
             @foreach($applicant->dynamic_stats as $stat)
                 <div class="row mt-3">
@@ -282,15 +281,17 @@
             @endforeach
         </div>
     @endif
-
-    <div class="container">
-        <div class="row mt-3">
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSc4-fAX9Iejvd_NevVGr0mX08gHDrTPPRXHVajIb0IVfRSIlw/viewform?edit2=2_ABaOnucpYw-IWruXDslR5P0xhu-AAftQRVAPrV9nlpuDe9u5yPFEn0QmXPRluGsU_0tNghY" target="_blank" class="btn btn-primary mb-3">電訪調查表連結</a>
-            <br>
-            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSc4-fAX9Iejvd_NevVGr0mX08gHDrTPPRXHVajIb0IVfRSIlw/viewform?edit2=2_ABaOnucpYw-IWruXDslR5P0xhu-AAftQRVAPrV9nlpuDe9u5yPFEn0QmXPRluGsU_0tNghY">Your browser isn't compatible</iframe>
+    @if($dynamic_stat_urls)
+        <div class="container">
+            @foreach($dynamic_stat_urls as $key => $url)
+                <div class="row mt-3">
+                    <a href="{{ $url }}" target="_blank" class="btn btn-primary mb-3">{{ $key }}</a>
+                    <br>
+                    <iframe src="{{ $url }}">Your browser isn't compatible</iframe>
+                </div>
+            @endforeach
         </div>
-    </div>
-
+    @endif
 @endif
 <script>
         function enableEditRemark(){
