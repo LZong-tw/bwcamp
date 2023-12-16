@@ -1436,6 +1436,7 @@ class BackendController extends Controller
         }
 
         //get urls for each applicant
+        $dynamic_stat_urls = null;
         if ($camp->dynamic_stats) {
             $applicant->url = "";
             foreach($camp->dynamic_stats as $stat) {
