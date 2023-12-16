@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+
 //use Traffic;
 
 class Applicant extends Model {
@@ -163,7 +165,7 @@ class Applicant extends Model {
         return $this->hasMany(DynamicStat::class);
     }*/
 
-    public function dynamic_stats()
+    public function dynamic_stats(): MorphMany
     {
         return $this->morphMany(DynamicStat::class, 'urltable');
     }
