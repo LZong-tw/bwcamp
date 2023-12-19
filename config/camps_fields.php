@@ -178,6 +178,7 @@ return [
         "transportation_back" =>"回程交通",
         "carers" => "關懷員",
         "care_log" => "關懷記錄",
+        "remark" => "備註",
     ],
 
     'tvcamp' => [
