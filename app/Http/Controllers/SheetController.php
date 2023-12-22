@@ -35,16 +35,6 @@ class SheetController extends Controller
 
     public function showGSFeedback(Request $request)
     {
-
-        /*$config = \Config::get('mail.' . $camp);
-        if($config && $config['username']){
-            config([
-                'mail.mailers.smtp.username' => $config['username'],
-                'mail.mailers.smtp.password' => $config['password'],
-                'mail.from.address' => $config['address'],
-            ]);
-        }*/
-
         if ($request->day==1) {
             config([
                 'google.post_spreadsheet_id' => '1Bdnv5ehYLCYv_8RYhtbqVS2rseOuoxdaVvP2Ehi6egM',
@@ -94,13 +84,52 @@ class SheetController extends Controller
         return view('backend.in_camp.gsFeedback', compact('titles','contents','content_count'));
     }
 
+    public function showGSDynamic(Request $request)
+    {
+        config([
+            'google.post_spreadsheet_id' => '19lb0N_TQXtlTp4wzj_E2Q9maYIZppU23dceA_GAPMKQ',
+            'google.post_sheet_id' => 'URLs',
+        ]);
+
+        $applicant_id = $request->applicant_id;
+
+        $sheets = $this->gsheetservice->Get(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
+        $titles = $sheets[0];
+        dd($sheets);
+
+        //multiple name columns
+        $keys = array_keys($titles, '姓名');
+        
+        foreach($keys as $key) {
+            $i = 0;
+            foreach ($sheets as $row) {
+                $names[$i] = $row[$key];
+                $i = $i+1;
+            }
+            $key1 = array_search($name_tg, $names);
+            if ($key1 <> false) break;
+        }
+        
+        if ($key1 == false) {
+            $contents = null;
+            $content_count = 0;
+        }
+        else {
+            //to deal with content_count < title_count
+            $contents = $sheets[$key1];
+            $content_count = count($contents);
+        }
+
+        return view('backend.in_camp.gsFeedback', compact('titles','contents','content_count'));
+    }
+
     public function importGSApplicants(Request $request)
     {
         config([
             //'google.post_spreadsheet_id' => '1g6gvbuLeEXz8W4QtMLPGhMpZ_u_Mu73OfmR3ems_9SI',
             //'google.post_sheet_id' => '0821',
-            'google.post_spreadsheet_id' => '1Bl1c5lVA3JrZl6EqCiAiSKnDktHzh6ts3NclrSfUWO0',
-            'google.post_sheet_id' => '1028',
+            'google.post_spreadsheet_id' => '1qYHSDQWz4tBfgB-clCFnbbyMA67EJnK6rVpKZbvDPDY',
+            'google.post_sheet_id' => 'ABTeam',
         ]);
         $camp = Camp::find($request->camp_id);
         $table = $camp->table;
@@ -120,12 +149,13 @@ class SheetController extends Controller
             $applicant = Applicant::select('applicants.*')
                 ->where('batch_id', $title_data['batch_id'])
                 ->where('name', $title_data['name'])
-                ->where('email', $title_data['email'])->first();
+                //->where('email', $title_data['email'])
+                ->first();
 
             if ($applicant) {   //if exist, update
                 //$applicant->group_id = $title_data['group_id'];
-                $applicant->region = $title_data['region'];
-                $applicant->save();
+                //$applicant->region = $title_data['region'];
+                //$applicant->save();
                 $fail_count++;
             } else {            //create new
                 $applicant = \DB::transaction(function () use ($title_data,$table) {
