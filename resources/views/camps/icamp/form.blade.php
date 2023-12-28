@@ -313,6 +313,12 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 </div>
             </label><br>
             <label class=radio-inline>
+                <input type=radio required name='participation_mode' value='0217(六)' > 0217(六)
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label><br>
+            <label class=radio-inline>
                 <input type=radio required name='participation_mode' value='0227(二)' > 0227(二)
                 <div class="invalid-feedback">
                     &nbsp;
