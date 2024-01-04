@@ -968,7 +968,7 @@ class BackendController extends Controller
                         if($key == "admitted_no") {
                             $data = $applicant->group . $applicant->number;
                         } else if($key == "is_attend") {
-                            match ($v) {
+                            match ($applicant->is_attend) {
                                 0 => $data = "不參加",
                                 1 => $data = "參加",
                                 2 => $data = "尚未決定",
