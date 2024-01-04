@@ -967,6 +967,15 @@ class BackendController extends Controller
                         $data = null;
                         if($key == "admitted_no") {
                             $data = $applicant->group . $applicant->number;
+                        } else if($key == "is_attend") {
+                            match ($data) {
+                                0 => $data = "不參加",
+                                1 => $data = "參加",
+                                2 => $data = "尚未決定",
+                                3 => $data = "聯絡不上",
+                                4 => $data = "無法全程",
+                                default => $data = "尚未聯絡"
+                            };
                         } else {
                             $data = $applicant->$key;
                         }
@@ -974,7 +983,6 @@ class BackendController extends Controller
                     }
                     fputcsv($file, $rows);
                 }
-
                 fclose($file);
             };
             return response()->stream($callback, 200, $headers);
