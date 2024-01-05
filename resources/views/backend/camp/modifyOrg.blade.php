@@ -17,7 +17,7 @@
     <form action="{{ route("modifyOrg", [$camp->id, $org->id]) }}" method="POST">
         @csrf
         <div class='row form-group'>
-            <label for='inputPos' class='col-md-2 control-label'>梯次</label>
+            <label for='inputBatch' class='col-md-2 control-label'>梯次</label>
             <div class='col-md-6'>
                 <select name="batch_id" id="" class="form-control">
                     <option value="">不限</option>
@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class='row form-group'>
-            <label for='inputPos' class='col-md-2 control-label'>區域</label>
+            <label for='inputRegion' class='col-md-2 control-label'>區域</label>
             <div class='col-md-6'>
                 <select name="region_id" id="" class="form-control">
                     <option value="">不限</option>

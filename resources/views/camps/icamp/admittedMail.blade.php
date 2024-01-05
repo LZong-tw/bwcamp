@@ -3,41 +3,46 @@
         color: red;
     }
 </style>
-<h2 class="center">{{ $applicant->batch->camp->fullName }}<br>錄取通知單（三天）</h2>
-<p class="card-text">{{ $applicant->name }} 您好</p>
-<p class="card-text">您的錄取組別為：{{ $applicant->group }}，錄取編號為：{{ $applicant->group }}{{ $applicant->number }}。</p>
-<p class="card-text">我們誠摯歡迎您來共享這場心靈饗宴。三天研習務必全程參加，請參閱下列說明。</p>
+<body style="font-size:16px;">
+<h2 class="center">{{ $applicant->batch->camp->fullName }}录取通知单</h2>
+<p class="card-text">{{ $applicant->name }} 大德：</p>
+<p class="card-text">随喜您报名「{{ $applicant->batch->camp->fullName }}」，我们诚挚欢迎您参加本活动，共享这场心灵飨宴。为使正行进行顺利，请详阅下列须知。</p>
+@if(\Str::contains($applicant->batch->name, "全半程"))
 <p class="card-text">
-    <h4>【營隊資訊】</h4>
-        <div class="ml-4 mb-2">1.研習日期：2023年8月4日(星期五)至8月6日(星期日)，請務必<u>全程參加</u>。</div>
-        <div class="ml-4 mb-2">2.報到時間：2023年8月4日(星期五)</div>
-        <div class="ml-4 mb-2">3.報到地點：開南大學(桃園市蘆竹區開南路1號)(詳見報到通知單，預計7月寄出Email)</div>
-    <h4>【確認參加】</h4>
-        <div class="ml-4 mb-2">請點擊連結<a href="https://bwcamp.bwfoce.org/camp/{{ $applicant->batch->id }}/showadmit?sn={{ $applicant->id }}&name={{ $applicant->name }}">確認參加</a></div>
-        <div class="ml-4 mb-2">若以上連結無法點選，請複製下方文字後，再由瀏覽器進入頁面做回覆：</div>
-        <div class="ml-4 mb-2">https://bwcamp.bwfoce.org/camp/{{ $applicant->batch->id }}/queryadmit</div>
-    <h4>【建議攜帶物品】</h4>
-        <div class="ml-4 mb-2">以下謹列出參加此次活動所需攜帶物品，以及本營隊提供之物品，方便您準備之依據。</div>
-        <br>
-        <div class="ml-4 mb-2">＊多套換洗衣物(洗衣不方便)、備用袋(裝使用過之衣物)。</div>
-        <div class="ml-4 mb-2">＊毛巾、牙膏、牙刷、香皂、洗髮精、拖鞋、衣架、輕薄外套(防上課地點冷氣過冷)。</div>
-        <div class="ml-4 mb-2">＊寢具，如睡袋或薄被、枕頭、軟墊等(寢室有冷氣)。</div>
-        <div class="ml-4 mb-2">＊隨身背包(教材約A4大小)、文具用品、環保水杯、環保筷、摺疊傘、遮陽帽。</div>
-        <div class="ml-4 mb-2">＊刮鬍刀、耳塞(睡覺時易受聲音干擾者)、眼罩、口罩、手帕。</div>
-        <div class="ml-4 mb-2">＊身份證、健保卡(生病時就診用)。</div>
-        <div class="ml-4 mb-2">＊個人常用藥物。</div>
-        <br>
-        <div class="ml-4 mb-2">請勿攜帶貴重物品，本會無法負保管責任！</div>
-    <h4>【注意事項】</h4>
-        <div class="ml-4 mb-2">＊<b>如您目前懷孕中，請考量本營隊因為休息皆為硬板床、一天十多小時上課、及天氣炎熱多次出入冷氣房等各項因素，依照您的身體狀況慎重考量</b>。</div>
-        <div class="ml-4 mb-2">＊<u>校園停車位有限</u>，請多利用大眾交通運輸工具。預計在台鐵/高鐵桃園站備有接駁巴士接送。</div>
-        <div class="ml-4 mb-2">＊本次營隊報名踴躍，因場地考量容納有限，若您無法全程參加，請告知關懷員，感謝您的善行。謝謝！</div>
+    <h4>【活动资讯】</h4>
+        <div class="ml-4 mb-2">1.正行日期：<br>
+        　　全程2024年2月20日(星期二)至2月25日(星期日)中午结束<br>
+        　　半程2024年2月23日(星期五)至2月25日(星期日)中午结束</div>
+        <div class="ml-4 mb-2">2.报到时间：<br>
+        　　全程2024年2月19日(星期一) 下午17:00前完成报到<br>
+        　　半程2024年2月22日(星期四) 下午17:00前完成报到</div>
+        <div class="ml-4 mb-2">3.报到地点：福智教育园区 （云林县古坑乡麻园村平和21号）</div>
+        <div class="ml-4 mb-2">4.正行团费：<br>
+        　　全程每人新台币6000元。<br>
+        　　半程每人新台币3500元。</div>
+        <div class="ml-4 mb-2">5.请于2024年1月15日前缴款给贵区窗口。</div>
+    <h4>【前行缘念】</h4>
+        <div class="ml-4 mb-2">我们希请 如亨法师開示，于台湾时间1月28日(日)上午9:00~11:00为全体前行缘念，请务必拨冗参加。</div>
+    <h4>【应携带物品】</h4>
+        <div class="ml-4 mb-2">1.换洗衣物(多套)、盥洗用具、拖鞋、防寒外套、保暖用品。</div>
+        <div class="ml-4 mb-2">2.个人常用药物、防疫药物、口罩。</div>
+        <div class="ml-4 mb-2">3.随身背包、环保水杯、环保筷、折叠伞。</div>
+        <div class="ml-4 mb-2">4.耳塞（睡觉时易受声音干扰者）</div>
+    <h4>【其它注意事项】</h4>
+        <div class="ml-4 mb-2">1.祈愿请法团乃团体活动，参加者请做好学习的心态，抱着欢喜心并全配合团体行程、随团住宿，正行期间切勿安排个人行程。</div>
+        <div class="ml-4 mb-2">2.抵达会场需爬坡，请衡量自身体力是否适合参加。</div>
+        <div class="ml-4 mb-2">3.若有行动不便或其他特殊疾病，请务必事先告知。</div>
+        <div class="ml-4 mb-2">4.请自备新台币，不提供外币兑换。</div>
+        <div class="ml-4 mb-2">5.离台航班请务必预留交通车程及checkin时间。</div>
 </p>
-<p class="card-text">本會關懷員近日將以電話跟您確認，若有任何問題，歡迎與該關懷員聯絡，或致電本會。</p>
-<p class="card-text">聯絡電話：02-7751-6788 分機：610408、613091、610301</p>
-<p class="card-text">洽詢時間：週一～週五 10:00～20:00、週六 10:00～16:00</p>
-<br><br>
-<p class="card-text text-right">主辦單位：財團法人福智文教基金會 敬啟</p>
+@else
+<br>
+內容待確認<br>
+<br>
+@endif
+<br>
+<br>
+<p class="card-text text-right">主办单位：国际事务法会报名服务处 敬上</p>
 <p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
-<p class="card-text">Facebook 卓越青年 <a href="https://www.facebook.com/YoungOneCamp" target="_blank" rel="noopener noreferrer">https://www.facebook.com/YoungOneCamp</a></p>
-<p class="card-text">{{ $applicant->batch->camp->fullName }}官方網站 <a href="http://www.youngone.org.tw/camp/" target="_blank" rel="noopener noreferrer">http://www.youngone.org.tw/camp/</a></p>
+<p class="card-text">{{ $applicant->batch->camp->fullName }}官方网站 <a href="{{ $applicant->batch->camp->site_url }}" target="_blank" rel="noopener noreferrer">{{ $applicant->batch->camp->site_url }}</a></p>
+</body>
