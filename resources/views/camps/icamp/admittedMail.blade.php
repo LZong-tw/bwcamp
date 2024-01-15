@@ -4,10 +4,10 @@
     }
 </style>
 <body style="font-size:16px;">
+@if(\Str::contains($applicant->batch->name, "全半程"))
 <h2 class="center">{{ $applicant->batch->camp->fullName }}录取通知单</h2>
 <p class="card-text">{{ $applicant->name }} 大德：</p>
 <p class="card-text">随喜您报名「{{ $applicant->batch->camp->fullName }}」，我们诚挚欢迎您参加本活动，共享这场心灵飨宴。为使正行进行顺利，请详阅下列须知。</p>
-@if(\Str::contains($applicant->batch->name, "全半程"))
 <p class="card-text">
     <h4>【活动资讯】</h4>
         <div class="ml-4 mb-2">1.正行日期：<br>
@@ -35,9 +35,40 @@
         <div class="ml-4 mb-2">4.请自备新台币，不提供外币兑换。</div>
         <div class="ml-4 mb-2">5.离台航班请务必预留交通车程及checkin时间。</div>
 </p>
+@elseif(\Str::contains($applicant->batch->name, "唐卡展"))
+<h2 class="center">{{ $applicant->batch->camp->fullName }}录取行前通知单</h2>
+<p class="card-text">{{ $applicant->name }} 大德：</p>
+<p class="card-text">随喜您报名「{{ $applicant->batch->camp->fullName }}」，我们诚挚欢迎您参加本活动，共享这场心灵飨宴。为使正行进行顺利，请详阅下列须知。</p>
+<p class="card-text">
+    <h4>【活动资讯】</h4>
+        <div class="ml-4 mb-2">1.正行日期：<br>
+        　　2024年1/23、1/30、2/17、2/27、3/1日下午16:00结束</div>
+        <div class="ml-4 mb-2">2.报到时间：<br>
+        　　前一天下午17:00前完成报到<br>
+        　　若不住宿，请来信告知，并于当天早上8:00在宗仰楼一楼里仁门口集合。</div>
+        <div class="ml-4 mb-2">3.报到地点：福智教育园区 （云林县古坑乡麻园村平和21号）</div>
+        <div class="ml-4 mb-2">4.正行团费：<br>
+        　　新台币1500元。若当天报到费用为新台币1000元。</div>
+        <div class="ml-4 mb-2">5.请于2024年1月17日前汇款至以下帐户，汇款后请在群组回报末五码<br>
+        　　银行：011上海商业储蓄银行<br>
+        　　户名：施佳妤<br>
+        　　帐号：40203000202671</div>
+    <h4>【应携带物品】</h4>
+        <div class="ml-4 mb-2">1.换洗衣物、盥洗用具、拖鞋、防寒外套、保暖用品。</div>
+        <div class="ml-4 mb-2">2.个人常用药物、防疫药物、口罩。</div>
+        <div class="ml-4 mb-2">3.随身背包、环保水杯、环保筷、折叠伞。</div>
+        <div class="ml-4 mb-2">4.耳塞（睡觉时易受声音干扰者）</div>
+    <h4>【其它注意事项】</h4>
+        <div class="ml-4 mb-2">请加入各场次的line，以利联系。<br>
+        　　1/23场：<a href="https://line.me/ti/g/mf8Ik0lLYW">https://line.me/ti/g/mf8Ik0lLYW</a><br>
+        　　1/30场：<a href="https://line.me/ti/g/ROKgf5KBWu">https://line.me/ti/g/ROKgf5KBWu</a><br>
+        　　2/17场：<a href="https://line.me/ti/g/92NgNK4zFh">https://line.me/ti/g/92NgNK4zFh</a><br>
+        　　2/27场：<a href="https://line.me/ti/g/Jbagi2Du8v">https://line.me/ti/g/Jbagi2Du8v</a><br>
+        　　3/1 场：<a href="https://line.me/ti/g/8YcbsFKyGw">https://line.me/ti/g/8YcbsFKyGw</a></div>
+</p>
 @else
 <br>
-內容待確認<br>
+內容待確認
 <br>
 @endif
 <br>
