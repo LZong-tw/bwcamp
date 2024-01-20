@@ -159,17 +159,8 @@ class User extends Authenticatable
         // 全域權限
         $permissions = $this->permissions;
         // 營隊權限
-        if (!$this->rolePermissions) {         
-            $this->rolePermissions = self::with('roles.permissions')->whereHas('roles', function ($query) use ($camp, $resource) {
-                // 順便做梯次檢查
-                // 區域檢查可能也要做在這裡   
-                if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer || $resource instanceof \App\Models\User) {
-                    return $query->where('batch_id', '<>', \DB::raw('NULL'))
-                            ->where(function ($query) use ($camp, $resource) {
-                                return $query->where('camp_id', $camp->id)
-                                            ->where('batch_id', $resource->batch_id);
-                            });
-                }
+        if (!$this->rolePermissions) {
+            $this->rolePermissions = self::with('roles.permissions')->whereHas('roles', function ($query) use ($camp) {
                 return $query->where('camp_id', $camp->id);
             })->where('id', $this->id)->get()->pluck('roles')->flatten()->pluck('permissions')->flatten()->unique('id')->values();
         }
