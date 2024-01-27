@@ -1632,7 +1632,10 @@ class BackendController extends Controller
                         ->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id')
                         ->where('camps.id', $this->campFullData->vcamp->id)
                         ->whereDoesntHave('user')
-                        ->whereIn('batch_id', $batches->pluck('id'))->withTrashed();
+                        ->withTrashed();
+        if ($request->batch_id) {
+            $query->where('batchs.id', $request->batch_id);
+        }
         if ($request->isMethod("post")) {
             if ($queryStr != "") {
                 $query = $query->where(\DB::raw($queryStr), 1);
