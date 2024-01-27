@@ -1649,9 +1649,11 @@ class BackendController extends Controller
             'roles' => fn ($q) => $q->where('camp_id', $this->campFullData->id), // 給 IoiSearch 用的資料
             'application_log.user.roles' => fn ($q) => $q->where('camp_id', $this->campFullData->id),  // applicant-list 顯示用的資料
             'application_log.user.roles.batch',
-            'application_log' => function ($query) use ($batches) {
+            'application_log' => function ($query) use ($request) {
                 $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');
-                $query->whereIn('batch_id', $batches->pluck('id'));
+                if ($request->batch_id) {
+                    $query->where('batchs.id', $request->batch_id);
+                }
             }])
             ->where(function ($q) use ($queryRoles) {
                 $q->whereHas('application_log.user.roles', function ($query) use ($queryRoles) {
