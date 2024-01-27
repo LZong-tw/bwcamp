@@ -1652,7 +1652,7 @@ class BackendController extends Controller
             'application_log' => function ($query) use ($request) {
                 $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');
                 if ($request->batch_id) {
-                    $query->where('batchs.id', $request->batch_id);
+                    $query->whereIn('applicants.batch_id', $request->batch_id);
                 }
             }])
             ->where(function ($q) use ($queryRoles) {
