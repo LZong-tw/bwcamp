@@ -74,9 +74,18 @@
     @yield('content')
     <!-- Site footer -->
     <footer class='footer'>
-        <p class="text-center">洽詢電話：(北區)02-7751-6788&nbsp;&nbsp;#610408&nbsp;#613091&nbsp;#610301</p>
-        <p class="text-center">洽詢時間：週一至週五10:00~20:00、週六10:00~16:00</p>
-        <p class=text-center>&copy; 財團法人福智文教基金會</p>
+        <p class="text-center">洽詢電話：<br>
+        北區(含宜蘭、花蓮)：02-775-16788#610301、#613091、#610408<br>
+        基隆：02-242-31289#15<br>
+        桃區：03-275-6133#1305<br>
+        竹區：03-532-5566<br>
+        中區：04-370-69300#620202<br>
+        雲嘉：05-283-3940#203<br>
+        台南：06-264-6831#351<br>
+        高屏(含台東)：07-974-3280#68104<br>
+        </p>
+        <p class="text-center">洽詢時間：<br>週一至週五10:00~20:00、週六10:00~16:00</p>
+        <p class="text-center">&copy; 財團法人福智文教基金會</p>
     </footer>
 </div>
 </body></html>

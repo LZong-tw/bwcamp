@@ -910,7 +910,10 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
+    {{-- !isset($isModify):報名狀態，此時才預填is_attend=1 --}}
+    @if(!isset($isModify))
     <input type="hidden" name="is_attend" value=1>
+    @endif
 
     <div class="row form-group text-danger tips d-none">
         <div class='col-md-2'></div>

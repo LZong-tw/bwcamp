@@ -138,14 +138,14 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class='row form-group required'>
-        <label for='inputBirth' class='col-md-2 control-label text-md-right'>生日年月</label>
+        <label for='inputBirth' class='col-md-2 control-label text-md-right'>生日</label>
         <div class='date col-md-10' id='inputBirth'>
             <div class='row form-group required'>
                 <div class="col-md-1">
                     西元
                 </div>
                 <div class="col-md-3">
-                    <input type='number' required class='form-control' name='birthyear' min=1900 max='{{ \Carbon\Carbon::now()->subYears(16)->year }}' value='' placeholder=''>
+                    <input type='number' required class='form-control' name='birthyear' min=1970 max='{{ \Carbon\Carbon::now()->subYears(16)->year }}' value='' placeholder=''>
                     <div class="invalid-feedback">
                         未填寫或日期不正確
                     </div>
@@ -162,7 +162,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <div class="col-md-1">
                     月
                 </div>
-                {{--
                 <div class="col-md-3">
                     <input type='number' required class='form-control' name='birthday' min=1 max=31 value='' placeholder=''>
                     <div class="invalid-feedback">
@@ -172,7 +171,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <div class="col-md-1">
                     日
                 </div>
-                --}}
             </div>
         </div>
     </div>
@@ -631,13 +629,13 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <div class='col-md-10'>
             <select required class='form-control' name='transportation' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
-                <option value='台鐵桃園前站接駁車' >台鐵桃園前站接駁車</option>
-                <option value='高鐵桃園5號出口接駁車' >高鐵桃園5號出口接駁車</option>
-                <option value='校園汽車停車位' >校園汽車停車位</option>
-                <option value='校園機車停車位' >校園機車停車位</option>
+                <option value='台鐵桃園站接駁車' >台鐵桃園站接駁車</option>
+                <option value='高鐵桃園站接駁車' >高鐵桃園站接駁車</option>
+                <option value='校園汽車停車位' >校園汽車位</option>
+                <option value='校園機車停車位' >校園機車位</option>
                 <option value='搭乘各區直達專車(暫定：台北、台中、嘉義、台南、高雄、屏東)
                 ' >搭乘各區直達專車(暫定：台北、台中、嘉義、台南、高雄、屏東)</option>
-                <option value='無以上需求' >無以上需求</option>
+                <option value='無前述需求' >無前述需求</option>
             </select>
         </div>
     </div>
