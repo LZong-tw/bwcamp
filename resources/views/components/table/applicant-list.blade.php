@@ -125,7 +125,7 @@
                             </td>
                         @elseif($key == "reasons_recommend")
                             <td>
-                                {{ Str::limit($applicant->$key, 100,'...') ?? "-" }}
+                                {{ Str::limit($applicant->$key, 1000,'...') ?? "-" }}
                             </td>
                         @elseif($key == "contactlog" && !$isShowVolunteers && $currentUser->canAccessResource(new App\Models\ContactLog(), 'read', $campFullData))
                             <td>
@@ -258,7 +258,7 @@
                         </td>
                     @elseif($key == "reasons_recommend")
                         <td>
-                            {{ Str::limit($applicant->$key, 100,'...') ?? "-" }}
+                            {{ Str::limit($applicant->$key, 1000,'...') ?? "-" }}
                         </td>
                     @elseif($key == "carer" && $isSettingCarer)
                         @continue
