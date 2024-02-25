@@ -26,10 +26,13 @@
     </div>
 
     {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態；只在[報名狀態]時提供載入舊資料選項 --}}
-    @if(!isset($isModify) && !isset($batch_id_from) && $is_north)
+    @if(!isset($isModify) && !isset($batch_id_from))
     <hr>
-    <h5 class='form-control-static text-warning bg-secondary'>若您曾報名2022年菁英營義工，請點選->
-    <a href="{{ route('query', 50) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary">查詢並使用 *2022年菁英營義工* 報名資料</a>
+    <h5 class='form-control-static text-warning bg-secondary'>若您曾報名2023年菁英營義工，請點選下面連結，查詢並使用2023年菁英營義工報名資料<br>
+    <a href="{{ route('query', 110) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary">＊北區＊</a>
+    <a href="{{ route('query', 112) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"> ＊竹區＊</a>
+    <a href="{{ route('query', 113) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"> ＊中區＊</a>
+    <a href="{{ route('query', 134) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"> ＊高區＊</a>
     </h5>
     <hr>
     @endif
