@@ -17,17 +17,33 @@
         <h4>{{ $camp_data->fullName }}線上報名表</h4>
     </div>
 
-{{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態；只在報名時提供載入舊資料選項
-    @if(!isset($isModify))
+{{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態；只在報名時提供載入舊資料選項--}}
+    @if(!isset($isModify) && !isset($batch_id_from))
     <hr>
-    <h5>
-    <a href="{{ route('query', 51) }}?batch_id_from={{ $batch_id }}" class="text-info">查詢並使用 *2022年企業營* 報名資料</a>
-    <br>
-    <a href="{{ route('query', 28) }}?batch_id_from={{ $batch_id }}" class="text-info">查詢並使用 *2021年企業營* 報名資料</a>
+    <h5 class='form-control-static text-warning bg-secondary'>若您曾報名2023年企業營義工，請點選下面連結，查詢並使用2023年企業營義工報名資料<br>
+    <a href="{{ route('query', 103) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary">＊台北＊</a> 
+    <a href="{{ route('query', 124) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary">＊桃園＊</a> 
+    <a href="{{ route('query', 125) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary">＊新竹＊</a> 
+    <a href="{{ route('query', 126) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary">＊中區＊</a> 
+    <a href="{{ route('query', 127) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary">＊雲嘉＊</a> 
+    <a href="{{ route('query', 122) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary">＊台南＊</a> 
+    <a href="{{ route('query', 128) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary">＊高雄＊</a>
     </h5>
     <hr>
     @endif
---}}    
+
+    {{-- 使用舊資料報名：如果有batch_id_from參數的話 --}}
+    @if(isset($batch_id_from))
+    <hr>
+    <form action="{{ route('formCopy', $batch_id_from) }}" method="POST">
+        @csrf
+        <input type="hidden" name="batch_id_ori" value="{{ $batch_id }}">
+        <input type="hidden" name="batch_id_copy" value="{{ $batch_id_from }}">
+        <input type="hidden" name="applicant_id_ori" value="{{ $applicant_id }}">
+        <input type="submit" class="btn btn-success" value="使用此資料報名{{ $camp_abbr_from }}">
+    </form>
+    <hr>
+    @endif
 
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
 @if(!isset($isModify) || $isModify)

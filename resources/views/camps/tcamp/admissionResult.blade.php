@@ -13,6 +13,21 @@
             $skip = false;
         @endphp
         @if(!$skip)
+            @if($applicant->is_admitted && $applicant->workshop_credit_type=="基金會研習數位證明書")
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>研習證明下載</h2>
+                    </div>
+                    <div class="card-body">
+                        <a href="https://bwcamp.bwfoce.org/downloads/tcamp2024/{{ $applicant->group }}{{ $applicant->number }}{{ $applicant->applicant_id }}.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-success">下載</a>
+                    </div>
+                    <div class="card-body">
+                        如下載顯示錯誤，請聯絡您的帶組老師，謝謝！
+                    </div>
+                </div>
+            </div><br>
+            @endif
             @if($applicant->is_admitted)
                 <div class="col-sm-12">
                     <div class="card">
