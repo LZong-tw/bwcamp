@@ -386,6 +386,7 @@ class CampController extends Controller
         $campTable = $this->camp_data->table;
         $applicant = Applicant::select('applicants.id', 'applicants.email', 'applicants.name')
                     ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
+                    ->where('camp_id', $this->camp_data->id)
                     ->where('applicants.name', $request->name);
         if($request->mobile) {
             $applicant = $applicant->where('mobile', $request->mobile)
