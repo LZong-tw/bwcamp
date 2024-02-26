@@ -85,9 +85,11 @@ class CampController extends Controller
             $registration_end = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $this->camp_data->registration_end . "23:59:59");
         }
         $registration_start = \Carbon\Carbon::createFromFormat("Y-m-d", $this->camp_data->registration_start)->startOfDay();
-        $final_registration_end = $this->camp_data->final_registration_end ? \Carbon\Carbon::createFromFormat("Y-m-d", 
-        $this->camp_data->final_registration_end)->endOfDay() : \Carbon\Carbon::today();
-        
+        $final_registration_end = $this->camp_data->final_registration_end ? \Carbon\Carbon::createFromFormat(
+            "Y-m-d",
+            $this->camp_data->final_registration_end
+        )->endOfDay() : \Carbon\Carbon::today();
+
         if($today > $registration_end && !isset($request->isBackend)) {
             //超過前台報名期限
             return view('camps.' . $this->camp_data->table . '.outdated')->with('outdatedMessage', '報名期限已過，敬請見諒。');
@@ -491,10 +493,10 @@ class CampController extends Controller
                 $applicant1 = $this->applicantService->fillPaymentData($applicant1);
                 $applicant1->save();
                 $traffic = $applicant1->traffic;
-	    } else {
-		//if not null, retrieve it
-		$traffic = $applicant->traffic;
-	    }
+            } else {
+                //if not null, retrieve it
+                $traffic = $applicant->traffic;
+            }
 
             $applicant = $this->applicantService->checkPaymentStatus($applicant);
             //for 2023大專教師營
@@ -523,8 +525,8 @@ class CampController extends Controller
                     $applicant->xaddr = '台北市南京東路四段165號九樓 福智學堂';
                 }
             }
-            return view('camps.' . $campTable . ".admissionResult", compact('applicant','traffic'));
-        } else{
+            return view('camps.' . $campTable . ".admissionResult", compact('applicant', 'traffic'));
+        } else {
             return back()->withInput()->withErrors(["找不到報名資料，請確認是否已成功報名，或是輸入了錯誤的查詢資料。"]);
         }
     }
@@ -569,12 +571,15 @@ class CampController extends Controller
         $applicant = Applicant::find($request->id);
         //other camps
         if($request->camp == "ycamp") {
-            if($request->cancel) {$applicant->is_attend = 0;}
-            else {$applicant->is_attend = 1;} //reconfirm
+            if($request->cancel) {
+                $applicant->is_attend = 0;
+            } else {
+                $applicant->is_attend = 1;
+            } //reconfirm
         } else {
             if($request->confirmation_no) {
                 $applicant->is_attend = 0;
-            } else{
+            } else {
                 $applicant->is_attend = !isset($applicant->is_attend) ? 1 : !$applicant->is_attend;
             }
         }
@@ -593,45 +598,48 @@ class CampController extends Controller
         return redirect()->back();
     }
 
-    public function modifyTraffic(Request $request) {
+    public function modifyTraffic(Request $request)
+    {
         $applicant = Applicant::find($request->id);
         $traffic = $applicant->traffic;
         if (!$traffic) {
-            $traffic = new Traffic;
+            $traffic = new Traffic();
             $traffic->applicant_id = $applicant->id;
         }
         $traffic->depart_from = $request->depart_from;
         $traffic->back_to = $request->back_to;
         if ($request->camp == "ycamp") {
-            if ($request->depart_from == "台北專車")
+            if ($request->depart_from == "台北專車") {
                 $from_fare = 400;
-            elseif  ($request->depart_from == "桃園專車")
+            } elseif  ($request->depart_from == "桃園專車") {
                 $from_fare = 350;
-            elseif  ($request->depart_from == "新竹專車")
+            } elseif  ($request->depart_from == "新竹專車") {
                 $from_fare = 250;
-            elseif  ($request->depart_from == "台中專車")
+            } elseif  ($request->depart_from == "台中專車") {
                 $from_fare = 200;
-            elseif  ($request->depart_from == "台南專車")
+            } elseif  ($request->depart_from == "台南專車") {
                 $from_fare = 200;
-            elseif  ($request->depart_from == "高雄專車")
+            } elseif  ($request->depart_from == "高雄專車") {
                 $from_fare = 350;
-            else
+            } else {
                 $from_fare = 0;
+            }
 
-            if ($request->back_to == "台北專車")
+            if ($request->back_to == "台北專車") {
                 $back_fare = 400;
-            elseif  ($request->back_to == "桃園專車")
+            } elseif  ($request->back_to == "桃園專車") {
                 $back_fare = 350;
-            elseif  ($request->back_to == "新竹專車")
+            } elseif  ($request->back_to == "新竹專車") {
                 $back_fare = 250;
-            elseif  ($request->back_to == "台中專車")
+            } elseif  ($request->back_to == "台中專車") {
                 $back_fare = 200;
-            elseif  ($request->back_to == "台南專車")
+            } elseif  ($request->back_to == "台南專車") {
                 $back_fare = 200;
-            elseif  ($request->back_to == "高雄專車")
+            } elseif  ($request->back_to == "高雄專車") {
                 $back_fare = 350;
-            else
+            } else {
                 $back_fare = 0;
+            }
         }
         $traffic->fare = $from_fare + $back_fare;
         $traffic->save();
@@ -642,7 +650,8 @@ class CampController extends Controller
         return redirect(route('showadmit', ['batch_id' => $applicant->batch_id, 'sn' => $applicant->id, 'name' => $applicant->name]));
     }
 
-    public function showCampPayment() {
+    public function showCampPayment()
+    {
         return view('camps.' . $this->camp_data->table . '.payment');
     }
 
