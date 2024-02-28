@@ -161,17 +161,17 @@ class User extends Authenticatable
         // 營隊權限
         if (!$this->rolePermissions) {         
             $this->rolePermissions = self::with('roles.permissions')->whereHas('roles', function ($query) use ($camp, $resource) {
-                // 順便做梯次檢查
-                // 區域檢查可能也要做在這裡   
+                // 順便做梯次檢查  
                 if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer || $resource instanceof \App\Models\User) {
-                    return $query->where('batch_id', '<>', \DB::raw('NULL'))
-                            ->where(function ($query) use ($camp, $resource) {
-                                return $query->where('camp_id', $camp->id)
-                                            ->where('batch_id', $resource->batch_id);
+                    return $query->where(function ($query) use ($camp, $resource) {
+                                return $query->where('batch_id', 'is not', \DB::raw('NULL'));
+                            })->orWhere(function ($query) use ($camp, $resource) {
+                                return $query->where('batch_id', $resource->batch_id);
                             });
                 }
+                // 區域檢查可能也要做在這裡 
                 return $query->where('camp_id', $camp->id);
-            })->where('id', $this->id)->get()->pluck('roles')->flatten()->pluck('permissions')->flatten()->unique('id')->values();
+            })->where('id', $this->id)->showSql()->get()->pluck('roles')->flatten()->pluck('permissions')->flatten()->unique('id')->values();
         }
         $permissions = $permissions ? collect($permissions)->merge($this->rolePermissions) : $this->rolePermissions;
         $forInspect = $permissions->where("resource", "\\" . $class)->where("action", $action)->first();
