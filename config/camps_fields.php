@@ -59,7 +59,7 @@ return [
         "participation_mode" => "參加地點",
         "birthyear" => "出生年",
         "birthmonth" => "出生月",
-        //"birthday" => "出生日",
+        "birthday" => "出生日",
         "education" => "最高學歷",
         "belief" => "宗教信仰",
         "address" => "現居住地點",

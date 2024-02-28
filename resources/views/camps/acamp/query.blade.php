@@ -116,12 +116,12 @@
                 <div class="col-md-1">
                     月
                 </div>
-                {{-- <div class="col-md-2">
+                <div class="col-md-2">
                     <input type='number' required class='form-control' name='birthday' min=1 max=31 value='' placeholder=''>
                 </div>
                 <div class="col-md-1">
                     日
-                </div> --}}
+                </div>
             </div>
             <div class='help-block with-errors'></div>
         </div>
