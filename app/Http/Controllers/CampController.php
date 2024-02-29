@@ -42,6 +42,9 @@ class CampController extends Controller
         // 營隊資料，存入 view 全域
         $this->batch_id = $request->route()->parameter('batch_id');
         $this->camp_data = $this->campDataService->getCampData($this->batch_id);
+        if (str_contains("查無營隊資料", $this->camp_data)) {
+            return '查無營隊資料，請確認網址是否正確。';
+        }
         $admission_announcing_date_Weekday = $this->camp_data['admission_announcing_date_Weekday'];
         $admission_confirming_end_Weekday = $this->camp_data['admission_confirming_end_Weekday'];
         $this->camp_data = $this->camp_data['camp_data'];
