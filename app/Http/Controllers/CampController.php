@@ -43,7 +43,8 @@ class CampController extends Controller
         $this->batch_id = $request->route()->parameter('batch_id');
         $this->camp_data = $this->campDataService->getCampData($this->batch_id);
         if (str_contains($this->camp_data, "查無營隊資料")) {
-            return '查無營隊資料，請確認網址是否正確。';
+            // halt if no camp data found            
+            throw new \Exception( "查無營隊資料，請確認網址是否正確。" );
         }
         $admission_announcing_date_Weekday = $this->camp_data['admission_announcing_date_Weekday'];
         $admission_confirming_end_Weekday = $this->camp_data['admission_confirming_end_Weekday'];
