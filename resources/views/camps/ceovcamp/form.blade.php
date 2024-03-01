@@ -25,20 +25,22 @@
         <h4>{{ $camp_data->fullName }}線上報名表</h4>
     </div>
 
-    {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態；只在[報名狀態]時提供載入舊資料選項 --}}
-    @if(!isset($isModify) && !isset($batch_id_from))
+{{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態；只在[報名狀態]時提供載入舊資料選項 --}}
+@if(!isset($isModify) && !isset($batch_id_from))
     <hr>
     <h5 class='form-control-static text-warning bg-secondary'>若您曾報名2023年菁英營義工，請點選下面連結，查詢並使用2023年菁英營義工報名資料<br>
     <a href="{{ route('query', 110) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary">＊北區＊</a>
     <a href="{{ route('query', 112) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"> ＊竹區＊</a>
+    <!--
     <a href="{{ route('query', 113) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"> ＊中區＊</a>
     <a href="{{ route('query', 134) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"> ＊高區＊</a>
+    -->
     </h5>
     <hr>
-    @endif
+@endif
 
-    {{-- 使用舊資料報名：如果有batch_id_from參數的話 --}}
-    @if(isset($batch_id_from))
+{{-- 使用舊資料報名：如果有batch_id_from參數的話 --}}
+@if(isset($batch_id_from))
     <hr>
     <form action="{{ route('formCopy', $batch_id_from) }}" method="POST">
         @csrf
@@ -48,7 +50,7 @@
         <input type="submit" class="btn btn-success" value="使用此資料報名{{ $camp_abbr_from }}">
     </form>
     <hr>
-    @endif
+@endif
 
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
 @if(!isset($isModify) || $isModify)
@@ -86,6 +88,28 @@
             </div>
         </div>
     @endif
+
+    <div class="row form-group required">
+        <label for='inputRegion' class='col-md-2 control-label text-md-right'>區域</label>
+        <div class='col-md-10'>
+            <div class="form-check form-check-inline">
+                <label class="form-check-label" for="Pei">
+                    <input class="form-check-input" type="radio" name="region" value="北區" required>北區
+                    <div class="invalid-feedback">
+                        請選擇區域
+                    </div>
+                </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <label class="form-check-label" for="Chu">
+                    <input class="form-check-input" type="radio" name="region" value="竹區" required>竹區
+                    <div class="invalid-feedback">
+                        &nbsp;
+                    </div>
+                </label>
+            </div>
+        </div>
+    </div>
 
     <hr>
     <h5 class='form-control-static text-info'>說明：我們非常重視您的志願選擇，但也會考量營隊人力需求來分配組別，尚請多多理解。感恩！</h5>
