@@ -42,7 +42,7 @@ class CampController extends Controller
         // 營隊資料，存入 view 全域
         $this->batch_id = $request->route()->parameter('batch_id');
         $this->camp_data = $this->campDataService->getCampData($this->batch_id);
-        if (str_contains($this->camp_data, "查無營隊資料")) {
+        if (is_string($this->camp_data) && str_contains($this->camp_data, "查無營隊資料")) {
             // halt if no camp data found            
             echo "查無營隊資料，請確認網址是否正確。" . "<br>";
             die();
