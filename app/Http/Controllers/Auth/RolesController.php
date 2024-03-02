@@ -12,6 +12,7 @@ use App\Http\Controllers\BackendController;
 use App\Services\CampDataService;
 use App\Services\ApplicantService;
 use App\Services\BackendService;
+use App\Services\GSheetService;
 use Termwind\Components\Dd;
 
 class RolesController extends BackendController
@@ -26,6 +27,7 @@ class RolesController extends BackendController
     public function __construct(CampDataService $campDataService,
                                 ApplicantService $applicantService,
                                 BackendService $backendService,
+                                protected GSheetService $gSheetService,
                                 Request $request
     )
     {
@@ -36,6 +38,7 @@ class RolesController extends BackendController
             $campDataService,
             $applicantService,
             $backendService,
+            $gSheetService,
             $request
         );
         $this->rolesModel = Config::get('laratrust.models.role');
