@@ -417,6 +417,15 @@
         </div>
     </div>
 --}}
+    <div class='row form-group required' >
+        <label for='inputLRClass' class='col-md-2 control-label text-md-right'>廣論研討班別</label>
+        <div class='col-md-10'>
+            <input type='text' required class='form-control' name='lrclass' value='' id='inputLRClass' placeholder='請填寫 *被推薦人* 廣論研討班別；若尚未加入請填「無」'>
+            <div class="invalid-feedback">
+            請填寫被推薦人廣論研討班別
+            </div>
+        </div>
+    </div>
 
 
 <!--
