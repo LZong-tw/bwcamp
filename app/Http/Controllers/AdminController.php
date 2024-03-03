@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Camp;
 use App\Models\CampOrg;
 use App\Models\Batch;
+use App\Models\Region;
 use App\Models\Role;
 use Carbon\Carbon;
 use Illuminate\Container\Container;
@@ -251,56 +252,34 @@ class AdminController extends BackendController {
         $orgs = $camp->organizations;   //existing orgs
         $newSet = array();
         $is_exist = false;
-
-        $sections = count($formData['section']);
+        //dd($formData);
+        $positions = count($formData['position']);
+        //i: position index
+        //j: valid position index
         foreach($formData as $key => $field) {
-            if ($key == 'section') {
+            if ($key == 'position') {
                 $j = 0;
-                for($i = 0; $i < $sections; $i++) {
+                for($i = 0; $i < $positions; $i++) {
                     while(!isset($field[$j])) {
                         $j = $j+1;  //skip non-exist idx
                     }
-                    $sec_tg = $field[$j];
-                    $newSet[$j][0]['camp_id'] = $camp_id;
-                    $newSet[$j][0]['section'] = $sec_tg;
-                    $newSet[$j][0]['position'] = 'root';
+                    $pos_tg = $field[$j];
+                    $newSet[$j]['camp_id'] = $camp_id;
+                    $newSet[$j]['batch_id'] = $formData['batch_id'][$j];
+                    $newSet[$j]['region_id'] = $formData['region_id'][$j];
+                    $newSet[$j]['section'] = $formData['section'][$j];
+                    $newSet[$j]['position'] = $field[$j];
+                    $newSet[$j]['prev_id'] = $formData['prev_id'][$j];
                     $is_exist = false;  //init
                     foreach($orgs as $org) {
-                        if ($org->section == $sec_tg) {
+                        if ($org->position == $pos_tg && 
+                            $org->prev_id == $formData['prev_id'][$j]) {
                             $is_exist = true;   //once find match, break
                             break;
                         }
                     }
                     if ($is_exist == false) {
-                        CampOrg::create($newSet[$j][0]);
-                    }
-                    $j = $j+1;
-                }
-            }
-        }
-        foreach($formData as $key => $field) {
-            if ($key == 'position') {
-                $j = 0;
-                for($i = 0; $i < $sections; $i++) {
-                    while(!isset($field[$j])) {
-                        $j = $j+1;  //skip non-exist idx
-                    }
-                    $positions = count($field[$j]);
-                    for($k = 0; $k < $positions; $k++) {
-                        $sec_tg = $newSet[$j][0]['section'];
-                        $newSet[$j][$k+1]['camp_id'] = $camp_id;
-                        $newSet[$j][$k+1]['section'] = $sec_tg;
-                        $newSet[$j][$k+1]['position'] = $field[$j][$k];
-                        $is_exist = false;
-                        foreach($orgs as $org) {
-                            if (($org->section == $sec_tg) && ($org->position == $field[$j][$k])) {
-                                $is_exist = true;   //once find match, break
-                                break;
-                            }
-                        }
-                        if ($is_exist == false) {
-                            CampOrg::create($newSet[$j][$k+1]);
-                        }
+                        CampOrg::create($newSet[$j]);
                     }
                     $j = $j+1;
                 }
@@ -311,16 +290,42 @@ class AdminController extends BackendController {
     }
 
     public function showAddOrgs($camp_id, $org_id){
+        $camp = Camp::find($camp_id);
         $orgs = $this->backendService->getCampOrganizations($this->campFullData);
         $orgs = $orgs->sortByDesc('section');
-        if ($org_id == 0) {
-            $sec_tg = "null";
-        }
-        else {
+        $batches = null;
+        $regions = null;
+        $org_tg = null;
+        $sec_tg = null;
+        $batch_tg = null;
+        $region_tg = null;
+        if ($org_id == 0) { //無上層
+            $batches = $camp->batchs;
+            $regions = $camp->regions;
+            $org_tg = new CampOrg();
+            $org_tg->id = 0;
+            $org_tg->section = "root";
+            $org_tg->position = "empty";
+        } else {  //有上層
             $org_tg = CampOrg::find($org_id);
+            
             $sec_tg = $org_tg->section; //找到要新增的sec
+            if ($org_tg->batch_id==0) {
+                $batch_tg = new Batch();
+                $batch_tg->id = 0;
+                $batch_tg->name = '不限';
+            } else {
+                $batch_tg = Batch::find($org_tg->batch_id);
+            }
+            if ($org_tg->region_id==0) {
+                $region_tg = new Region();
+                $region_tg->id = 0;
+                $region_tg->name = '不限';
+            } else {
+                $region_tg = Region::find($org_tg->region_id);
+            }
         }
-        return view('backend.camp.addOrgs', compact("orgs", "sec_tg"))->with('camp', $this->campFullData);
+        return view('backend.camp.addOrgs', compact("orgs", "batches", "regions", "org_tg", "sec_tg", "batch_tg", "region_tg"))->with('camp', $this->campFullData);
     }
 
     public function copyOrgs(Request $request, $camp_id){
@@ -377,6 +382,8 @@ class AdminController extends BackendController {
 
     public function showOrgs($camp_id){
         $camp = Camp::find($camp_id);
+        $batches = $camp->batchs;
+        $regions = $camp->regions;
         $orgs = $camp->organizations;
         $orgs = $orgs->sortByDesc('section');
 

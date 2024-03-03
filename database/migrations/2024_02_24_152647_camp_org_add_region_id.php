@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('ceocamp', function (Blueprint $table) {
+        Schema::table('camp_org', function (Blueprint $table) {
             //
-            $table->boolean('is_lrclass')->nullable()->after('contact_time'); //是否有廣論研討班別
-            $table->string('lrclass')->nullable()->after('is_lrclass'); //廣論研討班別
+            $table->unsignedBigInteger('region_id')->nullable()->after('batch_id');
+            $table->unsignedBigInteger('order')->nullable()->after('prev_id');
         });
     }
 
@@ -27,10 +27,10 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('ceocamp', function (Blueprint $table) {
+        Schema::table('camp_org', function (Blueprint $table) {
             //
-            $table->dropColumn('is_lrclass');
-            $table->dropColumn('lrclass');
+            $table->dropColumn('region_id');
+            $table->dropColumn('order');
         });
     }
 };
