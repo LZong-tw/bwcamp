@@ -43,40 +43,47 @@
         </tr>
     </table>
 
-    <form action="{{ route("addOrgs", $camp->id) }}" method="POST">
+    {{-- 無上層 --}}
+    @if($org_tg->id == 0)
+    <form action="{{ route('addOrgs', $camp->id) }}" method="POST">
         @csrf
         <table class="table table-bordered" id="org">
             <tr>
-                <th>大組名稱</th>
+                <th>選擇梯次</th>
+                <th>選擇區域</th>
+                <th>選擇組織上層</th>
+                <th>新增大組/小組/職務名稱</th>
                 <th>新增或刪除行</th>
-                <th>小組及職務名稱</th>
             </tr>
             <tr class="align-middle">
-                @if($sec_tg == "null")
                 <td class="align-middle">
-                    <input type="text" name="section[]" id="" class="form-control" required>
+                <select required class='form-control' name='batch_id[0]' id='inputBatchId'>
+                    <option value=''>- 請選擇 -</option>
+                    <option value='0'>不限</option>
+                    @foreach($batches as $batch)
+                        <option value='{{$batch->id}}'>{{$batch->name}}</option>
+                    @endforeach
+                </select>
                 </td>
                 <td class="align-middle">
-                    <a href="#" class="btn btn-primary" onclick="addSection()">+</a>
+                <select required class='form-control' name='region_id[0]' id='inputRegionId'>
+                    <option value=''>- 請選擇 -</option>
+                    <option value='0'>不限</option>
+                    @foreach($regions as $region)
+                        <option value='{{$region->id}}'>{{$region->name}}</option>
+                    @endforeach
+                </select>
                 </td>
-                @else
                 <td class="align-middle">
-                    <input type=hidden name="section[]" id="" class="form-control" value="{{ $sec_tg }}">
-                    {{ $sec_tg }}
+                <input type="hidden" name="prev_id[0]" id='inputPrevId' value="{{$org_tg->id}}">
+                <input type="hidden" name="section[0]" id='inputSection' value="{{$org_tg->section}}">
+                {{$org_tg->section}}
                 </td>
-                <td class="align-middle">-</td>
-                @endif
                 <td class="align-middle">
-                    <table class="table table-bordered" id="sec0">
-                        <tr>
-                            <td>
-                                <input type="text" name="position[0][]" id="" class="form-control" required>
-                            </td>
-                            <td>
-                                <a href="#" class="btn btn-primary" onclick="addPosition(0)">+</a>
-                            </td>
-                        </tr>
-                    </table>
+                    <input required type="text" name="position[0]" id="" class="form-control">
+                </td>
+                <td class="align-middle">
+                    <a href="#" class="btn btn-primary" onclick="addLine(1)">+</a>
                 </td>
             </tr>
         </table>
@@ -88,74 +95,140 @@
         <input type="submit" class="btn btn-success" value="確認送出">
         <a href="{{ route('showOrgs', $camp->id) }}" class="btn btn-danger">取消新增</a>
     </form>
+    {{-- 有上層 --}}
+    @else
+    <form action="{{ route('addOrgs', $camp->id) }}" method="POST">
+        @csrf
+        <table class="table table-bordered" id="org">
+            <tr>
+                <th>選擇梯次</th>
+                <th>選擇區域</th>
+                <th>選擇組織上層</th>
+                <th>新增大組/小組/職務名稱</th>
+                <th>新增或刪除行</th>
+            </tr>
+            <tr class="align-middle">
+                <td class="align-middle">
+                    <input type="hidden" name="batch_id[0]" id='inputBatchId' value="{{$batch_tg->id}}">{{$batch_tg->name}}
+                </td>
+                <td class="align-middle">
+                    <input type="hidden" name="region_id[0]" id='inputRegionId' value="{{$region_tg->id}}">{{$region_tg->name}}
+                </td>
+                <td class="align-middle">
+                <input type="hidden" name="prev_id[0]" id='inputPrevId' value="{{$org_tg->id}}">
+                <input type="hidden" name="section[0]" id='inputSection' value="{{$org_tg->section}}.{{$org_tg->position}}">{{$org_tg->section}}.{{$org_tg->position}}
+                </td>
+                <td class="align-middle">
+                    <input required type="text" name="position[0]" id="" class="form-control">
+                </td>
+                <td class="align-middle">
+                    <a href="#" class="btn btn-primary" onclick="addLine(2)">+</a>
+                </td>
+            </tr>
+        </table>
+        <!--
+        @if($sec_tg == "null")
+        <a href="#" class="btn btn-primary float-right" onclick="addSection()">新增大組</a>
+        @endif
+        -->
+        <input type="submit" class="btn btn-success" value="確認送出">
+        <a href="{{ route('showOrgs', $camp->id) }}" class="btn btn-danger">取消新增</a>
+    </form>
+    @endif
     <script>
-        var g_sec_idx = 1;  //讓sec_num不重複
-        function addSection(){
+        var g_pos_idx = 1;  //讓pos_num不重複
+        function addLine(mode) {
+            //console.log(mode);
             var tbl = document.getElementById("org");
             var lastRow = tbl.rows.length;
-            //sec_num = tbl.rows.length - 1;
-            sec_num = g_sec_idx;
-            g_sec_idx = g_sec_idx + 1;
+            //pos_num = tbl.rows.length - 1;
+            pos_num = g_pos_idx;
+            g_pos_idx = g_pos_idx + 1;
             var rowNode = tbl.insertRow(lastRow);
             var cellNode = rowNode.insertCell();
             lastRow = tbl.rows[tbl.rows.length - 1];
-            lastRow.innerHTML = genEle1(sec_num);
-            var sid = "sec" + sec_num;
-            console.log(sid);
+            console.log(mode);
+            if (mode==1) {
+                lastRow.innerHTML = genEle1(pos_num);
+            } else {
+                lastRow.innerHTML = genEle2(pos_num);
+            }
+            var sid = "pos" + pos_num;
+            //console.log(sid);
+            //console.log(lastRow.innerHTML);
         }
-        function addPosition(sec_num){
-            // count current table row
-            // add position indexed by rows - 2
-            var tid = "sec" + sec_num;
-            console.log(tid);
-            var tbl = document.getElementById(tid);
-            var lastRow = tbl.rows.length;  //number
-            var rowNode = tbl.insertRow(lastRow);
-            var cellNode = rowNode.insertCell();
-            lastRow = tbl.rows[tbl.rows.length - 1];    //object
-            lastRow.innerHTML = genEle2(sec_num);
-        }
-        function genEle1(sec_num){
-            let sec_ele1 = `<tr>
-                    <td class="align-middle">
-                        <input type="text" name="section[`;
-            let sec_ele2 = `]" id="" class="form-control" required>
-                    </td>
-                    <td class="align-middle">
-                        <a href="#" class="btn btn-danger" onclick="this.parentNode.parentNode.remove()">Ｘ</a>
-                    </td>
-                    <td class="align-middle">
-                        <table class="table table-bordered" id="sec`;
-            let sec_ele3 =`">
-                            <tr>
-                                <td>
-                                    <input type="text" name="position[`;
-            let sec_ele4 = `][]" id="" class="form-control" required>
-                                </td>
-                                <td>
-                                    <a href="#" class="btn btn-primary" onclick="addPosition(`;
-            let sec_ele5 = `)">+</a>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>`;
-            ele = sec_ele1 + sec_num + sec_ele2 + sec_num + sec_ele3 + sec_num + sec_ele4 + sec_num + sec_ele5;
-            return ele;
-        }
-        function genEle2(sec_num){
+        @if($org_tg->id==0)
+        function genEle1(pos_num) {
             let pos_ele1 = `<tr>
-                    <td>
-                        <input type="text" name="position[`;
-            let pos_ele2 = `][]" id="sec`;
-            let pos_ele3 = `" class="form-control" required>
-                    </td>
-                    <td>
-                        <a href="#" class="btn btn-danger" onclick="this.parentNode.parentNode.remove()">Ｘ</a>
-                    </td>
+                <td class="align-middle">
+                <select required class='form-control' name='batch_id[`;
+            let pos_ele2 = `]' id='inputBatchId'>
+                    <option value=''>- 請選擇 -</option>
+                    <option value='0'>不限</option>
+                    @foreach($batches as $batch)
+                        <option value='{{$batch->id}}'>{{$batch->name}}</option>
+                    @endforeach
+                </select>
+                </td>
+                <td class="align-middle">
+                <select required class='form-control' name='region_id[`;
+            let pos_ele3 = `]' id='inputRegionId'>
+                    <option value=''>- 請選擇 -</option>
+                    <option value='0'>不限</option>
+                    @foreach($regions as $region)
+                        <option value='{{$region->id}}'>{{$region->name}}</option>
+                    @endforeach
+                </select>
+                </td>
+                <td class="align-middle">
+                    <input type="hidden" name="prev_id[`;
+            let pos_ele4 = `]" id='inputPrevId' value="{{$org_tg->id}}">
+                    <input type="hidden" name="section[`;
+            let pos_ele5 = `]" id='inputSection' value="{{$org_tg->section}}">
+                    {{$org_tg->section}}
+                </td>
+                <td class="align-middle">
+                    <input required type="text" name="position[`;
+            let pos_ele6 = `]" id="" class="form-control" required>
+                </td>
+                <td class="align-middle">
+                    <a href="#" class="btn btn-danger" onclick="this.parentNode.parentNode.remove()">Ｘ</a>
+                </td>
                 </tr>`;
-            ele = pos_ele1 + sec_num + pos_ele2 + sec_num + pos_ele3;
+            ele = pos_ele1 + pos_num + pos_ele2 + pos_num + pos_ele3 + pos_num + pos_ele4 + pos_num + pos_ele5 + pos_num + pos_ele6;
             return ele;
         }
+        @else
+        function genEle2(pos_num) {
+            let pos_ele1 = `<tr>
+                <td class="align-middle">
+                <input type="hidden" name="batch_id[`;
+            let pos_ele2 = `]" id='inputBatchId' value="{{$batch_tg->id}}">
+                {{$batch_tg->name}}
+                </td>
+                <td class="align-middle">
+                <input type="hidden" name="region_id[`;
+            let pos_ele3 = `]" id='inputRegionId' value="{{$region_tg->id}}">
+                {{$region_tg->name}}
+                </td>
+                <td class="align-middle">
+                <input type="hidden" name="prev_id[`;            
+            let pos_ele4 = `]" id='inputPrevId' value="{{$org_tg->id}}">
+                <input type="hidden" name="section[`;
+            let pos_ele5 = `]" id='inputSection' value="{{$org_tg->section}}.{{$org_tg->position}}">
+                {{$org_tg->section}}.{{$org_tg->position}}
+                </td>
+                <td class="align-middle">
+                    <input required type="text" name="position[`;
+            let pos_ele6 = `]" id="" class="form-control" required>
+                </td>
+                <td class="align-middle">
+                    <a href="#" class="btn btn-danger" onclick="this.parentNode.parentNode.remove()">Ｘ</a>
+                </td>
+                </tr>`;
+            ele = pos_ele1 + pos_num + pos_ele2 + pos_num + pos_ele3 + pos_num + pos_ele4 + pos_num + pos_ele5 + pos_num + pos_ele6;
+            return ele;
+        }
+        @endif
     </script>
-@endsection
+@stop
