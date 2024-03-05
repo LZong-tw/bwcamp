@@ -270,6 +270,7 @@ class AdminController extends BackendController {
                     $newSet[$j]['section'] = $formData['section'][$j];
                     $newSet[$j]['position'] = $field[$j];
                     $newSet[$j]['prev_id'] = $formData['prev_id'][$j];
+                    $newSet[$j]['is_node'] = 0;
                     $is_exist = false;  //init
                     foreach($orgs as $org) {
                         if ($org->position == $pos_tg && 
@@ -280,6 +281,10 @@ class AdminController extends BackendController {
                     }
                     if ($is_exist == false) {
                         CampOrg::create($newSet[$j]);
+                        //set parent is_node = 1
+                        org_parent = CamOrg::find($newSet[$j]['prev_id']);
+                        org_parent->is_node = 1;
+                        org_parent->save();
                     }
                     $j = $j+1;
                 }

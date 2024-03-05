@@ -20,6 +20,8 @@
 
     @php
         foreach($orgs as $org) {
+            if($org->batch_id == null) $org->batch_id = 0;
+            if($org->region_id == null) $org->batch_id = 0;
             $is_batch[$org->batch_id] = 1;
             $is_region[$org->batch_id][$org->region_id] = 1;
         }
