@@ -18,16 +18,16 @@
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }}線上推薦報名表</h4>
         若您在填寫表格時遇到困難，請洽詢：<br>
-        @if($batch->name == '北區')
-            北區：陳月娥 0935-237-395、李隆安 0935-434-357
-        @elseif($batch->name == '竹區')
-            竹區：邱雍凌 0922-437-236、李雪貞 0933-112-571
-        @elseif($batch->name == '中區')
-            中區：張月綺 0922-958-397、王麗娟 0938-135-180
-        @elseif($batch->name == '高區')
-            高區：陳文豪 0911-705-602
-        @else
-        @endif
+        {{--@if($batch->name == '北區')--}}
+            北區：陳月娥 0935-237-395、李隆安 0935-434-357<br>
+        {{--@elseif($batch->name == '竹區')--}}
+            竹區：邱雍凌 0922-437-236、李雪貞 0933-112-571<br>
+        {{--@elseif($batch->name == '中區')--}}
+            中區：張月綺 0922-958-397、王麗娟 0938-135-180<br>
+        {{--@elseif($batch->name == '高區')--}}
+            高區：陳文豪 0911-705-602<br>
+        {{--@else
+        @endif--}}
     </div>
 
 {{-- 使用舊資料報名：如果有batch_id_from參數的話(今年限2021&2022企業營，但沒有寫這個條件) --}}
@@ -78,7 +78,27 @@
             </div>
         </div>
     @endif
-
+    <div class="row form-group required">
+        <label for='inputRegion' class='col-md-2 control-label text-md-right'>區域</label>
+        <div class='col-md-10'>
+            <div class="form-check form-check-inline">
+                <label class="form-check-label" for="Pei">
+                    <input class="form-check-input" type="radio" name="region" value="北區" required>北區
+                    <div class="invalid-feedback">
+                        請選擇區域
+                    </div>
+                </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <label class="form-check-label" for="Chu">
+                    <input class="form-check-input" type="radio" name="region" value="竹區" required>竹區
+                    <div class="invalid-feedback">
+                        &nbsp;
+                    </div>
+                </label>
+            </div>
+        </div>
+    </div>
     <hr>
     <h5 class='form-control-static'>推薦人基本資料：</h5>
     <br>
@@ -417,16 +437,59 @@
         </div>
     </div>
 --}}
-    <div class='row form-group required' >
-        <label for='inputLRClass' class='col-md-2 control-label text-md-right'>廣論研討班別</label>
+    <div class='row form-group required'>
+        <label for='inputIsLRClass' class='col-md-2 control-label text-md-right'>被推薦人是否已加入廣論班？</label>
         <div class='col-md-10'>
-            <input type='text' required class='form-control' name='lrclass' value='' id='inputLRClass' placeholder='請填寫 *被推薦人* 廣論研討班別；若尚未加入請填「無」'>
-            <div class="invalid-feedback">
-            請填寫被推薦人廣論研討班別
-            </div>
+            <label class=radio-inline>
+                <input type=radio required name='is_lrclass' value='0' onClick='lrclass_field(0);'> 否
+                <div class="invalid-feedback">
+                    請選擇推薦人是否已加入廣論班
+                </div>
+            </label>
+            <label class=radio-inline>
+                <input type=radio required name='is_lrclass' value='1' onClick='lrclass_field(1);'> 是
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label>
         </div>
     </div>
 
+    <div id=contact>
+        <!-- 依「身份別」選項而顯示的部分 -->
+        @if(isset($applicant_data) && ($applicant_data->is_lrclass))
+        <div class='row form-group required' >
+            <label for='inputLRClass' class='col-md-2 control-label text-md-right'>廣論研討班別</label>
+            <div class='col-md-10'>
+                <input type='text' required class='form-control' name='lrclass' value='' id='inputLRClass' placeholder='請填寫 *被推薦人* 廣論研討班別'>
+                <div class="invalid-feedback">
+                請填寫被推薦人廣論研討班別
+                </div>
+            </div>
+        </div>
+        @endif
+    </div>
+
+    <script language='javascript'>
+    function lrclass_field(show) {
+        var show_lrclass = `
+        <div class='row form-group required' >
+            <label for='inputLRClass' class='col-md-2 control-label text-md-right'>廣論研討班別</label>
+            <div class='col-md-10'>
+                <input type='text' required class='form-control' name='lrclass' value='' id='inputLRClass' placeholder='請填寫 *被推薦人* 廣論研討班別'>
+                <div class="invalid-feedback">
+                請填寫被推薦人廣論研討班別
+                </div>
+            </div>
+        </div>`;
+
+        if (show == 0) { 
+        document.getElementById('contact').innerHTML = ''; 
+        } else { 
+        document.getElementById('contact').innerHTML = show_lrclass; 
+        }
+    }
+    </script>
 
 <!--
     request from 主辦單位：
