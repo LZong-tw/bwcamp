@@ -66,6 +66,21 @@ class CampOrg extends LaratrustRole
             return $this->hasMany('App\Models\CampOrg', 'prev_id', 'id');   
     }
 
+    public function path()
+    {
+        $section = 'root';
+        if ($this->prev_id) {
+            $parent = $this->parent();
+            $section = $parent->position;
+            $parent = $parent->parent();
+            while ($parent->prev_id > 0) {
+                $section = $section.$parent->position;
+                $parent = $parent->parent();
+            }
+        }
+        return $section;
+    }
+
     public function next() {
         return $this->belongsTo('App\Models\CampOrg', 'camp_id', 'camp_id')->where('section', '>', $this->section)->orderBy('section', 'asc');
     }
