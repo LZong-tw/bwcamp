@@ -391,8 +391,7 @@ class AdminController extends BackendController {
         $camp = Camp::find($camp_id);
         $batches = $camp->batchs;
         $regions = $camp->regions;
-        $orgs = $camp->organizations;
-        $orgs = $orgs->sortByDesc('section');
+        $orgs = $camp->organizations->sortBy('order');
 
         $num_users = array();
         foreach($orgs as $org) {
