@@ -40,30 +40,38 @@ class CampOrg extends LaratrustRole
 
     public function is_root()
     {
-        if ($this->prev_id) return false;
-        else return true;    
+        if ($this->prev_id) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public function is_leaf()
     {
-        if ($this->is_node) return false;
-        else return true;    
+        if ($this->is_node) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public function parent()
     {
-        if ($this->prev_id)
+        if ($this->prev_id) {
             return $this->hasOne('App\Models\CampOrg', 'id', 'prev_id');
-        else
-            return null;    
+        } else {
+            return null;
+        }
     }
 
     public function children()
     {
-        if ($this->is_leaf)
+        if ($this->is_leaf) {
             return null;
-        else
-            return $this->hasMany('App\Models\CampOrg', 'prev_id', 'id');   
+        } else {
+            return $this->hasMany('App\Models\CampOrg', 'prev_id', 'id');
+        }
     }
 
     public function path()
@@ -81,7 +89,8 @@ class CampOrg extends LaratrustRole
         return $section;
     }
 
-    public function next() {
+    public function next()
+    {
         return $this->belongsTo('App\Models\CampOrg', 'camp_id', 'camp_id')->where('section', '>', $this->section)->orderBy('section', 'asc');
     }
 
@@ -95,7 +104,8 @@ class CampOrg extends LaratrustRole
         return $this->belongsToMany(Permission::class, 'org_permission', 'org_id', 'permission_id');
     }
 
-    public function applicant_group() {
+    public function applicant_group()
+    {
         return $this->hasOne(ApplicantsGroup::class, 'id', 'group_id');
     }
 }
