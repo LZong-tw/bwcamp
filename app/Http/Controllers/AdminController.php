@@ -282,9 +282,15 @@ class AdminController extends BackendController {
                     if ($is_exist == false) {
                         CampOrg::create($newSet[$j]);
                         //set parent is_node = 1
-                        $org_parent = CamOrg::find($newSet[$j]['prev_id']);
+                        $org_parent = CampOrg::find($newSet[$j]['prev_id']);
                         $org_parent->is_node = 1;
                         $org_parent->save();
+                        if($org_parent){
+                            \Session::flash('message', "職務上層修改成功。");
+                        }
+                        else{
+                            \Session::flash('error', "職務上層修改失敗。");
+                        }
                     }
                     $j = $j+1;
                 }
@@ -309,8 +315,8 @@ class AdminController extends BackendController {
             $regions = $camp->regions;
             $org_tg = new CampOrg();
             $org_tg->id = 0;
-            $org_tg->section = "root";
-            $org_tg->position = "empty";
+            $org_tg->section = 'root';
+            $org_tg->position = 'empty';
         } else {  //有上層
             $org_tg = CampOrg::find($org_id);
             
