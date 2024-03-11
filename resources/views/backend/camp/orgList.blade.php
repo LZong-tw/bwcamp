@@ -28,12 +28,12 @@
 
     {{-- 一個table印一個梯次 ---}}
     @if(isset($is_batch[0]))
-    <h4>梯次：{{ $batch->name }}</h4>
+    <h4>梯次：不限</h4>
         {{-- table1 ----- 梯次：不限 --}}
         <table class="table table-bordered">
             <thead>
                 <tr class="bg-primary text-white">
-                    <th colspan="10">梯次：{{ $batch->name }}</th>
+                    <th colspan="10">梯次：不限</th>
                 </tr>
                 <tr class="bg-secondary text-white">
                     <th>ID</th>
