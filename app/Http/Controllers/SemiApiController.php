@@ -101,7 +101,7 @@ class SemiApiController extends Controller
                     ->getCampOrganizations(Camp::findOrFail($campId));
         $orgs = $orgs->filter(function ($org) use ($target_org) {
             if ($org->section == "root") {
-                return $org->prev_id == 0 && !$org->is_node;
+                return $org->prev_id == 0 && !$org->is_node && $org->region_id == $target_org->region_id;
             }
             return $org->position != 'root' && $org->section == $target_org->section && $org->prev_id == $target_org->id;
         });
