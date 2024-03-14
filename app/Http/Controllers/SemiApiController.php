@@ -82,7 +82,7 @@ class SemiApiController extends Controller
         $orgs = $orgs->filter(function ($org) {
                     return 1;
                 })->unique()->each(function ($org) {
-                    $org->section = str_replace("root.", "", $org->position);
+                    $org->section = str_replace("root.", "", $org->section);
                     $org->section = str_replace("root", "大會", $org->section);
                 });
         return response()->json($orgs);
