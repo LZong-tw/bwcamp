@@ -74,7 +74,7 @@ class SemiApiController extends Controller
         $orgs = $this->backendService
                     ->getCampOrganizations(Camp::findOrFail($campId));
         $orgs = $orgs->filter(function ($org) {
-            return $org->position == 'root';
+            return str_contains($org->section, 'root');
         });
         return response()->json($orgs);
     }
