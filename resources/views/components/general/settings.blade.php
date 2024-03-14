@@ -119,6 +119,7 @@
                         let option = document.createElement('option');
                         option.value = organizations[i][1]['id'];
                         option.text = organizations[i][1]['region_name'] + organizations[i][1]['section'];
+                        option.value = organizations[i][1]['id'];
                         select.appendChild(option);
                     }
                 }
@@ -189,6 +190,7 @@
             url: '/semi-api/getCampPositions',
             params: {
                 camp_id: {{ request()->route('camp_id') }},
+                node_id: theselect.value,
                 section: theselect.options[theselect.selectedIndex].text,
                 no_caring_group_detail: true
             },
