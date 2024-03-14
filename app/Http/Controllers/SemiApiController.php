@@ -73,6 +73,11 @@ class SemiApiController extends Controller
         $campId = $request->input('camp_id');
         $orgs = $this->backendService
                     ->getCampOrganizations(Camp::findOrFail($campId));
+        // Get region name
+        $orgs = $orgs->map(function ($org) {
+            $org->region_name = $org->region?->name;
+            return $org;
+        });
         $orgs = $orgs->filter(function ($org) {
                     return str_contains($org->section, 'root.');
                 })->unique();
