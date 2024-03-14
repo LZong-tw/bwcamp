@@ -106,7 +106,7 @@
                 let organizations = Object.entries(response.data);
                 for (let i in organizations) {
                     for (let j in organizations) {
-                        if (organizations[i] == vector[j] && i < j ) {
+                        if (organizations[i][1]['section'] == vector[j][1]['section'] && i < j ) {
                             organizations[j]=null;
                         }
                     }
