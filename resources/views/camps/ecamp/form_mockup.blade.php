@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Home - Brand</title>
-    <link rel="stylesheet" href="mockup-assets/ecamp/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset("mockup-assets/ecamp/bootstrap/css/bootstrap.min.css") }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abel&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aboreto&amp;display=swap">
@@ -29,7 +29,7 @@
         </div>
     </nav>
     <header class="pt-5"></header>
-    <section style="text-align: center;"><img src="mockup-assets/ecamp/img/illustrations/報名banner.png" style="width: 100%;margin: initial;padding: initial;">
+    <section style="text-align: center;"><img src="{{ asset("mockup-assets/ecamp/img/illustrations/報名banner.png") }}" style="width: 100%;margin: initial;padding: initial;">
         <div class="container py-4 py-xl-5">
             <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-lg-3">
                 <div class="col">
@@ -151,7 +151,7 @@
                         </div>
                     </div>
                 </div>
-            </div><img src="mockup-assets/ecamp/img/illustrations/eco.png" style="width: 95%;margin: 20px;">
+            </div><img src="{{ asset("mockup-assets/ecamp/img/illustrations/eco.png") }}" style="width: 95%;margin: 20px;">
             <div class="row gy-4 row-cols-1 row-cols-md-2">
                 <div class="col">
                     <div class="card border-light border-1 d-flex p-4" style="background: #d0e1ea;border-radius: 20px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;text-align: left;">
@@ -199,7 +199,7 @@
                 <div class="container py-4 py-xl-5" style="padding: 0px 0px;height: initial;">
                     <div class="row gy-4 gy-md-0">
                         <div class="col-md-6 text-center text-md-start d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-md-start align-items-md-center justify-content-xl-center">
-                            <div><img class="rounded img-fluid fit-cover" style="min-height: 300px;width: 100%;height: auto;" src="mockup-assets/ecamp/img/illustrations/活動.png" width="800"></div>
+                            <div><img class="rounded img-fluid fit-cover" style="min-height: 300px;width: 100%;height: auto;" src="{{ asset("mockup-assets/ecamp/img/illustrations/活動.png")}}" width="800"></div>
                         </div>
                         <div class="col" style="text-align: left;">
                             <div style="max-width: 450px;">
@@ -297,9 +297,9 @@
         </div>
     </section>
     <footer></footer>
-    <script src="mockup-assets/ecamp/bootstrap/js/bootstrap.min.js"></script>
-    <script src="mockup-assets/ecamp/js/bs-init.js"></script>
-    <script src="mockup-assets/ecamp/js/startup-modern.js"></script>
+    <script src="{{ asset("mockup-assets/ecamp/bootstrap/js/bootstrap.min.js") }}"></script>
+    <script src="{{ asset("mockup-assets/ecamp/js/bs-init.js") }}"></script>
+    <script src="{{ asset("mockup-assets/ecamp/js/startup-modern.js") }}"></script>
 </body>
 
 </html>
