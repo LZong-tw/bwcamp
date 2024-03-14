@@ -85,7 +85,9 @@ class SemiApiController extends Controller
                     if ($org->section == "root") {
                         $org->position = "大會 - " . $org->position;
                     }
-                    $org->section = str_replace("root.", " - ", $org->section);
+                    else {
+                        $org->section = str_replace("root.", " - ", $org->section);
+                    }
                 });
         return response()->json($orgs);
     }
