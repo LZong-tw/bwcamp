@@ -83,7 +83,7 @@ class SemiApiController extends Controller
                     return 1;
                 })->each(function ($org) {
                     if ($org->section == "root") {
-                        $org->section = $org->region_name ."大會";
+                        $org->section = "大會";
                     }
                     else {
                         $org->section = str_replace("root.", " - ", $org->section);
@@ -103,7 +103,7 @@ class SemiApiController extends Controller
             if ($org->section == "root") {
                 return $org->prev_id == 0 && !$org->is_node;
             }
-            return $org->position != 'root' && $org->section == $target_org->section;
+            return $org->position != 'root' && $org->section == $target_org->section && $org->prev_id == $target_org->id;
         });
         $orgs = $orgs->each(function ($org) {
             if (str_contains($org->position, "關懷小組")) {
