@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Home - Brand</title>
-    <link rel="stylesheet" href="mockup-assets/ceocamp/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('mockup-assets/ceocamp/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abel&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aboreto&amp;display=swap">
@@ -28,7 +28,7 @@
         </div>
     </nav>
     <header class="pt-5"></header>
-    <section style="text-align: center;"><img src="mockup-assets/ceocamp/img/illustrations/菁英營banner2.jpg" style="width: 100%;margin: initial;padding: initial;">
+    <section style="text-align: center;"><img src="{{ asset('mockup-assets/ceocamp/img/illustrations/菁英營banner2.jpg') }}" style="width: 100%;margin: initial;padding: initial;">
         <div class="container">
             <p style="text-align: left;margin: 0px;"><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">若您在填寫表格時遇到困難，請洽詢：</span>北區—陳美蒨 0958367318、陳尚耀 0966891868、吳宜芯 0910123257｜竹區—邱雍凌 0922437236、陳沛安 0921625305</p>
         </div>
@@ -249,9 +249,9 @@
         </div>
     </section>
     <footer></footer>
-    <script src="mockup-assets/ceocamp/bootstrap/js/bootstrap.min.js"></script>
-    <script src="mockup-assets/ceocamp/js/bs-init.js"></script>
-    <script src="mockup-assets/ceocamp/js/startup-modern.js"></script>
+    <script src="{{ asset('mockup-assets/ceocamp/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('mockup-assets/ceocamp/js/bs-init.js') }}"></script>
+    <script src="{{ asset('mockup-assets/ceocamp/js/startup-modern.js') }}"></script>
 </body>
 
 </html>
