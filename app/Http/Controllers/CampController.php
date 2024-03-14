@@ -111,6 +111,41 @@ class CampController extends Controller
         }
     }
 
+    public function campRegistrationMockUp(Request $request)
+        {
+            $today = \Carbon\Carbon::today();
+            if($request->isBackend == "目前為後台報名狀態。") {
+                $batch = Batch::find($request->batch_id);
+            } else {
+                $batch = Batch::find($this->batch_id);
+            }
+            if($batch->is_late_registration_end) {
+                $registration_end = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $batch->late_registration_end . "23:59:59");
+            } else {
+                $registration_end = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $this->camp_data->registration_end . "23:59:59");
+            }
+            $registration_start = \Carbon\Carbon::createFromFormat("Y-m-d", $this->camp_data->registration_start)->startOfDay();
+            $final_registration_end = $this->camp_data->final_registration_end ? \Carbon\Carbon::createFromFormat("Y-m-d", 
+            $this->camp_data->final_registration_end)->endOfDay() : \Carbon\Carbon::today();
+            
+            if($today > $registration_end && !isset($request->isBackend)) {
+                //超過前台報名期限
+                return view('camps.' . $this->camp_data->table . '.outdated')->with('outdatedMessage', '報名期限已過，敬請見諒。');
+            } elseif(isset($request->isBackend) && $today > $final_registration_end) {
+                //超過後台最終報名期限
+                return view('camps.' . $this->camp_data->table . '.outdated')
+                ->with('isBackend', '超出最終報名日。')
+                ->with('outdatedMessage', '報名期限已過，敬請見諒。');
+            } elseif($today < $registration_start && !isset($request->isBackend)) {
+                //尚未開放
+                return view('camps.' . $this->camp_data->table . '.outdated')->with('outdatedMessage', '尚未開放報名。');
+            } else {
+                return view('camps.' . $this->camp_data->table . '.form')
+                        ->with('isBackend', $request->isBackend)
+                        ->with('batch', Batch::find($request->batch_id));
+            }
+        }
+
 
     public function campRegistrationFormSubmitted(Request $request)
     {

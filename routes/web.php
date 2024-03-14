@@ -58,6 +58,7 @@ Route::get("/home", "HomeController@index")->name("home");
 Route::group(["prefix" => "camp/{batch_id}"], function () {
     Route::get("/", "CampController@campIndex");
     Route::match(["get", "post"], "/registration", "CampController@campRegistration")->name("registration");
+    Route::match(["get", "post"], "/registration_mockup", "CampController@campRegistrationMockUp");
     Route::post("/restoreCancellation", [CampController::class, "restoreCancellation"])->name("restoreCancellation");
     Route::get("/query", "CampController@campQueryRegistrationDataPage")->name("query");
     Route::get("/payment", [CampController::class, "showCampPayment"])->name("payment");
