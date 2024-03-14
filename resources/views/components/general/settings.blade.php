@@ -118,7 +118,10 @@
                     if (organizations[i] != null) {
                         let option = document.createElement('option');
                         option.value = organizations[i][1]['id'];
-                        option.text = organizations[i][1]['region_name'] + organizations[i][1]['section'];
+                        // check if contains string
+                        if (!organizations[i][1]['section'].includes('大會')) {
+                            option.text = organizations[i][1]['region_name'] + organizations[i][1]['section'];
+                        }
                         option.value = organizations[i][1]['id'];
                         select.appendChild(option);
                     }
