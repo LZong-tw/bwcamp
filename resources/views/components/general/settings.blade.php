@@ -104,6 +104,7 @@
             }
             else {
                 let organizations = Object.entries(response.data);
+                let organizations = new Set(organizations);
                 let select = document.getElementById('volunteerGroups');
                 for (let i = 0; i < organizations.length; i++) {
                     let option = document.createElement('option');
