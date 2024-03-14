@@ -106,8 +106,10 @@
                 let organizations = Object.entries(response.data);
                 for (let i in organizations) {
                     for (let j in organizations) {
-                        if (organizations[i] && organizations[i][1]['section'] == organizations[j][1]['section'] && i < j) {
-                            organizations[j] = null;
+                        if (organizations[i] && organizations[j]) {
+                            if (organizations[i][1]['section'] == organizations[j][1]['section'] && i < j) {
+                                organizations[j] = null;
+                            }
                         }
                     }
                 }
