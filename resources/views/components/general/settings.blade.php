@@ -104,7 +104,13 @@
             }
             else {
                 let organizations = Object.entries(response.data);
-                organizations = new Set(organizations);
+                for (let i in organizations) {
+                    for (let j in organizations) {
+                        if (organizations[i] == vector[j] && i < j ) {
+                            organizations[j]=null;
+                        }
+                    }
+                }
                 let select = document.getElementById('volunteerGroups');
                 for (let i = 0; i < organizations.length; i++) {
                     let option = document.createElement('option');
