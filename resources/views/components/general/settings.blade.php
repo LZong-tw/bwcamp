@@ -120,6 +120,9 @@
                         option.value = organizations[i][1]['id'];
                         // check if contains string
                         if (!organizations[i][1]['section'].includes('大會')) {
+                            option.text = organizations[i][1]['section'];
+                        }
+                        else {
                             option.text = organizations[i][1]['region_name'] + organizations[i][1]['section'];
                         }
                         option.value = organizations[i][1]['id'];
