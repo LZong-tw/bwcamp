@@ -83,7 +83,7 @@ class SemiApiController extends Controller
                     return 1;
                 })->each(function ($org) {
                     if ($org->section == "root") {
-                        $org->section = "大會";
+                        $org->section = $org->region_name ."大會";
                     }
                     else {
                         $org->section = str_replace("root.", " - ", $org->section);
