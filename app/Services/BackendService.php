@@ -33,13 +33,13 @@ class BackendService
             if ($this->checkBatchCanAddMoreGroup($batch)) {
                 $group = ApplicantsGroup::firstOrCreate([
                     'batch_id' => $batch->id,
-                    'alias' => "第" . __($i) . "組",
+                    'alias' => "第" . $i . "組",
                 ]);
             }
             else {
                 $group = ApplicantsGroup::where([
                     'batch_id' => $batch->id,
-                    'alias' => "第" . __($i) . "組",
+                    'alias' => "第" . $i . "組",
                 ])->firstOrFail();
             }
             $campOrg = CampOrg::firstOrCreate([
