@@ -115,10 +115,12 @@
                 }
                 let select = document.getElementById('volunteerGroups');
                 for (let i = 0; i < organizations.length; i++) {
-                    let option = document.createElement('option');
-                    option.value = organizations[i][1]['id'];
-                    option.text = organizations[i][1]['section'];
-                    select.appendChild(option);
+                    if (organizations[i] != null) {
+                        let option = document.createElement('option');
+                        option.value = organizations[i][1]['id'];
+                        option.text = organizations[i][1]['section'];
+                        select.appendChild(option);
+                    }
                 }
             }
         });
