@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Camp;
+use App\Models\CampOrg;
 use App\Services\BackendService;
 use Illuminate\Http\Request;
 
@@ -87,10 +88,12 @@ class SemiApiController extends Controller
     public function getCampPositions(Request $request)
     {
         $campId = $request->input('camp_id');
+        $nodeId = $request->input('node_id');
+        $target_org = CampOrg::find($nodeId);
         $orgs = $this->backendService
                     ->getCampOrganizations(Camp::findOrFail($campId));
-        $orgs = $orgs->filter(function ($org) use ($request) {
-            return $org->position != 'root' && $org->section == $request->input('section');
+        $orgs = $orgs->filter(function ($org) use ($target_org) {
+            return $org->position != 'root' && $org->section == $target_org->section;
         });
         $orgs = $orgs->each(function ($org) {
             if (str_contains($org->position, "關懷小組")) {
