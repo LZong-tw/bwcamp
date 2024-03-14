@@ -81,14 +81,14 @@ class SemiApiController extends Controller
         });
         $orgs = $orgs->filter(function ($org) {
                     return 1;
-                })->unique()->each(function ($org) {
+                })->each(function ($org) {
                     if ($org->section == "root") {
                         $org->position = "大會 - " . $org->position;
                     }
                     else {
                         $org->section = str_replace("root.", " - ", $org->section);
                     }
-                });
+                })->unique();
         return response()->json($orgs);
     }
 
