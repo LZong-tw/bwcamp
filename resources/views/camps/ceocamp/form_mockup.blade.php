@@ -1,10 +1,24 @@
+@php
+    header("Cache-Control: no-cache, no-store, must-revalidate, post-check=0, pre-check=0", false);
+    header("Pragma: no-cache");
+    header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+    header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
+    $regions = ['北區', '竹區', '中區', '高區'];
+@endphp
 <!DOCTYPE html>
-<html data-bs-theme="light" lang="en">
-
+<html data-bs-theme="light" lang="zh-Hant">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Home - Brand</title>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='description' content='「翻轉人生從心出發」邀請您報名參加企業主管生命成長營。' />
+    <meta name='author' content='福智文教基金會'>
+    <meta property='og:url' content='https://bwfoce.org/ecamp/'/>
+    <meta property='og:title' content='{{ $camp_data->abbreviation }}'/>
+    <meta property='og:description' content='「翻轉人生從心出發」邀請您報名參加企業主管生命成長營。' />
+    <meta property='og:image' content='https://static.wixstatic.com/media/8822b2_42442909881444a99904caa63bb7e659~mv2.png/v1/fill/w_2274,h_640,al_c,usm_0.66_1.00_0.01,enc_auto/8822b2_42442909881444a99904caa63bb7e659~mv2.png'/>
+    {{-- <link rel='icon' href='/camp/favicon.ico'> --}}
+    <title> {{ $camp_data->fullName }} </title>
     <link rel="stylesheet" href="{{ asset('mockup-assets/ceocamp/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abel&amp;display=swap">
@@ -19,10 +33,10 @@
         <div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><span style="font-family: Abel, sans-serif;color: rgb(46,83,99);"><span style="color: rgb(105, 24, 137);">2024 企業菁英營推薦</span><span style="color: rgb(154, 0, 0);">（開南梯）</span></span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1" style="width: 43px;height: 40px;padding: 0px 0px;background: rgba(255,255,255,0.3);"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-1" style="height: 50px;">
                 <ul class="navbar-nav mx-auto">
-                    <li class="nav-item"><a class="nav-link active" href="index.html">報名表單</a></li>
-                    <li class="nav-item"><a class="nav-link" href="integrations.html">查詢／修改</a></li>
-                    <li class="nav-item"><a class="nav-link" href="pricing.html">推薦表Word檔下載</a></li>
-                    <li class="nav-item"><a class="nav-link" href="contacts.html">PDF下載</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{{ route('registration', $batch_id) }}">報名表單</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('query', $batch_id) }}">查詢／修改</a></li>
+                    {{-- <li class="nav-item"><a class="nav-link" href="pricing.html">推薦表Word檔下載</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contacts.html">PDF下載</a></li> --}}
                 </ul>
             </div>
         </div>
@@ -44,26 +58,30 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td style="width: 40%;color: rgb(67,36,18);background: rgba(255,255,255,0);border-style: none;font-size: large;">推薦人姓名：&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;color: rgba(255,255,255,0);width: 240px;border-style: none;font-size: large;"></td>
+                                        <td style="width: 40%;color: rgb(67,36,18);background: rgba(255,255,255,0);border-style: none;font-size: large;">推薦人姓名：&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;color: rgba(255,255,255,0);width: 240px;border-style: none;font-size: large;" placeholder="請填寫推薦人姓名" name="introducer_name" required></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;font-size: large;">
-                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;font-size: large;"><span style="color: rgb(67, 36, 18);">廣 論 班 別：&nbsp;&nbsp;</span><input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;color: rgba(255,255,255,0);width: 240px;border-style: none;font-size: large;"></td>
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;font-size: large;"><span style="color: rgb(67, 36, 18);">廣 論 班 別：&nbsp;&nbsp;</span><input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;color: rgba(255,255,255,0);width: 240px;border-style: none;font-size: large;" name="introducer_relationship" placeholder="請填寫廣論班別" required></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;font-size: large;">
-                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;font-size: large;"><span style="color: rgb(67, 36, 18);">手 機 號 碼：&nbsp;&nbsp;</span><input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;color: rgba(255,255,255,0);width: 240px;border-style: none;font-size: large;"></td>
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;font-size: large;"><span style="color: rgb(67, 36, 18);">手 機 號 碼：&nbsp;&nbsp;</span><input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;color: rgba(255,255,255,0);width: 240px;border-style: none;font-size: large;" name="introducer_phone" placeholder="格式：0912345678" required></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;font-size: large;">
-                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;font-size: large;"><span style="color: rgb(67, 36, 18);">與被推薦人關係：&nbsp;&nbsp;</span><select style="padding: 3px;border-radius: 5px;border-style: none;width: 200px;font-size: large;">
-                                                <optgroup label="This is a group">
-                                                    <option value="12" selected="">唐玉紅</option>
-                                                    <option value="13">This is item 2</option>
-                                                    <option value="14">This is item 3</option>
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;font-size: large;"><span style="color: rgb(67, 36, 18);">與被推薦人關係：&nbsp;&nbsp;</span><select style="padding: 3px;border-radius: 5px;border-style: none;width: 200px;font-size: large;" name="introducer_participated">
+                                                <optgroup label="- 請選擇 -">
+                                                    <option value='親戚'>親戚</option>
+                                                    <option value='同學'>同學</option>
+                                                    <option value='同事'>同事</option>
+                                                    <option value='朋友'>朋友</option>
+                                                    <option value='工作相關'>工作相關</option>
+                                                    <option value='社團'>社團</option>
+                                                    <option value='其他'>其他</option>
                                                 </optgroup>
                                             </select></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;font-size: large;"></tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;font-size: large;">
-                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;font-size: large;"><span style="color: rgb(67, 36, 18);">推薦人電子郵件信箱：&nbsp;</span><input type="email" style="background: var(--bs-table-bg);border-radius: 10px;width: 100%;color: rgba(255,255,255,0);border-style: none;"></td>
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;font-size: large;"><span style="color: rgb(67, 36, 18);">推薦人電子郵件信箱：&nbsp;</span><input type="email" style="background: var(--bs-table-bg);border-radius: 10px;width: 100%;color: rgba(255,255,255,0);border-style: none;" name='introducer_email' ></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"></tr>
                                     <tr></tr>
@@ -74,7 +92,7 @@
                 </div>
                 <div class="col">
                     <div class="card border-light border-1 d-flex p-4" style="background: rgba(197,154,204,0.56);border-radius: 30px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;text-align: left;">
-                        <h1 style="font-size: x-large;color: rgb(67,36,18);"><span style="color: rgb(96, 18, 72);">推薦理由</span></h1><textarea style="width: 98%;height: 300px;border-style: none;border-radius: 10px;"></textarea>
+                        <h1 style="font-size: x-large;color: rgb(67,36,18);"><span style="color: rgb(96, 18, 72);">推薦理由</span></h1><textarea name='reasons_recommend' style="width: 98%;height: 300px;border-style: none;border-radius: 10px;" required></textarea>
                     </div>
                 </div>
             </div>
@@ -119,31 +137,38 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td style="width: 40%;color: var(--bs-body-color);background: rgba(255,255,255,0);border-style: none;"><span style="color: rgb(0, 0, 0);">中文姓名：&nbsp;</span><input type="text" style="border-style: none;border-radius: 10px;background: rgba(206,212,218,0.35);padding: 3px 10px;"></td>
+                                        <td style="width: 40%;color: var(--bs-body-color);background: rgba(255,255,255,0);border-style: none;"><span style="color: rgb(0, 0, 0);">中文姓名：&nbsp;</span><input type="text" style="border-style: none;border-radius: 10px;background: rgba(206,212,218,0.35);padding: 3px 10px;" name="name" placeholder='請填寫全名' required></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><span style="color: rgb(0, 0, 0);">英文慣用名：&nbsp;</span><input type="text" style="background: rgba(206,212,218,0.35);border-style: none;border-radius: 10px;padding: 3px 10px;"></td>
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><span style="color: rgb(0, 0, 0);">英文慣用名：&nbsp;</span><input type="text" style="background: rgba(206,212,218,0.35);border-style: none;border-radius: 10px;padding: 3px 10px;" name="english_name" placeholder='請填寫英文慣用名，如James、Michelle等，若無免填' required></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><span style="color: rgb(0, 0, 0);">區域別：&nbsp;</span><input type="radio"><span style="color: rgb(0, 0, 0);"> 北區　</span><input type="radio"><span style="color: rgb(0, 0, 0);"> 竹區</span><br><sup><span style="color: rgb(96, 18, 72);">建議根據被推薦人的工作/生活地區選擇</span></sup></td>
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><span style="color: rgb(0, 0, 0);">區域別：&nbsp;</span>
+                                            <input type="radio" value="" name="region_id" required><span style="color: rgb(0, 0, 0);"> 北區　</span>
+                                            <input type="radio" value="" name="region_id" required><span style="color: rgb(0, 0, 0);"> 竹區</span><br>
+                                            <sup><span style="color: rgb(96, 18, 72);">建議根據被推薦人的工作/生活地區選擇</span></sup>
+                                        </td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><span style="color: rgb(0, 0, 0);">性別：&nbsp;</span><input type="radio">&nbsp;<span style="color: rgb(0, 0, 0);">男　　</span><input type="radio">&nbsp;<span style="color: rgb(0, 0, 0);">女</span></td>
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><span style="color: rgb(0, 0, 0);">性別：&nbsp;</span><input type="radio" name="gender" value="M" required>&nbsp;<span style="color: rgb(0, 0, 0);">男　　</span><input type="radio">&nbsp;<span style="color: rgb(0, 0, 0);" name="gender" value="F" required>女</span></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><span style="color: rgb(0, 0, 0);">生日： 西元 </span><select style="width: 60px;background: rgba(206,212,218,0.35);border-style: none;border-radius: 3px;padding: 3px;">
-                                                <optgroup label="year">
-                                                    <option value="12" selected="">1960</option>
-                                                    <option value="13">This is item 2</option>
-                                                    <option value="14">This is item 3</option>
-                                                </optgroup>
-                                            </select><span style="color: rgb(0, 0, 0);">年　</span><select style="width: 50px;background: rgba(206,212,218,0.35);border-radius: 3px;border-style: none;padding: 3px;">
-                                                <optgroup label="month">
-                                                    <option value="12" selected="">01</option>
-                                                    <option value="13">This is item 2</option>
-                                                    <option value="14">This is item 3</option>
-                                                </optgroup>
-                                            </select><span style="color: rgb(0, 0, 0);">月</span></td>
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
+                                            <span style="color: rgb(0, 0, 0);">生日： 西元 </span>
+                                            <select style="width: 60px;background: rgba(206,212,218,0.35);border-style: none;border-radius: 3px;padding: 3px;" name='birthyear' required>
+                                                <option value="">請選擇</option>
+                                                @for ($i = 1900; $i <= 2006; $i++)
+                                                    <option value="{{ $i }}">{{ $i }}</option>
+                                                @endfor
+                                            </select>
+                                            <span style="color: rgb(0, 0, 0);">年　</span>
+                                            <select style="width: 50px;background: rgba(206,212,218,0.35);border-radius: 3px;border-style: none;padding: 3px;" required name='birthmonth'>
+                                                <option value="">請選擇</option>
+                                                @for($i = 1; $i <= 12; $i++)
+                                                    <option value="{{ $i }}">{{ $i }}</option>                  
+                                                @endfor
+                                            </select>
+                                            <span style="color: rgb(0, 0, 0);">月</span></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                         <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><span style="color: rgb(0, 0, 0);">手機號碼：&nbsp;&nbsp;</span><input type="tel" style="background: rgba(206,212,218,0.35);border-style: none;border-radius: 10px;padding: 3px 10px;width: 150px;"></td>
