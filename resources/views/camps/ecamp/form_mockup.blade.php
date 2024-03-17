@@ -1,3 +1,10 @@
+@php
+    header("Cache-Control: no-cache, no-store, must-revalidate, post-check=0, pre-check=0", false);
+    header("Pragma: no-cache");
+    header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+    header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
+    $regions = ['台北', '桃園', '新竹', '中區', '雲嘉', '台南', '高區'];
+@endphp
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en">
 
