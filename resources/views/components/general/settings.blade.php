@@ -208,16 +208,17 @@
             responseType: 'json'
         })
         .then(function (response) {
+            select.innerHTML = "";
+            let optionzero = document.createElement('option');
+            optionzero.value = "";
             if (Object.keys(response.data).length === 0) {
                 console.log(response.data);
                  // 特殊處理
+                 optionzero.text = "尚未設定任何職位"
+                 select.appendChild(optionzero);
             }
             else {
                 let positions = Object.entries(response.data);
-
-                select.innerHTML = "";
-                let optionzero = document.createElement('option');
-                optionzero.value = "";
                 optionzero.text = "- 請選擇 -";
                 select.appendChild(optionzero);
                 for (let i = 0; i < positions.length; i++) {
