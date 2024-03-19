@@ -191,6 +191,11 @@
     }
 
     function getPosition(theselect) {
+        let select = document.getElementById('volunteerWorks');
+        let length = select.options.length;
+        for (i = length - 1; i >= 0; i--) {
+            select.options[i] = null;
+        }
         axios({
             method: 'get',
             url: '/semi-api/getCampPositions',
@@ -209,7 +214,6 @@
             }
             else {
                 let positions = Object.entries(response.data);
-                let select = document.getElementById('volunteerWorks');
 
                 select.innerHTML = "";
                 let optionzero = document.createElement('option');
