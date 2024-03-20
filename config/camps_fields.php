@@ -399,7 +399,8 @@ return [
         "expertise_other" => "專長:其它",
         "language" => "語言",
         "language_other" => "語言:其它",
-        "participation_dates" => "可護持日期",
+        "participation_dates" => "護持日期",
+        "stay_dates" => "住宿日期",
         "unit" => "公司名稱",
         "industry" => "產業別",
         "title" => "職稱",
@@ -1125,7 +1126,12 @@ return [
                 "for_query" => 1,
             ],
             "participation_dates" => [
-                "name" => "可護持日期",
+                "name" => "護持日期",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "stay_dates" => [
+                "name" => "住宿日期",
                 "sort" => 0,
                 "for_query" => 1,
             ],

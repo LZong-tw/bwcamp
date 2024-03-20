@@ -88,7 +88,7 @@
             </div>
         </div>
     @endif
-
+    @if(\Str::contains($batch->name, "開南")）
     <div class="row form-group required">
         <label for='inputRegion' class='col-md-2 control-label text-md-right'>區域</label>
         <div class='col-md-10'>
@@ -110,6 +110,29 @@
             </div>
         </div>
     </div>
+    @else
+    <div class="row form-group required">
+        <label for='inputRegion' class='col-md-2 control-label text-md-right'>區域</label>
+        <div class='col-md-10'>
+            <div class="form-check form-check-inline">
+                <label class="form-check-label" for="Pei">
+                    <input class="form-check-input" type="radio" name="region" value="中區" required>中區
+                    <div class="invalid-feedback">
+                        請選擇區域
+                    </div>
+                </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <label class="form-check-label" for="Chu">
+                    <input class="form-check-input" type="radio" name="region" value="高區" required>高區
+                    <div class="invalid-feedback">
+                        &nbsp;
+                    </div>
+                </label>
+            </div>
+        </div>
+    </div>
+    @endif
 
     <hr>
     <h5 class='form-control-static text-info'>說明：我們非常重視您的志願選擇，但也會考量營隊人力需求來分配組別，尚請多多理解。感恩！</h5>

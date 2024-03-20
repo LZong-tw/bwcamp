@@ -341,19 +341,20 @@
         <label for='inputIndustry' class='col-md-2 control-label text-md-right'>產業別</label>
         <div class='col-md-10'>
             <select required class='form-control' name='industry' onChange=''>
-                <option value='' selected>- 請選擇 -</option>
+            <option value='' selected>- 請選擇 -</option>
                 <option value='製造業' >製造業</option>
                 <option value='公共事業' >公共事業</option>
-                <option value='營建工程業' >營建工程業</option>
-                <option value='批發及零售業' >批發及零售業</option>
-                <option value='運輸及倉儲業' >運輸及倉儲業</option>
-                <option value='住宿及餐飲業' >住宿及餐飲業</option>
-                <option value='大眾傳播業' >大眾傳播業</option>
-                <option value='金融及保險業' >金融及保險業</option>
-                <option value='資訊科技服務業' >資訊科技服務業</option>
-                <option value='醫療保健及社會工作服務' >醫療保健及社會工作服務</option>
-                <option value='藝術、娛樂及休閒服務業' >藝術、娛樂及休閒服務業</option>
-                <option value='教育業' >教育業</option>
+                <option value='營建工程相關產業' >營建工程相關產業</option>
+                <option value='批發、零售及貿易相關產業' >批發、零售及貿易相關產業</option>
+                <option value='運輸及倉儲相關產業' >運輸及倉儲相關產業</option>
+                <option value='住宿及餐飲相關產業' >住宿及餐飲相關產業</option>
+                <option value='大眾傳播通訊相關產業' >大眾傳播通訊相關產業</option>
+                <option value='金融及保險業相關產業' >金融及保險業相關產業</option>
+                <option value='專業、科學及技術相關服務業(會計師、律師、顧問等）' >專業、科學及技術相關服務業(會計師、律師、顧問等）</option>
+                <option value='教育學術相關產業' >教育學術相關產業</option>
+                <option value='醫療保健及社會工作服務相關' >醫療保健及社會工作服務相關</option>
+                <option value='藝術、娛樂及休閒服務相關' >藝術、娛樂及休閒服務相關</option>
+                <option value='公家機關' >公家機關</option>
                 <option value='其它' >其它</option>
             </select>
         </div>  
