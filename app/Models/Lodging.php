@@ -12,7 +12,7 @@ class Lodging extends Model
     public $resourceDescriptionInMandarin = '住宿資料，含房型、天數、費用、繳費金額等';
 
     protected $fillable = ['applicant_id', 'room_type', 'nights', 'fare', 'deposit', 'cash', 'sum'];
-    
+
     protected $casts = [
         'id' => 'integer',
         'applicant_id' => 'integer',
