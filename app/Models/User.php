@@ -164,17 +164,30 @@ class User extends Authenticatable
         //                 ->map(static fn($role) => $role->permissions)
         //                 ->flatten()->unique('id')->values();
         $this->rolePermissions = self::with('roles.permissions')->whereHas('roles', function ($query) use ($camp, $resource) {
-            // 順便做梯次檢查  
+            // 順便做梯次檢查
             if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer || $resource instanceof \App\Models\User) {
                 if ($resource->batch_id) {
-                    return $query->where(function ($query) {
-                                return $query->whereNull('batch_id');
-                            })->orWhere(function ($query) use ($resource) {
-                                return $query->where('batch_id', $resource->batch_id);
-                            });
-                } 
+                    return $query->where(function ($query) use ($resource){
+                        return $query->where(function ($query) {
+                            return $query->whereNull('batch_id');
+                        })->orWhere(function ($query) use ($resource) {
+                            return $query->where('batch_id', $resource->batch_id);
+                        });
+                    });
+                }
             }
-            // 區域檢查可能也要做在這裡 
+            // 區域檢查
+            if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer || $resource instanceof \App\Models\User) {
+                if ($resource->region_id) {
+                    return $query->where(function ($query) use ($resource){
+                        return $query->where(function ($query) {
+                            return $query->whereNull('region_id');
+                        })->orWhere(function ($query) use ($resource) {
+                            return $query->where('region_id', $resource->region_id);
+                        });
+                    });
+                }
+            }
             return $query->where('camp_id', $camp->id);
         })->where('id', $this->id)->get()->pluck('roles')->flatten()->pluck('permissions')->flatten()->unique('id')->values();
         $permissions = $permissions ? collect($permissions)->merge($this->rolePermissions) : $this->rolePermissions;
