@@ -28,7 +28,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aboreto&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alegreya+Sans&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans&amp;display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+Chorasmian&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+Chorasmian&amp;display=swap">    
+    @include('partials.counties_areas_script')
 </head>
 
 <body style="color: #343458;background: #fcf2ff;">
@@ -62,6 +63,14 @@
                 0958367318、陳尚耀 0966891868、吳宜芯 0910123257｜竹區—邱雍凌 0922437236、陳沛安 0921625305</p>
         </div>
         <div class="container py-4 py-xl-5">
+            {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
+            @if(!isset($isModify) || $isModify)
+                <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form'>
+                {{-- 以上皆非: 檢視資料狀態 --}}
+            @else
+                <form action="{{ route("queryupdate", $applicant_batch_id) }}" method="post" class="d-inline">
+            @endif
+            @csrf
             <div class="row gy-4 row-cols-1 row-cols-md-2">
                 <div class="col">
                     <div class="card border-light border-1 d-flex p-4"
@@ -322,25 +331,44 @@
                                         style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                         <td
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                            <span style="color: rgb(0, 0, 0);">通訊地址：&nbsp;</span><select
-                                                style="border-style: none;border-radius: 10px;width: 80px;background: rgba(206,212,218,0.35);padding: 3px;">
-                                                <optgroup label="This is a group">
-                                                    <option value="12" selected="">縣市</option>
-                                                    <option value="13"></option>
-                                                    <option value="14">This is item 3</option>
-                                                </optgroup>
-                                            </select>&nbsp;<select
-                                                style="width: 90px;background: rgba(206,212,218,0.35);border-style: none;border-radius: 10px;padding: 3px;">
-                                                <optgroup label="This is a group">
-                                                    <option value="12" selected="">區鄉鎮</option>
-                                                    <option value="13">This is item 2</option>
-                                                    <option value="14">This is item 3</option>
-                                                </optgroup>
+                                            <span style="color: rgb(0, 0, 0);">通訊地址：&nbsp;</span>
+                                                <select name="county" 
+                                                    style="border-style: none;border-radius: 10px;width: 80px;background: rgba(206,212,218,0.35);padding: 3px;" onChange="Address(this.options[this.options.selectedIndex].value);">
+                                                    <option value=''>先選縣市</option>
+                                                    <option value='臺北市'>臺北市</option>
+                                                    <option value='新北市'>新北市</option>
+                                                    <option value='基隆市'>基隆市</option>
+                                                    <option value='宜蘭縣'>宜蘭縣</option>
+                                                    <option value='花蓮縣'>花蓮縣</option>
+                                                    <option value='桃園市'>桃園市</option>
+                                                    <option value='新竹市'>新竹市</option>
+                                                    <option value='新竹縣'>新竹縣</option>
+                                                    <option value='苗栗縣'>苗栗縣</option>
+                                                    <option value='臺中市'>臺中市</option>
+                                                    <option value='彰化縣'>彰化縣</option>
+                                                    <option value='南投縣'>南投縣</option>
+                                                    <option value='雲林縣'>雲林縣</option>
+                                                    <option value='嘉義市'>嘉義市</option>
+                                                    <option value='嘉義縣'>嘉義縣</option>
+                                                    <option value='臺南市'>臺南市</option>
+                                                    <option value='高雄市'>高雄市</option>
+                                                    <option value='屏東縣'>屏東縣</option>
+                                                    <option value='臺東縣'>臺東縣</option>
+                                                    <option value='澎湖縣'>澎湖縣</option>
+                                                    <option value='金門縣'>金門縣</option>
+                                                    <option value='連江縣'>連江縣</option>
+                                                    <option value='南海諸島'>南海諸島</option>
+                                                    <option value='其它'>其它</option>
+                                            </select>&nbsp;<select name=subarea
+                                                style="width: 90px;background: rgba(206,212,218,0.35);border-style: none;border-radius: 10px;padding: 3px;" onChange='document.Camp.zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.address.value=MyAddress(document.Camp.county.value, this.options[this.options.selectedIndex].text);'>
+                                                <option value=''>再選區鄉鎮</option>
                                             </select><span
-                                                style="color: rgb(0, 0, 0);">&nbsp;000&nbsp;</span><br><input
+                                                style="color: rgb(0, 0, 0);">&nbsp;<input name=zipcode
+                                                style="width: 40px;background: rgba(206,212,218,0.35);border-style: none;border-radius: 10px;padding: 2px;" disabled>&nbsp;</span><br><input
                                                 type="text"
+                                                name='address' value='' pattern=".{10,80}"
                                                 style="border-style: none;background: rgba(206,212,218,0.35);border-radius: 10px;width: 100%;padding: 3px 10px;margin: 10px 0px;"
-                                                value="填寫通訊地址"><br></td>
+                                                placeholder="填寫通訊地址"><br></td>
                                     </tr>
                                     <tr
                                         style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
@@ -348,6 +376,7 @@
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                             <span style="color: rgb(0, 0, 0);">LINE ID：&nbsp;&nbsp;</span><input
                                                 type="text"
+                                                name='line'
                                                 style="background: rgba(206,212,218,0.35);border-radius: 10px;color: rgba(255,255,255,0);width: 150px;border-style: none;padding: 3px 10px;">
                                         </td>
                                     </tr>
@@ -357,12 +386,11 @@
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                             <span style="color: rgb(0, 0, 0);">適合聯絡時間</span><sub><span
                                                     style="color: rgb(0, 0, 0);">（可複選）</span></sub><span
-                                                style="color: rgb(0, 0, 0);">：&nbsp;</span><br><input
-                                                type="checkbox">&nbsp;<span
-                                                style="color: rgb(0, 0, 0);">上午　</span><input type="checkbox"><span
-                                                style="color: rgb(0, 0, 0);"> 中午　</span><input type="checkbox"><span
-                                                style="color: rgb(0, 0, 0);"> 下午　</span><input type="checkbox"><span
-                                                style="color: rgb(0, 0, 0);"> 晚上&nbsp;</span></td>
+                                                style="color: rgb(0, 0, 0);">：&nbsp;</span><br>
+                                                <input type="checkbox" name=contact_time[] value='上午'>&nbsp;<span style="color: rgb(0, 0, 0);">上午　</span>
+                                                <input type="checkbox" name=contact_time[] value='中午'><span style="color: rgb(0, 0, 0);"> 中午　</span>
+                                                <input type="checkbox" name=contact_time[] value='下午'><span style="color: rgb(0, 0, 0);"> 下午　</span>
+                                                <input type="checkbox" name=contact_time[] value='晚上'><span style="color: rgb(0, 0, 0);"> 晚上&nbsp;</span></td>
                                     </tr>
                                     <tr
                                         style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
@@ -370,10 +398,10 @@
                                             style="color: rgb(0,0,0);background: rgba(255,255,255,0);border-style: none;">
                                             <span style="color: rgb(96, 18, 72);">被推薦人</span><span
                                                 style="color: rgb(0, 0, 0);">是否已加入廣論班：&nbsp;</span><input
-                                                type="radio"><span
+                                                type="radio" name='is_lrclass' value='0'><span
                                                 style="color: rgb(0, 0, 0);">&nbsp;否　</span><input
-                                                type="radio">&nbsp;是　廣論班別：&nbsp;<input type="text"
-                                                style="width: 120px;padding: 3px 10px;border-style: none;border-radius: 10px;background: rgba(206,212,218,0.35);">
+                                                type="radio" name='is_lrclass' value='1'>&nbsp;是　廣論班別：&nbsp;<input type="text"
+                                                style="width: 260px;padding: 3px 10px;border-style: none;border-radius: 10px;background: rgba(206,212,218,0.35);" name='lrclass' value='' id='inputLRClass' placeholder='請填寫 *被推薦人* 廣論研討班別'>
                                         </td>
                                     </tr>
                                     <tr></tr>
@@ -530,6 +558,7 @@
                     type="submit"
                     style="text-align: center;border-radius: 20px;margin: 10px;border-style: none;box-shadow: 1px 1px 8px rgb(55,55,55);padding: 8px 60px;font-size: 20px;background: rgb(201,81,143);">確認送出
                     😊</button></div>
+        </form>
         </div>
     </section>
     <footer></footer>
