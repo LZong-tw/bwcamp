@@ -12,17 +12,17 @@ class Region extends Model
         'name' => 'string',
     ];
 
-    public function camps() : \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function camps(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Camp::class, 'region_camp_xref', 'region_id', 'camp_id');
     }
 
-    public function applicants() : \Illuminate\Database\Eloquent\Relations\HasMany
+    public function applicants(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Applicant::class);
     }
 
-    public function roles() : \Illuminate\Database\Eloquent\Relations\HasMany
+    public function roles(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(CampOrg::class);
     }
