@@ -380,11 +380,11 @@
     <div class='row form-group required' >
         <label for='inputParticipationDates' class='col-md-2 control-label text-md-right'>護持日期(多選)</label>
         <div class='col-md-10'>
-            <label><input type="checkbox" name=participation_dates[] value='0710(三)' > 0710(三)</label> <br/>
-            <label><input type="checkbox" name=participation_dates[] value='0711(四)' > 0711(四)</label> <br/>
-            <label><input type="checkbox" name=participation_dates[] value='0712(五)' > 0712(五)</label> <br/>
-            <label><input type="checkbox" name=participation_dates[] value='0713(六)' > 0713(六)</label> <br/>
-            <label><input type="checkbox" name=participation_dates[] value='0714(日)' > 0714(日)</label> <br/>
+            <label><input type="checkbox" class='participation_dates' name=participation_dates[] value='0710(三)' > 0710(三)</label> <br/>
+            <label><input type="checkbox" class='participation_dates' name=participation_dates[] value='0711(四)' > 0711(四)</label> <br/>
+            <label><input type="checkbox" class='participation_dates' name=participation_dates[] value='0712(五)' > 0712(五)</label> <br/>
+            <label><input type="checkbox" class='participation_dates' name=participation_dates[] value='0713(六)' > 0713(六)</label> <br/>
+            <label><input type="checkbox" class='participation_dates' name=participation_dates[] value='0714(日)' > 0714(日)</label> <br/>
             <div class="invalid-feedback" id="participation_dates-invalid">
                 請選擇護持日期。
             </div>
@@ -395,10 +395,10 @@
     <div class='row form-group required' >
         <label for='inputStayDates' class='col-md-2 control-label text-md-right'>住宿日期(多選)</label>
         <div class='col-md-10'>
-            <label><input type="checkbox" name=stay_dates[] value='0710(三)' > 0710(三)</label> <br/>
-            <label><input type="checkbox" name=stay_dates[] value='0711(四)' > 0711(四)</label> <br/>
-            <label><input type="checkbox" name=stay_dates[] value='0712(五)' > 0712(五)</label> <br/>
-            <label><input type="checkbox" name=stay_dates[] value='0713(六)' > 0713(六)</label> <br/>
+            <label><input type="checkbox" class='stay_dates' name=stay_dates[] value='0710(三)' > 0710(三)</label> <br/>
+            <label><input type="checkbox" class='stay_dates' name=stay_dates[] value='0711(四)' > 0711(四)</label> <br/>
+            <label><input type="checkbox" class='stay_dates' name=stay_dates[] value='0712(五)' > 0712(五)</label> <br/>
+            <label><input type="checkbox" class='stay_dates' name=stay_dates[] value='0713(六)' > 0713(六)</label> <br/>
             <div class="invalid-feedback" id="stay_dates-invalid">
                 請選擇住宿日期。
             </div>

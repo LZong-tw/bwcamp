@@ -23,6 +23,11 @@
                 應繳金額：{{ $applicant->traffic->fare ?? 0 }} <br>
                 轉帳繳費：{{ $applicant->traffic->deposit ?? 0 }} <br>
                 現金繳費：{{ $applicant->traffic->cash ?? 0 }} <br>
+            @elseif($campFullData->table=='ceocamp')
+                房型/天數：{{ $applicant->lodging->room_type ?? "尚未登記" }}/{{ $applicant->lodging->nights ?? "尚未登記" }}<br>
+                應繳金額：{{ $applicant->lodging->fare ?? 0 }} <br>
+                轉帳繳費：{{ $applicant->lodging->deposit ?? 0 }} <br>
+                現金繳費：{{ $applicant->lodging->cash ?? 0 }} <br>
             @else
             應繳金額：{{ $applicant->fee ?? 0 }} <br>
             已繳金額：{{ $applicant->deposit ?? 0 }} <br>
@@ -41,7 +46,6 @@
             <form action="{{ route("modifyAccounting", $campFullData->id) }}" method="post" class="form-horizontal">
                 @csrf
                 <input type="hidden" name="id" value="{{ $applicant->id }}">
-
                 <div class='row form-group required'>
                     <label for='inputDepartFrom' class='col-md-2 control-label text-md-right'>修改去程交通</label>
                     <div class="col-md-4">
@@ -78,7 +82,66 @@
                         </div>
                     </div>
                 </div>
-
+                <div class='row form-group required'>
+                    <label for='inputCash' class='col-md-2 control-label text-md-right'>修改現金繳費<br>金額</label>
+                    <div class='col-md-10'>
+                        <input type="text" class="form-control" name="cash" value=0 placeholder="填寫現場手動（現金）繳費金額" required><br>
+                        <div class="invalid-feedback">
+                            請填寫輸入現場手動（現金）繳費金額
+                        </div>
+                    </div>
+                </div>
+                <div class='row form-group required'>
+                    <label for='inputModifyMethod' class='col-md-2 control-label text-md-right'>修改方式</label>
+                    <div class='col-md-10'>
+                        <label class=radio-inline>
+                            <input type=radio required name='is_add' value=replace checked> 覆寫現金繳費
+                            <div class="invalid-feedback">
+                                請選擇修改方式
+                            </div>
+                        </label> 
+                        <label class=radio-inline>
+                            <input type=radio required name='is_add' value=add > 加入現金繳費
+                            <div class="invalid-feedback">
+                                &nbsp;
+                            </div>
+                        </label> 
+                    </div>
+                </div>
+            <input type="submit" class="btn btn-success" id="confirmaccounting" value="確認修改">
+            </form>
+            <br>
+            <a href="{{ route('modifyAccountingGET', $campFullData->id) }}" class="btn btn-primary">下一筆</a>
+        @elseif($campFullData->table=='ceocamp')
+            @php 
+                $cash=0 
+            @endphp
+            <form action="{{ route("modifyAccounting", $campFullData->id) }}" method="post" class="form-horizontal">
+                @csrf
+                <input type="hidden" name="id" value="{{ $applicant->id }}">
+                <div class='row form-group required'>
+                    <label for='inputRoomType' class='col-md-2 control-label text-md-right'>修改房型</label>
+                    <div class="col-md-4">
+                        <select required class='form-control' name='room_type' id='inputRoomType'>
+                            <option value='不住宿' selected>不住宿</option>
+                            <option value='單人房' >單人房</option>
+                            <option value='雙人房' >雙人房</option>
+                            <option value='四人房' >四人房</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            請選擇房型
+                        </div>
+                    </div>
+                </div>
+                <div class='row form-group required'>
+                    <label for='inputNights' class='col-md-2 control-label text-md-right'>修改天數</label>
+                    <div class="col-md-4">
+                        <input type='number' required class='form-control' name='nights' min=0 max=1 value='' placeholder=''>
+                        <div class="invalid-feedback">
+                            請選擇天數
+                        </div>
+                    </div>
+                </div>
                 <div class='row form-group required'>
                     <label for='inputCash' class='col-md-2 control-label text-md-right'>修改現金繳費<br>金額</label>
                     <div class='col-md-10'>
@@ -141,6 +204,23 @@
                 console.log(texts[0].name);
                 console.log(texts[0].value);
                 texts[0].value = traffic_data[texts[0].name];
+            })();
+        @endif
+        @if(isset($applicant->lodging))
+            {{-- 回填住宿選項 --}}
+            (function() {
+                let lodging_data = JSON.parse('{!! $applicant->lodging !!}');
+                console.log(lodging_data);
+                let selects = document.getElementsByTagName('select');
+                for (var i = 0; i < selects.length; i++){
+                    if(typeof lodging_data[selects[i].name] !== "undefined"){
+                        selects[i].value = lodging_data[selects[i].name];
+                    }
+                }
+                let field1 = document.getElementsByName('nights');
+                field1[0].value = lodging_data[field1[0].name];
+                let field2 = document.getElementsByName('cash');
+                field2[0].value = lodging_data[field2[0].name];
             })();
         @endif
     </script>

@@ -16,7 +16,7 @@ class Lodging extends Model
     protected $casts = [
         'id' => 'integer',
         'applicant_id' => 'integer',
-        'room_type' => 'integer',
+        'room_type' => 'string',
         'nights' => 'integer',
         'fare' => 'integer',
         'deposit' => 'integer',
