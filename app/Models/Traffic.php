@@ -14,6 +14,8 @@ class Traffic extends Model {
     ];
 
     public $resourceNameInMandarin = '交通資料';
+    public $resourceDescriptionInMandarin = '交通資料含地點、費用、繳費金額等';
+
 
     protected $guarded = [];
 

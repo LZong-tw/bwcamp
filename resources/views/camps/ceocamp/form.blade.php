@@ -455,7 +455,7 @@
         </div>
     </div>
 
-    <div id=contact>
+    <div id=div_lrclass>
         <!-- 依「身份別」選項而顯示的部分 -->
         @if(isset($applicant_data) && ($applicant_data->is_lrclass))
         <div class='row form-group required' >
@@ -484,9 +484,9 @@
         </div>`;
 
         if (show == 0) { 
-        document.getElementById('contact').innerHTML = ''; 
+        document.getElementById('div_lrclass').innerHTML = ''; 
         } else { 
-        document.getElementById('contact').innerHTML = show_lrclass; 
+        document.getElementById('div_lrclass').innerHTML = show_lrclass; 
         }
     }
     </script>
