@@ -29,6 +29,7 @@ use View;
 use App\Traits\EmailConfiguration;
 use App\Models\SignInSignOut;
 use App\Exports\ApplicantsExport;
+use App\Models\Region;
 use App\Services\GSheetService;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -349,7 +350,8 @@ class BackendController extends Controller
 
         if(isset($request->change)) {
             $batches = Batch::where('camp_id', $this->campFullData->id)->get();
-            return view('backend.registration.changeBatchOrRegionForm', compact('candidate', 'batches'));
+            $regions = $this->campFullData->regions;
+            return view('backend.registration.changeBatchOrRegionForm', compact('candidate', 'batches', 'regions'));
         }
         //修改繳費資料/現場手動繳費
         if(\Str::contains(request()->headers->get('referer'), 'accounting')) {
@@ -691,7 +693,8 @@ class BackendController extends Controller
         if ($request->isMethod('POST')) {
             $candidate = Applicant::find($request->id);
             $candidate->batch_id = $request->batch;
-            $candidate->region = $request->region;
+            $candidate->region_id = $request->region_id;
+            $candidate->region = Region::find($request->region_id)->name;
             $candidate->save();
             $message = "梯次 / 區域修改完成。";
             $batches = Batch::where('camp_id', $this->campFullData->id)->get();
@@ -1141,7 +1144,7 @@ class BackendController extends Controller
                     "Pragma"              => "no-cache",
                     "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
                     "Expires"             => "0"
-            );    
+            );
 
             $callback = function () use ($applicants,$columns,$batch) {
                 $file = fopen('php://output', 'w');
@@ -1158,7 +1161,7 @@ class BackendController extends Controller
                             $data = $applicant->group . $applicant->number;
                         } elseif($key == "is_checkin") {
                             if (isset($applicant->checkInData->first()->check_in_date))
-                                    $data = 1;                            
+                                    $data = 1;
                         } else {
                             if (isset($applicant->$key))
                                 $data = $applicant->$key;
@@ -1248,7 +1251,7 @@ class BackendController extends Controller
                     "Pragma"              => "no-cache",
                     "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
                     "Expires"             => "0"
-            );    
+            );
 
             $callback = function () use ($applicants,$columns) {
                 $file = fopen('php://output', 'w');

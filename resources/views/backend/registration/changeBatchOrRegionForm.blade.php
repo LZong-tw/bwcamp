@@ -38,8 +38,14 @@
                 @endforeach
             </select>
             <br>
-            區域：<input type="text" name="region" class="form-control" value="{{ $candidate->region }}">
-            （區域列表：台北、桃園、新竹、台中、嘉義、台南、高雄、海外）
+            區域：{{-- <input type="text" name="region" class="form-control" value="{{ $candidate->region }}"> --}}
+            {{-- （區域列表：台北、桃園、新竹、台中、嘉義、台南、高雄、海外） --}}
+            <select name="region_id" class="form-control" required>
+                <option>請選擇</option>
+                @foreach ($regions as $r)
+                    <option value="{{ $r->id }}" @if($candidate->region_id == $r->id || $candidate->region == $r->name) selected @endif>{{ $r->name }}</option>
+                @endforeach
+            </select>
             <br><br>
             <input type="submit" class="btn btn-success" value="送出修改">
         </form><br>
