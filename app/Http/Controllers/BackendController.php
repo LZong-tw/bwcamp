@@ -1439,6 +1439,9 @@ class BackendController extends Controller
         if(isset($applicant->participation_dates)) {    //evcamp,icamp
             $applicant->participation_dates_split = explode("||/", $applicant->participation_dates);
         }
+        if(isset($applicant->stay_dates)) {    //evcamp,icamp
+            $applicant->stay_dates_split = explode("||/", $applicant->stay_dates);
+        }
         if(isset($applicant->contact_time)) {
             $applicant->contact_time_split = explode("||/", $applicant->contact_time);
         }
