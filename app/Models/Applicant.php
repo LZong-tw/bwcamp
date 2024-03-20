@@ -65,6 +65,10 @@ class Applicant extends Model {
         return $this->hasOne(Traffic::class, 'applicant_id', 'id');
     }
 
+    public function lodging() {
+        return $this->hasOne(Lodging::class, 'applicant_id', 'id');
+    }
+
     public function acamp() {
         return $this->hasOne(Acamp::class, 'applicant_id', 'id');
     }

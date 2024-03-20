@@ -20,6 +20,7 @@ use App\Models\Batch;
 use App\Models\CheckIn;
 use App\Models\ContactLog;
 use App\Models\Traffic;
+use App\Models\Lodging;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
@@ -1974,6 +1975,31 @@ class BackendController extends Controller
                 $applicant = $this->applicantService->fillPaymentData($applicant);
                 $applicant->save();
                 $message = "手動繳費完成。";
+                return view("backend.modifyAccounting", compact("applicant", "message"));
+            } elseif ($this->campFullData->table == 'ceocamp') {
+                $lodging = $applicant->lodging;
+                //尚未登記，建新的Lodging
+                if (!$lodging) {
+                    $lodging = new Lodging;
+                    $lodging->applicant_id = $applicant->id;
+                }
+                //更新房型、天數及應繳車資
+                $lodging->room_type = $request->room_type;
+                $lodging->nights = $request->nights;
+                $fare_room = config('camps_payments.fare_room.'.$this->campFullData->table) ?? [];
+                $lodging->fare = ($fare_room[$lodging->room_type] ?? 0) * ($lodging->nights ?? 0);
+                //更新現金繳費金額
+                if ($request->is_add == 'add')
+                    $lodging->cash = $lodging->cash + $request->cash;
+                else
+                    $lodging->cash = $request->cash;
+                //重新計算已繳總額
+                $lodging->sum = $lodging->deposit + $lodging->cash;
+                $lodging->save();
+                //update barcode
+                $applicant = $this->applicantService->fillPaymentData($applicant);
+                $applicant->save();
+                $message = "修改完成。";
                 return view("backend.modifyAccounting", compact("applicant", "message"));
             } else {
                 if($admitted_sn == $request->double_check || $applicant->id == $request->double_check) {
