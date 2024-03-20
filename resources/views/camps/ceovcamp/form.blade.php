@@ -88,50 +88,50 @@
             </div>
         </div>
     @endif
-    @if(\Str::contains($batch->name, "開南")）
-    <div class="row form-group required">
-        <label for='inputRegion' class='col-md-2 control-label text-md-right'>區域</label>
-        <div class='col-md-10'>
-            <div class="form-check form-check-inline">
-                <label class="form-check-label" for="Pei">
-                    <input class="form-check-input" type="radio" name="region" value="北區" required>北區
-                    <div class="invalid-feedback">
-                        請選擇區域
-                    </div>
-                </label>
-            </div>
-            <div class="form-check form-check-inline">
-                <label class="form-check-label" for="Chu">
-                    <input class="form-check-input" type="radio" name="region" value="竹區" required>竹區
-                    <div class="invalid-feedback">
-                        &nbsp;
-                    </div>
-                </label>
+    @if(\Str::contains($batch->name, "開南"))
+        <div class="row form-group required">
+            <label for='inputRegion' class='col-md-2 control-label text-md-right'>區域</label>
+            <div class='col-md-10'>
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="Pei">
+                        <input class="form-check-input" type="radio" name="region" value="北區" required>北區
+                        <div class="invalid-feedback">
+                            請選擇區域
+                        </div>
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="Chu">
+                        <input class="form-check-input" type="radio" name="region" value="竹區" required>竹區
+                        <div class="invalid-feedback">
+                            &nbsp;
+                        </div>
+                    </label>
+                </div>
             </div>
         </div>
-    </div>
     @else
-    <div class="row form-group required">
-        <label for='inputRegion' class='col-md-2 control-label text-md-right'>區域</label>
-        <div class='col-md-10'>
-            <div class="form-check form-check-inline">
-                <label class="form-check-label" for="Pei">
-                    <input class="form-check-input" type="radio" name="region" value="中區" required>中區
-                    <div class="invalid-feedback">
-                        請選擇區域
-                    </div>
-                </label>
-            </div>
-            <div class="form-check form-check-inline">
-                <label class="form-check-label" for="Chu">
-                    <input class="form-check-input" type="radio" name="region" value="高區" required>高區
-                    <div class="invalid-feedback">
-                        &nbsp;
-                    </div>
-                </label>
+        <div class="row form-group required">
+            <label for='inputRegion' class='col-md-2 control-label text-md-right'>區域</label>
+            <div class='col-md-10'>
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="Pei">
+                        <input class="form-check-input" type="radio" name="region" value="中區" required>中區
+                        <div class="invalid-feedback">
+                            請選擇區域
+                        </div>
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="Chu">
+                        <input class="form-check-input" type="radio" name="region" value="高區" required>高區
+                        <div class="invalid-feedback">
+                            &nbsp;
+                        </div>
+                    </label>
+                </div>
             </div>
         </div>
-    </div>
     @endif
 
     <hr>
@@ -736,6 +736,7 @@
                 <h6 class='form-control-static text-info'>您已於報名時成功上傳大頭照，為隱私考量，故不在此顯示。</h6>
             @endif
         @endif
+    @else
         <h5 class='form-control-static text-primary'>請選擇正面、清楚、不戴帽、不戴墨鏡、不戴口罩的大頭照上傳</h5>
         <div class='row form-group'>
             <label for='inputAvatar' class='col-md-2 control-label text-md-right'>大頭照</label>
