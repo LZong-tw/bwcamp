@@ -30,7 +30,7 @@
         </p>
         <form action="{{ route("changeBatchOrRegion", $campFullData->id) }}" method="post" class="form-horizontal">
             @csrf
-            <input type="hidden" name="id" value="{{ $candidate->applicant_id }}">
+            <input type="hidden" name="id" value="{{ $candidate->applicant_id ?? $candidate->id }}">
             梯次：
             <select class="form-control" name=batch size=1>
                 @foreach ($batches as $batch)
