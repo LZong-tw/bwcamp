@@ -429,7 +429,7 @@
                                         <td
                                             style="width: 40%;color: var(--bs-body-color);background: rgba(255,255,255,0);border-style: none;">
                                             <span style="color: rgb(0, 0, 0);">公司名稱：&nbsp;</span><input type="text" required name='unit' placeholder='若已退休，請填寫退休前資料'
-                                                style="border-style: none;border-radius: 10px;background: rgba(206,212,218,0.35);padding: 3px 10px; width: 100%;">
+                                                style="border-style: none;border-radius: 10px;background: rgba(206,212,218,0.35);padding: 3px 10px; width: 80%;">
                                         </td>
                                     </tr>
                                     <tr
@@ -460,7 +460,7 @@
                                         <td
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                             <span style="color: rgb(0, 0, 0);">職稱：&nbsp;</span><input type="text" placeholder='若已退休，請填寫退休前資料' required name='title' value='' maxlength="40" 
-                                                style="padding: 3px 10px;border-radius: 10px;border-style: none;background: rgba(206,212,218,0.35); width: 100%;">
+                                                style="padding: 3px 10px;border-radius: 10px;border-style: none;background: rgba(206,212,218,0.35); width: 80%;">
                                         </td>
                                     </tr>
                                     <tr
@@ -498,7 +498,7 @@
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                             <span style="color: rgb(0, 0, 0);">公司員工總數：&nbsp;</span><input
                                                 type="number"  name='employees' value=''  id='inputEmployees' placeholder='請填寫數字，勿填「非數字」'
-                                                style="border-radius: 10px;border-style: none;padding: 3px 10px;background: rgba(206,212,218,0.35); width: 100%;"><span
+                                                style="border-radius: 10px;border-style: none;padding: 3px 10px;background: rgba(206,212,218,0.35); width: 80%;"><span
                                                 style="color: rgb(0, 0, 0);">&nbsp;</span></td>
                                     </tr>
                                     <tr
@@ -507,7 +507,7 @@
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                             <span style="color: rgb(0, 0, 0);">所轄員工人數：&nbsp;</span><input
                                                 type="number" name='direct_managed_employees' value='' id='inputDirectManagedEmployees' placeholder='請填寫數字，勿填「非數字」'
-                                                style="border-radius: 10px;border-style: none;padding: 3px 10px;background: rgba(206,212,218,0.35); width: 100%;">
+                                                style="border-radius: 10px;border-style: none;padding: 3px 10px;background: rgba(206,212,218,0.35); width: 80%;">
                                         </td>
                                     </tr>
                                     <tr
@@ -516,7 +516,7 @@
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                             <span style="color: rgb(0, 0, 0);">資本額（新台幣）：&nbsp;</span><input
                                                 type="number"  name='capital' value='' maxlength="40"  id='inputTitle' placeholder='請填寫數字，勿填「非數字」。請記得選單位。'
-                                                style="border-radius: 10px;border-style: none;padding: 3px 10px;background: rgba(206,212,218,0.35); width: 100%;">
+                                                style="border-radius: 10px;border-style: none;padding: 3px 10px;background: rgba(206,212,218,0.35); width: 80%;">
                                         </td>
                                     </tr>
                                     <tr
