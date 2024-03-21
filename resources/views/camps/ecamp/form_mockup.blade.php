@@ -247,22 +247,22 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td style="width: 40%;color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);">行動電話：</span></strong>&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;color: rgba(255,255,255,0);width: 185px;border-style: none;" required name='mobile' value='' id='inputCell' placeholder='格式：0912345678'></td>
+                                        <td style="width: 40%;color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);">行動電話：</span></strong>&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;width: 185px;border-style: none;" required name='mobile' value='' id='inputCell' placeholder='格式：0912345678'></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);">公司電話：</span></strong>&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;color: rgba(255,255,255,0);width: 185px;border-style: none;"  required name='phone_work' value='' id='inputTelWork' placeholder='格式：0225452546#520'></td>
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);">公司電話：</span></strong>&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;width: 185px;border-style: none;"  required name='phone_work' value='' id='inputTelWork' placeholder='格式：0225452546#520'></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);">住家電話：</span></strong>&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;color: rgba(255,255,255,0);width: 185px;border-style: none;" name='phone_home' value='' id='inputTelHome' placeholder='格式：0225452546#520'></td>
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);">住家電話：</span></strong>&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;width: 185px;border-style: none;" name='phone_home' value='' id='inputTelHome' placeholder='格式：0225452546#520'></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);">LINE ID：&nbsp;&nbsp;</span></strong>&nbsp;<input type="text" style="background: var(--bs-table-bg);border-radius: 10px;color: rgba(255,255,255,0);width: 185px;border-style: none;" name='line' value='' id='inputLineID'></td>
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);">LINE ID：&nbsp;&nbsp;</span></strong>&nbsp;<input type="text" style="background: var(--bs-table-bg);border-radius: 10px;width: 185px;border-style: none;" name='line' value='' id='inputLineID'></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);">微 信 ID：&nbsp;&nbsp;</span></strong>&nbsp;<input type="text" style="background: var(--bs-table-bg);border-radius: 10px;color: rgba(255,255,255,0);width: 185px;border-style: none;" name='wechat' value='' id='inputWeChatID'></td>
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);">微 信 ID：&nbsp;&nbsp;</span></strong>&nbsp;<input type="text" style="background: var(--bs-table-bg);border-radius: 10px;width: 185px;border-style: none;" name='wechat' value='' id='inputWeChatID'></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);">電子郵件信箱：&nbsp;</span></strong><input type="email" style="background: var(--bs-table-bg);border-radius: 10px;width: 100%;color: rgba(255,255,255,0);border-style: none;" required name='email' value=''id='inputEmail' placeholder='請務必填寫正確，以利營隊相關訊息通知'></td>
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);">電子郵件信箱：&nbsp;</span></strong><input type="email" style="background: var(--bs-table-bg);border-radius: 10px;width: 100%;border-style: none;" required name='email' value=''id='inputEmail' placeholder='請務必填寫正確，以利營隊相關訊息通知'></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                         <td style="width: 60%;color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(52, 99, 122);">確認電子郵件信箱：</span></strong><span style="color: rgb(187, 57, 49);">(請再輸入一次)&nbsp;</span><strong><span style="color: rgb(52, 99, 122);">&nbsp;</span></strong><input type="email" style="background: var(--bs-table-bg);border-style: none;border-radius: 10px;width: 100%;"  required name='emailConfirm' value='' id='inputEmailConfirm'></td>
@@ -331,7 +331,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td style="width: 40%;color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(253, 126, 20);">姓　　名：</span></strong><span style="color: rgb(253, 126, 20);">&nbsp;</span><input type="tel" style="background: rgba(206,212,218,0.35);border-radius: 10px;color: rgba(255,255,255,0);width: 150px;border-style: none;border-color: rgb(221,221,221);" name="emergency_name" value='' required></td>
+                                        <td style="width: 40%;color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(253, 126, 20);">姓　　名：</span></strong><span style="color: rgb(253, 126, 20);">&nbsp;</span><input type="tel" style="background: rgba(206,212,218,0.35);border-radius: 10px;width: 150px;border-style: none;border-color: rgb(221,221,221);" name="emergency_name" value='' required></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                         <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(253, 126, 20);">關　　係：</span></strong><span style="color: rgb(253, 126, 20);">&nbsp;</span><select style="border-radius: 5px;border-style: none;padding: 3px;background: rgba(206,212,218,0.35);width: 150px;" name="emergency_relationship" required>
@@ -348,7 +348,7 @@
                                             </select></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(253, 126, 20);">聯絡電話：</span></strong><span style="color: rgb(253, 126, 20);">&nbsp;</span><input type="tel" style="background: rgba(206,212,218,0.35);border-radius: 10px;color: rgba(255,255,255,0);width: 150px;border-style: none;" name="emergency_mobile" value='' required></td>
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(253, 126, 20);">聯絡電話：</span></strong><span style="color: rgb(253, 126, 20);">&nbsp;</span><input type="tel" style="background: rgba(206,212,218,0.35);border-radius: 10px;width: 150px;border-style: none;" name="emergency_mobile" value='' required></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"></tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"></tr>
@@ -368,7 +368,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td style="width: 40%;color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><span style="color: rgb(73, 80, 87);">姓　　名：</span>&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;color: rgba(255,255,255,0);width: 150px;border-style: none;" name="introducer_name" value=''></td>
+                                        <td style="width: 40%;color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><span style="color: rgb(73, 80, 87);">姓　　名：</span>&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;width: 150px;border-style: none;" name="introducer_name" value=''></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                         <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><span style="color: rgb(73, 80, 87);">關　　係：</span>&nbsp;<select style="padding: 3px;border-radius: 5px;border-style: none;width: 150px;" name="introducer_relationship">
@@ -385,10 +385,10 @@
                                             </select></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><span style="color: rgb(73, 80, 87);">聯絡電話：</span>&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;color: rgba(255,255,255,0);width: 150px;border-style: none;" name="introducer_phone"></td>
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><span style="color: rgb(73, 80, 87);">聯絡電話：</span>&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;width: 150px;border-style: none;" name="introducer_phone"></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><span style="color: rgb(73, 80, 87);">福智班別：</span>&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;color: rgba(255,255,255,0);width: 150px;border-style: none;" name="introducer_participated"></td>
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><span style="color: rgb(73, 80, 87);">福智班別：</span>&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;width: 150px;border-style: none;" name="introducer_participated"></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"></tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"></tr>
