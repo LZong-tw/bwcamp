@@ -38,7 +38,7 @@
         <div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><span
                     style="font-family: Abel, sans-serif;color: rgb(46,83,99);"><span
                         style="color: rgb(105, 24, 137);">2024 企業菁英營推薦</span><span
-                        style="color: rgb(154, 0, 0);">（開南梯）</span></span></a><button data-bs-toggle="collapse"
+                        style="color: rgb(154, 0, 0);">（{{ $batch->name }}梯）</span></span></a><button data-bs-toggle="collapse"
                 class="navbar-toggler" data-bs-target="#navcol-1"
                 style="width: 43px;height: 40px;padding: 0px 0px;background: rgba(255,255,255,0.3);"><span
                     class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
