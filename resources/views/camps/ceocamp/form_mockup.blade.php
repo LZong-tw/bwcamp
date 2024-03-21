@@ -516,7 +516,7 @@
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                             <span style="color: rgb(0, 0, 0);">資本額（新台幣）：&nbsp;</span><input
                                                 type="number"  name='capital' value='' maxlength="40"  id='inputTitle' placeholder='請填寫數字，勿填「非數字」。請記得選單位。'
-                                                style="border-radius: 10px;border-style: none;padding: 3px 10px;background: rgba(206,212,218,0.35); width: 80%;">
+                                                style="border-radius: 10px;border-style: none;padding: 3px 10px;background: rgba(206,212,218,0.35); width: 100%;">
                                         </td>
                                     </tr>
                                     <tr
