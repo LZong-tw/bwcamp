@@ -428,7 +428,7 @@
                                     <tr>
                                         <td
                                             style="width: 40%;color: var(--bs-body-color);background: rgba(255,255,255,0);border-style: none;">
-                                            <span style="color: rgb(0, 0, 0);">公司名稱：&nbsp;</span><input type="text"
+                                            <span style="color: rgb(0, 0, 0);">公司名稱：&nbsp;</span><input type="text" required name='unit' placeholder='若已退休，請填寫退休前資料'
                                                 style="border-style: none;border-radius: 10px;background: rgba(206,212,218,0.35);padding: 3px 10px;">
                                         </td>
                                     </tr>
@@ -436,20 +436,30 @@
                                         style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                         <td
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                            <span style="color: rgb(0, 0, 0);">產業別：&nbsp;</span><select
+                                            <span style="color: rgb(0, 0, 0);">產業別：&nbsp;</span>
+                                            <select required name='industry' onChange=''
                                                 style="border-style: none;border-radius: 3px;height: initial;padding: 3px;background: rgba(206,212,218,0.35);">
-                                                <optgroup label="This is a group">
-                                                    <option value="12" selected="">This is item 1</option>
-                                                    <option value="13">This is item 2</option>
-                                                    <option value="14">This is item 3</option>
-                                                </optgroup>
+                                                <option value='' selected>- 請選擇 -</option>
+                                                <option value='電子科技/資訊/軟體/半導體' >電子科技/資訊/軟體/半導體</option>
+                                                <option value='傳產製造' >傳產製造</option>
+                                                <option value='金融/保險/貿易' >金融/保險/貿易</option>
+                                                <option value='法律/會計/顧問' >法律/會計/顧問</option>
+                                                <option value='政治/宗教/社福' >政治/宗教/社福</option>
+                                                <option value='建築/營造/不動產' >建築/營造/不動產</option>
+                                                <option value='醫師/藥師/藥廠/醫療照護' >醫師/藥師/藥廠/醫療照護</option>
+                                                <option value='民生服務業' >民生服務業</option>
+                                                <option value='廣告/傳播/出版' >廣告/傳播/出版</option>
+                                                <option value='教育' >教育</option>
+                                                <option value='設計/藝術/文創' >設計/藝術/文創</option>
+                                                <option value='非營利組織' >非營利組織</option>
+                                                <option value='其它' >其它</option>
                                             </select></td>
                                     </tr>
                                     <tr
                                         style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                         <td
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                            <span style="color: rgb(0, 0, 0);">職稱：&nbsp;</span><input type="text"
+                                            <span style="color: rgb(0, 0, 0);">職稱：&nbsp;</span><input type="text" placeholder='若已退休，請填寫退休前資料' required name='title' value='' maxlength="40" 
                                                 style="padding: 3px 10px;border-radius: 10px;border-style: none;background: rgba(206,212,218,0.35);">
                                         </td>
                                     </tr>
@@ -457,21 +467,37 @@
                                         style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                         <td
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                            <span style="color: rgb(0, 0, 0);">職務類型：&nbsp;</span><select
+                                            <span style="color: rgb(0, 0, 0);">職務類型：&nbsp;</span><select required  name='job_property' onChange=''
                                                 style="border-radius: 3px;border-style: none;padding: 3px;background: rgba(206,212,218,0.35);">
-                                                <optgroup label="This is a group">
-                                                    <option value="12" selected="">This is item 1</option>
-                                                    <option value="13">This is item 2</option>
-                                                    <option value="14">This is item 3</option>
-                                                </optgroup>
-                                            </select></td>
+                                                    <option value='' selected>- 請選擇 -</option>
+                                                    <option value='負責人/公司經營管理' >負責人/公司經營管理</option>
+                                                    <option value='人資' >人資</option>
+                                                    <option value='行政/總務' >行政/總務</option>
+                                                    <option value='法務' >法務</option>
+                                                    <option value='財會/金融' >財會/金融</option>
+                                                    <option value='行銷/企劃' >行銷/企劃</option>
+                                                    <option value='專案管理' >專案管理</option>
+                                                    <option value='客服/門市' >客服/門市</option>
+                                                    <option value='業務/貿易' >業務/貿易</option>
+                                                    <option value='資訊軟體/研發' >資訊軟體/研發</option>
+                                                    <option value='生產製造/品管/環衛' >生產製造/品管/環衛</option>
+                                                    <option value='物流/運輸' >物流/運輸</option>
+                                                    <option value='建築/營建' >建築/營建</option>
+                                                    <option value='影視演藝/幕後製作' >影視演藝/幕後製作</option>
+                                                    <option value='藝術創作/視覺設計' >藝術創作/視覺設計</option>
+                                                    <option value='文字創作/傳媒工作' >文字創作/傳媒工作</option>
+                                                    <option value='醫療/保健服務' >醫療/保健服務</option>
+                                                    <option value='學術/教育輔導' >學術/教育輔導</option>
+                                                    <option value='軍警消/保全' >軍警消/保全</option>
+                                                    <option value='其它' >其它</option>
+                                                </select></td>
                                     </tr>
                                     <tr
                                         style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                         <td
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                             <span style="color: rgb(0, 0, 0);">公司員工總數：&nbsp;</span><input
-                                                type="number"
+                                                type="number"  name='employees' value=''  id='inputEmployees' placeholder='請填寫數字，勿填「非數字」'
                                                 style="border-radius: 10px;border-style: none;padding: 3px 10px;background: rgba(206,212,218,0.35);"><span
                                                 style="color: rgb(0, 0, 0);">&nbsp;</span></td>
                                     </tr>
@@ -480,7 +506,7 @@
                                         <td
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                             <span style="color: rgb(0, 0, 0);">所轄員工人數：&nbsp;</span><input
-                                                type="number"
+                                                type="number" name='direct_managed_employees' value='' id='inputDirectManagedEmployees' placeholder='請填寫數字，勿填「非數字」'
                                                 style="border-radius: 10px;border-style: none;padding: 3px 10px;background: rgba(206,212,218,0.35);">
                                         </td>
                                     </tr>
@@ -489,7 +515,7 @@
                                         <td
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                             <span style="color: rgb(0, 0, 0);">資本額（新台幣）：&nbsp;</span><input
-                                                type="number"
+                                                type="number"  name='capital' value='' maxlength="40"  id='inputTitle' placeholder='請填寫數字，勿填「非數字」。請記得選單位。'
                                                 style="border-radius: 10px;border-style: none;padding: 3px 10px;background: rgba(206,212,218,0.35);">
                                         </td>
                                     </tr>
@@ -497,12 +523,10 @@
                                         style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                         <td
                                             style="width: 60%;color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                            <span style="color: rgb(0, 0, 0);">資本額單位：&nbsp;</span><input
-                                                type="radio">&nbsp;<span
-                                                style="color: rgb(0, 0, 0);">元　</span><input type="radio"><span
-                                                style="color: rgb(0, 0, 0);">&nbsp;萬元　</span><input
-                                                type="radio"><span style="color: rgb(0, 0, 0);"> 億元</span><span
-                                                style="color: rgb(201, 81, 143);">〔資本額填寫說明〕如資本額為500萬元，請在資本額欄位填寫500，單位選「萬元」；如資本額為1000億元，請在資本額欄位填寫1000，單位選「億元」。</span>
+                                            <span style="color: rgb(0, 0, 0);">資本額單位：&nbsp;</span>
+                                                <input type="radio" name='capital_unit' value='元' checked>&nbsp;<span style="color: rgb(0, 0, 0);">元　</span>
+                                                <input name='capital_unit' value='萬元' checked type="radio"><span style="color: rgb(0, 0, 0);">&nbsp;萬元　</span>
+                                                <input name='capital_unit' value='億元' checked type="radio"><span style="color: rgb(0, 0, 0);"> 億元</span><span style="color: rgb(201, 81, 143);">〔資本額填寫說明〕如資本額為500萬元，請在資本額欄位填寫500，單位選「萬元」；如資本額為1000億元，請在資本額欄位填寫1000，單位選「億元」。</span>
                                         </td>
                                     </tr>
                                     <tr
@@ -510,15 +534,20 @@
                                         <td
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                             <span
-                                                style="color: rgb(0, 0, 0); background-color: rgba(253, 126, 20, 0);">公司/組織形式：&nbsp;</span><input
+                                                style="color: rgb(0, 0, 0); background-color: rgba(253, 126, 20, 0);">公司/組織形式：&nbsp;</span>
+                                                <input  required name='org_type' value='私人公司'
                                                 type="radio"><span
-                                                style="color: rgb(0, 0, 0); background-color: rgba(253, 126, 20, 0);">&nbsp;私人公司　</span><input
+                                                style="color: rgb(0, 0, 0); background-color: rgba(253, 126, 20, 0);">&nbsp;私人公司　</span>
+                                                <input  required name='org_type' value='專業領域(例醫生、作家⋯)'
                                                 type="radio"><span
-                                                style="color: rgb(0, 0, 0); background-color: rgba(253, 126, 20, 0);">&nbsp;專業領域(例醫生、作家⋯)&nbsp;&nbsp;　</span><input
+                                                style="color: rgb(0, 0, 0); background-color: rgba(253, 126, 20, 0);">&nbsp;專業領域(例醫生、作家⋯)&nbsp;&nbsp;　</span>
+                                                <input required name='org_type' value='政府部門/公營事業'
                                                 type="radio"><span
                                                 style="color: rgb(0, 0, 0); background-color: rgba(253, 126, 20, 0);">
-                                                政府部門/公營事業　</span><input type="radio"><span
-                                                style="color: rgb(0, 0, 0); background-color: rgba(253, 126, 20, 0);">&nbsp;非政府/非營利組織　</span><input
+                                                政府部門/公營事業　</span>
+                                                <input required name='org_type' value='非政府/非營利組織' type="radio"><span
+                                                style="color: rgb(0, 0, 0); background-color: rgba(253, 126, 20, 0);">&nbsp;非政府/非營利組織　</span>
+                                                <input required name='org_type' value='其它'
                                                 type="radio"><span
                                                 style="color: rgb(0, 0, 0); background-color: rgba(253, 126, 20, 0);">&nbsp;其它</span>
                                         </td>
@@ -527,11 +556,13 @@
                                         style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                         <td
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                            <span style="color: rgb(0, 0, 0);">公司成立幾年：&nbsp;</span><input
+                                            <span style="color: rgb(0, 0, 0);">公司成立幾年：&nbsp;</span><input  name='years_operation' value='10年以上' 
                                                 type="radio"><span
-                                                style="color: rgb(0, 0, 0); background-color: rgba(253, 126, 20, 0);">&nbsp;10年以上　&nbsp;</span><input
+                                                style="color: rgb(0, 0, 0); background-color: rgba(253, 126, 20, 0);">&nbsp;10年以上　&nbsp;</span>
+                                                <input  name='years_operation' value='5年~10年'
                                                 type="radio"><span
-                                                style="color: rgb(0, 0, 0); background-color: rgba(253, 126, 20, 0);">&nbsp;5年~10年　</span><input
+                                                style="color: rgb(0, 0, 0); background-color: rgba(253, 126, 20, 0);">&nbsp;5年~10年　</span>
+                                                <input  name='years_operation' value='5年以下'
                                                 type="radio"><span
                                                 style="color: rgb(0, 0, 0); background-color: rgba(253, 126, 20, 0);">&nbsp;5年以下</span>
                                         </td>
@@ -548,9 +579,9 @@
                             style="color: rgb(96, 18, 72);">個人資料：</span></strong><span
                         style="color: rgb(0, 0, 0); background-color: rgba(253, 126, 20, 0);">為落實個人資料之保護，主辦單位於本次營隊活動，將利用被推薦人所提供個人資料通知被推薦人本次營隊活動相關行政、訊息之非營利目的使用。同意期間自被推薦人同意參加活動之日起，至被推薦人提出刪除日止。營隊活動期間由主辦單位保存被推薦人的個人資料，以作為被推薦人、主辦單位查詢、確認證明之用。</span><br><span
                         style="color: rgb(0, 0, 0); background-color: rgba(253, 126, 20, 0);">主辦單位於本次營隊取得之個人資料，不會未經被推薦人以言詞、書面、電話、簡訊、電子郵件、傳真、電子文件等方式同意提供給第三單位使用。&nbsp;</span><br><br><input
-                        type="radio">&nbsp;<strong><span style="color: rgb(96, 18, 72);">被推薦人</span><span
+                        type="radio" required name="profile_agree" value='1' checked>&nbsp;<strong><span style="color: rgb(96, 18, 72);">被推薦人</span><span
                             style="color: rgb(96, 18, 72);">同意</span></strong>　　<input
-                        type="radio">&nbsp;<strong><span style="color: rgb(96, 18, 72);">被推薦人不同意</span></strong></p>
+                        type="radio" required name="profile_agree" value='0'>&nbsp;<strong><span style="color: rgb(96, 18, 72);">被推薦人不同意</span></strong></p>
             </div>
             <div class="col" style="text-align: center;"><button class="btn btn-warning" type="reset"
                     style="border-style: none;border-radius: 20px;box-shadow: 1px 1px 5px rgba(0,0,0,0.4);padding: 8px 20px;margin: 10px;background: rgb(238,194,222);"><span
