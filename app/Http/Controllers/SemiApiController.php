@@ -97,6 +97,9 @@ class SemiApiController extends Controller
         $campId = $request->input('camp_id');
         $nodeId = $request->input('node_id');
         $target_org = CampOrg::find($nodeId);
+        if(!$target_org) {
+            return response()->json([]);
+        }
         $orgs = $this->backendService
                     ->getCampOrganizations(Camp::findOrFail($campId));
         $orgs = $orgs->filter(function ($org) use ($target_org) {
