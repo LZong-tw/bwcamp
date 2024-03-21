@@ -699,6 +699,7 @@ class BackendController extends Controller
             $message = "梯次 / 區域修改完成。";
             $batches = Batch::where('camp_id', $this->campFullData->id)->get();
             $regions = $this->campFullData->regions;
+            $candidate = $candidate->fresh();
             return view('backend.registration.changeBatchOrRegionForm', compact('candidate', 'message', 'batches', 'regions'));
         } else {
             return view("backend.registration.changeBatchOrRegion");
