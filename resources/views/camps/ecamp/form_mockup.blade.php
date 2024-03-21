@@ -216,7 +216,7 @@
                 <div class="col">
                     <div class="card border-light border-1 d-flex p-4" style="background: rgb(255,231,214);border-radius: 30px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;text-align: left;">
                         <h1 style="font-size: xx-large;">您的經歷</h1>
-                        <div class="table-responsive" style="width: 98%;">
+                        <div class="" style="width: 98%;">
                             <table class="table">
                                 <thead>
                                     <tr></tr>
