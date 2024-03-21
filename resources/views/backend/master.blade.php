@@ -29,6 +29,25 @@
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('vendor/livewire/livewire.js') }}"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script
+    src="https://js.sentry-cdn.com/f6b44d1c46934ae4876d372cf7b5863d.min.js"
+    crossorigin="anonymous"
+    ></script>
+    <script>
+        Sentry.onLoad(function() {
+            Sentry.init({
+            integrations: [
+                Sentry.replayIntegration({
+                maskAllText: false,
+                blockAllMedia: false,
+                }),
+            ],
+            // Session Replay
+            replaysSessionSampleRate: 0.5, // This sets the sample rate at 10%. You may want to change it to 100% while in development and then sample at a lower rate in production.
+            replaysOnErrorSampleRate: 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
+            });
+        });
+    </script>
     <style>
         .card-link{
             color: #3F86FB!important;
