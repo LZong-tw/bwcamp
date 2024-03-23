@@ -101,7 +101,7 @@
             @else
                 <div class="form-check form-check-inline">
                     <label class="form-check-label" for="Pei">
-                        <input class="form-check-input" type="radio" name="region" value="北區" required>北區
+                        <input class="form-check-input" type="radio" name="region" value="中區" required>中區
                         <div class="invalid-feedback">
                             請選擇區域
                         </div>
@@ -109,7 +109,7 @@
                 </div>
                 <div class="form-check form-check-inline">
                     <label class="form-check-label" for="Chu">
-                        <input class="form-check-input" type="radio" name="region" value="竹區" required>竹區
+                        <input class="form-check-input" type="radio" name="region" value="高區" required>高區
                         <div class="invalid-feedback">
                             &nbsp;
                         </div>
