@@ -81,22 +81,41 @@
     <div class="row form-group required">
         <label for='inputRegion' class='col-md-2 control-label text-md-right'>區域</label>
         <div class='col-md-10'>
-            <div class="form-check form-check-inline">
-                <label class="form-check-label" for="Pei">
-                    <input class="form-check-input" type="radio" name="region" value="北區" required>北區
-                    <div class="invalid-feedback">
-                        請選擇區域
-                    </div>
-                </label>
-            </div>
-            <div class="form-check form-check-inline">
-                <label class="form-check-label" for="Chu">
-                    <input class="form-check-input" type="radio" name="region" value="竹區" required>竹區
-                    <div class="invalid-feedback">
-                        &nbsp;
-                    </div>
-                </label>
-            </div>
+            @if(str_contains($batch->name, "開南"))
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="Pei">
+                        <input class="form-check-input" type="radio" name="region" value="北區" required>北區
+                        <div class="invalid-feedback">
+                            請選擇區域
+                        </div>
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="Chu">
+                        <input class="form-check-input" type="radio" name="region" value="竹區" required>竹區
+                        <div class="invalid-feedback">
+                            &nbsp;
+                        </div>
+                    </label>
+                </div>
+            @else
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="Pei">
+                        <input class="form-check-input" type="radio" name="region" value="北區" required>北區
+                        <div class="invalid-feedback">
+                            請選擇區域
+                        </div>
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="Chu">
+                        <input class="form-check-input" type="radio" name="region" value="竹區" required>竹區
+                        <div class="invalid-feedback">
+                            &nbsp;
+                        </div>
+                    </label>
+                </div>
+            @endif
         </div>
     </div>
     <hr>
