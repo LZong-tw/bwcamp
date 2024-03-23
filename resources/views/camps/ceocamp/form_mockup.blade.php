@@ -87,7 +87,7 @@
                                         <td
                                             style="width: 40%;color: rgb(67,36,18);background: rgba(255,255,255,0);border-style: none;font-size: large;">
                                             推薦人姓名：&nbsp;<input type="tel"
-                                                style="background: var(--bs-table-bg);border-radius: 10px;color: rgba(255,255,255,0);width: 240px;border-style: none;font-size: large;"
+                                                style="background: var(--bs-table-bg);border-radius: 10px;width: 240px;border-style: none;font-size: large;"
                                                 placeholder="請填寫推薦人姓名" name="introducer_name" required></td>
                                     </tr>
                                     <tr
@@ -96,7 +96,7 @@
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;font-size: large;">
                                             <span style="color: rgb(67, 36, 18);">廣 論 班 別：&nbsp;&nbsp;</span><input
                                                 type="tel"
-                                                style="background: var(--bs-table-bg);border-radius: 10px;color: rgba(255,255,255,0);width: 240px;border-style: none;font-size: large;"
+                                                style="background: var(--bs-table-bg);border-radius: 10px;width: 240px;border-style: none;font-size: large;"
                                                 name="introducer_relationship" placeholder="請填寫廣論班別" required></td>
                                     </tr>
                                     <tr
@@ -105,7 +105,7 @@
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;font-size: large;">
                                             <span style="color: rgb(67, 36, 18);">手 機 號 碼：&nbsp;&nbsp;</span><input
                                                 type="tel"
-                                                style="background: var(--bs-table-bg);border-radius: 10px;color: rgba(255,255,255,0);width: 240px;border-style: none;font-size: large;"
+                                                style="background: var(--bs-table-bg);border-radius: 10px;width: 240px;border-style: none;font-size: large;"
                                                 name="introducer_phone" placeholder="格式：0912345678" required></td>
                                     </tr>
                                     <tr
@@ -135,7 +135,7 @@
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;font-size: large;">
                                             <span style="color: rgb(67, 36, 18);">推薦人電子郵件信箱：&nbsp;</span><input
                                                 type="email"
-                                                style="background: var(--bs-table-bg);border-radius: 10px;width: 100%;color: rgba(255,255,255,0);border-style: none;"
+                                                style="background: var(--bs-table-bg);border-radius: 10px;width: 100%;border-style: none;"
                                                 name='introducer_email'></td>
                                     </tr>
                                     <tr
@@ -377,7 +377,7 @@
                                             <span style="color: rgb(0, 0, 0);">LINE ID：&nbsp;&nbsp;</span><input
                                                 type="text"
                                                 name='line'
-                                                style="background: rgba(206,212,218,0.35);border-radius: 10px;color: rgba(255,255,255,0);width: 150px;border-style: none;padding: 3px 10px;">
+                                                style="background: rgba(206,212,218,0.35);border-radius: 10px;width: 150px;border-style: none;padding: 3px 10px;">
                                         </td>
                                     </tr>
                                     <tr
