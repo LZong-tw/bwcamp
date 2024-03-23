@@ -137,8 +137,8 @@
                                             </select>&nbsp;</td>
                                     </tr>
                                     <tr style="background: rgba(255,255,255,0);">
-                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);">所&nbsp; 在&nbsp; 地：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;background: var(--bs-table-bg);" required name='unit_location' onChange='SchooList(this.options[this.options.selectedIndex].value);'>
-                                                <option value='' selected>- 請選擇 -</option>
+                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);">所&nbsp; 在&nbsp; 地：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;background: var(--bs-table-bg);" required name='county' onChange='Address(this.options[this.options.selectedIndex].value);'>
+                                                <option value='' selected>- 先選縣市 -</option>
                                                 <option value='' disabled>- 北區 -</option>
                                                 <option value='臺北市' >臺北市</option>
                                                 <option value='新北市' >新北市</option>
@@ -171,6 +171,15 @@
                                                 <option value='星馬地區' >大陸其它區</option>
                                                 <option value='其它海外' >其它海外</option>
                                             </select></td>
+                                    </tr>
+                                    <tr style="background: rgba(255,255,255,0);">
+                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);">行&nbsp; 政&nbsp; 區：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;background: var(--bs-table-bg);" required name='subarea' onChange='document.Camp.unit_location.value=MyAddress(document.Camp.county.value, this.options[this.options.selectedIndex].text);'>
+                                                <option value=''>- 再選區鄉鎮 -</option>
+                                            </select>
+                                            <input type='hidden' name='zipcode' value='' id='inputUnitLocation'> 
+                                            <input type='hidden' name='address' value='' id='inputUnitLocation'>
+                                            <input type="hidden" name='unit_location' value='' id='inputUnitLocation'>
+                                            </td>
                                     </tr>
                                     <tr style="border-style: none;background: rgba(255,255,255,0);">
                                         <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);">職　　稱：&nbsp;</span></strong><input type="text" style="background: var(--bs-table-bg);border-radius: 10px;width: 140px;border-style: none;" required name='title' value='' maxlength="40" id='inputTitle'>&nbsp;&nbsp;</td>
