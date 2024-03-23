@@ -312,7 +312,7 @@
                                         <td
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                             <span style="color: rgb(0, 0, 0);">電子信箱：&nbsp;</span><input type="email"
-                                                style="background: rgba(206,212,218,0.35);border-radius: 10px;width: 100%;color: rgba(255,255,255,0);border-style: none;padding: 3px 10px;"
+                                                style="background: rgba(206,212,218,0.35);border-radius: 10px;width: 100%;border-style: none;padding: 3px 10px;"
                                                 required name='email' value='' id='inputEmail' placeholder='請務必填寫正確，以利營隊相關訊息通知'>
                                         </td>
                                     </tr>
