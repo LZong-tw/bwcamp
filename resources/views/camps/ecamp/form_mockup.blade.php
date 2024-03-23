@@ -45,7 +45,7 @@
         </div>
     </nav>
     <header class="pt-5"></header>
-    <section style="text-align: center;"><img src="{{ asset("mockup-assets/ecamp/img/illustrations/報名banner.png") }}" style="width: 100%;margin: initial;padding: initial;">
+    <section style="text-align: center;"><img src="{{ asset("img/2024ecampBANNER_1024x300.png") }}" style="width: 100%;margin: initial;padding: initial;">
     {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
     @if(!isset($isModify) || $isModify)
         <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form'>
