@@ -29,12 +29,13 @@
 @if(!isset($isModify) && !isset($batch_id_from))
     <hr>
     <h5 class='form-control-static text-warning bg-secondary'>若您曾報名2023年菁英營義工，請點選下面連結，查詢並使用2023年菁英營義工報名資料<br>
-    <a href="{{ route('query', 110) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary">＊<u>北區</u>＊</a>
-    <a href="{{ route('query', 112) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary">＊<u>竹區</u>＊</a>
-    <!--
-    <a href="{{ route('query', 113) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"> ＊中區＊</a>
-    <a href="{{ route('query', 134) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"> ＊高區＊</a>
-    -->
+        @if(str_contains($batch->name, "開南"))
+            <a href="{{ route('query', 110) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary">＊<u>北區</u>＊</a>
+            <a href="{{ route('query', 112) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary">＊<u>竹區</u>＊</a>
+        @else
+            <a href="{{ route('query', 113) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"> ＊中區＊</a>
+            <a href="{{ route('query', 134) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"> ＊高區＊</a>
+        @endif
     </h5>
     <hr>
 @endif
