@@ -199,6 +199,20 @@
                                                             style="color: rgb(105, 57, 62); background-color: rgba(220, 220, 220, 0);">。</span></strong>
                                                 </td>
                                             </tr>
+
+                                            @if (str_contains($batch->name, "開南"))
+                                                <tr>
+                                                    <td
+                                                        style="font-size: larger;background: rgba(255,255,255,0);padding: 5px 40px;border-style: none;border-color: rgb(255,255,255);">
+                                                        <strong><span
+                                                                style="color: rgb(105, 57, 62); background-color: rgba(220, 220, 220, 0);">3.
+                                                            </span><span
+                                                                style="color: rgb(96, 40, 117); background-color: rgba(220, 220, 220, 0);">知悉並告知被推薦人：本營隊費用為NT$6,000元（包含食宿，安排鄰近開南大學之飯店雙人房，欲住宿單人房者加收NT$1,650元）。</span></strong>
+                                                    </td>
+                                                </tr>
+                                            @endif
+
+
                                             <tr>
                                                 <td
                                                     style="font-size: initial;background: rgba(201,81,143,0.3);padding: 5px 40px;border-style: none;border-color: rgb(255,255,255);border-radius: 30px;">
