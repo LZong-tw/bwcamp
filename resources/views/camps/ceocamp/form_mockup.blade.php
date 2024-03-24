@@ -86,7 +86,7 @@
                                     <tr>
                                         <td
                                             style="width: 40%;color: rgb(67,36,18);background: rgba(255,255,255,0);border-style: none;font-size: large;">
-                                            推薦人姓名：&nbsp;<input type="tel"
+                                            推薦人姓名：&nbsp;<input type="text"
                                                 style="background: var(--bs-table-bg);border-radius: 10px;width: 240px;border-style: none;font-size: large;"
                                                 placeholder="請填寫推薦人姓名" name="introducer_name" required></td>
                                     </tr>
@@ -95,7 +95,7 @@
                                         <td
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;font-size: large;">
                                             <span style="color: rgb(67, 36, 18);">廣 論 班 別：&nbsp;&nbsp;</span><input
-                                                type="tel"
+                                                type="text"
                                                 style="background: var(--bs-table-bg);border-radius: 10px;width: 240px;border-style: none;font-size: large;"
                                                 name="introducer_relationship" placeholder="請填寫廣論班別" required></td>
                                     </tr>
