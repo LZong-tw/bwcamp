@@ -340,7 +340,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td style="width: 40%;color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(253, 126, 20);">姓　　名：</span></strong><span style="color: rgb(253, 126, 20);">&nbsp;</span><input type="tel" style="background: rgba(206,212,218,0.35);border-radius: 10px;width: 150px;border-style: none;border-color: rgb(221,221,221);" name="emergency_name" value='' required></td>
+                                        <td style="width: 40%;color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(253, 126, 20);">姓　　名：</span></strong><span style="color: rgb(253, 126, 20);">&nbsp;</span><input type="text" style="background: rgba(206,212,218,0.35);border-radius: 10px;width: 150px;border-style: none;border-color: rgb(221,221,221);" name="emergency_name" value='' required></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                         <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(253, 126, 20);">關　　係：</span></strong><span style="color: rgb(253, 126, 20);">&nbsp;</span><select style="border-radius: 5px;border-style: none;padding: 3px;background: rgba(206,212,218,0.35);width: 150px;" name="emergency_relationship" required>
@@ -377,7 +377,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td style="width: 40%;color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><span style="color: rgb(73, 80, 87);">姓　　名：</span>&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;width: 150px;border-style: none;" name="introducer_name" value=''></td>
+                                        <td style="width: 40%;color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><span style="color: rgb(73, 80, 87);">姓　　名：</span>&nbsp;<input type="text" style="background: var(--bs-table-bg);border-radius: 10px;width: 150px;border-style: none;" name="introducer_name" value=''></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                         <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><span style="color: rgb(73, 80, 87);">關　　係：</span>&nbsp;<select style="padding: 3px;border-radius: 5px;border-style: none;width: 150px;" name="introducer_relationship">
@@ -397,7 +397,7 @@
                                         <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><span style="color: rgb(73, 80, 87);">聯絡電話：</span>&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;width: 150px;border-style: none;" name="introducer_phone"></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><span style="color: rgb(73, 80, 87);">福智班別：</span>&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;width: 150px;border-style: none;" name="introducer_participated"></td>
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><span style="color: rgb(73, 80, 87);">福智班別：</span>&nbsp;<input type="text" style="background: var(--bs-table-bg);border-radius: 10px;width: 150px;border-style: none;" name="introducer_participated"></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"></tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"></tr>
