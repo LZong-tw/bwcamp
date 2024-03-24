@@ -214,17 +214,13 @@
 
 
                                             <tr>
-                                                <td
-                                                    style="font-size: initial;background: rgba(201,81,143,0.3);padding: 5px 40px;border-style: none;border-color: rgb(255,255,255);border-radius: 30px;">
-                                                    <span
-                                                        style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">若有需要，可下載&nbsp;</span><a
-                                                        href="https://bwcamp.bwfoce.org/downloads/ceocamp2023/2023%E8%8F%81%E8%8B%B1%E7%87%9F%E5%AD%B8%E5%93%A1%E6%8E%A8%E8%96%A6%E8%A1%A8v2.docx"><strong><span
-                                                                style="color: rgb(150, 59, 106); background-color: rgba(220, 220, 220, 0);">學員推薦表WORD檔</span></strong></a>&nbsp;<span
-                                                        style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">或&nbsp;</span><a
-                                                        href="https://bwcamp.bwfoce.org/downloads/ceocamp2023/2023%E8%8F%81%E8%8B%B1%E7%87%9F%E5%AD%B8%E5%93%A1%E6%8E%A8%E8%96%A6%E8%A1%A8v2.pdf"><strong><span
-                                                                style="color: rgb(150, 59, 106); background-color: rgba(220, 220, 220, 0);">學員推薦表PDF檔</span></strong></a><span
-                                                        style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">，
-                                                        請被推薦人提供資料，做為填寫此表單的依據。</span></td>
+                                                <td style="font-size: initial;background: rgba(201,81,143,0.3);padding: 5px 40px;border-style: none;border-color: rgb(255,255,255);border-radius: 30px;">
+                                                    @if (str_contains($batch->name, "開南"))
+                                                        <span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">若有需要，可下載&nbsp;</span><a href="{{ url("downloads/ceocamp2024/2024菁英營學員推薦表_開南.docx") }}"><strong><span style="color: rgb(150, 59, 106); background-color: rgba(220, 220, 220, 0);">學員推薦表WORD檔</span></strong></a>&nbsp;<span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">或&nbsp;</span><a href="{{ url("downloads/ceocamp2024/2024菁英營學員推薦表_開南.pdf") }}"><strong><span style="color: rgb(150, 59, 106); background-color: rgba(220, 220, 220, 0);">學員推薦表PDF檔</span></strong></a><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">， 請被推薦人提供資料，做為填寫此表單的依據。</span>
+                                                    @else
+                                                        <span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">若有需要，可下載&nbsp;</span><a href="{{ url("downloads/ceocamp2024/2024菁英營學員推薦表_勤益.docx") }}"><strong><span style="color: rgb(150, 59, 106); background-color: rgba(220, 220, 220, 0);">學員推薦表WORD檔</span></strong></a>&nbsp;<span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">或&nbsp;</span><a href="{{ url("downloads/ceocamp2024/2024菁英營學員推薦表_勤益.pdf") }}"><strong><span style="color: rgb(150, 59, 106); background-color: rgba(220, 220, 220, 0);">學員推薦表PDF檔</span></strong></a><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">， 請被推薦人提供資料，做為填寫此表單的依據。</span>
+                                                    @endif
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
