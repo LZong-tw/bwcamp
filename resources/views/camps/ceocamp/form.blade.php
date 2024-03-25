@@ -24,8 +24,8 @@
             竹區：邱雍凌 0922437236、陳沛安 0921625305<br>
         {{--@elseif($batch->name == '中區') --}}
             中區：陳淑惠 0972087070，王翠玉 0937308673<br>
-        {{--@elseif($batch->name == '高區')
-            高區：陳文豪 0911-705-602<br>--}}
+        {{--@elseif($batch->name == '高區')--}}
+            高區：陳瑛霞 0922208027<br>
         {{--@else
         @endif--}}
     </div>
@@ -509,10 +509,10 @@
             </div>
         </div>`;
 
-        if (show == 0) { 
-        document.getElementById('div_lrclass').innerHTML = ''; 
-        } else { 
-        document.getElementById('div_lrclass').innerHTML = show_lrclass; 
+        if (show == 0) {
+        document.getElementById('div_lrclass').innerHTML = '';
+        } else {
+        document.getElementById('div_lrclass').innerHTML = show_lrclass;
         }
     }
     </script>
