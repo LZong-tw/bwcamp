@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aboreto&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alegreya+Sans&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans&amp;display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+Chorasmian&amp;display=swap">    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+Chorasmian&amp;display=swap">
     @include('partials.counties_areas_script')
 </head>
 
@@ -60,7 +60,7 @@
         <div class="container">
             <p style="text-align: left;margin: 0px;"><span
                     style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">若您在填寫表格時遇到困難，請洽詢：</span>北區—陳美蒨
-                0958367318、陳尚耀 0966891868、吳宜芯 0910123257｜竹區—邱雍凌 0922437236、陳沛安 0921625305</p>
+                0958367318、陳尚耀 0966891868、吳宜芯 0910123257｜竹區—邱雍凌 0922437236、陳沛安 0921625305｜中區—陳淑惠 0972087070、王翠玉 0937308673｜高區—陳瑛霞 0922208027</p>
         </div>
         <div class="container py-4 py-xl-5">
             {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
@@ -342,7 +342,7 @@
                                         <td
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                             <span style="color: rgb(0, 0, 0);">通訊地址：&nbsp;</span>
-                                                <select name="county" 
+                                                <select name="county"
                                                     style="border-style: none;border-radius: 10px;width: 80px;background: rgba(206,212,218,0.35);padding: 3px;" onChange="Address(this.options[this.options.selectedIndex].value);">
                                                     <option value=''>先選縣市</option>
                                                     <option value='臺北市'>臺北市</option>
@@ -469,7 +469,7 @@
                                         style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                         <td
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                            <span style="color: rgb(0, 0, 0);">職稱：&nbsp;</span><input type="text" placeholder='若已退休，請填寫退休前資料' required name='title' value='' maxlength="40" 
+                                            <span style="color: rgb(0, 0, 0);">職稱：&nbsp;</span><input type="text" placeholder='若已退休，請填寫退休前資料' required name='title' value='' maxlength="40"
                                                 style="padding: 3px 10px;border-radius: 10px;border-style: none;background: rgba(206,212,218,0.35); width: 80%;">
                                         </td>
                                     </tr>
@@ -566,7 +566,7 @@
                                         style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                         <td
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                            <span style="color: rgb(0, 0, 0);">公司成立幾年：&nbsp;</span><input  name='years_operation' value='10年以上' 
+                                            <span style="color: rgb(0, 0, 0);">公司成立幾年：&nbsp;</span><input  name='years_operation' value='10年以上'
                                                 type="radio"><span
                                                 style="color: rgb(0, 0, 0); background-color: rgba(253, 126, 20, 0);">&nbsp;10年以上　&nbsp;</span>
                                                 <input  name='years_operation' value='5年~10年'
