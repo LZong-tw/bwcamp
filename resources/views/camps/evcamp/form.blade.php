@@ -257,7 +257,7 @@
 
     <div class='row form-group required'> 
     <label for='inputLRClass' class='col-md-2 control-label text-md-right'>廣論研討班別</label>
-        <div class='col-md-10'>
+        <div class='col-md-10 form-inline'>
             <div class='col-auto'>
                 {{-- 區域別(北、桃、竹、中、嘉、南、高、園)；年度(10~24)；班階(宗、備、善、增、春、秋)；班號(自填) --}}
                 <select required class='form-control' name='lrRegion' onchange="if(this.value == ''){ document.getElementById('inputLRClass').value = ''; } else {document.getElementById('inputLRClass').value = this.value;}">
@@ -281,7 +281,7 @@
                 </select>
             </div>
             <div class='col-auto'>
-                <select required class='form-control col-md-2' name='lrRank' onchange="if(this.value == ''){ document.getElementById('inputLRClass').value = ''; } else {document.getElementById('inputLRClass').value = document.Camp.lrRegion.value + document.Camp.lrYear.value + this.value;}">
+                <select required class='form-control' name='lrRank' onchange="if(this.value == ''){ document.getElementById('inputLRClass').value = ''; } else {document.getElementById('inputLRClass').value = document.Camp.lrRegion.value + document.Camp.lrYear.value + this.value;}">
                     <option value=''>- 班階 -</option>
                     <option value='宗'>宗</option>
                     <option value='備'>備</option>
@@ -292,11 +292,11 @@
                 </select>
             </div>
             <div class='col-auto'>
-                <input type='tel' required name='lrclassNumber' placeholder='班號' class='form-control col-md-2' id='inputLRClassNumber' onKeyUp="if(document.Camp.lrclassNumber.value == ''){ document.Camp.lrclass.value = ''; } else {document.getElementById('inputLRClass').value = document.Camp.lrRegion.value + document.Camp.lrYear.value + document.Camp.lrRank.value + document.Camp.lrclassNumber.value;}">
+                <input type='tel' required name='lrclassNumber' placeholder='班號' class='form-control' id='inputLRClassNumber' onKeyUp="if(document.Camp.lrclassNumber.value == ''){ document.Camp.lrclass.value = ''; } else {document.getElementById('inputLRClass').value = document.Camp.lrRegion.value + document.Camp.lrYear.value + document.Camp.lrRank.value + document.Camp.lrclassNumber.value;}">
             </div>
-            <div class='col-auto'>
-                <label for="inputLRClass" class="form-">班別預覽：</label>
-                <input type='text' required name='lrclass' value='' class='form-control' id='inputLRClass' disabled>
+            <div class='col-auto mt-3'>
+                <label>班別預覽：
+                <input type='text' required name='lrclass' value='' class='form-control' id='inputLRClass' disabled></label>
             </div>
             <div class="invalid-feedback">
                 請填寫廣論研討班別
