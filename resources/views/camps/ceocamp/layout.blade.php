@@ -68,7 +68,7 @@
                     <a class="nav-link" href="https://bwfoceec.wixsite.com/ecamp/課程介紹">課程介紹</a>
                     </li>
                     -->
-                    @if (str_contains($batch->name, "開南"))
+                    @if ((isset($batch) && str_contains($batch->name, "開南")) || (str_contains(\App\Models\Batch::find($batch_id)->name, "開南")))
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url("downloads/ceocamp2024/2024菁英營學員推薦表_開南.docx") }}">學員推薦表WORD檔下載</a>
                         </li>
