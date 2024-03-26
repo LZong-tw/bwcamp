@@ -28,6 +28,12 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+Chorasmian&amp;display=swap">
     @include('partials.counties_areas_script')
+    <style>
+        .required:after {
+            content: "＊";
+            color: red;
+        }
+    </style>
 </head>
 
 <body style="color: #343458;background: rgb(220,220,220);">
@@ -66,13 +72,13 @@
                                 </thead>
                                 <tbody style="background: rgba(255,255,255,0);">
                                     <tr>
-                                        <td style="width: 40%;border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(108, 166, 194);">姓　　名：</span></strong>&nbsp;<input type="text" style="background: var(--bs-table-bg);filter: brightness(100%);backdrop-filter: opacity(1) brightness(100%) saturate(100%);border-radius: 10px;border-width: 0.1px;border-style: none;border-top-style: none;width: 140px;" type='text' name='name' value='' id='inputName' placeholder='請填寫全名' required></td>
+                                        <td style="width: 40%;border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(108, 166, 194);" class="required">姓　　名：</span></strong>&nbsp;<input type="text" style="background: var(--bs-table-bg);filter: brightness(100%);backdrop-filter: opacity(1) brightness(100%) saturate(100%);border-radius: 10px;border-width: 0.1px;border-style: none;border-top-style: none;width: 140px;" type='text' name='name' value='' id='inputName' placeholder='請填寫全名' required></td>
                                     </tr>
                                     <tr>
-                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(107, 165, 193);">性　　別</span><span style="color: rgb(107, 165, 193); background-color: rgba(105, 167, 190, 0);">：&nbsp;</span></strong>&nbsp;<input type="radio" style="border-style: none;border-color: rgb(105,167,190);" name="gender" value="M">&nbsp;男　　<input type="radio" style="border-style: none;border-color: rgb(105,167,190);opacity: 1;"  name="gender" value="F">&nbsp;女</td>
+                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(107, 165, 193);">性　　別</span><span style="color: rgb(107, 165, 193); background-color: rgba(105, 167, 190, 0);" class="required">：&nbsp;</span></strong>&nbsp;<input type="radio" style="border-style: none;border-color: rgb(105,167,190);" name="gender" value="M" required>&nbsp;男　　<input type="radio" style="border-style: none;border-color: rgb(105,167,190);opacity: 1;"  name="gender" value="F" required>&nbsp;女</td>
                                     </tr>
                                     <tr>
-                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(106, 165, 193);">生　　日：</span></strong>&nbsp;<input type="date" style="width: 140px;border-radius: 5px;padding: 3px;border-width: 1px;border-style: none;">&nbsp;</td>{{-- 未完成 --}}
+                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(106, 165, 193);" class="required">生　　日：</span></strong>&nbsp;<input type="date" style="width: 140px;border-radius: 5px;padding: 3px;border-width: 1px;border-style: none;" required>&nbsp;</td>{{-- 未完成 --}}
                                     </tr>
                                     <tr>
                                         <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(105, 166, 194);">宗教信仰：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;" name="belief">
@@ -115,10 +121,10 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td style="width: 60%;border-style: none;background: rgba(255,255,255,0);padding: 8px;"><strong><span style="color: rgb(255, 109, 3);">服務單位：&nbsp;</span></strong><input type="text" style="width: 140px;border-style: none;border-color: rgba(255,152,77,0.24);background: var(--bs-table-bg);border-radius: 10px;" required name='unit' value='' id='inputUnit'></td>
+                                        <td style="width: 60%;border-style: none;background: rgba(255,255,255,0);padding: 8px;"><strong><span style="color: rgb(255, 109, 3);" class="required">服務單位：&nbsp;</span></strong><input type="text" style="width: 140px;border-style: none;border-color: rgba(255,152,77,0.24);background: var(--bs-table-bg);border-radius: 10px;" required name='unit' value='' id='inputUnit'></td>
                                     </tr>
                                     <tr style="background: rgba(255,255,255,0);">
-                                        <td style="border-style: none;background: rgba(255,255,255,0);padding: 8px;"><strong><span style="color: rgb(255, 109, 3);">產&nbsp; 業&nbsp; 別：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;background: var(--bs-table-bg);border-style: none;" required name='industry' onChange=''>
+                                        <td style="border-style: none;background: rgba(255,255,255,0);padding: 8px;"><strong><span style="color: rgb(255, 109, 3);" class="required">產&nbsp; 業&nbsp; 別：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;background: var(--bs-table-bg);border-style: none;" required name='industry' onChange=''>
                                                 <option value='' selected>- 請選擇 -</option>
                                                 <option value='製造業' >製造業</option>
                                                 <option value='公共事業' >公共事業</option>
@@ -137,7 +143,7 @@
                                             </select>&nbsp;</td>
                                     </tr>
                                     <tr style="background: rgba(255,255,255,0);">
-                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);">所&nbsp; 在&nbsp; 地：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;background: var(--bs-table-bg);" required name='county' onChange='Address(this.options[this.options.selectedIndex].value);'>
+                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);" class="required">所&nbsp; 在&nbsp; 地：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;background: var(--bs-table-bg);" required name='county' onChange='Address(this.options[this.options.selectedIndex].value);'>
                                                 <option value='' selected>- 先選縣市 -</option>
                                                 <option value='' disabled>- 北區 -</option>
                                                 <option value='臺北市' >臺北市</option>
@@ -173,19 +179,19 @@
                                             </select></td>
                                     </tr>
                                     <tr style="background: rgba(255,255,255,0);">
-                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);">行&nbsp; 政&nbsp; 區：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;background: var(--bs-table-bg);" required name='subarea' onChange='document.Camp.unit_location.value=MyAddress(document.Camp.county.value, this.options[this.options.selectedIndex].text);'>
+                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);" class="required">行&nbsp; 政&nbsp; 區：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;background: var(--bs-table-bg);" required name='subarea' onChange='document.Camp.unit_location.value=MyAddress(document.Camp.county.value, this.options[this.options.selectedIndex].text);'>
                                                 <option value=''>- 再選區鄉鎮 -</option>
                                             </select>
-                                            <input type='hidden' name='zipcode' value='' id='inputUnitLocation'> 
+                                            <input type='hidden' name='zipcode' value='' id='inputUnitLocation'>
                                             <input type='hidden' name='address' value='' id='inputUnitLocation'>
                                             <input type="hidden" name='unit_location' value='' id='inputUnitLocation'>
                                             </td>
                                     </tr>
                                     <tr style="border-style: none;background: rgba(255,255,255,0);">
-                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);">職　　稱：&nbsp;</span></strong><input type="text" style="background: var(--bs-table-bg);border-radius: 10px;width: 140px;border-style: none;" required name='title' value='' maxlength="40" id='inputTitle'>&nbsp;&nbsp;</td>
+                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);" class="required">職　　稱：&nbsp;</span></strong><input type="text" style="background: var(--bs-table-bg);border-radius: 10px;width: 140px;border-style: none;" required name='title' value='' maxlength="40" id='inputTitle'>&nbsp;&nbsp;</td>
                                     </tr>
                                     <tr style="border-style: none;background: rgba(255,255,255,0);">
-                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);">工作屬性：&nbsp;</span></strong><select style="width: 143px;border-radius: 5px;padding: 3px;border-style: none;background: var(--bs-table-bg);"  required name='job_property' onChange=''>
+                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);" class="required">工作屬性：&nbsp;</span></strong><select style="width: 143px;border-radius: 5px;padding: 3px;border-style: none;background: var(--bs-table-bg);"  required name='job_property' onChange=''>
                                                 <option value='' selected>- 請選擇 -</option>
                                                 <option value='經營/人資' >經營/人資</option>
                                                 <option value='行政/總務' >行政/總務</option>
@@ -210,10 +216,10 @@
                                             </select></td>
                                     </tr>
                                     <tr style="border-style: none;background: rgba(255,255,255,0);">
-                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);">公司人數：&nbsp;</span></strong><input type="text" style="width: 120px;border-radius: 10px;background: var(--bs-table-bg);border-style: none;" required name='employees' value='' id='inputEmployees'>&nbsp;人&nbsp;</td>
+                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);" class="required">公司人數：&nbsp;</span></strong><input type="text" style="width: 120px;border-radius: 10px;background: var(--bs-table-bg);border-style: none;" required name='employees' value='' id='inputEmployees'>&nbsp;人&nbsp;</td>
                                     </tr>
                                     <tr style="border-style: none;background: rgba(255,255,255,0);">
-                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);">直屬管轄人數：&nbsp;</span></strong><input type="text" style="width: 85px;background: var(--bs-table-bg);border-style: none;border-radius: 10px;" required name='direct_managed_employees' value=''  id='inputDirectManagedEmployees'>&nbsp;人</td>
+                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);" class="required">直屬管轄人數：&nbsp;</span></strong><input type="text" style="width: 85px;background: var(--bs-table-bg);border-style: none;border-radius: 10px;" required name='direct_managed_employees' value=''  id='inputDirectManagedEmployees'>&nbsp;人</td>
                                     </tr>
                                     <tr></tr>
                                     <tr></tr>
@@ -256,13 +262,13 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td style="width: 40%;color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);">行動電話：</span></strong>&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;width: 185px;border-style: none;" required name='mobile' value='' id='inputCell' placeholder='格式：0912345678'></td>
+                                        <td style="width: 40%;color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);" class="required">行動電話：</span></strong>&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;width: 185px;border-style: none;" required name='mobile' value='' id='inputCell' placeholder='格式：0912345678'></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);">公司電話：</span></strong>&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;width: 185px;border-style: none;"  required name='phone_work' value='' id='inputTelWork' placeholder='格式：0225452546#520'></td>
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);" class="required">公司電話：</span></strong>&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;width: 185px;border-style: none;"  required name='phone_work' value='' id='inputTelWork' placeholder='格式：0225452546#520'></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);">住家電話：</span></strong>&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;width: 185px;border-style: none;" name='phone_home' value='' id='inputTelHome' placeholder='格式：0225452546#520'></td>
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);" class="required">住家電話：</span></strong>&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;width: 185px;border-style: none;" name='phone_home' value='' id='inputTelHome' placeholder='格式：0225452546#520'></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                         <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);">LINE ID：&nbsp;&nbsp;</span></strong>&nbsp;<input type="text" style="background: var(--bs-table-bg);border-radius: 10px;width: 185px;border-style: none;" name='line' value='' id='inputLineID'></td>
@@ -271,10 +277,10 @@
                                         <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);">微 信 ID：&nbsp;&nbsp;</span></strong>&nbsp;<input type="text" style="background: var(--bs-table-bg);border-radius: 10px;width: 185px;border-style: none;" name='wechat' value='' id='inputWeChatID'></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);">電子郵件信箱：&nbsp;</span></strong><input type="email" style="background: var(--bs-table-bg);border-radius: 10px;width: 100%;border-style: none;" required name='email' value=''id='inputEmail' placeholder='請務必填寫正確，以利營隊相關訊息通知'></td>
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);" class="required">電子郵件信箱：&nbsp;</span></strong><input type="email" style="background: var(--bs-table-bg);border-radius: 10px;width: 100%;border-style: none;" required name='email' value=''id='inputEmail' placeholder='請務必填寫正確，以利營隊相關訊息通知'></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                        <td style="width: 60%;color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(52, 99, 122);">確認電子郵件信箱：</span></strong><span style="color: rgb(187, 57, 49);">(請再輸入一次)&nbsp;</span><strong><span style="color: rgb(52, 99, 122);">&nbsp;</span></strong><input type="email" style="background: var(--bs-table-bg);border-style: none;border-radius: 10px;width: 100%;"  required name='emailConfirm' value='' id='inputEmailConfirm'></td>
+                                        <td style="width: 60%;color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(52, 99, 122);" class="required">確認電子郵件信箱：</span></strong><span style="color: rgb(187, 57, 49);">(請再輸入一次)&nbsp;</span><strong><span style="color: rgb(52, 99, 122);">&nbsp;</span></strong><input type="email" style="background: var(--bs-table-bg);border-style: none;border-radius: 10px;width: 100%;"  required name='emailConfirm' value='' id='inputEmailConfirm'></td>
                                     </tr>
                                     <tr></tr>
                                 </tbody>
@@ -284,7 +290,7 @@
                 </div>
                 <div class="col">
                     <div class="card border-light border-1 d-flex p-4" style="background: #d0e1ea;border-radius: 30px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;text-align: left;">
-                        <h1 style="font-size: x-large;">希望成長營給您的幫助...</h1><textarea style="width: 98%;height: 300px;border-style: none;border-radius: 10px;" name='expectation' id=inputExpect></textarea>
+                        <h1 style="font-size: x-large;" class="required">希望成長營給您的幫助...</h1><textarea style="width: 98%;height: 300px;border-style: none;border-radius: 10px;" name='expectation' id=inputExpect required></textarea>
                     </div>
                 </div>
             </div>
@@ -296,22 +302,22 @@
                         </div>
                         <div class="col" style="text-align: left;">
                             <div style="max-width: 450px;">
-                                <h3 class="fw-bold pb-md-1" style="font-size: 18px;color: #ed5412;">有興趣參加活動的類別？(可複選)</h3>
+                                <h3 class="fw-bold pb-md-1 required" style="font-size: 18px;color: #ed5412;">有興趣參加活動的類別？(可複選)</h3>
                                 <div class="row gy-4">
                                     <div class="col">
                                         <div>
                                             <p class="fw-normal text-muted" style="background: rgba(255,255,255,0);">
-                                            <input type="checkbox" class="favored_event" name=favored_event[] value='企業參訪'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);">&nbsp;企業參訪　</span>
-                                            <input type="checkbox" class="favored_event" name=favored_event[] value='種樹活動'><span style="background-color: rgba(220, 220, 220, 0);">&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">種樹活動　</span>
-                                            <input type="checkbox" class="favored_event" name=favored_event[] value='環保淨灘'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);">&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">環保淨灘　</span><br>
-                                            <input type="checkbox" class="favored_event" name=favored_event[] value='農場體驗'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);">&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">農場體驗　</span>
-                                            <input type="checkbox" class="favored_event" name=favored_event[] value='禪修活動'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);">&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">禪修活動　</span>
-                                            <input type="checkbox" class="favored_event" name=favored_event[] value='寺院參訪'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);">&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">寺院參訪　</span><br>
-                                            <input type="checkbox" class="favored_event" name=favored_event[] value='儒學課程'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);">&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">儒學課程　</span>
-                                            <input type="checkbox" class="favored_event" name=favored_event[] value='心靈講座'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);">&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">心靈講座　</span>
-                                            <input type="checkbox" class="favored_event" name=favored_event[] value='藝文活動'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);">&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">藝文活動　</span><br>
-                                            <input type="checkbox" class="favored_event" name=favored_event[] value='親子講座'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);">&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">親子講座　</span>
-                                            <input type="checkbox" class="favored_event" name=favored_event[] value='樂齡活動'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);">&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">樂齡活動　</span></p>
+                                            <input type="checkbox" class="favored_event" name=favored_event[] value='企業參訪'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);" required>&nbsp;企業參訪　</span>
+                                            <input type="checkbox" class="favored_event" name=favored_event[] value='種樹活動'><span style="background-color: rgba(220, 220, 220, 0);" required>&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">種樹活動　</span>
+                                            <input type="checkbox" class="favored_event" name=favored_event[] value='環保淨灘'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);" required>&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">環保淨灘　</span><br>
+                                            <input type="checkbox" class="favored_event" name=favored_event[] value='農場體驗'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);" required>&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">農場體驗　</span>
+                                            <input type="checkbox" class="favored_event" name=favored_event[] value='禪修活動'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);" required>&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">禪修活動　</span>
+                                            <input type="checkbox" class="favored_event" name=favored_event[] value='寺院參訪'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);" required>&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">寺院參訪　</span><br>
+                                            <input type="checkbox" class="favored_event" name=favored_event[] value='儒學課程'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);" required>&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">儒學課程　</span>
+                                            <input type="checkbox" class="favored_event" name=favored_event[] value='心靈講座'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);" required>&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">心靈講座　</span>
+                                            <input type="checkbox" class="favored_event" name=favored_event[] value='藝文活動'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);" required>&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">藝文活動　</span><br>
+                                            <input type="checkbox" class="favored_event" name=favored_event[] value='親子講座'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);" required>&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">親子講座　</span>
+                                            <input type="checkbox" class="favored_event" name=favored_event[] value='樂齡活動'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);" required>&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">樂齡活動　</span></p>
                                         </div>
                                     </div>
                                 </div>
@@ -340,10 +346,10 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td style="width: 40%;color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(253, 126, 20);">姓　　名：</span></strong><span style="color: rgb(253, 126, 20);">&nbsp;</span><input type="text" style="background: rgba(206,212,218,0.35);border-radius: 10px;width: 150px;border-style: none;border-color: rgb(221,221,221);" name="emergency_name" value='' required></td>
+                                        <td style="width: 40%;color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(253, 126, 20);" class="required">姓　　名：</span></strong><span style="color: rgb(253, 126, 20);">&nbsp;</span><input type="text" style="background: rgba(206,212,218,0.35);border-radius: 10px;width: 150px;border-style: none;border-color: rgb(221,221,221);" name="emergency_name" value='' required></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(253, 126, 20);">關　　係：</span></strong><span style="color: rgb(253, 126, 20);">&nbsp;</span><select style="border-radius: 5px;border-style: none;padding: 3px;background: rgba(206,212,218,0.35);width: 150px;" name="emergency_relationship" required>
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(253, 126, 20);" class="required">關　　係：</span></strong><span style="color: rgb(253, 126, 20);">&nbsp;</span><select style="border-radius: 5px;border-style: none;padding: 3px;background: rgba(206,212,218,0.35);width: 150px;" name="emergency_relationship" required>
                                                 <option value=''>- 請選擇 -</option>
                                                 <option value='配偶'>配偶</option>
                                                 <option value='父親'>父親</option>
@@ -357,7 +363,7 @@
                                             </select></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(253, 126, 20);">聯絡電話：</span></strong><span style="color: rgb(253, 126, 20);">&nbsp;</span><input type="tel" style="background: rgba(206,212,218,0.35);border-radius: 10px;width: 150px;border-style: none;" name="emergency_mobile" value='' required></td>
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(253, 126, 20);" class="required">聯絡電話：</span></strong><span style="color: rgb(253, 126, 20);">&nbsp;</span><input type="tel" style="background: rgba(206,212,218,0.35);border-radius: 10px;width: 150px;border-style: none;" name="emergency_mobile" value='' required></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"></tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"></tr>
@@ -409,10 +415,10 @@
                 </div>
             </div>
             <div class="card border-light border-1 d-flex p-4" style="background: rgba(255,255,255,0);border-radius: 30px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;padding: initial;margin: 10px 0px;">
-                <p style="color: rgb(70,78,171);margin: 0px;font-size: initial;text-align: left;"><strong><span style="color: rgb(0, 0, 0);">肖像權</span></strong><br><span style="color: rgb(253, 126, 20);">主辦單位在營隊期間拍照、錄影之活動記錄，可使用於營隊及主辦單位的非營利教育推廣使用，並以網路方式推播。</span><br><input type="radio" required name="portrait_agree" value='1' checked>&nbsp;同意　　<input type="radio" required name="portrait_agree" value='0'>&nbsp;不同意</p>
+                <p style="color: rgb(70,78,171);margin: 0px;font-size: initial;text-align: left;"><strong><span style="color: rgb(0, 0, 0);" class="required">肖像權</span></strong><br><span style="color: rgb(253, 126, 20);">主辦單位在營隊期間拍照、錄影之活動記錄，可使用於營隊及主辦單位的非營利教育推廣使用，並以網路方式推播。</span><br><input type="radio" required name="portrait_agree" value='1' checked>&nbsp;同意　　<input type="radio" required name="portrait_agree" value='0'>&nbsp;不同意</p>
             </div>
             <div class="card border-light border-1 d-flex p-4" style="background: rgba(255,255,255,0);border-radius: 30px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;padding: initial;margin: 10px 0px;">
-                <p style="color: rgb(70,78,171);margin: 0px;font-size: initial;text-align: left;"><strong><span style="color: rgb(0, 0, 0);">個人資料</span></strong><br><span style="color: rgb(253, 126, 20);">福智文教基金會（簡稱本基金會）及本基金會所屬福智團體於本次營隊取得我的個人資料，於營隊期間及後續本基金會及本基金會所屬福智團體舉辦之活動，作為訊息通知、行政處理等非營利目的之使用，不會提供給無關之其他私人單位使用。</span><br><input type="radio" required name="profile_agree" value='1' checked>&nbsp;同意　　<input type="radio" required name="profile_agree" value='0'>&nbsp;不同意</p>
+                <p style="color: rgb(70,78,171);margin: 0px;font-size: initial;text-align: left;"><strong><span style="color: rgb(0, 0, 0);" class="required">個人資料</span></strong><br><span style="color: rgb(253, 126, 20);">福智文教基金會（簡稱本基金會）及本基金會所屬福智團體於本次營隊取得我的個人資料，於營隊期間及後續本基金會及本基金會所屬福智團體舉辦之活動，作為訊息通知、行政處理等非營利目的之使用，不會提供給無關之其他私人單位使用。</span><br><input type="radio" required name="profile_agree" value='1' checked>&nbsp;同意　　<input type="radio" required name="profile_agree" value='0'>&nbsp;不同意</p>
             </div>
             <div class="col" style="text-align: center;"><button class="btn btn-warning" type="reset" style="border-style: none;border-radius: 20px;box-shadow: 1px 1px 5px rgba(0,0,0,0.4);padding: 8px 20px;margin: 10px;background: rgba(255,210,0,0.59);"><span style="color: rgb(96, 96, 96);">清除重填 🤔</span></button><button class="btn btn-success" type="submit" style="text-align: center;border-radius: 20px;margin: 10px;border-style: none;box-shadow: 1px 1px 8px rgb(55,55,55);padding: 8px 60px;font-size: 20px;background: rgb(253,126,20);">確認送出 😊</button></div>
         </div>
@@ -422,6 +428,32 @@
     <script src="{{ asset("mockup-assets/ecamp/bootstrap/js/bootstrap.min.js") }}"></script>
     <script src="{{ asset("mockup-assets/ecamp/js/bs-init.js") }}"></script>
     <script src="{{ asset("mockup-assets/ecamp/js/startup-modern.js") }}"></script>
+    <script>
+
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if($('.favored_event :checkbox:checked').length < 0) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                            console.log('yes');
+                            {{-- $('.favored_event .invalid-feedback').prop('display') = 1; --}}
+                        }
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
 </body>
 
 </html>
