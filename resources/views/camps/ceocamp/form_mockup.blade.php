@@ -544,10 +544,10 @@
                                         style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                         <td
                                             style="width: 60%;color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                            <span style="color: rgb(0, 0, 0);" class="required">資本額單位：&nbsp;</span>
-                                                <input type="radio" name='capital_unit' value='元' checked>&nbsp;<span style="color: rgb(0, 0, 0);">元　</span>
-                                                <input name='capital_unit' value='萬元' checked type="radio"><span style="color: rgb(0, 0, 0);">&nbsp;萬元　</span>
-                                                <input name='capital_unit' value='億元' checked type="radio"><span style="color: rgb(0, 0, 0);"> 億元</span><span style="color: rgb(201, 81, 143);">〔資本額填寫說明〕如資本額為500萬元，請在資本額欄位填寫500，單位選「萬元」；如資本額為1000億元，請在資本額欄位填寫1000，單位選「億元」。</span>
+                                            <span style="color: rgb(0, 0, 0);">資本額單位：&nbsp;</span>
+                                                <input type="radio" name='capital_unit' value='元'>&nbsp;<span style="color: rgb(0, 0, 0);">元　</span>
+                                                <input name='capital_unit' value='萬元' type="radio"><span style="color: rgb(0, 0, 0);">&nbsp;萬元　</span>
+                                                <input name='capital_unit' value='億元' type="radio"><span style="color: rgb(0, 0, 0);"> 億元</span><span style="color: rgb(201, 81, 143);">〔資本額填寫說明〕如資本額為500萬元，請在資本額欄位填寫500，單位選「萬元」；如資本額為1000億元，請在資本額欄位填寫1000，單位選「億元」。</span>
                                         </td>
                                     </tr>
                                     <tr
