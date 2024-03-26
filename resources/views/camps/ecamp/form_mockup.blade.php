@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+Chorasmian&amp;display=swap">
     @include('partials.counties_areas_script')
     <style>
-        .required:after {
+        .required:before {
             content: "＊";
             color: red;
         }
