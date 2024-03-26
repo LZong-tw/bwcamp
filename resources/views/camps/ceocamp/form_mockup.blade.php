@@ -32,7 +32,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+Chorasmian&amp;display=swap">
     @include('partials.counties_areas_script')
     <style>
-        .required:after {
+        .required:before {
             content: "＊";
             color: red;
         }
@@ -322,7 +322,7 @@
                                         style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                         <td
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                            <span style="color: rgb(0, 0, 0);" class="required">手機號碼：&nbsp;&nbsp;</span><input
+                                            <span style="color: rgb(0, 0, 0);" class="required">手機號碼：</span><input
                                                 type="tel"
                                                 style="background: rgba(206,212,218,0.35);border-style: none;border-radius: 10px;padding: 3px 10px;width: 150px;"
                                                 required name='mobile' value='' id='inputCell' placeholder='格式：0912345678'>
