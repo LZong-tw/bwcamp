@@ -483,7 +483,7 @@
 
     <div id=div_lrclass>
         <!-- 依「身份別」選項而顯示的部分 -->
-        @if(isset($applicant_data) && ($applicant_data->is_lrclass))
+        @if(isset($applicant_data) && !is_string($applicant_data) && ($applicant_data->is_lrclass))
         <div class='row form-group required' >
             <label for='inputLRClass' class='col-md-2 control-label text-md-right'>廣論研討班別</label>
             <div class='col-md-10'>
