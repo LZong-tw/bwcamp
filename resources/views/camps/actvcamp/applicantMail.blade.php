@@ -12,8 +12,8 @@
     　中區 陸正誼 joylu3088@gmail.com<br>
     　雲嘉 楊昀儒 yunhowf7@gmail.com<br>
     　台南 陳姿縈 hstnchen@gmail.com<br>
-    　高區 黄勝揮 0910715823 pkaaron2000@gmail.com<br> 
-    　　　 陳瑛霞 0922208027 yinghsia.chen@blisswisdom.org<br>
+    　高區 黄勝揮 0910715823 pkaaron2000@gmail.com<br>
+    　　　 陳小姐 0922208027 yinghsia.chen@blisswisdom.org<br>
     <br>
     <br>
 <blockquote>財團法人福智文教基金會  敬啟</blockquote>
