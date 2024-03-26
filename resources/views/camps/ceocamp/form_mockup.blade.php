@@ -104,7 +104,7 @@
                                             <span style="color: rgb(67, 36, 18);">廣 論 班 別：&nbsp;&nbsp;</span><input
                                                 type="text"
                                                 style="background: var(--bs-table-bg);border-radius: 10px;width: 240px;border-style: none;font-size: large;"
-                                                name="introducer_relationship" placeholder="請填寫廣論班別" required></td>
+                                                name="introducer_participated" placeholder="請填寫廣論班別" required></td>
                                     </tr>
                                     <tr
                                         style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;font-size: large;">
@@ -121,7 +121,7 @@
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;font-size: large;">
                                             <span style="color: rgb(67, 36, 18);">與被推薦人關係：&nbsp;&nbsp;</span><select
                                                 style="padding: 3px;border-radius: 5px;border-style: none;width: 200px;font-size: large;"
-                                                name="introducer_participated" required>
+                                                name="introducer_relationship" required>
                                                 <option value=""> - 請選擇 - </option>
                                                 <option value='親戚'>親戚</option>
                                                 <option value='同學'>同學</option>
