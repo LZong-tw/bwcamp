@@ -145,6 +145,13 @@ class CampController extends Controller
             mkdir(storage_path("avatars"), 777, true);
         }
 
+        if ($request->birthdate) {
+            // $request->birthdate: YYYY-MM-DD
+            $request->birthyear = substr($request->birthdate, 0, 4);
+            $request->birthmonth = substr($request->birthdate, 5, 2);
+            $request->birthday = substr($request->birthdate, 8, 2);
+        }
+
         // 修改資料
         if (isset($request->applicant_id) && !isset($request->useOldData2Register)) {
             $request = $this->campDataService->checkBoxToArray($request);

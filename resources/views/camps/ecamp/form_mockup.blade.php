@@ -78,7 +78,7 @@
                                         <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(107, 165, 193);">性　　別</span><span style="color: rgb(107, 165, 193); background-color: rgba(105, 167, 190, 0);" class="required">：&nbsp;</span></strong>&nbsp;<input type="radio" style="border-style: none;border-color: rgb(105,167,190);" name="gender" value="M" required>&nbsp;男　　<input type="radio" style="border-style: none;border-color: rgb(105,167,190);opacity: 1;"  name="gender" value="F" required>&nbsp;女</td>
                                     </tr>
                                     <tr>
-                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(106, 165, 193);" class="required">生　　日：</span></strong>&nbsp;<input type="date" style="width: 140px;border-radius: 5px;padding: 3px;border-width: 1px;border-style: none;" required>&nbsp;</td>{{-- 未完成 --}}
+                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(106, 165, 193);" class="required">生　　日：</span></strong>&nbsp;<input type="date" style="width: 140px;border-radius: 5px;padding: 3px;border-width: 1px;border-style: none;" required name="birthdate">&nbsp;</td>
                                     </tr>
                                     <tr>
                                         <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(105, 166, 194);">宗教信仰：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;" name="belief">
