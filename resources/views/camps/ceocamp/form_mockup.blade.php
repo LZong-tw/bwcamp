@@ -291,8 +291,7 @@
                                             <span style="color: rgb(0, 0, 0);">性別：&nbsp;</span><input type="radio"
                                                 name="gender" value="M" required>&nbsp;<span
                                                 style="color: rgb(0, 0, 0);">男　　</span><input
-                                                type="radio">&nbsp;<span style="color: rgb(0, 0, 0);"
-                                                name="gender" value="F" required>女</span></td>
+                                                type="radio" name="gender" value="F" required>&nbsp;<span style="color: rgb(0, 0, 0);">女</span></td>
                                     </tr>
                                     <tr
                                         style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
