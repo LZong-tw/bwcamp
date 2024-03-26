@@ -250,9 +250,9 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td class="required"
+                                        <td
                                             style="width: 40%;color: var(--bs-body-color);background: rgba(255,255,255,0);border-style: none;">
-                                            <span style="color: rgb(0, 0, 0);">中文姓名：&nbsp;</span><input type="text"
+                                            <span style="color: rgb(0, 0, 0);" class="required">中文姓名：&nbsp;</span><input type="text"
                                                 style="border-style: none;border-radius: 10px;background: rgba(206,212,218,0.35);padding: 3px 10px;"
                                                 name="name" placeholder='請填寫全名' required></td>
                                     </tr>
@@ -267,9 +267,9 @@
                                     </tr>
                                     <tr
                                         style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                        <td class="required"
+                                        <td
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                            <span style="color: rgb(0, 0, 0);">區域別：&nbsp;</span>
+                                            <span style="color: rgb(0, 0, 0);" class="required">區域別：&nbsp;</span>
                                             @if(str_contains($batch->name, "開南"))
                                                 <input type="radio" value="北區　" name="region" required><span
                                                     style="color: rgb(0, 0, 0);"> 北區　</span>
@@ -286,18 +286,18 @@
                                     </tr>
                                     <tr
                                         style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                        <td class="required"
+                                        <td
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                            <span style="color: rgb(0, 0, 0);">性別：&nbsp;</span><input type="radio"
+                                            <span style="color: rgb(0, 0, 0);" class="required">性別：&nbsp;</span><input type="radio"
                                                 name="gender" value="M" required>&nbsp;<span
                                                 style="color: rgb(0, 0, 0);">男　　</span><input
                                                 type="radio" name="gender" value="F" required>&nbsp;<span style="color: rgb(0, 0, 0);">女</span></td>
                                     </tr>
                                     <tr
                                         style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                        <td class="required"
+                                        <td
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                            <span style="color: rgb(0, 0, 0);">生日： 西元 </span>
+                                            <span style="color: rgb(0, 0, 0);" class="required">生日：</span> <span style="color: rgb(0, 0, 0);">西元 </span>
                                             <select
                                                 style="width: 60px;background: rgba(206,212,218,0.35);border-style: none;border-radius: 3px;padding: 3px;"
                                                 name='birthyear' required>
@@ -320,9 +320,9 @@
                                     </tr>
                                     <tr
                                         style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                        <td class="required"
+                                        <td
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                            <span style="color: rgb(0, 0, 0);">手機號碼：&nbsp;&nbsp;</span><input
+                                            <span style="color: rgb(0, 0, 0);" class="required">手機號碼：&nbsp;&nbsp;</span><input
                                                 type="tel"
                                                 style="background: rgba(206,212,218,0.35);border-style: none;border-radius: 10px;padding: 3px 10px;width: 150px;"
                                                 required name='mobile' value='' id='inputCell' placeholder='格式：0912345678'>
