@@ -258,7 +258,36 @@
     <div class='row form-group required'> 
     <label for='inputLRClass' class='col-md-2 control-label text-md-right'>廣論研討班別</label>
         <div class='col-md-10'>
-            <input type='text' required name='lrclass' value='' class='form-control' id='inputLRClass'>
+            {{-- 區域別(北、桃、竹、中、嘉、南、高、園)；年度(10~24)；班階(宗、備、善、增、春、秋)；班號(自填) --}}
+            <select required class='form-control' name='lrRegion'>
+                <option value=''>- 區域別 -</option>
+                <option value='北'>北</option>
+                <option value='桃'>桃</option>
+                <option value='竹'>竹</option>
+                <option value='中'>中</option>
+                <option value='嘉'>嘉</option>
+                <option value='南'>南</option>
+                <option value='高'>高</option>
+                <option value='園'>園</option>
+            </select>
+            <select required class='form-control' name='lrYear'>
+                <option value=''>- 年度 -</option>
+                @for($i = 10; $i <= 24; $i++)
+                <option value='{{ $i }}'>{{ $i }}</option>
+                @endfor
+            </select>
+            <select required class='form-control' name='lrRank'>
+                <option value=''>- 班階 -</option>
+                <option value='宗'>宗</option>
+                <option value='備'>備</option>
+                <option value='善'>善</option>
+                <option value='增'>增</option>
+                <option value='春'>春</option>
+                <option value='秋'>秋</option>
+            </select>
+            <input type='tel' required name='lrclassNumber' placeholder='班號' class='form-control' id='inputLRClassNumber' onKeyDown="document.getElementById('inputLRClass').value = document.Camp.lrRegion.value + document.Camp.lrYear.value + document.Camp.lrRank.value + document.Camp.lrclassNumber.value;">
+            班別預覽：
+            <input type='text' required name='lrclass' value='' class='form-control' id='inputLRClass' disabled>
             <div class="invalid-feedback">
                 請填寫廣論研討班別
             </div>
@@ -380,11 +409,19 @@
     <div class='row form-group required' >
         <label for='inputParticipationDates' class='col-md-2 control-label text-md-right'>護持日期(多選)</label>
         <div class='col-md-10'>
-            <label><input type="checkbox" class='participation_dates' name=participation_dates[] value='0710(三)' > 0710(三)</label> <br/>
-            <label><input type="checkbox" class='participation_dates' name=participation_dates[] value='0711(四)' > 0711(四)</label> <br/>
-            <label><input type="checkbox" class='participation_dates' name=participation_dates[] value='0712(五)' > 0712(五)</label> <br/>
-            <label><input type="checkbox" class='participation_dates' name=participation_dates[] value='0713(六)' > 0713(六)</label> <br/>
-            <label><input type="checkbox" class='participation_dates' name=participation_dates[] value='0714(日)' > 0714(日)</label> <br/>
+            @if(str_contains($batch->name, "北區"))
+                <label><input type="checkbox" class='participation_dates' name=participation_dates[] value='0710(三)' > 0710(三)</label> <br/>
+                <label><input type="checkbox" class='participation_dates' name=participation_dates[] value='0711(四)' > 0711(四)</label> <br/>
+                <label><input type="checkbox" class='participation_dates' name=participation_dates[] value='0712(五)' > 0712(五)</label> <br/>
+                <label><input type="checkbox" class='participation_dates' name=participation_dates[] value='0713(六)' > 0713(六)</label> <br/>
+                <label><input type="checkbox" class='participation_dates' name=participation_dates[] value='0714(日)' > 0714(日)</label> <br/>
+            @else
+                <label><input type="checkbox" class='participation_dates' name=participation_dates[] value='0724(三)' > 0724(三)</label> <br/>
+                <label><input type="checkbox" class='participation_dates' name=participation_dates[] value='0725(四)' > 0725(四)</label> <br/>
+                <label><input type="checkbox" class='participation_dates' name=participation_dates[] value='0726(五)' > 0726(五)</label> <br/>
+                <label><input type="checkbox" class='participation_dates' name=participation_dates[] value='0727(六)' > 0727(六)</label> <br/>
+                <label><input type="checkbox" class='participation_dates' name=participation_dates[] value='0728(日)' > 0728(日)</label> <br/>
+            @endif
             <div class="invalid-feedback" id="participation_dates-invalid">
                 請選擇護持日期。
             </div>
