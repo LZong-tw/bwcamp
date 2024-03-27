@@ -167,7 +167,7 @@ class User extends Authenticatable
             // 順便做梯次檢查
             if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer || $resource instanceof \App\Models\User) {
                 if ($resource->batch_id) {
-                    return $query->where(function ($query) use ($resource){
+                    $query->where(function ($query) use ($resource){
                         return $query->where(function ($query) {
                             return $query->whereNull('batch_id');
                         })->orWhere(function ($query) use ($resource) {
@@ -179,7 +179,7 @@ class User extends Authenticatable
             // 區域檢查
             if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer || $resource instanceof \App\Models\User) {
                 if ($resource->region_id) {
-                    return $query->where(function ($query) use ($resource){
+                    $query->where(function ($query) use ($resource){
                         return $query->where(function ($query) {
                             return $query->whereNull('region_id');
                         })->orWhere(function ($query) use ($resource) {
