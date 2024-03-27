@@ -90,7 +90,18 @@
         <div class='col-md-10'>
             <select required class='form-control' name='group_priority1' id='inputGroupPriority1' onChange='showFields();'>
                 <option value='' selected>- 請選擇 -</option>
-                @if(\Str::contains($batch->name, "桃園"))
+                @if(str_contains($batch->name, "第一梯"))
+                {{-- 總部企劃、秘書組、教務組、關懷組、總務組、公關組、餐飲組、福青組、依營隊需求安排 --}}
+                    <option value='總部企劃' >總部企劃</option>
+                    <option value='秘書組' >秘書組</option>
+                    <option value='教務組' >教務組</option>
+                    <option value='關懷組' >關懷組</option>
+                    <option value='總務組' >總務組</option>
+                    <option value='公關組' >公關組</option>
+                    <option value='餐飲組' >餐飲組</option>
+                    <option value='福青組' >福青組</option>
+                    <option value='依營隊需求安排' >依營隊需求安排</option>
+                @elseif(\Str::contains($batch->name, "桃園"))
                     <option value='秘書：義工' >秘書：義工</option>
                     <option value='秘書：財務' >秘書：財務</option>
                     <option value='秘書：行政' >秘書：行政</option>
