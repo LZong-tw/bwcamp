@@ -145,7 +145,7 @@ class CampController extends Controller
             mkdir(storage_path("avatars"), 777, true);
         }
 
-        if ($request->birthdate) {
+        if ($request->birthdate != "") {
             // $request->birthdate: YYYY-MM-DD
             $request->birthyear = substr($request->birthdate, 0, 4);
             $request->birthmonth = substr($request->birthdate, 5, 2);
