@@ -100,7 +100,6 @@
                     <option value='公關組' >公關組</option>
                     <option value='餐飲組' >餐飲組</option>
                     <option value='福青組' >福青組</option>
-                    <option value='依營隊需求安排' >依營隊需求安排</option>
                 @elseif(\Str::contains($batch->name, "桃園"))
                     <option value='秘書：義工' >秘書：義工</option>
                     <option value='秘書：財務' >秘書：財務</option>
