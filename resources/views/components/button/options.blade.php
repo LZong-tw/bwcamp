@@ -7,6 +7,10 @@
             <a href="{{ route("export", $campFullData->id) }}?vcamp={{ $isShowVolunteers }}" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">匯出資料</a>
         @endif
         @if($isShowLearners)            &nbsp;&nbsp;
+            @if (1)
+                <input type=button value='電訪結果' rel='noopener noreferrer' class='btn btn-danger mb-3 btnTelCallResult' target='_blank' onclick=showTelCallResult()>
+                {{--<a href="{{ route("showTelCallResults", $campFullData->id) }}" rel="noopener noreferrer" class="btn btn-danger mb-3" target="_blank">電訪結果</a>--}}    &nbsp;&nbsp;
+            @endif
             @if ($currentUser->isAbleTo('\App\Models\Applicant.create'))
                 <a href="{{ route("showRegistration", $campFullData->id) }}" rel="noopener noreferrer" class="btn btn-danger mb-3" target="_blank">新增學員</a>    &nbsp;&nbsp;
             @endif

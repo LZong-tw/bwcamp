@@ -49,6 +49,19 @@
         @if($batches->count() > 1) <a href='?isSetting={{ $isSetting }}&isSettingCarer={{ $isSettingCarer ?? 0 }}'>所有梯次</a> @endif
     </h5>
     <x-button.options :$isShowVolunteers :$isShowLearners :currentBatch="$current_batch"/>
+
+    <div class="divTelCallResult" style="display:none">
+    @if($dynamic_stats->isNotEmpty())
+        @foreach($dynamic_stats as $stat)
+            <a href="{{ $stat->google_sheet_url }}" target="_blank" class="btn btn-primary mb-3">電訪結果連結</a>
+            <br>
+            <iframe src="{{ $stat->google_sheet_url }}" width="100%" height="480">Your browser isn't compatible</iframe>
+        @endforeach
+    @else
+        無電訪結果可查看<br>
+    @endif 
+    </div>
+
     @if(($isSettingCarer ?? false) || ($isSetting ?? false))
         <x-general.settings :$isShowVolunteers :$isShowLearners :$batches :$isSettingCarer :$carers :targetGroupIds="$targetGroupIds ?? null"/>
     @endif
@@ -57,3 +70,20 @@
 @endif
     <a href="#top" class="text-danger font-weight-bold">↑TOP</a>
 @endsection
+
+<script>
+function showTelCallResult(){        
+            tg_div = document.getElementsByClassName('divTelCallResult');
+            tg_btn = document.getElementsByClassName('btnTelCallResult');
+            console.log(tg_div);
+            console.log(tg_btn);
+            if (tg_div[0].style.display == 'none') {
+                tg_div[0].style.display = '';
+                tg_btn[0].value = '隱藏電訪結果';
+            }
+            else {
+                tg_div[0].style.display = 'none';
+                tg_btn[0].value = '電訪結果';
+            }
+        }
+</script>
