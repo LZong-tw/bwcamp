@@ -413,7 +413,7 @@ class AdminController extends BackendController {
         $camp_list = Camp::where('table', $camp->table)->get();
         //dd($camp_list);
         $models = $this->backendService->getAvailableModels();
-        return view('backend.camp.orgList', compact('camp', 'orgs', 'camp_list', 'models','num_users'));
+        return view('backend.camp.orgList', compact('camp', 'batches', 'orgs', 'camp_list', 'models','num_users'));
     }
 
     public function removeOrg(Request $request){

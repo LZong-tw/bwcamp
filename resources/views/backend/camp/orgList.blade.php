@@ -114,7 +114,7 @@
         </table>
     @endif
 
-    @foreach ($camp->batchs as $batch)
+    @foreach ($batches as $batch)
     @if(isset($is_batch[$batch->id]))
         <hr>
         <h4>梯次：{{ $batch->name }}</h4>
