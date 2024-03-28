@@ -694,7 +694,7 @@ class BackendController extends Controller
             $candidate = Applicant::find($request->id);
             $candidate->batch_id = $request->batch;
             $candidate->region_id = $request->region_id;
-            $candidate->region = Region::find($request->region_id)->name;
+            $candidate->region = Region::find($request->region_id)?->name;
             $candidate->save();
             $message = "梯次 / 區域修改完成。";
             $batches = Batch::where('camp_id', $this->campFullData->id)->get();
