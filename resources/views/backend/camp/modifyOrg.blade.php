@@ -20,7 +20,7 @@
             <label for='inputBatch' class='col-md-2 control-label'>梯次</label>
             <div class='col-md-5'>
                 學員
-                <select name="" id="batch1" class="form-control" onChange="if(this.value !== ''){ document.getElementById('batch2').disabled = true; } else{ document.getElementById('batch2').disabled = false; }">
+                <select name="" id="batch1" class="form-control" onChange="if(this.value !== ''){ document.getElementById('batch2').disabled = true; document.getElementById('inputBatch').value = this.value; } else{ document.getElementById('batch2').disabled = false; document.getElementById('inputBatch').value = ''; }">
                     <option value="">不限</option>
                     @foreach($camp->batchs ?? [] as $batch) 
                         <option value="{{ $batch->id }}" {{ $batch->id == $org->batch_id ? "selected" : "" }}>{{ $batch->name }}</option>
@@ -29,7 +29,7 @@
             </div>
             <div class='col-md-5'>
                 義工
-                <select name="" id="batch2" class="form-control" onChange="if(this.value !== ''){ document.getElementById('batch1').disabled = true; } else{ document.getElementById('batch1').disabled = false; }">
+                <select name="" id="batch2" class="form-control" onChange="if(this.value !== ''){ document.getElementById('batch1').disabled = true; document.getElementById('inputBatch').value = this.value; } else{ document.getElementById('batch1').disabled = false; document.getElementById('inputBatch').value = ''; }">
                     <option value="">不限</option>
                     @foreach($camp->vcamp->batchs ?? [] as $batch)
                         <option value="{{ $batch->id }}" {{ $batch->id == $org->batch_id ? "selected" : "" }}>{{ $batch->name }}</option>
