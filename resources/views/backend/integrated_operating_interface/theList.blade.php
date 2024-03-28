@@ -51,7 +51,7 @@
     <x-button.options :$isShowVolunteers :$isShowLearners :currentBatch="$current_batch"/>
 
     <div class="divTelCallResult" style="display:none">
-    @if(!is_array($dynamic_stats) && $dynamic_stats->isNotEmpty())
+    @if(!is_array($dynamic_stats) && isset($dynamic_stats) && $dynamic_stats->isNotEmpty())
         @foreach($dynamic_stats as $stat)
             <a href="{{ $stat->google_sheet_url }}" target="_blank" class="btn btn-primary mb-3">電訪結果連結</a>
             <br>
