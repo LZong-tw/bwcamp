@@ -18,14 +18,25 @@
         @csrf
         <div class='row form-group'>
             <label for='inputBatch' class='col-md-2 control-label'>梯次</label>
-            <div class='col-md-6'>
-                <select name="batch_id" id="" class="form-control">
+            <div class='col-md-5'>
+                學員
+                <select name="" id="batch1" class="form-control" onChange="if(this.value !== ''){ document.getElementById('batch2').disabled = true; } else{ document.getElementById('batch2').disabled = false; }">
                     <option value="">不限</option>
-                    @foreach(!$camp->isVcamp ? $camp->batchs : $camp->vcamp->batchs ?? [] as $batch)
+                    @foreach($camp->batchs ?? [] as $batch) 
                         <option value="{{ $batch->id }}" {{ $batch->id == $org->batch_id ? "selected" : "" }}>{{ $batch->name }}</option>
                     @endforeach
                 </select>
             </div>
+            <div class='col-md-5'>
+                義工
+                <select name="" id="batch2" class="form-control" onChange="if(this.value !== ''){ document.getElementById('batch1').disabled = true; } else{ document.getElementById('batch1').disabled = false; }">
+                    <option value="">不限</option>
+                    @foreach($camp->vcamp->batchs ?? [] as $batch)
+                        <option value="{{ $batch->id }}" {{ $batch->id == $org->batch_id ? "selected" : "" }}>{{ $batch->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <input type="hidden" name="batch_id" id="inputBatch" value="{{ $org->batch_id ?? "" }}">
         </div>
         <div class='row form-group'>
             <label for='inputRegion' class='col-md-2 control-label'>區域</label>
