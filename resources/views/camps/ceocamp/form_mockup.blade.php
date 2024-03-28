@@ -299,7 +299,7 @@
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                             <span style="color: rgb(0, 0, 0);" class="required">生日：</span> <span style="color: rgb(0, 0, 0);">西元 </span>
                                             <select
-                                                style="width: 60px;background: rgba(206,212,218,0.35);border-style: none;border-radius: 3px;padding: 3px;"
+                                                style="width: 90px;background: rgba(206,212,218,0.35);border-style: none;border-radius: 3px;padding: 3px;"
                                                 name='birthyear' required>
                                                 <option value="">請選擇</option>
                                                 @for ($i = 1900; $i <= 2006; $i++)
@@ -308,7 +308,7 @@
                                             </select>
                                             <span style="color: rgb(0, 0, 0);">年　</span>
                                             <select
-                                                style="width: 50px;background: rgba(206,212,218,0.35);border-radius: 3px;border-style: none;padding: 3px;"
+                                                style="width: 60px;background: rgba(206,212,218,0.35);border-radius: 3px;border-style: none;padding: 3px;"
                                                 required name='birthmonth'>
                                                 <option value="">請選擇</option>
                                                 @for ($i = 1; $i <= 12; $i++)

@@ -162,7 +162,7 @@ class User extends Authenticatable
         }
         $class = get_class($resource);
         if ($context == "vcamp" && $class == "App\Models\Applicant") {
-            $class = "App\Models\Volunteer";
+            $class = "App\\Models\\Volunteer";
         }
 
         // 全域權限，不多但還是做預留，避免意外
