@@ -161,9 +161,6 @@ class User extends Authenticatable
             $camp = Vcamp::query()->find($target->camp->id)->mainCamp;
         }
         $class = get_class($resource);
-        if ($context == "vcamp" && $class == "App\Models\Applicant") {
-            $class = "App\\Models\\Volunteer";
-        }
 
         // 全域權限，不多但還是做預留，避免意外
         $permissions = $this->permissions()->get();
