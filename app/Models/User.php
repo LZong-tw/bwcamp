@@ -109,6 +109,12 @@ class User extends Authenticatable
         return $this->belongsToMany(Applicant::class, UserApplicantXref::class, 'user_id', 'applicant_id', 'id', 'id');
     }
 
+    public function applicants($camp_id) {
+        $vbatch_id = Camp::find($camp_id)->vcamp->batchs->pluck('id');
+        $applicants_all = $this->application_log;
+        $applicants_filtered = $applicants_all->whereIn('batch_id',$vbatch_id);
+        return $applicants_filtered;
+    }
     public function permissionsRolesParser($camp) {
         /**
          *  1. 取得該義工於營隊內的所有職務
@@ -324,5 +330,9 @@ class User extends Authenticatable
             }
             return false;
         }
+    }
+    public function dynamic_stats(): MorphMany
+    {
+        return $this->morphMany(DynamicStat::class, 'urltable');
     }
 }

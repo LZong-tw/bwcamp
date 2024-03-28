@@ -1520,7 +1520,12 @@ class BackendController extends Controller
         $user = \App\Models\User::findOrFail(auth()->user()->id);
         view()->share('user', $user);
         $batches = Batch::where("camp_id", $this->campFullData->id)->get();
-
+        
+        //MCH:find the related applicant of the (user,camp_id)
+        $user_applicant = $user->applicants($this->campFullData->id)->first() ?? [];
+        //MCH:find the urls
+        $dynamic_stats = $user_applicant->dynamic_stats ?? [];
+    
         if (!$user->canAccessResource(new \App\Models\Applicant(), 'read', $this->campFullData, 'onlyCheckAvailability') && $user->id > 2) {
             return "<h3>沒有權限瀏覽任何學員，或您尚未被指派任何學員</h3>";
         }
@@ -1613,6 +1618,7 @@ class BackendController extends Controller
                 ->with('queryStr', $queryStr ?? null)
                 ->with('groups', $this->campFullData->groups)
                 ->with('targetGroupIds', $target_group_ids ?? null)
+                ->with('dynamic_stats', $dynamic_stats)
                 ->withInput($request->all());
     }
 
