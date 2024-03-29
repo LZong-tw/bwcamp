@@ -21,12 +21,12 @@
     @if(!isset($isModify) && !isset($batch_id_from))
     <hr>
     <h5 class='form-control-static text-warning bg-secondary'>若您曾報名2023年企業營義工，請點選下面連結，查詢並使用2023年企業營義工報名資料<br>
-    <a href="{{ route('query', 103) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"><u>台北</u>　</a> 
-    <a href="{{ route('query', 124) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"><u>桃園</u>　</a> 
-    <a href="{{ route('query', 125) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"><u>新竹</u>　</a> 
-    <a href="{{ route('query', 126) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"><u>中區</u>　</a> 
-    <a href="{{ route('query', 127) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"><u>雲嘉</u>　</a> 
-    <a href="{{ route('query', 122) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"><u>台南</u>　</a> 
+    <a href="{{ route('query', 103) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"><u>台北</u>　</a>
+    <a href="{{ route('query', 124) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"><u>桃園</u>　</a>
+    <a href="{{ route('query', 125) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"><u>新竹</u>　</a>
+    <a href="{{ route('query', 126) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"><u>中區</u>　</a>
+    <a href="{{ route('query', 127) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"><u>雲嘉</u>　</a>
+    <a href="{{ route('query', 122) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"><u>台南</u>　</a>
     <a href="{{ route('query', 128) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"><u>高雄</u></a>
     </h5>
     <hr>
@@ -146,7 +146,7 @@
             <div class="invalid-feedback">
                 請選擇報名組別第1志願
             </div>
-        </div>  
+        </div>
     </div>
 
     <input type='hidden' name='recruit_channel' id='inputRecruitCh' value='自招'>
@@ -200,7 +200,7 @@
                 @endif
                 <option value='無' >無</option>
             </select>
-        </div>  
+        </div>
     </div>
 
     <div class='row form-group'>
@@ -251,10 +251,10 @@
                 @endif
                 <option value='無' >無</option>
             </select>
-        </div>  
+        </div>
     </div>
 
-    <div class='row form-group'> 
+    <div class='row form-group'>
     <label for='inputGroupPriorityOther' class='col-md-2 control-label text-md-right'>報名組別其它需求</label>
         <div class='col-md-10'>
             <input type='text' name='group_priority_other' value='' class='form-control' id='inputGroupPriorityOther' placeholder='若對報名組別有其它需求請在此填寫'>
@@ -265,7 +265,7 @@
     </div>
 --}}
 
-    <div class='row form-group required'> 
+    <div class='row form-group required'>
     <label for='inputLRClass' class='col-md-2 control-label text-md-right'>廣論研討班別</label>
         <div class='col-md-10 form-inline'>
             <div class='col-auto'>
@@ -306,7 +306,7 @@
             </div>
             <div class='col-auto mt-3'>
                 <label>班別預覽：
-                <input type='text' required name='lrclass' value='' class='form-control' id='inputLRClass' disabled></label>
+                <input type='text' required name='lrclass' value='' class='form-control' id='inputLRClass' readonly></label>
             </div>
             <div class="invalid-feedback">
                 請填寫廣論研討班別
@@ -411,7 +411,7 @@
         e.preventDefault();
         });
     </script>
-    
+
     <div class='row form-group required'>
         <label for='inputEmail' class='col-md-2 control-label text-md-right'>確認電子信箱</label>
         <div class='col-md-10'>
@@ -424,7 +424,7 @@
     </div>
 
     <hr>
-    
+
     {{-- 護持日期 --}}
     <div class='row form-group required' >
         <label for='inputParticipationDates' class='col-md-2 control-label text-md-right'>護持日期(多選)</label>
@@ -526,7 +526,7 @@
 
     <hr>
 
-    <div class='row form-group field_long' style='display:none'> 
+    <div class='row form-group field_long' style='display:none'>
     <label for='inputLineID' class='col-md-2 control-label text-md-right'>LINE ID</label>
         <div class='col-md-10'>
             <input type='text' name='line' value='' class='form-control' id='inputLineID'>
@@ -576,7 +576,7 @@
     </div>
 
 {{--
-    <div class='row form-group field_long' style='display:none'> 
+    <div class='row form-group field_long' style='display:none'>
     <label for='inputExpertise' class='col-md-2 control-label text-md-right'>專長</label>
         <div class='col-md-10'>
             <input type='text' name='expertise' value='' class='form-control' id='inputExpertise'>
@@ -636,7 +636,7 @@
     <h5 class='form-control-static text-info field_long' style='display:none'>說明：底下公司及職務相關欄位，若已退休，請填寫退休前資料</h5>
     <br>
 
-    <div class='row form-group required field_long' style='display:none'> 
+    <div class='row form-group required field_long' style='display:none'>
     <label for='inputUnit' class='col-md-2 control-label text-md-right itemreg_long'>公司名稱</label>
         <div class='col-md-10'>
             <input type=text required class='form-control itemreq_long' name='unit' id='inputUnit' value=''  placeholder='若已退休，請填寫退休前資料'>
@@ -669,11 +669,11 @@
             <div class="invalid-feedback crumb">
                 請選擇產業別
             </div>
-        </div>  
+        </div>
     </div>
-    
+
 {{--
-    <div class='row form-group field_long' style='display:none'> 
+    <div class='row form-group field_long' style='display:none'>
     <label for='inputIndustryOther' class='col-md-2 control-label text-md-right'>產業別:自填</label>
         <div class='col-md-10'>
             <input type='text' name='industry_other' value='' class='form-control' id='inputIndustryOther' placeholder='產業別若選「其它」請自填'>
@@ -684,7 +684,7 @@
     </div>
 --}}
 
-    <div class='row form-group required field_long' style='display:none'> 
+    <div class='row form-group required field_long' style='display:none'>
     <label for='inputTitle' class='col-md-2 control-label text-md-right'>職稱</label>
         <div class='col-md-10'>
             <input type='text' required class='form-control itemreq_long' name='title' id='inputTitle' value='' maxlength="40"  placeholder='若已退休，請填寫退休前資料'>
@@ -723,11 +723,11 @@
             <div class="invalid-feedback crumb">
                 請選擇職務類型
             </div>
-        </div>  
+        </div>
     </div>
 
 {{--
-    <div class='row form-group field_long' style='display:none'> 
+    <div class='row form-group field_long' style='display:none'>
     <label for='inputJobPropertyOther' class='col-md-2 control-label text-md-right'>職務類型:自填</label>
         <div class='col-md-10'>
             <input type='text' name='job_property_other' value='' class='form-control' id='inputJobPropertyOther' placeholder='職務類型若選「其它」請自填'>
@@ -748,7 +748,7 @@
     </div>
 --}}
 
-    <div class='row form-group field_long' style='display:none'> 
+    <div class='row form-group field_long' style='display:none'>
     <label for='inputEmployees' class='col-md-2 control-label text-md-right'>公司員工總數</label>
         <div class='col-md-10'>
             <input type='number' name='employees' value='' class='form-control' id='inputEmployees' placeholder='請填寫數字，勿填「非數字」'>
@@ -758,7 +758,7 @@
         </div>
     </div>
 
-    <div class='row form-group field_long' style='display:none'> 
+    <div class='row form-group field_long' style='display:none'>
     <label for='inputDirectManagedEmployees' class='col-md-2 control-label text-md-right'>所轄員工人數</label>
         <div class='col-md-10'>
             <input type='number' name='direct_managed_employees' value='' class='form-control' id='inputDirectManagedEmployees' placeholder='請填寫數字，勿填「非數字」'>
@@ -768,7 +768,7 @@
         </div>
     </div>
 {{--
-    <div class='row form-group field_long' style='display:none'> 
+    <div class='row form-group field_long' style='display:none'>
     <label for='inputCapital' class='col-md-2 control-label text-md-right'>資本額(新臺幣:元)</label>
         <div class='col-md-10'>
             <input type='number' name='capital' value='' maxlength="40" class='form-control' id='inputTitle' placeholder='請填寫數字'>
@@ -786,35 +786,35 @@
                 <div class="invalid-feedback">
                     請選擇公司/組織形式
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type='radio' name='org_type' value='專業領域(例醫生、作家⋯)' > 專業領域(例醫生、作家⋯)
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type='radio' name='org_type' value='政府部門/公營事業' > 政府部門/公營事業
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type='radio' name='org_type' value='非政府/非營利組織' > 非政府/非營利組織
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type='radio' name='org_type' value='其它' > 其它
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
         </div>
     </div>
 
-    <div class='row form-group field_long' style='display:none'> 
+    <div class='row form-group field_long' style='display:none'>
     <label for='inputOrgTypeOther' class='col-md-2 control-label text-md-right'>公司/組織形式:自填</label>
         <div class='col-md-10'>
             <input type='text' name='org_type_other' value='' class='form-control' id='inputOrgTypeOther' placeholder='公司/組織形式若選「其它」請自填'>
@@ -832,19 +832,19 @@
                 <div class="invalid-feedback">
                     請選擇公司成立幾年
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type='radio' name='years_operation' value='5年~10年' > 5年~10年
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
             <label class=radio-inline>
                 <input type='radio' name='years_operation' value='5年以下' > 5年以下
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label> 
+            </label>
         </div>
     </div>
 --}}
@@ -977,8 +977,8 @@
         </div>
     </div>
     </form>
-            
-    <script>        
+
+    <script>
         $('[data-toggle="confirmation"]').confirmation({
             rootSelector: '[data-toggle=confirmation]',
             title: "敬請再次確認資料填寫無誤。",
@@ -1053,14 +1053,14 @@
                     }, false);
                 });
             }, false);
-        })();     
-        
+        })();
+
         let categories = null;
         let rowIsEducating = null;
 
         /**
         * Ready functions.
-        * Executes commands after the web page is loaded. 
+        * Executes commands after the web page is loaded.
         */
 
         function setDepartFrom(radio_ele) {
@@ -1115,7 +1115,7 @@
             }
         }
 
-        function showFields(){        
+        function showFields(){
             sel = document.getElementById('inputGroupPriority1').value;
             console.log(sel);
             fields_long = document.getElementsByClassName('field_long');
@@ -1127,14 +1127,14 @@
             console.log(itemsreq_long.length);
             console.log(itemsreq_long);
             if (sel == '關懷組') {
-                for (i=0;i<fields_long.length;i++) fields_long[i].style.display = ''; 
+                for (i=0;i<fields_long.length;i++) fields_long[i].style.display = '';
                 for (i=0;i<fields_short.length;i++) fields_short[i].style.display = 'none';
                 for (i=0;i<itemsreq_long.length;i++) itemsreq_long[i].required = true;
                 for (i=0;i<itemsreq_short.length;i++) itemsreq_long[i].required = false;
             }
             else {
-                for (i=0;i<fields_long.length;i++) fields_long[i].style.display = 'none'; 
-                for (i=0;i<fields_short.length;i++) fields_short[i].style.display = ''; 
+                for (i=0;i<fields_long.length;i++) fields_long[i].style.display = 'none';
+                for (i=0;i<fields_short.length;i++) fields_short[i].style.display = '';
                 for (i=0;i<itemsreq_long.length;i++) itemsreq_long[i].required = false;
                 for (i=0;i<itemsreq_short.length;i++) itemsreq_long[i].required = true;
             }
@@ -1145,13 +1145,13 @@
                 recruit_ch.value = '自招';
         }
 
-        function hideFields(){        
+        function hideFields(){
             fields_long = document.getElementsByClassName('field_long');
             fields_short = document.getElementsByClassName('field_short');
             itemsreq_long = document.getElementsByClassName('itemreq_long');
             itemsreq_short = document.getElementsByClassName('itemreq_short');
-            for (i=0;i<fields_long.length;i++) fields_long[i].style.display = 'none'; 
-            for (i=0;i<fields_short.length;i++) fields_short[i].style.display = 'none'; 
+            for (i=0;i<fields_long.length;i++) fields_long[i].style.display = 'none';
+            for (i=0;i<fields_short.length;i++) fields_short[i].style.display = 'none';
             for (i=0;i<itemsreq_long.length;i++) itemsreq_long[i].required = false;
             for (i=0;i<itemsreq_short.length;i++) itemsreq_long[i].required = false;
         }
@@ -1187,7 +1187,7 @@
                 }
             }
         }
-        
+
         function fillTheTitle(){
             if(this.value == '其他'){
                 document.getElementById('title').value = '請在此處自行輸入職稱';
@@ -1197,7 +1197,7 @@
             }
             else if(this.value != null){
                 document.getElementById('title').value = this.value;
-            }            
+            }
         }
 
         @if(isset($applicant_data))
@@ -1207,9 +1207,9 @@
                 let inputs = document.getElementsByTagName('input');
                 let selects = document.getElementsByTagName('select');
                 let textareas = document.getElementsByTagName('textarea');
-                let complementPivot = 0;                
-                let complementData = applicant_data["blisswisdom_type_complement"] ? applicant_data["blisswisdom_type_complement"].split("||/") : null; 
-                // console.log(inputs); 
+                let complementPivot = 0;
+                let complementData = applicant_data["blisswisdom_type_complement"] ? applicant_data["blisswisdom_type_complement"].split("||/") : null;
+                // console.log(inputs);
                 for (var i = 0; i < inputs.length; i++){
                     if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox"){
                         if(inputs[i].type == "radio"){
@@ -1222,7 +1222,7 @@
                         }
                         else if(inputs[i].type == "checkbox"){
                             let checkboxes = document.getElementsByName(inputs[i].name);
-                            let deArray = inputs[i].name.slice(0, -2); 
+                            let deArray = inputs[i].name.slice(0, -2);
                             if(applicant_data[deArray]){
                                 let checkedValues = applicant_data[deArray].split("||/");
                                 for( j = 0; j < checkboxes.length; j++ ) {
@@ -1235,7 +1235,7 @@
                             }
                         }
                         else if(applicant_data[inputs[i].name]){
-                            inputs[i].value = applicant_data[inputs[i].name]; 
+                            inputs[i].value = applicant_data[inputs[i].name];
                         }
                     }
                     else if(inputs[i].type == "text" && inputs[i].name == 'blisswisdom_type_complement[]'){
@@ -1243,7 +1243,7 @@
                         complementPivot++;
                     }
                     else if(inputs[i].type == "text" && typeof applicant_data[inputs[i].name] !== "undefined"){
-                        inputs[i].value = applicant_data[inputs[i].name]; 
+                        inputs[i].value = applicant_data[inputs[i].name];
                     }
                     if(inputs[i].name == 'emailConfirm'){
                         inputs[i].value = applicant_data['email'];
@@ -1251,12 +1251,12 @@
                 }
                 for (var i = 0; i < selects.length; i++){
                     if(typeof applicant_data[selects[i].name] !== "undefined"){
-                        selects[i].value = applicant_data[selects[i].name]; 
+                        selects[i].value = applicant_data[selects[i].name];
                     }
                 }
                 for (var i = 0; i < textareas.length; i++){
                     if(typeof applicant_data[textareas[i].name] !== "undefined"){
-                        textareas[i].value = applicant_data[textareas[i].name]; 
+                        textareas[i].value = applicant_data[textareas[i].name];
                     }
                 }
 
