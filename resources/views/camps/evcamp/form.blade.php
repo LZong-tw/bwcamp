@@ -356,7 +356,7 @@
                     西元
                 </div>
                 <div class="col-md-3">
-                    <input type='number' required class='form-control' name='birthyear' min='{{ \Carbon\Carbon::now()->subYears(90)->year }}' max='{{ \Carbon\Carbon::now()->subYears(16)->year }}' value='' placeholder=''>
+                    <input type='number' class='form-control field_long' name='birthyear' min='{{ \Carbon\Carbon::now()->subYears(90)->year }}' max='{{ \Carbon\Carbon::now()->subYears(16)->year }}' value='' placeholder=''>
                     <div class="invalid-feedback">
                         未填寫或日期不正確
                     </div>
@@ -365,7 +365,7 @@
                     年
                 </div>
                 <div class="col-md-2">
-                    <input type='number' required class='form-control' name='birthmonth' min=1 max=12 value='' placeholder=''>
+                    <input type='number' class='form-control field_long' name='birthmonth' min=1 max=12 value='' placeholder=''>
                     <div class="invalid-feedback">
                         未填寫或日期不正確
                     </div>
@@ -374,7 +374,7 @@
                     月
                 </div>
                 <div class="col-md-3">
-                    <input type='number' required class='form-control' name='birthday' min=1 max=31 value='' placeholder=''>
+                    <input type='number' class='form-control field_long' name='birthday' min=1 max=31 value='' placeholder=''>
                     <div class="invalid-feedback">
                         未填寫或日期不正確
                     </div>
