@@ -639,7 +639,7 @@
     <div class='row form-group required field_long' style='display:none'>
     <label for='inputUnit' class='col-md-2 control-label text-md-right itemreg_long'>公司名稱</label>
         <div class='col-md-10'>
-            <input type=text required class='form-control itemreq_long' name='unit' id='inputUnit' value=''  placeholder='若已退休，請填寫退休前資料'>
+            <input type=text class='form-control itemreq_long' name='unit' id='inputUnit' value=''  placeholder='若已退休，請填寫退休前資料'>
             <div class="invalid-feedback crumb">
                 請填寫公司名稱
             </div>
@@ -649,7 +649,7 @@
     <div class='row form-group required field_long' style='display:none'>
         <label for='inputIndustry' class='col-md-2 control-label text-md-right'>產業別</label>
         <div class='col-md-10'>
-            <select required class='form-control itemreg_long' name='industry' id='inputIndustry' onChange=''>
+            <select class='form-control itemreg_long' name='industry' id='inputIndustry' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
                 <option value='製造業' >製造業</option>
                 <option value='公共事業' >公共事業</option>
@@ -687,7 +687,7 @@
     <div class='row form-group required field_long' style='display:none'>
     <label for='inputTitle' class='col-md-2 control-label text-md-right'>職稱</label>
         <div class='col-md-10'>
-            <input type='text' required class='form-control itemreq_long' name='title' id='inputTitle' value='' maxlength="40"  placeholder='若已退休，請填寫退休前資料'>
+            <input type='text' class='form-control itemreq_long' name='title' id='inputTitle' value='' maxlength="40"  placeholder='若已退休，請填寫退休前資料'>
             <div class="invalid-feedback">
                 請填寫職稱
             </div>
@@ -697,7 +697,7 @@
     <div class='row form-group required field_long' style='display:none'>
         <label for='inputJobProperty' class='col-md-2 control-label text-md-right'>職務類型</label>
         <div class='col-md-10'>
-            <select required class='form-control itemreq_long' name='job_property' id='inputJobProperty' onChange=''>
+            <select class='form-control itemreq_long' name='job_property' id='inputJobProperty' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
                 <option value='負責人/公司經營管理' >負責人/公司經營管理</option>
                 <option value='人資' >人資</option >
