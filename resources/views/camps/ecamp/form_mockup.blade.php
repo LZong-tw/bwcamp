@@ -143,7 +143,7 @@
                                             </select>&nbsp;</td>
                                     </tr>
                                     <tr style="background: rgba(255,255,255,0);">
-                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);" class="required">所&nbsp; 在&nbsp; 地：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;background: var(--bs-table-bg);" required name='county' onChange='Address(this.options[this.options.selectedIndex].value);'>
+                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);" class="required">所&nbsp; 在&nbsp; 地：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;background: var(--bs-table-bg);" required name='unit_county' onChange='Address(this.options[this.options.selectedIndex].value, "unit");'>
                                                 <option value='' selected>- 先選縣市 -</option>
                                                 <option value='' disabled>- 北區 -</option>
                                                 <option value='臺北市' >臺北市</option>
@@ -179,11 +179,11 @@
                                             </select></td>
                                     </tr>
                                     <tr style="background: rgba(255,255,255,0);">
-                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);" class="required">行&nbsp; 政&nbsp; 區：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;background: var(--bs-table-bg);" required name='subarea' onChange='document.Camp.unit_location.value=MyAddress(document.Camp.county.value, this.options[this.options.selectedIndex].text);'>
+                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);" class="required">行&nbsp; 政&nbsp; 區：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;background: var(--bs-table-bg);" required name='unit_subarea' onChange='document.Camp.unit_location.value=MyAddress(document.Camp.unit_county.value, this.options[this.options.selectedIndex].text);'>
                                                 <option value=''>- 再選區鄉鎮 -</option>
                                             </select>
-                                            <input type='hidden' name='zipcode' value='' id='inputUnitLocation'>
-                                            <input type='hidden' name='address' value='' id='inputUnitLocation'>
+                                            <input type='hidden' name='unit_zipcode' value=''>
+                                            <input type='hidden' name='unit_address' value=''>
                                             <input type="hidden" name='unit_location' value='' id='inputUnitLocation'>
                                             </td>
                                     </tr>
@@ -281,6 +281,46 @@
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                         <td style="width: 60%;color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(52, 99, 122);" class="required">確認電子郵件信箱：</span></strong><span style="color: rgb(187, 57, 49);">(請再輸入一次)&nbsp;</span><strong><span style="color: rgb(52, 99, 122);">&nbsp;</span></strong><input type="email" style="background: var(--bs-table-bg);border-style: none;border-radius: 10px;width: 100%;"  required name='emailConfirm' value='' id='inputEmailConfirm'></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-width: 1px;border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(105, 167, 190);" class="required">通訊地址縣市：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;" name="county" required onChange="Address(this.options[this.options.selectedIndex].value);">
+                                                    <option value=''>先選縣市</option>
+                                                    <option value='臺北市'>臺北市</option>
+                                                    <option value='新北市'>新北市</option>
+                                                    <option value='基隆市'>基隆市</option>
+                                                    <option value='宜蘭縣'>宜蘭縣</option>
+                                                    <option value='花蓮縣'>花蓮縣</option>
+                                                    <option value='桃園市'>桃園市</option>
+                                                    <option value='新竹市'>新竹市</option>
+                                                    <option value='新竹縣'>新竹縣</option>
+                                                    <option value='苗栗縣'>苗栗縣</option>
+                                                    <option value='臺中市'>臺中市</option>
+                                                    <option value='彰化縣'>彰化縣</option>
+                                                    <option value='南投縣'>南投縣</option>
+                                                    <option value='雲林縣'>雲林縣</option>
+                                                    <option value='嘉義市'>嘉義市</option>
+                                                    <option value='嘉義縣'>嘉義縣</option>
+                                                    <option value='臺南市'>臺南市</option>
+                                                    <option value='高雄市'>高雄市</option>
+                                                    <option value='屏東縣'>屏東縣</option>
+                                                    <option value='臺東縣'>臺東縣</option>
+                                                    <option value='澎湖縣'>澎湖縣</option>
+                                                    <option value='金門縣'>金門縣</option>
+                                                    <option value='連江縣'>連江縣</option>
+                                                    <option value='南海諸島'>南海諸島</option>
+                                                    <option value='其它'>其它</option>
+                                            </select></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-width: 1px;border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(105, 167, 190);" class="required">通訊地址行政區：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;" name="subarea" onChange='document.Camp.zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.address.value=MyAddress(document.Camp.county.value, this.options[this.options.selectedIndex].text);' required>
+                                                <option value=''>- 再選區鄉鎮 -</option>
+                                        </select></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-width: 1px;border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(105, 167, 190);" class="required">通訊地址：&nbsp;</span></strong> 
+                                        <input type="hidden" name='zipcode' value=''>
+                                        <input type="text" name='address' value='' pattern=".{10,80}" style="background: var(--bs-table-bg);border-radius: 10px;width: 100%;border-style: none;" required>
+                                        </td>
                                     </tr>
                                     <tr></tr>
                                 </tbody>
@@ -420,7 +460,7 @@
             <div class="card border-light border-1 d-flex p-4" style="background: rgba(255,255,255,0);border-radius: 30px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;padding: initial;margin: 10px 0px;">
                 <p style="color: rgb(70,78,171);margin: 0px;font-size: initial;text-align: left;"><strong><span style="color: rgb(0, 0, 0);" class="required">個人資料</span></strong><br><span style="color: rgb(253, 126, 20);">福智文教基金會（簡稱本基金會）及本基金會所屬福智團體於本次營隊取得我的個人資料，於營隊期間及後續本基金會及本基金會所屬福智團體舉辦之活動，作為訊息通知、行政處理等非營利目的之使用，不會提供給無關之其他私人單位使用。</span><br><input type="radio" required name="profile_agree" value='1' checked>&nbsp;同意　　<input type="radio" required name="profile_agree" value='0'>&nbsp;不同意</p>
             </div>
-            <div class="col" style="text-align: center;"><button class="btn btn-warning" type="reset" style="border-style: none;border-radius: 20px;box-shadow: 1px 1px 5px rgba(0,0,0,0.4);padding: 8px 20px;margin: 10px;background: rgba(255,210,0,0.59);"><span style="color: rgb(96, 96, 96);">清除重填 🤔</span></button><button class="btn btn-success" type="submit" style="text-align: center;border-radius: 20px;margin: 10px;border-style: none;box-shadow: 1px 1px 8px rgb(55,55,55);padding: 8px 60px;font-size: 20px;background: rgb(253,126,20);" onclick="document.Camp.zipcode = null; document.Camp.address = null;">確認送出 😊</button></div>
+            <div class="col" style="text-align: center;"><button class="btn btn-warning" type="reset" style="border-style: none;border-radius: 20px;box-shadow: 1px 1px 5px rgba(0,0,0,0.4);padding: 8px 20px;margin: 10px;background: rgba(255,210,0,0.59);"><span style="color: rgb(96, 96, 96);">清除重填 🤔</span></button><button class="btn btn-success" type="submit" style="text-align: center;border-radius: 20px;margin: 10px;border-style: none;box-shadow: 1px 1px 8px rgb(55,55,55);padding: 8px 60px;font-size: 20px;background: rgb(253,126,20);">確認送出 😊</button></div>
         </div>
     </form>
     </section>
