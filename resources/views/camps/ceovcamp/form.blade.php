@@ -117,7 +117,7 @@
             <div class='col-md-10'>
                 <div class="form-check form-check-inline">
                     <label class="form-check-label" for="Pei">
-                        <input class="form-check-input" type="radio" name="region" value="中區" required>中區
+                        <input class="form-check-input" type="radio" name="region" value="中區" required checked>中區
                         <div class="invalid-feedback">
                             請選擇區域
                         </div>
