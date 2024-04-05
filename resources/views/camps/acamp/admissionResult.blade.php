@@ -17,13 +17,15 @@
                     </div>
                     <div class="card-body">
                         <p class="card-text">{{ $applicant->name }} 您好</p>
-                        <p class="card-text">恭喜您錄取「{{ $camp_data->fullName }}」！您的錄取組別為：{{ $applicant->group }}，錄取編號為：{{ $applicant->group }}{{ $applicant->number }}。</p>
+                        <p class="card-text">恭喜您錄取「{{ $camp_data->fullName }}」！<br>
+                        您的報名序號為：{{ $applicant->id }}。<br>
+                        您的錄取組別為：{{ $applicant->group }}，錄取編號為：{{ $applicant->group }}{{ $applicant->number }}。</p>
                         <p class="card-text">我們誠摯歡迎您來共享這場心靈饗宴。三天研習務必全程參加，請參閱下列說明。</p>
                         <p class="card-text">
                             <h4>營隊資訊</h4>
-                                <div class="ml-4 mb-2">研習日期：2023年8月4日(星期五)至8月6日(星期日)，請務必<u>全程參加</u>。</div>
-                                <div class="ml-4 mb-2">報到時間：2023年8月4日(星期五)</div>
-                                <div class="ml-4 mb-2">報到地點：開南大學(桃園市蘆竹區開南路1號)(詳見報到通知單，預計7月寄出Email)</div>
+                                <div class="ml-4 mb-2">研習日期：2024年7月19日(星期五)至7月21日(星期日)，請務必<u>全程參加</u>。</div>
+                                <div class="ml-4 mb-2">報到時間：2024年7月19日(星期五)</div>
+                                <div class="ml-4 mb-2">報到地點：開南大學(桃園市蘆竹區開南路1號)(詳見報到通知單，預計6月寄出Email)</div>
                             <h4>確認參加</h4>
                             <div class="ml-4 mb-2">請回覆確認參加。</div>
                             @if(!isset($applicant->is_attend))
@@ -54,6 +56,7 @@
                                 <div class="ml-4 mb-2">＊隨身背包(教材約A4大小)、文具用品、環保水杯、環保筷、摺疊傘、遮陽帽。</div>
                                 <div class="ml-4 mb-2">＊刮鬍刀、耳塞(睡覺時易受聲音干擾者)、眼罩、口罩、手帕。</div>
                                 <div class="ml-4 mb-2">＊身份證、健保卡(生病時就診用)。</div>
+                                <div class="ml-4 mb-2">＊個人常用藥物。</div>
                                 <br>
                                 <div class="ml-4 mb-2">請勿攜帶貴重物品，本會無法負保管責任！</div>
                             <h4>注意事項</h4>
@@ -63,7 +66,15 @@
                         </p>
                         <br>
                         <p class="card-text">本會關懷員近日將以電話跟您確認，若有任何問題，歡迎與該關懷員聯絡，或致電本會。</p>
-                        <p class="card-text">聯絡電話：02-7751-6788 分機：610408、613091、610301</p>
+                        <p class="card-text">聯絡電話：<br>
+                        　　北區(含宜蘭、花蓮)：02-775-16788#610301、#613091、#610408<br>
+                        　　基隆：02-242-31289#15<br>
+                        　　桃區：03-275-6133#1305<br>
+                        　　竹區：03-532-5566<br>
+                        　　中區：04-370-69300#620202<br>
+                        　　雲嘉：05-283-3940#203<br>
+                        　　台南：06-264-6831#351<br>
+                        　　高屏(含台東)：07-974-3280#68104</p>
                         <p class="card-text">洽詢時間：週一～週五 10:00～20:00、週六 10:00～16:00</p>
                         <br><br>
                         <p class="card-text text-right">主辦單位：財團法人福智文教基金會 敬啟</p>
@@ -115,7 +126,7 @@
             </div>
             --}}
         <!--第二波錄取公告為7/9，6/10之後未錄取就是真的不錄取了-->
-        @elseif(\Carbon\Carbon::now() >= \Carbon\Carbon::createFromFormat("Y-m-d", "2023-07-10"))
+        @elseif(\Carbon\Carbon::now() >= \Carbon\Carbon::createFromFormat("Y-m-d", "2024-04-05"))
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
@@ -127,7 +138,16 @@
                         <p class="card-text indent">相關活動訊息，請洽詢各區聯絡窗口：</p>
                         <p class="card-text indent"><a href="https://www.blisswisdom.org/about/branches" target="_blank" rel="noopener noreferrer">全球辦事處</a></p>
                         <p class="card-text indent"><a href="http://tp.blisswisdom.org/352-2#local" target="_blank" rel="noopener noreferrer">北區服務據點</a></p>
-                        <p class="card-text indent">若有任何問題，歡迎來電本會02-7751-6788分機：610408、613091、610301。</p>
+                        <p class="card-text indent">若有任何問題，歡迎來電本會。</p>
+                        <p class="card-text indent">聯絡電話：<br>
+                        　　北區(含宜蘭、花蓮)：02-775-16788#610301、#613091、#610408<br>
+                        　　基隆：02-242-31289#15<br>
+                        　　桃區：03-275-6133#1305<br>
+                        　　竹區：03-532-5566<br>
+                        　　中區：04-370-69300#620202<br>
+                        　　雲嘉：05-283-3940#203<br>
+                        　　台南：06-264-6831#351<br>
+                        　　高屏(含台東)：07-974-3280#68104</p>
                         <p class="card-text indent">（洽詢時間：週一～週五 10:00～ 20:00、週六 10:00～16:00）</p>
                         <p class="card-text text-right">主辦單位：財團法人福智文教基金會 敬啟</p>
                         <p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
