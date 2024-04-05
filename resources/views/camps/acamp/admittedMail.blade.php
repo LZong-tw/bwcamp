@@ -5,6 +5,7 @@
 </style>
 <h2 class="center">{{ $applicant->batch->camp->fullName }}<br>錄取通知單（三天）</h2>
 <p class="card-text">{{ $applicant->name }} 您好</p>
+<p class="card-text">您的報名序號為：{{ $applicant->id }}。</p>
 <p class="card-text">您的錄取組別為：{{ $applicant->group }}，錄取編號為：{{ $applicant->group }}{{ $applicant->number }}。</p>
 <p class="card-text">我們誠摯歡迎您來共享這場心靈饗宴。三天研習務必全程參加，請參閱下列說明。</p>
 <p class="card-text">
@@ -34,7 +35,15 @@
         <div class="ml-4 mb-2">＊本次營隊報名踴躍，因場地考量容納有限，若您無法全程參加，請告知關懷員，感謝您的善行。謝謝！</div>
 </p>
 <p class="card-text">本會關懷員近日將以電話跟您確認，若有任何問題，歡迎與該關懷員聯絡，或致電本會。</p>
-<p class="card-text">聯絡電話：02-7751-6788 分機：610408、613091、610301</p>
+<p class="card-text">聯絡電話：<br>
+　　北區(含宜蘭、花蓮)：02-775-16788#610301、#613091、#610408<br>
+　　基隆：02-242-31289#15<br>
+　　桃區：03-275-6133#1305<br>
+　　竹區：03-532-5566<br>
+　　中區：04-370-69300#620202<br>
+　　雲嘉：05-283-3940#203<br>
+　　台南：06-264-6831#351<br>
+　　高屏(含台東)：07-974-3280#68104</p>
 <p class="card-text">洽詢時間：週一～週五 10:00～20:00、週六 10:00～16:00</p>
 <br><br>
 <p class="card-text text-right">主辦單位：財團法人福智文教基金會 敬啟</p>
