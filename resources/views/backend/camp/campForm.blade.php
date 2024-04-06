@@ -76,7 +76,7 @@
             <label for='inputName' class='col-md-2 control-label'>關懷區域</label>
             <div class='col-md-6'>
                 @foreach($regions as $region)
-                    <label><input type="checkbox" name="regions[]" id="" value="{{ $region->id }}" @if((isset($camp->regions) && $camp->regions->where('region_id', $region->id)->first()) || ($camp->applicants->where('region_id', $region->id)->count() || $camp->roles->where('region_id', $region->id)->count())) checked @endif @if(($camp->applicants->where('region_id', $region->id)->count() || $camp->roles->where('region_id', $region->id)->count()) && $camp->regions->where('region_id', $region->id)->first()) disabled @endif title="學員{{ $camp->applicants->where('region_id', $region->id)->count() }}，職務{{ $camp->roles->where('region_id', $region->id)->count() }}"> {{ $region->name }}</label>
+                    <label><input type="checkbox" name="regions[]" id="" value="{{ $region->id }}" @if((isset($camp->regions) && $camp->regions->where('id', $region->id)->first()) || ($camp->applicants->where('region_id', $region->id)->count() || $camp->roles->where('region_id', $region->id)->count())) checked @endif @if(($camp->applicants->where('region_id', $region->id)->count() || $camp->roles->where('region_id', $region->id)->count()) && $camp->regions->where('id', $region->id)->first()) disabled @endif title="學員{{ $camp->applicants->where('region_id', $region->id)->count() }}，職務{{ $camp->roles->where('region_id', $region->id)->count() }}"> {{ $region->name }}</label>
                 @endforeach
             </div>
         </div>
