@@ -452,10 +452,17 @@
     <div class='row form-group required' >
         <label for='inputStayDates' class='col-md-2 control-label text-md-right'>住宿日期(多選)</label>
         <div class='col-md-10'>
-            <label><input type="checkbox" class='stay_dates' name=stay_dates[] value='0710(三)' > 0710(三)</label> <br/>
-            <label><input type="checkbox" class='stay_dates' name=stay_dates[] value='0711(四)' > 0711(四)</label> <br/>
-            <label><input type="checkbox" class='stay_dates' name=stay_dates[] value='0712(五)' > 0712(五)</label> <br/>
-            <label><input type="checkbox" class='stay_dates' name=stay_dates[] value='0713(六)' > 0713(六)</label> <br/>
+            @if(str_contains($batch->name, "北區"))
+                <label><input type="checkbox" class='stay_dates' name=stay_dates[] value='0710(三)' > 0710(三)</label> <br/>
+                <label><input type="checkbox" class='stay_dates' name=stay_dates[] value='0711(四)' > 0711(四)</label> <br/>
+                <label><input type="checkbox" class='stay_dates' name=stay_dates[] value='0712(五)' > 0712(五)</label> <br/>
+                <label><input type="checkbox" class='stay_dates' name=stay_dates[] value='0713(六)' > 0713(六)</label> <br/>
+            @else
+                <label><input type="checkbox" class='stay_dates' name=stay_dates[] value='0724(三)' > 0724(三)</label> <br/>
+                <label><input type="checkbox" class='stay_dates' name=stay_dates[] value='0725(四)' > 0725(四)</label> <br/>
+                <label><input type="checkbox" class='stay_dates' name=stay_dates[] value='0726(五)' > 0726(五)</label> <br/>
+                <label><input type="checkbox" class='stay_dates' name=stay_dates[] value='0727(六)' > 0727(六)</label> <br/>
+            @endif
             <div class="invalid-feedback" id="stay_dates-invalid">
                 請選擇住宿日期。
             </div>
