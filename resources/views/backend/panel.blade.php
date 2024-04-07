@@ -150,9 +150,22 @@
                         <li>
                             <a href="{{ route("showRegistration", $campFullData->id) }}">報名</a>
                         </li>
-                        <li>
-                            <a href="{{ route("showRegistrationList", $campFullData->id)}}">檢視及下載</a>
-                        </li>
+                        @if ($campFullData->table == "ceocamp" || $campFullData->table == "ceovcamp")
+                            @if ($user->email == "cuboy.chen@gmail.com" ||
+                                $user->email == "evelynhua@gmail.com" ||
+                                $user->email == "jadetang01@gmail.com" ||
+                                $user->email == "jadetang004@gmail.com" ||
+                                $user->email == "tsai.scow@gmail.com"
+                            )
+                                <li>
+                                    <a href="{{ route("showRegistrationList", $campFullData->id)}}">檢視及下載</a>
+                                </li>
+                            @endif
+                        @else
+                            <li>
+                                <a href="{{ route("showRegistrationList", $campFullData->id)}}">檢視及下載</a>
+                            </li>
+                        @endif
                         <li>
                             <a href="{{ route("changeBatchOrRegionGET", $campFullData->id) }}">修改梯次 / 區域</a>
                         </li>
