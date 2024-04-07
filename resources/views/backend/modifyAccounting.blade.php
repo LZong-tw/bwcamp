@@ -126,7 +126,6 @@
                             <option value='不住宿' selected>不住宿</option>
                             <option value='單人房' >單人房</option>
                             <option value='雙人房' >雙人房</option>
-                            <option value='四人房' >四人房</option>
                         </select>
                         <div class="invalid-feedback">
                             請選擇房型

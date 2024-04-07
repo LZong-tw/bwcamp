@@ -105,6 +105,9 @@ class ApplicantService
         if ($candidate->batch->camp->table == "ycamp") {
             // todo: 應釐清學員的 fee 和交通的 fare 之間的差別
             $candidate->fee = $candidate->traffic?->fare ?? 0;
+        } elseif ($candidate->batch->camp->table == "ceocamp") {
+            // todo: 應釐清學員的 fee 和交通的 fare 之間的差別
+            $candidate->fee = $candidate->lodging?->fare ?? 0;
         } else {
             $candidate->fee = $candidate->batch->camp->set_fee ?? 0;
         }

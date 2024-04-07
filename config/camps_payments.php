@@ -19,6 +19,27 @@ return [
         'timeout' => env('SCSB_FTP_TIMEOUT', 30),
         'root' => env('SCSB_FTP_ROOT', ''),
     ],
+    'ceocamp' => [
+        "accounting_table" => "accounting_scsb",
+        "銷帳流水號前1碼" => "5",
+        "對帳檔檔名後綴" => "-FESNET-M011200894950615-FD913",
+        "超商代收代號" => "6W5",
+        "7碼收款人帳戶" => "4090615",
+        "銀行檢查碼權數" => "123987614321",
+        'scsb_enum' => [
+            "71" => "7-11",
+            "ATM" => "ATM",
+            "OK" => "OK",
+            "FA" => "全家",
+            "HI" => "萊爾富",
+        ],
+        'email' => [
+            "lzong.tw@gmail.com",
+            "minchen.ho@blisswisdom.org",
+            "ceo.camp@blisswisdom.org",
+        ]
+    ],
+
     'ycamp' => [
         "accounting_table" => "accounting_scsb",
         "銷帳流水號前1碼" => "5",
@@ -108,9 +129,8 @@ return [
 
     'fare_room' => [
         "ceocamp" => [
-            "單人房" => "4800",
-            "雙人房" => "2400",
-            "四人房" => "1200",
+            "單人房" => "3650",
+            "雙人房" => "2000",
             "自理" => "0",
         ],
     ],
