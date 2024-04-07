@@ -151,11 +151,11 @@
                             <a href="{{ route("showRegistration", $campFullData->id) }}">報名</a>
                         </li>
                         @if ($campFullData->table == "ceocamp" || $campFullData->table == "ceovcamp")
-                            @if ($user->email == "cuboy.chen@gmail.com" ||
-                                $user->email == "evelynhua@gmail.com" ||
-                                $user->email == "jadetang01@gmail.com" ||
-                                $user->email == "jadetang004@gmail.com" ||
-                                $user->email == "tsai.scow@gmail.com"
+                            @if (auth()->user()->email == "cuboy.chen@gmail.com" ||
+                                auth()->user()->email == "evelynhua@gmail.com" ||
+                                auth()->user()->email == "jadetang01@gmail.com" ||
+                                auth()->user()->email == "jadetang004@gmail.com" ||
+                                auth()->user()->email == "tsai.scow@gmail.com"
                             )
                                 <li>
                                     <a href="{{ route("showRegistrationList", $campFullData->id)}}">檢視及下載</a>
