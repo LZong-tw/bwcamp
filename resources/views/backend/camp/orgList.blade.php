@@ -10,6 +10,13 @@
         }
     </style>
     <h2 class="d-inline-block">{{ $camp->abbreviation }} 組織列表　</h2><br>
+    @if($errors->any())
+        @foreach ($errors->all() as $message)
+            <div class='alert alert-danger' role='alert'>
+                {{ $message }}
+            </div>
+        @endforeach
+    @endif
     @if(\Session::has('message'))
         <div class='alert alert-success' role='alert'>
             {{ \Session::get('message') }}
@@ -49,7 +56,7 @@
                 </tr>
             </thead>
 
-            
+
             @foreach($orgs as $org)
                 {{-- 比對梯次才印 ---}}
                 @if($org->batch_id == 0)
@@ -200,7 +207,7 @@
                     @endif
                 @endforeach
             </table>
-    @endif                        
+    @endif
     @endforeach
 
     @if(count($orgs))

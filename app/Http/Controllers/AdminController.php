@@ -252,6 +252,7 @@ class AdminController extends BackendController {
         $orgs = $camp->organizations;   //existing orgs
         $newSet = array();
         $is_exist = false;
+        $existed_org = null;
         //dd($formData);
         $positions = count($formData['position']);
         //i: position index
@@ -273,9 +274,12 @@ class AdminController extends BackendController {
                     $newSet[$j]['is_node'] = 0;
                     $is_exist = false;  //init
                     foreach($orgs as $org) {
-                        if ($org->position == $pos_tg && 
-                            $org->prev_id == $formData['prev_id'][$j]) {
+                        if ($org->position == $pos_tg &&
+                            $org->prev_id == $formData['prev_id'][$j] &&
+                            $org->batch_id == $formData['batch_id'][$j] &&
+                            $org->region_id == $formData['region_id'][$j]) {
                             $is_exist = true;   //once find match, break
+                            $existed_org = $org;
                             break;
                         }
                     }
@@ -292,8 +296,13 @@ class AdminController extends BackendController {
                 }
             }
         }
-        \Session::flash('message', " 組織新增成功。");
-        return redirect()->route("showOrgs", $camp_id);
+        if (!$is_exist) {
+            \Session::flash('message', " 組織新增成功。");
+            return redirect()->route("showOrgs", $camp_id);
+        }
+        else {
+            return redirect()->route("showOrgs", $camp_id)->withErrors(['職務已存在，ID：' . $existed_org->id]);
+        }
     }
 
     public function showAddOrgs($camp_id, $org_id){
@@ -315,7 +324,7 @@ class AdminController extends BackendController {
             $org_tg->position = 'empty';
         } else {  //有上層
             $org_tg = CampOrg::find($org_id);
-            
+
             $sec_tg = $org_tg->section; //找到要新增的sec
             if ($org_tg->batch_id==0) {
                 $batch_tg = new Batch();
