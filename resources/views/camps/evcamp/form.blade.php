@@ -1133,7 +1133,7 @@
             console.log(fields_long.length);
             console.log(itemsreq_long.length);
             console.log(itemsreq_long);
-            if (sel == '關懷組') {
+            if (sel == '關懷組' || sel == '教務組') {
                 for (i=0;i<fields_long.length;i++) fields_long[i].style.display = '';
                 for (i=0;i<fields_short.length;i++) fields_short[i].style.display = 'none';
                 for (i=0;i<itemsreq_long.length;i++) itemsreq_long[i].required = true;
