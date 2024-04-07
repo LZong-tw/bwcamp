@@ -661,7 +661,7 @@ return [
             "deposit" => "已交車資",
         ],
     ],
-    
+
     'display' => [
         'acamp' => [
             "batch" => [
@@ -811,6 +811,11 @@ return [
                 "sort" => 1,
                 "for_query" => 1,
             ],
+            "region" => [
+                "name" => "區域",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
             "name" => [
                 "name" => "姓名",
                 "sort" => 0,
@@ -886,6 +891,11 @@ return [
             ],
             "roles" => [
                 "name" => "職務組別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "region" => [
+                "name" => "區域",
                 "sort" => 1,
                 "for_query" => 1,
             ],
@@ -974,6 +984,11 @@ return [
             ],
             "group" => [
                 "name" => "組別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "region" => [
+                "name" => "區域",
                 "sort" => 1,
                 "for_query" => 1,
             ],
@@ -1072,6 +1087,11 @@ return [
             ],
             "roles" => [
                 "name" => "職務組別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "region" => [
+                "name" => "區域",
                 "sort" => 1,
                 "for_query" => 1,
             ],
@@ -1329,7 +1349,7 @@ return [
                 "sort" => 0,
                 "for_query" => 0,
             ],
-        ],        
+        ],
 
         'utvcamp' => [
             "name" => [
