@@ -1140,7 +1140,7 @@
                 for (i=0;i<itemsreq_short.length;i++) itemsreq_long[i].required = false;
             }
             @if(str_contains($batch->name, "第一梯"))
-                elseif (sel == '教務組') {
+                else if (sel == '教務組') {
                     for (i=0;i<fields_long.length;i++) fields_long[i].style.display = '';
                     for (i=0;i<fields_short.length;i++) fields_short[i].style.display = 'none';
                     for (i=0;i<itemsreq_long.length;i++) itemsreq_long[i].required = true;
