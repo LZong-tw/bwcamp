@@ -401,7 +401,8 @@ class AdminController extends BackendController {
         $vcamp = Camp::find($camp->vcamp->id);
         $batches = $camp->batchs->merge($vcamp->batchs);
         $regions = $camp->regions;
-        $orgs = $camp->organizations->sortBy('order');
+        // $orgs = $camp->organizations->sortBy('order');
+        $orgs = $camp->organizations->orderBy('region_id');
 
         $num_users = array();
         foreach($orgs as $org) {
