@@ -3,7 +3,10 @@
     <p align="right">
         @if(!str_contains($campFullData->table, 'ceo') ||
              str_contains($currentUser->email, "cuboy.chen@gmail.com") ||
-             str_contains($currentUser->email, "evelynhua@gmail.com"))
+             str_contains($currentUser->email, "evelynhua@gmail.com") ||
+             str_contains($currentUser->email, "jadetang01@gmail.com") ||
+             str_contains($currentUser->email, "jadetang004@gmail.com") ||
+             str_contains($currentUser->email, "tsai.scow@gmail.com"))
             <a href="{{ route("export", $campFullData->id) }}?vcamp={{ $isShowVolunteers }}" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">匯出資料</a>
         @endif
         @if($isShowLearners)            &nbsp;&nbsp;
