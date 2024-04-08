@@ -243,7 +243,6 @@ class CampController extends Controller
             }
             $request = $this->campDataService->checkBoxToArray($request);
             $formData = $request->toArray();
-            dd($formData);
             $formData['batch_id'] = isset($formData["set_batch_id"]) ? $formData["set_batch_id"] : $this->batch_id;
             $formData = $this->campDataService->handleRegion($formData, $this->camp_data->table, $this->camp_data->id);
 
