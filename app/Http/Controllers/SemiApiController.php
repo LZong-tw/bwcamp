@@ -87,7 +87,7 @@ class SemiApiController extends Controller
                     }
                     else {
                         $org->section = str_replace("root.", " - ", $org->section);
-                        $org->section = $org->region_name ?? "全區" . $org->section;
+                        $org->section = ($org->region_name ?? "全區") . $org->section;
                     }
                 })->unique();
         return response()->json($orgs);
