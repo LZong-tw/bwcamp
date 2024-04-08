@@ -152,7 +152,7 @@ class CampController extends Controller
             $request->birthday = substr($request->birthdate, 8, 2);
         }
 
-        if (!$request->region_id || $region_id == '') {
+        if (!$request->region_id || $request->region_id == '') {
             if ($request->region != '') {
                 $region = $this->camp_data->regions->where('name', $request->region)->first();
                 if ($region) {
