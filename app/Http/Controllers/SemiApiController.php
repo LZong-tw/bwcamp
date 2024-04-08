@@ -106,7 +106,8 @@ class SemiApiController extends Controller
             if ($org->section == "root" && $target_org->section == "root") {
                 return $org->prev_id == 0 && !$org->is_node && $org->region_id == $target_org->region_id;
             }
-            return $org->position != 'root' && $org->section == $target_org->section && $org->prev_id == $target_org->prev_id;
+            // return $org->position != 'root' && $org->section == $target_org->section && $org->prev_id == $target_org->prev_id;
+            return $org->position != 'root' && $org->prev_id == $target_org->id;
         });
         $orgs = $orgs->each(function ($org) {
             if (str_contains($org->position, "關懷小組")) {
