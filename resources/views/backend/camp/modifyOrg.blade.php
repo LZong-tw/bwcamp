@@ -23,12 +23,12 @@
                     <option value="">不限</option>
                     <optgroup label="學員">
                         @foreach($camp->batchs ?? [] as $batch) 
-                            <option value="{{ $batch->id }}" {{ $batch->id == $org->batch_id ? "selected" : "" }}>{{ $batch->name }}</option>
+                            <option value="{{ $batch->id }}" {{ $batch->id == $org->batch_id ? "selected" : "" }}>學員 - {{ $batch->name }}</option>
                         @endforeach
                     </optgroup>
                     <optgroup label="義工">
                         @foreach($camp->vcamp->batchs ?? [] as $batch)
-                            <option value="{{ $batch->id }}" {{ $batch->id == $org->batch_id ? "selected" : "" }}>{{ $batch->name }}</option>
+                            <option value="{{ $batch->id }}" {{ $batch->id == $org->batch_id ? "selected" : "" }}>義工 - {{ $batch->name }}</option>
                         @endforeach
                     </optgroup>
                 </select>
