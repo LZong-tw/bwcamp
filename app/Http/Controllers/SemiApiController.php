@@ -76,7 +76,7 @@ class SemiApiController extends Controller
                     ->getCampOrganizations(Camp::findOrFail($campId));
         // Get region name
         $orgs = $orgs->map(function ($org) {
-            $org->region_name = $org->region?->name;
+            $org->region_name = $org->region?->name ?? "全區";
             return $org;
         });
         $orgs = $orgs->filter(function ($org) {
@@ -87,7 +87,7 @@ class SemiApiController extends Controller
                     }
                     else {
                         $org->section = str_replace("root.", " - ", $org->section);
-                        $org->section = ($org->region_name ?? "全區") . $org->section;
+                        $org->section = $org->region_name . $org->section;
                     }
                 })->unique();
         return response()->json($orgs);
