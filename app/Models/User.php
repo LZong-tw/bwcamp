@@ -175,10 +175,10 @@ class User extends Authenticatable
                 if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer || $resource instanceof \App\Models\User) {
                     if ($resource->batch_id) {
                         $query->where(function ($query) use ($resource){
-                            return $query->where(function ($query) {
-                                return $query->whereNull('batch_id');
+                            $query->where(function ($query) {
+                                $query->whereNull('batch_id');
                             })->orWhere(function ($query) use ($resource) {
-                                return $query->where('batch_id', $resource->batch_id);
+                                $query->where('batch_id', $resource->batch_id);
                             });
                         });
                     }
@@ -187,10 +187,10 @@ class User extends Authenticatable
                 if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer || $resource instanceof \App\Models\User) {
                     if ($resource->region_id) {
                         $query->where(function ($query) use ($resource){
-                            return $query->where(function ($query) {
-                                return $query->whereNull('region_id');
+                            $query->where(function ($query) {
+                                $query->whereNull('region_id');
                             })->orWhere(function ($query) use ($resource) {
-                                return $query->where('region_id', $resource->region_id);
+                                $query->where('region_id', $resource->region_id);
                             });
                         });
                     }
