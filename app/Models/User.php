@@ -172,7 +172,7 @@ class User extends Authenticatable
         $this->rolePermissions = self::with('roles.permissions')->whereHas('roles', function ($query) use ($camp, $resource) {
             $query->where(function ($query) use ($resource, $camp) {
                 // 順便做梯次檢查
-                if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer || $resource instanceof \App\Models\User) {
+                if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer) {
                     if ($resource->batch_id) {
                         $query->where(function ($query) use ($resource){
                             $query->where(function ($query) {
@@ -183,14 +183,40 @@ class User extends Authenticatable
                         });
                     }
                 }
+                else if ($resource instanceof \App\Models\User) {
+                    $theCamp = $camp->vcamp;
+                    $theApplicant = $resource->application_log->whereIn('batch_id', $theCamp->batchs()->pluck('id'))->first();
+                    if ($theApplicant) {
+                        $query->where(function ($query) use ($theApplicant){
+                            $query->where(function ($query) {
+                                $query->whereNull('batch_id');
+                            })->orWhere(function ($query) use ($theApplicant) {
+                                $query->where('batch_id', $theApplicant->batch_id);
+                            });
+                        });
+                    }
+                }
                 // 區域檢查
-                if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer || $resource instanceof \App\Models\User) {
+                if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer) {
                     if ($resource->region_id) {
                         $query->where(function ($query) use ($resource){
                             $query->where(function ($query) {
                                 $query->whereNull('region_id');
                             })->orWhere(function ($query) use ($resource) {
                                 $query->where('region_id', $resource->region_id);
+                            });
+                        });
+                    }
+                }
+                else if ($resource instanceof \App\Models\User) {
+                    $theCamp = $camp->vcamp;
+                    $theApplicant = $resource->application_log->whereIn('batch_id', $theCamp->batchs()->pluck('id'))->first();
+                    if ($theApplicant) {
+                        $query->where(function ($query) use ($theApplicant){
+                            $query->where(function ($query) {
+                                $query->whereNull('region_id');
+                            })->orWhere(function ($query) use ($theApplicant) {
+                                $query->where('region_id', $theApplicant->region_id);
                             });
                         });
                     }
