@@ -109,6 +109,14 @@
                         </div>
                     </label>
                 </div>
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="Chu">
+                        <input class="form-check-input" type="radio" name="region" value="高區" required>高區
+                        <div class="invalid-feedback">
+                            &nbsp;
+                        </div>
+                    </label>
+                </div>
             </div>
         </div>
     @else
@@ -123,14 +131,6 @@
                         </div>
                     </label>
                 </div>
-                {{-- <div class="form-check form-check-inline">
-                    <label class="form-check-label" for="Chu">
-                        <input class="form-check-input" type="radio" name="region" value="高區" required>高區
-                        <div class="invalid-feedback">
-                            &nbsp;
-                        </div>
-                    </label>
-                </div> --}}
             </div>
         </div>
     @endif
