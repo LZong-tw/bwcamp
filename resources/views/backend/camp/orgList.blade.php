@@ -129,7 +129,7 @@
             <table class="table table-bordered">
                 <thead>
                     <tr class="bg-primary text-white">
-                        <th colspan="10">梯次：{{ $batch->name }} @if(str_contains($batch->camp->table, "vcamp")) (義工) @else (學員) @endif</th>
+                        <th colspan="10">梯次：{{ $batch->name }} @if(str_contains($batch->camp->table, "vcamp")) (義工) @else {{ "(學員)" }} @endif</th>
                     </tr>
                     <tr class="bg-secondary text-white">
                         <th>ID</th>
