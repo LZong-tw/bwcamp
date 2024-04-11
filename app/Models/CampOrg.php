@@ -99,12 +99,4 @@ class CampOrg extends LaratrustRole
     public function applicant_group() {
         return $this->hasOne(ApplicantsGroup::class, 'id', 'group_id');
     }
-
-    protected function section(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => str_replace("root.", "大會", $this->section),
-            set: fn ($value) => $value,
-        );
-    }
 }
