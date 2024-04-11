@@ -79,15 +79,20 @@ class SemiApiController extends Controller
             $org->region_name = $org->region?->name ?? "全區";
             return $org;
         });
+        // Get batch name
+        $orgs = $orgs->map(function ($org) {
+            $org->batch_name = $org->batch?->name ?? "不分梯";
+            return $org;
+        });
         $orgs = $orgs->filter(function ($org) {
                     return 1;
                 })->each(function ($org) {
                     if ($org->section == "root") {
-                        $org->section = $org->region_name ."大會";
+                        $org->section = $org->batch_name . $org->region_name ."大會";
                     }
                     else {
                         $org->section = str_replace("root.", " - ", $org->section);
-                        $org->section = $org->region_name . $org->section;
+                        $org->section = $org->batch_name . $org->region_name . $org->section;
                     }
                 })->unique();
         return response()->json($orgs);
