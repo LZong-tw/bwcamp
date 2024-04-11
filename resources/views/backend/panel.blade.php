@@ -259,7 +259,7 @@
             <li>
                 <a href="{{ route("home") }}">{{ Auth::user()->name }}</a>
             </li>
-            @if (auth()->user()->roles->where('camp_id', $campFullData->id)->first())
+            @if (isset($campFullData) && auth()->user()->roles->where('camp_id', $campFullData->id)->first())
                 @foreach (auth()->user()->roles->where('camp_id', $campFullData->id)->get() as $role)
                     <li>
                         <a href="">{{ $role->section }} {{ $role->position }}</a>
