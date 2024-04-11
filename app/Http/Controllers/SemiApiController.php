@@ -23,10 +23,9 @@ class SemiApiController extends Controller
                     ->getBatchGroups(Camp::findOrFail($campId));
         if ($request->input('batch_id')) {
             $groups = $batchGroups->filter(function ($batch) use ($request) {
-                    return $batch->id == $request->input('batch_id');
-                })->first()->groups;
-        }
-        else {
+                return $batch->id == $request->input('batch_id');
+            })->first()->groups;
+        } else {
             $groups = $batchGroups->map(function ($batch) {
                 return $batch->groups;
             })->flatten();
@@ -85,16 +84,15 @@ class SemiApiController extends Controller
             return $org;
         });
         $orgs = $orgs->filter(function ($org) {
-                    return 1;
-                })->each(function ($org) {
-                    if ($org->section == "root") {
-                        $org->section = $org->batch_name . $org->region_name ."大會";
-                    }
-                    else {
-                        $org->section = str_replace("root.", " - ", $org->section);
-                        $org->section = $org->batch_name . "：" . $org->region_name . $org->section;
-                    }
-                })->unique();
+            return 1;
+        })->each(function ($org) {
+            if ($org->section == "root") {
+                $org->section = $org->batch_name . $org->region_name ."大會";
+            } else {
+                $org->section = str_replace("root.", " - ", $org->section);
+                $org->section = $org->batch_name . "：" . $org->region_name . $org->section;
+            }
+        })->unique();
         return response()->json($orgs);
     }
 
@@ -135,7 +133,7 @@ class SemiApiController extends Controller
         return response()->json($theVcamp);
     }
 
-        public function getOrgSel(Request $request)
+    public function getOrgSel(Request $request)
     {
         $campId = $request->input('camp_id_sel');
         $camp = Camp::findOrFail($campId);
