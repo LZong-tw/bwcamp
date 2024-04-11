@@ -1,6 +1,3 @@
-{{-- 
-    參考頁面：https://bwfoce.org/ecamp/form/2020ep01.php
---}}
 @php
     header("Cache-Control: no-cache, no-store, must-revalidate, post-check=0, pre-check=0", false);
     header("Pragma: no-cache");
@@ -8,759 +5,471 @@
     header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     $regions = ['台北', '桃園', '新竹', '中區', '雲嘉', '台南', '高區'];
 @endphp
-@extends('camps.ecamp.layout')
-@section('content')
-    @include('partials.schools_script')
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name='description' content='「翻轉人生從心出發」邀請您報名參加企業主管生命成長營。' />
+    <meta name='author' content='福智文教基金會'>
+    <meta property='og:url' content='https://bwfoce.org/ecamp/'/>
+    <meta property='og:title' content='{{ $camp_data->abbreviation }}'/>
+    <meta property='og:description' content='「翻轉人生從心出發」邀請您報名參加企業主管生命成長營。' />
+    <meta property='og:image' content='https://static.wixstatic.com/media/8822b2_42442909881444a99904caa63bb7e659~mv2.png/v1/fill/w_2274,h_640,al_c,usm_0.66_1.00_0.01,enc_auto/8822b2_42442909881444a99904caa63bb7e659~mv2.png'/>
+    {{-- <link rel='icon' href='/camp/favicon.ico'> --}}
+    <title> {{ $camp_data->fullName }} </title>
+    <link rel="stylesheet" href="{{ asset("mockup-assets/ecamp/bootstrap/css/bootstrap.min.css") }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abel&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aboreto&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alegreya+Sans&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+Chorasmian&amp;display=swap">
     @include('partials.counties_areas_script')
-    <div class='alert alert-info' role='alert'>
-        您在本網站所填寫的個人資料，僅用於此次企業營的報名及活動聯絡之用。
-    </div>
+    <style>
+        .required:before {
+            content: "＊";
+            color: red;
+        }
+    </style>
+</head>
 
-    <div class='page-header form-group'>
-        <h4>{{ $camp_data->fullName }}線上報名表</h4>
-    </div>
-
-{{-- 使用舊資料報名：如果有batch_id_from參數的話(今年限2021&2022企業營，但沒有寫這個條件) --}}
-@if(isset($batch_id_from))
-<hr>
-    <form action="{{ route('formCopy', $batch_id_from) }}" method="POST">
-        @csrf
-        <input type="hidden" name="batch_id_ori" value="{{ $batch_id }}">
-        <input type="hidden" name="batch_id_copy" value="{{ $batch_id_from }}">
-        <input type="hidden" name="applicant_id_ori" value="{{ $applicant_id }}">
-        <input type="submit" class="btn btn-success" value="使用此資料報名{{ $camp_abbr_from }}">
-    </form>
-<hr>
-@endif
-
-{{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
-@if(!isset($isModify) || $isModify)
-    <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form'>
-{{-- 以上皆非: 檢視資料狀態 --}}
-@else
-    <form action="{{ route("queryupdate", $applicant_batch_id) }}" method="post" class="d-inline">
-@endif
-    @csrf
-    <div class='row form-group'>
-        <div class='col-md-2'></div>
-        <div class='col-md-10'>
-            <span class='text-danger'>＊必填</span>
-        </div>
-    </div>
-    <div class='row form-group'>
-        <label for='inputBatch' class='col-md-2 control-label text-md-right'>營隊梯次</label>
-        <div class='col-md-10'>
-            @if(isset($applicant_data))
-                <h3>{{ $applicant_raw_data->batch->name }} {{ $applicant_raw_data->batch->batch_start }} ~ {{ $applicant_raw_data->batch->batch_end }} </h3>
-                <input type='hidden' name='applicant_id' value='{{ $applicant_id }}'>
-                <input type="hidden" name="region" value="@foreach($regions as $r) @if(\Str::contains($applicant_raw_data->batch->name, $r)){{ $r }} @break @endif @endforeach">
-            @else
-                <h3>{{ $batch->name }} {{ $batch->batch_start }} ~ {{ $batch->batch_end }} </h3>
-                @if(\Str::contains($batch->name, "中區"))
-                <h3>(本場課程期間-住宿3天2夜)</h3>
-                @endif
-                <input type="hidden" name="region" value="@foreach($regions as $r) @if(\Str::contains($batch->name, $r)){{ $r }} @break @endif @endforeach">
-            @endif
-        </div>
-    </div>
-    @if(isset($isModify))
-        <div class='row form-group'>
-            <label for='inputBatch' class='col-md-2 control-label text-md-right'>報名日期</label>
-            <div class='col-md-10'>
-                {{ $applicant_raw_data->created_at }}
+<body style="color: #343458;background: rgb(220,220,220);">
+    <nav class="navbar navbar-expand-md fixed-top navbar-shrink py-3 navbar-light" id="mainNav" style="background: linear-gradient(rgba(104,163,193,0.4), rgba(255,255,255,0.4) 52%, rgb(208,225,234)), rgba(255,255,255,0.6);border-radius: 0px;height: 60px;box-shadow: 0px 0px 14px;">
+        <div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><span style="font-family: Abel, sans-serif;color: rgb(46,83,99);">2024 企業主管生命成長營</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1" style="width: 43px;height: 40px;padding: 0px 0px;background: rgba(103,162,192,0.3);"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-1" style="height: 50px;">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link active" href="https://bwfoce.org/ecamp">營隊資訊</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('registration', $batch_id) }}">報名表單</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('query', $batch_id) }}">查詢／修改</a></li>
+                    {{-- <li class="nav-item"><a class="nav-link" href="pricing.html">課程表</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contacts.html">報名簡章</a></li> --}}
+                </ul>
             </div>
         </div>
+    </nav>
+    <header class="pt-5"></header>
+    <section style="text-align: center;"><img src="{{ asset("img/2024ecampBANNER_1024x300.png") }}" style="width: 100%;margin: initial;padding: initial;">
+    {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
+    @if(!isset($isModify) || $isModify)
+        <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form'>
+    {{-- 以上皆非: 檢視資料狀態 --}}
+    @else
+        <form action="{{ route("queryupdate", $applicant_batch_id) }}" method="post" class="d-inline">
     @endif
-    <div class='row form-group required'>
-        <label for='inputName' class='col-md-2 control-label text-md-right'>姓名</label>
-        <div class='col-md-10'>
-            <input type='text' name='name' value='' class='form-control' id='inputName' placeholder='請填寫全名' required>
-        </div>
-        <div class="invalid-feedback">
-            請填寫姓名
-        </div>
-    </div>
-
-    <div class="row form-group required">
-        <label for='inputGender' class='col-md-2 control-label text-md-right'>性別</label>
-        <div class='col-md-10'>
-            <div class="form-check form-check-inline">
-                <label class="form-check-label" for="M">
-                    <input class="form-check-input" type="radio" name="gender" value="M">
-                    男
-                    <div class="invalid-feedback">
-                        未選擇性別
-                    </div>
-                </label>
-            </div>
-            <div class="form-check form-check-inline">
-                <label class="form-check-label" for="F">
-                    <input class="form-check-input" type="radio" name="gender" value="F">
-                    女
-                    <div class="invalid-feedback">
-                        &nbsp;
-                    </div>
-                </label>
-            </div>
-        </div>
-    </div>
-
-{{--
-    <div class='row form-group required'>
-        <label for='inputNationName' class='col-md-2 control-label text-md-right'>國籍</label>
-        <div class='col-md-2'>
-        <select class='form-control' name='nationality' id='inputNationName'>
-            <option value='美國' >美國</option>
-            <option value='加拿大' >加拿大</option>
-            <option value='澳大利亞' >澳大利亞</option>
-            <option value='紐西蘭' >紐西蘭</option>
-            <option value='中國' >中國</option>
-            <option value='香港' >香港</option>
-            <option value='澳門' >澳門</option>
-            <option value='台灣' selected>台灣</option>
-            <option value='韓國' >韓國</option>
-            <option value='日本' >日本</option>
-            <option value='蒙古' >蒙古</option>
-            <option value='新加坡' >新加坡</option>
-            <option value='馬來西亞' >馬來西亞</option>
-            <option value='菲律賓' >菲律賓</option>
-            <option value='印尼' >印尼</option>
-            <option value='泰國' >泰國</option>
-            <option value='越南' >越南</option>
-            <option value='其它' >其它</option>
-        </select>
-        </div>
-    </div>
---}}
-
-    <div class='row form-group required'>
-        <label for='inputBirth' class='col-md-2 control-label text-md-right'>生日</label>
-        <div class='date col-md-10' id='inputBirth'>
-            <div class='row form-group required'>
-                <div class="col-md-1">
-                    西元
-                </div>
-                <div class="col-md-3">
-                    <input type='number' required class='form-control' name='birthyear' min=1900 max='{{ \Carbon\Carbon::now()->subYears(16)->year }}' value='' placeholder=''>
-                    <div class="invalid-feedback">
-                        未填寫或日期不正確
+        @csrf
+        <div class="container py-4 py-xl-5">
+            <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-lg-3">
+                <div class="col">
+                    <div class="card border-light border-1 d-flex p-4" style="background: rgb(208,225,234);border-radius: 20px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;text-align: left;">
+                        <h1 style="font-size: xx-large;">關於您</h1>
+                        <div class="table-responsive" style="width: 100%;position: static;">
+                            <table class="table">
+                                <thead>
+                                    <tr></tr>
+                                </thead>
+                                <tbody style="background: rgba(255,255,255,0);">
+                                    <tr>
+                                        <td style="width: 40%;border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(108, 166, 194);" class="required">姓　　名：</span></strong>&nbsp;<input type="text" style="background: var(--bs-table-bg);filter: brightness(100%);backdrop-filter: opacity(1) brightness(100%) saturate(100%);border-radius: 10px;border-width: 0.1px;border-style: none;border-top-style: none;width: 140px;" type='text' name='name' value='' id='inputName' placeholder='請填寫全名' required></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(107, 165, 193);">性　　別</span><span style="color: rgb(107, 165, 193); background-color: rgba(105, 167, 190, 0);" class="required">：&nbsp;</span></strong>&nbsp;<input type="radio" style="border-style: none;border-color: rgb(105,167,190);" name="gender" value="M" required>&nbsp;男　　<input type="radio" style="border-style: none;border-color: rgb(105,167,190);opacity: 1;"  name="gender" value="F" required>&nbsp;女</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(106, 165, 193);" class="required">生　　日：</span></strong>&nbsp;<input type="date" style="width: 140px;border-radius: 5px;padding: 3px;border-width: 1px;border-style: none;" required name="birthdate">&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(105, 166, 194);">宗教信仰：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;" name="belief">
+                                                <option value=''>- 請選擇 -</option>
+                                                <option value='佛教'>佛教</option>
+                                                <option value='道教'>道教</option>
+                                                <option value='天主教'>天主教</option>
+                                                <option value='基督教'>基督教</option>
+                                                <option value='一貫道'>一貫道</option>
+                                                <option value='民間信仰'>民間信仰</option>
+                                                <option value='佛道'>佛道</option>
+                                                <option value='其它'>其它</option>
+                                                <option value='無'>無</option>
+                                            </select></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-width: 1px;border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(105, 167, 190);">最高學歷：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;" name="education">
+                                                <option value=''>- 請選擇 -</option>
+                                                <option value='高中職'>高中職</option>
+                                                <option value='專科'>專科</option>
+                                                <option value='大學'>大學</option>
+                                                <option value='碩士'>碩士</option>
+                                                <option value='博士'>博士</option>
+                                                <option value='其它'>其它</option>
+                                            </select></td>
+                                    </tr>
+                                    <tr></tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-1">
-                    年
-                </div>
-                <div class="col-md-2">
-                    <input type='number' required class='form-control' name='birthmonth' min=1 max=12 value='' placeholder=''>
-                    <div class="invalid-feedback">
-                        未填寫或日期不正確
+                <div class="col">
+                    <div class="card border-light border-1 d-flex p-4" style="background: rgb(255,231,214);border-radius: 30px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);text-align: left;">
+                        <h1 style="font-size: xx-large;">您的公司</h1>
+                        <div class="table-responsive" style="width: 98%;">
+                            <table class="table">
+                                <thead>
+                                    <tr></tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 60%;border-style: none;background: rgba(255,255,255,0);padding: 8px;"><strong><span style="color: rgb(255, 109, 3);" class="required">服務單位：&nbsp;</span></strong><input type="text" style="width: 140px;border-style: none;border-color: rgba(255,152,77,0.24);background: var(--bs-table-bg);border-radius: 10px;" required name='unit' value='' id='inputUnit'></td>
+                                    </tr>
+                                    <tr style="background: rgba(255,255,255,0);">
+                                        <td style="border-style: none;background: rgba(255,255,255,0);padding: 8px;"><strong><span style="color: rgb(255, 109, 3);" class="required">產&nbsp; 業&nbsp; 別：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;background: var(--bs-table-bg);border-style: none;" required name='industry' onChange=''>
+                                                <option value='' selected>- 請選擇 -</option>
+                                                <option value='製造業' >製造業</option>
+                                                <option value='公共事業' >公共事業</option>
+                                                <option value='營建工程相關產業' >營建工程相關產業</option>
+                                                <option value='批發、零售及貿易相關產業' >批發、零售及貿易相關產業</option>
+                                                <option value='運輸及倉儲相關產業' >運輸及倉儲相關產業</option>
+                                                <option value='住宿及餐飲相關產業' >住宿及餐飲相關產業</option>
+                                                <option value='大眾傳播通訊相關產業' >大眾傳播通訊相關產業</option>
+                                                <option value='金融及保險業相關產業' >金融及保險業相關產業</option>
+                                                <option value='專業、科學及技術相關服務業(會計師、律師、顧問等）' >專業、科學及技術相關服務業(會計師、律師、顧問等）</option>
+                                                <option value='教育學術相關產業' >教育學術相關產業</option>
+                                                <option value='醫療保健及社會工作服務相關' >醫療保健及社會工作服務相關</option>
+                                                <option value='藝術、娛樂及休閒服務相關' >藝術、娛樂及休閒服務相關</option>
+                                                <option value='公家機關' >公家機關</option>
+                                                <option value='其它' >其它</option>
+                                            </select>&nbsp;</td>
+                                    </tr>
+                                    <tr style="background: rgba(255,255,255,0);">
+                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);" class="required">所&nbsp; 在&nbsp; 地：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;background: var(--bs-table-bg);" required name='unit_county' onChange='Address(this.options[this.options.selectedIndex].value, "unit");'>
+                                                <option value='' selected>- 先選縣市 -</option>
+                                                <option value='' disabled>- 北區 -</option>
+                                                <option value='臺北市' >臺北市</option>
+                                                <option value='新北市' >新北市</option>
+                                                <option value='基隆市' >基隆市</option>
+                                                <option value='宜蘭縣' >宜蘭縣</option>
+                                                <option value='花蓮縣' >花蓮縣</option>
+                                                <option value='桃園市' >桃園市</option>
+                                                <option value='新竹市' >新竹市</option>
+                                                <option value='新竹縣' >新竹縣</option>
+                                                <option value='' disabled>- 中區 -</option>
+                                                <option value='苗栗縣' >苗栗縣</option>
+                                                <option value='臺中市' >臺中市</option>
+                                                <option value='彰化縣' >彰化縣</option>
+                                                <option value='南投縣' >南投縣</option>
+                                                <option value='雲林縣' >雲林縣</option>
+                                                <option value='嘉義市' >嘉義市</option>
+                                                <option value='嘉義縣' >嘉義縣</option>
+                                                <option value='' disabled>- 南區 -</option>
+                                                <option value='臺南市' >臺南市</option>
+                                                <option value='高雄市' >高雄市</option>
+                                                <option value='屏東縣' >屏東縣</option>
+                                                <option value='臺東縣' >臺東縣</option>
+                                                <option value='澎湖縣' >澎湖縣</option>
+                                                <option value='金門縣' >金門縣</option>
+                                                <option value='連江縣' >連江縣</option>
+                                                <option value='' disabled>- 其它 -</option>
+                                                <option value='上海地區' >上海地區</option>
+                                                <option value='港澳深圳' >港澳深圳</option>
+                                                <option value='大陸其它區' >南海諸島</option>
+                                                <option value='星馬地區' >大陸其它區</option>
+                                                <option value='其它海外' >其它海外</option>
+                                            </select></td>
+                                    </tr>
+                                    <tr style="background: rgba(255,255,255,0);">
+                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);" class="required">行&nbsp; 政&nbsp; 區：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;background: var(--bs-table-bg);" required name='unit_subarea' onChange='document.Camp.unit_location.value=MyAddress(document.Camp.unit_county.value, this.options[this.options.selectedIndex].text);'>
+                                                <option value=''>- 再選區鄉鎮 -</option>
+                                            </select>
+                                            <input type='hidden' name='unit_zipcode' value=''>
+                                            <input type='hidden' name='unit_address' value=''>
+                                            <input type="hidden" name='unit_location' value='' id='inputUnitLocation'>
+                                            </td>
+                                    </tr>
+                                    <tr style="border-style: none;background: rgba(255,255,255,0);">
+                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);" class="required">職　　稱：&nbsp;</span></strong><input type="text" style="background: var(--bs-table-bg);border-radius: 10px;width: 140px;border-style: none;" required name='title' value='' maxlength="40" id='inputTitle'>&nbsp;&nbsp;</td>
+                                    </tr>
+                                    <tr style="border-style: none;background: rgba(255,255,255,0);">
+                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);" class="required">工作屬性：&nbsp;</span></strong><select style="width: 143px;border-radius: 5px;padding: 3px;border-style: none;background: var(--bs-table-bg);"  required name='job_property' onChange=''>
+                                                <option value='' selected>- 請選擇 -</option>
+                                                <option value='經營/人資' >經營/人資</option>
+                                                <option value='行政/總務' >行政/總務</option>
+                                                <option value='法務' >法務</option>
+                                                <option value='財會/金融' >財會/金融</option>
+                                                <option value='行銷/企劃' >行銷/企劃</option>
+                                                <option value='專案管理' >專案管理</option>
+                                                <option value='客服/門市' >客服/門市</option>
+                                                <option value='業務/貿易' >業務/貿易</option>
+                                                <option value='餐飲/旅遊/美容美髮' >餐飲/旅遊/美容美髮</option>
+                                                <option value='資訊軟體/研發' >資訊軟體/研發</option>
+                                                <option value='生產製造/品管/環衛' >生產製造/品管/環衛</option>
+                                                <option value='物流/運輸' >物流/運輸</option>
+                                                <option value='建築/營建' >建築/營建</option>
+                                                <option value='影視演藝/幕後製作' >影視演藝/幕後製作</option>
+                                                <option value='藝術創作/視覺設計' >藝術創作/視覺設計</option>
+                                                <option value='文字創作/傳媒工作' >文字創作/傳媒工作</option>
+                                                <option value='醫療/保健服務' >醫療/保健服務</option>
+                                                <option value='學術/教育輔導' >學術/教育輔導</option>
+                                                <option value='軍警消/保全' >軍警消/保全</option>
+                                                <option value='其它' >其它</option>
+                                            </select></td>
+                                    </tr>
+                                    <tr style="border-style: none;background: rgba(255,255,255,0);">
+                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);" class="required">公司人數：&nbsp;</span></strong><input type="text" style="width: 120px;border-radius: 10px;background: var(--bs-table-bg);border-style: none;" required name='employees' value='' id='inputEmployees'>&nbsp;人&nbsp;</td>
+                                    </tr>
+                                    <tr style="border-style: none;background: rgba(255,255,255,0);">
+                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);" class="required">直屬管轄人數：&nbsp;</span></strong><input type="text" style="width: 85px;background: var(--bs-table-bg);border-style: none;border-radius: 10px;" required name='direct_managed_employees' value=''  id='inputDirectManagedEmployees'>&nbsp;人</td>
+                                    </tr>
+                                    <tr></tr>
+                                    <tr></tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-1">
-                    月
-                </div>
-                <div class="col-md-3">
-                    <input type='number' required class='form-control' name='birthday' min=1 max=31 value='' placeholder=''>
-                    <div class="invalid-feedback">
-                        未填寫或日期不正確
+                <div class="col">
+                    <div class="card border-light border-1 d-flex p-4" style="background: rgb(255,231,214);border-radius: 30px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;text-align: left;">
+                        <h1 style="font-size: xx-large;">您的經歷</h1>
+                        <div class="" style="width: 98%;">
+                            <table class="table">
+                                <thead>
+                                    <tr></tr>
+                                </thead>
+                                <tbody>
+                                    <tr></tr>
+                                    <tr></tr>
+                                    <tr></tr>
+                                    <tr></tr>
+                                    <tr>
+                                        <td style="filter: blur(0px);backdrop-filter: opacity(1);display: flex;border-style: none;background: #12164300;"><textarea style="width: 100%;border-style: none;background: var(--bs-table-bg);border-radius: 10px;height: 240px;padding: 0px;" name='experience' id=inputExperience></textarea></td>
+                                    </tr>
+                                    <tr></tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-1">
-                    日
+            </div><img src="{{ asset("mockup-assets/ecamp/img/illustrations/eco.png") }}" style="width: 95%;margin: 20px;">
+            <div class="row gy-4 row-cols-1 row-cols-md-2">
+                <div class="col">
+                    <div class="card border-light border-1 d-flex p-4" style="background: #d0e1ea;border-radius: 20px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;text-align: left;">
+                        <h1 style="font-size: x-large;">more about you...</h1>
+                        <div class="table-responsive" style="width: 98%;">
+                            <table class="table">
+                                <thead>
+                                    <tr></tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 40%;color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);" class="required">行動電話：</span></strong>&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;width: 185px;border-style: none;" required name='mobile' value='' id='inputCell' placeholder='格式：0912345678'></td>
+                                    </tr>
+                                    <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);" class="required">公司電話：</span></strong>&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;width: 185px;border-style: none;"  required name='phone_work' value='' id='inputTelWork' placeholder='格式：0225452546#520'></td>
+                                    </tr>
+                                    <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);" class="required">住家電話：</span></strong>&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;width: 185px;border-style: none;" name='phone_home' value='' id='inputTelHome' placeholder='格式：0225452546#520'></td>
+                                    </tr>
+                                    <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);">LINE ID：&nbsp;&nbsp;</span></strong>&nbsp;<input type="text" style="background: var(--bs-table-bg);border-radius: 10px;width: 185px;border-style: none;" name='line' value='' id='inputLineID'></td>
+                                    </tr>
+                                    <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);">微 信 ID：&nbsp;&nbsp;</span></strong>&nbsp;<input type="text" style="background: var(--bs-table-bg);border-radius: 10px;width: 185px;border-style: none;" name='wechat' value='' id='inputWeChatID'></td>
+                                    </tr>
+                                    <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);" class="required">電子郵件信箱：&nbsp;</span></strong><input type="email" style="background: var(--bs-table-bg);border-radius: 10px;width: 100%;border-style: none;" required name='email' value=''id='inputEmail' placeholder='請務必填寫正確，以利營隊相關訊息通知'></td>
+                                    </tr>
+                                    <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
+                                        <td style="width: 60%;color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(52, 99, 122);" class="required">確認電子郵件信箱：</span></strong><span style="color: rgb(187, 57, 49);">(請再輸入一次)&nbsp;</span><strong><span style="color: rgb(52, 99, 122);">&nbsp;</span></strong><input type="email" style="background: var(--bs-table-bg);border-style: none;border-radius: 10px;width: 100%;"  required name='emailConfirm' value='' id='inputEmailConfirm'></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-width: 1px;border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(105, 167, 190);" class="required">通訊地址縣市：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;" name="county" required onChange="Address(this.options[this.options.selectedIndex].value);">
+                                                    <option value=''>先選縣市</option>
+                                                    <option value='臺北市'>臺北市</option>
+                                                    <option value='新北市'>新北市</option>
+                                                    <option value='基隆市'>基隆市</option>
+                                                    <option value='宜蘭縣'>宜蘭縣</option>
+                                                    <option value='花蓮縣'>花蓮縣</option>
+                                                    <option value='桃園市'>桃園市</option>
+                                                    <option value='新竹市'>新竹市</option>
+                                                    <option value='新竹縣'>新竹縣</option>
+                                                    <option value='苗栗縣'>苗栗縣</option>
+                                                    <option value='臺中市'>臺中市</option>
+                                                    <option value='彰化縣'>彰化縣</option>
+                                                    <option value='南投縣'>南投縣</option>
+                                                    <option value='雲林縣'>雲林縣</option>
+                                                    <option value='嘉義市'>嘉義市</option>
+                                                    <option value='嘉義縣'>嘉義縣</option>
+                                                    <option value='臺南市'>臺南市</option>
+                                                    <option value='高雄市'>高雄市</option>
+                                                    <option value='屏東縣'>屏東縣</option>
+                                                    <option value='臺東縣'>臺東縣</option>
+                                                    <option value='澎湖縣'>澎湖縣</option>
+                                                    <option value='金門縣'>金門縣</option>
+                                                    <option value='連江縣'>連江縣</option>
+                                                    <option value='南海諸島'>南海諸島</option>
+                                                    <option value='其它'>其它</option>
+                                            </select></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-width: 1px;border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(105, 167, 190);" class="required">通訊地址行政區：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;" name="subarea" onChange='document.Camp.zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.address.value=MyAddress(document.Camp.county.value, this.options[this.options.selectedIndex].text);' required>
+                                                <option value=''>- 再選區鄉鎮 -</option>
+                                        </select></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-width: 1px;border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(105, 167, 190);" class="required">通訊地址：&nbsp;</span></strong> 
+                                        <input type="hidden" name='zipcode' value=''>
+                                        <input type="text" name='address' value='' pattern=".{10,80}" style="background: var(--bs-table-bg);border-radius: 10px;width: 100%;border-style: none;" required>
+                                        </td>
+                                    </tr>
+                                    <tr></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card border-light border-1 d-flex p-4" style="background: #d0e1ea;border-radius: 30px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;text-align: left;">
+                        <h1 style="font-size: x-large;" class="required">希望成長營給您的幫助...</h1><textarea style="width: 98%;height: 300px;border-style: none;border-radius: 10px;" name='expectation' id=inputExpect required></textarea>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div class='row form-group'>
-        <label for='inputBelief' class='col-md-2 control-label text-md-right'>宗教信仰</label>
-        <div class='col-md-10'>
-                <select name="belief" class="form-control"> 
-                        <option value=''>- 請選擇 -</option>
-                        <option value='佛教'>佛教</option>
-                        <option value='道教'>道教</option>
-                        <option value='天主教'>天主教</option>
-                        <option value='基督教'>基督教</option>
-                        <option value='一貫道'>一貫道</option>
-                        <option value='民間信仰'>民間信仰</option>
-                        <option value='佛道'>佛道</option>
-                        <option value='其它'>其它</option>
-                        <option value='無'>無</option>
-                </select>
-        </div>
-    </div>
-
-    <div class='row form-group'>
-        <label for='inputEducation' class='col-md-2 control-label text-md-right'>最高學歷</label>
-        <div class='col-md-10'>
-                <select name="education" class="form-control"> 
-                        <option value=''>- 請選擇 -</option>
-                        <option value='高中職'>高中職</option>
-                        <option value='專科'>專科</option>
-                        <option value='大學'>大學</option>
-                        <option value='碩士'>碩士</option>
-                        <option value='博士'>博士</option>
-                        <option value='其它'>其它</option>
-                </select>
-        </div>
-    </div>
-
-    <div class='row form-group required'> 
-    <label for='inputUnit' class='col-md-2 control-label text-md-right'>服務單位</label>
-        <div class='col-md-10'>
-            <input type=text required name='unit' value='' class='form-control' id='inputUnit'>
-            <div class="invalid-feedback crumb">
-                請填寫服務單位
-            </div>
-        </div>
-    </div>
-
-    <div class='row form-group required'>
-        <label for='inputUnitLocation' class='col-md-2 control-label text-md-right'>服務單位<br>所在地</label>
-        <div class='col-md-10'>
-            <select required class='form-control' name='unit_location' onChange='SchooList(this.options[this.options.selectedIndex].value);'>
-                <option value='' selected>- 請選擇 -</option>
-                <option value='' disabled>- 北區 -</option>
-                <option value='臺北市' >臺北市</option>
-                <option value='新北市' >新北市</option>
-                <option value='基隆市' >基隆市</option>
-                <option value='宜蘭縣' >宜蘭縣</option>
-                <option value='花蓮縣' >花蓮縣</option>
-                <option value='桃園市' >桃園市</option>
-                <option value='新竹市' >新竹市</option>
-                <option value='新竹縣' >新竹縣</option>
-                <option value='' disabled>- 中區 -</option>
-                <option value='苗栗縣' >苗栗縣</option>
-                <option value='臺中市' >臺中市</option>
-                <option value='彰化縣' >彰化縣</option>
-                <option value='南投縣' >南投縣</option>
-                <option value='雲林縣' >雲林縣</option>
-                <option value='嘉義市' >嘉義市</option>
-                <option value='嘉義縣' >嘉義縣</option>
-                <option value='' disabled>- 南區 -</option>
-                <option value='臺南市' >臺南市</option>
-                <option value='高雄市' >高雄市</option>
-                <option value='屏東縣' >屏東縣</option>
-                <option value='臺東縣' >臺東縣</option>
-                <option value='澎湖縣' >澎湖縣</option>
-                <option value='金門縣' >金門縣</option>
-                <option value='連江縣' >連江縣</option>
-                <option value='' disabled>- 其它 -</option>
-                <option value='上海地區' >上海地區</option>
-                <option value='港澳深圳' >港澳深圳</option>
-                <option value='大陸其它區' >南海諸島</option>
-                <option value='星馬地區' >大陸其它區</option>
-                <option value='其它海外' >其它海外</option>
-            </select>
-        </div>  
-    </div>    
-
-    <div class='row form-group required'> 
-    <label for='inputTitle' class='col-md-2 control-label text-md-right'>職稱</label>
-        <div class='col-md-10'>
-            <input type=text required name='title' value='' maxlength="40" class='form-control' id='inputTitle'>
-            <div class="invalid-feedback crumb">
-                請填寫職稱
-            </div>
-        </div>
-    </div>
-{{--
-    <div class='row form-group required'>
-        <label for='inputLevel' class='col-md-2 control-label text-md-right'>位階</label>
-        <div class='col-md-10'>
-            <select required class='form-control' name='level' onChange=''>
-                <option value='' selected>- 請選擇 -</option>
-                <option value='負責人／大股東' >負責人／大股東</option>
-                <option value='高階管理幹部' >高階管理幹部</option>
-                <option value='中階經理人' >中階經理人</option>
-                <option value='基層幹部' >基層幹部</option>
-            </select>
-        </div>  
-    </div>
---}}
-    <div class='row form-group required'>
-        <label for='inputJobProperty' class='col-md-2 control-label text-md-right'>工作屬性</label>
-        <div class='col-md-10'>
-            <select required class='form-control' name='job_property' onChange=''>
-                <option value='' selected>- 請選擇 -</option>
-                <option value='經營/人資' >經營/人資</option>
-                <option value='行政/總務' >行政/總務</option>
-                <option value='法務' >法務</option>
-                <option value='財會/金融' >財會/金融</option>
-                <option value='行銷/企劃' >行銷/企劃</option>
-                <option value='專案管理' >專案管理</option>
-                <option value='客服/門市' >客服/門市</option>
-                <option value='業務/貿易' >業務/貿易</option>
-                <option value='餐飲/旅遊/美容美髮' >餐飲/旅遊/美容美髮</option>
-                <option value='資訊軟體/研發' >資訊軟體/研發</option>
-                <option value='生產製造/品管/環衛' >生產製造/品管/環衛</option>
-                <option value='物流/運輸' >物流/運輸</option>
-                <option value='建築/營建' >建築/營建</option>
-                <option value='影視演藝/幕後製作' >影視演藝/幕後製作</option>
-                <option value='藝術創作/視覺設計' >藝術創作/視覺設計</option>
-                <option value='文字創作/傳媒工作' >文字創作/傳媒工作</option>
-                <option value='醫療/保健服務' >醫療/保健服務</option>
-                <option value='學術/教育輔導' >學術/教育輔導</option>
-                <option value='軍警消/保全' >軍警消/保全</option>
-                <option value='其它' >其它</option>
-            </select>
-        </div>  
-    </div>    
-
-    <div class='row form-group'>
-        <label for='inputExperience' class='col-md-2 control-label text-md-right'>經歷</label>
-        <div class='col-md-10'>
-            <textarea class='form-control' rows=2 name='experience' id=inputExperience></textarea>
-            {{-- <div class="invalid-feedback">
-                請填寫經歷
-            </div> --}}
-        </div>
-    </div>
-
-
-    <div class='row form-group required'> 
-    <label for='inputEmployees' class='col-md-2 control-label text-md-right'>公司員工人數</label>
-        <div class='col-md-10'>
-            <input type=number required name='employees' value='' class='form-control' id='inputEmployees'>
-            <div class="invalid-feedback crumb">
-                請填寫公司員工人數
-            </div>
-        </div>
-    </div>
-
-    <div class='row form-group required'> 
-    <label for='inputDirectManagedEmployees' class='col-md-2 control-label text-md-right'>直屬管轄人數</label>
-        <div class='col-md-10'>
-            <input type=number required name='direct_managed_employees' value='' class='form-control' id='inputDirectManagedEmployees'>
-            <div class="invalid-feedback crumb">
-                請填寫直屬管轄人數
-            </div>
-        </div>
-    </div>
-
-    <div class='row form-group required'>
-        <label for='inputIndustry' class='col-md-2 control-label text-md-right'>產業別</label>
-        <div class='col-md-10'>
-            <select required class='form-control' name='industry' onChange=''>
-            <option value='' selected>- 請選擇 -</option>
-                <option value='製造業' >製造業</option>
-                <option value='公共事業' >公共事業</option>
-                <option value='營建工程相關產業' >營建工程相關產業</option>
-                <option value='批發、零售及貿易相關產業' >批發、零售及貿易相關產業</option>
-                <option value='運輸及倉儲相關產業' >運輸及倉儲相關產業</option>
-                <option value='住宿及餐飲相關產業' >住宿及餐飲相關產業</option>
-                <option value='大眾傳播通訊相關產業' >大眾傳播通訊相關產業</option>
-                <option value='金融及保險業相關產業' >金融及保險業相關產業</option>
-                <option value='專業、科學及技術相關服務業(會計師、律師、顧問等）' >專業、科學及技術相關服務業(會計師、律師、顧問等）</option>
-                <option value='教育學術相關產業' >教育學術相關產業</option>
-                <option value='醫療保健及社會工作服務相關' >醫療保健及社會工作服務相關</option>
-                <option value='藝術、娛樂及休閒服務相關' >藝術、娛樂及休閒服務相關</option>
-                <option value='公家機關' >公家機關</option>
-                <option value='其它' >其它</option>
-            </select>
-        </div>  
-    </div>    
-
-    <hr>
-    <h5 class='form-control-static'>聯絡方式</h5>
-    <br>
-
-    <div class='row form-group required'>
-        <label for='inputCell' class='col-md-2 control-label text-md-right'>行動電話</label>
-        <div class='col-md-10'>
-            <input type=tel required name='mobile' value='' class='form-control' id='inputCell' placeholder='格式：0912345678'>
-            <div class="invalid-feedback">
-                請填寫行動電話
-            </div>
-        </div>
-    </div>
-
-    <div class='row form-group required'>
-        <label for='inputTelWork' class='col-md-2 control-label text-md-right'>公司電話</label>
-        <div class='col-md-10'>
-            <input type=tel required name='phone_work' value='' class='form-control' id='inputTelWork' placeholder='格式：0225452546#520'>
-            <div class="invalid-feedback">
-                請填寫公司電話
-            </div>
-        </div>
-    </div>
-
-    <div class='row form-group'>
-        <label for='inputTelHome' class='col-md-2 control-label text-md-right'>住家電話</label>
-        <div class='col-md-10'>
-            <input type=tel  name='phone_home' value='' class='form-control' id='inputTelHome' placeholder='格式：0225452546#520'>
-        </div>
-    </div>
-
-    <div class='row form-group'> 
-    <label for='inputLineID' class='col-md-2 control-label text-md-right'>LINE ID</label>
-        <div class='col-md-10'>
-            <input type=text name='line' value='' class='form-control' id='inputLineID'>
-            <div class="invalid-feedback crumb">
-                請填寫LINE ID
-            </div>
-        </div>
-    </div>
-
-    <div class='row form-group'> 
-    <label for='inputWeChatID' class='col-md-2 control-label text-md-right'>微信 ID</label>
-        <div class='col-md-10'>
-            <input type=text name='wechat' value='' class='form-control' id='inputWeChatID'>
-            <div class="invalid-feedback crumb">
-                請填寫微信 ID
-            </div>
-        </div>
-    </div>
-
-    <div class='row form-group required'>
-        <label for='inputEmail' class='col-md-2 control-label text-md-right'>電子郵件</label>
-        <div class='col-md-10'>
-            <input type='email' required name='email' value='' class='form-control' id='inputEmail' placeholder='請務必填寫正確，以利營隊相關訊息通知'>
-            <div class="invalid-feedback">
-                郵件不正確
-            </div>
-        </div>
-    </div>
-
-    <script language='javascript'>
-        $('#inputEmail').bind("cut copy paste",function(e) {
-        e.preventDefault();
-        });
-    </script>
-    
-    <div class='row form-group required'>
-        <label for='inputEmail' class='col-md-2 control-label text-md-right'>確認電子郵件</label>
-        <div class='col-md-10'>
-            <input type='email' required name='emailConfirm' value='' class='form-control' id='inputEmailConfirm'>
-            {{-- data-match='#inputEmail' data-match-error='郵件不符合' placeholder='請再次填寫確認郵件填寫正確' --}}
-        </div>
-    </div>
-
-    <div class='row form-group required'>
-        <label for='inputAddress' class='col-md-2 control-label text-md-right'>通訊地址</label>
-        <div class='col-md-2'>
-            <select name="county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value);"> 
-                <option value=''>- 請先選縣市 -</option>
-                <option value='臺北市'>臺北市</option>
-                <option value='新北市'>新北市</option>
-                <option value='基隆市'>基隆市</option>
-                <option value='宜蘭縣'>宜蘭縣</option>
-                <option value='花蓮縣'>花蓮縣</option>
-                <option value='桃園市'>桃園市</option>
-                <option value='新竹市'>新竹市</option>
-                <option value='新竹縣'>新竹縣</option>
-                <option value='苗栗縣'>苗栗縣</option>
-                <option value='臺中市'>臺中市</option>
-                <option value='彰化縣'>彰化縣</option>
-                <option value='南投縣'>南投縣</option>
-                <option value='雲林縣'>雲林縣</option>
-                <option value='嘉義市'>嘉義市</option>
-                <option value='嘉義縣'>嘉義縣</option>
-                <option value='臺南市'>臺南市</option>
-                <option value='高雄市'>高雄市</option>
-                <option value='屏東縣'>屏東縣</option>
-                <option value='臺東縣'>臺東縣</option>
-                <option value='澎湖縣'>澎湖縣</option>
-                <option value='金門縣'>金門縣</option>
-                <option value='連江縣'>連江縣</option>
-                <option value='南海諸島'>南海諸島</option>
-                <option value='其它'>其它</option>
-            </select>
-        </div>
-        <div class='col-md-2'>
-            <select name=subarea class='form-control' onChange='document.Camp.zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.address.value=MyAddress(document.Camp.county.value, this.options[this.options.selectedIndex].text);'>
-                <option value=''>- 再選區鄉鎮 -</option>
-            </select>
-        </div>
-        <div class='col-md-1'>
-            <input readonly type=text name=zipcode value='' class='form-control'>
-        </div>
-        <div class='col-md-3'>
-            <input type='text' required name='address' value='' pattern=".{10,80}" class='form-control' placeholder='請填寫通訊地址'>
-            <div class="invalid-feedback">
-                請填寫通訊地址或檢查輸入的地址是否不齊全
-            </div>
-        </div>
-    </div>
-    
-
-    <div class='row form-group required'>
-        <label class='col-md-2 control-label text-md-right'>緊急聯絡人</label>
-        <div class='col-md-10'>
-            <div class='row form-group'>
-                <div class='col-md-2'>
-                    姓名：
+            <section>
+                <div class="container py-4 py-xl-5" style="padding: 0px 0px;height: initial;">
+                    <div class="row gy-4 gy-md-0">
+                        <div class="col-md-6 text-center text-md-start d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-md-start align-items-md-center justify-content-xl-center">
+                            <div><img class="rounded img-fluid fit-cover" style="min-height: 300px;width: 100%;height: auto;" src="{{ asset("mockup-assets/ecamp/img/illustrations/活動.png")}}" width="800"></div>
+                        </div>
+                        <div class="col" style="text-align: left;">
+                            <div style="max-width: 450px;">
+                                <h3 class="fw-bold pb-md-1 required" style="font-size: 18px;color: #ed5412;">有興趣參加活動的類別？(可複選)</h3>
+                                <div class="row gy-4">
+                                    <div class="col">
+                                        <div>
+                                            <p class="fw-normal text-muted" style="background: rgba(255,255,255,0);">
+                                            <input type="checkbox" class="favored_event" name=favored_event[] value='企業參訪'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);" required>&nbsp;企業參訪　</span>
+                                            <input type="checkbox" class="favored_event" name=favored_event[] value='種樹活動'><span style="background-color: rgba(220, 220, 220, 0);" required>&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">種樹活動　</span>
+                                            <input type="checkbox" class="favored_event" name=favored_event[] value='環保淨灘'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);" required>&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">環保淨灘　</span><br>
+                                            <input type="checkbox" class="favored_event" name=favored_event[] value='農場體驗'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);" required>&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">農場體驗　</span>
+                                            <input type="checkbox" class="favored_event" name=favored_event[] value='禪修活動'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);" required>&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">禪修活動　</span>
+                                            <input type="checkbox" class="favored_event" name=favored_event[] value='寺院參訪'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);" required>&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">寺院參訪　</span><br>
+                                            <input type="checkbox" class="favored_event" name=favored_event[] value='儒學課程'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);" required>&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">儒學課程　</span>
+                                            <input type="checkbox" class="favored_event" name=favored_event[] value='心靈講座'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);" required>&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">心靈講座　</span>
+                                            <input type="checkbox" class="favored_event" name=favored_event[] value='藝文活動'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);" required>&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">藝文活動　</span><br>
+                                            <input type="checkbox" class="favored_event" name=favored_event[] value='親子講座'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);" required>&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">親子講座　</span>
+                                            <input type="checkbox" class="favored_event" name=favored_event[] value='樂齡活動'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);" required>&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">樂齡活動　</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h3 class="fw-bold pb-md-1" style="font-size: 18px;color: #ed5412;padding: 20px 0px 0px;">營隊結束後，若有後續課程開課，請問您比較方便參加的時段？(可複選)</h3>
+                                <p class="fw-normal text-muted" style="background: rgba(203,164,164,0);">
+                                <input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='週一'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);">&nbsp;週一　</span>
+                                <input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='週二'><span style="background-color: rgba(220, 220, 220, 0);">&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">週二　</span>
+                                <input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='週三'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);">&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">週三　</span>
+                                <input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='週四'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);">&nbsp;週四</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">　　</span><br>
+                                <input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='週五'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);">&nbsp;週五</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">　</span>
+                                <input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='週六'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);">&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">週六　</span>
+                                <input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='週日'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);">&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">週日</span></p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class='col-md-10'>
-                    <input type='text'class='form-control' name="emergency_name" value='' required>
+            </section>
+            <div class="row gy-4 row-cols-1 row-cols-md-2" style="margin: -2px -12px 10px;">
+                <div class="col">
+                    <div class="card border-light border-1 d-flex p-4" style="background: var(--bs-body-bg);border-radius: 20px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;text-align: left;">
+                        <p style="font-size: x-large;"><span style="color: rgb(253, 126, 20);">緊急聯絡人</span></p>
+                        <div class="table-responsive" style="width: 98%;">
+                            <table class="table">
+                                <thead>
+                                    <tr></tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 40%;color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(253, 126, 20);" class="required">姓　　名：</span></strong><span style="color: rgb(253, 126, 20);">&nbsp;</span><input type="text" style="background: rgba(206,212,218,0.35);border-radius: 10px;width: 150px;border-style: none;border-color: rgb(221,221,221);" name="emergency_name" value='' required></td>
+                                    </tr>
+                                    <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(253, 126, 20);" class="required">關　　係：</span></strong><span style="color: rgb(253, 126, 20);">&nbsp;</span><select style="border-radius: 5px;border-style: none;padding: 3px;background: rgba(206,212,218,0.35);width: 150px;" name="emergency_relationship" required>
+                                                <option value=''>- 請選擇 -</option>
+                                                <option value='配偶'>配偶</option>
+                                                <option value='父親'>父親</option>
+                                                <option value='母親'>母親</option>
+                                                <option value='兄弟'>兄弟</option>
+                                                <option value='姊妹'>姊妹</option>
+                                                <option value='朋友'>朋友</option>
+                                                <option value='同事'>同事</option>
+                                                <option value='子女'>子女</option>
+                                                <option value='其他'>其他</option>
+                                            </select></td>
+                                    </tr>
+                                    <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(253, 126, 20);" class="required">聯絡電話：</span></strong><span style="color: rgb(253, 126, 20);">&nbsp;</span><input type="tel" style="background: rgba(206,212,218,0.35);border-radius: 10px;width: 150px;border-style: none;" name="emergency_mobile" value='' required></td>
+                                    </tr>
+                                    <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"></tr>
+                                    <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"></tr>
+                                    <tr></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-                <div class="invalid-feedback">
-                    請填寫本欄位
+                <div class="col">
+                    <div class="card border-light border-1 d-flex p-4" style="background: var(--bs-orange);border-radius: 30px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;text-align: left;">
+                        <p style="font-size: x-large;">介紹人</p>
+                        <div class="table-responsive" style="width: 98%;">
+                            <table class="table">
+                                <thead>
+                                    <tr></tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 40%;color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><span style="color: rgb(73, 80, 87);">姓　　名：</span>&nbsp;<input type="text" style="background: var(--bs-table-bg);border-radius: 10px;width: 150px;border-style: none;" name="introducer_name" value=''></td>
+                                    </tr>
+                                    <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><span style="color: rgb(73, 80, 87);">關　　係：</span>&nbsp;<select style="padding: 3px;border-radius: 5px;border-style: none;width: 150px;" name="introducer_relationship">
+                                                <option value=''>- 請選擇 -</option>
+                                                <option value='配偶'>配偶</option>
+                                                <option value='父親'>父親</option>
+                                                <option value='母親'>母親</option>
+                                                <option value='兄弟'>兄弟</option>
+                                                <option value='姊妹'>姊妹</option>
+                                                <option value='朋友'>朋友</option>
+                                                <option value='同事'>同事</option>
+                                                <option value='子女'>子女</option>
+                                                <option value='其他'>其他</option>
+                                            </select></td>
+                                    </tr>
+                                    <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><span style="color: rgb(73, 80, 87);">聯絡電話：</span>&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;width: 150px;border-style: none;" name="introducer_phone"></td>
+                                    </tr>
+                                    <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
+                                        <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><span style="color: rgb(73, 80, 87);">福智班別：</span>&nbsp;<input type="text" style="background: var(--bs-table-bg);border-radius: 10px;width: 150px;border-style: none;" name="introducer_participated"></td>
+                                    </tr>
+                                    <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"></tr>
+                                    <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"></tr>
+                                    <tr></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <div class='row form-group'>
-                <div class='col-md-2'>
-                    關係：
-                </div>
-                <div class='col-md-10'>
-                    <select name="emergency_relationship" class="form-control" required> 
-                        <option value=''>- 請選擇 -</option>
-                        <option value='配偶'>配偶</option>
-                        <option value='父親'>父親</option>
-                        <option value='母親'>母親</option>
-                        <option value='兄弟'>兄弟</option>
-                        <option value='姊妹'>姊妹</option>
-                        <option value='朋友'>朋友</option>
-                        <option value='同事'>同事</option>
-                        <option value='子女'>子女</option>
-                        <option value='其他'>其他</option>
-                    </select>
-                </div>
-            </div>   
-            <div class='row form-group'>
-                <div class='col-md-2'>
-                    聯絡電話：
-                </div>
-                <div class='col-md-10'>
-                    <input type='tel' class='form-control' name="emergency_mobile" value='' required>
-                </div>
-                <div class="invalid-feedback">
-                    請填寫本欄位
-                </div>
-            </div>   
-        </div>
-    </div>
-
-    <div class='row form-group'>
-        <label class='col-md-2 control-label text-md-right'>介紹人<br>(若無免填)</label>
-        <div class='col-md-10'>
-            <div class='row form-group'>
-                <div class='col-md-2'>
-                    姓名：
-                </div>
-                <div class='col-md-10'>
-                    <input type='text' class='form-control' name="introducer_name" value=''>
-                </div>
-                <div class="invalid-feedback">
-                    請填寫本欄位
-                </div>
+            <div class="card border-light border-1 d-flex p-4" style="background: rgba(255,255,255,0);border-radius: 30px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;padding: initial;margin: 10px 0px;">
+                <p style="color: rgb(70,78,171);margin: 0px;font-size: initial;text-align: left;"><strong><span style="color: rgb(0, 0, 0);" class="required">肖像權</span></strong><br><span style="color: rgb(253, 126, 20);">主辦單位在營隊期間拍照、錄影之活動記錄，可使用於營隊及主辦單位的非營利教育推廣使用，並以網路方式推播。</span><br><input type="radio" required name="portrait_agree" value='1' checked>&nbsp;同意　　<input type="radio" required name="portrait_agree" value='0'>&nbsp;不同意</p>
             </div>
-
-            <div class='row form-group'>
-                <div class='col-md-2'>
-                    關係：
-                </div>
-                <div class='col-md-10'>
-                    <select name="introducer_relationship" class="form-control"> 
-                        <option value=''>- 請選擇 -</option>
-                        <option value='配偶'>配偶</option>
-                        <option value='父親'>父親</option>
-                        <option value='母親'>母親</option>
-                        <option value='兄弟'>兄弟</option>
-                        <option value='姊妹'>姊妹</option>
-                        <option value='朋友'>朋友</option>
-                        <option value='同事'>同事</option>
-                        <option value='子女'>子女</option>
-                        <option value='其他'>其他</option>
-                    </select>
-                </div>
-            </div>   
-            <div class='row form-group'>
-                <div class='col-md-2'>
-                    聯絡電話：
-                </div>
-                <div class='col-md-10'>
-                    <input type='tel' class='form-control' name="introducer_phone" value=''>
-                </div>
-                <div class="invalid-feedback">
-                    請填寫本欄位
-                </div>
+            <div class="card border-light border-1 d-flex p-4" style="background: rgba(255,255,255,0);border-radius: 30px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;padding: initial;margin: 10px 0px;">
+                <p style="color: rgb(70,78,171);margin: 0px;font-size: initial;text-align: left;"><strong><span style="color: rgb(0, 0, 0);" class="required">個人資料</span></strong><br><span style="color: rgb(253, 126, 20);">福智文教基金會（簡稱本基金會）及本基金會所屬福智團體於本次營隊取得我的個人資料，於營隊期間及後續本基金會及本基金會所屬福智團體舉辦之活動，作為訊息通知、行政處理等非營利目的之使用，不會提供給無關之其他私人單位使用。</span><br><input type="radio" required name="profile_agree" value='1' checked>&nbsp;同意　　<input type="radio" required name="profile_agree" value='0'>&nbsp;不同意</p>
             </div>
-            <div class='row form-group'>
-                <div class='col-md-2'>
-                    福智班別：
-                </div>
-                <div class='col-md-10'>
-                    <input type='text'class='form-control' name="introducer_participated" value=''>
-                </div>
-                <div class="invalid-feedback">
-                    請填寫本欄位
-                </div>
-            </div>   
+            <div class="col" style="text-align: center;"><button class="btn btn-warning" type="reset" style="border-style: none;border-radius: 20px;box-shadow: 1px 1px 5px rgba(0,0,0,0.4);padding: 8px 20px;margin: 10px;background: rgba(255,210,0,0.59);"><span style="color: rgb(96, 96, 96);">清除重填 🤔</span></button><button class="btn btn-success" type="submit" style="text-align: center;border-radius: 20px;margin: 10px;border-style: none;box-shadow: 1px 1px 8px rgb(55,55,55);padding: 8px 60px;font-size: 20px;background: rgb(253,126,20);">確認送出 😊</button></div>
         </div>
-    </div>
-
-    <div class='row form-group'>
-        <label for='inputExpect' class='col-md-2 control-label text-md-right'>期望成長營帶給我什麼幫助</label>
-        <div class='col-md-10'>
-            <textarea class='form-control' rows=2 name='expectation' id=inputExpect></textarea>
-            {{-- <div class="invalid-feedback">
-                請填寫本欄位
-            </div> --}}
-        </div>
-    </div>
-
-    <!--- 同意書 -->
-    <div class='row form-group required'>
-        <label for='inputTerm' class='col-md-2 control-label text-md-right'>肖像權</label>
-        <div class='col-md-10 form-check'>
-            <p class='form-control-static text-danger'>
-            主辦單位在營隊期間拍照、錄影之活動記錄，可使用於營隊及主辦單位的非營利教育推廣使用，並以網路方式推播。
-            </p>
-            <label class=radio-inline>
-                <input type='radio' required name="portrait_agree" value='1' checked> 我同意
-                <div class="invalid-feedback">
-                    請圈選本欄位
-                </div>
-            </label>
-            <label class=radio-inline>
-                <input type=radio required name="portrait_agree" value='0' > 我不同意
-                <div class="invalid-feedback">
-                    &nbsp;
-                </div>
-            </label>
-        </div>
-    </div>
-
-    <div class='row form-group required'>
-        <label for='inputTerm' class='col-md-2 control-label text-md-right'>個人資料</label>
-        <div class='col-md-10 form-check'>
-            <p class='form-control-static text-danger'>
-            福智文教基金會（簡稱本基金會）及本基金會所屬福智團體於本次營隊取得我的個人資料，於營隊期間及後續本基金會及本基金會所屬福智團體舉辦之活動，作為訊息通知、行政處理等非營利目的之使用，不會提供給無關之其他私人單位使用。
-            </p>
-            <label class=radio-inline>
-                <input type='radio' required name="profile_agree" value='1' checked> 我同意
-                <div class="invalid-feedback">
-                    請圈選本欄位
-                </div>
-            </label>
-            <label class=radio-inline>
-                <input type=radio required name="profile_agree" value='0' > 我不同意
-                <div class="invalid-feedback">
-                    &nbsp;
-                </div>
-            </label>
-        </div>
-    </div>
-
-    <hr>
-        
-    <div class='row form-group required'>
-        <label for='inputFavoredEvent' class='col-md-2 control-label text-md-right'>請問您有興趣參加活動的類別？(可複選)</label>
-        <div class='col-md-10'>
-            <label><input type="checkbox" class="favored_event" name=favored_event[] value='企業參訪' > 企業參訪</label> <br/>
-            <label><input type="checkbox" class="favored_event" name=favored_event[] value='種樹活動' > 種樹活動</label> <br/>
-            <label><input type="checkbox" class="favored_event" name=favored_event[] value='環保淨灘' > 環保淨灘</label> <br/>
-            <label><input type="checkbox" class="favored_event" name=favored_event[] value='農場體驗' > 農場體驗</label> <br/>
-            <label><input type="checkbox" class="favored_event" name=favored_event[] value='禪修活動' > 禪修活動</label> <br/>
-            <label><input type="checkbox" class="favored_event" name=favored_event[] value='寺院參訪' > 寺院參訪</label> <br/>
-            <label><input type="checkbox" class="favored_event" name=favored_event[] value='儒學課程' > 儒學課程</label> <br/>
-            <label><input type="checkbox" class="favored_event" name=favored_event[] value='心靈講座' > 心靈講座</label> <br/>
-            <label><input type="checkbox" class="favored_event" name=favored_event[] value='藝文活動' > 藝文活動</label> <br/>    
-            <label><input type="checkbox" class="favored_event" name=favored_event[] value='親子講座' > 親子講座</label> <br/>
-            <label><input type="checkbox" class="favored_event" name=favored_event[] value='樂齡活動' > 樂齡活動</label> <br/>          
-            <div class="invalid-feedback" id="favored_event-invalid">
-                請勾選有興趣參加活動的類別
-            </div>
-        </div>
-    </div>
-
-    <div class='row form-group required'>
-        <label for='inputAvailableDay' class='col-md-2 control-label text-md-right'>營隊結束後，若有後續課程開課，請問您比較方便參加的時段？(可複選)</label>
-        <div class='col-md-10'>
-            <label><input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='週一' > 週一</label> <br/>
-            <label><input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='週二' > 週二</label> <br/>
-            <label><input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='週三' > 週三</label> <br/>
-            <label><input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='週四' > 週四</label> <br/>
-            <label><input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='週五' > 週五</label> <br/>
-            <label><input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='週六' > 週六</label> <br/>
-            <label><input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='週日' > 週日</label> <br/>
-            <div class="invalid-feedback" id="after_camp_available_day-invalid">
-                請勾選方便參加後續課程的時段
-            </div>
-        </div>
-    </div>
-
-    <div class="row form-group text-danger tips d-none">
-        <div class='col-md-2'></div>
-        <div class='col-md-10'>
-            請檢查是否有未填寫或格式錯誤的欄位。
-        </div>
-    </div>
-
-    <!--- 確認送出 -->
-    <div class='row form-group'>
-        <div class='col-md-2'></div>
-        <div class='col-md-10'>
-            {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態--}}
-            @if(!isset($isModify) || $isModify)
-                <input type='button' class='btn btn-success' value='確認送出' data-toggle="confirmation">
-                <input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>
-                <input type='reset' class='btn btn-danger' value='清除再來'>
-            {{-- 以上皆非: 檢視資料狀態 --}}
-            @else
-                @if(isset($camp_data->modifying_deadline) && \Carbon\Carbon::now() <= \Carbon\Carbon::createFromFormat("Y-m-d", $camp_data->modifying_deadline))
-                <input type="hidden" name="sn" value="{{ $applicant_id }}">
-                <input type="hidden" name="isModify" value="1">
-                <button class="btn btn-primary">修改報名資料</button>
-                @endif
-            @endif
-        </div>
-    </div>
     </form>
-            
-    <script>        
-        $('[data-toggle="confirmation"]').confirmation({
-            rootSelector: '[data-toggle=confirmation]',
-            title: "敬請再次確認資料填寫無誤。",
-            btnOkLabel: "正確無誤，送出",
-            btnCancelLabel: "再檢查一下",
-            popout: true,
-            onConfirm: function() {
-                console.log($('.favored_event').filter(':checked').length);
-                console.log($('.after_camp_available_day').filter(':checked').length);
-                if($('.favored_event').filter(':checked').length < 1) {
-                    document.Camp.checkValidity();
-                    event.preventDefault();
-                    event.stopPropagation();
-                    $(".tips").removeClass('d-none');
-                    $('#favored_event-invalid').show();
-                }
-                else{
-                    document.Camp.checkValidity();
-                    event.preventDefault();
-                    event.stopPropagation();
-                    $(".tips").removeClass('d-none');
-                    $('#favored_event-invalid').hide();
-                }
-                if($('.after_camp_available_day').filter(':checked').length < 1) {
-                    document.Camp.checkValidity();
-                    event.preventDefault();
-                    event.stopPropagation();
-                    $(".tips").removeClass('d-none');
-                    $('#after_camp_available_day-invalid').show();
-                }
-                else{
-                    document.Camp.checkValidity();
-                    event.preventDefault();
-                    event.stopPropagation();
-                    $(".tips").removeClass('d-none');
-                    $('#after_camp_available_day-invalid').hide();
-                }
-                if ((document.Camp.checkValidity() === false) 
-                    || ($('.favored_event').filter(':checked').length < 1)
-                    || ($('.after_camp_available_day').filter(':checked').length < 1)) {
-                    $(".tips").removeClass('d-none');
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                else{
-                    $(".tips").addClass('d-none');
-                    document.Camp.submit();
-                }
-                document.Camp.classList.add('was-validated');
-            }
-        });
+    </section>
+    <footer></footer>
+    <script src="{{ asset("mockup-assets/ecamp/bootstrap/js/bootstrap.min.js") }}"></script>
+    <script src="{{ asset("mockup-assets/ecamp/js/bs-init.js") }}"></script>
+    <script src="{{ asset("mockup-assets/ecamp/js/startup-modern.js") }}"></script>
+    <script>
+
         (function() {
             'use strict';
             window.addEventListener('load', function() {
@@ -783,255 +492,8 @@
                     }, false);
                 });
             }, false);
-        })();     
-        
-        let categories = null;
-        let rowIsEducating = null;
-
-        /**
-        * Ready functions.
-        * Executes commands after the web page is loaded. 
-        */
-{{--
-        document.onreadystatechange = () => {
-            if (document.readyState === 'complete') {
-                /**
-                * 是否在學校或教育單位任職，勾選後顯示/隱藏任職單位相關欄位。
-                */
-                rowIsEducating = document.getElementById("rowIsEducating");
-                document.getElementById("is_educating_y").addEventListener("change", showFields);
-                document.getElementById("is_educating_n").addEventListener("change", hideFields);
-                if(document.getElementById("is_educating_n").checked){
-                    hideFields();
-                }
-                /**
-                * 任職機關/任教學程，勾選後顯示對應職稱。
-                */
-                categories = document.getElementsByName("school_or_course");
-                for(let i = 0; i < categories.length; i++){
-                    categories[i].addEventListener("click", changeJobTitleList);
-                    categories[i].addEventListener("change", changeJobTitleList);
-                }
-                            
-                /**
-                * 選擇職稱後，將職稱填至欄位中。
-                */
-                titles = document.getElementsByName("data[12]");
-                for(let i = 0; i < titles.length; i++){
-                    titles[i].addEventListener("click", fillTheTitle);
-                    titles[i].addEventListener("change", fillTheTitle);
-                }
-            }
-        };
---}}
-        function showFields(){        
-            rowIsEducating.innerHTML = "<div class='row form-group required'>" +
-                "    <label for='inputSchoolOrCourse' class='col-md-2 control-label text-md-right'>任職機關/任教學程</label>" +
-                "    <div class='col-md-10'>" +
-                "        <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=教育部 class='officials'> 教育部" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                請勾選任職機關/任教學程" +
-                "            </div>" +
-                "        </label> " +
-                "        <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=教育局/處 class='officials'> 教育局/處" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                &nbsp;" +
-                "            </div>" +
-                "        </label> " +
-                "        <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=大專校院 class='universities'> 大專校院" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                &nbsp;" +
-                "            </div>" +
-                "        </label> <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=高中職 class='compulsories'> 高中職" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                &nbsp;" +
-                "            </div>" +
-                "        </label> <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=國中 class='compulsories'> 國中" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                &nbsp;" +
-                "            </div>" +
-                "        </label> <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=國小 class='compulsories'> 國小" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                &nbsp;" +
-                "            </div>" +
-                "        </label> <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=幼教 class='compulsories'> 幼教" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                &nbsp;" +
-                "            </div>" +
-                "        </label> " +
-                "    </div>" +
-                "</div>" +
-                "<div class='row form-group required'> " +
-                "<label for='inputSubjectTeaches' class='col-md-2 control-label text-md-right'>任教科系/任教科目</label>" +
-                "    <div class='col-md-10'>" +
-                "        <input type=text required  name='subject_teaches' value='' class='form-control' id='inputSubjectTeaches'>" +
-                "        <div class='invalid-feedback crumb'>" +
-                "            請填寫任教科系/任教科目" +
-                "        </div>" +
-                "    </div>" +
-                "</div>";
-
-            document.getElementById("tip").innerHTML = '請先選擇任教機關/任教學程';
-                
-            /*************************************
-             * 物件重建後需重新設定 event listener
-             *************************************/
-            categories = document.getElementsByName("school_or_course");
-            for(let i = 0; i < categories.length; i++){
-                categories[i].addEventListener("click", changeJobTitleList);
-                categories[i].addEventListener("change", changeJobTitleList);
-            }
-
-            titles = document.getElementsByName("data[12]");
-            for(let i = 0; i < titles.length; i++){
-                titles[i].addEventListener("click", fillTheTitle);
-                titles[i].addEventListener("change", fillTheTitle);
-            }
-        }
-
-        function hideFields(){        
-            rowIsEducating.innerHTML = '';
-            document.getElementById("tip").innerHTML = '';
-        }
-
-        function setUnrequired(elements){
-            for(let i = 0; i < elements.length; i++){
-                elements[i].required = false;
-            }
-        }
-
-        function setRequired(elements){
-            for(let i = 0; i < elements.length; i++){
-                elements[i].required = true;
-            }
-        }
-
-        function changeJobTitleList(){
-            if(this.checked){
-                document.getElementById('tip').style.display = 'none';
-                document.getElementById('title').value = '';
-                titleSets = document.getElementsByClassName("titles");
-                for(let i = 0 ; i < titleSets.length ; i++){
-                    if(titleSets[i].className.includes(this.className)){
-                        titleSets[i].style.display = "";
-                    }
-                    else{
-                        inputs = titleSets[i].getElementsByTagName('input');
-                        for(let j = 0 ; j < inputs.length ; j++){
-                            inputs[j].checked = false;
-                        }
-                        titleSets[i].style.display = "none";
-                    }
-                }
-            }
-        }
-        
-        function fillTheTitle(){
-            if(this.value == '其他'){
-                document.getElementById('title').value = '請在此處自行輸入職稱';
-            }
-            else if(this.value == '兼課老師'){
-                document.getElementById('title').value = '兼課老師(兼課時數: 小時)';
-            }
-            else if(this.value != null){
-                document.getElementById('title').value = this.value;
-            }            
-        }
-
-        @if(isset($applicant_data))
-            {{-- 回填報名資料 --}}
-            (function() {
-                let applicant_data = JSON.parse('{!! $applicant_data !!}');
-                let inputs = document.getElementsByTagName('input');
-                let selects = document.getElementsByTagName('select');
-                let textareas = document.getElementsByTagName('textarea');
-                let complementPivot = 0;                
-                let complementData = applicant_data["blisswisdom_type_complement"] ? applicant_data["blisswisdom_type_complement"].split("||/") : null; 
-                // console.log(inputs); 
-                for (var i = 0; i < inputs.length; i++){
-                    if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox"){
-                        if(inputs[i].type == "radio"){
-                            let radios = document.getElementsByName(inputs[i].name);
-                            for( j = 0; j < radios.length; j++ ) {
-                                if( radios[j].value == applicant_data[inputs[i].name] ) {
-                                    radios[j].checked = true;
-                                }
-                            }
-                        }
-                        else if(inputs[i].type == "checkbox"){
-                            let checkboxes = document.getElementsByName(inputs[i].name);
-                            let deArray = inputs[i].name.slice(0, -2); 
-                            if(applicant_data[deArray]){
-                                let checkedValues = applicant_data[deArray].split("||/");
-                                for( j = 0; j < checkboxes.length; j++ ) {
-                                    for( k = 0; k < checkboxes.length; k++ ) {
-                                        if( checkboxes[j].value == checkedValues[k] ) {
-                                            checkboxes[j].checked = true;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        else if(applicant_data[inputs[i].name]){
-                            inputs[i].value = applicant_data[inputs[i].name]; 
-                        }
-                    }
-                    else if(inputs[i].type == "text" && inputs[i].name == 'blisswisdom_type_complement[]'){
-                        inputs[i].value = complementData ? complementData[complementPivot] : null;
-                        complementPivot++;
-                    }
-                    else if(inputs[i].type == "text"){
-                        inputs[i].value = applicant_data[inputs[i].name]; 
-                    }
-                    if(inputs[i].name == 'emailConfirm'){
-                        inputs[i].value = applicant_data['email'];
-                    }
-                }
-                for (var i = 0; i < selects.length; i++){
-                    if(typeof applicant_data[selects[i].name] !== "undefined"){
-                        selects[i].value = applicant_data[selects[i].name]; 
-                    }
-                }
-                for (var i = 0; i < textareas.length; i++){
-                    if(typeof applicant_data[textareas[i].name] !== "undefined"){
-                        textareas[i].value = applicant_data[textareas[i].name]; 
-                    }
-                }
-
-                @if(!$isModify)
-                    for (var i = 0; i < inputs.length; i++){
-                        if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox" || inputs[i].name == 'emailConfirm' || inputs[i].name == "blisswisdom_type[]" || inputs[i].name == "blisswisdom_type_complement[]"){
-                            inputs[i].disabled = true;
-                        }
-                    }
-                    for (var i = 0; i < selects.length; i++){
-                        selects[i].disabled = true;
-                    }
-                    for (var i = 0; i < textareas.length; i++){
-                        textareas[i].disabled = true;
-                    }
-                @endif
-            })();
-
-            function checkIfNull(val) {
-                return val == "";
-            }
-        @endif
+        })();
     </script>
-    <style>
-        .required .control-label::after {
-            content: "＊";
-            color: red;
-        }
-    </style>
-@stop
-{{-- 
-    參考頁面：https://bwfoce.org/ecamp/form/2020ep01.php
---}}
+</body>
+
+</html>
