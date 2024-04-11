@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Laratrust\Models\LaratrustRole;
 use Laratrust\Traits\LaratrustRoleTrait;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class CampOrg extends LaratrustRole
 {
@@ -97,5 +98,13 @@ class CampOrg extends LaratrustRole
 
     public function applicant_group() {
         return $this->hasOne(ApplicantsGroup::class, 'id', 'group_id');
+    }
+
+    protected function section(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => str_replace("root.", "大會", $this->section),
+            set: fn ($value) => $value,
+        );
     }
 }
