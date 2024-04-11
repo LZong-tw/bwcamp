@@ -124,12 +124,12 @@
     @foreach ($batches as $batch)
     @if(isset($is_batch[$batch->id]))
         <hr>
-        <h4>梯次：{{ $batch->name }} @if(str_contains($batch->camp->table, "vcamp")) (義工梯) @else (學員梯)@endif</h4>
+        <h4>梯次：{{ $batch->name }} @if(str_contains($batch->camp->table, "vcamp")) (義工) @else (學員) @endif</h4>
         {{-- table2 ----- 梯次：各梯 --}}
             <table class="table table-bordered">
                 <thead>
                     <tr class="bg-primary text-white">
-                        <th colspan="10">梯次：{{ $batch->name }}</th>
+                        <th colspan="10">梯次：{{ $batch->name }} @if(str_contains($batch->camp->table, "vcamp")) (義工) @else (學員) @endif</th>
                     </tr>
                     <tr class="bg-secondary text-white">
                         <th>ID</th>
