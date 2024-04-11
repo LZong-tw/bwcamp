@@ -32,9 +32,9 @@
         @if(str_contains($batch->name, "開南"))
             <a href="{{ route('query', 110) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary">＊<u>北區</u>＊</a>
             <a href="{{ route('query', 112) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary">＊<u>竹區</u>＊</a>
+            <a href="{{ route('query', 134) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"> ＊高區＊</a>
         @else
             <a href="{{ route('query', 113) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"> ＊中區＊</a>
-            <a href="{{ route('query', 134) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"> ＊高區＊</a>
         @endif
     </h5>
     <hr>
