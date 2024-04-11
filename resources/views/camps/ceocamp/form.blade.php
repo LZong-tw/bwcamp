@@ -274,7 +274,7 @@
                                                 <input type="radio" value="北區　" name="region" required><span
                                                     style="color: rgb(0, 0, 0);"> 北區　</span>
                                                 <input type="radio" value="竹區" name="region" required><span
-                                                    style="color: rgb(0, 0, 0);"> 竹區</span><br>
+                                                    style="color: rgb(0, 0, 0);"> 竹區</span>
                                                 <input type="radio" value="高區" name="region" required><span
                                                     style="color: rgb(0, 0, 0);"> 高區</span><br>
                                             @else
