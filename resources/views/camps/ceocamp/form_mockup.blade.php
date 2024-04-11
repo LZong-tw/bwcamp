@@ -275,11 +275,11 @@
                                                     style="color: rgb(0, 0, 0);"> 北區　</span>
                                                 <input type="radio" value="竹區" name="region" required><span
                                                     style="color: rgb(0, 0, 0);"> 竹區</span><br>
+                                                <input type="radio" value="高區" name="region" required><span
+                                                    style="color: rgb(0, 0, 0);"> 高區</span><br>
                                             @else
                                                 <input type="radio" value="中區" name="region" required checked><span
                                                     style="color: rgb(0, 0, 0);"> 中區</span>
-                                                {{-- <input type="radio" value="高區" name="region" required><span
-                                                    style="color: rgb(0, 0, 0);"> 高區</span><br> --}}
                                             @endif
                                             <sup><span style="color: rgb(96, 18, 72);">建議根據被推薦人的工作/生活地區選擇</span></sup>
                                         </td>
