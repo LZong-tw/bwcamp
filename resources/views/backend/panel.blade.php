@@ -266,16 +266,6 @@
                     </li>
                 @endforeach
             @endif
-            <li>
-                @if(isset($campFullData) && auth()->user()->getPermission(true, $campFullData->id))
-                    <a href="">權限：{{ auth()->user()->getPermission(true, $campFullData->id)->name }}</a>
-                    @if(auth()->user()->getPermission(true, $campFullData->id)->level > 2)
-                        <a href="">地區：{{ auth()->user()->getPermission(true, $campFullData->id)->region }}</a>
-                    @endif
-                @else
-                    <a href="">權限：{{ auth()->user()->getPermission(false)->name }}</a>
-                @endif
-            </li>
             @if(auth()->user()->getPermission()->level == 1)
                 <li>
                     <a href="{{ route("userlist", $campFullData->id ?? "") }}">使用者列表</a>
