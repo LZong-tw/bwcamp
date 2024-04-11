@@ -259,6 +259,13 @@
             <li>
                 <a href="{{ route("home") }}">{{ Auth::user()->name }}</a>
             </li>
+            @if (auth()->user()->roles->where('camp_id', $campFullData->id)->first())
+                @foreach (auth()->user()->roles->where('camp_id', $campFullData->id)->get() as $role)
+                    <li>
+                        <a href="">{{ $role->section }} {{ $role->position }}</a>
+                    </li>
+                @endforeach
+            @endif
             <li>
                 @if(isset($campFullData) && auth()->user()->getPermission(true, $campFullData->id))
                     <a href="">權限：{{ auth()->user()->getPermission(true, $campFullData->id)->name }}</a>
