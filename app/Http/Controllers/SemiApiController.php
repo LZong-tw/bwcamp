@@ -92,7 +92,7 @@ class SemiApiController extends Controller
                     }
                     else {
                         $org->section = str_replace("root.", " - ", $org->section);
-                        $org->section = $org->batch_name . $org->region_name . $org->section;
+                        $org->section = $org->batch_name . "：" . $org->region_name . $org->section;
                     }
                 })->unique();
         return response()->json($orgs);
