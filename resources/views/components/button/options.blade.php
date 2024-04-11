@@ -14,19 +14,19 @@
                 <input type=button value='電訪結果' rel='noopener noreferrer' class='btn btn-danger mb-3 btnTelCallResult' target='_blank' onclick=showTelCallResult()>
                 {{--<a href="{{ route("showTelCallResults", $campFullData->id) }}" rel="noopener noreferrer" class="btn btn-danger mb-3" target="_blank">電訪結果</a>--}}    &nbsp;&nbsp;
             @endif
-            @if ($currentUser->isAbleTo('\App\Models\Applicant.create'))
+            @if ($currentUser->ability('\App\Models\Applicant', 'create'))
                 <a href="{{ route("showRegistration", $campFullData->id) }}" rel="noopener noreferrer" class="btn btn-danger mb-3" target="_blank">新增學員</a>    &nbsp;&nbsp;
             @endif
-            @if($currentUser->isAbleTo('\App\Models\ApplicantsGroup.create') || $currentUser->isAbleTo('\App\Models\ApplicantsGroup.assign'))
+            @if($currentUser->ability('\App\Models\ApplicantsGroup', 'create') || $currentUser->ability('\App\Models\ApplicantsGroup', 'assign'))
                 <a href="?isSetting=1&batch_id={{ $currentBatch?->id ?? "" }}" class="btn btn-danger mb-3">設定組別</a>
             @endif     &nbsp;&nbsp;
-            @if($user->isAbleTo("\App\Models\CarerApplicantXref.create") || $user->isAbleTo("\App\Models\CarerApplicantXref.assign"))
+            @if($user->ability("\App\Models\CarerApplicantXref", "create") || $user->ability("\App\Models\CarerApplicantXref", "assign"))
                 <a href="?isSettingCarer=1&batch_id={{ request()->batch_id }}" class="btn btn-danger mb-3">設定關懷員</a>
             @endif
         @endif
         @if($isShowVolunteers)
             <a href="{{ route("showRegistration", $campFullData->vcamp->id) }}" rel="noopener noreferrer" class="btn btn-danger mb-3" target="_blank">新增義工</a>
-            @if($currentUser->isAbleTo('\App\Models\OrgUser.create') || $currentUser->isAbleTo('\App\Models\OrgUser.assign'))
+            @if($currentUser->ability('\App\Models\OrgUser', 'create') || $currentUser->ability('\App\Models\OrgUser', 'assign'))
                 <a href="?isSetting=1&batch_id={{ $currentBatch?->id ?? "" }}" class="btn btn-danger mb-3">設定組別/職務</a>
             @endif
         @endif
