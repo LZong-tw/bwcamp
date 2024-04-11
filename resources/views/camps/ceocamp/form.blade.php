@@ -17,9 +17,15 @@
     <meta property='og:url' content='http://bwfoce.org/ceocamp' />
     <meta property='og:title' content='{{ $camp_data->abbreviation }}' />
     <meta property='og:description' content='邀請您推薦報名參加菁英營。' />
-    <meta property="og:image" content="https://static.wixstatic.com/media/53b3d5_0cdf79a7c81a422ea7f9fd51467a4c05~mv2.jpg/v1/fill/w_2500,h_1406,al_c/53b3d5_0cdf79a7c81a422ea7f9fd51467a4c05~mv2.jpg"/>
-    <meta property="og:image:width" content="2500"/>
-    <meta property="og:image:height" content="1406"/>
+    @if (str_contains($batch->name, "開南"))
+        <meta property="og:image" content="{{ asset('img/ceocamp2024/n.jpg') }}"/>
+        <meta property="og:image:width" content="1186"/>
+        <meta property="og:image:height" content="980"/>
+    @else        
+        <meta property="og:image" content="{{ asset('img/ceocamp2024/c.jpg') }}"/>
+        <meta property="og:image:width" content="1188"/>
+        <meta property="og:image:height" content="980"/>
+    @endif
     {{-- <link rel='icon' href='/camp/favicon.ico'> --}}
     <title> {{ $camp_data->fullName }} </title>
     <link rel="stylesheet" href="{{ asset('mockup-assets/ceocamp/bootstrap/css/bootstrap.min.css') }}">
