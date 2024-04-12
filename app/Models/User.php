@@ -182,6 +182,9 @@ class User extends Authenticatable
                             });
                         });
                     }
+                    else {
+                        return false;
+                    }
                 }
                 else if ($resource instanceof \App\Models\User) {
                     $theCamp = $camp->vcamp;
@@ -195,6 +198,9 @@ class User extends Authenticatable
                             });
                         });
                     }
+                    else {
+                        return false;
+                    }
                 }
                 // 區域檢查
                 if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer) {
@@ -206,6 +212,9 @@ class User extends Authenticatable
                                 $query->where('region_id', $resource->region_id);
                             });
                         });
+                    }
+                    else {
+                        return false;
                     }
                 }
                 else if ($resource instanceof \App\Models\User) {
@@ -220,9 +229,12 @@ class User extends Authenticatable
                             });
                         });
                     }
+                    else {
+                        return false;
+                    }
                 }
                 return $query->where('camp_id', $camp->id);
-            });            
+            });
         })->where('id', $this->id)->get()->pluck('roles')->flatten()->pluck('permissions')->flatten()->unique('id')->values();
         $permissions = $permissions ? collect($permissions)->merge($this->rolePermissions) : $this->rolePermissions;
         $forInspect = $permissions->where("resource", "\\" . $class)->where("action", $action)->first();
