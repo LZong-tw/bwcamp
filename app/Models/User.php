@@ -182,9 +182,6 @@ class User extends Authenticatable
                             });
                         });
                     }
-                    else {
-                        return false;
-                    }
                 }
                 else if ($resource instanceof \App\Models\User) {
                     $theCamp = $camp->vcamp;
@@ -198,9 +195,6 @@ class User extends Authenticatable
                             });
                         });
                     }
-                    else {
-                        return false;
-                    }
                 }
                 // 區域檢查
                 if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer) {
@@ -212,9 +206,6 @@ class User extends Authenticatable
                                 $query->where('region_id', $resource->region_id);
                             });
                         });
-                    }
-                    else {
-                        return false;
                     }
                 }
                 else if ($resource instanceof \App\Models\User) {
@@ -228,9 +219,6 @@ class User extends Authenticatable
                                 $query->where('region_id', $theApplicant->region_id);
                             });
                         });
-                    }
-                    else {
-                        return false;
                     }
                 }
                 return $query->where('camp_id', $camp->id);
