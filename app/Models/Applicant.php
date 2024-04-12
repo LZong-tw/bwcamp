@@ -15,7 +15,7 @@ class Applicant extends Model {
 
     //
     protected $fillable = [
-        'batch_id', 'name', 'english_name', 'region', 'avatar','gender',
+        'batch_id', 'name', 'english_name', 'region', 'region_id', 'avatar','gender',
         'group_id', 'number_id', 'is_admitted', 'is_paid', 'is_attend',
         'birthyear', 'birthmonth', 'birthday', 'age_range', 'nationality', 'idno',
         'is_foreigner', 'is_allow_notified', 'mobile', 'phone_home', 'phone_work',
@@ -82,7 +82,7 @@ class Applicant extends Model {
     public function actvcamp() {
         return $this->hasOne(Actvamp::class, 'applicant_id', 'id');
     }
-    
+
     public function ceocamp() {
         return $this->hasOne(Ceocamp::class, 'applicant_id', 'id');
     }
