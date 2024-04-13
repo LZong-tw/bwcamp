@@ -14,18 +14,19 @@ class Permitted
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next) {
+    public function handle($request, Closure $next)
+    {
         if (!auth()->check()) {
             return abort(404);
         }
         $newRoles = OrgUser::with('camp')->where('user_id', \Auth::user()->id)->get()->pluck('camp.id')->toArray();
         $newRoles = array_filter($newRoles, fn ($value) => !is_null($value));
-        if(in_array($request->camp_id, $newRoles)){
+        if(in_array($request->camp_id, $newRoles)) {
             return $next($request);
         }
         if ($request->is('checkin*')) {
             $camp = \App\Models\Camp::find($request->camp_id);
-            return response()->view('errors.401',  ['message' => '目前報到營隊為' . $camp->fullName . '，非您可存取'], 401);
+            return response()->view('errors.401', ['message' => '目前報到營隊為' . $camp->fullName . '，非您可存取'], 401);
         }
         return $next($request);
     }
