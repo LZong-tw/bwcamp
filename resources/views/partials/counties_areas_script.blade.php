@@ -485,8 +485,17 @@
 
     /*南海諸島*/
 
+        {{-- 
+            // todo: ECAMP 問題處理
+         --}}
+
+        if (num=='南海諸島') { ele.options[0]=new Option('- 請選鄉鎮 -',''); }
         if (num=='南海諸島') { ele.options[ctr]=new Option('東沙','817');	ctr=ctr+1;	}
         if (num=='南海諸島') { ele.options[ctr]=new Option('南沙','819');	ctr=ctr+1;	}
+
+        if (num=='星馬地區') { ele.options[0]=new Option('- 請選鄉鎮 -',''); }
+
+        if (num=='其它海外') { ele.options[0]=new Option('- 請選鄉鎮 -',''); }
 
         {{-- if (num=='其他') { ele.options[0]=new Option('請自行輸入','000'); } --}}
         if (num=='海外') {
