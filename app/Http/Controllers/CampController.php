@@ -147,9 +147,9 @@ class CampController extends Controller
 
         if ($request->birthdate != "") {
             // $request->birthdate: YYYY-MM-DD
-            $request->birthyear = substr($request->birthdate, 0, 4);
-            $request->birthmonth = substr($request->birthdate, 5, 2);
-            $request->birthday = substr($request->birthdate, 8, 2);
+            $request->request->add(['birthyear' => substr($request->birthdate, 0, 4)]);
+            $request->request->add(['birthmonth' => substr($request->birthdate, 5, 2)]);
+            $request->request->add(['birthday' => substr($request->birthdate, 8, 2)]);
         }
 
         if (!$request->region_id || $request->region_id == '') {
@@ -160,7 +160,7 @@ class CampController extends Controller
                 }
             }
         }
-
+dd($request);
         // 修改資料
         if (isset($request->applicant_id) && !isset($request->useOldData2Register)) {
             $request = $this->campDataService->checkBoxToArray($request);
