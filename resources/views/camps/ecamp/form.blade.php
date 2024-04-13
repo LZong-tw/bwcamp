@@ -173,8 +173,8 @@
                                                 <option value='' disabled>- 其它 -</option>
                                                 <option value='上海地區' >上海地區</option>
                                                 <option value='港澳深圳' >港澳深圳</option>
-                                                <option value='大陸其它區' >南海諸島</option>
-                                                <option value='星馬地區' >大陸其它區</option>
+                                                <option value='南海諸島' >南海諸島</option>
+                                                <option value='星馬地區' >星馬地區</option>
                                                 <option value='其它海外' >其它海外</option>
                                             </select></td>
                                     </tr>
