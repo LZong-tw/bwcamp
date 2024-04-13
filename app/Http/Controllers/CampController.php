@@ -160,7 +160,7 @@ class CampController extends Controller
                 }
             }
         }
-dd($request);
+        
         // 修改資料
         if (isset($request->applicant_id) && !isset($request->useOldData2Register)) {
             $request = $this->campDataService->checkBoxToArray($request);
