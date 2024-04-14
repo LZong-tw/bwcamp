@@ -43,7 +43,7 @@ class CampController extends Controller
         $this->batch_id = $request->route()->parameter('batch_id');
         $this->camp_data = $this->campDataService->getCampData($this->batch_id);
         if (is_string($this->camp_data) && str_contains($this->camp_data, "查無營隊資料")) {
-            // halt if no camp data found            
+            // halt if no camp data found
             echo "查無營隊資料，請確認網址是否正確。" . "<br>";
             die();
         }
@@ -90,9 +90,9 @@ class CampController extends Controller
             $registration_end = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $this->camp_data->registration_end . "23:59:59");
         }
         $registration_start = \Carbon\Carbon::createFromFormat("Y-m-d", $this->camp_data->registration_start)->startOfDay();
-        $final_registration_end = $this->camp_data->final_registration_end ? \Carbon\Carbon::createFromFormat("Y-m-d", 
+        $final_registration_end = $this->camp_data->final_registration_end ? \Carbon\Carbon::createFromFormat("Y-m-d",
         $this->camp_data->final_registration_end)->endOfDay() : \Carbon\Carbon::today();
-        
+
         if($today > $registration_end && !isset($request->isBackend)) {
             //超過前台報名期限
             return view('camps.' . $this->camp_data->table . '.outdated')->with('outdatedMessage', '報名期限已過，敬請見諒。');
@@ -125,9 +125,9 @@ class CampController extends Controller
                 $registration_end = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $this->camp_data->registration_end . "23:59:59");
             }
             $registration_start = \Carbon\Carbon::createFromFormat("Y-m-d", $this->camp_data->registration_start)->startOfDay();
-            $final_registration_end = $this->camp_data->final_registration_end ? \Carbon\Carbon::createFromFormat("Y-m-d", 
+            $final_registration_end = $this->camp_data->final_registration_end ? \Carbon\Carbon::createFromFormat("Y-m-d",
             $this->camp_data->final_registration_end)->endOfDay() : \Carbon\Carbon::today();
-            
+
             return view('camps.' . $this->camp_data->table . '.form_mockup')
                     ->with('isBackend', $request->isBackend)
                     ->with('batch', Batch::find($request->batch_id));
@@ -147,9 +147,10 @@ class CampController extends Controller
 
         if ($request->birthdate != "") {
             // $request->birthdate: YYYY-MM-DD
-            $request->request->add(['birthyear' => substr($request->birthdate, 0, 4)]);
-            $request->request->add(['birthmonth' => substr($request->birthdate, 5, 2)]);
-            $request->request->add(['birthday' => substr($request->birthdate, 8, 2)]);
+            $formatted = Carbon::parse($request->birthdate);
+            $request->request->add(['birthyear' => $formatted->year]);
+            $request->request->add(['birthmonth' => $formatted->month]);
+            $request->request->add(['birthday' => $formatted->day]);
         }
 
         if (!$request->region_id || $request->region_id == '') {
@@ -160,7 +161,7 @@ class CampController extends Controller
                 }
             }
         }
-        
+
         // 修改資料
         if (isset($request->applicant_id) && !isset($request->useOldData2Register)) {
             $request = $this->campDataService->checkBoxToArray($request);
