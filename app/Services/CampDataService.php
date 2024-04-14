@@ -470,10 +470,6 @@ class CampDataService
                     $formData["region"] = $value3 [$i];
                 }
             }
-
-            if ($formData["school"] == '長庚大學' or $formData["school"] == '長庚科技大學林口校區' or $formData["school"] == '長庚科大' or $formData["school"] == '國立體育大學') {
-                $formData["region"] = '台北';
-            }
         }
 
         return $formData;
