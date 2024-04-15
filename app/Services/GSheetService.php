@@ -53,4 +53,13 @@ class GSheetService
     {
         return $this->Sheet($sheet_id, $sheet_name)->update([$data]);
     }
+
+    /**
+     * Clear sheet's all data
+     */
+    public function Clear($sheet_id, $sheet_name)
+    {
+        return $this->Sheet($sheet_id, $sheet_name)->clear();
+    }
+
 }
