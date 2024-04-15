@@ -1124,15 +1124,15 @@
 
         function showFields(){
             sel = document.getElementById('inputGroupPriority1').value;
-            console.log(sel);
+            //console.log(sel);
             fields_long = document.getElementsByClassName('field_long');
             fields_short = document.getElementsByClassName('field_short');
             itemsreq_long = document.getElementsByClassName('itemreq_long');
             itemsreq_short = document.getElementsByClassName('itemreq_short');
             recruit_ch = document.getElementById('inputRecruitCh');
-            console.log(fields_long.length);
-            console.log(itemsreq_long.length);
-            console.log(itemsreq_long);
+            //console.log(fields_long.length);
+            //console.log(itemsreq_long.length);
+            //console.log(itemsreq_long);
             if (sel == '關懷組') {
                 for (i=0;i<fields_long.length;i++) fields_long[i].style.display = '';
                 for (i=0;i<fields_short.length;i++) fields_short[i].style.display = 'none';
