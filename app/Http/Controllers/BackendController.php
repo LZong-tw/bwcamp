@@ -1647,7 +1647,7 @@ class BackendController extends Controller
                         ->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id')
                         ->where('camps.id', $this->campFullData->vcamp->id)
                         ->whereDoesntHave('user')
-                        ->withTrashed();
+                        ->withTrashed()->orderBy('deleted_at', 'asc');;
         if ($request->batch_id) {
             $query->where('batchs.id', $request->batch_id);
         }
