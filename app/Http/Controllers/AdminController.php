@@ -8,6 +8,7 @@ use App\Models\Vcamp;
 use Illuminate\Http\Request;
 use App\Models\Camp;
 use App\Models\CampOrg;
+use App\Models\DynamicStat;
 use App\Models\Batch;
 use App\Models\Region;
 use App\Models\Role;
@@ -291,6 +292,11 @@ class AdminController extends BackendController {
                             $org_parent->is_node = 1;
                             $org_parent->save();
                         }
+                        if($org_parent){
+                            \Session::flash('message', "職務上層修改成功。");
+                        } else {
+                            \Session::flash('error', "職務上層修改失敗。");
+                        }
                     }
                     $j = $j+1;
                 }
@@ -443,4 +449,28 @@ class AdminController extends BackendController {
         }
     }
 
+    public function addGSLink($camp_id){
+        //$camp = Camp::find($camp_id);
+        return view('backend.other.addGSLink', ["camp_id" => $camp_id]);
+    }
+    public function queryGSLink(Request $request){
+        $camp_id = $request->camp_id;
+        $urltable_type = 'App\\Models\\'.$request->urltable_type;
+        $urltable_id = $request->urltable_id;
+        
+        $ds = DynamicStat::select('dynamic_stats.*')
+        ->where('urltable_id', $urltable_id)
+        ->where("urltable_type", $urltable_type)
+        ->first();
+        $is_show = 1;
+        return view('backend.other.addGSLink', compact("camp_id", "ds", "is_show"));
+    }
+    public function showAddGSLink($camp_id){
+        //$camp = Camp::find($camp_id);
+        return view('backend.other.addGSLink', compact("camp_id"));
+    }
+    public function udpateGSLink($camp_id){
+        //$camp = Camp::find($camp_id);
+        return view('backend.other.showGSLink', ["camp_id" => $camp_id]);
+    }
 }

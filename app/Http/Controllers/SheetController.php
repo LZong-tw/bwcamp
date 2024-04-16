@@ -177,4 +177,65 @@ class SheetController extends Controller
         dd($stat);
         //return view('backend.in_camp.gsFeedback', compact('titles','contents','content_count'));
     }
+
+    public function exportGSApplicants(Request $request)
+    {
+        $camp = Camp::find($request->camp_id);
+        $table = $camp->table;
+
+        if ($table == 'ecamp') {
+            config([
+                //ecamp
+                'google.post_spreadsheet_id' => '1ihb-bcwwW8JItIyH692YniCJ03yyuqonXOseObExlvc',
+                'google.post_sheet_id' => 'registration',
+            ]);
+        } else {
+            config([
+                //ceocamp
+                'google.post_spreadsheet_id' => '1GUvMO-GDdbfq3gVDHUMt_HTcEsj3dNFir5dO5KlnAGQ',
+                'google.post_sheet_id' => 'registration',
+            ]);
+        }
+        
+        //$sheets = $this->gsheetservice->Get(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
+
+        $applicants = Applicant::select('applicants.*', $table . '.*')
+        ->join($table, 'applicants.id', '=', $table . '.applicant_id')
+        ->join('batchs','applicants.batch_id', '=', 'batchs.id')
+        ->join('camps', 'batchs.camp_id', '=', 'camps.id')
+        ->where('camps.id', $request->camp_id)
+        ->orderBy('applicants.id')
+        ->get();
+
+        $columns = config('camps_fields.export4stat.' . $table) ?? [];
+        foreach($columns as $key => $v) {
+            $rows[] = $key;
+        }
+
+        $this->gsheetservice->Clear(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));  
+        $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $rows);  
+
+        foreach ($applicants as $applicant) {
+            $rows = array();
+            foreach($columns as $key => $v) {
+                $data = null;
+                if($key == "admitted_no") {
+                    $data = $applicant->group . $applicant->number;
+                } else if($key == "is_attend") {
+                    match ($applicant->is_attend) {
+                        0 => $data = "不參加",
+                        1 => $data = "參加",
+                        2 => $data = "尚未決定",
+                        3 => $data = "聯絡不上",
+                        4 => $data = "無法全程",
+                        default => $data = "尚未聯絡"
+                    };
+                } else {
+                    $data = $applicant->$key;
+                }
+                $rows[] = '"'. $data .'"';
+            }
+            $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $rows);  
+        }
+    }
 }

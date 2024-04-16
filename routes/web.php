@@ -194,8 +194,13 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
 
     //GSheet
     Route::get("/inCamp/gsFeedback/{applicant_id}/{day?}", "SheetController@showGSFeedback")->name("showGSFeedback");
-    Route::get("/inCamp/gsImport", "SheetController@importGSApplicants")->name("importGSApplicants");
-    
+    Route::get("/gsImport", "SheetController@importGSApplicants")->name("importGSApplicants");
+    Route::get("/gsExport", "SheetController@exportGSApplicants")->name("exportGSApplicants");
+    Route::post("/addGSLink", "AdminController@addGSLink")->name("addGSLink");
+    Route::post("/queryGSLink", "AdminController@queryGSLink")->name("queryGSLink");
+    Route::get("/showAddGSLink", "AdminController@showAddGSLink")->name("showAddGSLink");
+    Route::post("/updateGSLink", "AdminController@updateGSLink")->name("updateGSLink");
+
     //Remark
     Route::post("/remark/edit", [BackendController::class, "editRemark"])->name("editRemark");
     //Contact Log
