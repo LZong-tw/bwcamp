@@ -215,6 +215,7 @@ class SheetController extends Controller
         $this->gsheetservice->Clear(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));  
         $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $rows);  
 
+        $i=0;
         foreach ($applicants as $applicant) {
             $rows = array();
             foreach($columns as $key => $v) {
@@ -235,7 +236,13 @@ class SheetController extends Controller
                 }
                 $rows[] = '"'. $data .'"';
             }
-            $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $rows);  
+            $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $rows);
+            $i=$i+1;
+            if ($i % 100 == 0) {
+                sleep(1);
+                //dd($fail_count);
+            }
+
         }
     }
 }
