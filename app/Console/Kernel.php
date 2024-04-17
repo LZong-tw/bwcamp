@@ -28,8 +28,8 @@ class Kernel extends ConsoleKernel
         // $schedule->command('check:Accounting hcamp')->dailyAt("16:30");
         // $schedule->command('check:Accounting ycamp')->dailyAt("16:30");
         $schedule->command('media-library:delete-old-temporary-uploads')->daily();
-        $schedule->command('export:Applicant 77')->dailyAt("2:10");
-        $schedule->command('export:Applicant 79')->dailyAt("2:15");
+        $schedule->command('export:Applicant 79')->dailyAt("0:30"); //ceocamp
+        $schedule->command('export:Applicant 77')->dailyAt("1:30"); //ecamp
     }
 
     /**
