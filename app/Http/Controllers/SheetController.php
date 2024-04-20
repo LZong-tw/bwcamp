@@ -7,7 +7,6 @@ use App\Services\GSheetService;
 use App\Models\Applicant;
 use App\Models\Camp;
 
-
 class SheetController extends Controller
 {
     protected $gsheetservice;
@@ -35,12 +34,12 @@ class SheetController extends Controller
 
     public function showGSFeedback(Request $request)
     {
-        if ($request->day==1) {
+        if ($request->day == 1) {
             config([
                 'google.post_spreadsheet_id' => '1Bdnv5ehYLCYv_8RYhtbqVS2rseOuoxdaVvP2Ehi6egM',
                 'google.post_sheet_id' => '表單回應 1',
             ]);
-        } elseif ($request->day==2) {
+        } elseif ($request->day == 2) {
             config([
                 'google.post_spreadsheet_id' => '1JCeg9KBNM4jQXDjPP-Zi0kcuJogkYc9CajK-53IQCeU',
                 'google.post_sheet_id' => '表單回應 1',
@@ -60,28 +59,29 @@ class SheetController extends Controller
 
         //multiple name columns
         $keys = array_keys($titles, '姓名');
-        
+
         foreach($keys as $key) {
             $i = 0;
             foreach ($sheets as $row) {
                 $names[$i] = $row[$key];
-                $i = $i+1;
+                $i = $i + 1;
             }
             $key1 = array_search($name_tg, $names);
-            if ($key1 <> false) break;
+            if ($key1 <> false) {
+                break;
+            }
         }
-        
+
         if ($key1 == false) {
             $contents = null;
             $content_count = 0;
-        }
-        else {
+        } else {
             //to deal with content_count < title_count
             $contents = $sheets[$key1];
             $content_count = count($contents);
         }
 
-        return view('backend.in_camp.gsFeedback', compact('titles','contents','content_count'));
+        return view('backend.in_camp.gsFeedback', compact('titles', 'contents', 'content_count'));
     }
 
     public function showGSDynamic(Request $request)
@@ -99,28 +99,29 @@ class SheetController extends Controller
 
         //multiple name columns
         $keys = array_keys($titles, '姓名');
-        
+
         foreach($keys as $key) {
             $i = 0;
             foreach ($sheets as $row) {
                 $names[$i] = $row[$key];
-                $i = $i+1;
+                $i = $i + 1;
             }
             $key1 = array_search($name_tg, $names);
-            if ($key1 <> false) break;
+            if ($key1 <> false) {
+                break;
+            }
         }
-        
+
         if ($key1 == false) {
             $contents = null;
             $content_count = 0;
-        }
-        else {
+        } else {
             //to deal with content_count < title_count
             $contents = $sheets[$key1];
             $content_count = count($contents);
         }
 
-        return view('backend.in_camp.gsFeedback', compact('titles','contents','content_count'));
+        return view('backend.in_camp.gsFeedback', compact('titles', 'contents', 'content_count'));
     }
 
     public function importGSApplicants(Request $request)
@@ -141,9 +142,9 @@ class SheetController extends Controller
 
         $success_count = 0;
         $fail_count = 0;
-        for ($i=1; $i<$num_rows; $i++) {
+        for ($i = 1; $i < $num_rows; $i++) {
             $data = $sheets[$i];
-            for ($j=0; $j<$num_cols; $j++) {
+            for ($j = 0; $j < $num_cols; $j++) {
                 $title_data[$titles[$j]] = $data[$j];
             }
             $applicant = Applicant::select('applicants.*')
@@ -158,7 +159,7 @@ class SheetController extends Controller
                 //$applicant->save();
                 $fail_count++;
             } else {            //create new
-                $applicant = \DB::transaction(function () use ($title_data,$table) {
+                $applicant = \DB::transaction(function () use ($title_data, $table) {
                     $applicant = Applicant::create($title_data);
                     $title_data['applicant_id'] = $applicant->id;
                     $model = '\\App\\Models\\' . ucfirst($table);
@@ -189,19 +190,19 @@ class SheetController extends Controller
                 'google.post_spreadsheet_id' => '1ihb-bcwwW8JItIyH692YniCJ03yyuqonXOseObExlvc',
                 'google.post_sheet_id' => 'ecamp',
             ]);
-        } else if ($table == 'evcamp') {
+        } elseif ($table == 'evcamp') {
             config([
                 //evcamp
                 'google.post_spreadsheet_id' => '1ihb-bcwwW8JItIyH692YniCJ03yyuqonXOseObExlvc',
                 'google.post_sheet_id' => 'evcamp',
             ]);
-        } else if ($table == 'ceocamp') {
+        } elseif ($table == 'ceocamp') {
             config([
                 //evcamp
                 'google.post_spreadsheet_id' => '1GUvMO-GDdbfq3gVDHUMt_HTcEsj3dNFir5dO5KlnAGQ',
                 'google.post_sheet_id' => 'ceocamp',
             ]);
-        } else if ($table == 'ceovcamp'){
+        } elseif ($table == 'ceovcamp') {
             config([
                 //ceocamp
                 'google.post_spreadsheet_id' => '1GUvMO-GDdbfq3gVDHUMt_HTcEsj3dNFir5dO5KlnAGQ',
@@ -210,12 +211,12 @@ class SheetController extends Controller
         } else {
             exit(1);
         }
-        
+
         //$sheets = $this->gsheetservice->Get(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
 
         $applicants = Applicant::select('applicants.*', $table . '.*')
         ->join($table, 'applicants.id', '=', $table . '.applicant_id')
-        ->join('batchs','applicants.batch_id', '=', 'batchs.id')
+        ->join('batchs', 'applicants.batch_id', '=', 'batchs.id')
         ->join('camps', 'batchs.camp_id', '=', 'camps.id')
         ->where('camps.id', $request->camp_id)
         ->orderBy('applicants.id')
@@ -226,8 +227,8 @@ class SheetController extends Controller
             $rows[] = $key;
         }
 
-        $this->gsheetservice->Clear(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));  
-        $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $rows);  
+        $this->gsheetservice->Clear(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
+        $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $rows);
 
         foreach ($applicants as $applicant) {
             $rows = array();
@@ -235,7 +236,7 @@ class SheetController extends Controller
                 $data = null;
                 if($key == "admitted_no") {
                     $data = $applicant->group . $applicant->number;
-                } else if($key == "is_attend") {
+                } elseif($key == "is_attend") {
                     match ($applicant->is_attend) {
                         0 => $data = "不參加",
                         1 => $data = "參加",
