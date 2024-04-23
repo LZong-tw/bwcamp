@@ -53,6 +53,7 @@
                 <th>選擇區域</th>
                 <th>選擇組織上層</th>
                 <th>新增大組/小組/職務名稱</th>
+                <th>組織代號</th>
                 <th>新增或刪除行</th>
             </tr>
             <tr class="align-middle">
@@ -83,6 +84,9 @@
                     <input required type="text" name="position[0]" id="" class="form-control">
                 </td>
                 <td class="align-middle">
+                    <input required type="number" name="order[0]" id="" class="form-control">
+                </td>
+                <td class="align-middle">
                     <a href="#" class="btn btn-primary" onclick="addLine(1)">+</a>
                 </td>
             </tr>
@@ -105,6 +109,7 @@
                 <th>選擇區域</th>
                 <th>選擇組織上層</th>
                 <th>新增大組/小組/職務名稱</th>
+                <th>組織代號</th>
                 <th>新增或刪除行</th>
             </tr>
             <tr class="align-middle">
@@ -120,6 +125,9 @@
                 </td>
                 <td class="align-middle">
                     <input required type="text" name="position[0]" id="" class="form-control">
+                </td>
+                <td class="align-middle">
+                    <input required type="number" name="order[0]" id="" class="form-control">
                 </td>
                 <td class="align-middle">
                     <a href="#" class="btn btn-primary" onclick="addLine(2)">+</a>
@@ -192,10 +200,14 @@
             let pos_ele6 = `]" id="" class="form-control" required>
                 </td>
                 <td class="align-middle">
+                    <input required type="number" name="order[`;
+            let pos_ele7 = `]" id="" class="form-control">
+                </td>
+                <td class="align-middle">
                     <a href="#" class="btn btn-danger" onclick="this.parentNode.parentNode.remove()">Ｘ</a>
                 </td>
                 </tr>`;
-            ele = pos_ele1 + pos_num + pos_ele2 + pos_num + pos_ele3 + pos_num + pos_ele4 + pos_num + pos_ele5 + pos_num + pos_ele6;
+            ele = pos_ele1 + pos_num + pos_ele2 + pos_num + pos_ele3 + pos_num + pos_ele4 + pos_num + pos_ele5 + pos_num + pos_ele6 + pos_num + pos_ele7;
             return ele;
         }
         @else
@@ -223,10 +235,14 @@
             let pos_ele6 = `]" id="" class="form-control" required>
                 </td>
                 <td class="align-middle">
+                    <input required type="number" name="order[`;
+            let pos_ele7 = `]" id="" class="form-control">
+                </td>
+                <td class="align-middle">
                     <a href="#" class="btn btn-danger" onclick="this.parentNode.parentNode.remove()">Ｘ</a>
                 </td>
                 </tr>`;
-            ele = pos_ele1 + pos_num + pos_ele2 + pos_num + pos_ele3 + pos_num + pos_ele4 + pos_num + pos_ele5 + pos_num + pos_ele6;
+            ele = pos_ele1 + pos_num + pos_ele2 + pos_num + pos_ele3 + pos_num + pos_ele4 + pos_num + pos_ele5 + pos_num + pos_ele6 + pos_num + pos_ele7;
             return ele;
         }
         @endif
