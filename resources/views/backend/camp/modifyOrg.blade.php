@@ -66,6 +66,12 @@
             </div>
         </div>
         <div class='row form-group'>
+            <label for='inputOrder' class='col-md-2 control-label'>組織代號</label>
+            <div class='col-md-6'>
+                <input type="number" name="order" id="" class='form-control' value="{{ $org->order ?? "" }}">
+            </div>
+        </div>
+        <div class='row form-group'>
             <label for='inputPos' class='col-md-2 control-label'>綁定的學員組別</label>
             <div class='col-md-6'>
                 <div class="row">
