@@ -31,7 +31,7 @@ $pairs = [
     "大陸其它區" => "中區",
     "其它海外" => "中區"
 ];
-$applicants = \App\Models\Applicant::whereIn("batch_id", [165, 166])->get();
+$applicants = \App\Models\Applicant::whereIn("batch_id", [165, 166])->whereNull("region")->whereNull("region_id")->get();
 $applicantsEcamp = \App\Models\Ecamp::whereIn(
     "applicant_id",
     $applicants->pluck("id")
