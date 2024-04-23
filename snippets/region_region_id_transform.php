@@ -1,4 +1,5 @@
-<?
+<?php
+
 $pairs = [
     "臺北市" => "台北",
     "新北市" => "台北",
@@ -52,8 +53,7 @@ $regions = \App\Models\Region::all();
             } else {
                 $applicant->region = "新竹";
             }
-        }
-        else {
+        } else {
             $applicant->region = "中區";
         }
         $applicant->save();
