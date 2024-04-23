@@ -143,7 +143,7 @@
                                             </select>&nbsp;</td>
                                     </tr>
                                     <tr style="background: rgba(255,255,255,0);">
-                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);" class="required">所&nbsp; 在&nbsp; 地：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;background: var(--bs-table-bg);" required name='unit_county' onChange='Address(this.options[this.options.selectedIndex].value, "unit");'>
+                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);" class="required">所&nbsp; 在&nbsp; 地：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;background: var(--bs-table-bg);" required name='unit_county' onChange='if(this.value == "上海地區" || this.value == "港澳深圳" || this.value == "南海諸島" || this.value == "星馬地區" || this.value == "其它海外") { document.getElementById("inputUnitSubarea").disabled = true; document.getElementById("inputUnitSubarea").style.display = "none"; document.getElementById("inputUnitSubarea").name = "" ; document.getElementById("inputUnitSubarea2").disabled = false; document.getElementById("inputUnitSubarea2").style.display = "block"; document.getElementById("inputUnitSubarea2").type = "text"; document.getElementById("inputUnitSubarea2").name = "unit_subarea"; document.getElementById("inputUnitSubarea2").required = true; document.getElementById("inputUnitSubarea").required = false; } else { document.getElementById("inputUnitSubarea").disabled = false; document.getElementById("inputUnitSubarea").style.display = "block"; document.getElementById("inputUnitSubarea2").disabled = true; document.getElementById("inputUnitSubarea2").style.display = "none"; document.getElementById("inputUnitSubarea2").name = "" ; document.getElementById("inputUnitSubarea2").required = false; document.getElementById("inputUnitSubarea").value = ""; document.getElementById("inputUnitSubarea").name = "unit_subarea"; document.getElementById("inputUnitSubarea").required = true; Address(this.options[this.options.selectedIndex].value, "unit"); }' id='inputUnitCounty'> 
                                                 <option value='' selected>- 先選縣市 -</option>
                                                 <option value='' disabled>- 北區 -</option>
                                                 <option value='臺北市' >臺北市</option>
@@ -179,12 +179,13 @@
                                             </select></td>
                                     </tr>
                                     <tr style="background: rgba(255,255,255,0);">
-                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);" class="required">行&nbsp; 政&nbsp; 區：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;background: var(--bs-table-bg);" required name='unit_subarea' onChange='document.Camp.unit_location.value=MyAddress(document.Camp.unit_county.value, this.options[this.options.selectedIndex].text);'>
+                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);" class="required">行&nbsp; 政&nbsp; 區：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;background: var(--bs-table-bg);" required name='unit_subarea' onChange='document.Camp.unit_location.value=MyAddress(document.Camp.unit_county.value, this.options[this.options.selectedIndex].text);' id='inputUnitSubarea'>
                                                 <option value=''>- 再選區鄉鎮 -</option>
                                             </select>
                                             <input type='hidden' name='unit_zipcode' value=''>
                                             <input type='hidden' name='unit_address' value=''>
                                             <input type="hidden" name='unit_location' value='' id='inputUnitLocation'>
+                                            <input type="hidden" name='' value='' id='inputUnitSubarea2' disabled="true" type="text" style="background: var(--bs-table-bg);border-radius: 10px;width: 140px;border-style: none;" placeholder="請輸入行政區或地區">
                                             </td>
                                     </tr>
                                     <tr style="border-style: none;background: rgba(255,255,255,0);">
