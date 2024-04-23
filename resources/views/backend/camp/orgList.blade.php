@@ -48,6 +48,7 @@
                     <th>區域</th>
                     <th>功能組別</th>
                     <th>職務名稱</th>
+                    <th>組織代號</th>
                     <th>綁定的學員組別</th>
                     <th>已設定權限數</th>
                     <th>修改</th>
@@ -55,8 +56,6 @@
                     <th>新增</th>
                 </tr>
             </thead>
-
-
             @foreach($orgs as $org)
                 {{-- 比對梯次才印 ---}}
                 @if($org->batch_id == 0)
@@ -94,6 +93,7 @@
                             </td>
                         @else
                             <td>{{ $org->position }}</td>
+                            <td>{{ $org->order }}</td>
                             <td>@if(!$org->all_group) {{ $org->applicant_group?->alias ?? "無" }} @else 全部學員小組 @endif</td>
                             <td>{{ $org->permissions->count() }}</td>
                             <td><a href="{{ route('showModifyOrg', [$camp->id, $org->id]) }}" class="btn btn-primary">修改</a></td>
@@ -137,6 +137,7 @@
                         <th>區域</th>
                         <th>功能組別</th>
                         <th>職務名稱</th>
+                        <th>組織代號</th>
                         <th>綁定的學員組別</th>
                         <th>已設定權限數</th>
                         <th>修改</th>
@@ -182,6 +183,7 @@
                                 </td>
                             @else
                                 <td>{{ $org->position }}</td>
+                                <td>{{ $org->order }}</td>
                                 <td>@if(!$org->all_group) {{ $org->applicant_group?->alias ?? "無" }} @else 全部學員小組 @endif</td>
                                 <td>{{ $org->permissions->count() }}</td>
                                 <td><a href="{{ route('showModifyOrg', [$camp->id, $org->id]) }}" class="btn btn-primary">修改</a></td>

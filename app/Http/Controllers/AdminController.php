@@ -273,6 +273,7 @@ class AdminController extends BackendController {
                     $newSet[$j]['position'] = $field[$j];
                     $newSet[$j]['prev_id'] = $formData['prev_id'][$j];
                     $newSet[$j]['is_node'] = 0;
+                    $newSet[$j]['order'] = $formData['order'][$j] ?? 0;
                     $is_exist = false;  //init
                     foreach($orgs as $org) {
                         if ($org->position == $pos_tg &&
@@ -292,7 +293,7 @@ class AdminController extends BackendController {
                             $org_parent->is_node = 1;
                             $org_parent->save();
                         }
-                        if($org_parent){
+                        if($org_parent ?? false){
                             \Session::flash('message', "職務上層修改成功。");
                         } else {
                             \Session::flash('error', "職務上層修改失敗。");
@@ -407,8 +408,8 @@ class AdminController extends BackendController {
         $vcamp = Camp::find($camp->vcamp->id);
         $batches = $camp->batchs->merge($vcamp->batchs);
         $regions = $camp->regions;
-        // $orgs = $camp->organizations->sortBy('order');
-        $orgs = $camp->organizations->sortBy('batch_id');
+        $orgs = $camp->organizations->sortBy('order');
+        //$orgs = $camp->organizations->sortBy('batch_id');
 
         $num_users = array();
         foreach($orgs as $org) {
