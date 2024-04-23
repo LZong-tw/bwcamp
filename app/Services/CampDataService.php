@@ -435,7 +435,7 @@ class CampDataService
             
             if (!(($formData["unit_county"] == "苗栗縣" && $formData["unit_subarea"] == "頭份鎮") ||
                  ($formData["unit_county"] == "苗栗縣" && $formData["unit_subarea"] == "竹南鎮"))) {
-                $formData["region"] = $pairs["unit_county"];
+                $formData["region"] = $formData["unit_county"];
             }
             else {
                 $formData["region"] = "新竹";
