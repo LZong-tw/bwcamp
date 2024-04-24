@@ -143,7 +143,7 @@
                                             </select>&nbsp;</td>
                                     </tr>
                                     <tr style="background: rgba(255,255,255,0);">
-                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);" class="required">所&nbsp; 在&nbsp; 地：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;background: var(--bs-table-bg);" required name='unit_county' onChange='if(this.value == "上海地區" || this.value == "港澳深圳" || this.value == "南海諸島" || this.value == "星馬地區" || this.value == "其它海外") { document.getElementById("inputUnitSubarea").disabled = true; document.getElementById("inputUnitSubarea").style.display = "none"; document.getElementById("inputUnitSubarea").name = "" ; document.getElementById("inputUnitSubarea2").disabled = false; document.getElementById("inputUnitSubarea2").style.display = "block"; document.getElementById("inputUnitSubarea2").type = "text"; document.getElementById("inputUnitSubarea2").name = "unit_subarea"; document.getElementById("inputUnitSubarea2").required = true; document.getElementById("inputUnitSubarea").required = false; } else { document.getElementById("inputUnitSubarea").disabled = false; document.getElementById("inputUnitSubarea").style.display = "block"; document.getElementById("inputUnitSubarea2").disabled = true; document.getElementById("inputUnitSubarea2").style.display = "none"; document.getElementById("inputUnitSubarea2").name = "" ; document.getElementById("inputUnitSubarea2").required = false; document.getElementById("inputUnitSubarea").value = ""; document.getElementById("inputUnitSubarea").name = "unit_subarea"; document.getElementById("inputUnitSubarea").required = true; Address(this.options[this.options.selectedIndex].value, "unit"); }' id='inputUnitCounty'> 
+                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);" class="required">所&nbsp; 在&nbsp; 地：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;background: var(--bs-table-bg);" required name='unit_county' onChange='handleRegionChange(this)' id='inputUnitCounty'> 
                                                 <option value='' selected>- 先選縣市 -</option>
                                                 <option value='' disabled>- 北區 -</option>
                                                 <option value='臺北市' >臺北市</option>
@@ -494,6 +494,34 @@
                 });
             }, false);
         })();
+
+        function handleRegionChange(ele) {
+            let subarea = document.getElementById("inputUnitSubarea");
+            let subarea2 = document.getElementById("inputUnitSubarea2");
+            if(ele.value == "上海地區" || ele.value == "港澳深圳" || ele.value == "南海諸島" || ele.value == "星馬地區" || ele.value == "其它海外") { 
+                subarea.disabled = true; 
+                subarea.style.display = "none"; 
+                subarea.name = ""; 
+                subarea.required = false; 
+                subarea2.disabled = false; 
+                subarea2.style.display = "block"; 
+                subarea2.type = "text"; 
+                subarea2.name = "unit_subarea"; 
+                subarea2.required = true; 
+            } 
+            else { 
+                subarea.disabled = false; 
+                subarea.style.display = "block"; 
+                subarea.value = ""; 
+                subarea.name = "unit_subarea"; 
+                subarea.required = true; 
+                subarea2.disabled = true; 
+                subarea2.style.display = "none"; 
+                subarea2.name = ""; 
+                subarea2.required = false; 
+                Address(ele.options[ele.options.selectedIndex].value, "unit"); 
+            }
+        }
     </script>
 </body>
 
