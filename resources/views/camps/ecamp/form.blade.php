@@ -263,7 +263,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td style="width: 40%;color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);" class="required">行動電話：</span></strong>&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;width: 185px;border-style: none;" required name='mobile' value='' id='inputCell' placeholder='格式：0912345678'></td>
+                                        <td style="width: 40%;color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);" class="required">行動電話：</span></strong>&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;width: 185px;border-style: none;" required name='mobile' value='' id='inputCell' placeholder='格式：0912345678' pattern="[0][9]\d{8}"></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                         <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);" class="required">公司電話：</span></strong>&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;width: 185px;border-style: none;"  required name='phone_work' value='' id='inputTelWork' placeholder='格式：0225452546#520'></td>

@@ -119,7 +119,7 @@
                                             <span style="color: rgb(67, 36, 18);">手 機 號 碼：&nbsp;&nbsp;</span><input
                                                 type="tel"
                                                 style="background: var(--bs-table-bg);border-radius: 10px;width: 240px;border-style: none;font-size: large;"
-                                                name="introducer_phone" placeholder="格式：0912345678" required></td>
+                                                name="introducer_phone" placeholder="格式：0912345678" required pattern="[0][9]\d{8}"></td>
                                     </tr>
                                     <tr
                                         style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;font-size: large;">
@@ -331,7 +331,7 @@
                                             <span style="color: rgb(0, 0, 0);" class="required">手機號碼：</span><input
                                                 type="tel"
                                                 style="background: rgba(206,212,218,0.35);border-style: none;border-radius: 10px;padding: 3px 10px;width: 150px;"
-                                                required name='mobile' value='' id='inputCell' placeholder='格式：0912345678'>
+                                                required name='mobile' value='' id='inputCell' placeholder='格式：0912345678' pattern="[0][9]\d{8}">
                                         </td>
                                     </tr>
                                     <tr
