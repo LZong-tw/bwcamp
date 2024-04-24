@@ -100,7 +100,14 @@
         </div>
     </div>
 
-    <div class='row form-group'>
+    <div class="row form-group">
+        <label for='inputName2' class='col-md-2'>手機</label>
+        <div class='col-md-10'>
+        <input type='tel' name="mobile" class='form-control' id='inputName2' placeholder='格式：0912345678' pattern="[0][9]\d{8}" required>
+        </div>
+    </div>
+
+    {{-- <div class='row form-group'>
         <label for='inputBirth' class='col-md-1'>生日</label>
         <div class='date col-md-11' id='inputBirth'>
             <div class='row form-group required'>
@@ -128,7 +135,7 @@
             </div>
             <div class='help-block with-errors'></div>
         </div>
-    </div>
+    </div> --}}
 
     <!--- 確認送出 -->
     <div class=row>

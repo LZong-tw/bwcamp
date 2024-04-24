@@ -300,7 +300,7 @@
     <div class='row form-group required'>
         <label for='inputCell' class='col-md-2 control-label text-md-right'>手機號碼</label>
         <div class='col-md-10'>
-            <input type=tel required name='mobile' value='' class='form-control' id='inputCell' placeholder='格式：0912345678'>
+            <input type=tel required name='mobile' value='' class='form-control' id='inputCell' placeholder='格式：0912345678' pattern="[0][9]\d{8}">
             <div class="invalid-feedback">
                 請填寫手機號碼
             </div>
