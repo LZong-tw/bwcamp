@@ -35,30 +35,29 @@ $applicants = \App\Models\Applicant::whereIn("batch_id", [165, 166])->whereNull(
 $applicantsEcamp = \App\Models\Ecamp::whereIn(
     "applicant_id",
     $applicants->pluck("id")
-);
+)->get();
 $regions = \App\Models\Region::all();
-\DB::transaction(function () use (
-    $applicants,
-    $applicantsEcamp,
-    $pairs,
-    $regions
-) {
-    foreach ($applicantsEcamp as $E) {
-        $applicant = $applicants->where('id', $E->applicant_id)->first();
-        $str_len = str_len($E->unit_location);
+foreach ($applicantsEcamp as $e) {
+    \DB::transaction(function () use ($applicants, $e, $pairs, $regions) {
+        $applicant = $applicants->where("id", $e->applicant_id)->first();
+        $str_len = mb_strlen($e->unit_location);
         if ($str_len != 4) {
-            if (!(str_contains($E->unit_location, "頭份鎮") || str_contains($E->unit_location, "竹南鎮"))) {
-                $applicant->region = $pairs[$E->unit_county];
+            if (
+                !(
+                    str_contains($e->unit_location, "頭份鎮") ||
+                    str_contains($e->unit_location, "竹南鎮")
+                )
+            ) {
+                $applicant->region = $pairs[mb_substr($e->unit_location, 0, 3, "utf-8")];
             } else {
                 $applicant->region = "新竹";
             }
-        }
-        else {
+        } else {
             $applicant->region = "中區";
         }
         $applicant->save();
         $applicant->refresh();
         $applicant->region_id = $regions->where("name", $applicant->region)->first()?->id ?? null;
         $applicant->save();
-    }
-});
+    });
+}
