@@ -345,6 +345,7 @@ class CampController extends Controller
         $applicant = null;
         $isModify = false;
         $campTable = $this->camp_data->table;
+        $form_str = $campTable == "ecamp" || $campTable == "ceocamp" ? ".form_bak" : ".form";
         if($request->name != null && $request->sn != null) {
             $applicant = Applicant::select('applicants.*', $campTable . '.*')
                 ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
@@ -382,7 +383,7 @@ class CampController extends Controller
                 if(!Str::contains(request()->headers->get('referer'), 'queryview')) {
                     return back()->withInput()->withErrors(['很抱歉，報名資料修改期限已過。']);
                 } else {
-                    return view('camps.' . $campTable . '.form')
+                    return view('camps.' . $campTable . $form_str)
                             ->with('applicant_id', $applicant->applicant_id)
                             ->with('applicant_batch_id', $applicant->batch_id)
                             ->with('applicant_data', $applicant_data)
@@ -398,7 +399,7 @@ class CampController extends Controller
                 $batchFrom = Batch::find($request->batch_id_from);
                 $campFrom = $batchFrom->camp;
                 $campAbbrFrom = $campFrom->abbreviation;   //查詢營隊名
-                return view('camps.' . $campTable . '.form')
+                return view('camps.' . $campTable . $form_str)
                 ->with('applicant_id', $applicant->applicant_id)
                 ->with('applicant_batch_id', $applicant->batch_id)
                 ->with('applicant_data', $applicant_data)
@@ -410,7 +411,7 @@ class CampController extends Controller
                 ->with('batch_id_from', $request->batch_id_from)
                 ->with('camp_abbr_from', $campAbbrFrom);
             } else {
-                return view('camps.' . $campTable . '.form')
+                return view('camps.' . $campTable . $form_str)
                 ->with('applicant_id', $applicant->applicant_id)
                 ->with('applicant_batch_id', $applicant->batch_id)
                 ->with('applicant_data', $applicant_data)
