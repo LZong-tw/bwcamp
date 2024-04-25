@@ -223,7 +223,7 @@ class SheetController extends Controller
 
         $columns = config('camps_fields.export4stat.' . $table) ?? [];
         foreach($columns as $key => $v) {
-            $rows[] = $key;
+            $rows[] = $v;
         }
 
         $this->gsheetservice->Clear(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));  
@@ -235,6 +235,8 @@ class SheetController extends Controller
                 $data = null;
                 if($key == "admitted_no") {
                     $data = $applicant->group . $applicant->number;
+                } else if($key == "carers") {
+                    $data = $applicant->carers->first();
                 } else if($key == "is_attend") {
                     match ($applicant->is_attend) {
                         0 => $data = "不參加",
@@ -244,6 +246,12 @@ class SheetController extends Controller
                         4 => $data = "無法全程",
                         default => $data = "尚未聯絡"
                     };
+                } else if($key == "camporg_section") {
+                    $camp_orgs = $applicant->groupOrgRelation;
+                    $data = ($camp_orgs ?? false)? $camp_orgs->first()->section:"";
+                } else if($key == "camporg_position") {
+                    $camp_orgs = $applicant->groupOrgRelation;
+                    $data = ($camp_orgs ?? false)? $camp_orgs->first()->position:"";
                 } else {
                     $data = $applicant->$key;
                 }
