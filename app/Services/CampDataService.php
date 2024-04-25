@@ -5,6 +5,7 @@ use App\Models\Camp;
 use App\Models\Batch;
 use Carbon\Carbon;
 use App;
+use App\Models\Region;
 
 class CampDataService
 {
@@ -440,6 +441,11 @@ class CampDataService
             else {
                 $formData["region"] = "新竹";
             }
+        }
+        
+        if (!isset($formData["region_id"]) || $formData["region_id"] == '') {
+            $region = Region::query()->where('name', $formData["region"])->first();
+            $formData["region_id"] = $region->id ?? null;
         }
 
         return $formData;
