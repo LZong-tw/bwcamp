@@ -74,19 +74,18 @@ class SemiApiController extends Controller
         $campId = $request->input('camp_id');
         $camp = Camp::findOrFail($campId);
         $vcamp = Camp::find($camp->vcamp->id);
+        $vbatches = $vcamp->batchs;
         $orgs = $this->backendService
                     ->getCampOrganizations($camp);
-        $orgs = $orgs->map(function ($org) {
-            $org->camp_name = "學員";
+        $orgs = $orgs->map(function ($org) use ($vbatches) {
+            if ($vbatches->contains($org->batch)) {
+                $org->camp_name = "義工";
+            }
+            else {
+                $org->camp_name = "學員";
+            }
             return $org;
         });
-        $vorgs = $this->backendService
-                    ->getCampOrganizations($vcamp);
-        $vorgs = $vorgs->map(function ($org) {
-            $org->camp_name = "義工";
-            return $org;
-        });
-        $orgs = $orgs->merge($vorgs);
         // Get region name
         $orgs = $orgs->map(function ($org) {
             $org->region_name = $org->region?->name ?? "全區";
