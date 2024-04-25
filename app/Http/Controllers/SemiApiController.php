@@ -72,8 +72,21 @@ class SemiApiController extends Controller
     public function getCampOrganizations(Request $request)
     {
         $campId = $request->input('camp_id');
+        $camp = Camp::findOrFail($campId);
+        $vcamp = Camp::find($camp->vcamp->id);
         $orgs = $this->backendService
-                    ->getCampOrganizations(Camp::findOrFail($campId));
+                    ->getCampOrganizations($camp);
+        $orgs = $orgs->map(function ($org) {
+            $org->camp_name = "學員";
+            return $org;
+        });
+        $vorgs = $this->backendService
+                    ->getCampOrganizations($vcamp);
+        $vorgs = $vorgs->map(function ($org) {
+            $org->camp_name = "義工";
+            return $org;
+        });
+        $orgs = $orgs->merge($vorgs);
         // Get region name
         $orgs = $orgs->map(function ($org) {
             $org->region_name = $org->region?->name ?? "全區";
@@ -88,11 +101,11 @@ class SemiApiController extends Controller
                     return 1;
                 })->each(function ($org) {
                     if ($org->section == "root") {
-                        $org->section = $org->batch_name . $org->region_name ."大會";
+                        $org->section = "[" . $org->camp_name . "]" . $org->batch_name . $org->region_name ."大會";
                     }
                     else {
                         $org->section = str_replace("root.", " - ", $org->section);
-                        $org->section = $org->batch_name . "：" . $org->region_name . $org->section;
+                        $org->section = "[" . $org->camp_name . "]" . $org->batch_name . "：" . $org->region_name . $org->section;
                     }
                 })->unique();
         return response()->json($orgs);
