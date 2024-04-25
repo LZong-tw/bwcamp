@@ -443,7 +443,7 @@ class CampDataService
             }
         }
         
-        if (!isset($formData["region_id"]) || $formData["region_id"] == '') {
+        if (isset($formData["region"]) && (!isset($formData["region_id"]) || $formData["region_id"] == '')) {
             $region = Region::query()->where('name', $formData["region"])->first();
             $formData["region_id"] = $region->id ?? null;
         }
