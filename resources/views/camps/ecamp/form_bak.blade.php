@@ -1,4 +1,4 @@
-{{-- 
+{{--
     參考頁面：https://bwfoce.org/ecamp/form/2020ep01.php
 --}}
 @php
@@ -174,7 +174,7 @@
     <div class='row form-group'>
         <label for='inputBelief' class='col-md-2 control-label text-md-right'>宗教信仰</label>
         <div class='col-md-10'>
-                <select name="belief" class="form-control"> 
+                <select name="belief" class="form-control">
                         <option value=''>- 請選擇 -</option>
                         <option value='佛教'>佛教</option>
                         <option value='道教'>道教</option>
@@ -192,7 +192,7 @@
     <div class='row form-group'>
         <label for='inputEducation' class='col-md-2 control-label text-md-right'>最高學歷</label>
         <div class='col-md-10'>
-                <select name="education" class="form-control"> 
+                <select name="education" class="form-control">
                         <option value=''>- 請選擇 -</option>
                         <option value='高中職'>高中職</option>
                         <option value='專科'>專科</option>
@@ -204,7 +204,7 @@
         </div>
     </div>
 
-    <div class='row form-group required'> 
+    <div class='row form-group required'>
     <label for='inputUnit' class='col-md-2 control-label text-md-right'>服務單位</label>
         <div class='col-md-10'>
             <input type=text required name='unit' value='' class='form-control' id='inputUnit'>
@@ -217,7 +217,7 @@
     <div class='row form-group required'>
         <label for='inputUnitLocation' class='col-md-2 control-label text-md-right'>服務單位<br>所在地</label>
         <div class='col-md-10'>
-            <select required class='form-control' name='unit_location' onChange='SchooList(this.options[this.options.selectedIndex].value);'>
+            <select required class='form-control' name='unit_county' onChange='handleRegionChange(this)'>
                 <option value='' selected>- 請選擇 -</option>
                 <option value='' disabled>- 北區 -</option>
                 <option value='臺北市' >臺北市</option>
@@ -247,14 +247,21 @@
                 <option value='' disabled>- 其它 -</option>
                 <option value='上海地區' >上海地區</option>
                 <option value='港澳深圳' >港澳深圳</option>
-                <option value='大陸其它區' >南海諸島</option>
-                <option value='星馬地區' >大陸其它區</option>
+                <option value='南海諸島' >南海諸島</option>
+                <option value='星馬地區' >星馬地區</option>
                 <option value='其它海外' >其它海外</option>
             </select>
-        </div>  
-    </div>    
+            <select  required class='form-control' name='unit_subarea' onChange='document.Camp.unit_location.value=MyAddress(document.Camp.unit_county.value, this.options[this.options.selectedIndex].text);' id='inputUnitSubarea'>
+                <option value=''>- 再選區鄉鎮 -</option>
+            </select>
+            <input type='hidden' name='unit_zipcode' value=''>
+            <input type='hidden' name='unit_address' value=''>
+            <input type="hidden" name='unit_location' value='' id='inputUnitLocation'>
+            <input type="hidden" name='' value='' id='inputUnitSubarea2' disabled="true" type="text" class='form-control' placeholder="請輸入行政區或地區">
+        </div>
+    </div>
 
-    <div class='row form-group required'> 
+    <div class='row form-group required'>
     <label for='inputTitle' class='col-md-2 control-label text-md-right'>職稱</label>
         <div class='col-md-10'>
             <input type=text required name='title' value='' maxlength="40" class='form-control' id='inputTitle'>
@@ -274,7 +281,7 @@
                 <option value='中階經理人' >中階經理人</option>
                 <option value='基層幹部' >基層幹部</option>
             </select>
-        </div>  
+        </div>
     </div>
 --}}
     <div class='row form-group required'>
@@ -303,8 +310,8 @@
                 <option value='軍警消/保全' >軍警消/保全</option>
                 <option value='其它' >其它</option>
             </select>
-        </div>  
-    </div>    
+        </div>
+    </div>
 
     <div class='row form-group'>
         <label for='inputExperience' class='col-md-2 control-label text-md-right'>經歷</label>
@@ -317,7 +324,7 @@
     </div>
 
 
-    <div class='row form-group required'> 
+    <div class='row form-group required'>
     <label for='inputEmployees' class='col-md-2 control-label text-md-right'>公司員工人數</label>
         <div class='col-md-10'>
             <input type=number required name='employees' value='' class='form-control' id='inputEmployees'>
@@ -327,7 +334,7 @@
         </div>
     </div>
 
-    <div class='row form-group required'> 
+    <div class='row form-group required'>
     <label for='inputDirectManagedEmployees' class='col-md-2 control-label text-md-right'>直屬管轄人數</label>
         <div class='col-md-10'>
             <input type=number required name='direct_managed_employees' value='' class='form-control' id='inputDirectManagedEmployees'>
@@ -357,8 +364,8 @@
                 <option value='公家機關' >公家機關</option>
                 <option value='其它' >其它</option>
             </select>
-        </div>  
-    </div>    
+        </div>
+    </div>
 
     <hr>
     <h5 class='form-control-static'>聯絡方式</h5>
@@ -391,7 +398,7 @@
         </div>
     </div>
 
-    <div class='row form-group'> 
+    <div class='row form-group'>
     <label for='inputLineID' class='col-md-2 control-label text-md-right'>LINE ID</label>
         <div class='col-md-10'>
             <input type=text name='line' value='' class='form-control' id='inputLineID'>
@@ -401,7 +408,7 @@
         </div>
     </div>
 
-    <div class='row form-group'> 
+    <div class='row form-group'>
     <label for='inputWeChatID' class='col-md-2 control-label text-md-right'>微信 ID</label>
         <div class='col-md-10'>
             <input type=text name='wechat' value='' class='form-control' id='inputWeChatID'>
@@ -426,7 +433,7 @@
         e.preventDefault();
         });
     </script>
-    
+
     <div class='row form-group required'>
         <label for='inputEmail' class='col-md-2 control-label text-md-right'>確認電子郵件</label>
         <div class='col-md-10'>
@@ -438,7 +445,7 @@
     <div class='row form-group required'>
         <label for='inputAddress' class='col-md-2 control-label text-md-right'>通訊地址</label>
         <div class='col-md-2'>
-            <select name="county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value);"> 
+            <select name="county" class="form-control" onChange="handlePersonalRegionChange(this)">
                 <option value=''>- 請先選縣市 -</option>
                 <option value='臺北市'>臺北市</option>
                 <option value='新北市'>新北市</option>
@@ -462,14 +469,18 @@
                 <option value='澎湖縣'>澎湖縣</option>
                 <option value='金門縣'>金門縣</option>
                 <option value='連江縣'>連江縣</option>
-                <option value='南海諸島'>南海諸島</option>
-                <option value='其它'>其它</option>
+                <option value='上海地區' >上海地區</option>
+                <option value='港澳深圳' >港澳深圳</option>
+                <option value='南海諸島' >南海諸島</option>
+                <option value='星馬地區' >星馬地區</option>
+                <option value='其它海外' >其它海外</option>
             </select>
         </div>
         <div class='col-md-2'>
-            <select name=subarea class='form-control' onChange='document.Camp.zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.address.value=MyAddress(document.Camp.county.value, this.options[this.options.selectedIndex].text);'>
+            <select name=subarea class='form-control' onChange='document.Camp.zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.address.value=MyAddress(document.Camp.county.value, this.options[this.options.selectedIndex].text);' id='inputSubarea'>
                 <option value=''>- 再選區鄉鎮 -</option>
             </select>
+            <input type="hidden" name='' value='' id='inputSubarea2' disabled="true" type="text" style="background: var(--bs-table-bg);border-radius: 10px;width: 140px;border-style: none;" onkeydown='document.Camp.address.value=MyAddress(document.Camp.county.value, this.value);' placeholder="請輸入行政區或地區">
         </div>
         <div class='col-md-1'>
             <input readonly type=text name=zipcode value='' class='form-control'>
@@ -481,7 +492,7 @@
             </div>
         </div>
     </div>
-    
+
 
     <div class='row form-group required'>
         <label class='col-md-2 control-label text-md-right'>緊急聯絡人</label>
@@ -503,7 +514,7 @@
                     關係：
                 </div>
                 <div class='col-md-10'>
-                    <select name="emergency_relationship" class="form-control" required> 
+                    <select name="emergency_relationship" class="form-control" required>
                         <option value=''>- 請選擇 -</option>
                         <option value='配偶'>配偶</option>
                         <option value='父親'>父親</option>
@@ -516,7 +527,7 @@
                         <option value='其他'>其他</option>
                     </select>
                 </div>
-            </div>   
+            </div>
             <div class='row form-group'>
                 <div class='col-md-2'>
                     聯絡電話：
@@ -527,7 +538,7 @@
                 <div class="invalid-feedback">
                     請填寫本欄位
                 </div>
-            </div>   
+            </div>
         </div>
     </div>
 
@@ -551,7 +562,7 @@
                     關係：
                 </div>
                 <div class='col-md-10'>
-                    <select name="introducer_relationship" class="form-control"> 
+                    <select name="introducer_relationship" class="form-control">
                         <option value=''>- 請選擇 -</option>
                         <option value='配偶'>配偶</option>
                         <option value='父親'>父親</option>
@@ -564,7 +575,7 @@
                         <option value='其他'>其他</option>
                     </select>
                 </div>
-            </div>   
+            </div>
             <div class='row form-group'>
                 <div class='col-md-2'>
                     聯絡電話：
@@ -586,7 +597,7 @@
                 <div class="invalid-feedback">
                     請填寫本欄位
                 </div>
-            </div>   
+            </div>
         </div>
     </div>
 
@@ -644,7 +655,7 @@
     </div>
 
     <hr>
-        
+
     <div class='row form-group required'>
         <label for='inputFavoredEvent' class='col-md-2 control-label text-md-right'>請問您有興趣參加活動的類別？(可複選)</label>
         <div class='col-md-10'>
@@ -656,9 +667,9 @@
             <label><input type="checkbox" class="favored_event" name=favored_event[] value='寺院參訪' > 寺院參訪</label> <br/>
             <label><input type="checkbox" class="favored_event" name=favored_event[] value='儒學課程' > 儒學課程</label> <br/>
             <label><input type="checkbox" class="favored_event" name=favored_event[] value='心靈講座' > 心靈講座</label> <br/>
-            <label><input type="checkbox" class="favored_event" name=favored_event[] value='藝文活動' > 藝文活動</label> <br/>    
+            <label><input type="checkbox" class="favored_event" name=favored_event[] value='藝文活動' > 藝文活動</label> <br/>
             <label><input type="checkbox" class="favored_event" name=favored_event[] value='親子講座' > 親子講座</label> <br/>
-            <label><input type="checkbox" class="favored_event" name=favored_event[] value='樂齡活動' > 樂齡活動</label> <br/>          
+            <label><input type="checkbox" class="favored_event" name=favored_event[] value='樂齡活動' > 樂齡活動</label> <br/>
             <div class="invalid-feedback" id="favored_event-invalid">
                 請勾選有興趣參加活動的類別
             </div>
@@ -708,8 +719,8 @@
         </div>
     </div>
     </form>
-            
-    <script>        
+
+    <script>
         $('[data-toggle="confirmation"]').confirmation({
             rootSelector: '[data-toggle=confirmation]',
             title: "敬請再次確認資料填寫無誤。",
@@ -747,7 +758,7 @@
                     $(".tips").removeClass('d-none');
                     $('#after_camp_available_day-invalid').hide();
                 }
-                if ((document.Camp.checkValidity() === false) 
+                if ((document.Camp.checkValidity() === false)
                     || ($('.favored_event').filter(':checked').length < 1)
                     || ($('.after_camp_available_day').filter(':checked').length < 1)) {
                     $(".tips").removeClass('d-none');
@@ -783,14 +794,14 @@
                     }, false);
                 });
             }, false);
-        })();     
-        
+        })();
+
         let categories = null;
         let rowIsEducating = null;
 
         /**
         * Ready functions.
-        * Executes commands after the web page is loaded. 
+        * Executes commands after the web page is loaded.
         */
 {{--
         document.onreadystatechange = () => {
@@ -812,7 +823,7 @@
                     categories[i].addEventListener("click", changeJobTitleList);
                     categories[i].addEventListener("change", changeJobTitleList);
                 }
-                            
+
                 /**
                 * 選擇職稱後，將職稱填至欄位中。
                 */
@@ -824,7 +835,7 @@
             }
         };
 --}}
-        function showFields(){        
+        function showFields(){
             rowIsEducating.innerHTML = "<div class='row form-group required'>" +
                 "    <label for='inputSchoolOrCourse' class='col-md-2 control-label text-md-right'>任職機關/任教學程</label>" +
                 "    <div class='col-md-10'>" +
@@ -879,7 +890,7 @@
                 "</div>";
 
             document.getElementById("tip").innerHTML = '請先選擇任教機關/任教學程';
-                
+
             /*************************************
              * 物件重建後需重新設定 event listener
              *************************************/
@@ -896,7 +907,7 @@
             }
         }
 
-        function hideFields(){        
+        function hideFields(){
             rowIsEducating.innerHTML = '';
             document.getElementById("tip").innerHTML = '';
         }
@@ -932,7 +943,7 @@
                 }
             }
         }
-        
+
         function fillTheTitle(){
             if(this.value == '其他'){
                 document.getElementById('title').value = '請在此處自行輸入職稱';
@@ -942,7 +953,7 @@
             }
             else if(this.value != null){
                 document.getElementById('title').value = this.value;
-            }            
+            }
         }
 
         @if(isset($applicant_data))
@@ -952,9 +963,9 @@
                 let inputs = document.getElementsByTagName('input');
                 let selects = document.getElementsByTagName('select');
                 let textareas = document.getElementsByTagName('textarea');
-                let complementPivot = 0;                
-                let complementData = applicant_data["blisswisdom_type_complement"] ? applicant_data["blisswisdom_type_complement"].split("||/") : null; 
-                // console.log(inputs); 
+                let complementPivot = 0;
+                let complementData = applicant_data["blisswisdom_type_complement"] ? applicant_data["blisswisdom_type_complement"].split("||/") : null;
+                // console.log(inputs);
                 for (var i = 0; i < inputs.length; i++){
                     if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox"){
                         if(inputs[i].type == "radio"){
@@ -967,7 +978,7 @@
                         }
                         else if(inputs[i].type == "checkbox"){
                             let checkboxes = document.getElementsByName(inputs[i].name);
-                            let deArray = inputs[i].name.slice(0, -2); 
+                            let deArray = inputs[i].name.slice(0, -2);
                             if(applicant_data[deArray]){
                                 let checkedValues = applicant_data[deArray].split("||/");
                                 for( j = 0; j < checkboxes.length; j++ ) {
@@ -980,7 +991,7 @@
                             }
                         }
                         else if(applicant_data[inputs[i].name]){
-                            inputs[i].value = applicant_data[inputs[i].name]; 
+                            inputs[i].value = applicant_data[inputs[i].name];
                         }
                     }
                     else if(inputs[i].type == "text" && inputs[i].name == 'blisswisdom_type_complement[]'){
@@ -988,7 +999,7 @@
                         complementPivot++;
                     }
                     else if(inputs[i].type == "text"){
-                        inputs[i].value = applicant_data[inputs[i].name]; 
+                        inputs[i].value = applicant_data[inputs[i].name];
                     }
                     if(inputs[i].name == 'emailConfirm'){
                         inputs[i].value = applicant_data['email'];
@@ -996,12 +1007,12 @@
                 }
                 for (var i = 0; i < selects.length; i++){
                     if(typeof applicant_data[selects[i].name] !== "undefined"){
-                        selects[i].value = applicant_data[selects[i].name]; 
+                        selects[i].value = applicant_data[selects[i].name];
                     }
                 }
                 for (var i = 0; i < textareas.length; i++){
                     if(typeof applicant_data[textareas[i].name] !== "undefined"){
-                        textareas[i].value = applicant_data[textareas[i].name]; 
+                        textareas[i].value = applicant_data[textareas[i].name];
                     }
                 }
 
@@ -1024,6 +1035,60 @@
                 return val == "";
             }
         @endif
+        function handleRegionChange(ele) {
+            let subarea = document.getElementById("inputUnitSubarea");
+            let subarea2 = document.getElementById("inputUnitSubarea2");
+            if(ele.value == "上海地區" || ele.value == "港澳深圳" || ele.value == "南海諸島" || ele.value == "星馬地區" || ele.value == "其它海外") {
+                subarea.disabled = true;
+                subarea.style.display = "none";
+                subarea.name = "";
+                subarea.required = false;
+                subarea2.disabled = false;
+                subarea2.style.display = "block";
+                subarea2.type = "text";
+                subarea2.name = "unit_subarea";
+                subarea2.required = true;
+            }
+            else {
+                subarea.disabled = false;
+                subarea.style.display = "block";
+                subarea.value = "";
+                subarea.name = "unit_subarea";
+                subarea.required = true;
+                subarea2.disabled = true;
+                subarea2.style.display = "none";
+                subarea2.name = "";
+                subarea2.required = false;
+                Address(ele.options[ele.options.selectedIndex].value, "unit");
+            }
+        }
+        function handlePersonalRegionChange(ele) {
+            let subarea = document.getElementById("inputSubarea");
+            let subarea2 = document.getElementById("inputSubarea2");
+            if(ele.value == "上海地區" || ele.value == "港澳深圳" || ele.value == "南海諸島" || ele.value == "星馬地區" || ele.value == "其它海外") {
+                subarea.disabled = true;
+                subarea.style.display = "none";
+                subarea.name = "";
+                subarea.required = false;
+                subarea2.disabled = false;
+                subarea2.style.display = "block";
+                subarea2.type = "text";
+                subarea2.name = "subarea";
+                subarea2.required = true;
+            }
+            else {
+                subarea.disabled = false;
+                subarea.style.display = "block";
+                subarea.value = "";
+                subarea.name = "subarea";
+                subarea.required = true;
+                subarea2.disabled = true;
+                subarea2.style.display = "none";
+                subarea2.name = "";
+                subarea2.required = false;
+                Address(ele.options[ele.options.selectedIndex].value);
+            }
+        }
     </script>
     <style>
         .required .control-label::after {
@@ -1032,6 +1097,6 @@
         }
     </style>
 @stop
-{{-- 
+{{--
     參考頁面：https://bwfoce.org/ecamp/form/2020ep01.php
 --}}
