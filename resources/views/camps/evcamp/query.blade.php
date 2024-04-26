@@ -103,7 +103,7 @@
     <div class="row form-group">
         <label for='inputName2' class='col-md-2'>手機</label>
         <div class='col-md-10'>
-        <input type='tel' name="mobile" class='form-control' id='inputName2' placeholder='格式：0912345678' pattern="[0][9]\d{8}" required>
+        <input type='tel' name="mobile" class='form-control' id='inputName2' placeholder='格式：0912345678' required>
         </div>
     </div>
 

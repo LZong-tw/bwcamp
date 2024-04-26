@@ -143,7 +143,7 @@
                                             </select>&nbsp;</td>
                                     </tr>
                                     <tr style="background: rgba(255,255,255,0);">
-                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);" class="required">所&nbsp; 在&nbsp; 地：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;background: var(--bs-table-bg);" required name='unit_county' onChange='handleRegionChange(this)' id='inputUnitCounty'> 
+                                        <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);" class="required">所&nbsp; 在&nbsp; 地：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;background: var(--bs-table-bg);" required name='unit_county' onChange='handleRegionChange(this)' id='inputUnitCounty'>
                                                 <option value='' selected>- 先選縣市 -</option>
                                                 <option value='' disabled>- 北區 -</option>
                                                 <option value='臺北市' >臺北市</option>
@@ -263,7 +263,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td style="width: 40%;color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);" class="required">行動電話：</span></strong>&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;width: 185px;border-style: none;" required name='mobile' value='' id='inputCell' placeholder='格式：0912345678' pattern="[0][9]\d{8}"></td>
+                                        <td style="width: 40%;color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);" class="required">行動電話：</span></strong>&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;width: 185px;border-style: none;" required name='mobile' value='' id='inputCell' placeholder='格式：0912345678'></td>
                                     </tr>
                                     <tr style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                         <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);" class="required">公司電話：</span></strong>&nbsp;<input type="tel" style="background: var(--bs-table-bg);border-radius: 10px;width: 185px;border-style: none;"  required name='phone_work' value='' id='inputTelWork' placeholder='格式：0225452546#520'></td>
@@ -284,7 +284,7 @@
                                         <td style="width: 60%;color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(52, 99, 122);" class="required">確認電子郵件信箱：</span></strong><span style="color: rgb(187, 57, 49);">(請再輸入一次)&nbsp;</span><strong><span style="color: rgb(52, 99, 122);">&nbsp;</span></strong><input type="email" style="background: var(--bs-table-bg);border-style: none;border-radius: 10px;width: 100%;"  required name='emailConfirm' value='' id='inputEmailConfirm'></td>
                                     </tr>
                                     <tr>
-                                        <td style="border-width: 1px;border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(105, 167, 190);" class="required">通訊地址縣市：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;" name="county" required onChange="Address(this.options[this.options.selectedIndex].value);">
+                                        <td style="border-width: 1px;border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(105, 167, 190);" class="required">通訊地址縣市：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;" name="county" required onChange="handlePersonalRegionChange(this)">
                                                     <option value=''>先選縣市</option>
                                                     <option value='臺北市'>臺北市</option>
                                                     <option value='新北市'>新北市</option>
@@ -308,17 +308,23 @@
                                                     <option value='澎湖縣'>澎湖縣</option>
                                                     <option value='金門縣'>金門縣</option>
                                                     <option value='連江縣'>連江縣</option>
-                                                    <option value='南海諸島'>南海諸島</option>
-                                                    <option value='其它'>其它</option>
+                                                    <option value='上海地區' >上海地區</option>
+                                                    <option value='港澳深圳' >港澳深圳</option>
+                                                    <option value='南海諸島' >南海諸島</option>
+                                                    <option value='星馬地區' >星馬地區</option>
+                                                    <option value='其它海外' >其它海外</option>
                                             </select></td>
                                     </tr>
                                     <tr>
-                                        <td style="border-width: 1px;border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(105, 167, 190);" class="required">通訊地址行政區：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;" name="subarea" onChange='document.Camp.zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.address.value=MyAddress(document.Camp.county.value, this.options[this.options.selectedIndex].text);' required>
+                                        <td style="border-width: 1px;border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(105, 167, 190);" class="required">通訊地址行政區：&nbsp;</span></strong>
+                                            <select style="width: 140px;border-radius: 5px;padding: 3px;border-style: none;" name="subarea" onChange='document.Camp.zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.address.value=MyAddress(document.Camp.county.value, this.options[this.options.selectedIndex].text);' required id='inputSubarea'>
                                                 <option value=''>- 再選區鄉鎮 -</option>
-                                        </select></td>
+                                            </select>
+                                            <input type="hidden" name='' value='' id='inputSubarea2' disabled="true" type="text" style="background: var(--bs-table-bg);border-radius: 10px;width: 140px;border-style: none;" onkeydown='document.Camp.address.value=MyAddress(document.Camp.county.value, this.value);' placeholder="請輸入行政區或地區">
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td style="border-width: 1px;border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(105, 167, 190);" class="required">通訊地址：&nbsp;</span></strong> 
+                                        <td style="border-width: 1px;border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(105, 167, 190);" class="required">通訊地址：&nbsp;</span></strong>
                                         <input type="hidden" name='zipcode' value=''>
                                         <input type="text" name='address' value='' pattern=".{10,80}" style="background: var(--bs-table-bg);border-radius: 10px;width: 100%;border-style: none;" required>
                                         </td>
@@ -498,28 +504,55 @@
         function handleRegionChange(ele) {
             let subarea = document.getElementById("inputUnitSubarea");
             let subarea2 = document.getElementById("inputUnitSubarea2");
-            if(ele.value == "上海地區" || ele.value == "港澳深圳" || ele.value == "南海諸島" || ele.value == "星馬地區" || ele.value == "其它海外") { 
-                subarea.disabled = true; 
-                subarea.style.display = "none"; 
-                subarea.name = ""; 
-                subarea.required = false; 
-                subarea2.disabled = false; 
-                subarea2.style.display = "block"; 
-                subarea2.type = "text"; 
-                subarea2.name = "unit_subarea"; 
-                subarea2.required = true; 
-            } 
-            else { 
-                subarea.disabled = false; 
-                subarea.style.display = "block"; 
-                subarea.value = ""; 
-                subarea.name = "unit_subarea"; 
-                subarea.required = true; 
-                subarea2.disabled = true; 
-                subarea2.style.display = "none"; 
-                subarea2.name = ""; 
-                subarea2.required = false; 
-                Address(ele.options[ele.options.selectedIndex].value, "unit"); 
+            if(ele.value == "上海地區" || ele.value == "港澳深圳" || ele.value == "南海諸島" || ele.value == "星馬地區" || ele.value == "其它海外") {
+                subarea.disabled = true;
+                subarea.style.display = "none";
+                subarea.name = "";
+                subarea.required = false;
+                subarea2.disabled = false;
+                subarea2.style.display = "block";
+                subarea2.type = "text";
+                subarea2.name = "unit_subarea";
+                subarea2.required = true;
+            }
+            else {
+                subarea.disabled = false;
+                subarea.style.display = "block";
+                subarea.value = "";
+                subarea.name = "unit_subarea";
+                subarea.required = true;
+                subarea2.disabled = true;
+                subarea2.style.display = "none";
+                subarea2.name = "";
+                subarea2.required = false;
+                Address(ele.options[ele.options.selectedIndex].value, "unit");
+            }
+        }
+        function handlePersonalRegionChange(ele) {
+            let subarea = document.getElementById("inputSubarea");
+            let subarea2 = document.getElementById("inputSubarea2");
+            if(ele.value == "上海地區" || ele.value == "港澳深圳" || ele.value == "南海諸島" || ele.value == "星馬地區" || ele.value == "其它海外") {
+                subarea.disabled = true;
+                subarea.style.display = "none";
+                subarea.name = "";
+                subarea.required = false;
+                subarea2.disabled = false;
+                subarea2.style.display = "block";
+                subarea2.type = "text";
+                subarea2.name = "subarea";
+                subarea2.required = true;
+            }
+            else {
+                subarea.disabled = false;
+                subarea.style.display = "block";
+                subarea.value = "";
+                subarea.name = "subarea";
+                subarea.required = true;
+                subarea2.disabled = true;
+                subarea2.style.display = "none";
+                subarea2.name = "";
+                subarea2.required = false;
+                Address(ele.options[ele.options.selectedIndex].value);
             }
         }
     </script>
