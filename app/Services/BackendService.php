@@ -29,7 +29,7 @@ class BackendService
 
     public function groupsCreation(Batch $batch): bool
     {
-        for ($i = 0; $i < $batch->num_groups; $i++) {
+        for ($i = 1; $i <= $batch->num_groups; $i++) {
             if ($this->checkBatchCanAddMoreGroup($batch)) {
                 $group = ApplicantsGroup::firstOrCreate([
                     'batch_id' => $batch->id,
@@ -109,7 +109,7 @@ class BackendService
         }
         if (app()->bound('sentry')) {
             \Sentry\captureMessage('組別處理發生異常狀況，營隊編號：' . $applicant->batch->camp_id . '，梯次編號：' . $applicant->batch_id . '，報名序號：' . $applicant->id . '，組別：' . $group . '，標記：' . $flag);
-        }        
+        }
         logger('組別處理發生異常狀況，營隊編號：' . $applicant->batch->camp_id . '，梯次編號：' . $applicant->batch_id . '，報名序號：' . $applicant->id . '，組別：' . $group . '，標記：' . $flag);
         return '<h2>組別處理發生異常狀況，請聯絡系統管理員</h2>';
     }
