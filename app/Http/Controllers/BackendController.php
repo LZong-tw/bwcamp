@@ -81,6 +81,10 @@ class BackendController extends Controller
                 }
             }
             $camp = $this->camp_data;
+            if (!$camp) {
+                echo "無此營隊";
+                die();
+            }
         }
         if($request->route()->parameter('camp_id')) {
             $this->middleware('permitted');
@@ -94,16 +98,16 @@ class BackendController extends Controller
                 }
             }
             $camp = $this->campFullData;
+            if (!$camp) {
+                echo "無此營隊";
+                die();
+            }
         }
         if(\Str::contains(url()->current(), "campManage")) {
             $this->middleware('admin');
         }
         if ($camp ?? false) {
             $this->persist(camp: $camp);
-        }
-        else {
-            echo "no camp";
-            die();
         }
     }
 
