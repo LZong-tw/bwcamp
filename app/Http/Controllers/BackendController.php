@@ -101,6 +101,10 @@ class BackendController extends Controller
         if ($camp ?? false) {
             $this->persist(camp: $camp);
         }
+        else {
+            echo "no camp";
+            die();
+        }
     }
 
     public function persist(...$args)
