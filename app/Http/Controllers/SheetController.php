@@ -187,25 +187,25 @@ class SheetController extends Controller
             config([
                 //ecamp
                 'google.post_spreadsheet_id' => '1ihb-bcwwW8JItIyH692YniCJ03yyuqonXOseObExlvc',
-                'google.post_sheet_id' => 'test',
+                'google.post_sheet_id' => 'ecamp',
             ]);
         } else if ($table == 'evcamp') {
             config([
                 //evcamp
                 'google.post_spreadsheet_id' => '1ihb-bcwwW8JItIyH692YniCJ03yyuqonXOseObExlvc',
-                'google.post_sheet_id' => 'testv',
+                'google.post_sheet_id' => 'evcamp',
             ]);
         } else if ($table == 'ceocamp') {
             config([
                 //evcamp
                 'google.post_spreadsheet_id' => '1GUvMO-GDdbfq3gVDHUMt_HTcEsj3dNFir5dO5KlnAGQ',
-                'google.post_sheet_id' => 'test',
+                'google.post_sheet_id' => 'ceocamp',
             ]);
         } else if ($table == 'ceovcamp'){
             config([
                 //ceocamp
                 'google.post_spreadsheet_id' => '1GUvMO-GDdbfq3gVDHUMt_HTcEsj3dNFir5dO5KlnAGQ',
-                'google.post_sheet_id' => 'testv',
+                'google.post_sheet_id' => 'ceovcamp',
             ]);
         } else {
             exit(1);
