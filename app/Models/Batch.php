@@ -44,4 +44,9 @@ class Batch extends Model
     {
         return $this->morphMany(DynamicStat::class, 'urltable');
     }
+
+    public function is_vbatch(): bool
+    {
+        return str_contains($this->camp->table,'vcamp');
+    }
 }

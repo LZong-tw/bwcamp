@@ -1611,7 +1611,7 @@ return [
         'ceocamp' => [
             "deleted_at" => "取消時間",
             "applicant_id" => "報名序號",
-            "batch_id" => "梯次",
+            "bName" => "梯次",
             "admitted_no" => "組別",
             "region" => "區域",
             "created_at" => "報名日期",
@@ -1649,7 +1649,7 @@ return [
             "camporg_section" => "職務組別",
             "camporg_position" => "職務",
             "applicant_id" => "報名序號",
-            "batch_id" => "梯次",
+            "bName" => "梯次",
             "admitted_no" => "組別",
             "region" => "區域",
             "created_at" => "報名日期",
@@ -1666,7 +1666,7 @@ return [
         ],
         'ecamp' => [
             "applicant_id" => "報名序號",
-            "batch_id" => "梯次",
+            "bName" => "梯次",
             "admitted_no" => "組別",
             "region" => "區域",
             "created_at" => "報名日期",

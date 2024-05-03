@@ -164,6 +164,13 @@ class Applicant extends Model {
         return $this->belongsToMany(\App\User::class, 'carer_applicant_xrefs', 'applicant_id', 'user_id');
     }
 
+    public function carer_names()
+    {
+        //to concatenate the names of all carers
+        //return $this->carers()->implode('name', ', ');
+        return $this->carers->flatten()->pluck('name')->implode(',');
+    }
+
     /*public function dynamic_stats()
     {
         return $this->hasMany(DynamicStat::class);

@@ -211,11 +211,9 @@ class AdminController extends BackendController {
         $camp = Camp::find($camp_id);
         $batches = $camp->batchs;
         $num_applicants = array();
-        //dd($batches);
         foreach($batches as $batch) {
             $num_applicants[$batch->id] = \DB::table('applicants')->where('batch_id',$batch->id)->count();
         }
-        //dd($num_applicants);
         return view('backend.camp.batchList', compact('camp', 'batches','num_applicants'));
     }
 
@@ -247,7 +245,6 @@ class AdminController extends BackendController {
     }
 
     public function addOrgs(Request $request, $camp_id){
-        //dd($request);
         $formData = $request->toArray();
         $camp = Camp::find($camp_id);
         $orgs = $camp->organizations;   //existing orgs
