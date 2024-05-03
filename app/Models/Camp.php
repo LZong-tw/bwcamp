@@ -72,6 +72,12 @@ class Camp extends Model
     {
         return $this->hasOneThrough(Vcamp::class, CampVcampXref::class, 'camp_id', 'id', 'id', 'vcamp_id');
     }
+
+    public function is_vcamp()
+    {
+        return (str_contains($this->table,'vcamp'))? true:false;
+    }
+
     public function allSignAvailabilities() {
         return $this->hasManyThrough(BatchSignInAvailibility::class, Batch::class);
     }

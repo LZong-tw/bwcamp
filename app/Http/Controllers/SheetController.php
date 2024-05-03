@@ -187,25 +187,25 @@ class SheetController extends Controller
             config([
                 //ecamp
                 'google.post_spreadsheet_id' => '1ihb-bcwwW8JItIyH692YniCJ03yyuqonXOseObExlvc',
-                'google.post_sheet_id' => 'ecamp',
+                'google.post_sheet_id' => 'test',
             ]);
         } else if ($table == 'evcamp') {
             config([
                 //evcamp
                 'google.post_spreadsheet_id' => '1ihb-bcwwW8JItIyH692YniCJ03yyuqonXOseObExlvc',
-                'google.post_sheet_id' => 'evcamp',
+                'google.post_sheet_id' => 'testv',
             ]);
         } else if ($table == 'ceocamp') {
             config([
                 //evcamp
                 'google.post_spreadsheet_id' => '1GUvMO-GDdbfq3gVDHUMt_HTcEsj3dNFir5dO5KlnAGQ',
-                'google.post_sheet_id' => 'ceocamp',
+                'google.post_sheet_id' => 'test',
             ]);
         } else if ($table == 'ceovcamp'){
             config([
                 //ceocamp
                 'google.post_spreadsheet_id' => '1GUvMO-GDdbfq3gVDHUMt_HTcEsj3dNFir5dO5KlnAGQ',
-                'google.post_sheet_id' => 'ceovcamp',
+                'google.post_sheet_id' => 'testv',
             ]);
         } else {
             exit(1);
@@ -235,8 +235,10 @@ class SheetController extends Controller
                 $data = null;
                 if($key == "admitted_no") {
                     $data = $applicant->group . $applicant->number;
+                } else if($key == "bName") {
+                    $data = $applicant->batch->name;
                 } else if($key == "carers") {
-                    $data = $applicant->carers->first();
+                    $data = $applicant->carer_names();
                 } else if($key == "is_attend") {
                     match ($applicant->is_attend) {
                         0 => $data = "不參加",
@@ -258,7 +260,8 @@ class SheetController extends Controller
                 $rows[] = '"'. $data .'"';
             }
             $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $rows);
-            sleep(2);
+            sleep(1);   //1 second
+            usleep(5000);   //5 millisecond
         }
-    }
+}
 }
