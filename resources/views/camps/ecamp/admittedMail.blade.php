@@ -1,6 +1,9 @@
 <style>
-    u{
+    {{-- u{
         color: red;
+    } --}}    
+    .right{
+        text-align: right;
     }
 </style>
 <body>
@@ -314,7 +317,7 @@
 @endif
 @if (!str_contains($applicant->batch->camp->fullName, "雲嘉"))
     <a>敬祝～闔家平安、健康喜樂！</a><br>
-@endif --}} <br
+@endif --}} <br>
 <a class="right">主辦單位：財團法人福智文教基金會&nbsp;敬啟</a><br>
 <a class="right">{{ \Carbon\Carbon::now()->year }}  年　{{ \Carbon\Carbon::now()->month }}  月 　 {{ \Carbon\Carbon::now()->day }}  日</a>
 </td></tr></table></td></tr>
