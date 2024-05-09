@@ -14,7 +14,7 @@
         <td>姓名：{{ $applicant->name }}</td>
         <td>序號：{{ $applicant->id }}</td>
         <td>組別：{{ $applicant->groupRelation?->alias ?? "異常，請回報主辦單位" }}</td> 
-        <td>場次：@if (str_contains($applicant->batch->name, "第一區")) 北區場(開南大學) @else 中區(勤益科大) @endif</td>
+        <td>場次：@if (str_contains($applicant->batch->name, "第一梯")) 北區場(開南大學) @else 中區(勤益科大) @endif</td>
     </tr>
 </table><br>
 
@@ -23,18 +23,18 @@
 為使研習進行順利，請詳閱下列須知：
 {{-- @if (str_contains($applicant->batch->camp->fullName, "台北")) --}}
 <ol>
-    <li>上課時間：@if (str_contains($applicant->batch->name, "第一區")) 
+    <li>上課時間：@if (str_contains($applicant->batch->name, "第一梯")) 
             2024年7月12日(五)至7月14日(星期日) @else
             2024年7月26日(五)至7月28日(星期日) @endif</li>
-    <li>報到時間：@if (str_contains($applicant->batch->name, "第一區")) 
+    <li>報到時間：@if (str_contains($applicant->batch->name, "第一梯")) 
             2024年7月12日(星期五)12:30～13:30 @else 
             2024年7月26日(五) 09:30~10:30 @endif</li>
-    <li>舉辦地點 : @if (str_contains($applicant->batch->name, "第一區")) 
+    <li>舉辦地點 : @if (str_contains($applicant->batch->name, "第一梯")) 
             開南大學  (桃園市蘆竹區開南路一號) @else            
             國立勤益科大  (台中市太平區中山路二段57號) @endif</li>
     <li>
         交通 :<br>
-        @if (str_contains($applicant->batch->name, "第一區"))
+        @if (str_contains($applicant->batch->name, "第一梯"))
             本基金會將於7/12 上午09:00~10:10在以下地點提供交通接駁服務，現場有穿黃色背心義工協助引導(逾10:10請自行搭計程車前往開南大學)。 <br>
             <ol>
                 <li>桃園火車站後站出口處</li>
