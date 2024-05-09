@@ -59,7 +59,7 @@
             $roles = \App\Models\CampOrg::where('group_id', $applicant->group_id)->get();
             $carers = $roles->pluck("users")->flatten();
             $carers = $carers->map(function ($carer) use ($vcamp) {
-                $carer["role"] = $carer->roles->whereIn("batch_id", $vcamp->batchs->pluck('id'))->first()?->position;
+                // $carer["role"] = $carer->roles->whereIn("batch_id", $vcamp->batchs->pluck('id'))->first()?->position; 無效的程式碼
                 $carer["mobile"] = $carer->application_log->whereIn('batch_id', $vcamp->batchs->pluck('id'))->first()?->mobile;
                 return $carer;
             });
@@ -68,7 +68,6 @@
         <ul>
             @foreach ($carers as $carer)
                 @if (str_contains($carer->roles->whereIn("batch_id", $applicant->camp->batchs->pluck('id'))->first()->position, "組小組長"))
-                test{{ $carer->role }}
                     <li>{{ $carer->name }} {{ $carer->mobile }}</li>
                 @endif
             @endforeach
