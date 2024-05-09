@@ -55,28 +55,29 @@
     <li>
         <strong>接下來為您安排的關懷員將陸續透過簡訊或電話與您聯繫，<u>請留意陌生訊息及來電</u>，如有任何問題，也歡迎主動與關懷員聯絡。</strong> <br>
         @php
-            $carers = $applicant->carers;
+            $group = $applicant->group;
             $vcamp = $applicant->camp->vcamp;
+            $roles = \App\Models\CampOrg::where('group_id', $group->id)->get();
+            $carers = $roles->pluck("users")->flatten();
             $carers = $carers->each(function ($carer) {
-                $carer->mobile = $carer->application_log->whereIn('batch_id', $vcamp->batchs->pluck('id'))->first()?->mobile;
-                $carar->role = $carer->roles->where('camp_id', $vcamp->id)->first();
+                $carer["mobile"] = $carer->application_log->whereIn('batch_id', $vcamp->batchs->pluck('id'))->first()?->mobile;
                 return $carer;
             });
         @endphp
         {{ $applicant->groupRelation?->alias }}關懷員 :
         <ul>
             @foreach ($applicant->carers as $carer)
-                @if (str_contains($carer->role->position, "組小組長"))
+                @if (str_contains($carer->roles->whereIn("batch_id", $applicant->camp->batchs->pluck('id'))->first()->position, "組小組長"))
                     <li>{{ $carer->name }} {{ $carer->mobile }}</li>
                 @endif
             @endforeach
             @foreach ($carers as $carer)
-                @if (str_contains($carer->role->position, "副小組長"))
+                @if (str_contains($carer->roles->whereIn("batch_id", $applicant->camp->batchs->pluck('id'))->first()->position, "副小組長"))
                     <li>{{ $carer->name }} {{ $carer->mobile }}</li>
                 @endif
             @endforeach
             @foreach ($carers as $carer)
-                @if (str_contains($carer->role->position, "組員"))
+                @if (str_contains($carer->roles->whereIn("batch_id", $applicant->camp->batchs->pluck('id'))->first()->position, "組員"))
                     <li>{{ $carer->name }} {{ $carer->mobile }}</li>
                 @endif
             @endforeach
