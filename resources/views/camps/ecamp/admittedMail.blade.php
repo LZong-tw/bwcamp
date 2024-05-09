@@ -59,7 +59,7 @@
             $roles = \App\Models\CampOrg::where('group_id', $applicant->group_id)->get();
             $carers = $roles->pluck("users")->flatten();
             $carers = $carers->map(function ($carer) use ($vcamp) {
-                $carer["role"] = $carer->roles->whereIn("batch_id", $vcamp->batchs->pluck('id'))->first();
+                $carer["role"] = $carer->roles->whereIn("batch_id", $vcamp->batchs->pluck('id'))->first()?->position;
                 $carer["mobile"] = $carer->application_log->whereIn('batch_id', $vcamp->batchs->pluck('id'))->first()?->mobile;
                 return $carer;
             });
