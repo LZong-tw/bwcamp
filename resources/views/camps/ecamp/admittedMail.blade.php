@@ -55,9 +55,8 @@
     <li>
         <strong>接下來為您安排的關懷員將陸續透過簡訊或電話與您聯繫，<u>請留意陌生訊息及來電</u>，如有任何問題，也歡迎主動與關懷員聯絡。</strong> <br>
         @php
-            $group = $applicant->group;
             $vcamp = $applicant->camp->vcamp;
-            $roles = \App\Models\CampOrg::where('group_id', $group->id)->get();
+            $roles = \App\Models\CampOrg::where('group_id', $applicant->group_id)->get();
             $carers = $roles->pluck("users")->flatten();
             $carers = $carers->each(function ($carer) {
                 $carer["mobile"] = $carer->application_log->whereIn('batch_id', $vcamp->batchs->pluck('id'))->first()?->mobile;
