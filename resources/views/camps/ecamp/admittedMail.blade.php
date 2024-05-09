@@ -58,7 +58,8 @@
             $vcamp = $applicant->camp->vcamp;
             $roles = \App\Models\CampOrg::where('group_id', $applicant->group_id)->get();
             $carers = $roles->pluck("users")->flatten();
-            $carers = $carers->each(function ($carer) {
+            $carers = $carers->map(function ($carer) use ($vcamp) {
+                $carer["role"] = $carer->roles->whereIn("batch_id", $vcamp->batchs->pluck('id'))->first();
                 $carer["mobile"] = $carer->application_log->whereIn('batch_id', $vcamp->batchs->pluck('id'))->first()?->mobile;
                 return $carer;
             });
@@ -67,6 +68,7 @@
         <ul>
             @foreach ($applicant->carers as $carer)
                 @if (str_contains($carer->roles->whereIn("batch_id", $applicant->camp->batchs->pluck('id'))->first()->position, "組小組長"))
+                test{{ $carer->role }}
                     <li>{{ $carer->name }} {{ $carer->mobile }}</li>
                 @endif
             @endforeach
