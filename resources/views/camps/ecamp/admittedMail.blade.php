@@ -3,47 +3,90 @@
         color: red;
     }
 </style>
-<h2 class="center">{{ $applicant->batch->camp->fullName }}<br>分組通知函</h2>
+<body>
+<table role="presentation"  cellpadding="0" cellspacing="0" border="0" align="center" width="100%">
+<tr><td><img width="100%" src="{{ $message->embed(public_path() . '/img/ecamp2024/head.png') }}" /></td></tr>
+<tr><td>
+<table width="80%" border="0" cellpadding="0" cellspacing="0" align="center"><tr><td>
+<h2 class="center">{{ $applicant->batch->camp->fullName }}<br>錄&nbsp;取&nbsp;通&nbsp;知&nbsp;單</h2>
 <table width="100%" style="table-layout:fixed; border: 0;">
     <tr>
         <td>姓名：{{ $applicant->name }}</td>
         <td>序號：{{ $applicant->id }}</td>
-        <td>組別：@if (!str_contains($applicant->batch->camp->fullName, "雲嘉")){{ $applicant->groupRelation->alias }}@else{{ str_replace("第", "第十", $applicant->groupRelation->alias) }}@endif</td>
-        <td>場次：{{ $applicant->batch->name }}</td>
+        <td>組別：{{ $applicant->groupRelation?->alias ?? "異常，請回報主辦單位" }}</td> 
+        <td>場次：@if (str_contains($applicant->batch->name, "第一區")) 北區場(開南大學) @else 中區(勤益科大) @endif</td>
     </tr>
 </table><br>
 
 親愛的企業主管您好 :<br>
-感謝您報名「2023企業主管生命成長營」，誠摯歡迎您參加本研習活動。我們已經為您分編好組別，並安排了充滿熱誠的關懷員提供服務，誠摯的歡迎您來共享這場心靈饗宴，一起翻轉人生，開創無限美好的幸福。<br><br>
+感謝您報名「2024企業主管生命成長營」，誠摯的歡迎您來共享這場心靈饗宴，一起翻轉人生，開創無限美好的幸福。<br><br>
 為使研習進行順利，請詳閱下列須知：
-@if (str_contains($applicant->batch->camp->fullName, "台北"))
-    <ol>
-        <li>營隊上課時間：<ul>
-                <li>7/14 (五) 13:50~18:00</li>
-                <li>7/15 (六) 09:00~18:00</li>
-                <li>7/16 (日) 09:00~18:30</li>
-            </ul></li>
-        <li>舉辦地點 : 東吳大學 外雙溪校區（台北市士林區臨溪路70號）</li>
-        <li>
-            交通參考 :<br>
-            請參閱以下 東吳大學 外雙溪校區 -交通資訊說明<br>
-            <a href="https://www-ch.scu.edu.tw/october/school_traffic">https://www-ch.scu.edu.tw/october/school_traffic</a>
-        </li>
-        <li>營隊關懷員近日內將透過簡訊及電話與您聯繫。<br>
-            如有任何問題，也歡迎主動與關懷員聯絡。
-        </li>
-        <li>
-            {{ $applicant->groupRelation->alias }}關懷員 :
+{{-- @if (str_contains($applicant->batch->camp->fullName, "台北")) --}}
+<ol>
+    <li>上課時間：@if (str_contains($applicant->batch->name, "第一區")) 
+            2024年7月12日(五)至7月14日(星期日) @else
+            2024年7月26日(五)至7月28日(星期日) @endif</li>
+    <li>報到時間：@if (str_contains($applicant->batch->name, "第一區")) 
+            2024年7月12日(星期五)12:30～13:30 @else 
+            2024年7月26日(五) 09:30~10:30 @endif</li>
+    <li>舉辦地點 : @if (str_contains($applicant->batch->name, "第一區")) 
+            開南大學  (桃園市蘆竹區開南路一號) @else            
+            國立勤益科大  (台中市太平區中山路二段57號) @endif</li>
+    <li>
+        交通 :<br>
+        @if (str_contains($applicant->batch->name, "第一區"))
+            本基金會將於7/12 上午09:00~10:10在以下地點提供交通接駁服務，現場有穿黃色背心義工協助引導(逾10:10請自行搭計程車前往開南大學)。 <br>
             <ol>
-                @foreach(\App\Models\User::whereHas('roles', function($q) use ($applicant) {
-                    $q->where('group_id', $applicant->group_id);
-                })->get()->sortBy('roles.id') as $user)
-                    <li>{{ $user->application_log()->orderByDesc('id')->first()->name }} {{ $user->application_log()->orderByDesc('id')->first()->mobile }}</li>
-                @endforeach
+                <li>桃園火車站後站出口處</li>
+                <li>桃園高鐵車站5號出口處</li>
+                <li>自行前往者請導航: 開南大學 桃園市蘆竹區開南路一號。(<a href="https://maps.app.goo.gl/ZMi9usQo7SPTH7HV6">https://maps.app.goo.gl/ZMi9usQo7SPTH7HV6</a>)</li>
             </ol>
-        </li>
-    </ol>
-@endif
+            <u>因會場停車位有限，懇請多利用公共交通工具及本會提供的接駁服務。</u>
+        @else
+            本基金會將於7/26 上午09:00~10:10在以下地點提供交通接駁服務，現場有穿黃色背心義工協助引導(逾10:10請自行搭計程車前往勤益科大)。 <br>
+            <ol>
+                <li>台中火車站出口處大廳</li>
+                <li>台中高鐵車站出口處大廳</li>
+                <li>自行前往者請導航: 國立勤益科大 台中市太平區中山路二段57號。(<a href="https://maps.app.goo.gl/qjTTxRTdFjSw2ocB7">https://maps.app.goo.gl/qjTTxRTdFjSw2ocB7</a>)</li>
+            </ol>
+            <u>因會場停車位有限，懇請多利用公共交通工具及本會提供的接駁服務。</u>
+        @endif
+    </li>
+    <li>
+        <strong>接下來為您安排的關懷員將陸續透過簡訊或電話與您聯繫，<u>請留意陌生訊息及來電</u>，如有任何問題，也歡迎主動與關懷員聯絡。</strong> <br>
+        @php
+            $carers = $applicant->carers;
+            $vcamp = $applicant->camp->vcamp;
+            $carers = $carers->each(function ($carer) {
+                $carer->mobile = $carer->application_log->whereIn('batch_id', $vcamp->batchs->pluck('id'))->first()?->mobile;
+                $carar->role = $carer->roles->where('camp_id', $vcamp->id)->first();
+                return $carer;
+            });
+        @endphp
+        {{ $applicant->groupRelation?->alias }}關懷員 :
+        <ul>
+            @foreach ($applicant->carers as $carer)
+                @if (str_contains($carer->role->position, "組小組長"))
+                    <li>{{ $carer->name }} {{ $carer->mobile }}</li>
+                @endif
+            @endforeach
+            @foreach ($carers as $carer)
+                @if (str_contains($carer->role->position, "副小組長"))
+                    <li>{{ $carer->name }} {{ $carer->mobile }}</li>
+                @endif
+            @endforeach
+            @foreach ($carers as $carer)
+                @if (str_contains($carer->role->position, "組員"))
+                    <li>{{ $carer->name }} {{ $carer->mobile }}</li>
+                @endif
+            @endforeach
+        </ul>
+    </li>
+</ol>
+<br>
+※注意事項： <br>
+本次營隊報名踴躍，因場地考量容納有限，若您無法全程參加，請告知關懷員，感謝您的協助！
+{{-- @endif
 @if (str_contains($applicant->batch->camp->fullName, "高雄"))
     <ol>
         <li>營隊上課時間：<ul>
@@ -270,6 +313,9 @@
 @endif
 @if (!str_contains($applicant->batch->camp->fullName, "雲嘉"))
     <a>敬祝～闔家平安、健康喜樂！</a><br>
-@endif
-<a class="right">2023企業主管生命成長營關懷大組</a><br>
+@endif --}} <br
+<a class="right">主辦單位：財團法人福智文教基金會&nbsp;敬啟</a><br>
 <a class="right">{{ \Carbon\Carbon::now()->year }}  年　{{ \Carbon\Carbon::now()->month }}  月 　 {{ \Carbon\Carbon::now()->day }}  日</a>
+</td></tr></table></td></tr>
+<tr><td><br><br><img width="100%" height="20%" src="{{ $message->embed(public_path() . '/img/ecamp2024/footer.png') }}" /></td></tr></table>
+</body>
