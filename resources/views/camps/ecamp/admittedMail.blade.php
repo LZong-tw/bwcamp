@@ -66,7 +66,7 @@
         @endphp
         {{ $applicant->groupRelation?->alias }}關懷員 :
         <ul>
-            @foreach ($applicant->carers as $carer)
+            @foreach ($carers as $carer)
                 @if (str_contains($carer->roles->whereIn("batch_id", $applicant->camp->batchs->pluck('id'))->first()->position, "組小組長"))
                 test{{ $carer->role }}
                     <li>{{ $carer->name }} {{ $carer->mobile }}</li>
