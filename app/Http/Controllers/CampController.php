@@ -374,6 +374,7 @@ class CampController extends Controller
             $applicant_data = str_replace("\\r", "", $applicant_data);
             $applicant_data = str_replace("\\n", "", $applicant_data);
             $applicant_data = str_replace("\\t", "", $applicant_data);
+            $applicant_data = str_replace("'", "\\'", $applicant_data);
             if($camp->modifying_deadline) {
                 $modifying_deadline = Carbon::createFromFormat('Y-m-d', $camp->modifying_deadline);
             } else {
