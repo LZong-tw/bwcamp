@@ -1462,9 +1462,10 @@ class BackendController extends Controller
 
         //get urls for each applicant
         $dynamic_stat_urls = null;
-        if ($camp->dynamic_stats) {
+        if ($applicant->batch->dynamic_stats) {
             $applicant->url = "";
-            foreach($camp->dynamic_stats as $stat) {
+            foreach($applicant->batch->dynamic_stats
+             as $stat) {
                 $sheet = $this->gsheetService->Get($stat->spreadsheet_id, $stat->sheet_name);
                 //look-up applicant_id
                 foreach ($sheet as $row) {
