@@ -12,7 +12,7 @@ class AdmittedMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $applicant, $campFullData, $attachment;
+    public $applicant, $campFullData, $attachment, $batch_start_Weekday, $batch_end_Weekday;
 
     /**
      * Create a new message instance.
@@ -36,6 +36,10 @@ class AdmittedMail extends Mailable
             $headers = $message->getHeaders();
             $headers->addTextHeader('time', time());
         });
+
+        $this->batch_start_Weekday = \Carbon\Carbon::create($this->applicant->batch_start)->locale(\App::getLocale())->isoFormat("dddd");
+        $this->batch_end_Weekday = \Carbon\Carbon::create($this->applicant->batch_end)->locale(\App::getLocale())->isoFormat("dddd");
+        
         if($this->campFullData->table == 'ceocamp' || $this->campFullData->table == 'ecamp'){
             return $this->subject($this->campFullData->abbreviation . '錄取通知')
                 ->view('camps.' . $this->campFullData->table . ".admittedMail");

@@ -10,15 +10,15 @@
 <p class="card-text">我們誠摯歡迎您來共享這場心靈饗宴。三天研習務必全程參加，請參閱下列說明。</p>
 <p class="card-text">
     <h4>【營隊資訊】</h4>
-        <div class="ml-4 mb-2">1.研習日期：2024年7月19日(星期五)至7月21日(星期日)，請務必<u>全程參加</u>。</div>
-        <div class="ml-4 mb-2">2.報到時間：2024年7月19日(星期五)</div>
-        <div class="ml-4 mb-2">3.報到地點：開南大學(桃園市蘆竹區開南路1號)(詳見報到通知單，預計6月寄出Email)</div>
+        <div class="ml-4 mb-2">1.研習日期：{{ $applicant->batch->batch_start }} ({{ $batch_start_Weekday }})至{{ $applicant->batch->batch_end }}({{ $batch_end_Weekday }})，請務必<u>全程參加</u>。</div>
+        <div class="ml-4 mb-2">2.報到時間：{{ $applicant->batch->batch_start }} ({{ $batch_start_Weekday }})</div>
+        <div class="ml-4 mb-2">3.報到地點：開南大學(桃園市蘆竹區開南路1號)(詳見報到通知單，預計7/9寄出Email)</div>
     <h4>【參加確認回條】</h4>
         <div class="ml-4 mb-2">請點擊以下連結由瀏覽器進入頁面做回覆<a href="https://bwcamp.bwfoce.org/camp/{{ $applicant->batch->id }}/showadmit?sn={{ $applicant->id }}&name={{ $applicant->name }}">確認參加</a></div>
         <div class="ml-4 mb-2">若以上連結無法點選，請複製下方文字後，再由瀏覽器進入頁面做回覆：</div>
         <div class="ml-4 mb-2">https://bwcamp.bwfoce.org/camp/{{ $applicant->batch->id }}/queryadmit</div>
     <h4>【建議攜帶物品】</h4>
-        <div class="ml-4 mb-2">以下謹列出參加此次活動所需攜帶物品，以及本營隊提供之物品，方便您準備之依據。</div>
+        <div class="ml-4 mb-2">以下謹列出參加此次活動所需攜帶物品，方便您準備之依據。</div>
         <br>
         <div class="ml-4 mb-2">＊多套換洗衣物(洗衣不方便)、備用袋(裝使用過之衣物)。</div>
         <div class="ml-4 mb-2">＊毛巾、牙膏、牙刷、香皂、洗髮精、拖鞋、衣架、輕薄外套(防上課地點冷氣過冷)。</div>
