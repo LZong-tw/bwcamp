@@ -534,6 +534,8 @@ return [
         "mobile" => "手機",
         "line" => "LineID",
         "email" => "Email",
+        "region" => "區域",
+        "self_intro" => "我是誰",
     ],
 
     'lrcamp' => [
@@ -1604,6 +1606,17 @@ return [
                 "sort" => 1,
                 "for_query" => 1,
             ],
+            "region" => [
+                "name" => "區域",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "self_intro" => [
+                "name" => "我是誰",
+                "sort" => 0,
+                "for_query" => 0,
+            ],
+
         ],
     ],
 

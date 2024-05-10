@@ -1,9 +1,9 @@
 <template>
     <form method="post">
         <input type="hidden" name="_token" :value="csrf_token">
-        <input type="reset" value="清除篩選條件 - 顥示所有關懷員" class="btn btn-danger mb-3"  onclick="window.location=window.location.href" v-if="isShowLearners && isShowVolunteers">
-        <input type="reset" value="清除篩選條件 - 顥示所有義工" class="btn btn-danger mb-3"  onclick="window.location=window.location.href" v-else-if="isShowVolunteers">
-        <input type="reset" value="清除篩選條件 - 顥示所有學員" class="btn btn-danger mb-3"  onclick="window.location=window.location.href" v-else>
+        <input type="reset" value="清除篩選條件 - 顯示所有關懷員" class="btn btn-danger mb-3"  onclick="window.location=window.location.href" v-if="isShowLearners && isShowVolunteers">
+        <input type="reset" value="清除篩選條件 - 顯示所有義工" class="btn btn-danger mb-3"  onclick="window.location=window.location.href" v-else-if="isShowVolunteers">
+        <input type="reset" value="清除篩選條件 - 顯示所有學員" class="btn btn-danger mb-3"  onclick="window.location=window.location.href" v-else>
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
