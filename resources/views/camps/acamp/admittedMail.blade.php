@@ -10,7 +10,7 @@
 <p class="card-text">我們誠摯歡迎您來共享這場心靈饗宴。三天研習務必全程參加，請參閱下列說明。</p>
 <p class="card-text">
     <h4>【營隊資訊】</h4>
-        <div class="ml-4 mb-2">1.研習日期：{{ $applicant->batch->batch_start }} ({{ $batch_start_Weekday }})至{{ $applicant->batch->batch_end }}({{ $batch_end_Weekday }})，請務必<u>全程參加</u>。</div>
+        <div class="ml-4 mb-2">1.研習日期：{{ $applicant->batch->batch_start }} ({{ $batch_start_Weekday }}) 至 {{ $applicant->batch->batch_end }} ({{ $batch_end_Weekday }})，請務必<u>全程參加</u>。</div>
         <div class="ml-4 mb-2">2.報到時間：{{ $applicant->batch->batch_start }} ({{ $batch_start_Weekday }})</div>
         <div class="ml-4 mb-2">3.報到地點：開南大學(桃園市蘆竹區開南路1號)(詳見報到通知單，預計7/9寄出Email)</div>
     <h4>【參加確認回條】</h4>
