@@ -39,9 +39,9 @@ class AdmittedMail extends Mailable
 
         $this->batch_start_Weekday = \Carbon\Carbon::create($this->applicant->batch->batch_start)->locale(\App::getLocale())->isoFormat("dddd");
         $this->batch_end_Weekday = \Carbon\Carbon::create($this->applicant->batch->batch_end)->locale(\App::getLocale())->isoFormat("dddd");
-        
+
         if($this->campFullData->table == 'ceocamp' || $this->campFullData->table == 'ecamp'){
-            return $this->subject($this->campFullData->abbreviation . '錄取通知<更正報到時間>')
+            return $this->subject($this->campFullData->abbreviation . '錄取通知')
                 ->view('camps.' . $this->campFullData->table . ".admittedMail");
         }
         if(!$this->attachment){
