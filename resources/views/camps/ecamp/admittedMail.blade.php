@@ -30,27 +30,27 @@
             2024年7月12日(五)至7月14日(星期日) @else
             2024年7月26日(五)至7月28日(星期日) @endif</li>
     <li>報到時間：@if (str_contains($applicant->batch->name, "第一梯")) 
-            2024年7月12日(星期五)12:30～13:30 @else 
-            2024年7月26日(五) 09:30~10:30 @endif</li>
+            2024年7月12日(星期五)&nbsp;<a style="color: red;">09:30~10:30</a> @else
+            2024年7月26日(五)&nbsp;09:30~10:30 @endif</li>
     <li>舉辦地點 : @if (str_contains($applicant->batch->name, "第一梯")) 
-            開南大學  (桃園市蘆竹區開南路一號) @else            
-            國立勤益科大  (台中市太平區中山路二段57號) @endif</li>
+            開南大學&nbsp;&nbsp;(桃園市蘆竹區開南路一號) @else            
+            國立勤益科大&nbsp;&nbsp;(台中市太平區中山路二段57號) @endif</li>
     <li>
         交通 :<br>
         @if (str_contains($applicant->batch->name, "第一梯"))
-            本基金會將於7/12 上午09:00~10:10在以下地點提供交通接駁服務，現場有穿黃色背心義工協助引導(逾10:10請自行搭計程車前往開南大學)。 <br>
+            本基金會將於7/12&nbsp;上午09:00~10:10在以下地點提供交通接駁服務，現場有穿黃色背心義工協助引導(逾10:10請自行搭計程車前往開南大學)。 <br>
             <ol>
                 <li>桃園火車站後站出口處</li>
                 <li>桃園高鐵車站5號出口處</li>
-                <li>自行前往者請導航: 開南大學 桃園市蘆竹區開南路一號。(<a href="https://maps.app.goo.gl/ZMi9usQo7SPTH7HV6">https://maps.app.goo.gl/ZMi9usQo7SPTH7HV6</a>)</li>
+                <li>自行前往者請導航:&nbsp;開南大學&nbsp;桃園市蘆竹區開南路一號。(<a href="https://maps.app.goo.gl/ZMi9usQo7SPTH7HV6">https://maps.app.goo.gl/ZMi9usQo7SPTH7HV6</a>)</li>
             </ol>
             <u>因會場停車位有限，懇請多利用公共交通工具及本會提供的接駁服務。</u>
         @else
-            本基金會將於7/26 上午09:00~10:10在以下地點提供交通接駁服務，現場有穿黃色背心義工協助引導(逾10:10請自行搭計程車前往勤益科大)。 <br>
+            本基金會將於7/26&nbsp;上午09:00~10:10在以下地點提供交通接駁服務，現場有穿黃色背心義工協助引導(逾10:10請自行搭計程車前往勤益科大)。 <br>
             <ol>
                 <li>台中火車站出口處大廳</li>
                 <li>台中高鐵車站出口處大廳</li>
-                <li>自行前往者請導航: 國立勤益科大 台中市太平區中山路二段57號。(<a href="https://maps.app.goo.gl/qjTTxRTdFjSw2ocB7">https://maps.app.goo.gl/qjTTxRTdFjSw2ocB7</a>)</li>
+                <li>自行前往者請導航:&nbsp;國立勤益科大&nbsp;台中市太平區中山路二段57號。(<a href="https://maps.app.goo.gl/qjTTxRTdFjSw2ocB7">https://maps.app.goo.gl/qjTTxRTdFjSw2ocB7</a>)</li>
             </ol>
             <u>因會場停車位有限，懇請多利用公共交通工具及本會提供的接駁服務。</u>
         @endif
