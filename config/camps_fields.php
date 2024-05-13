@@ -1683,6 +1683,7 @@ return [
             "admitted_no" => "組別",
             "region" => "區域",
             "created_at" => "報名日期",
+            "name" => "姓名",
             "gender" => "生理性別",
             "birthyear" => "出生年",
             "belief" => "宗教信仰",
@@ -1696,6 +1697,7 @@ return [
             "direct_managed_employees" => "直屬管轄人數",
             "industry" => "產業別",
             "favored_event" => "有興趣活動",
+            "is_attend" => "參加意願",
             "after_camp_available_day" => "後續課程時間",
         ],
         'evcamp' => [
