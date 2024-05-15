@@ -17,7 +17,8 @@ class Vbatch extends Model
     {
         return $this->hasOneThrough(Batch::class, BatchVbatchXref::class, 'vbatch_id', 'id', 'id', 'batch_id');
     }
-    public function vcamp() {
+    public function vcamp()
+    {
         return $this->belongsTo(Camp::class);
     }
 

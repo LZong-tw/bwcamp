@@ -19,84 +19,91 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 
-class AdminController extends BackendController {
-    public function userlist(){
+class AdminController extends BackendController
+{
+    public function userlist()
+    {
         return view('backend.user.list', ['users' => \App\User::all()]);
     }
 
-    public function userAddRole($user_id){
+    public function userAddRole($user_id)
+    {
         $user = \App\User::find($user_id);
-        return view('backend.user.userAddRole',
-        ['user' => $user,
-        'roles_available' => \App\Models\Role::whereNotIn('id', $user->role_relations->pluck('role_id'))->get()]);
+        return view(
+            'backend.user.userAddRole',
+            ['user' => $user,
+        'roles_available' => \App\Models\Role::whereNotIn('id', $user->role_relations->pluck('role_id'))->get()]
+        );
     }
 
-    public function removeRole(Request $request){
+    public function removeRole(Request $request)
+    {
         $result = \App\Models\RoleUser::where('user_id', $request->user_id)->where('role_id', $request->role_id)->delete();
-        if($result){
+        if($result) {
             \Session::flash('message', "權限刪除成功。");
             return back();
-        }
-        else{
+        } else {
             \Session::flash('error', "權限刪除失敗。");
             return back();
         }
     }
 
-    public function addRole(Request $request){
-        $result = new \App\Models\RoleUser;
+    public function addRole(Request $request)
+    {
+        $result = new \App\Models\RoleUser();
         $result->user_id = $request->user_id;
         $result->role_id = $request->role_id;
         $result->save();
-        if($result){
+        if($result) {
             \Session::flash('message', "權限新增成功。");
             return back();
-        }
-        else{
+        } else {
             \Session::flash('error', "權限新增失敗。");
             return back();
         }
     }
 
-    public function rolelist(){
+    public function rolelist()
+    {
         return view('backend.user.rolelist', ['roles' => \App\Models\Role::all()]);
     }
 
-    public function listRemoveRole(Request $request){
+    public function listRemoveRole(Request $request)
+    {
         $result = \App\Models\Role::find($request->role_id)->delete();
-        if($result){
+        if($result) {
             \Session::flash('message', "角色刪除成功。");
             return back();
-        }
-        else{
+        } else {
             \Session::flash('error', "角色刪除失敗。");
             return back();
         }
     }
 
-    public function listAddRole(Request $request){
+    public function listAddRole(Request $request)
+    {
         if ($request->isMethod('GET')) {
             return view('backend.user.roleForm', ['camps' => Camp::all()]);
         }
         if ($request->isMethod('POST')) {
-            $result = new \App\Models\Role;
+            $result = new \App\Models\Role();
             $result->name = $request->name;
             $result->level = $request->level;
             $result->camp_id = $request->camp_id;
             $result->region = $request->region;
             $result->save();
-            if($result){
+            if($result) {
                 \Session::flash('message', "角色新增成功。");
                 return redirect()->route('rolelist');
-            }
-            else{
+            } else {
                 \Session::flash('error', "角色新增失敗。");
                 return redirect()->route('rolelist');
             }
         }
     }
 
-    public function editRole($role_id, Request $request){
+    public function editRole($role_id, Request $request)
+    {
         if ($request->isMethod('GET')) {
             $role = Role::find($role_id);
             return view('backend.user.roleForm', ['camps' => Camp::all(), 'role' => $role]);
@@ -108,18 +115,18 @@ class AdminController extends BackendController {
             $role->camp_id = $request->camp_id;
             $role->region = $request->region;
             $role->save();
-            if($role){
+            if($role) {
                 \Session::flash('message', "角色修改成功。");
                 return redirect()->route('rolelist');
-            }
-            else{
+            } else {
                 \Session::flash('error', "角色修改失敗。");
                 return redirect()->route('rolelist');
             }
         }
     }
 
-    public function showJobs(){
+    public function showJobs()
+    {
         $jobs = \DB::table('jobs')->get();
         $failedJobs = \DB::table('failed_jobs')->get();
         $jobs = json_decode($jobs, true);
@@ -127,37 +134,42 @@ class AdminController extends BackendController {
         return view('backend.jobs', compact('jobs', 'failedJobs'));
     }
 
-    public function failedJobsClear(){
+    public function failedJobsClear()
+    {
         return \DB::table('failed_jobs')->truncate();
     }
 
-    public function campManagement(){
+    public function campManagement()
+    {
         $camps = Camp::orderBy('id', 'desc')->get();
         return view('backend.camp.list', compact('camps'));
     }
 
-    public function addCamp(Request $request){
+    public function addCamp(Request $request)
+    {
         $formData = $request->toArray();
         $camp = Camp::create($formData);
         $campName = $formData["abbreviation"];
-        foreach($request->regions ?? [] as $region){
+        foreach($request->regions ?? [] as $region) {
             $camp->regions()->attach($region);
         }
         \Session::flash('message', $campName . " 新增成功。");
         return redirect()->route("campManagement");
     }
 
-    public function showAddCamp(){
+    public function showAddCamp()
+    {
         return view('backend.camp.campForm', ["action" => "建立", "actionURL" => route("addCamp")]);
     }
 
-    public function modifyCamp(Request $request, $camp_id){
+    public function modifyCamp(Request $request, $camp_id)
+    {
         $formData = $request->toArray();
         $camp = Camp::find($camp_id);
         $camp->update($formData);
         $campName = $formData["abbreviation"];
         $camp->regions()->detach();
-        foreach($request->regions ?? [] as $region){
+        foreach($request->regions ?? [] as $region) {
             $camp->regions()->attach($region);
         }
         if ($request->vcamp_id) {
@@ -167,20 +179,22 @@ class AdminController extends BackendController {
         return redirect()->route("campManagement");
     }
 
-    public function showModifyCamp($camp_id){
+    public function showModifyCamp($camp_id)
+    {
         $camp = Camp::find($camp_id);
         $camp_orgs = $camp->organizations;
         $vcamps = Camp::where('registration_end', '>', now()->year . "-01-01")->where('table', 'like', '%vcamp%')->get();
         return view('backend.camp.campForm', ["action" => "修改", "actionURL" => route("modifyCamp", $camp->id), "camp" => $camp, "vcamps" => $vcamps]);
     }
 
-    public function addBatches(Request $request, $camp_id){
+    public function addBatches(Request $request, $camp_id)
+    {
         $formData = $request->toArray();
         $newSet = array();
         $batches = count($formData['name']);
-        for($i = 0; $i < $batches; $i++){
-            foreach($formData as $key => $field){
-                if($key == 'is_late_registration_end' && $field[$i] == ''){
+        for($i = 0; $i < $batches; $i++) {
+            foreach($formData as $key => $field) {
+                if($key == 'is_late_registration_end' && $field[$i] == '') {
                     continue;
                 }
                 $newSet[$i][$key] = $field[$i];
@@ -192,7 +206,8 @@ class AdminController extends BackendController {
         return redirect()->route("showBatch", $camp_id);
     }
 
-    public function copyBatch(Request $request, $camp_id){
+    public function copyBatch(Request $request, $camp_id)
+    {
         $formData = $request->toArray();
         //$newSet = array();
         $batch = Batch::find($formData['batch_id']);
@@ -203,22 +218,25 @@ class AdminController extends BackendController {
         return redirect()->route("showBatch", $camp_id);
     }
 
-    public function showAddBatch($camp_id){
+    public function showAddBatch($camp_id)
+    {
         $camp = Camp::find($camp_id);
         return view('backend.camp.addBatch', ["camp" => $camp]);
     }
 
-    public function showBatch($camp_id){
+    public function showBatch($camp_id)
+    {
         $camp = Camp::find($camp_id);
         $batches = $camp->batchs;
         $num_applicants = array();
         foreach($batches as $batch) {
-            $num_applicants[$batch->id] = \DB::table('applicants')->where('batch_id',$batch->id)->count();
+            $num_applicants[$batch->id] = \DB::table('applicants')->where('batch_id', $batch->id)->count();
         }
-        return view('backend.camp.batchList', compact('camp', 'batches','num_applicants'));
+        return view('backend.camp.batchList', compact('camp', 'batches', 'num_applicants'));
     }
 
-    public function modifyBatch(Request $request, $camp_id, $batch_id){
+    public function modifyBatch(Request $request, $camp_id, $batch_id)
+    {
         $formData = $request->toArray();
         $batch = Batch::find($batch_id);
         $batch->update($formData);
@@ -230,7 +248,8 @@ class AdminController extends BackendController {
         return redirect()->route("showBatch", $camp_id);
     }
 
-    public function showModifyBatch($camp_id, $batch_id){
+    public function showModifyBatch($camp_id, $batch_id)
+    {
         $camp = Camp::find($camp_id);
         $batch = Batch::find($batch_id);
         $vbatches = null;
@@ -240,19 +259,20 @@ class AdminController extends BackendController {
         return view('backend.camp.modifyBatch', compact("camp", "batch", "vbatches"));
     }
 
-    public function removeBatch(Request $request){
+    public function removeBatch(Request $request)
+    {
         $result = \App\Models\Batch::find($request->batch_id)->delete();
-        if($result){
+        if($result) {
             \Session::flash('message', "梯次刪除成功。");
             return back();
-        }
-        else{
+        } else {
             \Session::flash('error', "梯次刪除失敗。");
             return back();
         }
     }
 
-    public function addOrgs(Request $request, $camp_id){
+    public function addOrgs(Request $request, $camp_id)
+    {
         $formData = $request->toArray();
         $camp = Camp::find($camp_id);
         $orgs = $camp->organizations;   //existing orgs
@@ -268,7 +288,7 @@ class AdminController extends BackendController {
                 $j = 0;
                 for($i = 0; $i < $positions; $i++) {
                     while(!isset($field[$j])) {
-                        $j = $j+1;  //skip non-exist idx
+                        $j = $j + 1;  //skip non-exist idx
                     }
                     $pos_tg = $field[$j];
                     $newSet[$j]['camp_id'] = $camp_id;
@@ -293,31 +313,31 @@ class AdminController extends BackendController {
                     if ($is_exist == false) {
                         CampOrg::create($newSet[$j]);
                         //set parent is_node = 1
-                        if ($newSet[$j]['prev_id']>0) {
+                        if ($newSet[$j]['prev_id'] > 0) {
                             $org_parent = CampOrg::find($newSet[$j]['prev_id']);
                             $org_parent->is_node = 1;
                             $org_parent->save();
                         }
-                        if($org_parent ?? false){
+                        if($org_parent ?? false) {
                             \Session::flash('message', "職務上層修改成功。");
                         } else {
                             \Session::flash('error', "職務上層修改失敗。");
                         }
                     }
-                    $j = $j+1;
+                    $j = $j + 1;
                 }
             }
         }
         if (!$is_exist) {
             \Session::flash('message', " 組織新增成功。");
             return redirect()->route("showOrgs", $camp_id);
-        }
-        else {
+        } else {
             return redirect()->route("showOrgs", $camp_id)->withErrors(['職務已存在，ID：' . $existed_org->id]);
         }
     }
 
-    public function showAddOrgs($camp_id, $org_id){
+    public function showAddOrgs($camp_id, $org_id)
+    {
         $camp = Camp::find($camp_id);
         $orgs = $this->backendService->getCampOrganizations($this->campFullData);
         $orgs = $orgs->sortByDesc('section');
@@ -338,14 +358,14 @@ class AdminController extends BackendController {
             $org_tg = CampOrg::find($org_id);
 
             $sec_tg = $org_tg->section; //找到要新增的sec
-            if ($org_tg->batch_id==0) {
+            if ($org_tg->batch_id == 0) {
                 $batch_tg = new Batch();
                 $batch_tg->id = 0;
                 $batch_tg->name = '不限';
             } else {
                 $batch_tg = Batch::find($org_tg->batch_id);
             }
-            if ($org_tg->region_id==0) {
+            if ($org_tg->region_id == 0) {
                 $region_tg = new Region();
                 $region_tg->id = 0;
                 $region_tg->name = '不限';
@@ -356,7 +376,8 @@ class AdminController extends BackendController {
         return view('backend.camp.addOrgs', compact("orgs", "batches", "regions", "org_tg", "sec_tg", "batch_tg", "region_tg"))->with('camp', $this->campFullData);
     }
 
-    public function copyOrgs(Request $request, $camp_id){
+    public function copyOrgs(Request $request, $camp_id)
+    {
         $formData = $request->toArray();
         $newSet = array();
         $camp2copy_id = $formData['camp2copy'];
@@ -372,12 +393,13 @@ class AdminController extends BackendController {
         return redirect()->route("showOrgs", $camp_id);
     }
 
-    public function modifyOrg(Request $request, $camp_id, $org_id){
+    public function modifyOrg(Request $request, $camp_id, $org_id)
+    {
         $formData = $request->toArray();
         $camp = Camp::find($camp_id);
         $org_tg = CampOrg::find($org_id);   //找到要被修改的org
         $sec_tg = $org_tg->section;     //修改前大組名稱
-        $is_root = ($formData['position'] == 'root')? true:false;    //是否修改大組名稱
+        $is_root = ($formData['position'] == 'root') ? true : false;    //是否修改大組名稱
 
         if ($is_root) {
             $orgs = $camp->organizations;   //找到所有orgs
@@ -399,7 +421,8 @@ class AdminController extends BackendController {
         return redirect()->route("showOrgs", $camp_id);
     }
 
-    public function showModifyOrg($camp_id, $org_id){
+    public function showModifyOrg($camp_id, $org_id)
+    {
         $camp = Camp::find($camp_id);
         $org = CampOrg::find($org_id);
         $availableResources = \App\Services\BackendService::getAvailableModels();
@@ -408,7 +431,8 @@ class AdminController extends BackendController {
                     ->with('complete_permissions', $org->permissions);
     }
 
-    public function showOrgs($camp_id){
+    public function showOrgs($camp_id)
+    {
         $camp = Camp::find($camp_id);
         $vcamp = Camp::find($camp->vcamp->id);
         $batches = $camp->batchs->merge($vcamp->batchs);
@@ -422,12 +446,12 @@ class AdminController extends BackendController {
                 //count number of orgs with the same camp_id and section
                 //minus one to exclude 'root' itself
                 $num_users[$org->id] = (\DB::table('camp_org')
-                    ->where('camp_id',$org->camp_id)
-                    ->where('section',$org->section)
+                    ->where('camp_id', $org->camp_id)
+                    ->where('section', $org->section)
                     ->count())
-                    -1;
+                    - 1;
             } else {
-                $num_users[$org->id] = \DB::table('org_user')->where('org_id',$org->id)->count();
+                $num_users[$org->id] = \DB::table('org_user')->where('org_id', $org->id)->count();
             }
         }
         //permission??
@@ -435,35 +459,37 @@ class AdminController extends BackendController {
         $camp_list = Camp::where('table', $camp->table)->get();
         //dd($camp_list);
         $models = $this->backendService->getAvailableModels();
-        return view('backend.camp.orgList', compact('camp', 'batches', 'orgs', 'camp_list', 'models','num_users'));
+        return view('backend.camp.orgList', compact('camp', 'batches', 'orgs', 'camp_list', 'models', 'num_users'));
     }
 
-    public function removeOrg(Request $request){
+    public function removeOrg(Request $request)
+    {
         //刪除大組：找到（同camp_id）&（同section）的全刪掉
         if ($request->org_position == 'root') {
             $result = \App\Models\CampOrg::where('camp_id', $request->camp_id)->where('section', $request->org_section)->delete();
         } else {    //刪除職務：刪除此org_id就好
             $result = \App\Models\CampOrg::find($request->org_id)?->delete();
         }
-        if($result){
+        if($result) {
             \Session::flash('message', "職務刪除成功。");
             return back();
-        }
-        else{
+        } else {
             \Session::flash('error', "職務刪除失敗。");
             return back();
         }
     }
 
-    public function addGSLink($camp_id){
+    public function addGSLink($camp_id)
+    {
         //$camp = Camp::find($camp_id);
         return view('backend.other.addGSLink', ["camp_id" => $camp_id]);
     }
-    public function queryGSLink(Request $request){
+    public function queryGSLink(Request $request)
+    {
         $camp_id = $request->camp_id;
         $urltable_type = 'App\\Models\\'.$request->urltable_type;
         $urltable_id = $request->urltable_id;
-        
+
         $ds = DynamicStat::select('dynamic_stats.*')
         ->where('urltable_id', $urltable_id)
         ->where("urltable_type", $urltable_type)
@@ -471,11 +497,13 @@ class AdminController extends BackendController {
         $is_show = 1;
         return view('backend.other.addGSLink', compact("camp_id", "ds", "is_show"));
     }
-    public function showAddGSLink($camp_id){
+    public function showAddGSLink($camp_id)
+    {
         //$camp = Camp::find($camp_id);
         return view('backend.other.addGSLink', compact("camp_id"));
     }
-    public function udpateGSLink($camp_id){
+    public function udpateGSLink($camp_id)
+    {
         //$camp = Camp::find($camp_id);
         return view('backend.other.showGSLink', ["camp_id" => $camp_id]);
     }
