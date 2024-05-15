@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Batch extends Model
@@ -15,15 +18,18 @@ class Batch extends Model
 
     protected $fillable = ['camp_id', 'name', 'admission_suffix', 'batch_start', 'batch_end', 'is_appliable', 'is_late_registration_end', 'late_registration_end', 'locationName', 'location', 'check_in_day', 'tel', 'num_groups'];
 
-    public function camp() {
+    public function camp(): BelongsTo
+    {
         return $this->belongsTo(Camp::class);
     }
 
-    public function groups() {
+    public function groups(): HasMany
+    {
         return $this->hasMany(ApplicantsGroup::class);
     }
 
-    public function applicants() {
+    public function applicants(): HasMany
+    {
         return $this->hasMany(Applicant::class);
     }
 
@@ -45,8 +51,20 @@ class Batch extends Model
         return $this->morphMany(DynamicStat::class, 'urltable');
     }
 
+    public function vbatch(): HasOneThrough
+    {
+        //foreign key of BatchVbatchXref (batch_id)
+        //foreign key of Vbatch (id)
+        //local key of Batch (id)
+        //local key of BatchVbatchXref (vbatch_id)
+
+        //batch's vbatch
+        return $this->hasOneThrough(Vbatch::class, BatchVbatchXref::class, 'batch_id', 'id', 'id', 'vbatch_id');
+    }
+
     public function is_vbatch(): bool
     {
-        return str_contains($this->camp->table,'vcamp');
+        //the batch is vbatch if it belongs to a vcamp
+        return ($this->camp->is_vcamp());
     }
 }

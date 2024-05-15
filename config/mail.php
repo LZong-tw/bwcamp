@@ -98,6 +98,14 @@ return [
         'name' => env('ACAMP_MAIL_FROM_NAME'),
     ],
 
+    'ses_acamp' => [
+        'host' => env('SES_MAIL_HOST'),
+        'address' => env('SES_ACAMP_MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'username' => env('SES_ACAMP_MAIL_USERNAME'),
+        'password' => env('SES_ACAMP_MAIL_PASSWORD'),
+        'name' => env('SES_ACAMP_MAIL_FROM_NAME'),
+    ],
+
     'avcamp' => [
         'address' => env('AVCAMP_MAIL_FROM_ADDRESS', 'hello@example.com'),
         'username' => env('AVCAMP_MAIL_USERNAME'),

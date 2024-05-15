@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CampVcampXref;
+use App\Models\BatchVbatchXref;
 use App\Models\Permission;
 use App\Models\Vcamp;
 use Illuminate\Http\Request;
@@ -222,6 +223,9 @@ class AdminController extends BackendController {
         $batch = Batch::find($batch_id);
         $batch->update($formData);
         $campName = Camp::find($camp_id)->abbreviation;
+        if ($request->vbatch_id) {
+            BatchVbatchXref::updateOrCreate(["batch_id" => $batch_id], ["vbatch_id" => $request->vbatch_id]);
+        }
         \Session::flash('message', $campName . " " . $batch->name . " 修改成功。");
         return redirect()->route("showBatch", $camp_id);
     }
@@ -229,7 +233,11 @@ class AdminController extends BackendController {
     public function showModifyBatch($camp_id, $batch_id){
         $camp = Camp::find($camp_id);
         $batch = Batch::find($batch_id);
-        return view('backend.camp.modifyBatch', compact("camp", "batch"));
+        $vbatches = null;
+        if (!$batch->is_vbatch()) {
+            $vbatches = $camp->vcamp->batchs;
+        }
+        return view('backend.camp.modifyBatch', compact("camp", "batch", "vbatches"));
     }
 
     public function removeBatch(Request $request){
