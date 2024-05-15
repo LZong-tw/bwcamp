@@ -95,6 +95,26 @@
                 <input type="number" name="num_groups" id="" class='form-control' value="{{ $batch->num_groups ?? "" }}">
             </div>
         </div>
+        @if($vbatches)
+            <div class='row form-group'>
+                <label for='inputVBatch' class='col-md-2 control-label'>關聯之義工梯次</label>
+                <div class='col-md-6'>
+                    <select name="vbatch_id" id="" class='form-control'>
+                        <option value="">請選擇</option>
+                        @if($batch->vbatch)
+                            <option value="{{ $batch->vbatch->id }}" selected>{{ $camp->vcamp->abbreviation }} {{ $batch->vbatch->name }}梯</option>
+                        @endif
+                        @foreach($vbatches as $vbatch)
+                            @if($vbatch->id == $batch->id)
+                                @continue
+                            @endif
+                            <option value="{{ $vbatch->id }}">{{ $camp->vcamp->abbreviation }} {{ $vbatch->name }}梯</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        @endif
         <input type="submit" class="btn btn-success" value="修改梯次">
+
     </form>
 @endsection

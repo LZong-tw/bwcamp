@@ -20,4 +20,14 @@ class Vbatch extends Model
     public function vcamp() {
         return $this->belongsTo(Camp::class);
     }
+
+    public function batch()
+    {
+        //foreign key of BatchVbatchXref (batch_id)
+        //foreign key of Vbatch (id)
+        //local key of Batch (id)
+        //local key of BatchVbatchXref (vbatch_id)
+        return $this->hasOneThrough(Batch::class, BatchVbatchXref::class, 'vbatch_id', 'id', 'id', 'batch_id');
+    }
+
 }
