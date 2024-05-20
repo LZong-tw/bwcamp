@@ -122,7 +122,10 @@
     @endif
 
     @foreach ($batches as $batch)
-    @if(isset($is_batch[$batch->id]))
+    @if(isset($is_batch[$batch->id]) && !($batch->is_vbatch()))
+        @php
+            $vbatch = $batch->vbatch;
+        @endphp
         <hr>
         <h4>梯次：{{ $batch->name }} @if(str_contains($batch->camp->table, "vcamp")) (義工) @else {{ "(學員)" }} @endif</h4>
         {{-- table2 ----- 梯次：各梯 --}}
@@ -209,6 +212,95 @@
                     @endif
                 @endforeach
             </table>
+
+        @if(isset($batch->vbatch) && isset($is_batch[$batch->vbatch->id]))
+        <hr>
+        <h4>梯次：{{ $vbatch->name }} (義工)</h4>
+        {{-- table2 ----- 梯次：各梯 --}}
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="bg-primary text-white">
+                        <th colspan="10">梯次：{{ $vbatch->name }} (義工)</th>
+                    </tr>
+                    <tr class="bg-secondary text-white">
+                        <th>ID</th>
+                        {{--<th>梯次</th>--}}
+                        <th>區域</th>
+                        <th>功能組別</th>
+                        <th>職務名稱</th>
+                        <th>組織代號</th>
+                        <th>綁定的學員組別</th>
+                        <th>已設定權限數</th>
+                        <th>修改</th>
+                        <th>刪除</th>
+                        <th>新增</th>
+                    </tr>
+                </thead>
+
+                @foreach($orgs as $org)
+                    {{-- 比對梯次和區域才印 ---}}
+                    @if($org->batch_id == $vbatch->id)
+                        <tr>
+                            <td>{{ $org->id }}</td>
+                            {{--<td>{{ $org->batch?->name ?? "不限" }}</td>--}}
+                            <td>{{ $org->region?->name ?? "不限" }}</td>
+                            @if($org->position == 'root')
+                            <td class="font-weight-bold">{{ $org->section }}</td>
+                            @else
+                            <td class="text-muted">{{ $org->section }}</td>
+                            @endif
+                            @if($org->position == 'root')
+                                <td>（大組）</td>
+                                <td>--</td><td>--</td>
+                                <td>
+                                    <a href="{{ route('showModifyOrg', [$camp->id, $org->id]) }}" class="btn btn-primary">修改</a>
+                                </td>
+                                <td>
+                                    <form action="{{ route('removeOrg') }}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="org_id" value="{{ $org->id }}">
+                                        <input type="hidden" name="org_section" value="{{ $org->section }}">
+                                        <input type="hidden" name="org_position" value="{{ $org->position }}">
+                                        <input type="hidden" name="camp_id" value="{{ $camp->id }}">
+                                        <!--input type="submit" class="btn btn-danger" value="刪除">
+                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">刪除</button-->
+                                        @if(!$num_users[$org->id])
+                                            <button type="button" class="btn btn-danger"  onclick="confirmdelete(this.closest('form'));">刪除</button>
+                                        @endif
+                                    </form>
+                                </td>
+                                <td>
+                                    <a href="{{ route('showAddOrgs', [$camp->id, $org->id]) }}" class="btn btn-success">新增職務</a>
+                                </td>
+                            @else
+                                <td>{{ $org->position }}</td>
+                                <td>{{ $org->order }}</td>
+                                <td>@if(!$org->all_group) {{ $org->applicant_group?->alias ?? "無" }} @else 全部學員小組 @endif</td>
+                                <td>{{ $org->permissions->count() }}</td>
+                                <td><a href="{{ route('showModifyOrg', [$camp->id, $org->id]) }}" class="btn btn-primary">修改</a></td>
+                                <td>
+                                    <form action="{{ route('removeOrg') }}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="org_id" value="{{ $org->id }}">
+                                        <input type="hidden" name="org_section" value="{{ $org->section }}">
+                                        <input type="hidden" name="org_position" value="{{ $org->position }}">
+                                        <input type="hidden" name="camp_id" value="{{ $camp->id }}">
+                                        <!--input type="submit" class="btn btn-danger" value="刪除">
+                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">刪除</button-->
+                                        @if(!$num_users[$org->id])
+                                            <button type="button" class="btn btn-danger"  onclick="confirmdelete(this.closest('form'));">刪除</button>
+                                        @endif
+                                    </form>
+                                </td>
+                                <td>
+                                    <a href="{{ route('showAddOrgs', [$camp->id, $org->id]) }}" class="btn btn-success">新增職務</a>
+                                </td>
+                            @endif
+                        </tr>
+                    @endif
+                @endforeach
+            </table>
+        @endif
     @endif
     @endforeach
 

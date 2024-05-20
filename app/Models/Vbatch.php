@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Vbatch extends Model
 {
@@ -17,16 +19,14 @@ class Vbatch extends Model
     {
         return $this->hasOneThrough(Batch::class, BatchVbatchXref::class, 'vbatch_id', 'id', 'id', 'batch_id');
     }
-    public function vcamp() {
+    public function vcamp(): BelongsTo
+    {
         return $this->belongsTo(Camp::class);
     }
 
-    public function batch()
+    public function batch(): HasOneThrough
     {
-        //foreign key of BatchVbatchXref (batch_id)
-        //foreign key of Vbatch (id)
-        //local key of Batch (id)
-        //local key of BatchVbatchXref (vbatch_id)
+        //vbatch's batch
         return $this->hasOneThrough(Batch::class, BatchVbatchXref::class, 'vbatch_id', 'id', 'id', 'batch_id');
     }
 

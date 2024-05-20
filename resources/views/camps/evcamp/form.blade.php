@@ -430,7 +430,7 @@
         <label for='inputParticipationDates' class='col-md-2 control-label text-md-right'>護持日期(多選)</label>
         <div class='col-md-10'>
             @if(str_contains($batch->name, "北區"))
-                <label><input type="checkbox" class='participation_dates' name=participation_dates[] value='0710(三)' > 0710(三)</label> <br/>
+                <label><input type="checkbox" class='participation_dates' name=participation_dates[] value='0710(三)' > 0710(三) (先遣團隊)</label> <br/>
                 <label><input type="checkbox" class='participation_dates' name=participation_dates[] value='0711(四)' > 0711(四)</label> <br/>
                 <label><input type="checkbox" class='participation_dates' name=participation_dates[] value='0712(五)' > 0712(五)</label> <br/>
                 <label><input type="checkbox" class='participation_dates' name=participation_dates[] value='0713(六)' > 0713(六)</label> <br/>
@@ -453,6 +453,7 @@
         <label for='inputStayDates' class='col-md-2 control-label text-md-right'>住宿日期(多選)</label>
         <div class='col-md-10'>
             @if(str_contains($batch->name, "北區"))
+                <label><input type="checkbox" class='stay_dates' name=stay_dates[] value='不住宿' > 不住宿</label> <br/>
                 <label><input type="checkbox" class='stay_dates' name=stay_dates[] value='0710(三)' > 0710(三)</label> <br/>
                 <label><input type="checkbox" class='stay_dates' name=stay_dates[] value='0711(四)' > 0711(四)</label> <br/>
                 <label><input type="checkbox" class='stay_dates' name=stay_dates[] value='0712(五)' > 0712(五)</label> <br/>
@@ -472,6 +473,9 @@
     <div class='row form-group required'>
         <label for='inputPreliminaries' class='col-md-2 control-label text-md-right'>參加全體義工提升</label>
         <div class='col-md-10'>
+            <p class='form-control-static text-info'>
+            日期：6/29(六) 9:00-11:30
+            </p>
             <label class=radio-inline>
                 <input type=radio required name='is_preliminaries' value='1' > 是
                 <div class="invalid-feedback">
@@ -490,6 +494,9 @@
     <div class='row form-group required'>
         <label for='inputCleanUp' class='col-md-2 control-label text-md-right'>參加打掃法會</label>
         <div class='col-md-10'>
+            <p class='form-control-static text-info'>
+            日期：6/30(日)8:30-16:30
+            </p>
             <label class=radio-inline>
                 <input type=radio required name='is_cleanup' value='1' > 是
                 <div class="invalid-feedback">
