@@ -56,7 +56,7 @@
         </div>
         <input type="hidden", name="camp_id", value="{{ $camp_id }}">
         @if(isset($ds))
-        <input type="hidden", name="gslink_id", value="{{ $ds->id }}">
+        <input type="hidden", name="ds_id", value="{{ $ds->id }}">
         <input type="submit" class="btn btn-success" value="修改">
         @else
         <input type="submit" class="btn btn-success" value="新增">

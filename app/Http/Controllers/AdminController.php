@@ -529,13 +529,13 @@ class AdminController extends BackendController {
         }
         if ($is_this_camp) {
             $formData['urltable_type'] = 'App\\Models\\' . $formData['urltable_type'];
-            $ds = DynamicStat::find($ds_id);
+            $ds = DynamicStat::find($formData['ds_id']);
             $ds->update($formData);
             \Session::flash('message', " DSLink修改成功。");
-            return redirect()->route("showDSLink", $camp_id);
+            return redirect()->route("showAddDSLink", $camp_id);
         } else {
             \Session::flash('message', " 非屬此營隊，DSLink修改失敗。");
-            return redirect()->route("showDSLink", $camp_id);
+            return redirect()->route("showAddDSLink", $camp_id);
         }
     }
 }
