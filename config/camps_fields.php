@@ -868,11 +868,6 @@ return [
                 "sort" => 1,
                 "for_query" => 0,
             ],
-            "participation_mode" => [
-                "name" => "參加形式",
-                "sort" => 1,
-                "for_query" => 1,
-            ],
             "reasons_recommend" => [
                 "name" => "推薦理由",
                 "sort" => 0,
