@@ -246,6 +246,11 @@
                         <li>
                             <a href="{{ route("customMail", $campFullData->id) }}">寄送自定郵件</a>
                         </li>
+                        @if(auth()->user()->getPermission()->level == 1)
+                        <li>
+                            <a href="{{ route("showAddDSLink", $campFullData->id) }}">新增動態統計連結</a>
+                        </li>
+                        @endif
                     </ul>
                 </li>
             @else

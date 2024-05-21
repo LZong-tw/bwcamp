@@ -1482,7 +1482,7 @@ class BackendController extends Controller
         } elseif($camp->table == "acamp") {
             return view('backend.in_camp.attendeeInfoAcamp', compact('camp', 'batch', 'applicant', 'contactlog'));
         } elseif($camp->table == "ceocamp") {
-            return view('backend.in_camp.attendeeInfoCeocamp', compact('camp', 'batch', 'applicant', 'contactlog'));
+            return view('backend.in_camp.attendeeInfoCeocamp', compact('camp', 'batch', 'applicant', 'contactlog', 'dynamic_stat_urls'));
         } elseif($camp->table == "ecamp") {
             return view('backend.in_camp.attendeeInfoEcamp', compact('camp', 'batch', 'applicant', 'contactlog', 'dynamic_stat_urls'));
         } elseif($camp->table == "ycamp") {

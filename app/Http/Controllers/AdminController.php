@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CampVcampXref;
+use App\Models\Applicant;
+use App\Models\Batch;
 use App\Models\BatchVbatchXref;
-use App\Models\Permission;
-use App\Models\Vcamp;
-use Illuminate\Http\Request;
 use App\Models\Camp;
+use App\Models\CampVcampXref;
 use App\Models\CampOrg;
 use App\Models\DynamicStat;
-use App\Models\Batch;
+use App\Models\Permission;
 use App\Models\Region;
 use App\Models\Role;
+use App\Models\Vcamp;
 use Carbon\Carbon;
 use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 
@@ -455,28 +456,86 @@ class AdminController extends BackendController {
         }
     }
 
-    public function addGSLink($camp_id){
-        //$camp = Camp::find($camp_id);
-        return view('backend.other.addGSLink', ["camp_id" => $camp_id]);
+    public function addDSLink(Request $request, $camp_id){
+        $formData = $request->toArray();
+        $is_this_camp = false;
+        if($formData['urltable_type'] == 'Camp') {
+            $is_this_camp = ($formData['urltable_id'] == $camp_id)? true:false;
+        }
+        else if ($formData['urltable_type'] == 'Batch') {
+            $batch = Batch::find($formData['urltable_id']);
+            $is_this_camp = ($batch->camp->id == $camp_id)? true:false;
+        }
+        else {  //$formData['urltable_type'] == 'Applicant'
+            $applicant = Applicant::find($formData['urltable_id']);
+            $is_this_camp = ($applicant->camp->id == $camp_id)? true:false;
+        }
+        if ($is_this_camp) {
+            $formData['urltable_type'] = 'App\\Models\\' . $formData['urltable_type'];
+            DynamicStat::create($formData);
+            \Session::flash('message', " DSLink新增成功。");
+            return redirect()->route("showAddDSLink", $camp_id);
+        } else {
+            \Session::flash('message', " 非屬此營隊，DSLink新增失敗。");
+            return redirect()->route("showAddDSLink", $camp_id);
+        }
     }
-    public function queryGSLink(Request $request){
-        $camp_id = $request->camp_id;
-        $urltable_type = 'App\\Models\\'.$request->urltable_type;
-        $urltable_id = $request->urltable_id;
-        
-        $ds = DynamicStat::select('dynamic_stats.*')
-        ->where('urltable_id', $urltable_id)
-        ->where("urltable_type", $urltable_type)
-        ->first();
-        $is_show = 1;
-        return view('backend.other.addGSLink', compact("camp_id", "ds", "is_show"));
+    public function queryDSLink(Request $request, $camp_id){
+        $formData = $request->toArray();
+        $is_this_camp = false;
+        if($formData['urltable_type'] == 'Camp') {
+            $is_this_camp = ($formData['urltable_id'] == $camp_id)? true:false;
+        }
+        else if ($formData['urltable_type'] == 'Batch') {
+            $batch = Batch::find($formData['urltable_id']);
+            $is_this_camp = ($batch->camp->id == $camp_id)? true:false;
+        }
+        else {  //$formData['urltable_type'] == 'Applicant'
+            $applicant = Applicant::find($formData['urltable_id']);
+            $is_this_camp = ($applicant->camp->id == $camp_id)? true:false;
+        }
+        if ($is_this_camp) {
+            $urltable_type = 'App\\Models\\'.$request->urltable_type;
+            $urltable_id = $request->urltable_id;
+            $ds = DynamicStat::select('dynamic_stats.*')
+            ->where('urltable_id', $urltable_id)
+            ->where('urltable_type', $urltable_type)
+            ->first();
+            $is_show = 1;
+            //replace App\Models\XXX with XXX
+            $ds->urltable_type = $request->urltable_type;
+            return view('backend.other.addDSLink', compact("camp_id", "ds", "is_show"));
+        } else {
+            \Session::flash('message', " 非屬此營隊，DSLink查詢失敗。");
+            return redirect()->route("showAddDSLink", $camp_id);
+        }
     }
-    public function showAddGSLink($camp_id){
-        //$camp = Camp::find($camp_id);
-        return view('backend.other.addGSLink', compact("camp_id"));
+    public function showAddDSLink($camp_id){
+        return view('backend.other.addDSLink', compact("camp_id"));
     }
-    public function udpateGSLink($camp_id){
-        //$camp = Camp::find($camp_id);
-        return view('backend.other.showGSLink', ["camp_id" => $camp_id]);
+    public function modifyDSLink(Request $request, $camp_id){
+        $formData = $request->toArray();
+        $is_this_camp = false;
+        if($formData['urltable_type'] == 'Camp') {
+            $is_this_camp = ($formData['urltable_id'] == $camp_id)? true:false;
+        }
+        else if ($formData['urltable_type'] == 'Batch') {
+            $batch = Batch::find($formData['urltable_id']);
+            $is_this_camp = ($batch->camp->id == $camp_id)? true:false;
+        }
+        else {  //$formData['urltable_type'] == 'Applicant'
+            $applicant = Applicant::find($formData['urltable_id']);
+            $is_this_camp = ($applicant->camp->id == $camp_id)? true:false;
+        }
+        if ($is_this_camp) {
+            $formData['urltable_type'] = 'App\\Models\\' . $formData['urltable_type'];
+            $ds = DynamicStat::find($ds_id);
+            $ds->update($formData);
+            \Session::flash('message', " DSLink修改成功。");
+            return redirect()->route("showDSLink", $camp_id);
+        } else {
+            \Session::flash('message', " 非屬此營隊，DSLink修改失敗。");
+            return redirect()->route("showDSLink", $camp_id);
+        }
     }
 }
