@@ -280,7 +280,7 @@
         <div class="container">
             @foreach($dynamic_stat_urls as $key => $url)
                 <div class="row mt-3">
-                    <a href="{{ $url }}" target="_blank" class="btn btn-primary mb-3">{{ $key }}</a>
+                    <!--a href="{{ $url }}" target="_blank" class="btn btn-primary mb-3">{{ $key }}</a-->
                     <br>
                     <iframe src="{{ $url }}">Your browser isn't compatible</iframe>
                 </div>
