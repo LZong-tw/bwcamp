@@ -257,12 +257,12 @@ class SheetController extends Controller
                     };
                 } else if($key == "camporg_section") {
                     $user = ($applicant->user ?? null);
-                    $roles = ($user->roles->where('camp_id', $main_camp_id) ?? null);
-                    $data = ($roles->flatten()->pluck('section')->implode(',') ?? "");
+                    $roles = ($user)? $user->roles->where('camp_id', $main_camp_id) : null;
+                    $data = ($roles)? $roles->flatten()->pluck('section')->implode(','): "";
                 } else if($key == "camporg_position") {
                     $user = ($applicant->user ?? null);
-                    $roles = ($user->roles->where('camp_id', $main_camp_id) ?? null);
-                    $data = ($roles->flatten()->pluck('position')->implode(',') ?? "");
+                    $roles = ($user)? $user->roles->where('camp_id', $main_camp_id): null;
+                    $data = ($roles)? $roles->flatten()->pluck('position')->implode(','): "";
                 } else {
                     $data = $applicant->$key;
                 }
