@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Services\GSheetService;
 use App\Models\Applicant;
 use App\Models\Camp;
+use App\Models\Vcamp;
 
 
 class SheetController extends Controller
@@ -182,6 +183,12 @@ class SheetController extends Controller
     {
         $camp = Camp::find($request->camp_id);
         $table = $camp->table;
+        if ($camp->is_vcamp()) {
+            $vcamp = Vcamp::find($request->camp_id);
+            $main_camp_id = $vcamp->mainCamp->id;
+        } else {
+            $main_camp_id = null;
+        }
 
         if ($table == 'ecamp') {
             config([
@@ -249,11 +256,13 @@ class SheetController extends Controller
                         default => $data = "尚未聯絡"
                     };
                 } else if($key == "camporg_section") {
-                    $camp_orgs = $applicant->groupOrgRelation;
-                    $data = ($camp_orgs ?? false)? $camp_orgs->first()->section:"";
+                    $user = ($applicant->user ?? null);
+                    $roles = ($user->roles->where('camp_id', $main_camp_id) ?? null);
+                    $data = ($roles->flatten()->pluck('section')->implode(',') ?? "");
                 } else if($key == "camporg_position") {
-                    $camp_orgs = $applicant->groupOrgRelation;
-                    $data = ($camp_orgs ?? false)? $camp_orgs->first()->position:"";
+                    $user = ($applicant->user ?? null);
+                    $roles = ($user->roles->where('camp_id', $main_camp_id) ?? null);
+                    $data = ($roles->flatten()->pluck('position')->implode(',') ?? "");
                 } else {
                     $data = $applicant->$key;
                 }
