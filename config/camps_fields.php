@@ -1701,6 +1701,7 @@ return [
             "camporg_position" => "職務",
             "region" => "區域",
             "created_at" => "報名日期",
+            "name" => "姓名",
             "gender" => "生理性別",
             "birthyear" => "出生年",
             "group_priority1" => "組別志願1",

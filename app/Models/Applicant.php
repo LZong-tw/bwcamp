@@ -33,7 +33,12 @@ class Applicant extends Model {
 
     public function user()
     {
-        return $this->hasOneThrough(User::class, UserApplicantXref::class, 'applicant_id', 'id', 'id', 'user_id');
+        if ($this->applicant_id ?? false) {
+            return $this->hasOneThrough(User::class, UserApplicantXref::class, 'applicant_id', 'id', 'applicant_id', 'user_id');
+        }
+        else {
+            return $this->hasOneThrough(User::class, UserApplicantXref::class, 'applicant_id', 'id', 'id', 'user_id');
+        }
     }
 
 //    public function roles()
