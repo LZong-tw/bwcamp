@@ -9,9 +9,11 @@
              str_contains($currentUser->email, "tsai.scow@gmail.com") ||
              str_contains($currentUser->email, "luckybelle999@gmail.com") ||
              str_contains($currentUser->email, "0808leo.er@gmail.com") ||
-             str_contains($currentUser->email, "irene.lee0713@gmail.com") || 
+             str_contains($currentUser->email, "irene.lee0713@gmail.com") ||
              str_contains($currentUser->email, "cindychen302@gmail.com") ||
-             str_contains($currentUser->email, "christinelo0806@gmail.com"))
+             str_contains($currentUser->email, "christinelo0806@gmail.com") ||
+             str_contains($currentUser->email, "ichen0752@gmail.com") ||
+             str_contains($currentUser->email, "vincentchuang@gmail.com"))
             <a href="{{ route("export", $campFullData->id) }}?vcamp={{ $isShowVolunteers }}" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">匯出資料</a>
         @endif
         @if($isShowLearners)            &nbsp;&nbsp;
