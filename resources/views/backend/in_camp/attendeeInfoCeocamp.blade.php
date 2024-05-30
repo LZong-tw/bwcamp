@@ -55,6 +55,8 @@
                 <b>生日</b>：{{$applicant->birthyear}}/{{$applicant->birthmonth}}/{{$applicant->birthday}}<br>
                 <b>英文姓名</b>：{{$applicant->english_name}}<br>
                 <b>性別</b>：{{$applicant->gender}}<br>
+                <b>是否已加入廣論班</b>：@if($applicant->is_lrclass) 是 @else 否 @endif<br>
+                <b>廣論班別</b>：{{$applicant->lrclass}}<br>
             </div>
             <div class="col-md-3">
                 <b>產業別</b>：{{$applicant->industry}}<br>
