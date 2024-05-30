@@ -34,9 +34,9 @@ class NotAdmittedMail extends Mailable
             $headers = $message->getHeaders();
             $headers->addTextHeader('time', time());
         });
-        if($this->campFullData->table == 'ecamp'){
-            return $this->subject($this->campFullData->abbreviation . '感謝函')
-                ->view('camps.' . $this->campFullData->table . ".notAdmittedMail");
+        if($this->applicant->camp->table == 'ecamp'){
+            return $this->subject($this->applicant->camp->abbreviation . '感謝函')
+                ->view('camps.' . $this->applicant->camp->table . ".notAdmittedMail");
         }
         return $this->subject($this->applicant->batch->camp->abbreviation . '通知信')
                 ->view('camps.' . $this->applicant->batch->camp->table . ".notAdmittedMail");
