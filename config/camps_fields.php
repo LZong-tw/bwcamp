@@ -246,6 +246,8 @@ return [
         "files" => "上傳的檔案",
         "english_name" => "英文慣用名",
         "gender" => "生理性別",
+        "is_lrclass" => "是否已加入廣論班",
+        "lrclass" => "廣論班別",
         "birthyear" => "出生年",
         "birthmonth" => "出生月",
         "birthday" => "出生日",
@@ -825,6 +827,16 @@ return [
             ],
             "gender" => [
                 "name" => "性別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "is_lrclass" => [
+                "name" => "是否已加入廣論班",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "lrclass" => [
+                "name" => "廣論班別",
                 "sort" => 1,
                 "for_query" => 1,
             ],
