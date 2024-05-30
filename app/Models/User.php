@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Cache;
 use Laratrust\Traits\LaratrustUserTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -151,9 +152,16 @@ class User extends Authenticatable
     }
 
     public function canAccessResource($resource, $action, $camp, $context = null, $target = null, $probing = null) {
-        if (!$this->camp_roles) {
-            $this->camp_roles = $this->permissionsRolesParser($camp);
-        }
+        // Cache key identifiers.
+        $cacheKeyCampRoles = "camp_roles_" . $camp->id . "_user_" . $this->id;
+        $cacheKeyPermissions = "permissions_user_" . $this->id;
+        $cacheKeyRolePermissions = "role_permissions_camp_" . $camp->id . "_user_" . $this->id;
+
+        // Retrieve or compute the camp roles.
+        $this->camp_roles = Cache::remember($cacheKeyCampRoles, Config::get('cache.ttl'), function() use ($camp) {
+            return $this->permissionsRolesParser($camp);
+        });
+
         if (!$resource) {
             return false;
         }
@@ -163,67 +171,105 @@ class User extends Authenticatable
         $class = get_class($resource);
 
         // 全域權限，不多但還是做預留，避免意外
-        $permissions = $this->permissions()->get();
+        // Retrieve or compute the global permissions.
+        $permissions = Cache::remember($cacheKeyPermissions, Config::get('cache.ttl'), function() {
+            return $this->permissions()->get();
+        });
+
         // 營隊權限
         // $this->rolePermissions = $this->roles()->where('camp_id', $camp->id)->get()
         //                 ->filter(static fn($role) => $role->permissions->count() > 0)
         //                 ->map(static fn($role) => $role->permissions)
         //                 ->flatten()->unique('id')->values();
-        $this->rolePermissions = self::with('roles.permissions')->whereHas('roles', function ($query) use ($camp, $resource) {
-            $query->where(function ($query) use ($resource, $camp) {
-                // 順便做梯次檢查
-                if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer) {
-                    if ($resource->batch_id) {
-                        $query->where(function ($query) use ($resource){
-                            $query->where(function ($query) {
-                                $query->whereNull('batch_id');
-                            })->orWhere(function ($query) use ($resource) {
-                                $query->where('batch_id', $resource->batch_id);
+        // $this->rolePermissions = self::with('roles.permissions')->whereHas('roles', function ($query) use ($camp, $resource) {
+        //     $query->where(function ($query) use ($resource, $camp) {
+        //         // 順便做梯次檢查
+        //         if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer) {
+        //             if ($resource->batch_id) {
+        //                 $query->where(function ($query) use ($resource){
+        //                     $query->where(function ($query) {
+        //                         $query->whereNull('batch_id');
+        //                     })->orWhere(function ($query) use ($resource) {
+        //                         $query->where('batch_id', $resource->batch_id);
+        //                     });
+        //                 });
+        //             }
+        //         }
+        //         else if ($resource instanceof \App\Models\User) {
+        //             $theCamp = $camp->vcamp;
+        //             $theApplicant = $resource->application_log->whereIn('batch_id', $theCamp->batchs()->pluck('id'))->first();
+        //             if ($theApplicant) {
+        //                 $query->where(function ($query) use ($theApplicant){
+        //                     $query->where(function ($query) {
+        //                         $query->whereNull('batch_id');
+        //                     })->orWhere(function ($query) use ($theApplicant) {
+        //                         $query->where('batch_id', $theApplicant->batch_id);
+        //                     });
+        //                 });
+        //             }
+        //         }
+        //         // 區域檢查
+        //         if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer) {
+        //             if ($resource->region_id) {
+        //                 $query->where(function ($query) use ($resource){
+        //                     $query->where(function ($query) {
+        //                         $query->whereNull('region_id');
+        //                     })->orWhere(function ($query) use ($resource) {
+        //                         $query->where('region_id', $resource->region_id);
+        //                     });
+        //                 });
+        //             }
+        //         }
+        //         else if ($resource instanceof \App\Models\User) {
+        //             $theCamp = $camp->vcamp;
+        //             $theApplicant = $resource->application_log->whereIn('batch_id', $theCamp->batchs()->pluck('id'))->first();
+        //             if ($theApplicant) {
+        //                 $query->where(function ($query) use ($theApplicant){
+        //                     $query->where(function ($query) {
+        //                         $query->whereNull('region_id');
+        //                     })->orWhere(function ($query) use ($theApplicant) {
+        //                         $query->where('region_id', $theApplicant->region_id);
+        //                     });
+        //                 });
+        //             }
+        //         }
+        //         return $query->where('camp_id', $camp->id);
+        //     });
+        // })->where('id', $this->id)->get()->pluck('roles')->flatten()->pluck('permissions')->flatten()->unique('id')->values();
+
+        // Retrieve or compute the camp-specific role permissions.
+        $this->rolePermissions = Cache::remember($cacheKeyRolePermissions, Config::get('cache.ttl'), function() use ($camp, $resource) {
+            return self::with('roles.permissions')->whereHas('roles', function ($query) use ($camp, $resource) {
+                $query->where(function ($query) use ($resource, $camp) {
+                    if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer) {
+                        if ($resource->batch_id) {
+                            $query->where(function ($query) use ($resource){
+                                $query->whereNull('batch_id')->orWhere('batch_id', $resource->batch_id);
                             });
-                        });
+                        }
+                    } elseif ($resource instanceof \App\Models\User) {
+                        $theCamp = $camp->vcamp;
+                        $theApplicant = $resource->application_log->whereIn('batch_id', $theCamp->batchs()->pluck('id'))->first();
+                        if ($theApplicant) {
+                            $query->whereNull('batch_id')->orWhere('batch_id', $theApplicant->batch_id);
+                        }
                     }
-                }
-                else if ($resource instanceof \App\Models\User) {
-                    $theCamp = $camp->vcamp;
-                    $theApplicant = $resource->application_log->whereIn('batch_id', $theCamp->batchs()->pluck('id'))->first();
-                    if ($theApplicant) {
-                        $query->where(function ($query) use ($theApplicant){
-                            $query->where(function ($query) {
-                                $query->whereNull('batch_id');
-                            })->orWhere(function ($query) use ($theApplicant) {
-                                $query->where('batch_id', $theApplicant->batch_id);
-                            });
-                        });
+                    if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer) {
+                        if ($resource->region_id) {
+                            $query->whereNull('region_id')->orWhere('region_id', $resource->region_id);
+                        }
+                    } elseif ($resource instanceof \App\Models\User) {
+                        $theCamp = $camp->vcamp;
+                        $theApplicant = $resource->application_log->whereIn('batch_id', $theCamp->batchs()->pluck('id'))->first();
+                        if ($theApplicant) {
+                            $query->whereNull('region_id')->orWhere('region_id', $theApplicant->region_id);
+                        }
                     }
-                }
-                // 區域檢查
-                if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer) {
-                    if ($resource->region_id) {
-                        $query->where(function ($query) use ($resource){
-                            $query->where(function ($query) {
-                                $query->whereNull('region_id');
-                            })->orWhere(function ($query) use ($resource) {
-                                $query->where('region_id', $resource->region_id);
-                            });
-                        });
-                    }
-                }
-                else if ($resource instanceof \App\Models\User) {
-                    $theCamp = $camp->vcamp;
-                    $theApplicant = $resource->application_log->whereIn('batch_id', $theCamp->batchs()->pluck('id'))->first();
-                    if ($theApplicant) {
-                        $query->where(function ($query) use ($theApplicant){
-                            $query->where(function ($query) {
-                                $query->whereNull('region_id');
-                            })->orWhere(function ($query) use ($theApplicant) {
-                                $query->where('region_id', $theApplicant->region_id);
-                            });
-                        });
-                    }
-                }
-                return $query->where('camp_id', $camp->id);
-            });
-        })->where('id', $this->id)->get()->pluck('roles')->flatten()->pluck('permissions')->flatten()->unique('id')->values();
+                    return $query->where('camp_id', $camp->id);
+                });
+            })->where('id', $this->id)->get()->pluck('roles')->flatten()->pluck('permissions')->flatten()->unique('id')->values();
+        });
+
         $permissions = $permissions ? collect($permissions)->merge($this->rolePermissions) : $this->rolePermissions;
         $forInspect = $permissions->where("resource", "\\" . $class)->where("action", $action)->first();
         if ($forInspect) {
