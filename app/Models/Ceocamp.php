@@ -16,7 +16,7 @@ class Ceocamp extends Model
         'employees', 'direct_managed_employees', 'capital', 'capital_unit', 'industry', 'industry_other',
         'org_type', 'org_type_other', 'years_operation', 'contact_time', 'marital_status',
         'exceptional_conditions', 'participation_mode', 'reasons_online', 'reasons_recommend',
-        'substitute_name', 'substitute_phone', 'substitute_email', 'is_lrclass'
+        'substitute_name', 'substitute_phone', 'substitute_email', 'is_lrclass', 'lrclass'
     ];
 
     protected $guarded = [];
