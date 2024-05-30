@@ -10,7 +10,8 @@ use Illuminate\Queue\SerializesModels;
 
 class NotAdmittedMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     public $applicant;
 
@@ -19,7 +20,8 @@ class NotAdmittedMail extends Mailable
      *
      * @return void
      */
-    public function __construct($applicant) {
+    public function __construct($applicant)
+    {
         //
         $this->applicant = $applicant;
     }
@@ -29,12 +31,13 @@ class NotAdmittedMail extends Mailable
      *
      * @return $this
      */
-    public function build() {
+    public function build()
+    {
         $this->withSwiftMessage(function ($message) {
             $headers = $message->getHeaders();
             $headers->addTextHeader('time', time());
         });
-        if($this->campFullData->table == 'ecamp'){
+        if($this->campFullData->table == 'ecamp') {
             return $this->subject($this->campFullData->abbreviation . '感謝函')
                 ->view('camps.' . $this->campFullData->table . ".notAdmittedMail");
         }
