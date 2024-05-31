@@ -13,7 +13,7 @@ class exportApplicant extends Command
      *
      * @var string
      */
-    protected $signature = 'export:Applicant {camp_id}';
+    protected $signature = 'export:Applicant {camp_id} {--app_id=0}';
 
     /**
      * The console command description.
@@ -44,7 +44,8 @@ class exportApplicant extends Command
      */
     public function handle()
     {
-        $this->request->camp_id = $this->argument('camp_id') ;
+        $this->request->camp_id = $this->argument('camp_id');
+        $this->request->app_id = $this->option('app_id');
         $this->sheetControl->exportGSApplicants($this->request);
         return 0;
     }
