@@ -6,11 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 use Laratrust\Models\LaratrustRole;
 use Laratrust\Traits\LaratrustRoleTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 
 class CampOrg extends LaratrustRole
 {
-    use LaratrustRoleTrait, Cachable;
+    use LaratrustRoleTrait;
 
     //
     protected $table = 'camp_org';
