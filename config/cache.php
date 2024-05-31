@@ -20,6 +20,8 @@ return [
 
     'default' => env('CACHE_DRIVER', 'file'),
 
+    'eloquent_cache_enable' => env('ELOQUENT_CACHE_ENABLE', false),
+
     /*
     |--------------------------------------------------------------------------
     | Cache Stores
