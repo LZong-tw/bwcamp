@@ -176,93 +176,58 @@ class User extends Authenticatable
             return $this->permissions()->get();
         });
 
-        // 營隊權限
-        // $this->rolePermissions = $this->roles()->where('camp_id', $camp->id)->get()
-        //                 ->filter(static fn($role) => $role->permissions->count() > 0)
-        //                 ->map(static fn($role) => $role->permissions)
-        //                 ->flatten()->unique('id')->values();
-        // $this->rolePermissions = self::with('roles.permissions')->whereHas('roles', function ($query) use ($camp, $resource) {
-        //     $query->where(function ($query) use ($resource, $camp) {
-        //         // 順便做梯次檢查
-        //         if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer) {
-        //             if ($resource->batch_id) {
-        //                 $query->where(function ($query) use ($resource){
-        //                     $query->where(function ($query) {
-        //                         $query->whereNull('batch_id');
-        //                     })->orWhere(function ($query) use ($resource) {
-        //                         $query->where('batch_id', $resource->batch_id);
-        //                     });
-        //                 });
-        //             }
-        //         }
-        //         else if ($resource instanceof \App\Models\User) {
-        //             $theCamp = $camp->vcamp;
-        //             $theApplicant = $resource->application_log->whereIn('batch_id', $theCamp->batchs()->pluck('id'))->first();
-        //             if ($theApplicant) {
-        //                 $query->where(function ($query) use ($theApplicant){
-        //                     $query->where(function ($query) {
-        //                         $query->whereNull('batch_id');
-        //                     })->orWhere(function ($query) use ($theApplicant) {
-        //                         $query->where('batch_id', $theApplicant->batch_id);
-        //                     });
-        //                 });
-        //             }
-        //         }
-        //         // 區域檢查
-        //         if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer) {
-        //             if ($resource->region_id) {
-        //                 $query->where(function ($query) use ($resource){
-        //                     $query->where(function ($query) {
-        //                         $query->whereNull('region_id');
-        //                     })->orWhere(function ($query) use ($resource) {
-        //                         $query->where('region_id', $resource->region_id);
-        //                     });
-        //                 });
-        //             }
-        //         }
-        //         else if ($resource instanceof \App\Models\User) {
-        //             $theCamp = $camp->vcamp;
-        //             $theApplicant = $resource->application_log->whereIn('batch_id', $theCamp->batchs()->pluck('id'))->first();
-        //             if ($theApplicant) {
-        //                 $query->where(function ($query) use ($theApplicant){
-        //                     $query->where(function ($query) {
-        //                         $query->whereNull('region_id');
-        //                     })->orWhere(function ($query) use ($theApplicant) {
-        //                         $query->where('region_id', $theApplicant->region_id);
-        //                     });
-        //                 });
-        //             }
-        //         }
-        //         return $query->where('camp_id', $camp->id);
-        //     });
-        // })->where('id', $this->id)->get()->pluck('roles')->flatten()->pluck('permissions')->flatten()->unique('id')->values();
-
         // Retrieve or compute the camp-specific role permissions.
         $this->rolePermissions = Cache::remember($cacheKeyRolePermissions, Config::get('cache.ttl'), function() use ($camp, $resource) {
             return self::with('roles.permissions')->whereHas('roles', function ($query) use ($camp, $resource) {
                 $query->where(function ($query) use ($resource, $camp) {
+                    // 順便做梯次檢查
                     if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer) {
                         if ($resource->batch_id) {
                             $query->where(function ($query) use ($resource){
-                                $query->whereNull('batch_id')->orWhere('batch_id', $resource->batch_id);
+                                $query->where(function ($query) {
+                                    $query->whereNull('batch_id');
+                                })->orWhere(function ($query) use ($resource) {
+                                    $query->where('batch_id', $resource->batch_id);
+                                });
                             });
                         }
-                    } elseif ($resource instanceof \App\Models\User) {
+                    }
+                    elseif ($resource instanceof \App\Models\User) {
                         $theCamp = $camp->vcamp;
                         $theApplicant = $resource->application_log->whereIn('batch_id', $theCamp->batchs()->pluck('id'))->first();
                         if ($theApplicant) {
-                            $query->whereNull('batch_id')->orWhere('batch_id', $theApplicant->batch_id);
+                            $query->where(function ($query) use ($theApplicant){
+                                $query->where(function ($query) {
+                                    $query->whereNull('batch_id');
+                                })->orWhere(function ($query) use ($theApplicant) {
+                                    $query->where('batch_id', $theApplicant->batch_id);
+                                });
+                            });
                         }
                     }
+                    // 區域檢查
                     if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer) {
                         if ($resource->region_id) {
-                            $query->whereNull('region_id')->orWhere('region_id', $resource->region_id);
+                            $query->where(function ($query) use ($resource){
+                                $query->where(function ($query) {
+                                    $query->whereNull('region_id');
+                                })->orWhere(function ($query) use ($resource) {
+                                    $query->where('region_id', $resource->region_id);
+                                });
+                            });
                         }
-                    } elseif ($resource instanceof \App\Models\User) {
+                    }
+                    elseif ($resource instanceof \App\Models\User) {
                         $theCamp = $camp->vcamp;
                         $theApplicant = $resource->application_log->whereIn('batch_id', $theCamp->batchs()->pluck('id'))->first();
                         if ($theApplicant) {
-                            $query->whereNull('region_id')->orWhere('region_id', $theApplicant->region_id);
+                            $query->where(function ($query) use ($theApplicant){
+                                $query->where(function ($query) {
+                                    $query->whereNull('region_id');
+                                })->orWhere(function ($query) use ($theApplicant) {
+                                    $query->where('region_id', $theApplicant->region_id);
+                                });
+                            });
                         }
                     }
                     return $query->where('camp_id', $camp->id);
@@ -271,139 +236,261 @@ class User extends Authenticatable
         });
 
         $permissions = $permissions ? collect($permissions)->merge($this->rolePermissions) : $this->rolePermissions;
-        $forInspect = $permissions->where("resource", "\\" . $class)->where("action", $action)->first();
-        if ($forInspect) {
-            switch ($forInspect->range_parsed) {
-                // 0: na, all
-                case 0:
-                    return true;
-                // 1: volunteer_large_group
-                case 1:
-                    if ($class == "App\Models\Volunteer" && $resource->user?->roles) {
-                        return $resource->user->roles->whereIn("section", $this->roles()->where('camp_id', $camp->id)->pluck("section"))->count();
-                    }
-                    if ($class == "App\Models\Applicant" && $resource->user?->roles) {
-                        return $resource->user->roles->whereIn("section", $this->roles()->where('camp_id', $camp->id)->pluck("section"))->count();
-                    }
-                    if (($class == "App\Models\User" || $class == "App\User") && $resource->roles) {
-                        return $resource->roles->whereIn("section", $this->roles()->where('camp_id', $camp->id)->pluck("section"))->count();
-                    }
-                    if ($probing) {
-                        dd("first if, case 1", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
-                    }
-                    return false;
-                // 2: learner_group
-                // ★：學員小組的意思除了是「同一個小組的學員」以外，還包含「護持同一個學員小組的義工」
-                case 2:
-                    $roles = $this->roles()->where('group_id', '<>', null)->where("camp_id", $camp->id);
-                    if (str_contains($class, "Applicant") && $context == "onlyCheckAvailability") {
-                        return $roles->first();
-                    }
+        // $forInspect = $permissions->where("resource", "\\" . $class)->where("action", $action)->first();
+        // if ($forInspect) {
+        //     switch ($forInspect->range_parsed) {
+        //         // 0: na, all
+        //         case 0:
+        //             return true;
+        //         // 1: volunteer_large_group
+        //         case 1:
+        //             if ($class == "App\Models\Volunteer" && $resource->user?->roles) {
+        //                 return $resource->user->roles->whereIn("section", $this->roles()->where('camp_id', $camp->id)->pluck("section"))->count();
+        //             }
+        //             if ($class == "App\Models\Applicant" && $resource->user?->roles) {
+        //                 return $resource->user->roles->whereIn("section", $this->roles()->where('camp_id', $camp->id)->pluck("section"))->count();
+        //             }
+        //             if (($class == "App\Models\User" || $class == "App\User") && $resource->roles) {
+        //                 return $resource->roles->whereIn("section", $this->roles()->where('camp_id', $camp->id)->pluck("section"))->count();
+        //             }
+        //             if ($probing) {
+        //                 dd("first if, case 1", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
+        //             }
+        //             return false;
+        //         // 2: learner_group
+        //         // ★：學員小組的意思除了是「同一個小組的學員」以外，還包含「護持同一個學員小組的義工」
+        //         case 2:
+        //             $roles = $this->roles()->where('group_id', '<>', null)->where("camp_id", $camp->id);
+        //             if (str_contains($class, "Applicant") && $context == "onlyCheckAvailability") {
+        //                 return $roles->first();
+        //             }
 
-                    if (str_contains($class, "Applicant") && !str_contains($class, "Group")) {
-                        return $roles->firstWhere('group_id', $target->group_id);
-                    } elseif (str_contains($class, "Volunteer") && $target) {
-                        return $roles->firstWhere(
-                            'group_id',
-                            $target->user?->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id
-                        )
-                        ||
-                        ($target->user?->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id &&
-                        $this->roles()->where("camp_id", $camp->id)->where(function ($query) {
-                            $query->where("position", "like", "%關懷小組%")
-                                ->orWhere("position", "like", "%關懷服務組%")
-                                ->orWhere("position", "like", "%關服組%");
-                        })->firstWhere('all_group', 1));
-                    } elseif (str_contains($class, "User")) {
-                        return $roles->firstWhere(
-                                'group_id',
-                                $target->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id
-                            )
-                            ||
-                            ($target->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id &&
-                                $this->roles()->where("camp_id", $camp->id)->where(function ($query) {
-                                    $query->where("position", "like", "%關懷小組%")
-                                        ->orWhere("position", "like", "%關懷服務組%")
-                                        ->orWhere("position", "like", "%關服組%");
-                                })->firstWhere('all_group', 1));
-                    }
+        //             if (str_contains($class, "Applicant") && !str_contains($class, "Group")) {
+        //                 return $roles->firstWhere('group_id', $target->group_id);
+        //             } elseif (str_contains($class, "Volunteer") && $target) {
+        //                 return $roles->firstWhere(
+        //                     'group_id',
+        //                     $target->user?->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id
+        //                 )
+        //                 ||
+        //                 ($target->user?->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id &&
+        //                 $this->roles()->where("camp_id", $camp->id)->where(function ($query) {
+        //                     $query->where("position", "like", "%關懷小組%")
+        //                         ->orWhere("position", "like", "%關懷服務組%")
+        //                         ->orWhere("position", "like", "%關服組%");
+        //                 })->firstWhere('all_group', 1));
+        //             } elseif (str_contains($class, "User")) {
+        //                 return $roles->firstWhere(
+        //                         'group_id',
+        //                         $target->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id
+        //                     )
+        //                     ||
+        //                     ($target->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id &&
+        //                         $this->roles()->where("camp_id", $camp->id)->where(function ($query) {
+        //                             $query->where("position", "like", "%關懷小組%")
+        //                                 ->orWhere("position", "like", "%關懷服務組%")
+        //                                 ->orWhere("position", "like", "%關服組%");
+        //                         })->firstWhere('all_group', 1));
+        //             }
 
-                    if ($class == "App\Models\ContactLog") {
-                        return $roles->firstWhere('group_id', $target->group_id);
-                    }
-                    if ($probing) {
-                        dd("first if, case 2", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
-                    }
-                    return false;
-                // 3: person
-                case 3:
-                    if (str_contains($class, "Applicant") && $context == "onlyCheckAvailability") {
-                        return $this->caresLearners->whereIn('batch_id', $camp->batchs->pluck('id'))->first();
-                    }
-                    if ($class == "App\Models\ApplicantGroup") {
-                        return $this->caresLearners->where('group_id', '<>', null)->where("group_id", $resource->id)->first();
-                    }
-                    // 沒這回事
-                    if ($class == "App\Models\CampOrg") {
+        //             if ($class == "App\Models\ContactLog") {
+        //                 return $roles->firstWhere('group_id', $target->group_id);
+        //             }
+        //             if ($probing) {
+        //                 dd("first if, case 2", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
+        //             }
+        //             return false;
+        //         // 3: person
+        //         case 3:
+        //             if (str_contains($class, "Applicant") && $context == "onlyCheckAvailability") {
+        //                 return $this->caresLearners->whereIn('batch_id', $camp->batchs->pluck('id'))->first();
+        //             }
+        //             if ($class == "App\Models\ApplicantGroup") {
+        //                 return $this->caresLearners->where('group_id', '<>', null)->where("group_id", $resource->id)->first();
+        //             }
+        //             // 沒這回事
+        //             if ($class == "App\Models\CampOrg") {
+        //                 return false;
+        //             }
+        //             if ($class == "App\Models\Applicant") {
+        //                 return $this->caresLearners->where('group_id', '<>', null)->where("id", $resource->id)->first();
+        //             }
+        //             if ($class == "App\Models\ContactLog") {
+        //                 return $this->caresLearners->where('group_id', '<>', null)->where("id", $target->id)->first();
+        //             }
+        //             if ($probing) {
+        //                 dd("first if, case 3", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
+        //             }
+        //             return false;
+        //         default:
+        //             if ($probing) {
+        //                 dd("first if, case default", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
+        //             }
+        //             return false;
+        //     }
+        // }
+        // elseif ($target && ((str_contains($class, "Applicant") || str_contains($class, "Volunteer")) && $action == "read")) {
+        //     $roles = $this->roles()->where('group_id', '<>', null)->where("camp_id", $camp->id);
+        //     if ($probing) {
+        //         dd("second if", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
+        //     }
+        //     return $roles->firstWhere(
+        //         'group_id',
+        //         $target->user?->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id
+        //     )
+        //     ||
+        //     ($target->user?->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id &&
+        //     $this->roles()->where("camp_id", $camp->id)->where(function ($query) {
+        //         $query->where("position", "like", "%關懷小組%")
+        //             ->orWhere("position", "like", "%關懷服務組%")
+        //             ->orWhere("position", "like", "%關服組%");
+        //     })->firstWhere('all_group', 1));
+        // }
+        // elseif ($target && (str_contains($class, "User") && $context == "vcamp" && $action == "read")) {
+        //     $roles = $this->roles()->where('group_id', '<>', null)->where("camp_id", $camp->id);
+        //     if ($probing) {
+        //         dd("third if", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
+        //     }
+        //     return $roles->firstWhere(
+        //             'group_id',
+        //             $target->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id
+        //         )
+        //         ||
+        //         ($target->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id &&
+        //             $this->roles()->where("camp_id", $camp->id)->where(function ($query) {
+        //                 $query->where("position", "like", "%關懷小組%")
+        //                     ->orWhere("position", "like", "%關懷服務組%")
+        //                     ->orWhere("position", "like", "%關服組%");
+        //             })->firstWhere('all_group', 1));
+        // }
+        // else {
+        //     if ($probing) {
+        //         dd("else, all faild.", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
+        //     }
+        //     return false;
+        // }
+        $cacheKeyForInspect = "for_inspect_user_" . $this->id . "_resource_" . $class . "_action_" . $action . "_camp_" . $camp->id;
+
+        return Cache::remember($cacheKeyForInspect, Config::get('cache.ttl'), function() use ($permissions, $class, $action, $resource, $camp, $context, $target, $probing) {
+            $forInspect = $permissions->where("resource", "\\" . $class)->where("action", $action)->first();
+
+            if ($forInspect) {
+                switch ($forInspect->range_parsed) {
+                    // 0: na, all
+                    case 0:
+                        return true;
+                    // 1: volunteer_large_group
+                    case 1:
+                        if ($class == "App\Models\Volunteer" && $resource->user?->roles) {
+                            return $resource->user->roles->whereIn("section", $this->roles()->where('camp_id', $camp->id)->pluck("section"))->count();
+                        }
+                        if ($class == "App\Models\Applicant" && $resource->user?->roles) {
+                            return $resource->user->roles->whereIn("section", $this->roles()->where('camp_id', $camp->id)->pluck("section"))->count();
+                        }
+                        if (($class == "App\Models\User" || $class == "App\User") && $resource->roles) {
+                            return $resource->roles->whereIn("section", $this->roles()->where('camp_id', $camp->id)->pluck("section"))->count();
+                        }
+                        if ($probing) {
+                            dd("first if, case 1", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
+                        }
                         return false;
-                    }
-                    if ($class == "App\Models\Applicant") {
-                        return $this->caresLearners->where('group_id', '<>', null)->where("id", $resource->id)->first();
-                    }
-                    if ($class == "App\Models\ContactLog") {
-                        return $this->caresLearners->where('group_id', '<>', null)->where("id", $target->id)->first();
-                    }
-                    if ($probing) {
-                        dd("first if, case 3", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
-                    }
-                    return false;
-                default:
-                    if ($probing) {
-                        dd("first if, case default", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
-                    }
-                    return false;
+                    // 2: learner_group
+                    // ★：學員小組的意思除了是「同一個小組的學員」以外，還包含「護持同一個學員小組的義工」
+                    case 2:
+                        $roles = $this->roles()->where('group_id', '<>', null)->where("camp_id", $camp->id);
+                        if (str_contains($class, "Applicant") && $context == "onlyCheckAvailability") {
+                            return $roles->first();
+                        }
+
+                        if (str_contains($class, "Applicant") && !str_contains($class, "Group")) {
+                            return $roles->firstWhere('group_id', $target->group_id);
+                        } elseif (str_contains($class, "Volunteer") && $target) {
+                            return $roles->firstWhere('group_id', $target->user?->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id) ||
+                                    ($target->user?->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id &&
+                                    $this->roles()->where("camp_id", $camp->id)->where(function ($query) {
+                                        $query->where("position", "like", "%關懷小組%")
+                                                ->orWhere("position", "like", "%關懷服務組%")
+                                                ->orWhere("position", "like", "%關伏組%");
+                                    })->firstWhere('all_group', 1));
+                        } elseif (str_contains($class, "User")) {
+                            return $roles->firstWhere('group_id', $target->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id) ||
+                                    ($target->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id &&
+                                    $this->roles()->where("camp_id", $camp->id)->where(function ($query) {
+                                        $query->where("position", "like", "%關懷小組%")
+                                                ->orWhere("position", "like", "%關懷服務組%")
+                                                ->orWhere("position", "like", "%關伏組%");
+                                    })->firstWhere('all_group', 1));
+                        }
+
+                        if ($class == "App\Models\ContactLog") {
+                            return $roles->firstWhere('group_id', $target->group_id);
+                        }
+                        if ($probing) {
+                            dd("first if, case 2", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
+                        }
+                        return false;
+                    // 3: person
+                    case 3:
+                        if (str_contains($class, "Applicant") && $context == "onlyCheckAvailability") {
+                            return $this->caresLearners->whereIn('batch_id', $camp->batchs->pluck('id'))->first();
+                        }
+                        if ($class == "App\Models\ApplicantGroup") {
+                            return $this->caresLearners->where('group_id', '<>', null)->where("group_id", $resource->id)->first();
+                        }
+                        // 沒這回事
+                        if ($class == "App\Models\CampOrg") {
+                            return false;
+                        }
+                        if ($class == "App\Models\Applicant") {
+                            return $this->caresLearners->where('group_id', '<>', null)->where("id", $resource->id)->first();
+                        }
+                        if ($class == "App\Models\ContactLog") {
+                            return $this->caresLearners->where('group_id', '<>', null)->where("id", $target->id)->first();
+                        }
+                        if ($probing) {
+                            dd("first if, case 3", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
+                        }
+                        return false;
+                    default:
+                        if ($probing) {
+                            dd("first if, case default", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
+                        }
+                        return false;
+                }
             }
-        }
-        elseif ($target && ((str_contains($class, "Applicant") || str_contains($class, "Volunteer")) && $action == "read")) {
-            $roles = $this->roles()->where('group_id', '<>', null)->where("camp_id", $camp->id);
-            if ($probing) {
-                dd("second if", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
+            elseif ($target && ((str_contains($class, "Applicant") || str_contains($class, "Volunteer")) && $action == "read")) {
+                $roles = $this->roles()->where('group_id', '<>', null)->where("camp_id", $camp->id);
+                if ($probing) {
+                    dd("second if", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
+                }
+                return $roles->firstWhere('group_id', $target->user?->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id) ||
+                        ($target->user?->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id &&
+                        $this->roles()->where("camp_id", $camp->id)->where(function($query) {
+                            return $query->where("position", "like", "%關懷小組%")
+                                        ->orWhere("position", "like", "%關懷服務組%")
+                                        ->orWhere("position", "like", "%關伏組%");
+                        })->firstWhere('all_group', 1));
             }
-            return $roles->firstWhere(
-                'group_id',
-                $target->user?->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id
-            )
-            ||
-            ($target->user?->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id &&
-            $this->roles()->where("camp_id", $camp->id)->where(function ($query) {
-                $query->where("position", "like", "%關懷小組%")
-                    ->orWhere("position", "like", "%關懷服務組%")
-                    ->orWhere("position", "like", "%關服組%");
-            })->firstWhere('all_group', 1));
-        }
-        elseif ($target && (str_contains($class, "User") && $context == "vcamp" && $action == "read")) {
-            $roles = $this->roles()->where('group_id', '<>', null)->where("camp_id", $camp->id);
-            if ($probing) {
-                dd("third if", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
+            elseif ($target && (str_contains($class, "User") && $context == "vcamp" && $action == "read")) {
+                $roles = $this->roles()->where('group_id', '<>', null)->where("camp_id", $camp->id);
+                if ($probing) {
+                    dd("third if", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
+                }
+                return $roles->firstWhere('group_id', $target->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id) ||
+                        ($target->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id &&
+                        $this->roles()->where("camp_id", $camp->id)->where(function($query) {
+                            return $query->where("position", "like", "%關懷小組%")
+                                        ->orWhere("position", "like", "%關懷服務組%")
+                                        ->orWhere("position", "like", "%關伏組%");
+                        })->firstWhere('all_group', 1));
             }
-            return $roles->firstWhere(
-                    'group_id',
-                    $target->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id
-                )
-                ||
-                ($target->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id &&
-                    $this->roles()->where("camp_id", $camp->id)->where(function ($query) {
-                        $query->where("position", "like", "%關懷小組%")
-                            ->orWhere("position", "like", "%關懷服務組%")
-                            ->orWhere("position", "like", "%關服組%");
-                    })->firstWhere('all_group', 1));
-        }
-        else {
-            if ($probing) {
-                dd("else, all faild.", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
+            else {
+                if ($probing) {
+                    dd("else, all failed.", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
+                }
+                return false;
             }
-            return false;
-        }
+        });
     }
     public function dynamic_stats(): MorphMany
     {
