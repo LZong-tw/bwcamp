@@ -15,6 +15,7 @@
         "ellaisys/aws-cognito": "^1.2",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^3.0",
+        "genealabs/laravel-model-caching": "^0.12.5",
         "guzzlehttp/guzzle": "^7.5",
         "intervention/image": "^2.7",
         "laravel/framework": "^9.42",
