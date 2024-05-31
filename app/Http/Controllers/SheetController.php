@@ -233,10 +233,15 @@ class SheetController extends Controller
             $rows[] = $v;
         }
 
-        $this->gsheetservice->Clear(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));  
-        $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $rows);  
+        if($request->app_id==0) {
+            $this->gsheetservice->Clear(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
+            $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $rows);  
+        }
 
         foreach ($applicants as $applicant) {
+            if($applicant->applicant_id <= $request->app_id) {
+                continue;
+            }
             $rows = array();
             foreach($columns as $key => $v) {
                 $data = null;
@@ -257,7 +262,8 @@ class SheetController extends Controller
                     };
                 } else if($key == "camporg_section") {
                     $user = ($applicant->user ?? null);
-                    $roles = ($user)? $user->roles->where('camp_id', $main_camp_id) : null;
+                    //$roles = ($user)? $user->roles->where('camp_id', $main_camp_id) : null;
+                    $roles = $user?->roles?->where('camp_id', $main_camp_id) ?? null;
                     $data = ($roles)? $roles->flatten()->pluck('section')->implode(','): "";
                 } else if($key == "camporg_position") {
                     $user = ($applicant->user ?? null);
