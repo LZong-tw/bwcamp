@@ -9,10 +9,11 @@ use Laratrust\Traits\LaratrustUserTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Traits\EmailConfiguration;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 
 class User extends Authenticatable
 {
-    use Notifiable, EmailConfiguration, LaratrustUserTrait;
+    use Notifiable, EmailConfiguration, LaratrustUserTrait, Cachable;
 
     /**
      * The attributes that are mass assignable.

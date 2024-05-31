@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Laratrust\Models\LaratrustRole;
 use Laratrust\Traits\LaratrustRoleTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 
 class CampOrg extends LaratrustRole
 {
-    use LaratrustRoleTrait;
+    use LaratrustRoleTrait, Cachable;
 
     //
     protected $table = 'camp_org';
@@ -42,13 +43,13 @@ class CampOrg extends LaratrustRole
     public function is_root()
     {
         if ($this->prev_id) return false;
-        else return true;    
+        else return true;
     }
 
     public function is_leaf()
     {
         if ($this->is_node) return false;
-        else return true;    
+        else return true;
     }
 
     public function parent()
@@ -56,7 +57,7 @@ class CampOrg extends LaratrustRole
         if ($this->prev_id)
             return $this->hasOne('App\Models\CampOrg', 'id', 'prev_id');
         else
-            return null;    
+            return null;
     }
 
     public function children()
@@ -64,7 +65,7 @@ class CampOrg extends LaratrustRole
         if ($this->is_leaf)
             return null;
         else
-            return $this->hasMany('App\Models\CampOrg', 'prev_id', 'id');   
+            return $this->hasMany('App\Models\CampOrg', 'prev_id', 'id');
     }
 
     public function path()

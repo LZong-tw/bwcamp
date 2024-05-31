@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Laratrust\Models\LaratrustPermission;
 use Laratrust\Traits\LaratrustPermissionTrait;
-
+use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 class Permission extends LaratrustPermission
 {
-    use LaratrustPermissionTrait;
+    use LaratrustPermissionTrait, Cachable;
     public $guarded = [];
     public $fillable = ['name', 'display_name', 'description', 'action', 'resource', 'range', 'camp_id', 'batch_id'];
     public string $resourceNameInMandarin = '權限';
