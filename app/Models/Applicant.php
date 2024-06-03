@@ -7,12 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 
 //use Traffic;
 
 class Applicant extends Model {
-    use SoftDeletes, Cachable;
+    use SoftDeletes;
 
     //
     protected $fillable = [

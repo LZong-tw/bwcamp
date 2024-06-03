@@ -3,12 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 
 class UserApplicantXref extends Model
 {
-    use Cachable;
-
     protected $fillable = [
         'user_id',
         'applicant_id',
