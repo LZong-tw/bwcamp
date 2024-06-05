@@ -50,6 +50,7 @@
     </h5>
     <x-button.options :$isShowVolunteers :$isShowLearners :currentBatch="$current_batch"/>
 
+    {{-- check if $dynamic_stats exists and is not array?? and is not empty --}}
     <div class="divTelCallResult" style="display:none">
     @if(isset($dynamic_stats) && !is_array($dynamic_stats) && $dynamic_stats->isNotEmpty())
         @foreach($dynamic_stats as $stat)
