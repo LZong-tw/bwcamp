@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Laratrust\Models\LaratrustRole;
 use Laratrust\Traits\LaratrustRoleTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class CampOrg extends LaratrustRole
 {
@@ -98,5 +99,10 @@ class CampOrg extends LaratrustRole
 
     public function applicant_group() {
         return $this->hasOne(ApplicantsGroup::class, 'id', 'group_id');
+    }
+
+    public function dynamic_stats(): MorphMany
+    {
+        return $this->morphMany(DynamicStat::class, 'urltable');
     }
 }
