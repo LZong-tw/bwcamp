@@ -459,12 +459,16 @@ class AdminController extends BackendController {
     public function addDSLink(Request $request, $camp_id){
         $formData = $request->toArray();
         $is_this_camp = false;
-        if($formData['urltable_type'] == 'Camp') {
+        if ($formData['urltable_type'] == 'Camp') {
             $is_this_camp = ($formData['urltable_id'] == $camp_id)? true:false;
         }
         else if ($formData['urltable_type'] == 'Batch') {
             $batch = Batch::find($formData['urltable_id']);
             $is_this_camp = ($batch->camp->id == $camp_id)? true:false;
+        }
+        else if ($formData['urltable_type'] == 'CampOrg') {
+            $org = CampOrg::find($formData['urltable_id']);
+            $is_this_camp = ($org->camp_id == $camp_id)? true:false;
         }
         else {  //$formData['urltable_type'] == 'Applicant'
             $applicant = Applicant::find($formData['urltable_id']);
