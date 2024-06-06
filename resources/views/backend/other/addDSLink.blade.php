@@ -71,9 +71,10 @@
             選擇動態統計連結 營隊/梯次/個人＊
             <select required name='urltable_type' id='selUrlTableType1' class='form-control'>
                 <option value='' selected>- 請選擇 -</option>
-                <option value='Camp' >Camp</option>
-                <option value='Batch' >Batch</option>
                 <option value='Applicant' >Applicant</option>
+                <option value='Batch' >Batch</option>
+                <option value='Camp' >Camp</option>
+                <option value='CampOrg' >CampOrg</option>
             </select>
         </div>
         <div class='form-group required'>
