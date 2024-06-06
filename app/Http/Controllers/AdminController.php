@@ -509,10 +509,15 @@ class AdminController extends BackendController {
             ->where('urltable_id', $urltable_id)
             ->where('urltable_type', $urltable_type)
             ->first();
-            $is_show = 1;
-            //replace App\Models\XXX with XXX
-            $ds->urltable_type = $request->urltable_type;
-            return view('backend.other.addDSLink', compact("camp_id", "ds", "is_show"));
+            if($ds==null) {
+                \Session::flash('message', " 查無資料。");
+                return redirect()->route("showAddDSLink", $camp_id);    
+            } else {
+                $is_show = 1;
+                //replace App\Models\XXX with XXX
+                $ds->urltable_type = $request->urltable_type;
+                return view('backend.other.addDSLink', compact("camp_id", "ds", "is_show"));
+            }
         } else {
             \Session::flash('message', " 非屬此營隊，DSLink查詢失敗。");
             return redirect()->route("showAddDSLink", $camp_id);
@@ -523,6 +528,7 @@ class AdminController extends BackendController {
     }
     public function modifyDSLink(Request $request, $camp_id){
         $formData = $request->toArray();
+        dd($request);
         $is_this_camp = false;
         if($formData['urltable_type'] == 'Camp') {
             $is_this_camp = ($formData['urltable_id'] == $camp_id)? true:false;
