@@ -494,6 +494,10 @@ class AdminController extends BackendController {
             $batch = Batch::find($formData['urltable_id']);
             $is_this_camp = ($batch->camp->id == $camp_id)? true:false;
         }
+        else if ($formData['urltable_type'] == 'CampOrg') {
+            $org = CampOrg::find($formData['urltable_id']);
+            $is_this_camp = ($org->camp_id == $camp_id)? true:false;
+        }
         else {  //$formData['urltable_type'] == 'Applicant'
             $applicant = Applicant::find($formData['urltable_id']);
             $is_this_camp = ($applicant->camp->id == $camp_id)? true:false;
@@ -526,6 +530,10 @@ class AdminController extends BackendController {
         else if ($formData['urltable_type'] == 'Batch') {
             $batch = Batch::find($formData['urltable_id']);
             $is_this_camp = ($batch->camp->id == $camp_id)? true:false;
+        }
+        else if ($formData['urltable_type'] == 'CampOrg') {
+            $org = CampOrg::find($formData['urltable_id']);
+            $is_this_camp = ($org->camp_id == $camp_id)? true:false;
         }
         else {  //$formData['urltable_type'] == 'Applicant'
             $applicant = Applicant::find($formData['urltable_id']);
