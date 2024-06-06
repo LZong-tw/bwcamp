@@ -1537,7 +1537,7 @@ class BackendController extends Controller
             //MCH:find the urls
             $dynamic_stats = $user_applicant->dynamic_stats ?? [];
         } else {
-            $roles = $user?->roles?->where('camp_id', $this->campFullData->id) ?? null;
+            $roles = $user->roles?->where('camp_id', $this->campFullData->id) ?? null;
             foreach($roles as $role) {
                 $dynamic_stats = $dynamic_stats->merge($role->dynamic_stats ?? null);
             }
