@@ -830,11 +830,6 @@ return [
                 "sort" => 1,
                 "for_query" => 1,
             ],
-            "lrclass" => [
-                "name" => "廣論班別",
-                "sort" => 1,
-                "for_query" => 1,
-            ],
             "age" => [
                 "name" => "年齡",
                 "sort" => 1,
