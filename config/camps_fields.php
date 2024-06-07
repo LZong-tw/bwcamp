@@ -830,11 +830,6 @@ return [
                 "sort" => 1,
                 "for_query" => 1,
             ],
-            "is_lrclass" => [
-                "name" => "是否已加入廣論班",
-                "sort" => 1,
-                "for_query" => 1,
-            ],
             "lrclass" => [
                 "name" => "廣論班別",
                 "sort" => 1,
@@ -844,11 +839,6 @@ return [
                 "name" => "年齡",
                 "sort" => 1,
                 "for_query" => 1,
-            ],
-            "files" => [
-                "name" => "上傳的檔案",
-                "sort" => 0,
-                "for_query" => 0,
             ],
             "industry" => [
                 "name" => "產業別",
