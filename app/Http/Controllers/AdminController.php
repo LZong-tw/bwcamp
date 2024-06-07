@@ -528,7 +528,6 @@ class AdminController extends BackendController {
     }
     public function modifyDSLink(Request $request, $camp_id){
         $formData = $request->toArray();
-        dd($request);
         $is_this_camp = false;
         if($formData['urltable_type'] == 'Camp') {
             $is_this_camp = ($formData['urltable_id'] == $camp_id)? true:false;
