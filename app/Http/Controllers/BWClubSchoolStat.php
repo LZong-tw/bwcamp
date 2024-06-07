@@ -22,7 +22,7 @@ class BWClubSchoolStat extends BackendController{
 		"東吳大學",
 		"國立東華大學",
 		"國立臺灣海洋大學",
-		"銘傳大學",
+		"銘傳大學臺北校區",
 		"中國文化大學",
 		"國立陽明交通大學陽明校區"
     );
