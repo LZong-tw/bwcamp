@@ -345,21 +345,41 @@ class BackendController extends Controller
         if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer(), 'read', Vcamp::find($this->campFullData->id)->mainCamp, 'onlyCheckAvailability') && $this->user->id > 2) {
             return "<h3>沒有權限：瀏覽任何義工</h3>";
         }
-        $groupAndNumber = $this->applicantService->groupAndNumberSeperator($request->snORadmittedSNorName);
-        $group = $groupAndNumber['group'];
-        $number = $groupAndNumber['number'];
-        $candidate = $this->applicantService->fetchApplicantData($this->campFullData->id, $this->campFullData->table, $request->snORadmittedSNorName, $group, $number);
-        if($candidate) {
-            $candidate = $this->applicantService->Mandarization($candidate);
+
+        $result = [];
+        $candidate = null;
+        if (str_contains($request->snORadmittedSNorName, ',')) {
+            $candidates = explode($request->snORadmittedSNorName);
+            foreach ($candidates as $c) {
+                $groupAndNumber = $this->applicantService->groupAndNumberSeperator($c);
+                $group = $groupAndNumber['group'];
+                $number = $groupAndNumber['number'];
+                $candidate = $this->applicantService->fetchApplicantData($this->campFullData->id, $this->campFullData->table, $c, $group, $number);
+                if($candidate) {
+                    $result[] = $this->applicantService->Mandarization($candidate);
+                }
+                else {
+                    $result[] = "學員已取消或查無此學員";
+                }
+            }
         }
         else {
-            return "<h3>學員已取消或查無此學員</h3>";
+            $groupAndNumber = $this->applicantService->groupAndNumberSeperator($request->snORadmittedSNorName);
+            $group = $groupAndNumber['group'];
+            $number = $groupAndNumber['number'];
+            $candidate = $this->applicantService->fetchApplicantData($this->campFullData->id, $this->campFullData->table, $request->snORadmittedSNorName, $group, $number);
+            if($candidate) {
+                $candidate = $this->applicantService->Mandarization($candidate);
+            }
+            else {
+                return "<h3>學員已取消或查無此學員</h3>";
+            }
         }
 
         if(isset($request->change)) {
             $batches = Batch::where('camp_id', $this->campFullData->id)->get();
             $regions = $this->campFullData->regions;
-            return view('backend.registration.changeBatchOrRegionForm', compact('candidate', 'batches', 'regions'));
+            return view('backend.registration.changeBatchOrRegionForm', compact('candidate', 'batches', 'regions', 'result'));
         }
         //修改繳費資料/現場手動繳費
         if(\Str::contains(request()->headers->get('referer'), 'accounting')) {
