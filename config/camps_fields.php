@@ -1648,6 +1648,7 @@ return [
             "profile_agree" => "個人資料允許",
             "is_attend" => "參加意願",
             "reasons_online" => "選擇上述參加形式的原因",
+            "bank_second_barcode" => "繳費虛擬帳號",
         ],
         'ceovcamp' => [
             "deleted_at" => "取消時間",
