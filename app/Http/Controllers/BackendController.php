@@ -349,7 +349,7 @@ class BackendController extends Controller
         $result = [];
         $candidate = null;
         if (str_contains($request->snORadmittedSNorName, ',')) {
-            $candidates = explode($request->snORadmittedSNorName);
+            $candidates = explode(',', $request->snORadmittedSNorName);
             foreach ($candidates as $c) {
                 $groupAndNumber = $this->applicantService->groupAndNumberSeperator($c);
                 $group = $groupAndNumber['group'];
@@ -359,9 +359,10 @@ class BackendController extends Controller
                     $result[] = $this->applicantService->Mandarization($candidate);
                 }
                 else {
-                    $result[] = "學員已取消或查無此學員";
+                    $result[] = "報名序號 {$c} 已取消或查無此學員";
                 }
             }
+            $candidate = null;
         }
         else {
             $groupAndNumber = $this->applicantService->groupAndNumberSeperator($request->snORadmittedSNorName);
