@@ -97,6 +97,7 @@
                 狀態：<div class="mr-4 text-secondary">無法全程。</div>
             @endif
         </div>
+        {{--
         @if ($applicant->deleted_at)
             <div class="text-danger">
                 本學員已取消報名。
@@ -115,6 +116,7 @@
                 </form>
             </div>
         @endif
+        --}}
         <div class="row d-flex justify-content-end">
             <div class="mr-4 mb-2 font-weight-bold">住宿選項</div>
             @if (!isset($applicant->lodging))
@@ -123,6 +125,7 @@
                 狀態：<div class="mr-4 text-success">{{ $applicant->lodging->room_type }}</div>
             @endif
         </div>
+        {{--
         @if($applicant->deleted_at)
             <div class="text-danger">
                 本學員已取消報名。
@@ -143,6 +146,7 @@
                 </form>
             </div>
         @endif
+        --}}
     </div>
 
 {{--    <div class="container alert alert-primary">--}}

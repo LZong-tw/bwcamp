@@ -22,7 +22,7 @@
     <form action="{{ route("addContactLog", $camp_id) }}" method="POST">
         @csrf
         <br>
-        <textarea class=form-control rows=5 required  name='notes' id=""></textarea>
+        <textarea class=form-control rows=5 required name='notes' id=""></textarea>
         <br>
         <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
         @if($todo == "add")
@@ -43,8 +43,8 @@
             (function() {
                 let contactlog_data = JSON.parse('{!! $contactlog !!}');
                 let textareas = document.getElementsByTagName('textarea');
-                console.log(textareas);
-                console.log(contactlog_data);
+                //console.log(textareas);
+                //console.log(contactlog_data);
                 textareas[0].value = contactlog_data["notes"]; 
                 //textareas[0].value = "回填回填"; 
             })();
