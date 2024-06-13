@@ -21,7 +21,7 @@
             組別：{{ $applicant->user->roles->where(
                         "camp_id",
                         \App\Models\Vcamp::find($applicant->camp->id)->mainCamp->id
-                    )->first()->section }}<br>
+                    )->first()?->section }}<br>
         </td> 
     </tr>
 </table><br>
