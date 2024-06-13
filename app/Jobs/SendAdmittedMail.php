@@ -16,7 +16,7 @@ class SendAdmittedMail implements ShouldQueue, ShouldBeUnique
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, EmailConfiguration;
 
-    protected $applicant, $etc;
+    protected $applicant;
 
     protected $tries = 400;
 
@@ -29,7 +29,6 @@ class SendAdmittedMail implements ShouldQueue, ShouldBeUnique
     {
         //
         $this->applicant = \App\Models\Applicant::find($applicant_id);
-        $this->etc = $this->applicant->user->roles->where("camp_id", \App\Models\Vcamp::find($this->applicant->camp->id)->mainCamp->id)->first()?->section;
     }
 
     /**
