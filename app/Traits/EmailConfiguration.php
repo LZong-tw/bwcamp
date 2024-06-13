@@ -6,7 +6,7 @@ trait EmailConfiguration {
     public static function setEmail($camp, $variant = null) {
         if($variant){ $camp = $variant; }
         $config = \Config::get('mail.ses_' . $camp);    //get mail.ses_$camp version
-        if (!$config) {
+        if (!$config || !$config['username']) {
             $config = \Config::get('mail.' . $camp);    //if null, get mail.$camp version
         }
         else {
