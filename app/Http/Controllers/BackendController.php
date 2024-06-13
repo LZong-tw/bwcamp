@@ -1891,7 +1891,7 @@ class BackendController extends Controller
     public function getAvatar($camp_id, $id)
     {
         $applicant = Applicant::find($id);
-        if ($applicant->avatar && file_exists(base_path(\Storage::disk('local')->url($applicant->avatar)))) {
+        if ($applicant && $applicant->avatar && file_exists(base_path(\Storage::disk('local')->url($applicant->avatar)))) {
             return response()->file(base_path(\Storage::disk('local')->url($applicant->avatar)));
         }
         return response('無', 404);
