@@ -12,7 +12,7 @@ class AdmittedMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $applicant, $campFullData, $attachment, $batch_start_Weekday, $batch_end_Weekday;
+    public $applicant, $campFullData, $attachment, $batch_start_Weekday, $batch_end_Weekday, $etc;
 
     /**
      * Create a new message instance.
@@ -23,7 +23,8 @@ class AdmittedMail extends Mailable
         //
         $this->applicant = $applicant;
         $this->campFullData = $campFullData;
-        $this->attachment = $attachment;
+        $this->attachment = $attachment;        
+        $this->etc = $this->applicant->user->roles->where("camp_id", \App\Models\Vcamp::find($this->applicant->camp->id)->mainCamp->id)->first()?->section;
     }
 
     /**
