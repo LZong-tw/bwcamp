@@ -17,12 +17,7 @@
     <tr>
         <td>班級：{{ $applicant->lrclass }}</td>
         <td>姓名：{{ $applicant->name }}</td>
-        <td>
-            組別：{{ $applicant->user->roles->where(
-                        "camp_id",
-                        \App\Models\Vcamp::find($applicant->camp->id)->mainCamp->id
-                    )->first()?->section }}<br>
-        </td> 
+        <td>組別：{{ $applicant->user->roles->where("camp_id", \App\Models\Vcamp::find($applicant->camp->id)->mainCamp->id)->first()?->section }}</td> 
     </tr>
 </table><br>
 
