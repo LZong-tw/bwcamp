@@ -83,8 +83,6 @@
         </div>
         <div class="row d-flex justify-content-end">
             <div class="mr-4 mb-2 font-weight-bold">參加意願</div>
-        </div>
-        <div class="row d-flex justify-content-end">
             @if(!isset($applicant->is_attend))
                 狀態：<div class="mr-4 text-primary">尚未聯絡。</div>
             @elseif($applicant->is_attend == 1)
@@ -114,6 +112,34 @@
                     <label><input type="radio" name="is_attend" id="" value="3">聯絡不上</label>
                     <label><input type="radio" name="is_attend" id="" value="4">無法全程</label>
                     <input class="btn btn-success" type="submit" value="修改參加狀態">
+                </form>
+            </div>
+        @endif
+        <div class="row d-flex justify-content-end">
+            <div class="mr-4 mb-2 font-weight-bold">住宿選項</div>
+            @if (!isset($applicant->lodging))
+                狀態：<div class="mr-4 text-primary">尚未登記。</div>
+            @else
+                狀態：<div class="mr-4 text-success">{{ $applicant->lodging->room_type }}</div>
+            @endif
+        </div>
+        @if($applicant->deleted_at)
+            <div class="text-danger">
+                本學員已取消報名。
+            </div>
+        @else
+            <div class="row d-flex justify-content-end">
+                <form class="mr-4 mb-2" action="{{ route('modifyAccounting', $camp->id) }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="id" value="{{ $applicant->applicant_id ?? $applicant->id }}">
+                    <input type="hidden" name="cash" value="0">
+                    <input type="hidden" name="is_add" value="add">
+                    <input type="hidden" name="nights" value="1">
+                    <input type="hidden" name="page" value="attendeeInfo">
+                    @foreach($lodgings as $room_type => $value)
+                    <label><input type="radio" name="room_type" id="" value="{{ $room_type }}">{{ $room_type }}</label>
+                    @endforeach
+                    <input class="btn btn-success" type="submit" value="修改住宿選項">
                 </form>
             </div>
         @endif
@@ -209,6 +235,8 @@
                 @endif<br>
                 <b>同意肖像權使用</b>：@if($applicant->portrait_agree) 是 @else 否 @endif<br>
                 <b>繳費虛擬帳號</b>：{{$applicant->bank_second_barcode}}<br>
+                <b>應繳金額</b>：{{$applicant->lodging?->fare ?? 0}}<br>
+                <b>已繳金額</b>：{{$applicant->lodging?->deposit ?? 0}}<br>
             </div>
         </div>
     </div>

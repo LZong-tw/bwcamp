@@ -119,6 +119,7 @@
             <form action="{{ route("modifyAccounting", $campFullData->id) }}" method="post" class="form-horizontal">
                 @csrf
                 <input type="hidden" name="id" value="{{ $applicant->id }}">
+                <input type="hidden" name="page" value="modifyAccounting">
                 <div class='row form-group required'>
                     <label for='inputRoomType' class='col-md-2 control-label text-md-right'>修改房型</label>
                     <div class="col-md-4">
