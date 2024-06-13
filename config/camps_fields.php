@@ -285,7 +285,10 @@ return [
         "profile_agree" => "個人資料允許",
         "participation_mode" => "參加營隊形式",
         "is_attend" => "參加意願",
-        "reasons_online" => "選擇上述參加形式的原因"
+        "reasons_online" => "選擇上述參加形式的原因",
+        "bank_second_barcode" => "繳費虛擬帳號",
+        "fare" => "應繳金額",
+        "deposit" => "已繳金額",
     ],
 
     'ceovcamp' => [
@@ -1649,6 +1652,8 @@ return [
             "is_attend" => "參加意願",
             "reasons_online" => "選擇上述參加形式的原因",
             "bank_second_barcode" => "繳費虛擬帳號",
+            "fare" => "應繳金額",
+            "deposit" => "已繳金額",
         ],
         'ceovcamp' => [
             "deleted_at" => "取消時間",

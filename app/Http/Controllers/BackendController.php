@@ -1476,13 +1476,16 @@ class BackendController extends Controller
                 }
             }
         }
+
+        $lodgings = config('camps_payments.fare_room.' . $camp->table) ?? [];
+
         //dd($dynamic_stat_urls);
         if(str_contains($camp->table, "vcamp")) {
             return view('backend.in_camp.volunteerInfo', compact('camp', 'batch', 'applicant', 'contactlog'));
         } elseif($camp->table == "acamp") {
             return view('backend.in_camp.attendeeInfoAcamp', compact('camp', 'batch', 'applicant', 'contactlog'));
         } elseif($camp->table == "ceocamp") {
-            return view('backend.in_camp.attendeeInfoCeocamp', compact('camp', 'batch', 'applicant', 'contactlog', 'dynamic_stat_urls'));
+            return view('backend.in_camp.attendeeInfoCeocamp', compact('camp', 'batch', 'applicant', 'contactlog', 'dynamic_stat_urls', 'lodgings'));
         } elseif($camp->table == "ecamp") {
             return view('backend.in_camp.attendeeInfoEcamp', compact('camp', 'batch', 'applicant', 'contactlog', 'dynamic_stat_urls'));
         } elseif($camp->table == "ycamp") {
@@ -2028,7 +2031,11 @@ class BackendController extends Controller
                 $applicant = $this->applicantService->fillPaymentData($applicant);
                 $applicant->save();
                 $message = "修改完成。";
+                if ($request->page=="attendeeInfo") {
+                    return redirect()->back();
+                } else {
                 return view("backend.modifyAccounting", compact("applicant", "message"));
+                }
             } else {
                 if($admitted_sn == $request->double_check || $applicant->id == $request->double_check) {
                     $applicant->deposit = $applicant->fee;
