@@ -2034,7 +2034,7 @@ class BackendController extends Controller
                 if ($request->page=="attendeeInfo") {
                     return redirect()->back();
                 } else {
-                return view("backend.modifyAccounting", compact("applicant", "message"));
+                    return view("backend.modifyAccounting", compact("applicant", "message"));
                 }
             } else {
                 if($admitted_sn == $request->double_check || $applicant->id == $request->double_check) {
@@ -2227,8 +2227,12 @@ class BackendController extends Controller
         $contactlog = ContactLog::find($contactlog_id);
         $applicant = Applicant::find($contactlog->applicant_id);
         $todo = 'modify';
+        //只有顯示在textarea中，換行符號才會出問題，所以好像只需在這裡改
+        $contactlog->notes = str_replace("\r", " ", $contactlog->notes);
+        $contactlog->notes = str_replace("\n", " ", $contactlog->notes);
+        $contactlog->notes = str_replace("\t", " ", $contactlog->notes);
         return view('backend.in_camp.addContactLog', compact("camp_id", "applicant", "contactlog", "todo"));
-        //    return view('backend.in_camp.modifyContactLog', compact("applicant", "contactlog"));
+        //return view('backend.in_camp.modifyContactLog', compact("applicant", "contactlog"));
     }
 
     public function showContactLogs(Request $request, $camp_id, $applicant_id)
