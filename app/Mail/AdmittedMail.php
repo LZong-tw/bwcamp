@@ -24,7 +24,7 @@ class AdmittedMail extends Mailable
         $this->applicant = $applicant;
         $this->campFullData = $campFullData;
         $this->attachment = $attachment;        
-        $this->etc = $this->applicant->user->roles->where("camp_id", \App\Models\Vcamp::find($this->applicant->camp->id)->mainCamp->id)->first()?->section;
+        $this->etc = $this->applicant->user?->roles?->where("camp_id", \App\Models\Vcamp::find($this->applicant->camp->id)->mainCamp->id)->first()?->section;
     }
 
     /**
