@@ -17,7 +17,12 @@
     <tr>
         <td>班級：{{ $applicant->lrclass }}</td>
         <td>姓名：{{ $applicant->name }}</td>
-        <td>組別：{{ $applicant->groupRelation?->alias ?? "異常，請回報主辦單位" }}</td> 
+        <td>
+            組別：{{ $applicant->user->roles->where(
+                        "camp_id",
+                        \App\Models\Vcamp::find($applicant->camp->id)->mainCamp->id
+                    )->first()->section }}<br>
+        </td> 
     </tr>
 </table><br>
 
@@ -49,17 +54,17 @@
     <li>
         全體義工提升，鼓勵大家踴躍參加。 <br>
         <table width="100%" style="table-layout:fixed; border: 1px solid #ccc;">
-            <tr>
-                <td>日　期</td>
-                <td>時　間</td>
-                <td>主　場　地</td> 
-                <td>備　註</td>
+            <tr style="table-layout:fixed; border: 1px solid #ccc;">
+                <td style="table-layout:fixed; border: 1px solid #ccc;">日　期</td>
+                <td style="table-layout:fixed; border: 1px solid #ccc;">時　間</td>
+                <td style="table-layout:fixed; border: 1px solid #ccc;">主　場　地</td> 
+                <td style="table-layout:fixed; border: 1px solid #ccc;">備　註</td>
             </tr>
-            <tr>
-                <td>6/29(六)</td>
-                <td>09:00&nbsp;~&nbsp;11:30</td>
-                <td>台北光北教室(台北市光復北路112號)</td>
-                <td>場地分配及其他連線點另行通知</td>
+            <tr style="table-layout:fixed; border: 1px solid #ccc;">
+                <td style="table-layout:fixed; border: 1px solid #ccc;">6/29(六)</td>
+                <td style="table-layout:fixed; border: 1px solid #ccc;">09:00&nbsp;~&nbsp;11:30</td>
+                <td style="table-layout:fixed; border: 1px solid #ccc;">台北光北教室(台北市光復北路112號)</td>
+                <td style="table-layout:fixed; border: 1px solid #ccc;">場地分配及其他連線點另行通知</td>
             </tr>
         </table>
     </li>
