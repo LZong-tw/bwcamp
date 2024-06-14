@@ -1572,7 +1572,7 @@ class BackendController extends Controller
             $query->where('batchs.id', $request->batch_id);
         }
         if ($request->isMethod("post")) {
-            $query = $query->whereRaw(\DB::raw($queryStr));
+            $query = $queryStr != "" ? $query->whereRaw(\DB::raw($queryStr)) : $query;
             $request->flash();
         }
         $applicants = $query->get();
@@ -1853,7 +1853,7 @@ class BackendController extends Controller
             ->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id')
             ->where('camps.id', $this->campFullData->vcamp->id)->withTrashed();
         if ($request->isMethod("post")) {
-            $query = $query->where(\DB::raw($queryStr), 1);
+            $query = $queryStr != "" ? $query->where(\DB::raw($queryStr), 1) : $query;
         }
         $applicants = $query->get();
         $applicants = $applicants->each(fn ($applicant) => $applicant->id = $applicant->applicant_id);
