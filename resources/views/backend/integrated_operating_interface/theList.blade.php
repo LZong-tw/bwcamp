@@ -54,7 +54,7 @@
     <div class="divTelCallResult" style="display:none">
     @if(isset($dynamic_stats) && !is_array($dynamic_stats) && $dynamic_stats->isNotEmpty())
         @foreach($dynamic_stats as $stat)
-            <iframe src="{{ $stat->google_sheet_url }}" width="100%" height="480">Your browser isn't compatible</iframe>
+            <iframe src="{{ $stat->google_sheet_url }}" width="100%" style="height: 90vh;">Your browser isn't compatible</iframe>
         @endforeach
     @else
         無電訪結果可查看<br>
