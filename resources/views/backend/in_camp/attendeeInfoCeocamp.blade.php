@@ -238,7 +238,7 @@
                 <b>同意個資使用</b>：@if($applicant->profile_agree) 是 @else 否
                 @endif<br>
                 <b>同意肖像權使用</b>：@if($applicant->portrait_agree) 是 @else 否 @endif<br>
-                <b>繳費虛擬帳號</b>：{{$applicant->bank_second_barcode}}<br>
+                <b>繳費虛擬帳號</b>：上海銀行(011){{$applicant->bank_second_barcode ?? ""}}<br>
                 <b>應繳金額</b>：{{$applicant->lodging?->fare ?? 0}}<br>
                 <b>已繳金額</b>：{{$applicant->lodging?->deposit ?? 0}}<br>
             </div>
