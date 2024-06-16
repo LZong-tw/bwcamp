@@ -18,6 +18,7 @@ use App\Mail\QueuedApplicantMail;
 use App\Jobs\SendApplicantMail;
 use View;
 use App\Traits\EmailConfiguration;
+use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
 
 class CampController extends Controller
@@ -269,6 +270,7 @@ class CampController extends Controller
             // $applicant 為最終報名資料
             $controller = $this;
             $applicant = \DB::transaction(function () use ($formData, $controller) {
+                DB::statement("SET SESSION sql_mode = '';");
                 $applicant = Applicant::create($formData);
                 $formData['applicant_id'] = $applicant->id;
                 $model = '\\App\\Models\\' . ucfirst($this->camp_data->table);
