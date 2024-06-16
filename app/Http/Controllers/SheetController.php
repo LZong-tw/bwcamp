@@ -3,21 +3,27 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Services\ApplicantService;
 use App\Services\GSheetService;
 use App\Models\Applicant;
 use App\Models\Camp;
 use App\Models\Vcamp;
+use App\Models\Lodging;
 
 
 class SheetController extends Controller
 {
     protected $gsheetservice;
+    protected $applicantService;
     /**
      * 建構子
      */
-    public function __construct(GSheetService $gsheetservice)
-    {
+    public function __construct(
+        GSheetService $gsheetservice,
+        ApplicantService $applicantService
+    ) {
         $this->gsheetservice = $gsheetservice;
+        $this->applicantService = $applicantService;
     }
 
     public function Sheet()
@@ -278,5 +284,149 @@ class SheetController extends Controller
             sleep(1);   //1 second
             usleep(5000);   //5 millisecond
         }
-}
+    }
+    
+    public function exportGSBmbd(Request $request)
+    {   
+        //將報名報到結果寫回GS
+        $camp = Camp::find($request->camp_id);
+        $table = $camp->table;
+
+        if ($table == 'ecamp') {
+            config([
+                //ecamp
+                'google.post_spreadsheet_id' => '1ihb-bcwwW8JItIyH692YniCJ03yyuqonXOseObExlvc',
+                'google.post_sheet_id' => 'ecamp',
+            ]);
+        } else if ($table == 'evcamp') {
+            config([
+                //evcamp
+                'google.post_spreadsheet_id' => '1ihb-bcwwW8JItIyH692YniCJ03yyuqonXOseObExlvc',
+                'google.post_sheet_id' => 'evcamp',
+            ]);
+        } else if ($table == 'ceocamp') {
+            config([
+                //evcamp
+                'google.post_spreadsheet_id' => '1GUvMO-GDdbfq3gVDHUMt_HTcEsj3dNFir5dO5KlnAGQ',
+                'google.post_sheet_id' => 'ceocamp',
+            ]);
+        } else if ($table == 'ceovcamp'){
+            config([
+                //ceocamp
+                'google.post_spreadsheet_id' => '1GUvMO-GDdbfq3gVDHUMt_HTcEsj3dNFir5dO5KlnAGQ',
+                'google.post_sheet_id' => 'ceovcamp',
+            ]);
+        } else {
+            exit(1);
+        }
+        /*
+        //$sheets = $this->gsheetservice->Get(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
+
+        $applicants = Applicant::select('applicants.*', $table . '.*')
+        ->join($table, 'applicants.id', '=', $table . '.applicant_id')
+        ->join('batchs','applicants.batch_id', '=', 'batchs.id')
+        ->join('camps', 'batchs.camp_id', '=', 'camps.id')
+        ->where('camps.id', $request->camp_id)
+        ->orderBy('applicants.id')
+        ->get();
+
+        $columns = config('camps_fields.export4stat.' . $table) ?? [];
+        foreach($columns as $key => $v) {
+            $rows[] = $v;
+        }
+
+        if($request->app_id==0) {
+            $this->gsheetservice->Clear(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
+            $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $rows);  
+        }*/
+    }
+
+    public function importGSStatus(Request $request)
+    {
+        config([
+            //ceocamp
+            'google.post_spreadsheet_id' => '1nTogm6qganBoxUmYnaw1BQwGnJs3yiy6vDFxJ1M7V58',
+            'google.post_sheet_id' => '表單回應 2',
+        ]);
+
+        $camp = Camp::find($request->camp_id);
+        $table = $camp->table;
+        $fare_room = config('camps_payments.fare_room.'.$table) ?? [];
+
+        $sheets = $this->gsheetservice->Get(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
+        $titles = $sheets[0];
+        $num_cols = count($titles);
+        $num_rows = count($sheets);
+        //dd($titles);
+
+        $title_tg1 = "報名序號";
+        $title_tg2 = "是否參加營隊";
+        $title_tg3 = "住宿房型";
+        $colidx1 = 0;
+        $colidx2 = 0;
+        $colidx3 = 0;
+
+        //find title
+        for ($i=1; $i<$num_cols; $i++) {
+            if (str_contains($titles[$i], $title_tg1)) {
+                $colidx1 = $i;
+            } else if (str_contains($titles[$i], $title_tg2)) {
+                $colidx2 = $i;
+            } else if (str_contains($titles[$i], $title_tg3)) {
+                $colidx3 = $i;
+            }
+        }
+
+        //$success_count = 0;
+        //$fail_count = 0;
+        $ids = array();
+        $is_attends = array();
+        $room_types = array();
+        for ($j=1; $j<$num_rows; $j++) {
+            $data = $sheets[$j];
+            if (count($data) > 2) { //已調查
+                array_push($ids, $data[$colidx1]);
+                //$is_attends[$data[$colidx1]] = ($data[$colidx2]?? "");
+                if (isset($data[$colidx2])) {
+                    if ($data[$colidx2] == "是")
+                        $is_attends[$data[$colidx1]] = 1;
+                    elseif ($data[$colidx2] == "否")
+                        $is_attends[$data[$colidx1]] = 0;
+                    elseif ($data[$colidx2] == "不確定")
+                        $is_attends[$data[$colidx1]] = 2;
+                }
+                $room_types[$data[$colidx1]] = ($data[$colidx3]?? "");
+            }
+        }
+        $applicants = Applicant::select('applicants.*')
+            ->whereIn('id', $ids)->get();
+        
+        //try {
+            foreach ($applicants as $applicant) {
+                $applicant->is_attend = ($is_attends[$applicant->id]?? null);
+                if ($room_types[$applicant->id] == "") {
+                    $applicant->save();
+                } else {             
+                    $lodging = $applicant->lodging;
+                    //尚未登記，建新的Lodging
+                    if (!isset($lodging)) {
+                        $lodging = new Lodging;
+                        $lodging->applicant_id = $applicant->id;
+                    }
+                    //更新房型、天數及應繳車資
+                    $lodging->room_type = $room_types[$applicant->id];
+                    $lodging->nights = 1;
+                    $lodging->fare = ($fare_room[$lodging->room_type] ?? 0) * ($lodging->nights ?? 0);
+                    $lodging->save();
+                    //update barcode
+                    $applicant = $this->applicantService->fillPaymentData($applicant);
+                    $applicant->save();
+                }
+            }
+        //}
+        //catch(\Exception $e){
+        //    logger($e);
+        //} 
+        return;
+    }
 }
