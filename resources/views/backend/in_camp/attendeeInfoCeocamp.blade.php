@@ -238,7 +238,7 @@
                 <b>同意個資使用</b>：@if($applicant->profile_agree) 是 @else 否
                 @endif<br>
                 <b>同意肖像權使用</b>：@if($applicant->portrait_agree) 是 @else 否 @endif<br>
-                <b>繳費虛擬帳號</b>：{{$applicant->bank_second_barcode}}<br>
+                <b>繳費虛擬帳號</b>：上海銀行(011){{$applicant->bank_second_barcode ?? ""}}<br>
                 <b>應繳金額</b>：{{$applicant->lodging?->fare ?? 0}}<br>
                 <b>已繳金額</b>：{{$applicant->lodging?->deposit ?? 0}}<br>
             </div>
@@ -313,10 +313,17 @@
     @endif
     @if($dynamic_stat_urls)
         <div class="container">
-            @foreach($dynamic_stat_urls as $key => $url)
-                <div class="row mt-3">
-                    <!--a href="{{ $url }}" target="_blank" class="btn btn-primary mb-3">{{ $key }}</a-->
-                    <br>
+            <div class="row mt-3">
+                <h4>請選擇電訪表：
+                @foreach($dynamic_stat_urls as $purpose => $url)
+                <label class=radio-inline>
+                <input type=radio name='sel_url' onClick='showTelCallForm("{{ $purpose }}");'> 顯示{{ $purpose }}  
+                </label>
+                @endforeach
+                </h4>
+            </div>
+            @foreach($dynamic_stat_urls as $purpose => $url)
+                <div class="row mt-3 divTelCallForm" style="display:none" id='{{ $purpose }}'>
                     <iframe src="{{ $url }}">Your browser isn't compatible</iframe>
                 </div>
             @endforeach
@@ -324,10 +331,21 @@
     @endif
 @endif
 <script>
-        function enableEditRemark(){
-            document.getElementById("remark").readOnly=false;
-            document.getElementById("editremark").disabled=false;
+    function enableEditRemark(){
+        document.getElementById("remark").readOnly=false;
+        document.getElementById("editremark").disabled=false;
+    }
+    function showTelCallForm(purpose){
+        console.log(purpose);      
+        urls = document.getElementsByClassName('divTelCallForm');
+        for (var i = 0; i < urls.length; i++){
+            console.log(urls[i].id);
+            if (urls[i].id == purpose) {
+                urls[i].style.display = '';
+            } else {
+                urls[i].style.display = 'none';
+            }
         }
+    }
 </script>
-
 @endsection
