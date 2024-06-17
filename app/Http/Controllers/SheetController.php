@@ -248,6 +248,7 @@ class SheetController extends Controller
             if($applicant->applicant_id <= $request->app_id) {
                 continue;
             }
+            $applicant->id = $applicant->applicant_id;
             $rows = array();
             foreach($columns as $key => $v) {
                 $data = null;
@@ -275,6 +276,10 @@ class SheetController extends Controller
                     $user = ($applicant->user ?? null);
                     $roles = ($user)? $user->roles->where('camp_id', $main_camp_id): null;
                     $data = ($roles)? $roles->flatten()->pluck('position')->implode(','): "";
+                } else if($key == "fare") {
+                    $data = ($applicant->lodging?->fare) ?? "";
+                } else if($key == "deposit") {
+                    $data = ($applicant->lodging?->deposit) ?? "";
                 } else {
                     $data = $applicant->$key;
                 }
