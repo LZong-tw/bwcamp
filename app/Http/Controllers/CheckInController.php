@@ -92,7 +92,7 @@ class CheckInController extends Controller {
         if ($group) {
             $group = $this->camp->groups()->where('alias', 'like', '%' . $group . '%')->first();
             if ($number) {
-                $number = $group->numbers()->where("number", $number)->get();
+                $number = $group?->numbers()?->where("number", $number)->get();
             }
         }
         $applicants = Applicant::with(['batch', 'batch.camp' => $constraint, 'groupRelation', 'numberRelation'])
