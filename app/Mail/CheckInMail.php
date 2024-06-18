@@ -49,6 +49,13 @@ class CheckInMail extends Mailable
                     ->view('camps.' . $this->applicant->batch->camp->table . ".checkInMail");
         }
         else{
+            if ($this->applicant->batch->camp->table == 'evcamp') {
+                return $this->subject($this->applicant->batch->camp->abbreviation . '錄取及報到通知單')
+                    ->view('camps.' . $this->applicant->batch->camp->table . ".checkInMail")
+                    ->attachData($this->attachment, $this->applicant->batch->camp->abbreviation . $this->applicant->id . $this->applicant->name . 'QR code 報到單.pdf', [
+                        'mime' => 'application/pdf',
+                    ]);
+            }
             return $this->subject($this->applicant->batch->camp->abbreviation . '報到通知')
                     ->view('camps.' . $this->applicant->batch->camp->table . ".checkInMail")
                     ->attachData($this->attachment, $this->applicant->batch->camp->abbreviation . $this->applicant->id . $this->applicant->name . 'QR code 報到單.pdf', [
