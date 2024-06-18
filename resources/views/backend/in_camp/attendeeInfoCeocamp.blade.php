@@ -311,13 +311,13 @@
             @endforeach
         </div>
     @endif
-    @if($dynamic_stat_urls)
+    @if($dynamic_stat_urls && $dynamic_stat_urls != "FAILED.")
         <div class="container">
             <div class="row mt-3">
                 <h4>請選擇電訪表：
                 @foreach($dynamic_stat_urls as $purpose => $url)
                 <label class=radio-inline>
-                <input type=radio name='sel_url' onClick='showTelCallForm("{{ $purpose }}");'> 顯示{{ $purpose }}  
+                <input type=radio name='sel_url' onClick='showTelCallForm("{{ $purpose }}");'> 顯示{{ $purpose }}
                 </label>
                 @endforeach
                 </h4>
@@ -328,6 +328,12 @@
                 </div>
             @endforeach
         </div>
+    @elseif ($dynamic_stat_urls != "FAILED.")
+        <div class="container">
+            <div class="row mt-3">
+                Google 服務異常，請重新整理或稍後再試。
+            </div>
+        </div>
     @endif
 @endif
 <script>
@@ -336,7 +342,7 @@
         document.getElementById("editremark").disabled=false;
     }
     function showTelCallForm(purpose){
-        console.log(purpose);      
+        console.log(purpose);
         urls = document.getElementsByClassName('divTelCallForm');
         for (var i = 0; i < urls.length; i++){
             console.log(urls[i].id);
