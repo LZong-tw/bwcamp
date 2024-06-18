@@ -2151,6 +2151,10 @@ class BackendController extends Controller
     public function editRemark(Request $request, $camp_id)
     {
         $formData = $request->toArray();
+        if (!isset($formData['applicant_id'])) {
+            \Sentry\captureMessage("學員 / 義工註記沒報名序號。 Request 內容：" . $request);
+            return "<h1>找不到報名序號</h1>";
+        }
         $applicant_id = $formData['applicant_id'];
         $applicant = Applicant::find($applicant_id);
         $applicant->remark=$formData['remark'];
