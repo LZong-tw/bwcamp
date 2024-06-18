@@ -161,13 +161,15 @@ class checkPayment extends Command
                         $applicant->deposit = $applicant->deposit + $item["繳款金額"];
                         if($this->argument('camp') == 'hcamp'){
                             $applicant->is_admitted = 1;
-                        }
-                        $applicant->save();
-
-                        if ($this->argument('camp') == 'ycamp') {
+                            $applicant->save();
+                        } else if ($this->argument('camp') == 'ycamp') {
                             $traffic = $applicant->traffic;
                             $traffic->deposit = $applicant->deposit;
                             $traffic->save();
+                        } else if ($this->argument('camp') == 'ceocamp') {
+                            $lodging = $applicant->lodging;
+                            $lodging->deposit = $applicant->deposit;
+                            $lodging->save();
                         }
                     }                    
                 }
