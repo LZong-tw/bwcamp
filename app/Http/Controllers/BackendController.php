@@ -1476,7 +1476,7 @@ class BackendController extends Controller
                     }
                 }
             } catch (\Exception $e) {
-                $dynamic_stat_urls = "FAILED."
+                $dynamic_stat_urls = "FAILED.";
                 \Sentry\captureException($e);
             }
         }
