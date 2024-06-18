@@ -259,7 +259,7 @@
                     <b>無關懷記錄</b>
                     @endif
                     <a href="{{ route('showContactLogs', [$camp->id, $applicant->applicant_id]) }}" class="btn btn-secondary float-right">更多關懷記錄</a><br><br>
-                    
+
                     <h5>回饋單內容</h5>
                     <div class="container">
                     <a href="{{ route('showGSFeedback', [$camp->id, $applicant->applicant_id,1]) }}">第一天回饋單</a><br>
@@ -281,7 +281,7 @@
             @endforeach
         </div>
     @endif
-    @if($dynamic_stat_urls)
+    @if($dynamic_stat_urls && $dynamic_stat_urls != "FAILED.")
         <div class="container">
             @foreach($dynamic_stat_urls as $key => $url)
                 <div class="row mt-3">
@@ -290,6 +290,12 @@
                     <iframe src="{{ $url }}">Your browser isn't compatible</iframe>
                 </div>
             @endforeach
+        </div>
+    @elseif ($dynamic_stat_urls != "FAILED.")
+        <div class="container">
+            <div class="row mt-3">
+                Google 服務異常，請重新整理或稍後再試。
+            </div>
         </div>
     @endif
 @endif

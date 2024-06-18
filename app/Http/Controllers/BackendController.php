@@ -1464,16 +1464,20 @@ class BackendController extends Controller
         $dynamic_stat_urls = null;
         if ($applicant->batch->dynamic_stats) {
             $applicant->url = "";
-            foreach($applicant->batch->dynamic_stats
-             as $stat) {
-                $sheet = $this->gsheetService->Get($stat->spreadsheet_id, $stat->sheet_name);
-                //look-up applicant_id
-                foreach ($sheet as $row) {
-                    if ($row[0] == $applicant->applicant_id) {
-                        $dynamic_stat_urls[$stat->purpose] = $row[1];
-                        break;
+            try {
+                foreach($applicant->batch->dynamic_stats as $stat) {
+                    $sheet = $this->gsheetService->Get($stat->spreadsheet_id, $stat->sheet_name);
+                    //look-up applicant_id
+                    foreach ($sheet as $row) {
+                        if ($row[0] == $applicant->applicant_id) {
+                            $dynamic_stat_urls[$stat->purpose] = $row[1];
+                            break;
+                        }
                     }
                 }
+            } catch (\Exception $e) {
+                $dynamic_stat_urls = "FAILED."
+                \Sentry\captureException($e);
             }
         }
 
