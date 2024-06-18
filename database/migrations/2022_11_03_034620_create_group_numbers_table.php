@@ -19,8 +19,6 @@ return new class extends Migration
             $table->integer('applicant_id');
             $table->integer('number');
             $table->timestamps();
-
-            $table->unique(['group_id', 'applicant_id', 'number']);
         });
     }
 
