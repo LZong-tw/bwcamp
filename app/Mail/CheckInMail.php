@@ -13,7 +13,7 @@ class CheckInMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $applicant, $org, $attachment;
+    public $applicant, $org, $attachment, $etc;
 
     /**
      * Create a new message instance.
@@ -25,6 +25,7 @@ class CheckInMail extends Mailable
         $this->applicant = $applicant;
         $this->org = $org;
         $this->attachment = $attachment;
+        $this->etc = $this->applicant->user?->roles?->where("camp_id", \App\Models\Vcamp::find($this->applicant->camp->id)->mainCamp->id)->first()?->section;
     }
 
     /**
