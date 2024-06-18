@@ -23,7 +23,7 @@ class AdmittedMail extends Mailable
         //
         $this->applicant = $applicant;
         $this->campFullData = $campFullData;
-        $this->attachment = $attachment;
+        $this->attachment = $attachment;        
         $this->etc = $this->applicant->user?->roles?->where("camp_id", \App\Models\Vcamp::find($this->applicant->camp->id)->mainCamp->id)->first()?->section;
     }
 
@@ -43,10 +43,6 @@ class AdmittedMail extends Mailable
 
         if($this->campFullData->table == 'ceocamp' || $this->campFullData->table == 'ecamp'){
             return $this->subject($this->campFullData->abbreviation . '錄取通知')
-                ->view('camps.' . $this->campFullData->table . ".admittedMail");
-        }
-        if($this->campFullData->table == 'evcamp'){
-            return $this->subject($this->campFullData->abbreviation . '錄取及報到通知單')
                 ->view('camps.' . $this->campFullData->table . ".admittedMail");
         }
         if(!$this->attachment){
