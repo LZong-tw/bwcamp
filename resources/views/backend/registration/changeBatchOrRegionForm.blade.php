@@ -113,9 +113,9 @@
                 @if (is_string($c))
                     @continue
                 @endif
-                <input type="hidden" name="applicant_id[]" id="{{ $c->applicant_id }}_id">
-                <input type="hidden" name="batch_id_new[]" id="{{ $c->applicant_id }}_batch_id">
-                <input type="hidden" name="region_id_new[]" id="{{ $c->applicant_id }}_region_id">
+                <input type="hidden" name="applicant_id[]" id="{{ $c->applicant_id }}_id" value="{{ $c->applicant_id }}">
+                <input type="hidden" name="batch_id_new[]" id="{{ $c->applicant_id }}_batch_id" value="{{ $c->batch_id }}">
+                <input type="hidden" name="region_id_new[]" id="{{ $c->applicant_id }}_region_id" value="{{ $c->region_id }}">
             @endforeach
             <input type="submit" class="btn btn-success" value="送出修改">
         </form>
