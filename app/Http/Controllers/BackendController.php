@@ -349,8 +349,11 @@ class BackendController extends Controller
         $result = [];
         $candidate = null;
         if (str_contains($request->snORadmittedSNorName, ',')) {
-            $candidates = explode(',', $request->snORadmittedSNorName);
+            $candidates = array_unique(explode(',', $request->snORadmittedSNorName));
             foreach ($candidates as $c) {
+                if ($c == "") {
+                    continue;
+                }
                 $groupAndNumber = $this->applicantService->groupAndNumberSeperator($c);
                 $group = $groupAndNumber['group'];
                 $number = $groupAndNumber['number'];
@@ -730,6 +733,36 @@ class BackendController extends Controller
             $regions = $this->campFullData->regions;
             $candidate = $candidate->refresh();
             return view('backend.registration.changeBatchOrRegionForm', compact('candidate', 'message', 'batches', 'regions'));
+        } else {
+            return view("backend.registration.changeBatchOrRegion");
+        }
+    }
+
+    public function massChangeBatchOrRegion(Request $request)
+    {
+        if (!$this->isVcamp && !$this->user->canAccessResource(new \App\Models\Applicant(), 'read', $this->campFullData, 'onlyCheckAvailability') && $this->user->id > 2) {
+            return "<h3>沒有權限：瀏覽任何學員</h3>";
+        }
+        if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer(), 'read', Vcamp::find($this->campFullData->id)->mainCamp, 'onlyCheckAvailability') && $this->user->id > 2) {
+            return "<h3>沒有權限：瀏覽任何義工</h3>";
+        }
+        if ($request->isMethod('POST')) {
+            $message = "";
+            $result = [];
+            foreach ($request->applicant_id as $key => $a_id) {
+                $candidate = Applicant::find($a_id);
+                $candidate->batch_id = $request->batch_id_new[$key];
+                $candidate->region_id = $request->region_id_new[$key];
+                $candidate->region = Region::find($request->region_id_new[$key])?->name;
+                $candidate->save();
+                $message .= $a_id . " " . $candidate->name . "修改完成 <br>";
+                $batches = Batch::where('camp_id', $this->campFullData->id)->get();
+                $regions = $this->campFullData->regions;
+                $candidate = $candidate->refresh();
+                $result[] = $this->applicantService->Mandarization($candidate);
+            }
+            $candidate = null;
+            return view('backend.registration.changeBatchOrRegionForm', compact('candidate', 'message', 'batches', 'regions', 'result'));
         } else {
             return view("backend.registration.changeBatchOrRegion");
         }
