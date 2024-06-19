@@ -751,8 +751,8 @@ class BackendController extends Controller
             $result = [];
             foreach ($request->applicant_id as $key => $a_id) {
                 $candidate = Applicant::find($a_id);
-                $candidate->batch_id = $request->batch_id_new[$key];
-                $candidate->region_id = $request->region_id_new[$key];
+                $candidate->batch_id = $request->batch_id_new[$key] ?? $candidate->batch_id;
+                $candidate->region_id = $request->region_id_new[$key] ?? $candidate->region_id;
                 $candidate->region = Region::find($request->region_id_new[$key])?->name;
                 $candidate->save();
                 $message .= $a_id . " " . $candidate->name . "修改完成 <br>";
