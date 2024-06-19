@@ -750,12 +750,21 @@ class BackendController extends Controller
             $message = "";
             $result = [];
             foreach ($request->applicant_id as $key => $a_id) {
+                $notChanged = false;
                 $candidate = Applicant::find($a_id);
+                if ($candidate->batch_id == $request->batch_id_new[$key] && $candidate->region_id == $request->region_id_new[$key]) {
+                    $notChanged = true;
+                }
                 $candidate->batch_id = $request->batch_id_new[$key] ?? $candidate->batch_id;
                 $candidate->region_id = $request->region_id_new[$key] ?? $candidate->region_id;
                 $candidate->region = Region::find($request->region_id_new[$key])?->name;
-                $candidate->save();
-                $message .= $a_id . " " . $candidate->name . "修改完成 <br>";
+                if ($notChanged) {
+                    $message .= $a_id . " " . $candidate->name . "未修改。 <br>";
+                }
+                else {
+                    $candidate->save();
+                    $message .= $a_id . " " . $candidate->name . "修改完成。 <br>";
+                }
                 $batches = Batch::where('camp_id', $this->campFullData->id)->get();
                 $regions = $this->campFullData->regions;
                 $candidate = $candidate->refresh();
