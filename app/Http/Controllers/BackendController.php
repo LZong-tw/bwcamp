@@ -759,11 +759,11 @@ class BackendController extends Controller
                 $candidate->region_id = $request->region_id_new[$key] ?? $candidate->region_id;
                 $candidate->region = Region::find($request->region_id_new[$key])?->name;
                 if ($notChanged) {
-                    $message .= $a_id . " " . $candidate->name . "未修改。 <br>";
+                    $message .= $a_id . " " . $candidate->name . " <u>未修改</u>。 <br>";
                 }
                 else {
                     $candidate->save();
-                    $message .= $a_id . " " . $candidate->name . "修改完成。 <br>";
+                    $message .= $a_id . " " . $candidate->name . " <strong>修改完成</strong>。 <br>";
                 }
                 $batches = Batch::where('camp_id', $this->campFullData->id)->get();
                 $regions = $this->campFullData->regions;
