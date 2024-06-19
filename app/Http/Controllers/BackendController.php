@@ -759,6 +759,7 @@ class BackendController extends Controller
                 $batches = Batch::where('camp_id', $this->campFullData->id)->get();
                 $regions = $this->campFullData->regions;
                 $candidate = $candidate->refresh();
+                $candidate->applicant_id = $candidate->id;
                 $result[] = $this->applicantService->Mandarization($candidate);
             }
             $candidate = null;
