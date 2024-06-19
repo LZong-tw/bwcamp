@@ -109,6 +109,7 @@
             @endforeach
         </table>
         <form action="{{ route("changeBatchOrRegion", $campFullData->id) }}" method="post">
+            @csrf
             @foreach ($result as $c)
                 @if (is_string($c))
                     @continue
