@@ -55,15 +55,13 @@
             <div class="alert alert-success" role="alert">
                 {!! $message !!}
             </div>
-            <a href="{{ route("changeBatchOrRegionGET", $campFullData->id) }}" class="btn btn-primary">下一批</a>
-            <br>
+            <a href="{{ route("changeBatchOrRegionGET", $campFullData->id) }}" class="btn btn-primary mb-3">下一批</a>
         @endif
         @if(isset($error))
             <div class="alert alert-danger" role="alert">
                 {!! $error !!}
             </div>
-            <a href="{{ route("changeBatchOrRegionGET", $campFullData->id) }}" class="btn btn-primary">下一批</a>
-            <br>
+            <a href="{{ route("changeBatchOrRegionGET", $campFullData->id) }}" class="btn btn-primary mb-3">下一批</a>
         @endif
         <table class="table table-bordered">
             <tr>
