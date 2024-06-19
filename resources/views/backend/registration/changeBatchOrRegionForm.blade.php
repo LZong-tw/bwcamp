@@ -53,12 +53,12 @@
     @elseif (count($result))
         @if(isset($message))
             <div class="alert alert-success" role="alert">
-                {{ $message }}
+                {!! $message !!}
             </div>
         @endif
         @if(isset($error))
             <div class="alert alert-danger" role="alert">
-                {{ $error }}
+                {!! $error !!}
             </div>
         @endif
         <table class="table table-bordered">
