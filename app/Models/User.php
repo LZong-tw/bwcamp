@@ -170,6 +170,10 @@ class User extends Authenticatable
                 $camp = Vcamp::query()->find($target->camp->id)->mainCamp;
             }
             $class = get_class($resource);
+            
+            if ($resource instanceof \App\Models\Volunteer) {
+                $class = "App\\Models\\Applicant";
+            }
 
             // 全域權限，不多但還是做預留，避免意外
             // Retrieve or compute the global permissions.
