@@ -546,7 +546,7 @@ class User extends Authenticatable
                         ->orWhere("position", "like", "%關服組%");
                 })->firstWhere('all_group', 1));
             }
-            elseif ($target && (str_contains($class, "User") && $context == "vcamp" && $action == "read")) {
+            elseif ($target && (str_contains($class, "User") && ($context == "vcamp" || $context == "vcampExport") && $action == "read")) {
                 $roles = $this->roles()->where('group_id', '<>', null)->where("camp_id", $camp->id);
                 if ($probing) {
                     dd("third if", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
