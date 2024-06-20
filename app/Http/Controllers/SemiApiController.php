@@ -79,10 +79,10 @@ class SemiApiController extends Controller
                     ->getCampOrganizations($camp);
         $orgs = $orgs->map(function ($org) use ($vbatches) {
             if ($vbatches->contains($org->batch)) {
-                $org->camp_name = $org->id . " 義工";
+                $org->camp_name = "義工";
             }
             else {
-                $org->camp_name = $org->id . " 學員";
+                $org->camp_name = "學員";
             }
             return $org;
         });
@@ -106,7 +106,7 @@ class SemiApiController extends Controller
                         $org->section = str_replace("root.", " - ", $org->section);
                         $org->section = "[" . $org->camp_name . "]" . $org->batch_name . "：" . $org->region_name . $org->section;
                     }
-                })->sortBy('303');
+                })->unique()->sortBy('order');
         return response()->json($orgs);
     }
 
