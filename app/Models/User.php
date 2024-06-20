@@ -171,7 +171,7 @@ class User extends Authenticatable
             }
             $class = get_class($resource);
             
-            if ($resource instanceof \App\Models\Volunteer) {
+            if ($resource instanceof \App\Models\Volunteer && $context == "vcampExport") {
                 $class = "App\\Models\\Applicant";
             }
 
