@@ -106,7 +106,7 @@ class SemiApiController extends Controller
                         $org->section = str_replace("root.", " - ", $org->section);
                         $org->section = "[" . $org->camp_name . "]" . $org->batch_name . "：" . $org->region_name . $org->section;
                     }
-                })->unique()->sortBy('camp_name');
+                })->sortBy('303');
         return response()->json($orgs);
     }
 
