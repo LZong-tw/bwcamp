@@ -15,7 +15,8 @@
              str_contains($currentUser->email, "ichen0752@gmail.com") ||
              str_contains($currentUser->email, "vincentchuang@gmail.com") ||
              str_contains($currentUser->email, "yinghsia.chen@blisswisdom.org") ||
-             str_contains($currentUser->email, "angus56789@gmail.com"))
+             str_contains($currentUser->email, "angus56789@gmail.com") ||
+             str_contains($currentUser->email, "wanmeikou@gmail.com") )
             <a href="{{ route("export", $campFullData->id) }}?vcamp={{ $isShowVolunteers }}" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">匯出資料</a>
         @endif
         @if($isShowLearners)            &nbsp;&nbsp;
