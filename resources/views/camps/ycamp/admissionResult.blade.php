@@ -141,7 +141,7 @@
 
                 <p class="card-text text-right">主辦單位：財團法人福智文教基金會／國立雲林科技大學　敬啟</p>
                 <p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
-            @elseif($applicant->created_at->gte(\Carbon\Carbon::parse('2023-06-20 00:00:00')))>
+            @elseif($applicant->created_at->gte(\Carbon\Carbon::parse('2024-06-21 00:00:00')))>
                 <!-----錄取中----->
                 <p class="card-text">親愛的 {{ $applicant->name }} 同學您好</p>
                 <p class="card-text indent">感謝您報名「{{ $camp_data->fullName }}」，錄取作業正在進行中，請稍後再進行錄取查詢。感謝您的耐心等待！</p>
