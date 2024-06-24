@@ -177,7 +177,7 @@ class User extends Authenticatable
 
             // Retrieve or compute the camp-specific role permissions.
             $this->rolePermissions = Cache::remember($cacheKeyRolePermissions, Config::get('cache.ttl'), function() use ($camp, $resource) {
-                return self::with('roles.permissions')->whereHas('roles', function ($query) use ($camp, $resource) {
+                $constraint = function ($query) use ($camp, $resource) {
                     $query->where(function ($query) use ($resource, $camp) {
                         // 順便做梯次檢查
                         if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer) {
@@ -191,7 +191,7 @@ class User extends Authenticatable
                                 });
                             }
                         }
-                        elseif ($resource instanceof \App\Models\User) {
+                        else if ($resource instanceof \App\Models\User) {
                             $theCamp = $camp->vcamp;
                             $theApplicant = $resource->application_log->whereIn('batch_id', $theCamp->batchs()->pluck('id'))->first();
                             if ($theApplicant) {
@@ -216,7 +216,7 @@ class User extends Authenticatable
                                 });
                             }
                         }
-                        elseif ($resource instanceof \App\Models\User) {
+                        else if ($resource instanceof \App\Models\User) {
                             $theCamp = $camp->vcamp;
                             $theApplicant = $resource->application_log->whereIn('batch_id', $theCamp->batchs()->pluck('id'))->first();
                             if ($theApplicant) {
@@ -231,7 +231,8 @@ class User extends Authenticatable
                         }
                         return $query->where('camp_id', $camp->id);
                     });
-                })->where('id', $this->id)->get()->pluck('roles')->flatten()->pluck('permissions')->flatten()->unique('id')->values();
+                };
+                return self::with(['roles' => $constraint, 'roles.permissions'])->whereHas('roles', $constraint)->where('id', $this->id)->get()->pluck('roles')->flatten()->pluck('permissions')->flatten()->unique('id')->values();
             });
 
             $permissions = $this->rolePermissions;
@@ -380,7 +381,7 @@ class User extends Authenticatable
             //                 ->filter(static fn($role) => $role->permissions->count() > 0)
             //                 ->map(static fn($role) => $role->permissions)
             //                 ->flatten()->unique('id')->values();
-            $this->rolePermissions = self::with('roles.permissions')->whereHas('roles', function ($query) use ($camp, $resource) {
+            $constraint = function ($query) use ($camp, $resource) {
                 $query->where(function ($query) use ($resource, $camp) {
                     // 順便做梯次檢查
                     if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer) {
@@ -434,7 +435,8 @@ class User extends Authenticatable
                     }
                     return $query->where('camp_id', $camp->id);
                 });
-            })->where('id', $this->id)->get()->pluck('roles')->flatten()->pluck('permissions')->flatten()->unique('id')->values();
+            };
+            $this->rolePermissions = self::with(['roles' => $constraint, 'roles.permissions'])->whereHas('roles', $constraint)->where('id', $this->id)->get()->pluck('roles')->flatten()->pluck('permissions')->flatten()->unique('id')->values();
             $permissions = $this->rolePermissions;
             $forInspect = $permissions->where("resource", "\\" . $class)->where("action", $action)->first();
             if ($forInspect) {
