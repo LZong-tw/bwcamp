@@ -175,12 +175,6 @@ class User extends Authenticatable
                 $class = "App\\Models\\Applicant";
             }
 
-            // 全域權限，不多但還是做預留，避免意外
-            // Retrieve or compute the global permissions.
-            $permissions = Cache::remember($cacheKeyPermissions, Config::get('cache.ttl'), function() {
-                return $this->permissions()->get();
-            });
-
             // Retrieve or compute the camp-specific role permissions.
             $this->rolePermissions = Cache::remember($cacheKeyRolePermissions, Config::get('cache.ttl'), function() use ($camp, $resource) {
                 return self::with('roles.permissions')->whereHas('roles', function ($query) use ($camp, $resource) {
@@ -240,7 +234,7 @@ class User extends Authenticatable
                 })->where('id', $this->id)->get()->pluck('roles')->flatten()->pluck('permissions')->flatten()->unique('id')->values();
             });
 
-            $permissions = $permissions ? collect($permissions)->merge($this->rolePermissions) : $this->rolePermissions;
+            $permissions = $this->rolePermissions;
 
             $cacheKeyForInspect = "for_inspect_user_" . $this->id . "_resource_" . $class . "_action_" . $action . "_camp_" . $camp->id;
 
@@ -381,8 +375,6 @@ class User extends Authenticatable
                 $class = "App\\Models\\Applicant";
             }
 
-            // 全域權限，不多但還是做預留，避免意外
-            $permissions = $this->permissions()->get();
             // 營隊權限
             // $this->rolePermissions = $this->roles()->where('camp_id', $camp->id)->get()
             //                 ->filter(static fn($role) => $role->permissions->count() > 0)
@@ -443,7 +435,7 @@ class User extends Authenticatable
                     return $query->where('camp_id', $camp->id);
                 });
             })->where('id', $this->id)->get()->pluck('roles')->flatten()->pluck('permissions')->flatten()->unique('id')->values();
-            $permissions = $permissions ? collect($permissions)->merge($this->rolePermissions) : $this->rolePermissions;
+            $permissions = $this->rolePermissions;
             $forInspect = $permissions->where("resource", "\\" . $class)->where("action", $action)->first();
             if ($forInspect) {
                 switch ($forInspect->range_parsed) {
