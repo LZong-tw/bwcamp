@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Traits\EmailConfiguration;
+use App\Models\Traffic;
+use App\Models\Lodging;
 
 class checkPayment extends Command
 {
@@ -167,10 +169,18 @@ class checkPayment extends Command
                             $applicant->save();
                         } else if ($this->argument('camp') == 'ycamp') {
                             $traffic = $applicant->traffic;
+                            if (!$traffic) {
+                                $traffic = new Traffic;
+                                $traffic->applicant_id = $applicant->id;
+                            }
                             $traffic->deposit = $applicant->deposit;
                             $traffic->save();
                         } else if ($this->argument('camp') == 'ceocamp') {
                             $lodging = $applicant->lodging;
+                            if (!$lodging) {
+                                $lodging = new Lodging;
+                                $lodging->applicant_id = $applicant->id;
+                            }
                             $lodging->deposit = $applicant->deposit;
                             $lodging->save();
                         }
