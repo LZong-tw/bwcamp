@@ -1841,16 +1841,33 @@ class BackendController extends Controller
             }
         }
         $registeredUsers = $registeredUsers->get();
-        $registeredUsers = $registeredUsers->filter(function($user) {
-            $cacheKey = "can_access_user_{$this->user->id}_registered_user_{$user->id}_camp_{$this->campFullData->id}_action_read_context_vcamp";
-            return Cache::remember($cacheKey, Config::get('cache.ttl'), function() use ($user) {
-                return $this->user->canAccessResource($user, 'read', $this->campFullData, target: $user, context: 'vcamp');
+        // Fetch accessible registered user IDs
+        $accessibleRegisteredUserIds = Ucaronr::where('user_id', $user->id)
+                                            ->where('camp_id', $this->campFullData->id)
+                                            ->where('accessible_type', 'App\Models\RegisteredUser')
+                                            ->where('can_access', 1)
+                                            ->pluck('accessible_id')->toArray();
+        // Cache filtered registered users
+        $cacheKeyRegisteredUsers = "filtered_registered_users_user_{$user->id}_camp_{$this->campFullData->id}";
+        $registeredUsers = Cache::remember($cacheKeyRegisteredUsers, Config::get('cache.ttl'), function() use ($registeredUsers, $accessibleRegisteredUserIds) {
+            return $registeredUsers->filter(function($user) use ($accessibleRegisteredUserIds) {
+                return in_array($user->id, $accessibleRegisteredUserIds);
             });
         });
-        $applicants = $applicants->filter(function($applicant) {
-            $cacheKey = "can_access_user_{$this->user->id}_applicant_{$applicant->id}_camp_{$this->campFullData->id}_action_read_context_vcamp";
-            return Cache::remember($cacheKey, Config::get('cache.ttl'), function() use ($applicant) {
-                return $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant, context: 'vcamp');
+
+
+        // Fetch accessible applicant IDs
+        $accessibleApplicantIds = Ucaronr::where('user_id', $user->id)
+                                        ->where('camp_id', $this->campFullData->id)
+                                        ->where('accessible_type', 'App\Models\Applicant')
+                                        ->where('can_access', 1)
+                                        ->pluck('accessible_id')->toArray();
+
+        // Cache filtered applicants
+        $cacheKeyApplicants = "filtered_applicants_user_{$user->id}_camp_{$this->campFullData->id}";
+        $applicants = Cache::remember($cacheKeyApplicants, Config::get('cache.ttl'), function() use ($applicants, $accessibleApplicantIds) {
+            return $applicants->filter(function($applicant) use ($accessibleApplicantIds) {
+                return in_array($applicant->id, $accessibleApplicantIds);
             });
         });
 
