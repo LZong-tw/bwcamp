@@ -171,7 +171,25 @@ class User extends Authenticatable
         if ($resource instanceof \App\Models\Volunteer && $context == "vcampExport") {
             $class = "App\\Models\\Applicant";
         }
-        $forInspect = $this->canAccessResult()->where(['accessible_type' => $class])->first();
+        $batch_id = null;
+        $region_id = null;
+        if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer) {
+            $batch_id = $resource->batch_id;
+            $region_id = $resource->region_id;
+        }
+        elseif ($resource instanceof \App\Models\User) {
+            $theCamp = $camp->vcamp;
+            $theApplicant = $resource->application_log->whereIn('batch_id', $theCamp->batchs()->pluck('id'))->first();
+            $batch_id = $theApplicant->batch_id;
+            $region_id = $theApplicant->region_id;
+        }
+        $forInspect = $this->canAccessResult()->where([
+                        'camp_id' => $camp->id,
+                        'batch_id' => $batch_id,
+                        'region_id' => $region_id,
+                        'accessible_id' => $target->id ?? null,
+                        'accessible_type' => $class
+                    ])->first();
         if ($forInspect) {
             return $forInspect->can_access;
         }
@@ -183,8 +201,23 @@ class User extends Authenticatable
     public function fillingAccessibleReult($resource, $action, $camp, $context = null, $target = null, $probing = null) {
         $result = $this->getAccessibleReult($resource, $action, $camp, $context, $target, $probing);
         $class = get_class($resource);
+        $batch_id = null;
+        $region_id = null;
+        if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer) {
+            $batch_id = $resource->batch_id;
+            $region_id = $resource->region_id;
+        }
+        elseif ($resource instanceof \App\Models\User) {
+            $theCamp = $camp->vcamp;
+            $theApplicant = $resource->application_log->whereIn('batch_id', $theCamp->batchs()->pluck('id'))->first();
+            $batch_id = $theApplicant->batch_id;
+            $region_id = $theApplicant->region_id;
+        }
         $this->canAccessResult()->firstOrCreate([
             'user_id' => $this->id,
+            'camp_id' => $camp->id,
+            'batch_id' => $batch_id,
+            'region_id' => $region_id,
             'accessible_id' => $target->id ?? null,
             'accessible_type' => $class,
             'can_access' => $result ? 1 : 0
