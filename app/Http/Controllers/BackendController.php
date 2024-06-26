@@ -32,6 +32,7 @@ use App\Traits\EmailConfiguration;
 use App\Models\SignInSignOut;
 use App\Exports\ApplicantsExport;
 use App\Models\Region;
+use App\Models\Ucaronr;
 use App\Services\GSheetService;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -1694,13 +1695,18 @@ class BackendController extends Controller
             }
         }
 
-        $applicants = $applicants->filter(function($applicant) {
-            // Generate a unique cache key for each applicant's access check
-            $cacheKey = "can_access_user_{$this->user->id}_applicant_{$applicant->id}_camp_{$this->campFullData->id}_action_read";
+        // Fetch list of accessible applicant IDs from `user_can_access_resource_or_not_results` table
+        $accessibleApplicantIds = Ucaronr::where('user_id', $user->id)
+                                    ->where('camp_id', $this->campFullData->id)
+                                    ->where('accessible_type', 'App\Models\Applicant')
+                                    ->where('can_access', 1)
+                                    ->pluck('accessible_id')->toArray();
 
-            // Cache the canAccessResource call
-            return Cache::remember($cacheKey, Config::get('cache.ttl'), function() use ($applicant) {
-                return $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant);
+        // Filter applicants based on the list of accessible IDs
+        $cacheKey = "accessible_applicants_user_{$user->id}_camp_{$this->campFullData->id}";
+        $applicants = Cache::remember($cacheKey, Config::get('cache.ttl'), function() use ($applicants, $accessibleApplicantIds) {
+            return $applicants->filter(function($applicant) use ($accessibleApplicantIds) {
+                return in_array($applicant->id, $accessibleApplicantIds);
             });
         });
 
