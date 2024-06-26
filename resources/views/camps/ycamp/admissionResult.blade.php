@@ -38,7 +38,7 @@
                 營隊日期：{{ $applicant->batch->batch_start }}(五) ~ {{ $applicant->batch->batch_end }}(一)，共4天<br>
                 營隊地點：{{ $applicant->batch->locationName }}({{ $applicant->batch->location }})<br>
                 </p>
-                <p class="card-text text-indent">此次營隊報名人數超過1,500人，錄取1,100 名，竭誠歡迎您的到來！請詳閱錄取/報到通知，並於6月28日(三) [延至7/5(三)] 前回覆交通方式！祝福您營隊收穫滿滿。</p><br>
+                <p class="card-text text-indent">此次營隊報名人數超過1,200人，錄取1,000 名，竭誠歡迎您的到來！請詳閱錄取/報到通知，並於7月9日(二)前回覆交通方式！祝福您營隊收穫滿滿。</p><br>
 
 
                 <h5>錄取/報到通知</h5>
@@ -169,12 +169,12 @@
                         <div class="col-md-6">
                             <p class="card-text">
                             台北福青學堂<br>
-                            02-2545-3788 #515、546、518、503、502<br>
+                            02-2545-3788 #546<br>
                             台北市松山區南京東路四段161號9樓<br>
                             </p>
                             <p class="card-text">
                             桃園福青學堂<br>
-                            03-275-6133 #1324<br>
+                            03-275-6133 #1314<br>
                             桃園市中壢區強國路121號2樓<br>
                             </p>
                             <p class="card-text">
@@ -192,7 +192,7 @@
                             <p class="card-text">
                             雲嘉福青學堂<br>
                             05-5370133 #125<br>
-                            雲林縣斗六市慶生路6號 (斗六火車站武昌路出口)<br>
+                            雲林縣斗六市慶生路6號<br>
                             </p>
                             <p class="card-text">
                             台南福青學堂<br>
@@ -206,7 +206,7 @@
                             </p>
                             <p class="card-text">
                             花蓮大專班籌備處<br>
-                            03-831-6305<br>
+                            03-831-6307<br>
                             花蓮市中華路243號2樓<br>
                             </p>
                         </div>
