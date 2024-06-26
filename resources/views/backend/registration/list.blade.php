@@ -24,54 +24,61 @@
         <tr>
             <td align=left valign=middle nowrap>
                 <1> 區域：
-                @if($campFullData->table == "hcamp")
+                @if(isset($regions))
                     <input class="btn btn-primary" type=submit name=region value='全區'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='北部'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='東部'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='中部'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='南部'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='金馬'>&nbsp;
-                @elseif($campFullData->table == "acamp")
-                    <input class="btn btn-primary" type=submit name=region value='全區'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='北苑'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='北區'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='基隆'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='桃區'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='竹區'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='中區'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='雲嘉'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='台南'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='高屏'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='其他'>&nbsp;
-                @elseif($campFullData->table == "ceocamp")
-                    <input class="btn btn-primary" type=submit name=region value='全區'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='北區'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='竹區'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='中區'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='高區'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='其他'>&nbsp;
-                @elseif($campFullData->table == "ceovcamp")
-
-                @elseif($campFullData->table == "ecamp")
-                    <input class="btn btn-primary" type=submit name=region value='全區'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='台北'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='桃園'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='新竹'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='中區'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='雲嘉'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='台南'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='高區'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='其他'>&nbsp;
+                    @foreach($regions as $region)
+                        <input class="btn btn-primary" type=submit name=region value='{{ $region->name }}'>&nbsp;
+                    @endforeach
                 @else
-                    <input class="btn btn-primary" type=submit name=region value='全區'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='台北'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='桃園'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='新竹'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='台中'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='雲嘉'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='台南'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='高雄'>&nbsp;
-                    <input class="btn btn-primary" type=submit name=region value='其他'>&nbsp;
+                    @if($campFullData->table == "hcamp")
+                        <input class="btn btn-primary" type=submit name=region value='全區'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='北部'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='東部'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='中部'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='南部'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='金馬'>&nbsp;
+                    @elseif($campFullData->table == "acamp")
+                        <input class="btn btn-primary" type=submit name=region value='全區'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='北苑'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='北區'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='基隆'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='桃區'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='竹區'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='中區'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='雲嘉'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='台南'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='高屏'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='其他'>&nbsp;
+                    @elseif($campFullData->table == "ceocamp")
+                        <input class="btn btn-primary" type=submit name=region value='全區'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='北區'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='竹區'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='中區'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='高區'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='其他'>&nbsp;
+                    @elseif($campFullData->table == "ceovcamp")
+
+                    @elseif($campFullData->table == "ecamp")
+                        <input class="btn btn-primary" type=submit name=region value='全區'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='台北'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='桃園'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='新竹'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='中區'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='雲嘉'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='台南'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='高區'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='其他'>&nbsp;
+                    @else
+                        <input class="btn btn-primary" type=submit name=region value='全區'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='台北'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='桃園'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='新竹'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='台中'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='雲嘉'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='台南'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='高雄'>&nbsp;
+                        <input class="btn btn-primary" type=submit name=region value='其他'>&nbsp;
+                    @endif
                 @endif
             </td>
         </tr>

@@ -46,15 +46,15 @@
             </div>
             <div class="col-md-3">
                 <b>中文姓名</b>：{{$applicant->name}}<br>
-                <b>生日</b>：{{$applicant->birthyear}}/{{$applicant->birthmonth}}/{{$applicant->birthday}}<br>
-                <b>英文姓名</b>：{{$applicant->english_name}}<br>
                 <b>性別</b>：{{$applicant->gender}}<br>
+                <b>國籍</b>：{{$applicant->nationality}}<br>
+                <b>生日</b>：{{$applicant->birthyear}}/{{$applicant->birthmonth}}/{{$applicant->birthday}}<br>
             </div>
             <div class="col-md-3">
-                <b>產業別</b>：{{$applicant->industry}}<br>
-                <b>公司名稱</b>：{{$applicant->unit}}<br>
-                <b>職稱</b>：{{$applicant->title}}<br>
-                <b>職務類型</b>：{{$applicant->job_property}}<br>
+                <b>課程學制</b>：{{$applicant->system}}<br>
+                <b>部別</b>：{{$applicant->day_night}}<br>
+                <b>就讀學校</b>：{{$applicant->school}}<br>
+                <b>系所年級</b>：{{$applicant->department}}{{$applicant->grade}}<br>
             </div>
             <div class="col-md-3">
                 <b>報名序號</b>：{{$applicant->applicant_id}}<br>
@@ -64,32 +64,39 @@
                 @else
                     此學員尚未分入任何組別
                 @endif<br>
-                <b>關懷員</b>：@forelse($applicant->carers as $carer)
+                <b>帶組老師</b>：@forelse($applicant->carers as $carer)
                     {{ $carer->name }}@if($currentUser->canAccessResource(new \App\Models\CarerApplicantXref, 'delete', $applicant->camp, target: $applicant))（<a href="{{ route('deleteApplicantCarer', [$camp->id, "applicant_id" => $applicant->id, "carer_id" => $carer->id]) }}" class="text-danger">刪除</a>）@endif
                     @if(!$loop->last) {{ "、" }} @endif
                 @empty
                     {{ '-' }}
                 @endforelse<br>
-                <b>參加形式</b>：{{$applicant->participation_mode}}<br>
             </div>
         </div>
         <div class="row d-flex justify-content-end">
+            <div class="mr-4 mb-2 font-weight-bold">是否錄取</div>
+                @if(!isset($applicant->is_admitted))
+                    狀態：<div class="mr-4 text-primary">尚未錄取。</div>
+                @elseif($applicant->is_attend == 1)
+                    狀態：<div class="mr-4 text-success">錄取。</div>
+                @else
+                    狀態：<div class="mr-4 text-danger">不錄取。</div>
+                @endif
+            </div>
+        <div class="row d-flex justify-content-end">        
             <div class="mr-4 mb-2 font-weight-bold">參加意願</div>
-        </div>
-        <div class="row d-flex justify-content-end">
-            @if(!isset($applicant->is_attend))
-                狀態：<div class="mr-4 text-primary">尚未聯絡。</div>
-            @elseif($applicant->is_attend == 1)
-                狀態：<div class="mr-4 text-success">參加。</div>
-            @elseif($applicant->is_attend == 0)
-                狀態：<div class="mr-4 text-danger">不參加。</div>
-            @elseif($applicant->is_attend == 2)
-                狀態：<div class="mr-4 text-secondary">尚未決定。</div>
-            @elseif($applicant->is_attend == 3)
-                狀態：<div class="mr-4 text-secondary">聯絡不上。</div>
-            @elseif($applicant->is_attend == 4)
-                狀態：<div class="mr-4 text-secondary">無法全程。</div>
-            @endif
+                @if(!isset($applicant->is_attend))
+                    狀態：<div class="mr-4 text-primary">尚未聯絡。</div>
+                @elseif($applicant->is_attend == 1)
+                    狀態：<div class="mr-4 text-success">參加。</div>
+                @elseif($applicant->is_attend == 0)
+                    狀態：<div class="mr-4 text-danger">不參加。</div>
+                @elseif($applicant->is_attend == 2)
+                    狀態：<div class="mr-4 text-secondary">尚未決定。</div>
+                @elseif($applicant->is_attend == 3)
+                    狀態：<div class="mr-4 text-secondary">聯絡不上。</div>
+                @elseif($applicant->is_attend == 4)
+                    狀態：<div class="mr-4 text-secondary">無法全程。</div>
+                @endif
         </div>
         @if ($applicant->deleted_at)
             <div class="text-danger">
@@ -135,32 +142,44 @@
         <div class="row">
             <div class="col-md-4">
                 <span class="btn btn-warning">聯絡方式</span><br><br>
-                <b>手機號碼</b>：<a href="tel:{{$applicant->mobile}}">{{$applicant->mobile}}</a><br>
-                <b>公司電話</b>：<a href="tel:{{$applicant->phone_work}}">{{$applicant->phone_work}}</a><br>
+                <b>行動電話</b>：<a href="tel:{{$applicant->mobile}}">{{$applicant->mobile}}</a><br>
+                <b>家中電話</b>：<a href="tel:{{$applicant->phone_home}}">{{$applicant->phone_work}}</a><br>
                 <b>電子信箱</b>：<a href="mailto:{{$applicant->email}}">{{$applicant->email}}</a><br>
                 <b>LineID</b>：<a href="https://line.me/ti/p/~{{$applicant->line}}">{{$applicant->line}}</a><br>
-                <b>代理人</b>：{{$applicant->substitute_name}}<br>
-                <b>代理人電話</b>：<a href="tel:{{$applicant->substitute_phone}}">{{$applicant->substitute_phone}}</a><br>
-                <b>代理人電子信箱</b>：<a href="mailto:{{$applicant->substitute_email}}">{{$applicant->substitute_email}}</a><br>
-                <b>適合聯絡時段</b>：{{$applicant->contact_time}}<br>
                 <b>地址</b>：{{$applicant->address}}<br>
             </div>
             <div class="col-md-4">
-                <span class="btn btn-warning">推薦人資訊</span><br><br>
-                <b>推薦人</b>：{{$applicant->introducer_name}}<br>
-                <b>廣論班別</b>：{{$applicant->introducer_participated}}<br>
-                <b>手機號碼</b>：<a href="tel:{{$applicant->introducer_phone}}">{{$applicant->introducer_phone}}</a><br>
-                <b>電子信箱</b>：<a href="mailto:{{$applicant->introducer_email}}">{{$applicant->introducer_email}}</a><br>
-                <b>與推薦人關係</b>：{{$applicant->introducer_relationship}}<br>
-                <b>特別推薦理由或社會影響力說明</b>：<br>{{$applicant->reasons_recommend}}<br>
+                <span class="btn btn-warning">關係人資訊</span><br><br>
+                <b>父親姓名</b>：{{$applicant->father_name}}<br>
+                <b>廣論班別</b>：{{$applicant->father_lamrim}}<br>
+                <b>聯絡電話</b>：<a href="tel:{{$applicant->father_phone}}">{{$applicant->father_phone}}</a><br>
+                --<br>              
+                <b>母親姓名</b>：{{$applicant->mother_name}}<br>
+                <b>廣論班別</b>：{{$applicant->mother_lamrim}}<br>
+                <b>聯絡電話</b>：<a href="tel:{{$applicant->mother_phone}}">{{$applicant->mother_phone}}</a><br>
+                --<br>              
+                <b>介紹人</b>：{{$applicant->introducer_name}}<br>
+                <b>關係</b>：{{$applicant->introducer_relationship}}<br>
+                <b>福智活動</b>：{{$applicant->introducer_participated}}<br>
+                <b>聯絡電話</b>：<a href="tel:{{$applicant->introducer_phone}}">{{$applicant->introducer_phone}}</a><br>
+                --<br>              
+                <b>代填人</b>：{{$applicant->agent_name}}<br>
+                <b>聯絡電話</b>：<a href="tel:{{$applicant->agent_phone}}">{{$applicant->agent_phone}}</a><br>
+                --<br>              
+                <b>緊急聯絡人</b>：{{$applicant->emergency_name}}<br>
+                <b>關係</b>：{{$applicant->emergency_relationship}}<br>
+                <b>聯絡電話</b>：<a href="tel:{{$applicant->emergency_phone}}">{{$applicant->emergency_mobile}}</a><br>
             </div>
             <div class="col-md-4">
                 <span class="btn btn-warning">其他資訊</span><br><br>
-                <b>公司員工</b>：{{$applicant->employees}} 人<br>
-                <b>所轄員工</b>：{{$applicant->direct_managed_employees}} 人<br>
-                <b>資本額</b>：{{$applicant->capital}} {{$applicant->capital_unit}}<br>
-                <b>公司/組織形式</b>：{{$applicant->org_type}}<br>
-                <b>公司成立幾年</b>：{{$applicant->years_operation}}<br>
+                <b>福智活動</b>：{{$applicant->blisswisdom_type}}<br>
+                <b>福智活動(其它)</b>：{{$applicant->blisswisdom_type_other}}<br>
+                <b>如何得知</b>：{{$applicant->way}}<br>                --<br>
+                <b>興趣</b>：{{$applicant->habbit}}<br>
+                <b>社團活動</b>：{{$applicant->club}}<br>
+                <b>目標</b>：{{$applicant->goal}}<br>
+                <b>期望</b>：{{$applicant->expectation}}<br>
+                --<br>
                 <b>同意個資使用</b>：@if($applicant->profile_agree) 是 @else 否
                 @endif<br>
                 <b>同意肖像權使用</b>：@if($applicant->portrait_agree) 是 @else 否 @endif<br>
@@ -172,12 +191,6 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-            	<span class="btn btn-info">關心議題</span><br><br>
-                @if(isset($applicant->favored_events))
-                @foreach($applicant->favored_events as $event)
-                    {{ $event }}<br>
-                @endforeach
-                @endif
                 <span class="btn btn-info">備註</span><br>
                 <form action="{{ route('editRemark', $camp->id) }}" method="POST">
                     @csrf
@@ -216,9 +229,11 @@
             @endif
         </div>
     </div>
+<!--
     <div class="container">
     <a href="{{ route('showGSFeedback', [$camp->id, $applicant->applicant_id]) }}">回饋單內容在這裡</a>
     </div>
+-->
 @endif
 <script>
         function enableEditRemark(){
