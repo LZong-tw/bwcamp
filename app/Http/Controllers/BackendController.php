@@ -1858,13 +1858,13 @@ class BackendController extends Controller
 
         // Fetch accessible applicant IDs
         $accessibleApplicantIds = Ucaronr::where('user_id', auth()->user()->id)
-                                        ->where('camp_id', $this->campFullData->vcamp->id)
-                                        ->where('accessible_type', 'App\Models\Applicant')
+                                        ->where('camp_id', $this->campFullData->id)
+                                        ->where('accessible_type', 'App\\Models\\Applicant')
                                         ->where('can_access', 1)
                                         ->pluck('accessible_id')->toArray();
 
         // Cache filtered applicants
-        $cacheKeyApplicants = "filtered_applicants_user_" . auth()->user()->id . "_camp_{$this->campFullData->vcamp->id}";
+        $cacheKeyApplicants = "filtered_applicants_user_" . auth()->user()->id . "_camp_{$this->campFullData->id}";
         $applicants = Cache::remember($cacheKeyApplicants, Config::get('cache.ttl'), function() use ($applicants, $accessibleApplicantIds) {
             return $applicants->filter(function($applicant) use ($accessibleApplicantIds) {
                 return in_array($applicant->id, $accessibleApplicantIds);
