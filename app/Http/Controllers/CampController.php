@@ -660,9 +660,9 @@ class CampController extends Controller
             elseif  ($request->depart_from == "台中專車")
                 $from_fare = 200;
             elseif  ($request->depart_from == "台南專車")
-                $from_fare = 200;
+                $from_fare = 250;
             elseif  ($request->depart_from == "高雄專車")
-                $from_fare = 350;
+                $from_fare = 400;
             else
                 $from_fare = 0;
 
@@ -675,9 +675,9 @@ class CampController extends Controller
             elseif  ($request->back_to == "台中專車")
                 $back_fare = 200;
             elseif  ($request->back_to == "台南專車")
-                $back_fare = 200;
+                $back_fare = 250;
             elseif  ($request->back_to == "高雄專車")
-                $back_fare = 350;
+                $back_fare = 400;
             else
                 $back_fare = 0;
         }
