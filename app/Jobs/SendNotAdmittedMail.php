@@ -13,7 +13,11 @@ use Illuminate\Queue\Middleware\WithoutOverlapping;
 
 class SendNotAdmittedMail implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, EmailConfiguration;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
+    use EmailConfiguration;
 
     protected $applicant;
 
