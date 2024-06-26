@@ -171,8 +171,9 @@ class User extends Authenticatable
         if ($resource instanceof \App\Models\Volunteer && $context == "vcampExport") {
             $class = "App\\Models\\Applicant";
         }
-        if ($this->canAccessResult()->where(['accessible_type' => $class, 'can_access' => 1])->first()) {
-            return true;
+        $forInspect = $this->canAccessResult()->where(['accessible_type' => $class])->first();
+        if ($forInspect) {
+            return $forInspect->can_access;
         }
         else {
             return $this->fillingAccessibleReult($resource, $action, $camp, $context, $target, $probing);
