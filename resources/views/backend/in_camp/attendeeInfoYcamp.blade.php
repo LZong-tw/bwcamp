@@ -72,6 +72,7 @@
                 @endforelse<br>
             </div>
         </div>
+<!--
         <div class="row d-flex justify-content-end">
             <div class="mr-4 mb-2 font-weight-bold">是否錄取</div>
                 @if(!isset($applicant->is_admitted))
@@ -81,7 +82,8 @@
                 @else
                     狀態：<div class="mr-4 text-danger">不錄取。</div>
                 @endif
-            </div>
+        </div>
+-->
         <div class="row d-flex justify-content-end">        
             <div class="mr-4 mb-2 font-weight-bold">參加意願</div>
                 @if(!isset($applicant->is_attend))
