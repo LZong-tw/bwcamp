@@ -44,7 +44,7 @@ class SendNotAdmittedMail implements ShouldQueue
         // 動態載入電子郵件設定
         $this->setEmail($applicant->batch->camp->table, $applicant->batch->camp->variant);
         \Mail::to($applicant->email)->send(new \App\Mail\NotAdmittedMail($applicant));
-        \logger('SendNotAdmittedMail', $this->applicant->id, 'success');
+        \logger('SendNotAdmittedMail ' . $this->applicant->id . ' success');
     }
 
     /**
