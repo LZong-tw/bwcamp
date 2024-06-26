@@ -1843,12 +1843,12 @@ class BackendController extends Controller
         $registeredUsers = $registeredUsers->get();
         // Fetch accessible registered user IDs
         $accessibleRegisteredUserIds = Ucaronr::where('user_id', auth()->user()->id)
-                                            ->where('camp_id', $this->campFullData->id)
+                                            ->where('camp_id', $this->campFullData->vcamp->id)
                                             ->where('accessible_type', 'App\Models\RegisteredUser')
                                             ->where('can_access', 1)
                                             ->pluck('accessible_id')->toArray();
         // Cache filtered registered users
-        $cacheKeyRegisteredUsers = "filtered_registered_users_user_" . auth()->user()->id . "_camp_{$this->campFullData->id}";
+        $cacheKeyRegisteredUsers = "filtered_registered_users_user_" . auth()->user()->id . "_camp_{$this->campFullData->vcamp->id}";
         $registeredUsers = Cache::remember($cacheKeyRegisteredUsers, Config::get('cache.ttl'), function() use ($registeredUsers, $accessibleRegisteredUserIds) {
             return $registeredUsers->filter(function($target_user) use ($accessibleRegisteredUserIds) {
                 return in_array($target_user->id, $accessibleRegisteredUserIds);
@@ -1858,13 +1858,13 @@ class BackendController extends Controller
 
         // Fetch accessible applicant IDs
         $accessibleApplicantIds = Ucaronr::where('user_id', auth()->user()->id)
-                                        ->where('camp_id', $this->campFullData->id)
+                                        ->where('camp_id', $this->campFullData->vcamp->id)
                                         ->where('accessible_type', 'App\Models\Applicant')
                                         ->where('can_access', 1)
                                         ->pluck('accessible_id')->toArray();
 
         // Cache filtered applicants
-        $cacheKeyApplicants = "filtered_applicants_user_" . auth()->user()->id . "_camp_{$this->campFullData->id}";
+        $cacheKeyApplicants = "filtered_applicants_user_" . auth()->user()->id . "_camp_{$this->campFullData->vcamp->id}";
         $applicants = Cache::remember($cacheKeyApplicants, Config::get('cache.ttl'), function() use ($applicants, $accessibleApplicantIds) {
             return $applicants->filter(function($applicant) use ($accessibleApplicantIds) {
                 return in_array($applicant->id, $accessibleApplicantIds);
