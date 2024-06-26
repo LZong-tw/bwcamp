@@ -24,6 +24,7 @@ use App\Models\Lodging;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Cache;
 use Intervention\Image\Facades\Image;
 use View;
