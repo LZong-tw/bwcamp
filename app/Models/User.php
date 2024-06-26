@@ -167,35 +167,43 @@ class User extends Authenticatable
         if (!$resource) {
             return false;
         }
+
         $class = get_class($resource);
         if ($resource instanceof \App\Models\Volunteer && $context == "vcampExport") {
             $class = "App\\Models\\Applicant";
         }
+
         $batch_id = null;
         $region_id = null;
         if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer) {
             $batch_id = $resource->batch_id;
             $region_id = $resource->region_id;
-        }
-        elseif ($resource instanceof \App\Models\User) {
+        } elseif ($resource instanceof \App\Models\User) {
             $theCamp = $camp->vcamp;
             $theApplicant = $resource->application_log->whereIn('batch_id', $theCamp->batchs()->pluck('id'))->first();
-            $batch_id = $theApplicant->batch_id;
-            $region_id = $theApplicant->region_id;
+            $batch_id = $theApplicant->batch_id ?? null;
+            $region_id = $theApplicant->region_id ?? null;
         }
-        $forInspect = $this->canAccessResult()->where([
-                        'camp_id' => $camp->id,
-                        'batch_id' => $batch_id,
-                        'region_id' => $region_id,
-                        'accessible_id' => $target->id ?? null,
-                        'accessible_type' => $class
-                    ])->first();
-        if ($forInspect) {
-            return $forInspect->can_access;
-        }
-        else {
-            return $this->fillingAccessibleReult($resource, $action, $camp, $context, $target, $probing);
-        }
+
+        // Cache key generation
+        $cacheKey = "access_resource_user_{$this->id}_resource_{$class}_action_{$action}_camp_{$camp->id}_batch_{$batch_id}_region_{$region_id}_target_" . ($target->id ?? 'null');
+
+        // Retrieve from cache or compute and store result
+        return Cache::remember($cacheKey, Config::get('cache.ttl'), function() use ($resource, $action, $camp, $context, $target, $probing, $class, $batch_id, $region_id) {
+            $forInspect = $this->canAccessResult()->where([
+                'camp_id' => $camp->id,
+                'batch_id' => $batch_id,
+                'region_id' => $region_id,
+                'accessible_id' => $target->id ?? null,
+                'accessible_type' => $class
+            ])->first();
+
+            if ($forInspect) {
+                return $forInspect->can_access;
+            } else {
+                return $this->fillingAccessibleReult($resource, $action, $camp, $context, $target, $probing);
+            }
+        });
     }
 
     public function fillingAccessibleReult($resource, $action, $camp, $context = null, $target = null, $probing = null) {
