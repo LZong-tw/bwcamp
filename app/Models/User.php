@@ -13,7 +13,9 @@ use App\Traits\EmailConfiguration;
 
 class User extends Authenticatable
 {
-    use Notifiable, EmailConfiguration, LaratrustUserTrait;
+    use Notifiable;
+    use EmailConfiguration;
+    use LaratrustUserTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -67,21 +69,20 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\Role', 'role_user', 'user_id', 'role_id');
     }
 
-    public function getPermission($top = false, $camp_id = null, $function_id = null) {
-        if(!$top){
+    public function getPermission($top = false, $camp_id = null, $function_id = null)
+    {
+        if(!$top) {
             $hasRole = \App\Models\RoleUser::join('roles', 'roles.id', '=', 'role_user.role_id')->where('user_id', $this->id)->orderBy('level', 'asc')->get();
-            if($hasRole->count() == 0){
-                $empty = new \App\Models\Role;
+            if($hasRole->count() == 0) {
+                $empty = new \App\Models\Role();
                 $empty->level = 999;
                 return $empty;
             }
             return $hasRole->first();
-        }
-        else if($top){
-            if($camp_id){
+        } elseif($top) {
+            if($camp_id) {
                 return \DB::table('roles')->where('camp_id', $camp_id)->whereIn('id', $this->legace_roles()->pluck('role_id'))->orderBy('level', 'desc')->first();
-            }
-            else{
+            } else {
                 return \DB::table('roles')->whereIn('id', $this->legace_roles()->pluck('role_id'))->orderBy('level', 'desc')->get();
             }
         }
@@ -98,20 +99,24 @@ class User extends Authenticatable
      * @param  mixed  $instance
      * @return void
      */
-    public function notify($instance) {
+    public function notify($instance)
+    {
         $this->setEmail($this->role_relations->first()->role->camp->table ?? "");
         app(\Illuminate\Contracts\Notifications\Dispatcher::class)->send($this, $instance);
     }
 
-    public function caresLearners() {
+    public function caresLearners()
+    {
         return $this->belongsToMany(Applicant::class, CarerApplicantXref::class, 'user_id', 'applicant_id', 'id', 'id');
     }
 
-    public function application_log() {
+    public function application_log()
+    {
         return $this->belongsToMany(Applicant::class, UserApplicantXref::class, 'user_id', 'applicant_id', 'id', 'id');
     }
 
-    public function canAccessResult() {
+    public function canAccessResult()
+    {
         return $this->hasMany(Ucaronr::class);
     }
 
@@ -122,24 +127,26 @@ class User extends Authenticatable
     //     );
     // }
 
-    public function applicants($camp_id) {
+    public function applicants($camp_id)
+    {
         $vbatch_id = Camp::find($camp_id)->vcamp->batchs->pluck('id');
         $applicants_all = $this->application_log;
-        $applicants_filtered = $applicants_all->whereIn('batch_id',$vbatch_id);
+        $applicants_filtered = $applicants_all->whereIn('batch_id', $vbatch_id);
         return $applicants_filtered;
     }
-    public function permissionsRolesParser($camp) {
+    public function permissionsRolesParser($camp)
+    {
         /**
          *  1. 取得該義工於營隊內的所有職務
          *  2. 取出所有權限的聯集，並以條列方式呈現
          */
         $permissions = $this->roles()->where('camp_id', $camp->id)->get()
-                        ->filter(static fn($role) => $role->permissions->count() > 0)
-                        ->map(static fn($role) => $role->permissions)
+                        ->filter(static fn ($role) => $role->permissions->count() > 0)
+                        ->map(static fn ($role) => $role->permissions)
                         ->flatten()->unique('id')->values();
         $permissions = $permissions->sortBy(["resource", "action"]);
         $parsed = collect();
-        $permissions->each(function($permission) use (&$parsed) {
+        $permissions->each(function ($permission) use (&$parsed) {
             $existing = $parsed->where("resource", $permission->resource)->firstWhere("action", $permission->action);
             if ($existing) {
                 if ($existing["range_parsed"] < $permission->range_parsed) {
@@ -147,8 +154,7 @@ class User extends Authenticatable
                     $existing["range"] = $permission->range;
                     $existing["range_parsed"] = $permission->range_parsed;
                 }
-            }
-            else {
+            } else {
                 $parsed->push([
                     "resource" => $permission->resource,
                     "action" => $permission->action,
@@ -163,7 +169,8 @@ class User extends Authenticatable
         return $parsed;
     }
 
-    public function canAccessResource($resource, $action, $camp, $context = null, $target = null, $probing = null) {
+    public function canAccessResource($resource, $action, $camp, $context = null, $target = null, $probing = null)
+    {
         if (!$resource) {
             return false;
         }
@@ -183,14 +190,14 @@ class User extends Authenticatable
             $cacheKeyVcamp = "vcamp_camp_{$camp->id}";
 
             // Cache the $theCamp retrieval
-            $theCamp = Cache::remember($cacheKeyVcamp, Config::get('cache.ttl'), function() use ($camp) {
+            $theCamp = Cache::remember($cacheKeyVcamp, Config::get('cache.ttl'), function () use ($camp) {
                 return $camp->vcamp;
             });
             // Generate a unique cache key for the application log query
             $cacheKeyApplicant = "applicant_user_{$resource->id}_camp_{$camp->id}";
 
             // Cache the $theApplicant query
-            $theApplicant = Cache::remember($cacheKeyApplicant, Config::get('cache.ttl'), function() use ($resource, $theCamp) {
+            $theApplicant = Cache::remember($cacheKeyApplicant, Config::get('cache.ttl'), function () use ($resource, $theCamp) {
                 return $resource->application_log->whereIn('batch_id', $theCamp->batchs()->pluck('id'))->first();
             });
             $batch_id = $theApplicant->batch_id ?? null;
@@ -201,7 +208,7 @@ class User extends Authenticatable
         $cacheKey = "access_resource_user_{$this->id}_resource_{$class}_action_{$action}_camp_{$camp->id}_batch_{$batch_id}_region_{$region_id}_target_" . ($target->id ?? 'null');
 
         // Retrieve from cache or compute and store result
-        return Cache::remember($cacheKey, Config::get('cache.ttl'), function() use ($resource, $action, $camp, $context, $target, $probing, $class, $batch_id, $region_id) {
+        return Cache::remember($cacheKey, Config::get('cache.ttl'), function () use ($resource, $action, $camp, $context, $target, $probing, $class, $batch_id, $region_id) {
             $forInspect = $this->canAccessResult()->where([
                 'camp_id' => $camp->id,
                 'batch_id' => $batch_id,
@@ -218,7 +225,8 @@ class User extends Authenticatable
         });
     }
 
-    public function fillingAccessibleReult($resource, $action, $camp, $context = null, $target = null, $probing = null) {
+    public function fillingAccessibleReult($resource, $action, $camp, $context = null, $target = null, $probing = null)
+    {
         $result = $this->getAccessibleReult($resource, $action, $camp, $context, $target, $probing);
         $class = get_class($resource);
         $batch_id = null;
@@ -226,8 +234,7 @@ class User extends Authenticatable
         if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer) {
             $batch_id = $resource->batch_id;
             $region_id = $resource->region_id;
-        }
-        elseif ($resource instanceof \App\Models\User) {
+        } elseif ($resource instanceof \App\Models\User) {
             $theCamp = $camp->vcamp;
             $theApplicant = $resource->application_log->whereIn('batch_id', $theCamp->batchs()->pluck('id'))->first();
             $batch_id = $theApplicant->batch_id;
@@ -245,7 +252,8 @@ class User extends Authenticatable
         return $result ? true : false;
     }
 
-    public function getAccessibleReult($resource, $action, $camp, $context = null, $target = null, $probing = null) {
+    public function getAccessibleReult($resource, $action, $camp, $context = null, $target = null, $probing = null)
+    {
         if (!$this->camp_roles) {
             $this->camp_roles = $this->permissionsRolesParser($camp);
         }
@@ -271,7 +279,7 @@ class User extends Authenticatable
                 // 順便做梯次檢查
                 if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer) {
                     if ($resource->batch_id) {
-                        $query->where(function ($query) use ($resource){
+                        $query->where(function ($query) use ($resource) {
                             $query->where(function ($query) {
                                 $query->whereNull('batch_id');
                             })->orWhere(function ($query) use ($resource) {
@@ -279,12 +287,11 @@ class User extends Authenticatable
                             });
                         });
                     }
-                }
-                else if ($resource instanceof \App\Models\User) {
+                } elseif ($resource instanceof \App\Models\User) {
                     $theCamp = $camp->vcamp;
                     $theApplicant = $resource->application_log->whereIn('batch_id', $theCamp->batchs()->pluck('id'))->first();
                     if ($theApplicant) {
-                        $query->where(function ($query) use ($theApplicant){
+                        $query->where(function ($query) use ($theApplicant) {
                             $query->where(function ($query) {
                                 $query->whereNull('batch_id');
                             })->orWhere(function ($query) use ($theApplicant) {
@@ -296,7 +303,7 @@ class User extends Authenticatable
                 // 區域檢查
                 if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer) {
                     if ($resource->region_id) {
-                        $query->where(function ($query) use ($resource){
+                        $query->where(function ($query) use ($resource) {
                             $query->where(function ($query) {
                                 $query->whereNull('region_id');
                             })->orWhere(function ($query) use ($resource) {
@@ -304,12 +311,11 @@ class User extends Authenticatable
                             });
                         });
                     }
-                }
-                else if ($resource instanceof \App\Models\User) {
+                } elseif ($resource instanceof \App\Models\User) {
                     $theCamp = $camp->vcamp;
                     $theApplicant = $resource->application_log->whereIn('batch_id', $theCamp->batchs()->pluck('id'))->first();
                     if ($theApplicant) {
-                        $query->where(function ($query) use ($theApplicant){
+                        $query->where(function ($query) use ($theApplicant) {
                             $query->where(function ($query) {
                                 $query->whereNull('region_id');
                             })->orWhere(function ($query) use ($theApplicant) {
@@ -329,7 +335,7 @@ class User extends Authenticatable
                 // 0: na, all
                 case 0:
                     return true;
-                // 1: volunteer_large_group
+                    // 1: volunteer_large_group
                 case 1:
                     if ($class == "App\Models\Volunteer" && $resource->user?->roles) {
                         return $resource->user->roles->whereIn("section", $this->roles()->where('camp_id', $camp->id)->pluck("section"))->count();
@@ -344,8 +350,8 @@ class User extends Authenticatable
                         dd("first if, case 1", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
                     }
                     return false;
-                // 2: learner_group
-                // ★：學員小組的意思除了是「同一個小組的學員」以外，還包含「護持同一個學員小組的義工」
+                    // 2: learner_group
+                    // ★：學員小組的意思除了是「同一個小組的學員」以外，還包含「護持同一個學員小組的義工」
                 case 2:
                     $roles = $this->roles()->where('group_id', '<>', null)->where("camp_id", $camp->id);
                     if (str_contains($class, "Applicant") && $context == "onlyCheckAvailability") {
@@ -368,9 +374,9 @@ class User extends Authenticatable
                         })->firstWhere('all_group', 1));
                     } elseif (str_contains($class, "User")) {
                         return $roles->firstWhere(
-                                'group_id',
-                                $target->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id
-                            )
+                            'group_id',
+                            $target->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id
+                        )
                             ||
                             ($target->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id &&
                                 $this->roles()->where("camp_id", $camp->id)->where(function ($query) {
@@ -387,7 +393,7 @@ class User extends Authenticatable
                         dd("first if, case 2", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
                     }
                     return false;
-                // 3: person
+                    // 3: person
                 case 3:
                     if (str_contains($class, "Applicant") && $context == "onlyCheckAvailability") {
                         return $this->caresLearners->whereIn('batch_id', $camp->batchs->pluck('id'))->first();
@@ -415,8 +421,7 @@ class User extends Authenticatable
                     }
                     return false;
             }
-        }
-        elseif ($target && ((str_contains($class, "Applicant") || str_contains($class, "Volunteer")) && $action == "read")) {
+        } elseif ($target && ((str_contains($class, "Applicant") || str_contains($class, "Volunteer")) && $action == "read")) {
             $roles = $this->roles()->where('group_id', '<>', null)->where("camp_id", $camp->id);
             if ($probing) {
                 dd("second if", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
@@ -432,16 +437,15 @@ class User extends Authenticatable
                     ->orWhere("position", "like", "%關懷服務組%")
                     ->orWhere("position", "like", "%關服組%");
             })->firstWhere('all_group', 1));
-        }
-        elseif ($target && (str_contains($class, "User") && ($context == "vcamp" || $context == "vcampExport") && $action == "read")) {
+        } elseif ($target && (str_contains($class, "User") && ($context == "vcamp" || $context == "vcampExport") && $action == "read")) {
             $roles = $this->roles()->where('group_id', '<>', null)->where("camp_id", $camp->id);
             if ($probing) {
                 dd("third if", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
             }
             return $roles->firstWhere(
-                    'group_id',
-                    $target->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id
-                )
+                'group_id',
+                $target->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id
+            )
                 ||
                 ($target->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id &&
                     $this->roles()->where("camp_id", $camp->id)->where(function ($query) {
@@ -449,8 +453,7 @@ class User extends Authenticatable
                             ->orWhere("position", "like", "%關懷服務組%")
                             ->orWhere("position", "like", "%關服組%");
                     })->firstWhere('all_group', 1));
-        }
-        else {
+        } else {
             if ($probing) {
                 dd("else, all faild.", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
             }
