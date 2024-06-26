@@ -130,19 +130,21 @@
                 <div class="ml-0 mb-2">若有任何問題，歡迎</div>
                 <div class="ml-2 mb-2">1. 洽各組輔導員</div>
                 <div class="ml-2 mb-2">2. 與『福智文教基金會』各區窗口聯絡</div>
-                <div class="ml-4 mb-2">台北／林佳樺0908-604-972</div>
+                <div class="ml-4 mb-2">台北／林舒萱0988-250-005</div>
+                <div class="ml-4 mb-2">台北／畢兆豪0915-394-395</div>
                 <div class="ml-4 mb-2">桃園／李致緯0916-103-155</div>
-                <div class="ml-4 mb-2">新竹／李欣蓓0978-393697</div>
-                <div class="ml-4 mb-2">台中／鄭宜庭0978-175-705</div>
-                <div class="ml-4 mb-2">雲嘉／周郁紋0961-552-325</div>
-                <div class="ml-4 mb-2">台南／陳良彥0975-258-739</div>
-                <div class="ml-4 mb-2">高雄／林采誼0979-625-652</div>
+                <div class="ml-4 mb-2">桃園／李源庭0905-508-981</div>
+                <div class="ml-4 mb-2">新竹／黃貞瑜0929-926-773</div>
+                <div class="ml-4 mb-2">台中／林佳瑩0975-769-937</div>
+                <div class="ml-4 mb-2">雲嘉／翁靖淳0978-110-827</div>
+                <div class="ml-4 mb-2">台南／顏瀅真0963-271-801</div>
+                <div class="ml-4 mb-2">高雄／吳京諭0963-681-833</div>
                 <div class="ml-2 mb-2">3. Email福智青年：<a href="mailto:youth@blisswisdom.org">youth@blisswisdom.org</a></div>
                 <div class="ml-2 mb-2">4.留言給福智青年：<a href="https://www.facebook.com/bwyouth" target="_blank" rel="noopener noreferrer">福智青年粉專</a></div>
 
                 <p class="card-text text-right">主辦單位：財團法人福智文教基金會／國立雲林科技大學　敬啟</p>
                 <p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
-            @elseif($applicant->created_at->gte(\Carbon\Carbon::parse('2024-06-21 00:00:00')))>
+            @elseif($applicant->created_at->gte(\Carbon\Carbon::parse('2024-06-21 00:00:00')))
                 <!-----錄取中----->
                 <p class="card-text">親愛的 {{ $applicant->name }} 同學您好</p>
                 <p class="card-text indent">感謝您報名「{{ $camp_data->fullName }}」，錄取作業正在進行中，請稍後再進行錄取查詢。感謝您的耐心等待！</p>
