@@ -1850,8 +1850,8 @@ class BackendController extends Controller
         // Cache filtered registered users
         $cacheKeyRegisteredUsers = "filtered_registered_users_user_" . auth()->user()->id . "_camp_{$this->campFullData->id}";
         $registeredUsers = Cache::remember($cacheKeyRegisteredUsers, Config::get('cache.ttl'), function() use ($registeredUsers, $accessibleRegisteredUserIds) {
-            return $registeredUsers->filter(function() use ($accessibleRegisteredUserIds) {
-                return in_array(auth()->user()->id, $accessibleRegisteredUserIds);
+            return $registeredUsers->filter(function($target_user) use ($accessibleRegisteredUserIds) {
+                return in_array($target_user->id, $accessibleRegisteredUserIds);
             });
         });
 
