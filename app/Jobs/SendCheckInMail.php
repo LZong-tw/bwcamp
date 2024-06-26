@@ -68,7 +68,7 @@ class SendCheckInMail implements ShouldQueue
         // 動態載入電子郵件設定
         $this->setEmail($this->applicant->batch->camp->table, $this->applicant->batch->camp->variant);
         \Mail::to($this->applicant->email)->send(new \App\Mail\CheckInMail($this->applicant, $this->org, $attachment));
-        \logger('SendCheckInMail', $this->applicant->id, 'success');
+        \logger('SendCheckInMail ' . $this->applicant->id . ' success');
     }
 
 
