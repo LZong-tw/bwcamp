@@ -24,6 +24,7 @@ use App\Models\Lodging;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Cache;
 use Intervention\Image\Facades\Image;
 use View;
 use App\Traits\EmailConfiguration;
@@ -1374,7 +1375,12 @@ class BackendController extends Controller
                         ->join($camp->table, 'applicants.id', '=', $camp->table . '.applicant_id')
                         ->where('camps.id', $camp->id)->withTrashed();
         $applicants = $query->get();
-        $applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant));
+        $applicants = $applicants->filter(function($applicant) {
+            $cacheKey = "can_access_user_{$this->user->id}_applicant_{$applicant->id}_camp_{$this->campFullData->id}_action_read";
+            return Cache::remember($cacheKey, Config::get('cache.ttl'), function() use ($applicant) {
+                return $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant);
+            });
+        });
 
         if($request->download) {
             return \PDF::loadView('backend.in_camp.volunteerPhoto', compact('applicants', 'batches'))->download(Carbon::now()->format('YmdHis') . $camp->table . '義工名冊.pdf');
@@ -1655,9 +1661,12 @@ class BackendController extends Controller
             $target_group_ids = $user->roles()->where('camp_id', $this->campFullData->id)->where('camp_org.position', 'like', '%關懷小組第%')->get()->pluck('group_id');
             $all_groups = $user->roles()->where('camp_id', $this->campFullData->id)->where('camp_org.section', 'like', '%關懷大組%')->where('all_group', 1)->get();
             if (!count($target_group_ids) && ($user->canAccessResource(new \App\Models\CarerApplicantXref, 'create', $this->campFullData, target: $this->campFullData->vcamp) || $user->canAccessResource(new \App\Models\CarerApplicantXref, 'assign', $this->campFullData, target: $this->campFullData->vcamp))) {
-                $permissions = $user->load('roles.permissions')->roles->pluck("permissions")->flatten()->filter(
-                    static fn ($permission) => $permission->name == '\App\Models\CarerApplicantXref.create' || $permission->name == '\App\Models\CarerApplicantXref.assign'
-                );
+                $cacheKeyPermissions = "permissions_user_{$user->id}_carer_applicant_xref";
+                $permissions = Cache::remember($cacheKeyPermissions, Config::get('cache.ttl'), function() use ($user) {
+                    return $user->load('roles.permissions')->roles->pluck("permissions")->flatten()->filter(
+                        static fn ($permission) => $permission->name == '\App\Models\CarerApplicantXref.create' || $permission->name == '\App\Models\CarerApplicantXref.assign'
+                    );
+                });
                 $carers = collect([]);
                 foreach ($permissions as $permission) {
                     if ($permission->range == 'na' || $permission->range == 'all') {
@@ -1686,7 +1695,15 @@ class BackendController extends Controller
             }
         }
 
-        $applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant));
+        $applicants = $applicants->filter(function($applicant) {
+            // Generate a unique cache key for each applicant's access check
+            $cacheKey = "can_access_user_{$this->user->id}_applicant_{$applicant->id}_camp_{$this->campFullData->id}_action_read";
+
+            // Cache the canAccessResource call
+            return Cache::remember($cacheKey, Config::get('cache.ttl'), function() use ($applicant) {
+                return $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant);
+            });
+        });
 
         $columns_zhtw = config('camps_fields.display.' . $this->campFullData->table);
 
@@ -1819,8 +1836,18 @@ class BackendController extends Controller
             }
         }
         $registeredUsers = $registeredUsers->get();
-        $registeredUsers = $registeredUsers->filter(fn ($user) => $this->user->canAccessResource($user, 'read', $this->campFullData, target: $user, context: 'vcamp'));
-        $applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant, context: 'vcamp'));
+        $registeredUsers = $registeredUsers->filter(function($user) {
+            $cacheKey = "can_access_user_{$this->user->id}_registered_user_{$user->id}_camp_{$this->campFullData->id}_action_read_context_vcamp";
+            return Cache::remember($cacheKey, Config::get('cache.ttl'), function() use ($user) {
+                return $this->user->canAccessResource($user, 'read', $this->campFullData, target: $user, context: 'vcamp');
+            });
+        });
+        $applicants = $applicants->filter(function($applicant) {
+            $cacheKey = "can_access_user_{$this->user->id}_applicant_{$applicant->id}_camp_{$this->campFullData->id}_action_read_context_vcamp";
+            return Cache::remember($cacheKey, Config::get('cache.ttl'), function() use ($applicant) {
+                return $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant, context: 'vcamp');
+            });
+        });
 
         if($request->isSetting==1) {
             $isSetting = 1;

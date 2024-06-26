@@ -179,8 +179,20 @@ class User extends Authenticatable
             $batch_id = $resource->batch_id;
             $region_id = $resource->region_id;
         } elseif ($resource instanceof \App\Models\User) {
-            $theCamp = $camp->vcamp;
-            $theApplicant = $resource->application_log->whereIn('batch_id', $theCamp->batchs()->pluck('id'))->first();
+            // Generate a unique cache key for the vcamp query
+            $cacheKeyVcamp = "vcamp_camp_{$camp->id}";
+
+            // Cache the $theCamp retrieval
+            $theCamp = Cache::remember($cacheKeyVcamp, Config::get('cache.ttl'), function() use ($camp) {
+                return $camp->vcamp;
+            });
+            // Generate a unique cache key for the application log query
+            $cacheKeyApplicant = "applicant_user_{$resource->id}_camp_{$camp->id}";
+
+            // Cache the $theApplicant query
+            $theApplicant = Cache::remember($cacheKeyApplicant, Config::get('cache.ttl'), function() use ($resource, $theCamp) {
+                return $resource->application_log->whereIn('batch_id', $theCamp->batchs()->pluck('id'))->first();
+            });
             $batch_id = $theApplicant->batch_id ?? null;
             $region_id = $theApplicant->region_id ?? null;
         }
