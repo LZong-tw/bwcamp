@@ -1608,18 +1608,16 @@ class BackendController extends Controller
         view()->share('user', $user);
         $batches = Batch::where("camp_id", $this->campFullData->id)->get();
 
-        $dynamic_stats = collect();
-        //if($this->campFullData->table == "ceocamp") {
-        //    //MCH:find the related applicant of the (user,camp_id)
-        //    $user_applicant = $user->applicants($this->campFullData->id)->first() ?? [];
-        //    //MCH:find the urls
-        //    $dynamic_stats = $user_applicant->dynamic_stats ?? [];
-        //} else {
-            $roles = $user->roles?->where('camp_id', $this->campFullData->id) ?? null;
-            foreach($roles as $role) {
+        // Cache dynamic_stats for user roles to avoid multiple database calls
+        $roleCacheKey = "user_{$user->id}_roles_camp_{$this->campFullData->id}_dynamic_stats";
+        $dynamic_stats = Cache::remember($roleCacheKey, Config::get('cache.ttl'), function() use ($user) {
+            $dynamic_stats = collect();
+            $roles = $user->roles()->where('camp_id', $this->campFullData->id)->get();
+            foreach ($roles as $role) {
                 $dynamic_stats = $dynamic_stats->merge($role->dynamic_stats ?? null);
             }
-        //}
+            return $dynamic_stats;
+        });
 
         if (!$user->canAccessResource(new \App\Models\Applicant(), 'read', $this->campFullData, 'onlyCheckAvailability') && $user->id > 2) {
             return "<h3>沒有權限瀏覽任何學員，或您尚未被指派任何學員</h3>";
