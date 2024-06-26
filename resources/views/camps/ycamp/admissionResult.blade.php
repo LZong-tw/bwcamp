@@ -8,7 +8,7 @@
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }}</h4>
     </div>
-
+<!--
     @if($applicant->is_admitted)
         <div class="card">
             <div class="card-header">
@@ -23,7 +23,7 @@
         </div>
         <br>
     @endif
-
+-->
     <div class="card">
         <div class="card-header">
             錄取查詢
@@ -40,10 +40,10 @@
                 </p>
                 <p class="card-text text-indent">此次營隊報名人數超過1,500人，錄取1,100 名，竭誠歡迎您的到來！請詳閱錄取/報到通知，並於6月28日(三) [延至7/5(三)] 前回覆交通方式！祝福您營隊收穫滿滿。</p><br>
 
-<!--
+
                 <h5>錄取/報到通知</h5>
-                <div class="ml-2 mb-2">請詳閱<a href="{{ url('downloads/ycamp2023/【2023第56屆大專青年生命成長營】錄取通知單.pdf') }}">錄取/報到通知</a>，內含報到資訊、必帶物品，及交通資訊等等。</div>
-                <div class="ml-2 mb-2"><a href="{{ url('downloads/ycamp2023/【2023第56屆大專青年生命成長營】錄取通知單.pdf') }}" download class="btn btn-primary" target="_blank" style="margin-top: 10px">下載錄取/報到通知</a></div><br>
+                <div class="ml-2 mb-2">請詳閱<a href="{{ url('downloads/ycamp2024/【2024第57屆大專青年生命成長營】錄取通知單.pdf') }}">錄取/報到通知</a>，內含報到資訊、必帶物品，及交通資訊等等。</div>
+                <div class="ml-2 mb-2"><a href="{{ url('downloads/ycamp2024/【2024第57屆大專青年生命成長營】錄取通知單.pdf') }}" download class="btn btn-primary" target="_blank" style="margin-top: 10px">下載錄取/報到通知</a></div><br>
 
                 <h5>放棄參加</h5>
                 <form class="ml-2 mb-2" action="{{ route('toggleAttend', $batch_id) }}" method="POST" id="attendcancel">
@@ -66,11 +66,12 @@
                 </form><br>
                 @if(!isset($applicant->is_attend) || $applicant->is_attend)
                     <h5>選擇交通方式</h5>
+<!--
                     ***** 準備中 ***** <br>
                     預計6/27(二)後開放登記。登記截止時間順延至7/5(三)
                     <br>
                     <br>
-                
+-->
                     <form class="ml-2 mb-2" action="{{ route('modifyTraffic', $batch_id) }}" method="POST" id="selecttraffic">
                         @csrf
                         <div class="ml-0 mb-2">交通方式預設為自往及自回</div>
@@ -124,7 +125,7 @@
                         </form>
                     @endif
                 @endif
--->
+
                 <h5>聯絡我們</h5>
                 <div class="ml-0 mb-2">若有任何問題，歡迎</div>
                 <div class="ml-2 mb-2">1. 洽各組輔導員</div>
