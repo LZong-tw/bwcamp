@@ -5,6 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 
+/**
+ * UserCanAccessResourceOrNotResult
+ * @package App\Models
+ */
 class Ucaronr extends Model
 {
     use Cachable;
