@@ -524,7 +524,7 @@ class CampController extends Controller
         if($applicant && $applicant->camp->id == $camp->id) {
             $traffic = null;
             $applicant->id = $applicant->applicant_id;
-            if($applicant->batch->camp->table == "ycamp" && $applicant->traffic == null) {
+            if($campTable == "ycamp" && $applicant->traffic == null) {
                 //for ycamp, if null, create one
                 $newTraffic = array();
                 $newTraffic['applicant_id'] = $applicant->id;
@@ -539,12 +539,14 @@ class CampController extends Controller
                 $applicant1 = $this->applicantService->fillPaymentData($applicant1);
                 $applicant1->save();
                 $traffic = $applicant1->traffic;
-	    } else {
-		//if not null, retrieve it
-		$traffic = $applicant->traffic;
-	    }
-
+            } else {
+                //if not null, retrieve it
+                $traffic = $applicant->traffic;
+            }
+            $fare_depart_from = config('camps_payments.fare_depart_from.' . $campTable) ?? [];
+            $fare_back_to = config('camps_payments.fare_back_to.' . $campTable) ?? [];
             $applicant = $this->applicantService->checkPaymentStatus($applicant);
+            
             //for 2023大專教師營
             if ($applicant->camp->table == 'utcamp') {
                 $group = $applicant->group;
@@ -571,7 +573,7 @@ class CampController extends Controller
                     $applicant->xaddr = '台北市南京東路四段165號九樓 福智學堂';
                 }
             }
-            return view('camps.' . $campTable . ".admissionResult", compact('applicant','traffic'));
+            return view('camps.' . $campTable . ".admissionResult", compact('applicant','traffic','fare_depart_from','fare_back_to'));
         } else{
             return back()->withInput()->withErrors(["找不到報名資料，請確認是否已成功報名，或是輸入了錯誤的查詢資料。"]);
         }
