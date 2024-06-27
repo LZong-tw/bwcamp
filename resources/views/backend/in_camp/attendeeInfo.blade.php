@@ -100,7 +100,7 @@
         @if ($applicant->deleted_at)
             <div class="text-danger">
                 本學員已取消報名。
-            </div>            
+            </div>
         @else
             <div class="row d-flex justify-content-end">
                 <form class="mr-4 mb-2" action="{{ route('toggleAttendBackend', $applicant->batch->id) }}" method="POST">
@@ -197,8 +197,7 @@
                 <br>
                 <hr>
                 <h5>報到條碼</h5>
-                <img src="data:image/png;base64,{{ \DNS2D::getBarcodePNG('{"applicant_id":' . $applicant->id .
-                '}', 'QRCODE') }}" alt="barcode" height="200px" class="mb-3"/>
+                <img src="data:image/png;base64,{{ $qrcode }}" alt="barcode" height="300px" class="mb-3"/>
                 <br>
             </div>
             @if($currentUser->canAccessResource(new App\Models\ContactLog(), 'read', $campFullData, target: $applicant))
