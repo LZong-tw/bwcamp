@@ -50,14 +50,10 @@
                     <label for='inputDepartFrom' class='col-md-2 control-label text-md-right'>修改去程交通</label>
                     <div class="col-md-4">
                         <select required class='form-control' name='depart_from' id='inputDepartFrom'>
-                            <option value='自往' selected>自往</option>
-                            <option value='火車站接駁車' >火車站接駁車</option>
-                            <option value='台北專車' >台北專車</option>
-                            <option value='桃園專車' >桃園專車</option>
-                            <option value='新竹專車' >新竹專車</option>
-                            <option value='台中專車' >台中專車</option>
-                            <option value='台南專車' >台南專車</option>
-                            <option value='高雄專車' >高雄專車</option>
+                            <option value=''>- 請選擇 -</option>
+                            @foreach($fare_depart_from as $key => $value)
+                            <option value='{{ $key }}' >{{ $key }}({{ $value }})</option>
+                            @endforeach
                         </select>
                         <div class="invalid-feedback">
                             請選擇去程交通
@@ -68,14 +64,10 @@
                     <label for='inputBackTo' class='col-md-2 control-label text-md-right'>修改回程交通</label>
                     <div class="col-md-4">
                         <select required class='form-control' name='back_to' id='inputBackTo'>
-                            <option value='自回' selected>自回</option>
-                            <option value='火車站接駁車' >火車站接駁車</option>
-                            <option value='台北專車' >台北專車</option>
-                            <option value='桃園專車' >桃園專車</option>
-                            <option value='新竹專車' >新竹專車</option>
-                            <option value='台中專車' >台中專車</option>
-                            <option value='台南專車' >台南專車</option>
-                            <option value='高雄專車' >高雄專車</option>
+                            <option value=''>- 請選擇 -</option>
+                            @foreach($fare_back_to as $key => $value)
+                            <option value='{{ $key }}' >{{ $key }}({{ $value }})</option>
+                            @endforeach
                         </select>
                         <div class="invalid-feedback">
                             請選擇回程交通
@@ -124,9 +116,10 @@
                     <label for='inputRoomType' class='col-md-2 control-label text-md-right'>修改房型</label>
                     <div class="col-md-4">
                         <select required class='form-control' name='room_type' id='inputRoomType'>
-                            <option value='不住宿' selected>不住宿</option>
-                            <option value='單人房' >單人房</option>
-                            <option value='雙人房' >雙人房</option>
+                        <option value=''>- 請選擇 -</option>
+                            @foreach($fare_room as $key => $value)
+                            <option value='{{ $key }}' >{{ $key }}({{ $value }})</option>
+                            @endforeach
                         </select>
                         <div class="invalid-feedback">
                             請選擇房型
