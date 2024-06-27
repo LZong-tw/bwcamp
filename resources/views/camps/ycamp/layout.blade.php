@@ -11,6 +11,12 @@
     <meta property='og:description' content='向生命更深的維度啟航，成為帶給世界溫暖與希望的人。' />
     {{-- <meta property='og:image' content='http://youth.blisswisdom.org/camp/media/2016Wbanner.png'/> --}}
     {{-- <link rel='icon' href='/camp/favicon.ico'> --}}
+    @if ($camp_data->year < now()->year || !$camp_data->year)
+        <meta name="googlebot" content="noindex">
+        <meta name="robots" content="noindex">
+        <meta name="googlebot" content="Nofollow">
+        <meta name="robots" content="Nofollow">
+    @endif
     <title> {{ $camp_data->fullName }} </title>
     <!-- Bootstrap core CSS -->
     <link href='{{ asset('css/bootstrap.min.css') }}' rel='stylesheet'>
