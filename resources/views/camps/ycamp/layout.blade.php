@@ -12,10 +12,8 @@
     {{-- <meta property='og:image' content='http://youth.blisswisdom.org/camp/media/2016Wbanner.png'/> --}}
     {{-- <link rel='icon' href='/camp/favicon.ico'> --}}
     @if ($camp_data->year < now()->year || !$camp_data->year)
-        <meta name="googlebot" content="noindex">
-        <meta name="robots" content="noindex">
-        <meta name="googlebot" content="Nofollow">
-        <meta name="robots" content="Nofollow">
+        <meta name="googlebot" content="noindex, nofollow">
+        <meta name="robots" content="noindex, nofollow">
     @endif
     <title> {{ $camp_data->fullName }} </title>
     <!-- Bootstrap core CSS -->
