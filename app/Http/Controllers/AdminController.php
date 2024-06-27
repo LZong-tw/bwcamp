@@ -411,8 +411,13 @@ class AdminController extends BackendController {
 
     public function showOrgs($camp_id){
         $camp = Camp::find($camp_id);
-        $vcamp = Camp::find($camp->vcamp->id);
-        $batches = $camp->batchs->merge($vcamp->batchs);
+        if (isset($camp->vcamp)) {
+            $vcamp = Camp::find($camp->vcamp->id);
+            $batches = $camp->batchs->merge($vcamp->batchs);
+        } else {
+            $vcamp = null;
+            $batches = $camp->batchs;
+        }
         $regions = $camp->regions;
         $orgs = $camp->organizations->sortBy('order');
         //$orgs = $camp->organizations->sortBy('batch_id');
