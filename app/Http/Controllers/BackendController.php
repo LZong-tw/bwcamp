@@ -388,11 +388,14 @@ class BackendController extends Controller
         //修改繳費資料/現場手動繳費
         if(\Str::contains(request()->headers->get('referer'), 'accounting')) {
             //checkPaymentStatus() 檢查完繳費狀況後會 return applicant
-            $candidate = $this->applicantService->checkPaymentStatus($candidate);
-            return view('backend.modifyAccounting', ['applicant' => $candidate]);
+            $applicant = $this->applicantService->checkPaymentStatus($candidate);
+            $camp_table = $applicant->batch->camp->table;
+            $fare_depart_from = config('camps_payments.fare_depart_from.' . $camp_table) ?? [];
+            $fare_back_to = config('camps_payments.fare_back_to.' . $camp_table) ?? [];
+            $fare_room = config('camps_payments.fare_room.' . $camp_table) ?? [];
+            return view('backend.modifyAccounting', compact('applicant','fare_depart_from','fare_back_to','fare_room'));
         }
         //設定取消參加
-        //dd($request);
         if(\Str::contains(request()->headers->get('referer'), 'modifyAttend') || (\Str::contains(request()->headers->get('referer'), 'modifyAttend') && $request->isMethod("GET"))) {
             $candidate = $this->applicantService->checkPaymentStatus($candidate);
             return view('backend.modifyAttend', ['applicant' => $candidate]);
@@ -426,12 +429,22 @@ class BackendController extends Controller
             return "<h3>沒有權限：瀏覽任何義工</h3>";
         }
         $batches = Batch::where("camp_id", $this->campFullData->id)->get();
-        return view('backend.registration.list', compact('batches'));
+        $camp = Camp::find($this->campFullData->id);
+        $regions = $camp->regions;
+        return view('backend.registration.list', compact('batches','regions'));
     }
 
     public function getRegistrationList(Request $request)
     {
+        if (!$this->isVcamp && !$this->user->canAccessResource(new \App\Models\Applicant(), 'read', $this->campFullData, 'onlyCheckAvailability') && $this->user->id > 2) {
+            return "<h3>沒有權限：瀏覽任何學員</h3>";
+        }
+        if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer(), 'read', Vcamp::find($this->campFullData->id)->mainCamp, 'onlyCheckAvailability') && $this->user->id > 2) {
+            return "<h3>沒有權限：瀏覽任何義工</h3>";
+        }
+
         ini_set('max_execution_time', 1200);
+        
         $batches = Batch::where("camp_id", $this->campFullData->id)->get();
         if(isset($request->region)) {
             $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
@@ -2048,7 +2061,11 @@ class BackendController extends Controller
         if ($request->isMethod('POST')) {
             $applicant = Applicant::find($request->id);
             $admitted_sn = $applicant->group.$applicant->number;
-            if($this->campFullData->table == 'ycamp') {
+            $camp_table = $this->campFullData->table;
+            $fare_depart_from = config('camps_payments.fare_depart_from.' . $camp_table) ?? [];
+            $fare_back_to = config('camps_payments.fare_back_to.' . $camp_table) ?? [];
+            $fare_room = config('camps_payments.fare_room.' . $camp_table) ?? [];
+            if($camp_table == 'ycamp') {
                 $traffic = $applicant->traffic;
                 //尚未登記，建新的Traffic
                 if (!$traffic) {
@@ -2058,9 +2075,6 @@ class BackendController extends Controller
                 //更新去程交通、回桯交通及應繳車資
                 $traffic->depart_from = $request->depart_from;
                 $traffic->back_to = $request->back_to;
-                $fare_depart_from = config('camps_payments.fare_depart_from.'.$this->campFullData->table) ?? [];
-                $fare_back_to = config('camps_payments.fare_back_to.'.$this->campFullData->table) ?? [];
-
                 $traffic->fare = ($fare_depart_from[$traffic->depart_from] ?? 0) + ($fare_back_to[$traffic->back_to] ?? 0);
                 //更新現金繳費金額
                 if ($request->is_add == 'add')
@@ -2074,8 +2088,8 @@ class BackendController extends Controller
                 $applicant = $this->applicantService->fillPaymentData($applicant);
                 $applicant->save();
                 $message = "手動繳費完成。";
-                return view("backend.modifyAccounting", compact("applicant", "message"));
-            } elseif ($this->campFullData->table == 'ceocamp') {
+                return view("backend.modifyAccounting", compact('applicant','message','fare_depart_from','fare_back_to', 'fare_room'));
+            } elseif ($camp_table == 'ceocamp') {
                 $lodging = $applicant->lodging;
                 //尚未登記，建新的Lodging
                 if (!$lodging) {
@@ -2085,7 +2099,6 @@ class BackendController extends Controller
                 //更新房型、天數及應繳車資
                 $lodging->room_type = $request->room_type;
                 $lodging->nights = $request->nights;
-                $fare_room = config('camps_payments.fare_room.'.$this->campFullData->table) ?? [];
                 $lodging->fare = ($fare_room[$lodging->room_type] ?? 0) * ($lodging->nights ?? 0);
                 //更新現金繳費金額
                 if ($request->is_add == 'add')
@@ -2102,7 +2115,7 @@ class BackendController extends Controller
                 if ($request->page=="attendeeInfo") {
                     return redirect()->back();
                 } else {
-                    return view("backend.modifyAccounting", compact("applicant", "message"));
+                    return view("backend.modifyAccounting", compact('applicant','message','fare_depart_from','fare_back_to', 'fare_room'));
                 }
             } else {
                 if($admitted_sn == $request->double_check || $applicant->id == $request->double_check) {
@@ -2110,11 +2123,11 @@ class BackendController extends Controller
                     $applicant->save();
                     $applicant = $this->applicantService->checkPaymentStatus($applicant);
                     $message = "繳費完成 / 已繳金額設定完成。";
-                    return view("backend.modifyAccounting", compact("applicant", "message"));
+                    return view("backend.modifyAccounting", compact('applicant','message','fare_depart_from','fare_back_to', 'fare_room'));
                 } else {
                     $error = "報名序號錯誤。";
                     $applicant = $this->applicantService->checkPaymentStatus($applicant);
-                    return view("backend.modifyAccounting", compact("applicant", "error"));
+                    return view("backend.modifyAccounting", compact('applicant','message','fare_depart_from','fare_back_to', 'fare_room'));
                 }
             }
         }
