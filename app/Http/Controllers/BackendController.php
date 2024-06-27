@@ -444,7 +444,7 @@ class BackendController extends Controller
         }
 
         ini_set('max_execution_time', 1200);
-        
+
         $batches = Batch::where("camp_id", $this->campFullData->id)->get();
         if(isset($request->region)) {
             $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
@@ -1560,20 +1560,100 @@ class BackendController extends Controller
 
         $lodgings = config('camps_payments.fare_room.' . $camp->table) ?? [];
 
+        $qrcode = $this->generateQrCodeWithText($applicant);
+
         //dd($dynamic_stat_urls);
         if(str_contains($camp->table, "vcamp")) {
-            return view('backend.in_camp.volunteerInfo', compact('camp', 'batch', 'applicant', 'contactlog'));
+            return view('backend.in_camp.volunteerInfo', compact('camp', 'batch', 'applicant', 'contactlog', 'qrcode'));
         } elseif($camp->table == "acamp") {
-            return view('backend.in_camp.attendeeInfoAcamp', compact('camp', 'batch', 'applicant', 'contactlog'));
+            return view('backend.in_camp.attendeeInfoAcamp', compact('camp', 'batch', 'applicant', 'contactlog', 'qrcode'));
         } elseif($camp->table == "ceocamp") {
-            return view('backend.in_camp.attendeeInfoCeocamp', compact('camp', 'batch', 'applicant', 'contactlog', 'dynamic_stat_urls', 'lodgings'));
+            return view('backend.in_camp.attendeeInfoCeocamp', compact('camp', 'batch', 'applicant', 'contactlog', 'dynamic_stat_urls', 'lodgings', 'qrcode'));
         } elseif($camp->table == "ecamp") {
-            return view('backend.in_camp.attendeeInfoEcamp', compact('camp', 'batch', 'applicant', 'contactlog', 'dynamic_stat_urls'));
+            return view('backend.in_camp.attendeeInfoEcamp', compact('camp', 'batch', 'applicant', 'contactlog', 'dynamic_stat_urls', 'qrcode'));
         } elseif($camp->table == "ycamp") {
-            return view('backend.in_camp.attendeeInfoYcamp', compact('camp', 'batch', 'applicant', 'contactlog'));
+            return view('backend.in_camp.attendeeInfoYcamp', compact('camp', 'batch', 'applicant', 'contactlog', 'qrcode'));
         } else {
-            return view('backend.in_camp.attendeeInfo', compact('camp', 'batch', 'applicant', 'contactlog'));
+            return view('backend.in_camp.attendeeInfo', compact('camp', 'batch', 'applicant', 'contactlog', 'qrcode'));
         }
+    }
+
+    public function generateQrCodeWithText(Applicant $applicant)
+    {
+        // Generate QR code
+        $qrcodeData = \DNS2D::getBarcodePNG('{"applicant_id":' . $applicant->id . '}', 'QRCODE', 150, 150); // Using a scale factor instead of pixel dimensions
+
+        // Create image resource from QR code
+        $qrcodeImage = imagecreatefromstring(base64_decode($qrcodeData));
+        if (!$qrcodeImage) {
+            die('Failed to create image from QR code');
+        }
+
+        // Text to display on the image
+        $text = $applicant->group . $applicant->number . "：" . $applicant->name;
+
+        // Use a TrueType font for better control over the text size and encoding
+        $fontFile = storage_path('fonts/msjh.ttf'); // Ensure the font file path is correct
+        $fontSize = 300; // Adjust the font size as needed
+
+        // Get the bounding box size of the text
+        $bbox = imagettfbbox($fontSize, 0, $fontFile, $text);
+        $textWidth = $bbox[2] - $bbox[0] + 80;
+        $textHeight = $bbox[1] - $bbox[7] + 120;
+
+        // Create a blank image for the text
+        $textImage = imagecreatetruecolor($textWidth, $textHeight);
+        $background_color = imagecolorallocate($textImage, 255, 255, 255); // white background
+        $text_color = imagecolorallocate($textImage, 0, 0, 0); // black text
+
+        // Fill the background with the allocated color
+        imagefill($textImage, 0, 0, $background_color);
+
+        // Add the text to the image with UTF-8 encoding support
+        imagettftext($textImage, $fontSize, 0, 0, $fontSize + 60, $text_color, $fontFile, $text);
+
+        // Merge the QR code with the text image
+        $qrcodeWidth = imagesx($qrcodeImage) + 320;
+        $qrcodeHeight = imagesy($qrcodeImage) + 320;
+
+        $finalWidth = max($qrcodeWidth, $textWidth + 20); // Ensure some padding
+        $finalHeight = $qrcodeHeight + $textHeight + 10;
+
+        $finalImage = imagecreatetruecolor($finalWidth, $finalHeight);
+        $white = imagecolorallocate($finalImage, 255, 255, 255);
+        imagefill($finalImage, 0, 0, $white);
+
+        // Copy text image onto the final image
+        imagecopy($finalImage, $textImage, 160, 100, 0, 0, $textWidth, $textHeight);
+
+        // Copy the QR code to the final image
+        imagecopy($finalImage, $qrcodeImage, 160, $textHeight + 160, 0, 0, $qrcodeWidth, $qrcodeHeight);
+
+        // Calculate new dimensions
+        $newWidth = $finalWidth / 10;
+        $newHeight = $finalHeight / 10;
+
+        // Create a new image with the reduced dimensions
+        $resizedImage = imagecreatetruecolor($newWidth, $newHeight);
+        imagecopyresampled($resizedImage, $finalImage, 0, 0, 0, 0, $newWidth, $newHeight, $finalWidth, $finalHeight);
+
+        // Output the final image to a buffer
+        ob_start();
+        imagepng($resizedImage);
+        $imageData = ob_get_contents();
+        ob_end_clean();
+
+        // Encode the image data to base64
+        $base64Image = base64_encode($imageData);
+
+        // Free memory
+        imagedestroy($qrcodeImage);
+        imagedestroy($textImage);
+        imagedestroy($finalImage);
+        imagedestroy($resizedImage);
+
+        // Return the base64 image
+        return $base64Image;
     }
 
     public function deleteUserRole(Request $request)
