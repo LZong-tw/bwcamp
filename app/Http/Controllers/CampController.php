@@ -524,8 +524,8 @@ class CampController extends Controller
         if($applicant && $applicant->camp->id == $camp->id) {
             $traffic = null;
             $applicant->id = $applicant->applicant_id;
-            if($applicant->batch->id == 132 && $applicant->traffic == null) {
-                //for 2023 ycamp, if null, create one
+            if($applicant->batch->camp->table == "ycamp" && $applicant->traffic == null) {
+                //for ycamp, if null, create one
                 $newTraffic = array();
                 $newTraffic['applicant_id'] = $applicant->id;
                 $newTraffic['depart_from'] = "自往";
