@@ -164,10 +164,11 @@ class checkPayment extends Command
                     $applicant = \App\Models\Applicant::where('bank_second_barcode', $item["銷帳帳號"])->orderBy("id", "desc")->first();
                     if($applicant){
                         $applicant->deposit = $applicant->deposit + $item["繳款金額"];
-                        if($this->argument('camp') == 'hcamp'){
+                        $camp_table = $applicant->batch->camp->table;
+                        if($camp_table == 'hcamp'){
                             $applicant->is_admitted = 1;
                             $applicant->save();
-                        } else if ($this->argument('camp') == 'ycamp') {
+                        } else if ($camp_table == 'ycamp') {
                             $traffic = $applicant->traffic;
                             if (!$traffic) {
                                 $traffic = new Traffic;
@@ -177,7 +178,7 @@ class checkPayment extends Command
                             }
                             $traffic->deposit = $applicant->deposit;
                             $traffic->save();
-                        } else if ($this->argument('camp') == 'ceocamp') {
+                        } else if ($camp_table == 'ceocamp') {
                             $lodging = $applicant->lodging;
                             if (!$lodging) {
                                 $lodging = new Lodging;
