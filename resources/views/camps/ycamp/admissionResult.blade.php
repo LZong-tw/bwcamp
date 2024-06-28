@@ -96,7 +96,7 @@
                             <label for='inputBackTo' class='col-md-2 control-label text-md-right'>回程交通</label>
                             <div class="col-md-4">
                                 <select required class='form-control' name='back_to' id='inputBackTo'>
-                                <option value=''>- 請選擇 -</option>
+                                    <option value=''>- 請選擇 -</option>
                                     @foreach($fare_back_to as $key => $value)
                                     <option value='{{ $key }}' >{{ $key }}({{ $value }})</option>
                                     @endforeach
