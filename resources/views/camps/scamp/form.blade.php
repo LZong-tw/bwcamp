@@ -14,7 +14,9 @@
 
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }} 線上報名表</h4>
-        課程資訊聯絡人：許秀寬0918627969
+        課程資訊聯絡人：0918627969 許小姐<br>
+        　　　　　　　　0918031509 李小姐<br>
+        　　　　　　　　0939349349 陳小姐<br>
     </div>
 
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
@@ -48,7 +50,7 @@
 
     @if(isset($isModify))
         <div class='row form-group'>
-            <label for='inputBatch' class='col-md-2 control-label text-md-right'>報名日期</label>
+            <label for='inputCreateAt' class='col-md-2 control-label text-md-right'>報名日期</label>
             <div class='col-md-10'>
                 {{ $applicant_raw_data->created_at }}
             </div>
@@ -119,7 +121,7 @@
                     西元
                 </div>
                 <div class="col-md-3">
-                    <input type='number' class='form-control' name='birthyear' min=1970 max='{{ \Carbon\Carbon::now()->subYears(16)->year }}' value='' placeholder=''>
+                    <input type='number' class='form-control' name='birthyear' min='{{ \Carbon\Carbon::now()->subYears(80)->year }}' max='{{ \Carbon\Carbon::now()->subYears(16)->year }}' value='' placeholder=''>
                     <div class="invalid-feedback">
                         未填寫或日期不正確
                     </div>
@@ -252,10 +254,10 @@
         </div>
     </div>
 
-    <div class='row form-group required'>
+    <div class='row form-group'>
     <label for='inputAddressWork' class='col-md-2 control-label text-md-right'>服務單位地址</label>
         <div class='col-md-10'>
-            <input type=text required name='address_work' value='' class='form-control' id='inputAddressWork'>
+            <input type=text name='address_work' value='' class='form-control' id='inputAddressWork'>
             <div class="invalid-feedback crumb">
                 請填寫服務單位地址
             </div>
@@ -272,32 +274,85 @@
         </div>
     </div>
 
-    <div class='row form-group required'>
+    <div class='row form-group'>
     <label for='inputTitle' class='col-md-2 control-label text-md-right'>職稱</label>
         <div class='col-md-10'>
-            <input type=text required name='title' value='' class='form-control' id='inputTitle'>
+            <input type=text name='title' value='' class='form-control' id='inputTitle'>
             <div class="invalid-feedback crumb">
                 請填寫職稱
             </div>
         </div>
     </div>
 
-    <div class='row form-group required'>
-    <label for='inputTitle' class='col-md-2 control-label text-md-right'>服務年資</label>
+    <div class='row form-group'>
+    <label for='inputSeniority' class='col-md-2 control-label text-md-right'>服務年資</label>
         <div class='col-md-10'>
-            <input type=number required class='form-control' name='seniority' min=0 max=80 value='' placeholder=''>
+            <input type=number class='form-control' name='seniority' min=0 max=80 value='' placeholder=''>
             <div class="invalid-feedback crumb">
                 請填寫服務年資
             </div>
         </div>
     </div>
+    
+    <div class='row form-group required'>
+        <label for='inputWay' class='col-md-2 control-label text-md-right'>如何得知本課程訊息</label>
+        <div class='col-md-10'>
+            <p class='form-control-static text-info'>單選，請選最主要管道。</p>
+            <label class=radio-inline>
+                <input type=radio required name='way' value=Line宣傳 onClick='select_source(0);'> Line宣傳
+                <div class="invalid-feedback">
+                    請選擇如何得知管道
+                </div>
+            </label> 
+            <label class=radio-inline>
+                <input type=radio required name='way' value=臉書等社群網站 onClick='select_source(1);'> 臉書等社群網站
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label> 
+            <label class=radio-inline>
+                <input type=radio required name='way' value=電子郵件 onClick='select_source(2);'> 電子郵件
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label> 
+            <label class=radio-inline>
+                <input type=radio required name='way' value=書面文宣 onClick='select_source(3);'> 書面文宣
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label> 
+            <label class=radio-inline>
+                <input type=radio required name='way' value=親友介紹 onClick='select_source(4);'> 親友介紹
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label> 
+            <label class=radio-inline>
+                <input type=radio required name='way' value=其它 onClick='select_source(5);'> 其它
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label>
+        </div>
+    </div>
 
-    <div class='row form-group'>
+    <div class='row form-group required introducer_name' style="display:none">
         <label for='inputIntroducerName' class='col-md-2 control-label text-md-right'>課程介紹人</label>
         <div class='col-md-10'>
-            <input type='text' name='introducer_name' value='' class='form-control' id='inputIntroducerName'>
+            <input type='text' required name='introducer_name' value='' class='form-control' id='inputIntroducerName'>
             <div class="invalid-feedback">
                 請填寫介紹人姓名
+            </div>
+        </div>
+    </div>
+
+    <div class='row form-group required way_other' style="display:none">
+        <label for='inputWayOther' class='col-md-2 control-label text-md-right'>得知管道：自填</label>
+        <div class='col-md-10'>
+            <input type='text' required name='way_other' value='' class='form-control' id='inputWayOther'>
+            <div class="invalid-feedback">
+                請自填得知管道
             </div>
         </div>
     </div>
@@ -307,7 +362,7 @@
         <div class='col-md-10'>
             <textarea class='form-control' rows=2 name='expectation' id=inputExpect></textarea>
             <div class="invalid-feedback">
-                請填寫本欄位
+                請填寫對本次課程的期待
             </div>
         </div>
     </div>
@@ -341,8 +396,8 @@
         <div class="col-md-10">
             <div class="form-check form-check-inline">
                 <label class="form-check-label">
-                    <input type="radio" name="exam_format" value="筆電" required>
-                    筆電
+                    <input type="radio" required name="exam_format" value="筆電">
+                    筆電(裝置自備)
                     <div class="invalid-feedback">
                         請選擇一項
                     </div>
@@ -350,8 +405,8 @@
             </div>
             <div class="form-check form-check-inline">
                 <label class="form-check-label">
-                    <input type="radio" name="exam_format" value="平板" required>
-                    平板
+                    <input type="radio" required name="exam_format" value="平板">
+                    平板(裝置自備)
                     <div class="invalid-feedback">
                         &nbsp;
                     </div>
@@ -359,8 +414,8 @@
             </div>
             <div class="form-check form-check-inline">
                 <label class="form-check-label">
-                    <input type="radio" name="exam_format" value="手機" required>
-                    手機
+                    <input type="radio" required name="exam_format" value="手機">
+                    手機(裝置自備)
                     <div class="invalid-feedback">
                         &nbsp;
                     </div>
@@ -368,12 +423,24 @@
             </div>
             <div class="form-check form-check-inline">
                 <label class="form-check-label">
-                    <input type="radio" name="exam_format" value="紙本" required>
+                    <input type="radio" required name="exam_format" value="紙本">
                     紙本
                     <div class="invalid-feedback">
                         &nbsp;
                     </div>
                 </label>
+            </div>
+        </div>
+    </div>
+
+    <div class='row form-group required'>
+        <label for='inputLast5' class='col-md-2 control-label text-md-right'>匯款帳號後五碼</label>
+        <div class='col-md-10'>
+            <p class='form-control-static text-info'>
+            說明：考證費用為台幣 $500，請將費用匯至以下匯款帳號，並填寫您繳款的帳號後五碼。<br>板信商業銀行(118)<br>匯款帳號：0914-5-00000510-7</p>
+            <input type=number required class='form-control' name='last5' min=0 max=99999 value='' placeholder=''>
+            <div class="invalid-feedback crumb">
+                請填寫匯款帳號後五碼
             </div>
         </div>
     </div>
@@ -491,6 +558,30 @@
             }
         }
         
+        function select_source(way){        
+            tg_intro = document.getElementsByClassName('introducer_name');
+            tg_way = document.getElementsByClassName('way_other');
+            console.log(tg_intro);
+            console.log(tg_way);
+            if (way==4) {
+                document.getElementById("inputIntroducerName").required = true;
+                document.getElementById("inputWayOther").required = false;
+                tg_intro[0].style.display = '';
+                tg_way[0].style.display = 'none';
+            } else if (way==5) {
+                document.getElementById("inputIntroducerName").required = false;
+                document.getElementById("inputWayOther").required = true;
+                inputWayOther
+                tg_intro[0].style.display = 'none';
+                tg_way[0].style.display = '';
+            } else {
+                document.getElementById("inputIntroducerName").required = false;
+                document.getElementById("inputWayOther").required = false;
+                tg_intro[0].style.display = 'none';
+                tg_way[0].style.display = 'none';
+            }
+        }
+
         @if(isset($applicant_data))
             {{-- 回填報名資料 --}}
             (function() {
