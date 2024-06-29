@@ -5,7 +5,10 @@
     {{-- $applicant->batch->camp->admission_announcing_date --}} 
     後續會透過E-mail通知您活動訊息。<br>
     <br>
-    若對活相關訊息有任何問題或建議，歡迎洽詢您的企業營關懷員：<br>
+    若對活相關訊息有任何問題或建議，歡迎洽詢：<br>
+    課程資訊聯絡人：0918627969 許小姐<br>
+    　　　　　　　　0918031509 李小姐<br>
+    　　　　　　　　0939349349 陳小姐<br>
     <br>
     <br>
-<blockquote>財團法人福智文教基金會  敬啟</blockquote>
+<blockquote>全球永續創生推廣協會  敬啟</blockquote>
