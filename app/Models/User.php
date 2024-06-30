@@ -200,7 +200,7 @@ class User extends Authenticatable
     }
 
     public function fillingAccessibleReult($resource, $action, $camp, $context = null, $target = null, $probing = null) {
-        $result = $this->getAccessibleReult($resource, $action, $camp, $context, $target, $probing);
+        $result = $this->getAccessibleResult($resource, $action, $camp, $context, $target, $probing);
         $class = get_class($resource);
         $batch_id = null;
         $region_id = null;
@@ -225,8 +225,8 @@ class User extends Authenticatable
         ]);
         return $result ? true : false;
     }
-
-    public function getAccessibleReult($resource, $action, $camp, $context = null, $target = null, $probing = null) {
+    
+    public function getAccessibleResult($resource, $action, $camp, $context = null, $target = null, $probing = null) {
         if (!$this->camp_roles) {
             $this->camp_roles = $this->permissionsRolesParser($camp);
         }
