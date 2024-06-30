@@ -36,9 +36,9 @@ class PreFillAccessResults extends Command
         $bar->start();
 
         foreach ($users as $user) {
-            $this->info("Processing user: {$user->id} - {$user->name}");
+            $this->info("\nProcessing user: {$user->id} - {$user->name}");
             foreach ($camps as $camp) {
-                $this->info("Processing camp: {$camp->id} - {$camp->name}");
+                $this->info("\nProcessing camp: {$camp->id} - {$camp->name}");
 
                 foreach ($resourceClasses as $resourceClass) {
                     $resources = $resourceClass::all();
