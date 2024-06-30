@@ -11,7 +11,6 @@ use App\Models\CheckIn;
 use App\Models\Vcamp;
 use App\Models\Lodging;
 
-
 class SheetController extends Controller
 {
     protected $gsheetservice;
@@ -43,12 +42,12 @@ class SheetController extends Controller
 
     public function showGSFeedback(Request $request)
     {
-        if ($request->day==1) {
+        if ($request->day == 1) {
             config([
                 'google.post_spreadsheet_id' => '1Bdnv5ehYLCYv_8RYhtbqVS2rseOuoxdaVvP2Ehi6egM',
                 'google.post_sheet_id' => '表單回應 1',
             ]);
-        } elseif ($request->day==2) {
+        } elseif ($request->day == 2) {
             config([
                 'google.post_spreadsheet_id' => '1JCeg9KBNM4jQXDjPP-Zi0kcuJogkYc9CajK-53IQCeU',
                 'google.post_sheet_id' => '表單回應 1',
@@ -68,28 +67,29 @@ class SheetController extends Controller
 
         //multiple name columns
         $keys = array_keys($titles, '姓名');
-        
+
         foreach($keys as $key) {
             $i = 0;
             foreach ($sheets as $row) {
                 $names[$i] = $row[$key];
-                $i = $i+1;
+                $i = $i + 1;
             }
             $key1 = array_search($name_tg, $names);
-            if ($key1 <> false) break;
+            if ($key1 <> false) {
+                break;
+            }
         }
-        
+
         if ($key1 == false) {
             $contents = null;
             $content_count = 0;
-        }
-        else {
+        } else {
             //to deal with content_count < title_count
             $contents = $sheets[$key1];
             $content_count = count($contents);
         }
 
-        return view('backend.in_camp.gsFeedback', compact('titles','contents','content_count'));
+        return view('backend.in_camp.gsFeedback', compact('titles', 'contents', 'content_count'));
     }
 
     public function showGSDynamic(Request $request)
@@ -107,28 +107,29 @@ class SheetController extends Controller
 
         //multiple name columns
         $keys = array_keys($titles, '姓名');
-        
+
         foreach($keys as $key) {
             $i = 0;
             foreach ($sheets as $row) {
                 $names[$i] = $row[$key];
-                $i = $i+1;
+                $i = $i + 1;
             }
             $key1 = array_search($name_tg, $names);
-            if ($key1 <> false) break;
+            if ($key1 <> false) {
+                break;
+            }
         }
-        
+
         if ($key1 == false) {
             $contents = null;
             $content_count = 0;
-        }
-        else {
+        } else {
             //to deal with content_count < title_count
             $contents = $sheets[$key1];
             $content_count = count($contents);
         }
 
-        return view('backend.in_camp.gsFeedback', compact('titles','contents','content_count'));
+        return view('backend.in_camp.gsFeedback', compact('titles', 'contents', 'content_count'));
     }
 
     public function importGSApplicants(Request $request)
@@ -149,9 +150,9 @@ class SheetController extends Controller
 
         $success_count = 0;
         $fail_count = 0;
-        for ($i=1; $i<$num_rows; $i++) {
+        for ($i = 1; $i < $num_rows; $i++) {
             $data = $sheets[$i];
-            for ($j=0; $j<$num_cols; $j++) {
+            for ($j = 0; $j < $num_cols; $j++) {
                 $title_data[$titles[$j]] = $data[$j];
             }
             $applicant = Applicant::select('applicants.*')
@@ -166,7 +167,7 @@ class SheetController extends Controller
                 //$applicant->save();
                 $fail_count++;
             } else {            //create new
-                $applicant = \DB::transaction(function () use ($title_data,$table) {
+                $applicant = \DB::transaction(function () use ($title_data, $table) {
                     $applicant = Applicant::create($title_data);
                     $title_data['applicant_id'] = $applicant->id;
                     $model = '\\App\\Models\\' . ucfirst($table);
@@ -203,19 +204,19 @@ class SheetController extends Controller
                 'google.post_spreadsheet_id' => '1ihb-bcwwW8JItIyH692YniCJ03yyuqonXOseObExlvc',
                 'google.post_sheet_id' => 'ecamp',
             ]);
-        } else if ($table == 'evcamp') {
+        } elseif ($table == 'evcamp') {
             config([
                 //evcamp
                 'google.post_spreadsheet_id' => '1ihb-bcwwW8JItIyH692YniCJ03yyuqonXOseObExlvc',
                 'google.post_sheet_id' => 'evcamp',
             ]);
-        } else if ($table == 'ceocamp') {
+        } elseif ($table == 'ceocamp') {
             config([
                 //evcamp
                 'google.post_spreadsheet_id' => '1GUvMO-GDdbfq3gVDHUMt_HTcEsj3dNFir5dO5KlnAGQ',
                 'google.post_sheet_id' => 'ceocamp',
             ]);
-        } else if ($table == 'ceovcamp'){
+        } elseif ($table == 'ceovcamp') {
             config([
                 //ceocamp
                 'google.post_spreadsheet_id' => '1GUvMO-GDdbfq3gVDHUMt_HTcEsj3dNFir5dO5KlnAGQ',
@@ -224,12 +225,12 @@ class SheetController extends Controller
         } else {
             exit(1);
         }
-        
+
         //$sheets = $this->gsheetservice->Get(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
 
         $applicants = Applicant::select('applicants.*', $table . '.*')
         ->join($table, 'applicants.id', '=', $table . '.applicant_id')
-        ->join('batchs','applicants.batch_id', '=', 'batchs.id')
+        ->join('batchs', 'applicants.batch_id', '=', 'batchs.id')
         ->join('camps', 'batchs.camp_id', '=', 'camps.id')
         ->where('camps.id', $request->camp_id)
         ->orderBy('applicants.id')
@@ -240,9 +241,9 @@ class SheetController extends Controller
             $rows[] = $v;
         }
 
-        if($request->app_id==0) {
+        if($request->app_id == 0) {
             $this->gsheetservice->Clear(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
-            $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $rows);  
+            $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $rows);
         }
 
         foreach ($applicants as $applicant) {
@@ -255,11 +256,11 @@ class SheetController extends Controller
                 $data = null;
                 if($key == "admitted_no") {
                     $data = $applicant->group . $applicant->number;
-                } else if($key == "bName") {
+                } elseif($key == "bName") {
                     $data = $applicant->batch->name;
-                } else if($key == "carers") {
+                } elseif($key == "carers") {
                     $data = $applicant->carer_names();
-                } else if($key == "is_attend") {
+                } elseif($key == "is_attend") {
                     match ($applicant->is_attend) {
                         0 => $data = "不參加",
                         1 => $data = "參加",
@@ -268,18 +269,18 @@ class SheetController extends Controller
                         4 => $data = "無法全程",
                         default => $data = "尚未聯絡"
                     };
-                } else if($key == "camporg_section") {
+                } elseif($key == "camporg_section") {
                     $user = ($applicant->user ?? null);
                     //$roles = ($user)? $user->roles->where('camp_id', $main_camp_id) : null;
                     $roles = $user?->roles?->where('camp_id', $main_camp_id) ?? null;
-                    $data = ($roles)? $roles->flatten()->pluck('section')->implode(','): "";
-                } else if($key == "camporg_position") {
+                    $data = ($roles) ? $roles->flatten()->pluck('section')->implode(',') : "";
+                } elseif($key == "camporg_position") {
                     $user = ($applicant->user ?? null);
-                    $roles = ($user)? $user->roles->where('camp_id', $main_camp_id): null;
-                    $data = ($roles)? $roles->flatten()->pluck('position')->implode(','): "";
-                } else if($key == "fare") {
+                    $roles = ($user) ? $user->roles->where('camp_id', $main_camp_id) : null;
+                    $data = ($roles) ? $roles->flatten()->pluck('position')->implode(',') : "";
+                } elseif($key == "fare") {
                     $data = ($applicant->lodging?->fare) ?? "";
-                } else if($key == "deposit") {
+                } elseif($key == "deposit") {
                     $data = ($applicant->lodging?->deposit) ?? "";
                 } else {
                     $data = $applicant->$key;
@@ -291,9 +292,9 @@ class SheetController extends Controller
             usleep(5000);   //5 millisecond
         }
     }
-    
+
     public function exportGSCheckIn(Request $request)
-    {   
+    {
         //將報名報到結果寫回GS
         $camp = Camp::find($request->camp_id);
         $table = $camp->table;
@@ -307,7 +308,7 @@ class SheetController extends Controller
                 'google.post_spreadsheet_id' => '1ihb-bcwwW8JItIyH692YniCJ03yyuqonXOseObExlvc',
                 'google.post_sheet_id' => 'checkin',
             ]);
-        } else if ($table == 'ceocamp') {
+        } elseif ($table == 'ceocamp') {
             config([
                 //evcamp
                 'google.post_spreadsheet_id' => '1GUvMO-GDdbfq3gVDHUMt_HTcEsj3dNFir5dO5KlnAGQ',
@@ -316,19 +317,19 @@ class SheetController extends Controller
         } else {
             exit(1);
         }
-        
+
         $sheets = $this->gsheetservice->Get(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
         $titles = $sheets[0];
         //$num_cols = count($titles);
         $num_rows = count($sheets);
 
         //columns: applicant_id, updated_at
-        $last_updated_time = \Carbon\Carbon::parse($sheets[$num_rows-1][1]);
+        $last_updated_time = \Carbon\Carbon::parse($sheets[$num_rows - 1][1]);
         //dd($last_updated_time);
         $check_in_new = \DB::table('check_in')
             ->whereDate('updated_at', '>', $last_updated_time)
             ->whereIn('applicant_id', $ids)
-            ->orderBy('updated_at','asc')->get();
+            ->orderBy('updated_at', 'asc')->get();
         //dd($check_in_new);
         foreach($check_in_new as $check_in) {
             $row[0] = $check_in->applicant_id;
@@ -364,12 +365,12 @@ class SheetController extends Controller
         $colidx3 = 0;
 
         //find title
-        for ($i=1; $i<$num_cols; $i++) {
+        for ($i = 1; $i < $num_cols; $i++) {
             if (str_contains($titles[$i], $title_tg1)) {
                 $colidx1 = $i;
-            } else if (str_contains($titles[$i], $title_tg2)) {
+            } elseif (str_contains($titles[$i], $title_tg2)) {
                 $colidx2 = $i;
-            } else if (str_contains($titles[$i], $title_tg3)) {
+            } elseif (str_contains($titles[$i], $title_tg3)) {
                 $colidx3 = $i;
             }
         }
@@ -379,51 +380,52 @@ class SheetController extends Controller
         $ids = array();
         $is_attends = array();
         $room_types = array();
-        for ($j=1; $j<$num_rows; $j++) {
+        for ($j = 1; $j < $num_rows; $j++) {
             $data = $sheets[$j];
             if (count($data) > 2) { //已調查
                 array_push($ids, $data[$colidx1]);
                 //$is_attends[$data[$colidx1]] = ($data[$colidx2]?? "");
                 if (isset($data[$colidx2])) {
-                    if ($data[$colidx2] == "是")
+                    if ($data[$colidx2] == "是") {
                         $is_attends[$data[$colidx1]] = 1;
-                    elseif ($data[$colidx2] == "否")
+                    } elseif ($data[$colidx2] == "否") {
                         $is_attends[$data[$colidx1]] = 0;
-                    elseif ($data[$colidx2] == "不確定")
+                    } elseif ($data[$colidx2] == "不確定") {
                         $is_attends[$data[$colidx1]] = 2;
+                    }
                 }
-                $room_types[$data[$colidx1]] = ($data[$colidx3]?? "");
+                $room_types[$data[$colidx1]] = ($data[$colidx3] ?? "");
             }
         }
         $applicants = Applicant::select('applicants.*')
             ->whereIn('id', $ids)->get();
-        
+
         //try {
-            foreach ($applicants as $applicant) {
-                $applicant->is_attend = ($is_attends[$applicant->id]?? null);
-                if ($room_types[$applicant->id] == "") {
-                    $applicant->save();
-                } else {             
-                    $lodging = $applicant->lodging;
-                    //尚未登記，建新的Lodging
-                    if (!isset($lodging)) {
-                        $lodging = new Lodging;
-                        $lodging->applicant_id = $applicant->id;
-                    }
-                    //更新房型、天數及應繳車資
-                    $lodging->room_type = $room_types[$applicant->id];
-                    $lodging->nights = 1;
-                    $lodging->fare = ($fare_room[$lodging->room_type] ?? 0) * ($lodging->nights ?? 0);
-                    $lodging->save();
-                    //update barcode
-                    $applicant = $this->applicantService->fillPaymentData($applicant);
-                    $applicant->save();
+        foreach ($applicants as $applicant) {
+            $applicant->is_attend = ($is_attends[$applicant->id] ?? null);
+            if ($room_types[$applicant->id] == "") {
+                $applicant->save();
+            } else {
+                $lodging = $applicant->lodging;
+                //尚未登記，建新的Lodging
+                if (!isset($lodging)) {
+                    $lodging = new Lodging();
+                    $lodging->applicant_id = $applicant->id;
                 }
+                //更新房型、天數及應繳車資
+                $lodging->room_type = $room_types[$applicant->id];
+                $lodging->nights = 1;
+                $lodging->fare = ($fare_room[$lodging->room_type] ?? 0) * ($lodging->nights ?? 0);
+                $lodging->save();
+                //update barcode
+                $applicant = $this->applicantService->fillPaymentData($applicant);
+                $applicant->save();
             }
+        }
         //}
         //catch(\Exception $e){
         //    logger($e);
-        //} 
+        //}
         return;
     }
 }
