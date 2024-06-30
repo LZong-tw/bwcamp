@@ -1832,7 +1832,7 @@ class BackendController extends Controller
             $showNoJob = null;
         }
         $accessibleApplicantIds = Ucaronr::select('accessible_id')
-                                    ->where('user_id', $user->id)
+                                    ->where('user_id', $this->user->id)
                                     ->where('camp_id', $this->campFullData->id)
                                     ->where('accessible_type', 'App\Models\Applicant')
                                     ->where('can_access', 1);
