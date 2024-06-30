@@ -34,6 +34,7 @@ use App\Models\Ucaronr;
 use App\Services\GSheetService;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Config;
 
 class BackendController extends Controller
 {
@@ -1726,7 +1727,7 @@ class BackendController extends Controller
             }
             $queryStr = $this->backendService->queryStringParser($payload, $request);
         }
-
+        $campId = $this->campFullData->id;
         $cacheKey = 'applicants_user_' . $user->id . '_camp_' . $campId . '_batch_' . ($request->batch_id ?? 'all') . '_query_' . md5($queryStr);
 
         $applicants = Cache::remember($cacheKey, Config::get('cache.ttl', 60), function() use ($user, $campId, $request, $queryStr) {
