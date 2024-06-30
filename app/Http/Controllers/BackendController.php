@@ -1881,7 +1881,7 @@ class BackendController extends Controller
         $accessibleRegisteredUserIds = Ucaronr::select('accessible_id')
                                                 ->where('user_id', $this->user->id)
                                                 ->where('camp_id', $this->campFullData->id)
-                                                ->where('accessible_type', 'App\Models\RegisteredUser')
+                                                ->where('accessible_type', 'App\Models\User')
                                                 ->where('context', 'vcamp')
                                                 ->where('can_access', 1)
                                                 ->pluck('accessible_id');
