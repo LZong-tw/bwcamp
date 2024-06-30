@@ -1861,15 +1861,11 @@ class BackendController extends Controller
         });
 
         $applicants = Cache::remember($cacheKeyApplicants, Config::get('cache.ttl', 60), function() use ($request, $accessibleApplicantIds) {
-            $accessibleApplicantSubquery = $accessibleApplicantIds->clone();
             $query = Applicant::select("applicants.*", $this->campFullData->vcamp->table . ".*", $this->campFullData->vcamp->table . ".id as ''", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
                             ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                             ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                             ->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id')
-                            ->leftJoinSub($accessibleApplicantSubquery, 'access_results', function($join) {
-                                $join->on('applicants.id', '=', 'access_results.accessible_id');
-                            })
-                            ->whereNotNull('access_results.accessible_id')
+                            ->whereIn('applicants.id', $accessibleApplicantIds)
                             ->where('camps.id', $this->campFullData->vcamp->id)
                             ->whereDoesntHave('user')
                             ->withTrashed()
@@ -1913,10 +1909,7 @@ class BackendController extends Controller
                         ->whereIn('batch_id', $filtered_batches->pluck('id'));
                 }
             ])
-            ->leftJoinSub($accessibleRegisteredUserIds, 'access_results', function($join) {
-                $join->on('users.id', '=', 'access_results.accessible_id');
-            })
-            ->whereNotNull('access_results.accessible_id')
+            ->whereIn('users.id', $accessibleRegisteredUserIds) // Use whereIn instead of join
             ->where(function ($q) use ($queryRoles) {
                 $q->whereHas('application_log.user.roles', function ($query) use ($queryRoles) {
                     $query->where('camp_id', $this->campFullData->id);
