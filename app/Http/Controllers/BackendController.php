@@ -1738,7 +1738,7 @@ class BackendController extends Controller
                                              ->where('accessible_type', 'App\Models\Applicant')
                                              ->where('can_access', 1)
                                              ->pluck('accessible_id'); // Pluck the IDs directly
-        
+
             $query = Applicant::select("applicants.*", "{$this->campFullData->table}.*", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
                               ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                               ->join('camps', 'camps.id', '=', 'batchs.camp_id')
@@ -1747,7 +1747,7 @@ class BackendController extends Controller
                               ->where('camps.id', $campId)
                               ->withTrashed()
                               ->orderBy('deleted_at', 'asc');
-    
+
             if ($request->batch_id) {
                 $query->where('batchs.id', $request->batch_id);
             }
@@ -1755,10 +1755,10 @@ class BackendController extends Controller
                 $query = $queryStr != "" ? $query->whereRaw(\DB::raw($queryStr)) : $query;
                 $request->flash();
             }
-    
+
             $applicants = $query->get();
             $applicants->each(fn ($applicant) => $applicant->id = $applicant->applicant_id);
-    
+
             return $applicants;
         });
         if($request->isSetting==1) {
@@ -1846,7 +1846,7 @@ class BackendController extends Controller
         $cacheKeyBatches = 'batches_camp_' . $this->campFullData->vcamp->id;
         $cacheKeyApplicants = 'applicants_user_' . $this->user->id . '_camp_' . $this->campFullData->vcamp->id . '_batch_' . ($request->batch_id ?? 'all');
 
-        $accessibleApplicantIds = Cache::remember($cacheKeyAccessibleApplicantIds, 60, function() {
+        $accessibleApplicantIds = Cache::remember($cacheKeyAccessibleApplicantIds, Config::get('cache.ttl', 60), function() {
             return Ucaronr::select('accessible_id')
                         ->where('user_id', $this->user->id)
                         ->where('camp_id', $this->campFullData->id)
@@ -1856,16 +1856,17 @@ class BackendController extends Controller
                         ->pluck('accessible_id');
         });
 
-        $batches = Cache::remember($cacheKeyBatches, 60, function() {
+        $batches = Cache::remember($cacheKeyBatches, Config::get('cache.ttl', 60), function() {
             return Batch::where("camp_id", $this->campFullData->vcamp->id)->get();
         });
 
-        $applicants = Cache::remember($cacheKeyApplicants, 60, function() use ($request, $accessibleApplicantIds) {
+        $applicants = Cache::remember($cacheKeyApplicants, Config::get('cache.ttl', 60), function() use ($request, $accessibleApplicantIds) {
+            $accessibleApplicantSubquery = $accessibleApplicantIds->clone();
             $query = Applicant::select("applicants.*", $this->campFullData->vcamp->table . ".*", $this->campFullData->vcamp->table . ".id as ''", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
                             ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                             ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                             ->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id')
-                            ->leftJoinSub($accessibleApplicantIds, 'access_results', function($join) {
+                            ->leftJoinSub($accessibleApplicantSubquery, 'access_results', function($join) {
                                 $join->on('applicants.id', '=', 'access_results.accessible_id');
                             })
                             ->whereNotNull('access_results.accessible_id')
@@ -1895,7 +1896,7 @@ class BackendController extends Controller
         }
         $cacheKeyRegisteredUsers = 'registered_users_user_' . $this->user->id . '_camp_' . $this->campFullData->id . '_roles_' . ($queryRoles->isNotEmpty() ? md5($queryRoles->pluck('id')->toJson()) : 'none') . '_showNoJob_' . ($showNoJob ? 'yes' : 'no') . '_query_' . md5($queryStr);
 
-        $registeredUsers = Cache::remember($cacheKeyRegisteredUsers, 60, function() use ($filtered_batches, $batches, $queryRoles, $queryStr, $showNoJob) {
+        $registeredUsers = Cache::remember($cacheKeyRegisteredUsers, Config::get('cache.ttl', 60), function() use ($filtered_batches, $batches, $queryRoles, $queryStr, $showNoJob) {
             $accessibleRegisteredUserIds = Ucaronr::select('accessible_id')
                                             ->where('user_id', $this->user->id)
                                             ->where('camp_id', $this->campFullData->id)
