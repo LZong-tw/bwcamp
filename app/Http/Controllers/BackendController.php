@@ -1890,7 +1890,7 @@ class BackendController extends Controller
         if ($request->batch_id) {
             $filtered_batches = $filtered_batches->filter(fn ($batch) => $batch->id == $request->batch_id);
         }
-        $cacheKeyRegisteredUsers = 'registered_users_user_' . $this->user->id . '_camp_' . $this->campFullData->id . '_roles_' . ($queryRoles->isNotEmpty() ? md5($queryRoles->pluck('id')->toJson()) : 'none') . '_showNoJob_' . ($showNoJob ? 'yes' : 'no') . '_query_' . md5($queryStr);
+        $cacheKeyRegisteredUsers = 'registered_users_user_' . $this->user->id . '_camp_' . $this->campFullData->id . '_roles_' . ($queryRoles ? md5($queryRoles) : 'none') . '_showNoJob_' . ($showNoJob ? 'yes' : 'no') . '_query_' . md5($queryStr);
 
         $registeredUsers = Cache::remember($cacheKeyRegisteredUsers, Config::get('cache.ttl', 60), function() use ($filtered_batches, $batches, $queryRoles, $queryStr, $showNoJob) {
             $accessibleRegisteredUserIds = Ucaronr::select('accessible_id')
