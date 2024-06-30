@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
@@ -49,11 +50,9 @@ class PreFillAccessResults extends Command
                 foreach ($resourceClasses as $resourceClass) {
                     if ($resourceClass == "Applicant") {
                         $resources = $camp->applicants->all();
-                    }
-                    elseif ($resourceClass == "Volunteer") {
+                    } elseif ($resourceClass == "Volunteer") {
                         $resources = $camp->vcamp->applicants->all();
-                    }
-                    else {
+                    } else {
                         $resources = $resourceClass::all();
                     }
                     foreach ($resources as $resource) {
