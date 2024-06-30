@@ -195,11 +195,11 @@ class User extends Authenticatable
         if ($existingAccessResult) {
             return $existingAccessResult->can_access;
         } else {
-            return $this->fillingAccessibleReult($resource, $action, $camp, $context, $target, $probing);
+            return $this->fillingAccessibleResult($resource, $action, $camp, $context, $target, $probing);
         }
     }
 
-    public function fillingAccessibleReult($resource, $action, $camp, $context = null, $target = null, $probing = null) {
+    public function fillingAccessibleResult($resource, $action, $camp, $context = null, $target = null, $probing = null) {
         $result = $this->getAccessibleResult($resource, $action, $camp, $context, $target, $probing);
         $class = get_class($resource);
         $batch_id = null;
