@@ -5,6 +5,7 @@ use Illuminate\Console\Command;
 use App\Models\User;
 use App\Models\Applicant;
 use App\Models\Ucaronr;
+use App\Models\Volunteer;
 
 class PreFillAccessResults extends Command
 {
@@ -22,7 +23,8 @@ class PreFillAccessResults extends Command
         $camps = // ... retrieve camps based on your criteria
         $resources = collect([ // List all resource types
             Applicant::class,
-            User::class
+            User::class,
+            Volunteer::class,
         ]);
         $actions = ['read']; // List all actions
         $contexts = ['vcamp']; // List all contexts
