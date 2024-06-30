@@ -1728,39 +1728,35 @@ class BackendController extends Controller
             }
             $queryStr = $this->backendService->queryStringParser($payload, $request);
         }
-        $campId = $this->campFullData->id;
-        $cacheKey = 'applicants_user_' . $user->id . '_camp_' . $campId . '_batch_' . ($request->batch_id ?? 'all') . '_query_' . md5($queryStr);
 
-        $applicants = Cache::remember($cacheKey, Config::get('cache.ttl', 60), function() use ($user, $campId, $request, $queryStr) {
-            $accessibleApplicantIds = Ucaronr::select('accessible_id')
-                                             ->where('user_id', $user->id)
-                                             ->where('camp_id', $campId)
-                                             ->where('accessible_type', 'App\Models\Applicant')
-                                             ->where('can_access', 1)
-                                             ->pluck('accessible_id'); // Pluck the IDs directly
+        $accessibleApplicantIds = Ucaronr::select('accessible_id')
+                                 ->where('user_id', $this->user->id)
+                                 ->where('camp_id', $this->campFullData->id)
+                                 ->where('accessible_type', 'App\Models\Applicant')
+                                 ->where('can_access', 1)
+                                 ->pluck('accessible_id'); // Pluck the IDs directly
 
-            $query = Applicant::select("applicants.*", "{$this->campFullData->table}.*", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
-                              ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
-                              ->join('camps', 'camps.id', '=', 'batchs.camp_id')
-                              ->join("{$this->campFullData->table}", 'applicants.id', '=', "{$this->campFullData->table}.applicant_id")
-                              ->whereIn('applicants.id', $accessibleApplicantIds) // Use whereIn instead of join
-                              ->where('camps.id', $campId)
-                              ->withTrashed()
-                              ->orderBy('deleted_at', 'asc');
+        $query = Applicant::with('groupRelation', 'groupOrgRelation', 'batch', 'contactlog')
+                        ->select("applicants.*", "{$this->campFullData->table}.*", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
+                        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+                        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+                        ->join("{$this->campFullData->table}", 'applicants.id', '=', "{$this->campFullData->table}.applicant_id")
+                        ->whereIn('applicants.id', $accessibleApplicantIds) // Use whereIn instead of join
+                        ->where('camps.id', $this->campFullData->id)
+                        ->withTrashed()
+                        ->orderBy('deleted_at', 'asc');
 
-            if ($request->batch_id) {
-                $query->where('batchs.id', $request->batch_id);
-            }
-            if ($request->isMethod("post")) {
-                $query = $queryStr != "" ? $query->whereRaw(\DB::raw($queryStr)) : $query;
-                $request->flash();
-            }
+        if ($request->batch_id) {
+            $query->where('batchs.id', $request->batch_id);
+        }
+        if ($request->isMethod("post")) {
+            $query = $queryStr != "" ? $query->whereRaw(\DB::raw($queryStr)) : $query;
+            $request->flash();
+        }
 
-            $applicants = $query->get();
-            $applicants->each(fn ($applicant) => $applicant->id = $applicant->applicant_id);
+        $applicants = $query->get();
+        $applicants->each(fn ($applicant) => $applicant->id = $applicant->applicant_id);
 
-            return $applicants;
-        });
         if($request->isSetting==1) {
             $isSetting = 1;
         } else {
@@ -1842,74 +1838,68 @@ class BackendController extends Controller
             $queryRoles = null;
             $showNoJob = null;
         }
-        $cacheKeyAccessibleApplicantIds = 'accessible_applicant_ids_user_' . $this->user->id . '_camp_' . $this->campFullData->id;
-        $cacheKeyBatches = 'batches_camp_' . $this->campFullData->vcamp->id;
-        $cacheKeyApplicants = 'applicants_user_' . $this->user->id . '_camp_' . $this->campFullData->vcamp->id . '_batch_' . ($request->batch_id ?? 'all');
-
-        $accessibleApplicantIds = Cache::remember($cacheKeyAccessibleApplicantIds, Config::get('cache.ttl', 60), function() {
-            return Ucaronr::select('accessible_id')
+        $accessibleApplicantIds = Ucaronr::select('accessible_id')
                         ->where('user_id', $this->user->id)
                         ->where('camp_id', $this->campFullData->id)
                         ->where('accessible_type', 'App\Models\Applicant')
                         ->where('context', 'vcamp')
                         ->where('can_access', 1)
                         ->pluck('accessible_id');
-        });
 
-        $batches = Cache::remember($cacheKeyBatches, Config::get('cache.ttl', 60), function() {
-            return Batch::where("camp_id", $this->campFullData->vcamp->id)->get();
-        });
+        $batches = Batch::where("camp_id", $this->campFullData->vcamp->id)->get();
 
-        $applicants = Cache::remember($cacheKeyApplicants, Config::get('cache.ttl', 60), function() use ($request, $accessibleApplicantIds) {
-            $query = Applicant::select("applicants.*", $this->campFullData->vcamp->table . ".*", $this->campFullData->vcamp->table . ".id as ''", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
-                            ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
-                            ->join('camps', 'camps.id', '=', 'batchs.camp_id')
-                            ->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id')
-                            ->whereIn('applicants.id', $accessibleApplicantIds)
-                            ->where('camps.id', $this->campFullData->vcamp->id)
-                            ->whereDoesntHave('user')
-                            ->withTrashed()
-                            ->orderBy('deleted_at', 'asc');
+        $query = Applicant::with('groupRelation', 'groupOrgRelation', 'batch', 'contactlog')
+                        ->select("applicants.*", $this->campFullData->vcamp->table . ".*", $this->campFullData->vcamp->table . ".id as ''", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
+                        ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
+                        ->join('camps', 'camps.id', '=', 'batchs.camp_id')
+                        ->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id')
+                        ->whereIn('applicants.id', $accessibleApplicantIds)
+                        ->where('camps.id', $this->campFullData->vcamp->id)
+                        ->whereDoesntHave('user')
+                        ->withTrashed()
+                        ->orderBy('deleted_at', 'asc');
 
-            if ($request->batch_id) {
-                $query->where('batchs.id', $request->batch_id);
+        if ($request->batch_id) {
+            $query->where('batchs.id', $request->batch_id);
+        }
+        if ($request->isMethod("post")) {
+            if ($queryStr != "") {
+                $query->where(\DB::raw($queryStr), 1);
+            } else {
+                $query->whereRaw("1 = 0");
             }
-            if ($request->isMethod("post")) {
-                if ($queryStr != "") {
-                    $query->where(\DB::raw($queryStr), 1);
-                } else {
-                    $query->whereRaw("1 = 0");
-                }
-            }
-            $applicants = $query->get();
-            $applicants = $applicants->each(fn ($applicant) => $applicant->id = $applicant->applicant_id);
+        }
 
-            return $applicants;
-        });
+        $applicants = $query->get();
+        $applicants = $applicants->each(fn ($applicant) => $applicant->id = $applicant->applicant_id);
+
         $filtered_batches = clone $batches;
         if ($request->batch_id) {
             $filtered_batches = $filtered_batches->filter(fn ($batch) => $batch->id == $request->batch_id);
         }
-        $cacheKeyRegisteredUsers = 'registered_users_user_' . $this->user->id . '_camp_' . $this->campFullData->id . '_roles_' . ($queryRoles ? md5($queryRoles) : 'none') . '_showNoJob_' . ($showNoJob ? 'yes' : 'no') . '_query_' . md5($queryStr);
 
-        $registeredUsers = Cache::remember($cacheKeyRegisteredUsers, Config::get('cache.ttl', 60), function() use ($filtered_batches, $batches, $queryRoles, $queryStr, $showNoJob, $request) {
-            $accessibleRegisteredUserIds = Ucaronr::select('accessible_id')
-                                            ->where('user_id', $this->user->id)
-                                            ->where('camp_id', $this->campFullData->id)
-                                            ->where('accessible_type', 'App\Models\RegisteredUser')
-                                            ->where('context', 'vcamp')
-                                            ->where('can_access', 1)
-                                            ->pluck('accessible_id');
-            return \App\Models\User::with([
+        $accessibleRegisteredUserIds = Ucaronr::select('accessible_id')
+                                                ->where('user_id', $this->user->id)
+                                                ->where('camp_id', $this->campFullData->id)
+                                                ->where('accessible_type', 'App\Models\RegisteredUser')
+                                                ->where('context', 'vcamp')
+                                                ->where('can_access', 1)
+                                                ->pluck('accessible_id');
+
+        $registeredUsers = \App\Models\User::with([
                 'roles' => fn($q) => $q->where('camp_id', $this->campFullData->id),
                 'application_log.user.roles' => fn($q) => $q->where('camp_id', $this->campFullData->id),
                 'application_log.user.roles.batch',
                 'application_log' => function ($query) use ($filtered_batches) {
                     $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id')
                         ->whereIn('batch_id', $filtered_batches->pluck('id'));
-                }
+                },
+                'application_log.groupRelation',
+                'application_log.groupOrgRelation',
+                'application_log.batch',
+                'application_log.contactlog'
             ])
-            ->whereIn('users.id', $accessibleRegisteredUserIds) // Use whereIn instead of join
+            ->whereIn('users.id', $accessibleRegisteredUserIds)
             ->where(function ($q) use ($queryRoles) {
                 $q->whereHas('application_log.user.roles', function ($query) use ($queryRoles) {
                     $query->where('camp_id', $this->campFullData->id);
@@ -1967,9 +1957,7 @@ class BackendController extends Controller
                         });
                     });
                 }
-            })
-            ->get();
-        });
+            })->get();
 
         if($request->isSetting==1) {
             $isSetting = 1;
