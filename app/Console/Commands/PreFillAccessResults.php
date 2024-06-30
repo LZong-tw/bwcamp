@@ -10,7 +10,7 @@ use App\Models\Camp;
 
 class PreFillAccessResults extends Command
 {
-    protected $signature = 'access:prefill-results {--user} {--camp}';
+    protected $signature = 'access:prefill-results {--user=} {--camp=}';
     protected $description = 'Pre-fill user access results into the user_can_access_resource_or_not_results table';
 
     public function __construct()
