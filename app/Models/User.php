@@ -233,7 +233,7 @@ class User extends Authenticatable
         if (!$resource) {
             return false;
         }
-        if ($context == "vcampExport") {
+        if ($context == "vcampExport" && $target) {
             $camp = Vcamp::query()->find($target->camp->id)->mainCamp;
         }
         $class = get_class($resource);
