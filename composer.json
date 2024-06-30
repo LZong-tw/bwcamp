@@ -29,6 +29,7 @@
         "predis/predis": "^2.2",
         "rap2hpoutre/laravel-log-viewer": "^2.2",
         "revolution/laravel-google-sheets": "^6.2",
+        "ryangjchandler/blade-cache-directive": "*",
         "santigarcor/laratrust": "^7.1",
         "sentry/sentry-laravel": "^3.0",
         "spatie/laravel-medialibrary": "^10.0.0",
