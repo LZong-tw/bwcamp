@@ -1884,10 +1884,11 @@ class BackendController extends Controller
                     $query->whereRaw("1 = 0");
                 }
             }
+            $applicants = $query->get();
+            $applicants = $applicants->each(fn ($applicant) => $applicant->id = $applicant->applicant_id);
 
-            return $query->get();
+            return $applicants;
         });
-        $applicants = $applicants->each(fn ($applicant) => $applicant->id = $applicant->applicant_id);
         $filtered_batches = clone $batches;
         if ($request->batch_id) {
             $filtered_batches = $filtered_batches->filter(fn ($batch) => $batch->id == $request->batch_id);
