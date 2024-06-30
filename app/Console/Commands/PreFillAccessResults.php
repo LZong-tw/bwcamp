@@ -10,7 +10,7 @@ use App\Models\Camp;
 
 class PreFillAccessResults extends Command
 {
-    protected $signature = 'access:prefill-results';
+    protected $signature = 'access:prefill-results {user?} {camp?}';
     protected $description = 'Pre-fill user access results into the user_can_access_resource_or_not_results table';
 
     public function __construct()
@@ -20,26 +20,24 @@ class PreFillAccessResults extends Command
 
     public function handle()
     {
-        $users = User::all();
-        $camps = Camp::all();
-        $resources = collect([ // List all resource types
-            Applicant::class,
-            User::class,
-            Volunteer::class,
-        ]);
-        $actions = ["assign", "read", "create", "update", "delete"]; // List all actions
-        $contexts = ['vcamp', 'vcampExport', 'onlyCheckAvailability']; // List all contexts
+        $userId = $this->argument('user');
+        $campId = $this->argument('camp');
+
+        $users = $userId ? User::find($userId) : User::all();
+        $camps = $campId ? Camp::find($campId) : Camp::all();
+        $resourceClasses = [Applicant::class, User::class, Volunteer::class];
+        $actions = ["assign", "read", "create", "update", "delete"];
+        $contexts = ['vcamp', 'vcampExport', 'onlyCheckAvailability'];
 
         foreach ($users as $user) {
             foreach ($camps as $camp) {
-                foreach ($resources as $resourceClass) {
+                foreach ($resourceClasses as $resourceClass) {
                     $resources = $resourceClass::all();
                     foreach ($resources as $resource) {
                         foreach ($actions as $action) {
                             foreach ($contexts as $context) {
                                 $accessible = $user->getAccessibleResult($resource, $action, $camp, $context);
 
-                                // Check if entry already exists to prevent duplicate records
                                 $existing = Ucaronr::where('user_id', $user->id)
                                     ->where('camp_id', $camp->id)
                                     ->where('accessible_id', $resource->id)
