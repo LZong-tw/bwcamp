@@ -1865,7 +1865,7 @@ class BackendController extends Controller
             $filtered_batches = $filtered_batches->filter(fn ($batch) => $batch->id == $request->batch_id);
         }
         $accessibleRegisteredUserIds = Ucaronr::select('accessible_id')
-                                            ->where('user_id', $user->id)
+                                            ->where('user_id', $this->user->id)
                                             ->where('camp_id', $this->campFullData->id)
                                             ->where('accessible_type', 'App\Models\RegisteredUser')
                                             ->where('can_access', 1);
