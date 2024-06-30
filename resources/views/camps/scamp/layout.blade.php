@@ -5,7 +5,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name='description' content='{{ $camp_data->fullName }}' />
-    <meta name='author' content='福智文教基金會'>
+    <meta name='author' content='全球永續創生推廣協會'>
     <meta property='og:url' content='https://bwfoce.org/web/'/>
     <meta property='og:title' content='{{ $camp_data->abbreviation }}'/>
     <meta property='og:description' content='{{ $camp_data->fullName }}' />
