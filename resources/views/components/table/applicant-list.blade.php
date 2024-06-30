@@ -51,7 +51,7 @@
                 @endforeach
             </tr>
         </thead>
-        @cache("camp{$campFullData->id}_registeredVolunteers")
+        @cache("camp{$campFullData->id}_registeredVolunteers_viewed_by_" . auth()->user()->id)
             @forelse ($registeredVolunteers as &$user)
                 @forelse($user->application_log as &$applicant)
                     @php
@@ -153,7 +153,7 @@
             @empty
             @endforelse
         @endcache
-        @cache($isShowVolunteers ? "camp{$campFullData->id}_volumeteeringApplicants" : "camp{$campFullData->id}_applicants")
+        @cache($isShowVolunteers ? "camp{$campFullData->id}_volumeteeringApplicants_viewed_by_" . auth()->user()->id : "camp{$campFullData->id}_applicants_viewed_by_" . auth()->user()->id)
             @forelse ($applicants as &$applicant)
                 <tr @if($applicant->deleted_at) style="color: rgba(120, 120, 120, 0.4)!important" @endif>
                     @if(($isSetting ?? false) || ($isSettingCarer ?? false))
