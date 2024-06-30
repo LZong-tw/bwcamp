@@ -1715,6 +1715,7 @@ class BackendController extends Controller
         }
         ini_set('max_execution_time', -1);
         ini_set("memory_limit", -1);
+        $queryStr = "";
         if ($request->isMethod("post")) {
             $payload = $request->all();
             if (count($payload) == 1) {
