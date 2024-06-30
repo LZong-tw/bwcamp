@@ -1785,7 +1785,7 @@ class BackendController extends Controller
                 $query->whereIn('batch_id', $filtered_batches->pluck('id'));
             }])
             ->leftJoinSub($accessibleRegisteredUserIds, 'access_results', function($join) {
-                $join->on('registered_users.id', '=', 'access_results.accessible_id');
+                $join->on('users.id', '=', 'access_results.accessible_id');
             })
             ->whereNotNull('access_results.accessible_id') // Makes sure only accessible registered users are included
             ->where(function ($q) use ($queryRoles) {
