@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Applicant;
 use App\Models\Ucaronr;
 use App\Models\Volunteer;
+use App\Models\Camp;
 
 class PreFillAccessResults extends Command
 {
@@ -20,14 +21,14 @@ class PreFillAccessResults extends Command
     public function handle()
     {
         $users = User::all();
-        $camps = // ... retrieve camps based on your criteria
+        $camps = Camp::all();
         $resources = collect([ // List all resource types
             Applicant::class,
             User::class,
             Volunteer::class,
         ]);
-        $actions = ['read']; // List all actions
-        $contexts = ['vcamp']; // List all contexts
+        $actions = ["assign", "read", "create", "update", "delete"]; // List all actions
+        $contexts = ['vcamp', 'vcampExport', 'onlyCheckAvailability']; // List all contexts
 
         foreach ($users as $user) {
             foreach ($camps as $camp) {
@@ -43,6 +44,7 @@ class PreFillAccessResults extends Command
                                     ->where('camp_id', $camp->id)
                                     ->where('accessible_id', $resource->id)
                                     ->where('accessible_type', $resourceClass)
+                                    ->where('context', $context)
                                     ->first();
 
                                 if (!$existing) {
@@ -53,6 +55,7 @@ class PreFillAccessResults extends Command
                                         'region_id' => $resource->region_id ?? null,
                                         'accessible_id' => $resource->id,
                                         'accessible_type' => $resourceClass,
+                                        'context' => $context,
                                         'can_access' => $accessible,
                                     ]);
                                 }

@@ -1835,6 +1835,7 @@ class BackendController extends Controller
                                     ->where('user_id', $this->user->id)
                                     ->where('camp_id', $this->campFullData->id)
                                     ->where('accessible_type', 'App\Models\Applicant')
+                                    ->where('context', 'vcamp')
                                     ->where('can_access', 1);
         $batches = Batch::where("camp_id", $this->campFullData->vcamp->id)->get();
         $query = Applicant::select("applicants.*", $this->campFullData->vcamp->table . ".*", $this->campFullData->vcamp->table . ".id as ''", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
@@ -1868,6 +1869,7 @@ class BackendController extends Controller
                                             ->where('user_id', $this->user->id)
                                             ->where('camp_id', $this->campFullData->id)
                                             ->where('accessible_type', 'App\Models\RegisteredUser')
+                                            ->where('context', 'vcamp')
                                             ->where('can_access', 1);
         $registeredUsers = \App\Models\User::with([
             'roles' => fn ($q) => $q->where('camp_id', $this->campFullData->id), // 給 IoiSearch 用的資料
