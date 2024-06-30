@@ -1724,7 +1724,8 @@ class BackendController extends Controller
             }
             $queryStr = $this->backendService->queryStringParser($payload, $request);
         }
-        $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", $this->campFullData->table . ".id as ''", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
+        $query = Applicant::with('groupRelation', 'groupOrgRelation', 'batch', 'contactlog')
+                        ->select("applicants.*", $this->campFullData->table . ".*", $this->campFullData->table . ".id as ''", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
                         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                         ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
@@ -1822,7 +1823,8 @@ class BackendController extends Controller
             $showNoJob = null;
         }
         $batches = Batch::where("camp_id", $this->campFullData->vcamp->id)->get();
-        $query = Applicant::select("applicants.*", $this->campFullData->vcamp->table . ".*", $this->campFullData->vcamp->table . ".id as ''", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
+        $query = Applicant::with('groupRelation', 'groupOrgRelation', 'batch', 'contactlog')
+                        ->select("applicants.*", $this->campFullData->vcamp->table . ".*", $this->campFullData->vcamp->table . ".id as ''", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
                         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                         ->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id')
@@ -1852,7 +1854,11 @@ class BackendController extends Controller
             'application_log' => function ($query) use ($filtered_batches) {
                 $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');
                 $query->whereIn('batch_id', $filtered_batches->pluck('id'));
-            }])
+            },  'application_log.groupRelation',
+                'application_log.groupOrgRelation',
+                'application_log.batch',
+                'application_log.contactlog'
+            ])
             ->where(function ($q) use ($queryRoles) {
                 $q->whereHas('application_log.user.roles', function ($query) use ($queryRoles) {
                     $query->where('camp_id', $this->campFullData->id);
