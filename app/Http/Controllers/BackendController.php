@@ -30,6 +30,7 @@ use App\Traits\EmailConfiguration;
 use App\Models\SignInSignOut;
 use App\Exports\ApplicantsExport;
 use App\Models\Region;
+use App\Models\Ucaronr;
 use App\Services\GSheetService;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -1631,10 +1632,21 @@ class BackendController extends Controller
             }
             $queryStr = $this->backendService->queryStringParser($payload, $request);
         }
+
+        $accessibleApplicantIds = Ucaronr::select('accessible_id')
+                                    ->where('user_id', $user->id)
+                                    ->where('camp_id', $this->campFullData->id)
+                                    ->where('accessible_type', 'App\Models\Applicant')
+                                    ->where('can_access', 1);
+
         $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", $this->campFullData->table . ".id as ''", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
                         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                         ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
+                        ->leftJoinSub($accessibleApplicantIds, 'access_results', function($join) {
+                            $join->on('applicants.id', '=', 'access_results.accessible_id');
+                        })
+                        ->whereNotNull('access_results.accessible_id') // Makes sure only accessible applicants are included
                         ->where('camps.id', $this->campFullData->id)->withTrashed()->orderBy('deleted_at', 'asc');
         if ($request->batch_id) {
             $query->where('batchs.id', $request->batch_id);
@@ -1686,8 +1698,6 @@ class BackendController extends Controller
             }
         }
 
-        $applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant));
-
         $columns_zhtw = config('camps_fields.display.' . $this->campFullData->table);
 
         return view('backend.integrated_operating_interface.theList')
@@ -1728,11 +1738,20 @@ class BackendController extends Controller
             $queryRoles = null;
             $showNoJob = null;
         }
+        $accessibleApplicantIds = Ucaronr::select('accessible_id')
+                                    ->where('user_id', $user->id)
+                                    ->where('camp_id', $this->campFullData->id)
+                                    ->where('accessible_type', 'App\Models\Applicant')
+                                    ->where('can_access', 1);
         $batches = Batch::where("camp_id", $this->campFullData->vcamp->id)->get();
         $query = Applicant::select("applicants.*", $this->campFullData->vcamp->table . ".*", $this->campFullData->vcamp->table . ".id as ''", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
                         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                         ->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id')
+                        ->leftJoinSub($accessibleApplicantIds, 'access_results', function($join) {
+                            $join->on('applicants.id', '=', 'access_results.accessible_id');
+                        })
+                        ->whereNotNull('access_results.accessible_id') // Makes sure only accessible applicants are included
                         ->where('camps.id', $this->campFullData->vcamp->id)
                         ->whereDoesntHave('user')
                         ->withTrashed()->orderBy('deleted_at', 'asc');;
@@ -1752,6 +1771,11 @@ class BackendController extends Controller
         if ($request->batch_id) {
             $filtered_batches = $filtered_batches->filter(fn ($batch) => $batch->id == $request->batch_id);
         }
+        $accessibleRegisteredUserIds = Ucaronr::select('accessible_id')
+                                            ->where('user_id', $user->id)
+                                            ->where('camp_id', $this->campFullData->id)
+                                            ->where('accessible_type', 'App\Models\RegisteredUser')
+                                            ->where('can_access', 1);
         $registeredUsers = \App\Models\User::with([
             'roles' => fn ($q) => $q->where('camp_id', $this->campFullData->id), // 給 IoiSearch 用的資料
             'application_log.user.roles' => fn ($q) => $q->where('camp_id', $this->campFullData->id),  // applicant-list 顯示用的資料
@@ -1760,6 +1784,10 @@ class BackendController extends Controller
                 $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');
                 $query->whereIn('batch_id', $filtered_batches->pluck('id'));
             }])
+            ->leftJoinSub($accessibleRegisteredUserIds, 'access_results', function($join) {
+                $join->on('registered_users.id', '=', 'access_results.accessible_id');
+            })
+            ->whereNotNull('access_results.accessible_id') // Makes sure only accessible registered users are included
             ->where(function ($q) use ($queryRoles) {
                 $q->whereHas('application_log.user.roles', function ($query) use ($queryRoles) {
                     $query->where('camp_id', $this->campFullData->id);
@@ -1819,8 +1847,6 @@ class BackendController extends Controller
             }
         }
         $registeredUsers = $registeredUsers->get();
-        $registeredUsers = $registeredUsers->filter(fn ($user) => $this->user->canAccessResource($user, 'read', $this->campFullData, target: $user, context: 'vcamp'));
-        $applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant, context: 'vcamp'));
 
         if($request->isSetting==1) {
             $isSetting = 1;
