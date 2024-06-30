@@ -32,6 +32,7 @@ use App\Exports\ApplicantsExport;
 use App\Models\Region;
 use App\Services\GSheetService;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Cache;
 
 class BackendController extends Controller
 {
@@ -1780,7 +1781,9 @@ class BackendController extends Controller
             }
         }
 
-        $applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant));
+        if (!Cache::get("camp{$this->campFullData->id}_applicants_viewed_by_" . auth()->user()->id)) {
+            $applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant));
+        }
 
         $columns_zhtw = config('camps_fields.display.' . $this->campFullData->table);
 
@@ -1918,8 +1921,12 @@ class BackendController extends Controller
             }
         }
         $registeredUsers = $registeredUsers->get();
-        $registeredUsers = $registeredUsers->filter(fn ($user) => $this->user->canAccessResource($user, 'read', $this->campFullData, target: $user, context: 'vcamp'));
-        $applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant, context: 'vcamp'));
+        if (Cache::get("camp{$this->campFullData->id}_registeredVolunteers_viewed_by_" . auth()->user()->id)) {
+            $registeredUsers = $registeredUsers->filter(fn ($user) => $this->user->canAccessResource($user, 'read', $this->campFullData, target: $user, context: 'vcamp'));
+        }
+        if (Cache::get("camp{$this->campFullData->id}_volumeteeringApplicants_viewed_by_" . auth()->user()->id)) {
+            $applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant, context: 'vcamp'));
+        }
 
         if($request->isSetting==1) {
             $isSetting = 1;
