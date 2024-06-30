@@ -10,7 +10,7 @@ use App\Models\Camp;
 
 class PreFillAccessResults extends Command
 {
-    protected $signature = 'access:prefill-results {user?} {camp?}';
+    protected $signature = 'access:prefill-results {--user=?} {--camp=?}';
     protected $description = 'Pre-fill user access results into the user_can_access_resource_or_not_results table';
 
     public function __construct()
@@ -25,6 +25,12 @@ class PreFillAccessResults extends Command
 
         $users = $userId ? User::where('id', $userId)->get() : User::all();
         $camps = $campId ? Camp::where('id', $campId)->get() : Camp::all();
+        if ($userId) {
+            $this->info("User entered: {$userId}\n");
+        }
+        if ($campId) {
+            $this->info("Camp entered: {$campId}\n");
+        }
         $resourceClasses = [Applicant::class, User::class, Volunteer::class];
         $actions = ["assign", "read", "create", "update", "delete"];
         $contexts = ['vcamp', 'vcampExport', 'onlyCheckAvailability'];
