@@ -23,14 +23,23 @@ class PreFillAccessResults extends Command
         $userId = $this->argument('user');
         $campId = $this->argument('camp');
 
-        $users = $userId ? User::find($userId) : User::all();
-        $camps = $campId ? Camp::find($campId) : Camp::all();
+        $users = $userId ? User::where('id', $userId)->get() : User::all();
+        $camps = $campId ? Camp::where('id', $campId)->get() : Camp::all();
         $resourceClasses = [Applicant::class, User::class, Volunteer::class];
         $actions = ["assign", "read", "create", "update", "delete"];
         $contexts = ['vcamp', 'vcampExport', 'onlyCheckAvailability'];
 
+        $totalSteps = $users->count() * $camps->count() * count($resourceClasses) * count($actions) * count($contexts);
+
+        $this->info('Starting to pre-fill access results...');
+        $bar = $this->output->createProgressBar($totalSteps);
+        $bar->start();
+
         foreach ($users as $user) {
+            $this->info("Processing user: {$user->id} - {$user->name}");
             foreach ($camps as $camp) {
+                $this->info("Processing camp: {$camp->id} - {$camp->name}");
+
                 foreach ($resourceClasses as $resourceClass) {
                     $resources = $resourceClass::all();
                     foreach ($resources as $resource) {
@@ -57,6 +66,8 @@ class PreFillAccessResults extends Command
                                         'can_access' => $accessible,
                                     ]);
                                 }
+
+                                $bar->advance();
                             }
                         }
                     }
@@ -64,6 +75,7 @@ class PreFillAccessResults extends Command
             }
         }
 
+        $bar->finish();
         $this->info('Pre-filled access results successfully.');
     }
 }
