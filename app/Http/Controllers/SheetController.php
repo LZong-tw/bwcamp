@@ -7,6 +7,7 @@ use App\Services\ApplicantService;
 use App\Services\GSheetService;
 use App\Models\Applicant;
 use App\Models\Camp;
+use App\Models\CheckIn;
 use App\Models\Vcamp;
 use App\Models\Lodging;
 
@@ -291,59 +292,50 @@ class SheetController extends Controller
         }
     }
     
-    public function exportGSBmbd(Request $request)
+    public function exportGSCheckIn(Request $request)
     {   
         //將報名報到結果寫回GS
         $camp = Camp::find($request->camp_id);
         $table = $camp->table;
+        $ids = $camp->applicants->pluck('id');
+        //dd($ids);
+        $row = array();
 
         if ($table == 'ecamp') {
             config([
                 //ecamp
                 'google.post_spreadsheet_id' => '1ihb-bcwwW8JItIyH692YniCJ03yyuqonXOseObExlvc',
-                'google.post_sheet_id' => 'ecamp',
-            ]);
-        } else if ($table == 'evcamp') {
-            config([
-                //evcamp
-                'google.post_spreadsheet_id' => '1ihb-bcwwW8JItIyH692YniCJ03yyuqonXOseObExlvc',
-                'google.post_sheet_id' => 'evcamp',
+                'google.post_sheet_id' => 'checkin',
             ]);
         } else if ($table == 'ceocamp') {
             config([
                 //evcamp
                 'google.post_spreadsheet_id' => '1GUvMO-GDdbfq3gVDHUMt_HTcEsj3dNFir5dO5KlnAGQ',
-                'google.post_sheet_id' => 'ceocamp',
-            ]);
-        } else if ($table == 'ceovcamp'){
-            config([
-                //ceocamp
-                'google.post_spreadsheet_id' => '1GUvMO-GDdbfq3gVDHUMt_HTcEsj3dNFir5dO5KlnAGQ',
-                'google.post_sheet_id' => 'ceovcamp',
+                'google.post_sheet_id' => 'checkin',
             ]);
         } else {
             exit(1);
         }
-        /*
-        //$sheets = $this->gsheetservice->Get(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
+        
+        $sheets = $this->gsheetservice->Get(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
+        $titles = $sheets[0];
+        //$num_cols = count($titles);
+        $num_rows = count($sheets);
 
-        $applicants = Applicant::select('applicants.*', $table . '.*')
-        ->join($table, 'applicants.id', '=', $table . '.applicant_id')
-        ->join('batchs','applicants.batch_id', '=', 'batchs.id')
-        ->join('camps', 'batchs.camp_id', '=', 'camps.id')
-        ->where('camps.id', $request->camp_id)
-        ->orderBy('applicants.id')
-        ->get();
-
-        $columns = config('camps_fields.export4stat.' . $table) ?? [];
-        foreach($columns as $key => $v) {
-            $rows[] = $v;
+        //columns: applicant_id, updated_at
+        $last_updated_time = \Carbon\Carbon::parse($sheets[$num_rows-1][1]);
+        //dd($last_updated_time);
+        $check_in_new = \DB::table('check_in')
+            ->whereDate('updated_at', '>', $last_updated_time)
+            ->whereIn('applicant_id', $ids)
+            ->orderBy('updated_at','asc')->get();
+        //dd($check_in_new);
+        foreach($check_in_new as $check_in) {
+            $row[0] = $check_in->applicant_id;
+            $row[1] = $check_in->updated_at;
+            $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $row);
         }
-
-        if($request->app_id==0) {
-            $this->gsheetservice->Clear(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
-            $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $rows);  
-        }*/
+        return;
     }
 
     public function importGSStatus(Request $request)
