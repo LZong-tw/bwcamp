@@ -47,7 +47,15 @@ class PreFillAccessResults extends Command
                 $this->info("\nProcessing camp: {$camp->id} - {$camp->fullName}");
 
                 foreach ($resourceClasses as $resourceClass) {
-                    $resources = $resourceClass::all();
+                    if ($resourceClass == "Applicant") {
+                        $resources = $camp->applicants->all();
+                    }
+                    elseif ($resourceClass == "Volunteer") {
+                        $resources = $camp->vcamp->applicants->all();
+                    }
+                    else {
+                        $resources = $resourceClass::all();
+                    }
                     foreach ($resources as $resource) {
                         foreach ($actions as $action) {
                             foreach ($contexts as $context) {
