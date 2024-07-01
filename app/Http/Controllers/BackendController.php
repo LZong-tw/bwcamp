@@ -1781,7 +1781,8 @@ class BackendController extends Controller
             }
         }
 
-        if (!Cache::get("camp{$this->campFullData->id}_applicants_viewed_by_" . auth()->user()->id)) {
+        $queryStr = $queryStr == null ? "" : $queryStr;
+        if (!Cache::get("camp{$this->campFullData->id}_applicants_viewed_by_" . auth()->user()->id . "_query" . $queryStr)) {
             $applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant));
         }
 
@@ -1921,10 +1922,11 @@ class BackendController extends Controller
             }
         }
         $registeredUsers = $registeredUsers->get();
-        if (Cache::get("camp{$this->campFullData->id}_registeredVolunteers_viewed_by_" . auth()->user()->id)) {
+        $queryStr = $queryStr == null ? "" : $queryStr;
+        if (Cache::get("camp{$this->campFullData->id}_registeredVolunteers_viewed_by_" . auth()->user()->id . "_query" . $queryStr)) {
             $registeredUsers = $registeredUsers->filter(fn ($user) => $this->user->canAccessResource($user, 'read', $this->campFullData, target: $user, context: 'vcamp'));
         }
-        if (Cache::get("camp{$this->campFullData->id}_volumeteeringApplicants_viewed_by_" . auth()->user()->id)) {
+        if (Cache::get("camp{$this->campFullData->id}_volumeteeringApplicants_viewed_by_" . auth()->user()->id . "_query" . $queryStr)) {
             $applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant, context: 'vcamp'));
         }
 
