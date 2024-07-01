@@ -15,28 +15,33 @@ use App\Models\Vcamp;
 use View;
 use Carbon\Carbon;
 
-class CheckInController extends Controller {
-    protected $campDataService, $applicantService, $batch_id, $camp_data, $batch, $has_attend_data;
+class CheckInController extends Controller
+{
+    protected $campDataService;
+    protected $applicantService;
+    protected $batch_id;
+    protected $camp_data;
+    protected $batch;
+    protected $has_attend_data;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(CampDataService $campDataService, ApplicantService $applicantService, Request $request) {
+    public function __construct(CampDataService $campDataService, ApplicantService $applicantService, Request $request)
+    {
         $this->middleware('auth');
         $this->middleware('permitted');
         if ($request->route()->uri != 'checkin/selectCamp') {
             if ($request->camp_id) {
                 $camp = Camp::find($request->camp_id);
                 $this->camp = $camp;
-            }
-            elseif ($request->route()->uri == 'checkin') {
+            } elseif ($request->route()->uri == 'checkin') {
                 return \Redirect::to(route('selectCamp'))->send();
-            }
-            else {
+            } else {
                 return "<h3>請選擇營隊</h3>";
             }
-            if($this->camp->table == 'ycamp' || $this->camp->table == 'acamp'){
+            if($this->camp->table == 'ycamp' || $this->camp->table == 'acamp') {
                 $this->has_attend_data = true;
             }
             View::share('camp', $this->camp);
@@ -47,7 +52,8 @@ class CheckInController extends Controller {
         $this->persist(camp: $camp ?? null);
     }
 
-    public function persist(...$args) {
+    public function persist(...$args)
+    {
         $that = $this;
         // https://laracasts.com/discuss/channels/laravel/authuser-return-null-in-construct
         $this->middleware(function ($request, $next) use ($that, $args) {
@@ -58,12 +64,14 @@ class CheckInController extends Controller {
         });
     }
 
-    public function index() {
+    public function index()
+    {
         return view('checkIn.home');
     }
 
-    public function selectCamp() {
-        $camps = $this->user->roles->map(function($role){
+    public function selectCamp()
+    {
+        $camps = $this->user->roles->map(function ($role) {
             return $role->camp;
         })->unique();
         foreach ($camps as $camp) {
@@ -77,31 +85,30 @@ class CheckInController extends Controller {
         return view('checkIn.select', compact('camps'));
     }
 
-    public function query(Request $request) {
+    public function query(Request $request)
+    {
         $group = null;
         $number = null;
         if (!$this->camp->is_vcamp()) {
             if ((preg_match("/\p{Han}+/u", $request->query_str) && \Str::length($request->query_str) == 3) ||
                 (str_contains($request->query_str, '第') && str_contains($request->query_str, '組'))) {
                 $group = substr($request->query_str, 0, 9);
-            }
-            elseif(\Str::length($request->query_str) == 3 ||
-                    in_array($request->query_str,
-                    ["貴賓", "後補名單", "知音", "得獎相關人員", "其他", "福業汐止物流",
+            } elseif(\Str::length($request->query_str) == 3 ||
+                    in_array(
+                        $request->query_str,
+                        ["貴賓", "後補名單", "知音", "得獎相關人員", "其他", "福業汐止物流",
                     "僧伽護持聯誼會", "班幹部", "傳心", "里仁", "幕僚", "台北學苑管理處",
                     "台北學苑淨智處", "淨智北區", "淨智總部", "慈心總部", "台北學苑文教處", "文教總部"]
-            )) {
+                    )) {
                 $group = $request->query_str;
-            }
-            elseif(\Str::length($request->query_str) == 5){
+            } elseif(\Str::length($request->query_str) == 5) {
                 $group = substr($request->query_str, 0, 3);
                 $number = substr($request->query_str, 3, 2);
             }
-        }
-        else {
+        } else {
             $group = $request->query_str;
         }
-        $constraint = function($query){ $query->where('camps.id', $this->camp->id); };
+        $constraint = function ($query) { $query->where('camps.id', $this->camp->id); };
         if ($this->camp->is_vcamp()) {
             $main_camp = Vcamp::find($this->camp->id)->mainCamp;
             if ($group) {
@@ -113,17 +120,17 @@ class CheckInController extends Controller {
                 })->get());
             }
             $ids = OrgUser::whereIn('org_id', $groups->pluck('id'))->get()->pluck('user_id')->toArray();
-            $users = User::with(['application_log' => function($query) {
-                                return $query->whereIn('applicants.batch_id', $this->camp->batchs->pluck('id')->toArray());
-                            }])->whereIn('id', $ids)->get();
+            $users = User::with(['application_log' => function ($query) {
+                return $query->whereIn('applicants.batch_id', $this->camp->batchs->pluck('id')->toArray());
+            }])->whereIn('id', $ids)->get();
             $applicants = Applicant::with(['batch',
                                            'batch.camp' => $constraint,
                                            'user.roles' => function ($query) use ($main_camp) {
-                                                return $query->where('camp_org.camp_id', $main_camp->id);
-                                            }])
+                                               return $query->where('camp_org.camp_id', $main_camp->id);
+                                           }])
                             ->whereHas('batch.camp', $constraint)
                             ->where('is_admitted', 1)
-                            ->where(function($query) use ($request, $users) {
+                            ->where(function ($query) use ($request, $users) {
                                 $query->where('applicants.id', $request->query_str);
                                 $query->orWhere('name', 'like', '%' . $request->query_str . '%')
                                 ->orWhere(\DB::raw("replace(mobile, '-', '')"), 'like', '%' . $request->query_str . '%')
@@ -133,8 +140,7 @@ class CheckInController extends Controller {
                                 ->orWhere(\DB::raw("replace(mobile, '）', '')"), 'like', '%' . $request->query_str . '%')
                                 ->orwhereIn('applicants.id', $users->pluck('application_log')->flatten()->pluck('id'));
                             })->get()->sortBy(['batch.camp.id', 'batch.id']);
-        }
-        else {
+        } else {
             if ($group) {
                 $group = $this->camp->groups()->where('alias', 'like', '%' . $group . '%')->first();
                 if ($number) {
@@ -144,13 +150,13 @@ class CheckInController extends Controller {
             $applicants = Applicant::with(['batch', 'batch.camp' => $constraint, 'groupRelation', 'numberRelation'])
                                         ->whereHas('batch.camp', $constraint)
                                         ->where('is_admitted', 1)
-                                        ->where(function($query){
-                                            if($this->has_attend_data){
+                                        ->where(function ($query) {
+                                            if($this->has_attend_data) {
                                                 $query->where('is_attend', 1);
                                             }
                                         })
                                         ->whereNotNull('group_id')
-                                        ->where(function($query) use ($request, $group, $number) {
+                                        ->where(function ($query) use ($request, $group, $number) {
                                             $query->where('applicants.id', $request->query_str);
                                             if ($group && !$number) {
                                                 $query->orWhere('group_id', $group?->id);
@@ -174,16 +180,16 @@ class CheckInController extends Controller {
         return view('checkIn.home', compact('applicants', 'batches'));
     }
 
-    public function checkIn(Request $request) {
-        if(CheckIn::where('applicant_id', $request->applicant_id)->where('check_in_date', Carbon::today()->format('Y-m-d'))->first()){
+    public function checkIn(Request $request)
+    {
+        if(CheckIn::where('applicant_id', $request->applicant_id)->where('check_in_date', Carbon::today()->format('Y-m-d'))->first()) {
             return back()->withErrors(['無法重複報到。']);
-        }
-        else{
+        } else {
             $applicant = Applicant::find($request->applicant_id);
-            if($applicant->deposit - $applicant->fee < 0){
+            if($applicant->deposit - $applicant->fee < 0) {
                 //return back()->withErrors([$applicant->name . '未繳費，無法報到。']);
             }
-            $checkin = new CheckIn;
+            $checkin = new CheckIn();
             $checkin->applicant_id = $request->applicant_id;
             $checkin->checker_id = \Auth()->user()->id;
             $checkin->check_in_date = Carbon::today()->format('Y-m-d');
@@ -193,19 +199,19 @@ class CheckInController extends Controller {
         return back();
     }
 
-    public function by_QR(Request $request) {
-        try{
+    public function by_QR(Request $request)
+    {
+        try {
             $dataStr = [['報名資料', '梯次', '錄取序號', '姓名'], ['優惠碼', '場次', '流水號', '優惠碼']];
             $resultStr = [['梯次'], ['限制']];
             $pivot = 0;
-            if($request->coupon_code){
+            if($request->coupon_code) {
                 $applicant = Applicant::where('name', $request->coupon_code)->first();
                 $pivot = 1;
-            }
-            else{
+            } else {
                 $applicant = Applicant::find($request->applicant_id);
             }
-            if(!$applicant){
+            if(!$applicant) {
                 return response()->json([
                     'msg' => '<h4 class="text-danger">找不到' . $dataStr[$pivot][0] . '，請檢查後重試</h4>'
                 ]);
@@ -216,30 +222,29 @@ class CheckInController extends Controller {
                 ]);
             }
             $str = $resultStr[$pivot][0] . '：' . $applicant->batch->name . '<br>' . $dataStr[$pivot][2] . '：' . $applicant->group . $applicant->number . '<br>' . $dataStr[$pivot][3] . '：' . $applicant->name;
-            if($applicant->deposit - $applicant->fee < 0){
+            if($applicant->deposit - $applicant->fee < 0) {
                 //
                 /*return response()->json([
                     'msg' => $str . '<h4 class="text-danger">未繳費，無法報到</h4>'
                 ]);*/
             }
-            if(!$applicant->is_admitted){
+            if(!$applicant->is_admitted) {
                 return response()->json([
                     'msg' => $str . '<h4 class="text-danger">未錄取，無法報到</h4>'
                 ]);
             }
-            if(!$applicant->group_id){
+            if(!$applicant->group_id) {
                 return response()->json([
                     'msg' => $str . '<h4 class="text-danger">未分組，無法報到</h4>'
                 ]);
             }
-            if($pivot == 1){
+            if($pivot == 1) {
                 $hasCheckedIn = CheckIn::where('applicant_id', $applicant->id)->first();
-            }
-            else{
+            } else {
                 $hasCheckedIn = CheckIn::where('applicant_id', $request->applicant_id)->where('check_in_date', Carbon::today()->format('Y-m-d'))->first();
             }
-            if($hasCheckedIn){
-                if($pivot == 1){
+            if($hasCheckedIn) {
+                if($pivot == 1) {
                     return response()->json([
                         'msg' => $str . '<h4 class="text-warning">已於 ' . $hasCheckedIn->created_at . ' 兌換，無法重複使用</h4>'
                     ]);
@@ -247,14 +252,13 @@ class CheckInController extends Controller {
                 return response()->json([
                     'msg' => $str . '<h4 class="text-warning">已報到完成，無法重複報到</h4>'
                 ]);
-            }
-            else{
-                $checkin = new CheckIn;
+            } else {
+                $checkin = new CheckIn();
                 $checkin->applicant_id = $applicant->id;
                 $checkin->checker_id = \Auth()->user()->id;
                 $checkin->check_in_date = Carbon::today()->format('Y-m-d');
                 $checkin->save();
-                if($pivot == 1){
+                if($pivot == 1) {
                     return response()->json([
                         'msg' => $str . '<h4 class="text-success">兌換完成</h4>'
                     ]);
@@ -263,10 +267,9 @@ class CheckInController extends Controller {
                     'msg' => $str . '<h4 class="text-success">報到完成</h4>'
                 ]);
             }
-        }
-        catch(\Exception $e){
+        } catch(\Exception $e) {
             logger($e);
-            if($pivot == 1){
+            if($pivot == 1) {
                 return response()->json([
                     'msg' => '<h4 class="text-danger">發生未預期錯誤，無法完成兌換程序</h4>'
                 ]);
@@ -277,13 +280,14 @@ class CheckInController extends Controller {
         }
     }
 
-    public function realtimeStat() {
-        try{
+    public function realtimeStat()
+    {
+        try {
             $applicants = Applicant::select('applicants.id')
                         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                         ->where('batchs.camp_id', $this->camp->id)
-                        ->where(function($query){
-                            if($this->has_attend_data){
+                        ->where(function ($query) {
+                            if($this->has_attend_data) {
                                 $query->where('is_attend', 1);
                             }
                         })
@@ -296,23 +300,23 @@ class CheckInController extends Controller {
             return response()->json([
                 'msg' => $checkedInCount . ' / ' . ($applicants - $checkedInCount)
             ]);
-        }
-        catch(\Exception $e){
+        } catch(\Exception $e) {
             return response()->json([
                 'msg' => '<h6 class="text-danger">發生未預期錯誤，無法顯示報到人數</h6>'
             ]);
         }
     }
 
-    public function detailedStat(Request $request) {
+    public function detailedStat(Request $request)
+    {
         $allApplicants = Applicant::select('applicants.id')
                             ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                             ->where('batchs.camp_id', $this->camp->id)
                             ->where(\DB::raw("fee - deposit"), "<=", \DB::raw('0'))
                             ->whereNotNull('group_id')
                             ->where('group_id', '<>', \DB::raw('""'))
-                            ->where(function($query){
-                                if($this->has_attend_data){
+                            ->where(function ($query) {
+                                if($this->has_attend_data) {
                                     $query->where('is_attend', 1);
                                 }
                             })
@@ -326,7 +330,7 @@ class CheckInController extends Controller {
                     ->get();
         $batches = $allApplicants->pluck('batch.name')->unique();
         $batchArray = array();
-        foreach ($batches as $key => $batch){
+        foreach ($batches as $key => $batch) {
             $tmp = $allApplicants->where('batch.name', $batch);
             $batchName = $batch;
             $batchArray[$key]['name'] = $batchName;
@@ -339,15 +343,16 @@ class CheckInController extends Controller {
         return view('checkIn.detailedStat', compact('allApplicants', 'checkedInApplicants', 'batchArray', 'checkedInCount', 'applicantsCount'));
     }
 
-    public function detailedStatOptimized(Request $request) {
+    public function detailedStatOptimized(Request $request)
+    {
         $allBatchesApplicants = Applicant::select('applicants.id')
                             ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                             ->where('batchs.camp_id', $this->camp->id)
                             ->where(\DB::raw("fee - deposit"), "<=", \DB::raw('0'))
                             ->whereNotNull('group_id')
                             ->where('group_id', '<>', \DB::raw('""'))
-                            ->where(function($query){
-                                if($this->has_attend_data){
+                            ->where(function ($query) {
+                                if($this->has_attend_data) {
                                     $query->where('is_attend', 1);
                                 }
                             })
@@ -361,14 +366,14 @@ class CheckInController extends Controller {
         $applicantsCount = 0;
         $allApplicants = null;
         $checkedInApplicants = null;
-        foreach($batches as $key => $batch){
+        foreach($batches as $key => $batch) {
             $allApplicants = Applicant::join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                             ->where('batchs.camp_id', $this->camp->id)
                             ->where(\DB::raw("fee - deposit"), "<=", 0)
                             ->where("batch_id", $batch->id)
                             ->whereNotNull('group_id')
-                            ->where(function($query){
-                                if($this->has_attend_data){
+                            ->where(function ($query) {
+                                if($this->has_attend_data) {
                                     $query->where('is_attend', 1);
                                 }
                             })
@@ -386,14 +391,14 @@ class CheckInController extends Controller {
         return view('checkIn.detailedStat', compact('allApplicants', 'checkedInApplicants', 'batchArray', 'checkedInCount', 'applicantsCount'));
     }
 
-    public function uncheckIn(Request $request) {
+    public function uncheckIn(Request $request)
+    {
         $record = CheckIn::where('applicant_id', $request->applicant_id)->where('check_in_date', $request->check_in_date)->first();
         try {
             if($record) {
                 $record->delete();
                 \Session::flash('message', "報消報到成功。");
-            }
-            else{
+            } else {
                 \Session::flash('message', "該筆報到資料已不存在。");
             }
         } catch (\Exception $e) {
