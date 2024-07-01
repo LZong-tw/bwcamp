@@ -72,8 +72,8 @@
             <table class="table table-bordered text-break">
                 <tr class="table-active">
                     @if($camp->table != 'coupon')
-                        <th style="width: 20%">組別</th>
-                        @if($camp->table != 'ceocamp' && $camp->table != 'ecamp')
+                        <th style="width: 20%">組別@if($camp->is_vcamp())職務 @endif</th>
+                        @if($camp->table != 'ceocamp' && $camp->table != 'ecamp' && !$camp->is_vcamp())
                             <th style="width: 20%">編號</th>
                         @else
                             <th style="width: 20%">報名序號</th>
@@ -92,8 +92,16 @@
                     @if($applicant->batch->id == $batch_key)
                         <tr id="{{ $applicant->id }}">
                             @if($camp->table != 'coupon')
-                                <td class="align-middle">{{ $applicant->group }}</td>
-                                @if($camp->table != 'ceocamp' && $camp->table != 'ecamp')
+                                @if (!$camp->is_vcamp())
+                                    <td class="align-middle">{{ $applicant->group }}</td>
+                                @else
+                                    <td class="align-middle">
+                                        @foreach ($applicant->user->roles as $r)
+                                            {{ $r->section . " " . $r->position }}<br>
+                                        @endforeach
+                                    </td>
+                                @endif
+                                @if($camp->table != 'ceocamp' && $camp->table != 'ecamp' && !$camp->is_vcamp())
                                     <td class="align-middle">{{ $applicant->number ?? "--" }}</td>
                                 @else
                                     <td class="align-middle">{{ $applicant->id }}</td>

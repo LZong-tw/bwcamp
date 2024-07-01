@@ -167,7 +167,7 @@ class User extends Authenticatable
             return false;
         }
 
-        $class = get_class($resource);
+        $class = is_string($resource) ? $resource : get_class($resource);
         if ($resource instanceof \App\Models\Volunteer && $context == "vcampExport") {
             $class = "App\\Models\\Applicant";
         }
@@ -201,7 +201,7 @@ class User extends Authenticatable
 
     public function fillingAccessibleResult($resource, $action, $camp, $context = null, $target = null, $probing = null) {
         $result = $this->getAccessibleResult($resource, $action, $camp, $context, $target, $probing);
-        $class = get_class($resource);
+        $class = is_string($resource) ? $resource : get_class($resource);
         $batch_id = null;
         $region_id = null;
         if ($resource instanceof \App\Models\Applicant || $resource instanceof \App\Models\Volunteer) {
@@ -237,7 +237,7 @@ class User extends Authenticatable
         if ($context == "vcampExport" && $target) {
             $camp = Vcamp::query()->find($target->camp->id)->mainCamp;
         }
-        $class = get_class($resource);
+        $class = is_string($resource) ? $resource : get_class($resource);
 
         if ($resource instanceof \App\Models\Volunteer && $context == "vcampExport") {
             $class = "App\\Models\\Applicant";

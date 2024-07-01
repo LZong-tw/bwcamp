@@ -9,6 +9,9 @@ use App\Models\Camp;
 use App\Models\Applicant;
 use App\Models\Batch;
 use App\Models\CheckIn;
+use App\Models\OrgUser;
+use App\Models\User;
+use App\Models\Vcamp;
 use View;
 use Carbon\Carbon;
 
@@ -63,6 +66,11 @@ class CheckInController extends Controller {
         $camps = $this->user->roles->map(function($role){
             return $role->camp;
         })->unique();
+        foreach ($camps as $camp) {
+            if ($camp->vcamp && $this->user->canAccessResource(CheckIn::class, 'create', $camp)) {
+                $camps = $camps->push($camp->vcamp);
+            }
+        }
         if ($camps->count() == 0 && $this->user->id == 1) {
             $camps = Camp::orderByDesc('id')->get();
         }
@@ -72,56 +80,95 @@ class CheckInController extends Controller {
     public function query(Request $request) {
         $group = null;
         $number = null;
-        if ((preg_match("/\p{Han}+/u", $request->query_str) && \Str::length($request->query_str) == 3) ||
-            (str_contains($request->query_str, '第') && str_contains($request->query_str, '組'))) {
-            $group = substr($request->query_str, 0, 9);
-        }
-        elseif(\Str::length($request->query_str) == 3 ||
-                in_array($request->query_str,
-                ["貴賓", "後補名單", "知音", "得獎相關人員", "其他", "福業汐止物流",
-                "僧伽護持聯誼會", "班幹部", "傳心", "里仁", "幕僚", "台北學苑管理處",
-                "台北學苑淨智處", "淨智北區", "淨智總部", "慈心總部", "台北學苑文教處", "文教總部"]
-        )) {
-            $group = $request->query_str;
-        }
-        elseif(\Str::length($request->query_str) == 5){
-            $group = substr($request->query_str, 0, 3);
-            $number = substr($request->query_str, 3, 2);
-        }
-        $constraint = function($query){ $query->where('camps.id', $this->camp->id); };
-        if ($group) {
-            $group = $this->camp->groups()->where('alias', 'like', '%' . $group . '%')->first();
-            if ($number) {
-                $number = $group?->numbers()?->where("number", $number)->get();
+        if (!$this->camp->is_vcamp()) {
+            if ((preg_match("/\p{Han}+/u", $request->query_str) && \Str::length($request->query_str) == 3) ||
+                (str_contains($request->query_str, '第') && str_contains($request->query_str, '組'))) {
+                $group = substr($request->query_str, 0, 9);
+            }
+            elseif(\Str::length($request->query_str) == 3 ||
+                    in_array($request->query_str,
+                    ["貴賓", "後補名單", "知音", "得獎相關人員", "其他", "福業汐止物流",
+                    "僧伽護持聯誼會", "班幹部", "傳心", "里仁", "幕僚", "台北學苑管理處",
+                    "台北學苑淨智處", "淨智北區", "淨智總部", "慈心總部", "台北學苑文教處", "文教總部"]
+            )) {
+                $group = $request->query_str;
+            }
+            elseif(\Str::length($request->query_str) == 5){
+                $group = substr($request->query_str, 0, 3);
+                $number = substr($request->query_str, 3, 2);
             }
         }
-        $applicants = Applicant::with(['batch', 'batch.camp' => $constraint, 'groupRelation', 'numberRelation'])
-                                    ->whereHas('batch.camp', $constraint)
-                                    ->where('is_admitted', 1)
-                                    ->where(function($query){
-                                        if($this->has_attend_data){
-                                            $query->where('is_attend', 1);
-                                        }
-                                    })
-                                    ->whereNotNull('group_id')
-                                    ->where(function($query) use ($request, $group, $number) {
-                                        $query->where('applicants.id', $request->query_str);
-                                        if ($group && !$number) {
-                                            $query->orWhere('group_id', $group?->id);
-                                        }
-                                        if ($number && $group) {
-                                            $query->orWhere(function ($query) use ($group, $number) {
-                                                $query->where('group_id', $group?->id);
-                                                $query->whereIn('number_id', $number?->pluck('id'));
-                                            });
-                                        }
-                                        $query->orWhere('name', 'like', '%' . $request->query_str . '%')
-                                        ->orWhere(\DB::raw("replace(mobile, '-', '')"), 'like', '%' . $request->query_str . '%')
-                                        ->orWhere(\DB::raw("replace(mobile, '(', '')"), 'like', '%' . $request->query_str . '%')
-                                        ->orWhere(\DB::raw("replace(mobile, ')', '')"), 'like', '%' . $request->query_str . '%')
-                                        ->orWhere(\DB::raw("replace(mobile, '（', '')"), 'like', '%' . $request->query_str . '%')
-                                        ->orWhere(\DB::raw("replace(mobile, '）', '')"), 'like', '%' . $request->query_str . '%');
-                                    })->get()->sortBy(['batch.camp.id', 'batch.id', 'groupRelation.alias', 'numberRelation.number']);
+        else {
+            $group = $request->query_str;
+        }
+        $constraint = function($query){ $query->where('camps.id', $this->camp->id); };
+        if ($this->camp->is_vcamp()) {
+            $main_camp = Vcamp::find($this->camp->id)->mainCamp;
+            if ($group) {
+                $groups = $this->camp->organizations()->where(function ($query) use ($group) {
+                    return $query->where('section', 'like', '%' . $group . '%')->orWhere('position', 'like', '%' . $group . '%');
+                })->get();
+                $groups = $groups->merge($main_camp->organizations()->where(function ($query) use ($group) {
+                    return $query->where('section', 'like', '%' . $group . '%')->orWhere('position', 'like', '%' . $group . '%');
+                })->get());
+            }
+            $ids = OrgUser::whereIn('org_id', $groups->pluck('id'))->get()->pluck('user_id')->toArray();
+            $users = User::with(['application_log' => function($query) {
+                                return $query->whereIn('applicants.batch_id', $this->camp->batchs->pluck('id')->toArray());
+                            }])->whereIn('id', $ids)->get();
+            $applicants = Applicant::with(['batch',
+                                           'batch.camp' => $constraint,
+                                           'user.roles' => function ($query) use ($main_camp) {
+                                                return $query->where('camp_org.camp_id', $main_camp->id);
+                                            }])
+                            ->whereHas('batch.camp', $constraint)
+                            ->where('is_admitted', 1)
+                            ->where(function($query) use ($request, $users) {
+                                $query->where('applicants.id', $request->query_str);
+                                $query->orWhere('name', 'like', '%' . $request->query_str . '%')
+                                ->orWhere(\DB::raw("replace(mobile, '-', '')"), 'like', '%' . $request->query_str . '%')
+                                ->orWhere(\DB::raw("replace(mobile, '(', '')"), 'like', '%' . $request->query_str . '%')
+                                ->orWhere(\DB::raw("replace(mobile, ')', '')"), 'like', '%' . $request->query_str . '%')
+                                ->orWhere(\DB::raw("replace(mobile, '（', '')"), 'like', '%' . $request->query_str . '%')
+                                ->orWhere(\DB::raw("replace(mobile, '）', '')"), 'like', '%' . $request->query_str . '%')
+                                ->orwhereIn('applicants.id', $users->pluck('application_log')->flatten()->pluck('id'));
+                            })->get()->sortBy(['batch.camp.id', 'batch.id']);
+        }
+        else {
+            if ($group) {
+                $group = $this->camp->groups()->where('alias', 'like', '%' . $group . '%')->first();
+                if ($number) {
+                    $number = $group?->numbers()?->where("number", $number)->get();
+                }
+            }
+            $applicants = Applicant::with(['batch', 'batch.camp' => $constraint, 'groupRelation', 'numberRelation'])
+                                        ->whereHas('batch.camp', $constraint)
+                                        ->where('is_admitted', 1)
+                                        ->where(function($query){
+                                            if($this->has_attend_data){
+                                                $query->where('is_attend', 1);
+                                            }
+                                        })
+                                        ->whereNotNull('group_id')
+                                        ->where(function($query) use ($request, $group, $number) {
+                                            $query->where('applicants.id', $request->query_str);
+                                            if ($group && !$number) {
+                                                $query->orWhere('group_id', $group?->id);
+                                            }
+                                            if ($number && $group) {
+                                                $query->orWhere(function ($query) use ($group, $number) {
+                                                    $query->where('group_id', $group?->id);
+                                                    $query->whereIn('number_id', $number?->pluck('id'));
+                                                });
+                                            }
+                                            $query->orWhere('name', 'like', '%' . $request->query_str . '%')
+                                            ->orWhere(\DB::raw("replace(mobile, '-', '')"), 'like', '%' . $request->query_str . '%')
+                                            ->orWhere(\DB::raw("replace(mobile, '(', '')"), 'like', '%' . $request->query_str . '%')
+                                            ->orWhere(\DB::raw("replace(mobile, ')', '')"), 'like', '%' . $request->query_str . '%')
+                                            ->orWhere(\DB::raw("replace(mobile, '（', '')"), 'like', '%' . $request->query_str . '%')
+                                            ->orWhere(\DB::raw("replace(mobile, '）', '')"), 'like', '%' . $request->query_str . '%');
+                                        })->get()->sortBy(['batch.camp.id', 'batch.id', 'groupRelation.alias', 'numberRelation.number']);
+        }
         $batches = $applicants->pluck('batch.name', 'batch.id')->unique();
         $request->flash();
         return view('checkIn.home', compact('applicants', 'batches'));
