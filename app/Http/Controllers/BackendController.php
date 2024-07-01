@@ -1782,11 +1782,11 @@ class BackendController extends Controller
         }
 
         $queryStr = !isset($queryStr) || $queryStr == null ? "" : $queryStr;
-        $applicants = Cache::remember("camp{$this->campFullData->id}_applicants_viewed_backend_by_" . auth()->user()->id . "_query" . $queryStr, Config::get('cache.ttl'), function () use ($applicants_query) {
+        $applicants = Cache::remember("camp{$this->campFullData->id}_applicants_viewed_backend_by_" . auth()->user()->id . "_query" . md5($queryStr), Config::get('cache.ttl'), function () use ($applicants_query) {
             $applicants = $applicants_query->get();
             return $applicants->each(fn ($applicant) => $applicant->id = $applicant->applicant_id);
         });
-        if (!Cache::get("camp{$this->campFullData->id}_applicants_viewed_by_" . auth()->user()->id . "_query" . $queryStr)) {
+        if (!Cache::get("camp{$this->campFullData->id}_applicants_viewed_by_" . auth()->user()->id . "_query" . md5($queryStr))) {
             $applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant));
         }
 
@@ -1925,17 +1925,17 @@ class BackendController extends Controller
             }
         }
         $queryStr = !isset($queryStr) || $queryStr == null ? "" : $queryStr;
-        $applicants = Cache::remember("camp{$this->campFullData->id}_volumeteeringApplicants_viewed_backend_by_" . auth()->user()->id . "_query" . $queryStr, Config::get('cache.ttl'), function () use ($applicants_query) {
+        $applicants = Cache::remember("camp{$this->campFullData->id}_volumeteeringApplicants_viewed_backend_by_" . auth()->user()->id . "_query" . md5($queryStr), Config::get('cache.ttl'), function () use ($applicants_query) {
             $applicants = $applicants_query->get();
             return $applicants->each(fn ($applicant) => $applicant->id = $applicant->applicant_id);
         });
-        $registeredUsers = Cache::remember("camp{$this->campFullData->id}_registeredVolunteers_backend_viewed_by_" . auth()->user()->id . "_query" . $queryStr, Config::get('cache.ttl'), function () use ($registeredUsers) {
+        $registeredUsers = Cache::remember("camp{$this->campFullData->id}_registeredVolunteers_backend_viewed_by_" . auth()->user()->id . "_query" . md5($queryStr), Config::get('cache.ttl'), function () use ($registeredUsers) {
             return $registeredUsers->get();
         });
-        if (!Cache::get("camp{$this->campFullData->id}_registeredVolunteers_viewed_by_" . auth()->user()->id . "_query" . $queryStr)) {
+        if (!Cache::get("camp{$this->campFullData->id}_registeredVolunteers_viewed_by_" . auth()->user()->id . "_query" . md5($queryStr))) {
             $registeredUsers = $registeredUsers->filter(fn ($user) => $this->user->canAccessResource($user, 'read', $this->campFullData, target: $user, context: 'vcamp'));
         }
-        if (!Cache::get("camp{$this->campFullData->id}_volumeteeringApplicants_viewed_by_" . auth()->user()->id . "_query" . $queryStr)) {
+        if (!Cache::get("camp{$this->campFullData->id}_volumeteeringApplicants_viewed_by_" . auth()->user()->id . "_query" . md5($queryStr))) {
             $applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant, context: 'vcamp'));
         }
 
