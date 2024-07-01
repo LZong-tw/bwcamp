@@ -33,7 +33,7 @@ use App\Models\Region;
 use App\Services\GSheetService;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Cache;
-use PSpell\Config;
+use Illuminate\Support\Facades\Config;
 
 class BackendController extends Controller
 {
