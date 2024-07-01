@@ -1781,7 +1781,7 @@ class BackendController extends Controller
             }
         }
 
-        $queryStr = $queryStr == null ? "" : $queryStr;
+        $queryStr = !isset($queryStr) || $queryStr == null ? "" : $queryStr;
         if (!Cache::get("camp{$this->campFullData->id}_applicants_viewed_by_" . auth()->user()->id . "_query" . $queryStr)) {
             $applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant));
         }
@@ -1922,7 +1922,7 @@ class BackendController extends Controller
             }
         }
         $registeredUsers = $registeredUsers->get();
-        $queryStr = $queryStr == null ? "" : $queryStr;
+        $queryStr = !isset($queryStr) || $queryStr == null ? "" : $queryStr;
         if (Cache::get("camp{$this->campFullData->id}_registeredVolunteers_viewed_by_" . auth()->user()->id . "_query" . $queryStr)) {
             $registeredUsers = $registeredUsers->filter(fn ($user) => $this->user->canAccessResource($user, 'read', $this->campFullData, target: $user, context: 'vcamp'));
         }
