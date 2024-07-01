@@ -13,5 +13,5 @@ class Ucaronr extends Model
     //
     protected $table = 'user_can_access_resource_or_not_results';
 
-    protected $fillable = ['user_id', 'camp_id', 'batch_id', 'region_id', 'accessible_id', 'accessible_type', 'can_access'];
+    protected $fillable = ['user_id', 'camp_id', 'batch_id', 'region_id', 'accessible_id', 'accessible_type', 'context', 'can_access'];
 }
