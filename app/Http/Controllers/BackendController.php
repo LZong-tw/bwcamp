@@ -1848,6 +1848,7 @@ class BackendController extends Controller
                 $query = $query->whereRaw("1 = 0");
             }
         }
+        $applicants_query = clone $query;
         $filtered_batches = clone $batches;
         if ($request->batch_id) {
             $filtered_batches = $filtered_batches->filter(fn ($batch) => $batch->id == $request->batch_id);
@@ -1923,8 +1924,8 @@ class BackendController extends Controller
             }
         }
         $queryStr = !isset($queryStr) || $queryStr == null ? "" : $queryStr;
-        $applicants = Cache::remember("camp{$this->campFullData->id}_volumeteeringApplicants_viewed_backend_by_" . auth()->user()->id . "_query" . $queryStr, Config::get('cache.ttl'), function () use ($applicants) {
-            $applicants = $query->get();
+        $applicants = Cache::remember("camp{$this->campFullData->id}_volumeteeringApplicants_viewed_backend_by_" . auth()->user()->id . "_query" . $queryStr, Config::get('cache.ttl'), function () use ($applicants_query) {
+            $applicants = $applicants_query->get();
             return $applicants->each(fn ($applicant) => $applicant->id = $applicant->applicant_id);
         });
         $registeredUsers = Cache::remember("camp{$this->campFullData->id}_registeredVolunteers_backend_viewed_by_" . auth()->user()->id . "_query" . $queryStr, Config::get('cache.ttl'), function () use ($registeredUsers) {
