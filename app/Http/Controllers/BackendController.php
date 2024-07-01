@@ -1739,6 +1739,7 @@ class BackendController extends Controller
             $query = $queryStr != "" ? $query->whereRaw(\DB::raw($queryStr)) : $query;
             $request->flash();
         }
+        $applicants_query = clone $query;
         if($request->isSetting==1) {
             $isSetting = 1;
         } else {
@@ -1781,8 +1782,8 @@ class BackendController extends Controller
         }
 
         $queryStr = !isset($queryStr) || $queryStr == null ? "" : $queryStr;
-        $applicants = Cache::remember("camp{$this->campFullData->id}_volumeteeringApplicants_viewed_backend_by_" . auth()->user()->id . "_query" . $queryStr, Config::get('cache.ttl'), function () use ($applicants) {
-            $applicants = $query->get();
+        $applicants = Cache::remember("camp{$this->campFullData->id}_volumeteeringApplicants_viewed_backend_by_" . auth()->user()->id . "_query" . $queryStr, Config::get('cache.ttl'), function () use ($applicants_query) {
+            $applicants = $applicants_query->get();
             return $applicants->each(fn ($applicant) => $applicant->id = $applicant->applicant_id);
         });
         if (!Cache::get("camp{$this->campFullData->id}_applicants_viewed_by_" . auth()->user()->id . "_query" . $queryStr)) {
