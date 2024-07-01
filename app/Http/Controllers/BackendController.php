@@ -1738,6 +1738,8 @@ class BackendController extends Controller
             $query = $queryStr != "" ? $query->whereRaw(\DB::raw($queryStr)) : $query;
             $request->flash();
         }
+        $applicants = $query->get();
+        $applicants = $applicants->each(fn ($applicant) => $applicant->id = $applicant->applicant_id);
         if($request->isSetting==1) {
             $isSetting = 1;
         } else {
@@ -1781,8 +1783,6 @@ class BackendController extends Controller
 
         $queryStr = !isset($queryStr) || $queryStr == null ? "" : $queryStr;
         if (!Cache::get("camp{$this->campFullData->id}_applicants_viewed_by_" . auth()->user()->id . "_query" . $queryStr)) {
-            $applicants = $query->get();
-            $applicants = $applicants->each(fn ($applicant) => $applicant->id = $applicant->applicant_id);
             $applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant));
         }
 
@@ -1845,6 +1845,8 @@ class BackendController extends Controller
                 $query = $query->whereRaw("1 = 0");
             }
         }
+        $applicants = $query->get();
+        $applicants = $applicants->each(fn ($applicant) => $applicant->id = $applicant->applicant_id);
         $filtered_batches = clone $batches;
         if ($request->batch_id) {
             $filtered_batches = $filtered_batches->filter(fn ($batch) => $batch->id == $request->batch_id);
@@ -1919,14 +1921,12 @@ class BackendController extends Controller
                 });
             }
         }
+        $registeredUsers = $registeredUsers->get();
         $queryStr = !isset($queryStr) || $queryStr == null ? "" : $queryStr;
         if (!Cache::get("camp{$this->campFullData->id}_registeredVolunteers_viewed_by_" . auth()->user()->id . "_query" . $queryStr)) {
-            $registeredUsers = $registeredUsers->get();
             $registeredUsers = $registeredUsers->filter(fn ($user) => $this->user->canAccessResource($user, 'read', $this->campFullData, target: $user, context: 'vcamp'));
         }
         if (!Cache::get("camp{$this->campFullData->id}_volumeteeringApplicants_viewed_by_" . auth()->user()->id . "_query" . $queryStr)) {
-            $applicants = $query->get();
-            $applicants = $applicants->each(fn ($applicant) => $applicant->id = $applicant->applicant_id);
             $applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant, context: 'vcamp'));
         }
 
