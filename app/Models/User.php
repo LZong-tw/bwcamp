@@ -264,7 +264,7 @@ class User extends Authenticatable
                 }
                 else if ($resource instanceof \App\Models\User) {
                     $theCamp = $camp->vcamp;
-                    $theApplicant = $resource->application_log->whereIn('batch_id', $theCamp->batchs()->pluck('id'))->first();
+                    $theApplicant = $resource->application_log->whereIn('batch_id', $theCamp?->batchs()->pluck('id'))->first();
                     if ($theApplicant) {
                         $query->where(function ($query) use ($theApplicant){
                             $query->where(function ($query) {
@@ -289,7 +289,7 @@ class User extends Authenticatable
                 }
                 else if ($resource instanceof \App\Models\User) {
                     $theCamp = $camp->vcamp;
-                    $theApplicant = $resource->application_log->whereIn('batch_id', $theCamp->batchs()->pluck('id'))->first();
+                    $theApplicant = $resource->application_log->whereIn('batch_id', $theCamp?->batchs()->pluck('id'))->first();
                     if ($theApplicant) {
                         $query->where(function ($query) use ($theApplicant){
                             $query->where(function ($query) {
