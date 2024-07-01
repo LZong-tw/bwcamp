@@ -180,8 +180,8 @@ class User extends Authenticatable
         } elseif ($resource instanceof \App\Models\User) {
             $theCamp = $camp->vcamp;
             $theApplicant = $resource->application_log->whereIn('batch_id', $theCamp->batchs()->pluck('id'))->first();
-            $batch_id = $theApplicant->batch_id ?? null;
-            $region_id = $theApplicant->region_id ?? null;
+            $batch_id = $theApplicant?->batch_id;
+            $region_id = $theApplicant?->region_id;
         }
 
         $existingAccessResult = $this->canAccessResult()
@@ -211,8 +211,8 @@ class User extends Authenticatable
         elseif ($resource instanceof \App\Models\User) {
             $theCamp = $camp->vcamp;
             $theApplicant = $resource->application_log->whereIn('batch_id', $theCamp->batchs()->pluck('id'))->first();
-            $batch_id = $theApplicant->batch_id;
-            $region_id = $theApplicant->region_id;
+            $batch_id = $theApplicant?->batch_id;
+            $region_id = $theApplicant?->region_id;
         }
         $this->canAccessResult()->firstOrCreate([
             'user_id' => $this->id,
