@@ -1782,7 +1782,7 @@ class BackendController extends Controller
         }
 
         $queryStr = !isset($queryStr) || $queryStr == null ? "" : $queryStr;
-        $applicants = Cache::remember("camp{$this->campFullData->id}_volumeteeringApplicants_viewed_backend_by_" . auth()->user()->id . "_query" . $queryStr, Config::get('cache.ttl'), function () use ($applicants_query) {
+        $applicants = Cache::remember("camp{$this->campFullData->id}_applicants_viewed_backend_by_" . auth()->user()->id . "_query" . $queryStr, Config::get('cache.ttl'), function () use ($applicants_query) {
             $applicants = $applicants_query->get();
             return $applicants->each(fn ($applicant) => $applicant->id = $applicant->applicant_id);
         });
