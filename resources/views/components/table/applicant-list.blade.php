@@ -53,8 +53,9 @@
         </thead>
         @php
             $queryStr = $queryStr ?? "";
+            $isSetting = $isSetting ?? false;
         @endphp
-        @cache("camp{$campFullData->id}_registeredVolunteers_viewed_by_" . auth()->user()->id . "_query" . md5($queryStr))
+        @cache("camp{$campFullData->id}_registeredVolunteers_viewed_by_" . auth()->user()->id . "_query" . md5($queryStr) . "_issetting" . $isSetting)
             @forelse ($registeredVolunteers as &$user)
                 @forelse($user->application_log as &$applicant)
                     @php
@@ -156,7 +157,7 @@
             @empty
             @endforelse
         @endcache
-        @cache($isShowVolunteers ? "camp{$campFullData->id}_volumeteeringApplicants_viewed_by_" . auth()->user()->id . "_query" . md5($queryStr) : "camp{$campFullData->id}_applicants_viewed_by_" . auth()->user()->id . "_query" . md5($queryStr))
+        @cache($isShowVolunteers ? "camp{$campFullData->id}_volumeteeringApplicants_viewed_by_" . auth()->user()->id . "_query" . md5($queryStr) : "camp{$campFullData->id}_applicants_viewed_by_" . auth()->user()->id . "_query" . md5($queryStr) . "_issetting" . $isSetting)
             @forelse ($applicants as &$applicant)
                 <tr @if($applicant->deleted_at) style="color: rgba(120, 120, 120, 0.4)!important" @endif>
                     @if(($isSetting ?? false) || ($isSettingCarer ?? false))
