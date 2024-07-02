@@ -299,37 +299,37 @@
         <div class='col-md-10'>
             <p class='form-control-static text-info'>單選，請選最主要管道。</p>
             <label class=radio-inline>
-                <input type=radio required name='way' value=Line宣傳 onClick='select_source(0);'> Line宣傳
+                <input type=radio required name='way' value=Line宣傳 onClick='selectSource(0);'> Line宣傳　
                 <div class="invalid-feedback">
                     請選擇如何得知管道
                 </div>
             </label> 
             <label class=radio-inline>
-                <input type=radio required name='way' value=臉書等社群網站 onClick='select_source(1);'> 臉書等社群網站
+                <input type=radio required name='way' value=臉書等社群網站 onClick='selectSource(1);'> 臉書等社群網站　
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
             </label> 
             <label class=radio-inline>
-                <input type=radio required name='way' value=電子郵件 onClick='select_source(2);'> 電子郵件
+                <input type=radio required name='way' value=電子郵件 onClick='selectSource(2);'> 電子郵件　
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
             </label> 
             <label class=radio-inline>
-                <input type=radio required name='way' value=書面文宣 onClick='select_source(3);'> 書面文宣
+                <input type=radio required name='way' value=書面文宣 onClick='selectSource(3);'> 書面文宣　
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
             </label> 
             <label class=radio-inline>
-                <input type=radio required name='way' value=親友介紹 onClick='select_source(4);'> 親友介紹
+                <input type=radio required name='way' value=親友介紹 onClick='selectSource(4);'> 親友介紹　
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
             </label> 
             <label class=radio-inline>
-                <input type=radio required name='way' value=其它 onClick='select_source(5);'> 其它
+                <input type=radio required name='way' value=其它 onClick='selectSource(5);'> 其它
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
@@ -372,8 +372,7 @@
         <div class="col-md-10">
             <div class="form-check form-check-inline">
                 <label class="form-check-label">
-                    <input type="radio" name="is_allow_informed" value="1">
-                    是
+                    <input type="radio" name="is_allow_informed" value="1">是　
                     <div class="invalid-feedback">
                         請選擇一項
                     </div>
@@ -381,8 +380,7 @@
             </div>
             <div class="form-check form-check-inline">
                 <label class="form-check-label">
-                    <input type="radio" name="is_allow_informed" value="0">
-                    否
+                    <input type="radio" name="is_allow_informed" value="0">否
                     <div class="invalid-feedback">
                         &nbsp;
                     </div>
@@ -392,11 +390,29 @@
     </div>
     
     <div class='row form-group required'>
-        <label for='inputExamFormat' class='col-md-2 control-label text-md-right'>考證方式(單選)</label>
+        <label for='inputParticipationMode' class='col-md-2 control-label text-md-right'>上課方式</label>
+        <div class='col-md-10'>
+            <label class=radio-inline>
+                <input type='radio' required name='participation_mode' onClick='selectParticipationMode(0);' value='實體'>實體　
+                <div class="invalid-feedback">
+                    請選擇上課方式
+                </div>
+            </label>
+            <label class=radio-inline>
+                <input type='radio' required name='participation_mode' onClick='selectParticipationMode(1);' value='線上'>線上
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label>
+        </div>
+    </div>
+
+    <div class='row form-group required exam_format0' style="display:none">
+        <label for='inputExamFormat0' class='col-md-2 control-label text-md-right'>考證方式(單選)</label>
         <div class="col-md-10">
             <div class="form-check form-check-inline">
                 <label class="form-check-label">
-                    <input type="radio" required name="exam_format" value="筆電">
+                    <input type="radio" required name="exam_format" id='inputExamFormat0_0' value="筆電">
                     筆電(裝置自備)
                     <div class="invalid-feedback">
                         請選擇一項
@@ -405,7 +421,7 @@
             </div>
             <div class="form-check form-check-inline">
                 <label class="form-check-label">
-                    <input type="radio" required name="exam_format" value="平板">
+                    <input type="radio" required name="exam_format" id='inputExamFormat0_1' value="平板">
                     平板(裝置自備)
                     <div class="invalid-feedback">
                         &nbsp;
@@ -414,7 +430,7 @@
             </div>
             <div class="form-check form-check-inline">
                 <label class="form-check-label">
-                    <input type="radio" required name="exam_format" value="手機">
+                    <input type="radio" required name="exam_format" id='inputExamFormat0_2' value="手機">
                     手機(裝置自備)
                     <div class="invalid-feedback">
                         &nbsp;
@@ -423,13 +439,21 @@
             </div>
             <div class="form-check form-check-inline">
                 <label class="form-check-label">
-                    <input type="radio" required name="exam_format" value="紙本">
+                    <input type="radio" required name="exam_format" id='inputExamFormat0_3' value="紙本">
                     紙本
                     <div class="invalid-feedback">
                         &nbsp;
                     </div>
                 </label>
             </div>
+        </div>
+    </div>
+
+    <div class='row form-group exam_format1' style="display:none">
+        <label for='inputExamFormat1' class='col-md-2 control-label text-md-right'>考證方式<br>(線上上課者)</label>
+        <div class="col-md-10">
+        <p class='form-control-static text-info'>
+        屆時會提供上課連線帳號與線上考證網站，請自備可上網的電子裝置（筆電、平板或手機）連線上課與考證</p>
         </div>
     </div>
 
@@ -558,11 +582,11 @@
             }
         }
         
-        function select_source(way){        
+        function selectSource(way){        
             tg_intro = document.getElementsByClassName('introducer_name');
             tg_way = document.getElementsByClassName('way_other');
-            console.log(tg_intro);
-            console.log(tg_way);
+            //console.log(tg_intro);
+            //console.log(tg_way);
             if (way==4) {
                 document.getElementById("inputIntroducerName").required = true;
                 document.getElementById("inputWayOther").required = false;
@@ -579,6 +603,28 @@
                 document.getElementById("inputWayOther").required = false;
                 tg_intro[0].style.display = 'none';
                 tg_way[0].style.display = 'none';
+            }
+        }
+
+        function selectParticipationMode(mode){        
+            tg0 = document.getElementsByClassName('exam_format0');
+            tg1 = document.getElementsByClassName('exam_format1');
+            //console.log(tg0);
+            //console.log(tg1);
+            if (mode==0) {
+                document.getElementById("inputExamFormat0_0").required = true;
+                document.getElementById("inputExamFormat0_1").required = true;
+                document.getElementById("inputExamFormat0_2").required = true;
+                document.getElementById("inputExamFormat0_3").required = true;
+                tg0[0].style.display = '';
+                tg1[0].style.display = 'none';
+            } else { //if (mode==1)
+                document.getElementById("inputExamFormat0_0").required = false;
+                document.getElementById("inputExamFormat0_1").required = false;
+                document.getElementById("inputExamFormat0_2").required = false;
+                document.getElementById("inputExamFormat0_3").required = false;
+                tg0[0].style.display = 'none';
+                tg1[0].style.display = '';
             }
         }
 
@@ -641,7 +687,7 @@
                         textareas[i].value = applicant_data[textareas[i].name]; 
                     }
                 }
-
+                
                 @if(!$isModify)
                     for (var i = 0; i < inputs.length; i++){
                         if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox" || inputs[i].name == 'emailConfirm' || inputs[i].name == "blisswisdom_type[]" || inputs[i].name == "blisswisdom_type_complement[]"){
@@ -655,6 +701,21 @@
                         textareas[i].disabled = true;
                     }
                 @endif
+
+                //scamp only
+                if (applicant_data['way'] == "親友介紹") {
+                    selectSource(4);
+                } else if (applicant_data['way'] == "其它") {
+                    selectSource(5);
+                } else {
+                    selectSource(0);
+                }
+                if (applicant_data['participation_mode'] == "實體") {
+                    selectParticipationMode(0);
+                } else {
+                    selectParticipationMode(1);
+                }
+
             })();
 
             function checkIfNull(val) {
