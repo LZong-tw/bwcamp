@@ -14,6 +14,8 @@ use App\Models\User;
 use App\Models\Vcamp;
 use View;
 use Carbon\Carbon;
+use Illuminate\Support\ViewErrorBag;
+use Illuminate\Support\MessageBag;
 
 class CheckInController extends Controller {
     protected $campDataService, $applicantService, $batch_id, $camp_data, $batch, $has_attend_data;
@@ -171,7 +173,7 @@ class CheckInController extends Controller {
         }
         $batches = $applicants->pluck('batch.name', 'batch.id')->unique();
         $request->flash();
-        return view('checkIn.home', compact('applicants', 'batches'));
+        return view('checkIn.home', compact('applicants', 'batches'))->with('query', $request->query_str);
     }
 
     public function checkIn(Request $request) {
@@ -191,6 +193,46 @@ class CheckInController extends Controller {
         }
         \Session::flash('message', "報到成功。");
         return back();
+    }
+
+    public function massCheckIn(Request $request) {
+        $errors = \Session::get('errors', new ViewErrorBag);
+
+        if (!$errors instanceof ViewErrorBag) {
+            $errors = new ViewErrorBag;
+        }
+        $bag = $errors->getBags()['default'] ?? new MessageBag;
+        $succeded = "";
+        foreach($request->applicant_multi_values as $key => $applicant_id) {
+            if(CheckIn::where('applicant_id', $applicant_id)->where('check_in_date', Carbon::today()->format('Y-m-d'))->first()){
+                $bag->add('default', $applicant_id . "已報到過，無法重複報到。");
+
+                // $request->session()->put(
+                //     'errors', $errors->put('default', $bag)
+                // );
+            }
+            else{
+                $applicant = Applicant::find($applicant_id);
+                if($applicant->deposit - $applicant->fee < 0){
+                    //return back()->withErrors([$applicant->name . '未繳費，無法報到。']);
+                }
+                $checkin = new CheckIn;
+                $checkin->applicant_id = $applicant_id;
+                $checkin->checker_id = \Auth()->user()->id;
+                $checkin->check_in_date = Carbon::today()->format('Y-m-d');
+                $checkin->save();
+                $succeded .= $applicant->name . "報到成功。";
+                if ($key != count($request->applicant_multi_values) - 1 && count($request->applicant_multi_values) != 1) {
+                    $succeded .= "<br>";
+                }
+            }
+        }
+        $query_str = $request->query_str;
+        $camp_id = $request->camp_id ?? 1;
+        return redirect(route('checkInPage', ['query_str' => $query_str, 'camp_id' => $camp_id]))
+                    ->with('shouldRefresh', 1)
+                    ->with('errors', $errors->put('default', $bag))
+                    ->with('message', $succeded);
     }
 
     public function by_QR(Request $request) {
