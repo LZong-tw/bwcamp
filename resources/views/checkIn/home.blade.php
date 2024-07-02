@@ -34,6 +34,14 @@
     .footer {
         background-color: rgba(221, 221, 221, 0.80);
     }
+
+    th.asc::after {
+        content: " \25B2";
+    }
+
+    th.desc::after {
+        content: " \25BC";
+    }
 </style>
 <div class="container">
     <h2 class="mt-4 text-center">福智營隊報到系統</h2>
@@ -67,136 +75,152 @@
         @if($applicants->count() >= 20)
             <div class="alert alert-danger">查詢條件過於粗略，符合筆數過多，容易導致系統負荷過大。</div>
         @endif
+        <a href="#" class="btn btn-primary mb-2" onclick="checkBeforeSubmit(this.id)" id="button1">集體報到</a>
         @foreach ($batches as $batch_key => $batch_name)
-            <h5>梯次：{{ $batch_name }}</h5>
-            <table class="table table-bordered text-break">
-                <tr class="table-active">
-                    @if($camp->table != 'coupon')
-                        <th style="width: 20%">組別@if($camp->is_vcamp())職務 @endif</th>
-                        @if($camp->table != 'ceocamp' && $camp->table != 'ecamp' && !$camp->is_vcamp())
-                            <th style="width: 20%">編號</th>
-                        @else
-                            <th style="width: 20%">報名序號</th>
-                        @endif
-                        <th style="width: 20%">姓名</th>
-                        <th style="width: 20%">狀態</th>
-                        <th style="width: 15%">動作</th>
-                    @else
-                        <th style="width: 18%">流水號</th>
-                        <th style="width: 18%">優惠碼</th>
-                        <th style="width: 15%">狀態</th>
-                        <th style="width: 25%">動作</th>
-                    @endif
-                </tr>
-                @foreach ($applicants as $applicant)
-                    @if($applicant->batch->id == $batch_key)
-                        <tr id="{{ $applicant->id }}">
-                            @if($camp->table != 'coupon')
-                                @if (!$camp->is_vcamp())
-                                    <td class="align-middle">{{ $applicant->group }}</td>
-                                @else
-                                    <td class="align-middle">
-                                        @foreach ($applicant->user->roles as $r)
-                                            {{ $r->section . " " . $r->position }}<br>
-                                        @endforeach
-                                    </td>
-                                @endif
-                                @if($camp->table != 'ceocamp' && $camp->table != 'ecamp' && !$camp->is_vcamp())
-                                    <td class="align-middle">{{ $applicant->number ?? "--" }}</td>
-                                @else
-                                    <td class="align-middle">{{ $applicant->id }}</td>
-                                @endif
+            <h5>梯次：{{ $batch_name }}&nbsp;&nbsp;&nbsp;<a class="text-primary">各欄皆可排序</a></h5>
+            <table class="table table-bordered text-break" id="batch{{ $batch_key }}">
+                <thead>
+                    <tr class="table-active">
+                        @if($camp->table != 'coupon')
+                            <th></th>
+                            <th style="width: 20%"  onclick="sortTable(1, 'batch{{ $batch_key }}')">組別@if($camp->is_vcamp())職務 @endif</th>
+                            @if($camp->table != 'ceocamp' && $camp->table != 'ecamp' && !$camp->is_vcamp())
+                                <th style="width: 20%"  onclick="sortTable(2, 'batch{{ $batch_key }}')">編號</th>
                             @else
-                                <td class="align-middle">{{ $applicant->group }}{{ $applicant->number }}</td>
+                                <th style="width: 20%"  onclick="sortTable(2, 'batch{{ $batch_key }}')">報名序號</th>
                             @endif
-                            <td class="align-middle">
-                                {{ $applicant->name }}
-                                @if(!$has_attend_data)
-                                    @if($applicant->is_attend === 1)
-                                        <p style='color: rgb(26, 170, 26);' class="align-middle">參加</p>
-                                    @elseif($applicant->is_attend === 0)
-                                        <p style='color: red;' class="align-middle">不參加</p>
-                                    @elseif($applicant->is_attend === 2)
-                                        <p style='color: #ffb429;' class="align-middle">尚未決定</p>
-                                    @elseif($applicant->is_attend === 3)
-                                        <p style='color: pink;' class="align-middle">聯絡不上</p>
-                                    @elseif($applicant->is_attend === 4)
-                                        <p style='color: rgb(14, 115, 58);' class="align-middle">無法全程</p>
-                                    @else
-                                        <p style='color: rgb(0, 132, 255);' class="align-middle">尚未聯絡</p>
-                                    @endif
-                                @endif
-                            </td>
-                            <td class="align-middle">
-                                @php
-                                    $is_check_in = 0;
-                                @endphp
+                            <th style="width: 20%"  onclick="sortTable(3, 'batch{{ $batch_key }}')">姓名</th>
+                            <th style="width: 20%"  onclick="sortTable(4, 'batch{{ $batch_key }}')">狀態</th>
+                            <th style="width: 15%">動作</th>
+                        @else
+                            <th style="width: 18%">流水號</th>
+                            <th style="width: 18%">優惠碼</th>
+                            <th style="width: 15%">狀態</th>
+                            <th style="width: 25%">動作</th>
+                        @endif
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($applicants as $applicant)
+                        @if($applicant->batch->id == $batch_key)
+                            <tr id="{{ $applicant->id }}">
+                                <td class="align-middle center"><input type="checkbox" name="applicant_multi" id="" value="{{ $applicant->id }}" onchange="collectPeople(this.value, this.checked)"></td>
                                 @if($camp->table != 'coupon')
-                                    @foreach($applicant->checkInData as $checkInData)
-                                        @if($checkInData->check_in_date == \Carbon\Carbon::today()->format('Y-m-d'))
+                                    @if (!$camp->is_vcamp())
+                                        <td class="align-middle">{{ $applicant->group }}</td>
+                                    @else
+                                        <td class="align-middle">
+                                            @foreach ($applicant->user->roles as $r)
+                                                {{ $r->section . " " . $r->position }}<br>
+                                            @endforeach
+                                        </td>
+                                    @endif
+                                    @if($camp->table != 'ceocamp' && $camp->table != 'ecamp' && !$camp->is_vcamp())
+                                        <td class="align-middle">{{ $applicant->number ?? "--" }}</td>
+                                    @else
+                                        <td class="align-middle">{{ $applicant->id }}</td>
+                                    @endif
+                                @else
+                                    <td class="align-middle">{{ $applicant->group }}{{ $applicant->number }}</td>
+                                @endif
+                                <td class="align-middle">
+                                    {{ $applicant->name }}
+                                    @if(!$has_attend_data)
+                                        @if($applicant->is_attend === 1)
+                                            <p style='color: rgb(26, 170, 26);' class="align-middle">參加</p>
+                                        @elseif($applicant->is_attend === 0)
+                                            <p style='color: red;' class="align-middle">不參加</p>
+                                        @elseif($applicant->is_attend === 2)
+                                            <p style='color: #ffb429;' class="align-middle">尚未決定</p>
+                                        @elseif($applicant->is_attend === 3)
+                                            <p style='color: pink;' class="align-middle">聯絡不上</p>
+                                        @elseif($applicant->is_attend === 4)
+                                            <p style='color: rgb(14, 115, 58);' class="align-middle">無法全程</p>
+                                        @else
+                                            <p style='color: rgb(0, 132, 255);' class="align-middle">尚未聯絡</p>
+                                        @endif
+                                    @endif
+                                </td>
+                                <td class="align-middle">
+                                    @php
+                                        $is_check_in = 0;
+                                    @endphp
+                                    @if($camp->table != 'coupon')
+                                        @foreach($applicant->checkInData as $checkInData)
+                                            @if($checkInData->check_in_date == \Carbon\Carbon::today()->format('Y-m-d'))
+                                                @php $is_check_in = 1; @endphp
+                                            @endif
+                                        @endforeach
+                                        {!! $is_check_in ? "<a class='text-success'>已報到</a>" : "<a class='text-danger'>未報到</a>" !!}
+                                    @else
+                                        @if(count($applicant->checkInData) > 0)
                                             @php $is_check_in = 1; @endphp
                                         @endif
-                                    @endforeach
-                                    {!! $is_check_in ? "<a class='text-success'>已報到</a>" : "<a class='text-danger'>未報到</a>" !!}
-                                @else
-                                    @if(count($applicant->checkInData) > 0)
-                                        @php $is_check_in = 1; @endphp
+                                        {!! $is_check_in ? "<a class='text-success'>已兌換</a>" : "<a class='text-danger'>未兌換</a>" !!}
                                     @endif
-                                    {!! $is_check_in ? "<a class='text-success'>已兌換</a>" : "<a class='text-danger'>未兌換</a>" !!}
-                                @endif
-                            </td>
-                            <td class="align-middle">
-                                @php
-                                    $yes = 0;
-                                @endphp
-                                @if($camp->table != 'coupon')
-                                    @foreach($applicant->checkInData as $checkInData)
-                                        @if($checkInData->check_in_date == \Carbon\Carbon::today()->format('Y-m-d'))
-                                            @php
-                                                $yes = 1;
-                                            @endphp
+                                </td>
+                                <td class="align-middle">
+                                    @php
+                                        $yes = 0;
+                                    @endphp
+                                    @if($camp->table != 'coupon')
+                                        @foreach($applicant->checkInData as $checkInData)
+                                            @if($checkInData->check_in_date == \Carbon\Carbon::today()->format('Y-m-d'))
+                                                @php
+                                                    $yes = 1;
+                                                @endphp
+                                            @endif
+                                        @endforeach
+                                        @if($yes)
+                                            <form action="/checkin/un-checkin" method="POST" class="d-inline" name="uncheckIn{{ $applicant->id }}">
+                                                @csrf
+                                                <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
+                                                <input type="hidden" name="camp_id" value="{{ $applicant->camp->id }}">
+                                                <input type="hidden" name="check_in_date" value="{{ $checkInData->check_in_date }} ">
+                                                <input type="hidden" name="query_str" value="{{ old("query_str") }}">
+                                                <input type="submit" value="取消" onclick="this.value = '取消中'; this.disabled = true; document.uncheckIn{{ $applicant->id }}.submit();" class="btn btn-danger">
+                                            </form>
+                                        @else
+                                            <form action="/checkin/checkin" method="POST" name="checkIn{{ $applicant->id }}">
+                                                @csrf
+                                                <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
+                                                <input type="hidden" name="camp_id" value="{{ $applicant->camp->id }}">
+                                                <input type="hidden" name="query_str" value="{{ old("query_str") }}">
+                                                <input type="submit" value="報到" onclick="this.value = '報到中'; this.disabled = true; document.checkIn{{ $applicant->id }}.submit();" class="btn btn-success" id="btn{{ $applicant->id }}">
+                                            </form>
                                         @endif
-                                    @endforeach
-                                    @if($yes)
-                                        <form action="/checkin/un-checkin" method="POST" class="d-inline" name="uncheckIn{{ $applicant->id }}">
-                                            @csrf
-                                            <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
-                                            <input type="hidden" name="camp_id" value="{{ $applicant->camp->id }}">
-                                            <input type="hidden" name="check_in_date" value="{{ $checkInData->check_in_date }} ">
-                                            <input type="hidden" name="query_str" value="{{ old("query_str") }}">
-                                            <input type="submit" value="取消" onclick="this.value = '取消中'; this.disabled = true; document.uncheckIn{{ $applicant->id }}.submit();" class="btn btn-danger">
-                                        </form>
                                     @else
-                                        <form action="/checkin/checkin" method="POST" name="checkIn{{ $applicant->id }}">
-                                            @csrf
-                                            <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
-                                            <input type="hidden" name="camp_id" value="{{ $applicant->camp->id }}">
-                                            <input type="hidden" name="query_str" value="{{ old("query_str") }}">
-                                            <input type="submit" value="報到" onclick="this.value = '報到中'; this.disabled = true; document.checkIn{{ $applicant->id }}.submit();" class="btn btn-success" id="btn{{ $applicant->id }}">
-                                        </form>
+                                        @if(count($applicant->checkInData) > 0)
+                                            @php $yes = 1; @endphp
+                                        @endif
+                                        @if($yes)
+                                            <a class="text-danger">兌換日期：{{ $applicant->checkInData[0]['created_at'] }}</a>
+                                        @else
+                                            <form action="/checkin/checkin" method="POST" name="checkIn{{ $applicant->id }}">
+                                                @csrf
+                                                <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
+                                                <input type="hidden" name="camp_id" value="{{ $applicant->camp->id }}">
+                                                <input type="hidden" name="query_str" value="{{ old("query_str") }}">
+                                                <input type="submit" value="兌換" onclick="this.value = '兌換中'; this.disabled = true; document.checkIn{{ $applicant->id }}.submit();" class="btn btn-success" id="btn{{ $applicant->id }}">
+                                            </form>
+                                        @endif
                                     @endif
-                                @else
-                                    @if(count($applicant->checkInData) > 0)
-                                        @php $yes = 1; @endphp
-                                    @endif
-                                    @if($yes)
-                                        <a class="text-danger">兌換日期：{{ $applicant->checkInData[0]['created_at'] }}</a>
-                                    @else
-                                        <form action="/checkin/checkin" method="POST" name="checkIn{{ $applicant->id }}">
-                                            @csrf
-                                            <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
-                                            <input type="hidden" name="camp_id" value="{{ $applicant->camp->id }}">
-                                            <input type="hidden" name="query_str" value="{{ old("query_str") }}">
-                                            <input type="submit" value="兌換" onclick="this.value = '兌換中'; this.disabled = true; document.checkIn{{ $applicant->id }}.submit();" class="btn btn-success" id="btn{{ $applicant->id }}">
-                                        </form>
-                                    @endif
-                                @endif
-                            </td>
-                        </tr>
-                    @endif
-                @endforeach
+                                </td>
+                            </tr>
+                        @endif
+                    @endforeach
+                </tbody>
             </table>
         @endforeach
+        <a href="#" class="btn btn-primary" onclick="checkBeforeSubmit(this.id)" id="button2">集體報到</a>
+        <form action="{{ route("massCheckIn") }}" method="post" id="theMultiApplicantForm">
+            @csrf
+            @foreach ($applicants as $applicant)
+                <input type="checkbox" class="applicant_multi_values d-none" name="applicant_multi_values[]" id="applicant_multi_values_{{ $applicant->id }}" value="{{ $applicant->id }}" onchange="collectPeople(this.value, this.checked)">
+            @endforeach
+            <input type="hidden" name="query_str" value="{{ $query }}">
+            <input type="hidden" name="camp_id" value="{{ $camp->id }}">
+        </form>
     @elseif(isset($applicants) && $applicants->count() == 0)
         <div class="alert alert-danger">查無資料。</div>
     @endif
@@ -263,6 +287,93 @@
             console.log(data); // JSON data parsed by `response.json()` call
         }
     }
+
+    function collectPeople(id, checked) {
+        document.getElementById('applicant_multi_values_' + id).checked = checked;
+        console.log(id, checked);
+    }
+
+    function checkBeforeSubmit(ele_id) {
+        let inputElems = document.getElementsByClassName("applicant_multi_values"),
+        count = 0;
+        for (let i=0; i<inputElems.length; i++) {
+           if (inputElems[i].checked == true){
+              count++;
+           }
+        }
+        if (count == 0 && !document.getElementById('warning-text')) {
+            refNode = document.getElementById(ele_id);
+            let newNode = document.createElement('p');
+            newNode.innerHTML = "未勾選任何人，請在勾選後重新送出。";
+            newNode.classList.add('text-danger');
+            newNode.id = 'warning-text';
+            refNode.parentNode.insertBefore(newNode, refNode.nextSibling);
+        }
+        else if (count != 0) {
+            if (document.getElementById('warning-text')) {
+                document.getElementById('warning-text').classList.add('d-none');
+            }
+            refNode = document.getElementById(ele_id);
+            let newNode = document.createElement('p');
+            newNode.innerHTML = "處理中，請稍候";
+            newNode.classList.add('text-success');
+            newNode.id = 'warning-text';
+            refNode.parentNode.insertBefore(newNode, refNode.nextSibling);
+            document.getElementById('theMultiApplicantForm').submit();
+        }
+    }
+
+    function sortTable(columnIndex, tableID) {
+        const table = document.getElementById(tableID);
+        const tbody = table.querySelector('tbody');
+        const thead = table.querySelector('thead');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        const headers = thead.querySelectorAll('th');
+
+        // Determine sort direction
+        const isAscending = !headers[columnIndex].classList.contains('asc');
+
+        // Remove existing sort classes
+        headers.forEach(header => header.classList.remove('asc', 'desc'));
+
+        // Add new sort class
+        headers[columnIndex].classList.add(isAscending ? 'asc' : 'desc');
+
+        // Sort the rows
+        rows.sort((rowA, rowB) => {
+            const cellA = rowA.cells[columnIndex].innerText.trim();
+            const cellB = rowB.cells[columnIndex].innerText.trim();
+
+            // Check if the content is a number
+            if (!isNaN(cellA) && !isNaN(cellB)) {
+                return isAscending ? cellA - cellB : cellB - cellA;
+            }
+
+            // Otherwise, treat as string
+            return isAscending
+                ? cellA.localeCompare(cellB)
+                : cellB.localeCompare(cellA);
+        });
+
+        // Efficiently reorder rows in the DOM
+        const fragment = document.createDocumentFragment();
+        rows.forEach(row => fragment.appendChild(row));
+        tbody.appendChild(fragment);
+    }
+
+    function updateSortIndicator(tableID, columnIndex, direction) {
+        let table = document.getElementById(tableID);
+        let headers = table.getElementsByTagName("th");
+
+        // Remove existing indicators
+        for (let i = 0; i < headers.length; i++) {
+            headers[i].classList.remove("asc", "desc");
+        }
+
+        // Add indicator to the sorted column
+        headers[columnIndex].classList.add(direction);
+    }
+
 </script>
 <script type="text/javascript">
     let scanner;

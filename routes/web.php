@@ -103,8 +103,9 @@ Route::middleware(["admin"])->group(function () {
 Route::group(["prefix" => "checkin", ], function () {
     Route::get("/selectCamp", [CheckInController::class, "selectCamp"])->name("selectCamp");
     Route::get("/", [CheckInController::class, "index"]);
-    Route::get("/query", [CheckInController::class, "query"]);
+    Route::get("/query", [CheckInController::class, "query"])->name("checkInPage");
     Route::post("/checkin", [CheckInController::class, "checkIn"]);
+    Route::post("/mass-checkin", [CheckInController::class, "massCheckIn"])->name("massCheckIn");
     Route::post("/un-checkin", [CheckInController::class, "uncheckIn"]);
     Route::post("/by_QR", [CheckInController::class, "by_QR"]);
     Route::get("/realtimeStat", [CheckInController::class, "realtimeStat"]);
