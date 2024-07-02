@@ -17,4 +17,3 @@ class Scamp extends Model
 
     protected $guarded = [];
 }
-
