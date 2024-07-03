@@ -54,8 +54,9 @@
         @forelse ($registeredVolunteers as &$user)
             @forelse($user->application_log as &$applicant)
                 @php
-                    $theClass = "\\App\\Models\\" . ucfirst($campFullData->vcamp->table);
-                    $applicantCampData = $theClass::where('applicant_id', $applicant->id)->first();
+                    $applicant = $applicant->load($campFullData->vcamp->table);
+                    $table = $campFullData->vcamp->table;
+                    $applicantCampData = $applicant->$table;
                 @endphp
                 <tr @if($applicant->deleted_at) style="color: rgba(120, 120, 120, 0.4)!important" @endif>
                     @if($isSetting ?? false)
