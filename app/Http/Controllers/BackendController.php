@@ -1663,6 +1663,7 @@ class BackendController extends Controller
         $camp = Vcamp::find($request->camp_id)->mainCamp;
         if ($user->roles()->where('camp_id', $camp->id)->count() == 0) {
             $user->application_log()->detach($request->applicant_id);
+            $user->canAccessResult()->delete();
         }
         $request->session()->flash('message', '已刪除該義工職務');
         return redirect()->route("showAttendeeInfoGET", ["camp_id" => $request->camp_id, "snORadmittedSN" => $request->applicant_id]);
