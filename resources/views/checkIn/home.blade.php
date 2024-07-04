@@ -115,8 +115,6 @@
                                     @endif
                                     @if($camp->table != 'ceocamp' && $camp->table != 'ecamp' && !$camp->is_vcamp())
                                         <td class="align-middle">{{ $applicant->number ?? "--" }}</td>
-                                    @else
-                                        <td class="align-middle">{{ $applicant->id }}</td>
                                     @endif
                                 @else
                                     <td class="align-middle">{{ $applicant->group }}{{ $applicant->number }}</td>
