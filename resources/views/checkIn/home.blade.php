@@ -84,7 +84,7 @@
                         @if($camp->table != 'coupon')
                             <th></th>
                             <th style="width: 20%"  onclick="sortTable(1, 'batch{{ $batch_key }}')">組別@if($camp->is_vcamp())職務 @endif</th>
-                            @if($camp->table != 'ceocamp' && $camp->table != 'ecamp' && !$camp->is_vcamp())
+                            @if($camp->table != 'ceocamp' && $camp->table != 'ecamp')
                                 <th style="width: 20%"  onclick="sortTable(2, 'batch{{ $batch_key }}')">編號</th>
                             @endif
                             <th style="width: 20%"  onclick="sortTable(3, 'batch{{ $batch_key }}')">姓名</th>
@@ -113,7 +113,7 @@
                                             @endforeach
                                         </td>
                                     @endif
-                                    @if($camp->table != 'ceocamp' && $camp->table != 'ecamp' && !$camp->is_vcamp())
+                                    @if($camp->table != 'ceocamp' && $camp->table != 'ecamp')
                                         <td class="align-middle">{{ $applicant->number ?? "--" }}</td>
                                     @endif
                                 @else
