@@ -184,19 +184,20 @@ class User extends Authenticatable
             $region_id = $theApplicant?->region_id;
         }
 
-        $existingAccessResult = $this->canAccessResult()
-            ->where('camp_id', $camp->id)
-            ->where('batch_id', $batch_id)
-            ->where('region_id', $region_id)
-            ->where('accessible_id', $target->id ?? null)
-            ->where('accessible_type', $class)
-            ->first();
+        // $existingAccessResult = $this->canAccessResult()
+        //     ->where('camp_id', $camp->id)
+        //     ->where('batch_id', $batch_id)
+        //     ->where('region_id', $region_id)
+        //     ->where('accessible_id', $target->id ?? null)
+        //     ->where('accessible_type', $class)
+        //     ->first();
 
-        if ($existingAccessResult) {
-            return $existingAccessResult->can_access;
-        } else {
-            return $this->fillingAccessibleResult($resource, $action, $camp, $context, $target, $probing);
-        }
+        // if ($existingAccessResult) {
+        //     return $existingAccessResult->can_access;
+        // } else {
+        //     return $this->fillingAccessibleResult($resource, $action, $camp, $context, $target, $probing);
+        // }
+        return $this->getAccessibleResult($resource, $action, $camp, $context, $target, $probing);
     }
 
     public function fillingAccessibleResult($resource, $action, $camp, $context = null, $target = null, $probing = null) {
