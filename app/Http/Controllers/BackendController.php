@@ -428,6 +428,12 @@ class BackendController extends Controller
         if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer(), 'read', Vcamp::find($this->campFullData->id)->mainCamp, 'onlyCheckAvailability') && $this->user->id > 2) {
             return "<h3>沒有權限：瀏覽任何義工</h3>";
         }
+        if ($this->campFullData->table == 'ycamp' || $this->campFullData->table == 'yvcamp') {
+            //2694-2716是輔導組
+            if (count($this->user->roles->whereBetween('id',[2694,2716]))==0 &&  $this->user->id > 2) {
+                return "<h3>大專營：只有輔導組幹部有權限。</h3>";
+            }
+        }
         $batches = Batch::where("camp_id", $this->campFullData->id)->get();
         $camp = Camp::find($this->campFullData->id);
         $regions = $camp->regions;
@@ -446,6 +452,7 @@ class BackendController extends Controller
         ini_set('max_execution_time', 1200);
 
         $batches = Batch::where("camp_id", $this->campFullData->id)->get();
+        //change to this? $batches = $this->campFullData->batchs;
         if(isset($request->region)) {
             $query = Applicant::select("applicants.*", $this->campFullData->table . ".*", "batchs.name as bName", "applicants.id as sn", "applicants.created_at as applied_at")
                         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
@@ -518,6 +525,8 @@ class BackendController extends Controller
             $query .= "(已取消)";
             $applicants = $applicants->whereNotNull('deleted_at');
         }
+        
+        //----- 為了顯示需要而新增的欄位 -----
         foreach($applicants as $applicant) {
             $applicant->id = $applicant->sn;
             if($applicant->fee > 0) {
@@ -535,11 +544,17 @@ class BackendController extends Controller
                 $applicant->is_cancelled = "否";
             }
         }
-        // 報名名單不以繳費與否排序
+        //----- 報名名單不以繳費與否排序 -----
         // $applicants = $applicants->sortByDesc('is_paid');
         if($request->orderByCreatedAtDesc) {
             $applicants = $applicants->sortByDesc('created_at');
         }
+
+        $applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant));
+
+        dd($applicants);
+
+        //----- 處理「下載」：開始 -----
         if(isset($request->download)) {
             if($applicants) {
                 // 參加者報到日期
@@ -720,6 +735,8 @@ class BackendController extends Controller
             };
             return response()->stream($callback, 200, $headers);
         }
+        //----- 處理「下載」：結束 -----
+
         $request->flash();
         return view('backend.registration.list')
                 ->with('applicants', $applicants)
@@ -844,6 +861,13 @@ class BackendController extends Controller
         if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer(), 'read', Vcamp::find($this->campFullData->id)->mainCamp, 'onlyCheckAvailability') && $this->user->id > 2) {
             return "<h3>沒有權限：瀏覽任何義工</h3>";
         }
+        if ($this->campFullData->table == 'ycamp' || $this->campFullData->table == 'yvcamp') {
+            //2694-2716是輔導組
+            if (count($this->user->roles->whereBetween('id',[2694,2716]))==0 && $this->user->id > 2) {
+                return "<h3>大專營：只有輔導組幹部有權限。</h3>";
+            }
+        }
+
         $batches = Batch::with('groups', 'groups.applicants')->where('camp_id', $this->camp_id)->get()->all();
         foreach($batches as &$batch) {
             $batch->regions = Applicant::select('region')
@@ -890,6 +914,12 @@ class BackendController extends Controller
         }
         if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer(), 'read', Vcamp::find($this->campFullData->id)->mainCamp, 'onlyCheckAvailability') && $this->user->id > 2) {
             return "<h3>沒有權限：瀏覽任何義工</h3>";
+        }
+        if ($this->campFullData->table == 'ycamp' || $this->campFullData->table == 'yvcamp') {
+            //2694-2716是輔導組
+            if (count($this->user->roles->whereBetween('id',[2694,2716]))==0 && $this->user->id > 2) {
+                return "<h3>大專營：只有輔導組幹部有權限。</h3>";
+            }
         }
         //for ecamp only
         $main_camp = VCamp::find($this->camp_id)->mainCamp;
