@@ -430,7 +430,7 @@ class BackendController extends Controller
         }
         if ($this->campFullData->table == 'ycamp' || $this->campFullData->table == 'yvcamp') {
             //2694-2716是輔導組
-            if (count($this->user->roles->whereBetween('id',[2694,2716]))==0 &&  $this->user->id > 2) {
+            if (count($this->user->roles->whereBetween('id',[2397,2398]))==0 &&count($this->user->roles->whereBetween('id',[2694,2716]))==0 &&  $this->user->id > 2) {
                 return "<h3>大專營：只有輔導組幹部有權限。</h3>";
             }
         }
@@ -863,7 +863,7 @@ class BackendController extends Controller
         }
         if ($this->campFullData->table == 'ycamp' || $this->campFullData->table == 'yvcamp') {
             //2694-2716是輔導組
-            if (count($this->user->roles->whereBetween('id',[2694,2716]))==0 && $this->user->id > 2) {
+            if (count($this->user->roles->whereBetween('id',[2397,2398]))==0 &&count($this->user->roles->whereBetween('id',[2694,2716]))==0 && $this->user->id > 2) {
                 return "<h3>大專營：只有輔導組幹部有權限。</h3>";
             }
         }
@@ -917,7 +917,7 @@ class BackendController extends Controller
         }
         if ($this->campFullData->table == 'ycamp' || $this->campFullData->table == 'yvcamp') {
             //2694-2716是輔導組
-            if (count($this->user->roles->whereBetween('id',[2694,2716]))==0 && $this->user->id > 2) {
+            if (count($this->user->roles->whereBetween('id',[2397,2398]))==0 &&count($this->user->roles->whereBetween('id',[2694,2716]))==0 && $this->user->id > 2) {
                 return "<h3>大專營：只有輔導組幹部有權限。</h3>";
             }
         }
