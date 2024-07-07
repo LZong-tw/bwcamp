@@ -549,10 +549,10 @@ class BackendController extends Controller
         if($request->orderByCreatedAtDesc) {
             $applicants = $applicants->sortByDesc('created_at');
         }
-
+        /*
         $applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant));
 
-        dd($applicants);
+        dd($applicants);*/
 
         //----- 處理「下載」：開始 -----
         if(isset($request->download)) {
