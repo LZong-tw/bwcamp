@@ -422,10 +422,10 @@ class BackendController extends Controller
 
     public function showRegistrationList()
     {
-        if (!$this->isVcamp && !$this->user->canAccessResource(new \App\Models\Applicant(), 'read', $this->campFullData) && $this->user->id > 2) {
+        if (!$this->isVcamp && !$this->user->canAccessResource(new \App\Models\Applicant(), 'read', $this->campFullData, 'onlyCheckAvailability') && $this->user->id > 2) {
             return "<h3>沒有權限：瀏覽任何學員</h3>";
         }
-        if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer(), 'read', Vcamp::find($this->campFullData->id)->mainCamp) && $this->user->id > 2) {
+        if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer(), 'read', Vcamp::find($this->campFullData->id)->mainCamp, 'onlyCheckAvailability') && $this->user->id > 2) {
             return "<h3>沒有權限：瀏覽任何義工</h3>";
         }
         $batches = Batch::where("camp_id", $this->campFullData->id)->get();
