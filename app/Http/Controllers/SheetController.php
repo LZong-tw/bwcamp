@@ -319,21 +319,46 @@ class SheetController extends Controller
         
         $sheets = $this->gsheetservice->Get(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
         $titles = $sheets[0];
+        $dummy = $sheets[1];
         //$num_cols = count($titles);
         $num_rows = count($sheets);
+        $num_checkin_old = $num_rows - 2;  //title and dummy
 
         //columns: applicant_id, updated_at
+        $first_updated_time = \Carbon\Carbon::parse($sheets[1][1]); //dummy entry
         $last_updated_time = \Carbon\Carbon::parse($sheets[$num_rows-1][1]);
-        //dd($last_updated_time);
-        $check_in_new = \DB::table('check_in')
+        
+        if ($request->check_cancelled != 0) {
+            $checkin_old = \DB::table('check_in')
+            ->whereDate('updated_at', '>', $first_updated_time)
+            ->whereDate('updated_at', '<=', $last_updated_time)
+            ->whereIn('applicant_id', $ids)
+            ->orderBy('updated_at','asc')->get();
+
+            if (count($checkin_old) != $num_checkin_old) {
+                $this->gsheetservice->Clear(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
+                $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $titles);  
+                $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $dummy);
+                foreach($checkin_old as $checkin) {
+                    $row[0] = $checkin->applicant_id;
+                    $row[1] = $checkin->updated_at;
+                    $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $row);
+                }
+            }
+        }
+
+        $checkin_new = \DB::table('check_in')
             ->whereDate('updated_at', '>', $last_updated_time)
             ->whereIn('applicant_id', $ids)
             ->orderBy('updated_at','asc')->get();
-        //dd($check_in_new);
-        foreach($check_in_new as $check_in) {
-            $row[0] = $check_in->applicant_id;
-            $row[1] = $check_in->updated_at;
+        //dd($checkin_new);
+        $i=0;
+        foreach($checkin_new as $checkin) {
+            if ($i==60) break;
+            $row[0] = $checkin->applicant_id;
+            $row[1] = $checkin->updated_at;
             $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $row);
+            $i = $i+1;
         }
         return;
     }

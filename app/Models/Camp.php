@@ -68,7 +68,7 @@ class Camp extends Model
         return $this->hasMany(CampOrg::class)->where('section', '=', 'root');
     }
 
-    public function layer2_sections() //第一層組織:大組
+    public function layer2_sections() //第二層組織:小組
     {
         $layer1_ids = $this->layer1_sections->pluck('id');
         return $this->hasMany(CampOrg::class)->whereIn('prev_id', $layer1_ids);
