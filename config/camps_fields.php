@@ -1585,11 +1585,6 @@ return [
         ],
 
         'ycamp' => [
-            "batch" => [
-                "name" => "梯次",
-                "sort" => 1,
-                "for_query" => 0,
-            ],
             "group" => [
                 "name" => "組別",
                 "sort" => 1,
@@ -1610,11 +1605,6 @@ return [
                 "sort" => 1,
                 "for_query" => 1,
             ],
-            "school_location" => [
-                "name" => "學校所在地",
-                "sort" => 1,
-                "for_query" => 1,
-            ],
             "school" => [
                 "name" => "學校",
                 "sort" => 1,
@@ -1630,9 +1620,14 @@ return [
                 "sort" => 1,
                 "for_query" => 1,
             ],
-            "introducer_name" => [
-                "name" => "推薦人",
-                "sort" => 0,
+            "fee" => [
+                "name" => "應交車資",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "deposit" => [
+                "name" => "已交車資",
+                "sort" => 1,
                 "for_query" => 1,
             ],
             "contactlog" => [
