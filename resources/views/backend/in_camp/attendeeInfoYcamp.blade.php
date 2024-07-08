@@ -72,8 +72,9 @@
                 @endforelse<br>
             </div>
         </div>
+    </div>
 <!--
-        <div class="row d-flex justify-content-end">
+        <div class="row d-flex justify-content-start">
             <div class="mr-4 mb-2 font-weight-bold">是否錄取</div>
                 @if(!isset($applicant->is_admitted))
                     狀態：<div class="mr-4 text-primary">尚未錄取。</div>
@@ -84,7 +85,8 @@
                 @endif
         </div>
 -->
-        <div class="row d-flex justify-content-end">        
+    <div class="container alert alert-info">
+        <div class="row d-flex justify-content-start">        
             <div class="mr-4 mb-2 font-weight-bold">參加意願</div>
                 @if(!isset($applicant->is_attend))
                     狀態：<div class="mr-4 text-primary">尚未聯絡。</div>
@@ -105,7 +107,7 @@
                 本學員已取消報名。
             </div>            
         @else
-            <div class="row d-flex justify-content-end">
+            <div class="row d-flex justify-content-start">
                 <form class="mr-4 mb-2" action="{{ route('toggleAttendBackend', $applicant->batch->id) }}" method="POST">
                     @csrf
                     <input type="hidden" name="id" value="{{ $applicant->applicant_id ?? $applicant->id }}">
@@ -118,6 +120,37 @@
                 </form>
             </div>
         @endif
+        <div class="row d-flex justify-content-start">
+            <div class="mr-4 mb-2 font-weight-bold">交通選項</div>
+            @if (!isset($applicant->traffic))
+                狀態：<div class="mr-4 text-primary">尚未登記。</div>
+            @else
+                狀態：<div class="mr-4 text-success">{{ $applicant->traffic->depart_from }}/{{ $applicant->traffic->back_to }}</div>
+            @endif
+        </div>
+        @if($applicant->deleted_at)
+            <div class="text-danger">
+                本學員已取消報名。
+            </div>
+        @else
+            <div class="row d-flex justify-content-start">
+                <form class="mr-4 mb-2" action="{{ route('modifyAccounting', $camp->id) }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="id" value="{{ $applicant->applicant_id ?? $applicant->id }}">
+                    <input type="hidden" name="cash" value="0">
+                    <input type="hidden" name="is_add" value="add">
+                    <input type="hidden" name="page" value="attendeeInfo">
+                    @foreach($departfroms as $depart_from => $value)
+                    <label><input type="radio" name="depart_from" id="" value="{{ $depart_from }}">{{ $depart_from }}</label>
+                    @endforeach
+                    <br>
+                    @foreach($backtos as $back_to => $value)
+                    <label><input type="radio" name="back_to" id="" value="{{ $back_to }}">{{ $back_to }}</label>
+                    @endforeach
+                    <input class="btn btn-success" type="submit" value="修改交通選項">
+                </form>
+            </div>
+        @endif           
     </div>
 
 {{--    <div class="container alert alert-primary">--}}
@@ -185,6 +218,9 @@
                 <b>同意個資使用</b>：@if($applicant->profile_agree) 是 @else 否
                 @endif<br>
                 <b>同意肖像權使用</b>：@if($applicant->portrait_agree) 是 @else 否 @endif<br>
+                --<br>
+                <b>應繳金額</b>：{{$applicant->traffic?->fare ?? 0}}<br>
+                <b>已繳金額</b>：{{$applicant->traffic?->sum ?? 0}}<br>
             </div>
         </div>
     </div>
