@@ -1589,6 +1589,8 @@ class BackendController extends Controller
         }
 
         $lodgings = config('camps_payments.fare_room.' . $camp->table) ?? [];
+        $departfroms = config('camps_payments.fare_depart_from.' . $camp->table) ?? [];
+        $backtos = config('camps_payments.fare_back_to.' . $camp->table) ?? [];
 
         $qrcode = $this->generateQrCodeWithText($applicant);
 
@@ -1602,7 +1604,7 @@ class BackendController extends Controller
         } elseif($camp->table == "ecamp") {
             return view('backend.in_camp.attendeeInfoEcamp', compact('camp', 'batch', 'applicant', 'contactlog', 'dynamic_stat_urls', 'qrcode'));
         } elseif($camp->table == "ycamp") {
-            return view('backend.in_camp.attendeeInfoYcamp', compact('camp', 'batch', 'applicant', 'contactlog', 'qrcode'));
+            return view('backend.in_camp.attendeeInfoYcamp', compact('camp', 'batch', 'applicant', 'contactlog', 'qrcode', 'departfroms', 'backtos'));
         } else {
             return view('backend.in_camp.attendeeInfo', compact('camp', 'batch', 'applicant', 'contactlog', 'qrcode'));
         }
@@ -2205,7 +2207,11 @@ class BackendController extends Controller
                 $applicant = $this->applicantService->fillPaymentData($applicant);
                 $applicant->save();
                 $message = "手動繳費完成。";
-                return view("backend.modifyAccounting", compact('applicant','message','fare_depart_from','fare_back_to', 'fare_room'));
+                if ($request->page=="attendeeInfo") {
+                    return redirect()->back();
+                } else {
+                    return view("backend.modifyAccounting", compact('applicant','message','fare_depart_from','fare_back_to', 'fare_room'));
+                }
             } elseif ($camp_table == 'ceocamp') {
                 $lodging = $applicant->lodging;
                 //尚未登記，建新的Lodging
