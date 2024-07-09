@@ -175,8 +175,10 @@ class checkPayment extends Command
                                 $traffic->applicant_id = $applicant->id;
                                 $traffic->depart_from = "自往"; //先寫個什麼，之後再更新囉
                                 $traffic->back_to = "自回"; //先寫個什麼，之後再更新囉
+                                $traffic->cash = 0;
                             }
                             $traffic->deposit = $applicant->deposit;
+                            $traffic->sum = $traffic->deposit + $traffic->cash;
                             $traffic->save();
                         } else if ($camp_table == 'ceocamp') {
                             $lodging = $applicant->lodging;
@@ -184,8 +186,10 @@ class checkPayment extends Command
                                 $lodging = new Lodging;
                                 $lodging->applicant_id = $applicant->id;
                                 $lodging->room_type = "不住宿"; //先寫個什麼，之後再更新囉
+                                $lodging->cash = 0;
                             }
                             $lodging->deposit = $applicant->deposit;
+                            $lodging->sum = $lodging->deposit + $lodging->cash;
                             $lodging->save();
                         }
                     }
