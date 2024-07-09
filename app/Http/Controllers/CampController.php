@@ -646,44 +646,16 @@ class CampController extends Controller
     public function modifyTraffic(Request $request) {
         $applicant = Applicant::find($request->id);
         $traffic = $applicant->traffic;
+        $camp_table = $this->camp_data->table;
+        $fare_depart_from = config('camps_payments.fare_depart_from.' . $camp_table) ?? [];
+        $fare_back_to = config('camps_payments.fare_back_to.' . $camp_table) ?? [];
         if (!$traffic) {
             $traffic = new Traffic;
             $traffic->applicant_id = $applicant->id;
         }
         $traffic->depart_from = $request->depart_from;
         $traffic->back_to = $request->back_to;
-        if ($request->camp == "ycamp") {
-            if ($request->depart_from == "台北專車")
-                $from_fare = 400;
-            elseif  ($request->depart_from == "桃園專車")
-                $from_fare = 350;
-            elseif  ($request->depart_from == "新竹專車")
-                $from_fare = 250;
-            elseif  ($request->depart_from == "台中專車")
-                $from_fare = 200;
-            elseif  ($request->depart_from == "台南專車")
-                $from_fare = 250;
-            elseif  ($request->depart_from == "高雄專車")
-                $from_fare = 400;
-            else
-                $from_fare = 0;
-
-            if ($request->back_to == "台北專車")
-                $back_fare = 400;
-            elseif  ($request->back_to == "桃園專車")
-                $back_fare = 350;
-            elseif  ($request->back_to == "新竹專車")
-                $back_fare = 250;
-            elseif  ($request->back_to == "台中專車")
-                $back_fare = 200;
-            elseif  ($request->back_to == "台南專車")
-                $back_fare = 250;
-            elseif  ($request->back_to == "高雄專車")
-                $back_fare = 400;
-            else
-                $back_fare = 0;
-        }
-        $traffic->fare = $from_fare + $back_fare;
+        $traffic->fare = ($fare_depart_from[$traffic->depart_from] ?? 0) + ($fare_back_to[$traffic->back_to] ?? 0);
         $traffic->save();
         //update barcode
         $applicant = $this->applicantService->fillPaymentData($applicant);
