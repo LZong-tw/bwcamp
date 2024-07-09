@@ -108,7 +108,7 @@
                         </div>
                         <input class="btn btn-success" type="submit" value="確認修改" id="confirmtraffic" name="confirmtraffic">
                     </form><br>
-                    <div class="ml-2 mb-2">應交費用：{{ $traffic?->fare ?? '未定' }}；已交費用：{{ $traffic?->deposit ?? 0 }}</div>
+                    <div class="ml-2 mb-2">應交費用：{{ $traffic?->fare ?? '未定' }}；已交費用：{{ $traffic?->sum ?? 0 }}</div>
                     @if($traffic?->fare > 0)
                         <form action="{{ route('downloadPaymentForm', $batch_id) }}" method="POST">
                             @csrf
