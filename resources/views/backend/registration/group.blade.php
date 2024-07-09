@@ -72,10 +72,10 @@
                     <td>{{ $applicant->department }} / {{ $applicant->grade }}</td>
                     <td>{{ $applicant->mobile }}</td>
                     <td>{{ $applicant->phone_home }}</td>
-                    <td>{{ $applicant->depart_from }}</td>
-                    <td>{{ $applicant->back_to }}</td>
-                    <td>{{ $applicant->fee }}</td>
-                    <td>{{ $applicant->deposit }}</td>
+                    <td>{{ $applicant->traffic?->depart_from?? 0 }}</td>
+                    <td>{{ $applicant->traffic?->back_to?? 0 }}</td>
+                    <td>{{ $applicant->traffic?->fare?? 0 }}</td>
+                    <td>{{ $applicant->traffic?->sum?? 0 }}</td>
                 @endif
                 <td>{{ $applicant->region }}</td>
                 @if($applicant->is_attend === 1)
