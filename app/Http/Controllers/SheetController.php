@@ -300,6 +300,7 @@ class SheetController extends Controller
         $ids = $camp->applicants->pluck('id');
         //dd($ids);
         $row = array();
+        $row1 = array();
 
         if ($table == 'ecamp') {
             config([
@@ -318,6 +319,7 @@ class SheetController extends Controller
         }
         
         $sheets = $this->gsheetservice->Get(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
+        //dd($sheets);
         $titles = $sheets[0];
         $dummy = $sheets[1];
         //$num_cols = count($titles);
@@ -339,10 +341,14 @@ class SheetController extends Controller
                 $this->gsheetservice->Clear(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
                 $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $titles);  
                 $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $dummy);
+                $i = 0;
                 foreach($checkin_old as $checkin) {
+                    if ($i==60) break;
                     $row[0] = $checkin->applicant_id;
                     $row[1] = $checkin->updated_at;
+                    $row[2] = 1;
                     $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $row);
+                    $i = $i+1;
                 }
             }
         }
@@ -357,6 +363,7 @@ class SheetController extends Controller
             if ($i==60) break;
             $row[0] = $checkin->applicant_id;
             $row[1] = $checkin->updated_at;
+            $row[2] = 1;
             $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $row);
             $i = $i+1;
         }
