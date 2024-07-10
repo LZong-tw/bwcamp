@@ -73,8 +73,8 @@ class SemiApiController extends Controller
     {
         $campId = $request->input('camp_id');
         $camp = Camp::findOrFail($campId);
-        $vcamp = Camp::find($camp->vcamp->id);
-        $vbatches = $vcamp->batchs;
+        $vcamp = Camp::find($camp->vcamp?->id ?? null);
+        $vbatches = $vcamp?->batchs ?? null;
         $orgs = $this->backendService
                     ->getCampOrganizations($camp);
         $orgs = $orgs->map(function ($org) use ($vbatches) {
