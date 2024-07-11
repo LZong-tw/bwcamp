@@ -18,6 +18,9 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 RUN docker-php-ext-install zip
 RUN apt-get update && apt-get install -y libftp-dev && docker-php-ext-install ftp
+RUN docker-php-ext-install opcache
+COPY php/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+COPY php/custom-php-fpm.conf /usr/local/etc/php-fpm.d/zz-custom.conf
 
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
