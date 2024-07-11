@@ -178,7 +178,7 @@ class SheetController extends Controller
             }
             //create user
             $user = User::select('users.*')
-            ->where('batch_id', $title_data['batch_id'])
+            ->where('batch_id', $title_data['batch_id']);
 
             if ($i % 500 == 0) {
                 sleep(5);
