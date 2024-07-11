@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('transportation_back_location')->nullable()->after('transportation_back'); //住宿需求
             $table->text('acommodation_needs')->nullable()->after('transportation_back_location'); //住宿需求
             $table->text('dietary_needs')->nullable()->after('acommodation_needs'); //飲食需求
-            $table->text('other_needs')->nullable()->after('dietery_needs');      //其它需求
+            $table->text('other_needs')->nullable()->after('dietary_needs');      //其它需求
         });
     }
 
