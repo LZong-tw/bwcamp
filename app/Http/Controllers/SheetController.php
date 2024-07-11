@@ -136,8 +136,8 @@ class SheetController extends Controller
         config([
             //'google.post_spreadsheet_id' => '1g6gvbuLeEXz8W4QtMLPGhMpZ_u_Mu73OfmR3ems_9SI',
             //'google.post_sheet_id' => '0821',
-            'google.post_spreadsheet_id' => '1qYHSDQWz4tBfgB-clCFnbbyMA67EJnK6rVpKZbvDPDY',
-            'google.post_sheet_id' => 'ABTeam',
+            'google.post_spreadsheet_id' => '16hco1o1MMbgTqS59qETBf4soya3atbg0AI-NpR7mjTQ',
+            'google.post_sheet_id' => 'upload',
         ]);
         $camp = Camp::find($request->camp_id);
         $table = $camp->table;
@@ -147,8 +147,8 @@ class SheetController extends Controller
         $num_cols = count($titles);
         $num_rows = count($sheets);
 
-        $success_count = 0;
-        $fail_count = 0;
+        $create_count = 0;
+        $update_count = 0;
         for ($i=1; $i<$num_rows; $i++) {
             $data = $sheets[$i];
             for ($j=0; $j<$num_cols; $j++) {
@@ -163,8 +163,9 @@ class SheetController extends Controller
             if ($applicant) {   //if exist, update
                 //$applicant->group_id = $title_data['group_id'];
                 //$applicant->region = $title_data['region'];
-                //$applicant->save();
-                $fail_count++;
+                $applicant->update($title_data);
+                $applicant->save();
+                $update_count++;
             } else {            //create new
                 $applicant = \DB::transaction(function () use ($title_data,$table) {
                     $applicant = Applicant::create($title_data);
@@ -173,15 +174,19 @@ class SheetController extends Controller
                     $model::create($title_data);
                     return $applicant;
                 });
-                $success_count++;
+                $create_count++;
             }
+            //create user
+            $user = User::select('users.*')
+            ->where('batch_id', $title_data['batch_id'])
+
             if ($i % 500 == 0) {
                 sleep(5);
                 //dd($fail_count);
             }
         }
-        $stat['success'] = $success_count;
-        $stat['fail'] = $fail_count;
+        $stat['create'] = $create_count;
+        $stat['update'] = $update_count;
         dd($stat);
         //return view('backend.in_camp.gsFeedback', compact('titles','contents','content_count'));
     }
