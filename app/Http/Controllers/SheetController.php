@@ -176,10 +176,10 @@ class SheetController extends Controller
                 });
                 $create_count++;
             }
-            //create user
-            $user = User::select('users.*')
-            ->where('batch_id', $title_data['batch_id']);
-
+            $users = \App\Models\User::where('email', 'like', "%". $applicant->email . "%")
+            ->orWhere('name', 'like', "%". $applicant->name . "%")
+            //->orWhereLike('mobile', "%". $candidate["data"]->mobile . "%")
+            ->orderByDesc('id')->first();
             if ($i % 500 == 0) {
                 sleep(5);
                 //dd($fail_count);
@@ -337,8 +337,8 @@ class SheetController extends Controller
         
         if ($request->check_cancelled != 0) {
             $checkin_old = \DB::table('check_in')
-            ->whereDate('updated_at', '>', $first_updated_time)
-            ->whereDate('updated_at', '<=', $last_updated_time)
+            ->where('updated_at', '>', $first_updated_time)
+            ->where('updated_at', '<=', $last_updated_time)
             ->whereIn('applicant_id', $ids)
             ->orderBy('updated_at','asc')->get();
 
@@ -359,7 +359,7 @@ class SheetController extends Controller
         }
 
         $checkin_new = \DB::table('check_in')
-            ->whereDate('updated_at', '>', $last_updated_time)
+            ->where('updated_at', '>', $last_updated_time)
             ->whereIn('applicant_id', $ids)
             ->orderBy('updated_at','asc')->get();
         //dd($checkin_new);
