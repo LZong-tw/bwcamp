@@ -108,7 +108,7 @@
                                         <td class="align-middle">{{ $applicant->group }}</td>
                                     @else
                                         <td class="align-middle">
-                                            @foreach ($applicant->user->roles as $r)
+                                            @foreach ($applicant->user?->roles as $r)
                                                 {{ $r->section . " " . $r->position }}<br>
                                             @endforeach
                                         </td>
