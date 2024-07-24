@@ -125,6 +125,10 @@ class CheckInController extends Controller {
                                             }])
                             ->whereHas('batch.camp', $constraint)
                             ->where('is_admitted', 1)
+                            // 暫時性程式碼，待企業營及菁英營結束後刪除
+                            ->when($this->camp->id == 77 || $this->camp->id == 78 || $this->camp->id == 79 || $this->camp->id == 80, function($query){
+                                $query->whereIn('batch_id', [166, 168, 183, 184]);
+                            })
                             ->where(function($query) use ($request, $users) {
                                 $query->where('applicants.id', $request->query_str);
                                 $query->orWhere('name', 'like', '%' . $request->query_str . '%')
@@ -177,7 +181,7 @@ class CheckInController extends Controller {
                                             ->orWhere(\DB::raw("replace(mobile, ')', '')"), 'like', '%' . $request->query_str . '%')
                                             ->orWhere(\DB::raw("replace(mobile, '（', '')"), 'like', '%' . $request->query_str . '%')
                                             ->orWhere(\DB::raw("replace(mobile, '）', '')"), 'like', '%' . $request->query_str . '%');
-                                        })->get()->sortBy(['batch.camp.id', 'batch.id', 'groupRelation.alias', 'numberRelation.number']);
+                                        })->showSql()->get()->sortBy(['batch.camp.id', 'batch.id', 'groupRelation.alias', 'numberRelation.number']);
         }
         $batches = $applicants->pluck('batch.name', 'batch.id')->unique();
         $request->flash();
