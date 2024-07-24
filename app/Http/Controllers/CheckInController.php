@@ -403,6 +403,10 @@ class CheckInController extends Controller {
         $allBatchesApplicants = Applicant::select('applicants.id')
                             ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                             ->where('batchs.camp_id', $this->camp->id)
+                            // 暫時性程式碼，待企業營及菁英營結束後刪除
+                            ->when($this->camp->id == 77 || $this->camp->id == 78 || $this->camp->id == 79 || $this->camp->id == 80, function($query){
+                                $query->whereIn('batch_id', [166, 168, 183, 184]);
+                            })
                             ->where(\DB::raw("fee - deposit"), "<=", \DB::raw('0'))
                             ->whereNotNull('group_id')
                             ->where('group_id', '<>', \DB::raw('""'))
