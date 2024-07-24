@@ -151,8 +151,8 @@ class CheckInController extends Controller {
                                         ->whereHas('batch.camp', $constraint)
                                         ->where('is_admitted', 1)
                                         // 暫時性程式碼，待企業營及菁英營結束後刪除
-                                        ->when($this->camp->id == 77 || $this->camp->id == 78, function($query){
-                                            $query->whereIn('batch_id', [166, 168]);
+                                        ->when($this->camp->id == 77 || $this->camp->id == 78 || $this->camp->id == 79 || $this->camp->id == 80, function($query){
+                                            $query->whereIn('batch_id', [166, 168, 183, 184]);
                                         })
                                         ->where(function($query){
                                             if($this->has_attend_data){
