@@ -346,7 +346,10 @@ class CheckInController extends Controller {
                         ->where('group_id', '<>', \DB::raw('""'))
                         // 這邊可能不需要判斷這麼多
                         // ->where([['batch_start', '<=', Carbon::today()], ['batch_end', '>=', Carbon::today()]])
-                        ->where([['batch_end', '>=', Carbon::today()]])
+                        // 暫時性程式碼，待企業營及菁英營結束後刪除
+                        ->when($this->camp->id == 77 || $this->camp->id == 78 || $this->camp->id == 79 || $this->camp->id == 80, function($query){
+                            $query->whereIn('batch_id', [166, 168, 183, 184]);
+                        })
                         ->get();
             $checkedInCount = CheckIn::where('check_in_date', Carbon::today()->format('Y-m-d'))->whereIn('applicant_id', $applicants)->count();
             $applicants = $applicants->count();
@@ -423,6 +426,10 @@ class CheckInController extends Controller {
                             ->where('batchs.camp_id', $this->camp->id)
                             ->where(\DB::raw("fee - deposit"), "<=", 0)
                             ->where("batch_id", $batch->id)
+                            // 暫時性程式碼，待企業營及菁英營結束後刪除
+                            ->when($this->camp->id == 77 || $this->camp->id == 78 || $this->camp->id == 79 || $this->camp->id == 80, function($query){
+                                $query->whereIn('batch_id', [166, 168, 183, 184]);
+                            })
                             ->whereNotNull('group_id')
                             ->where(function($query){
                                 if($this->has_attend_data){
