@@ -415,7 +415,10 @@ class CheckInController extends Controller {
         // 取得報到資料
         $checkedInData = CheckIn::where('check_in_date', Carbon::today()->format('Y-m-d'))->whereIn('applicant_id', $allBatchesApplicants)->get();
         // 取得梯次
-        $batches = Batch::where("camp_id", $this->camp->id)->where([['batch_start', '<=', Carbon::today()], ['batch_end', '>=', Carbon::today()]])->get();
+        $batches = Batch::where("camp_id", $this->camp->id)
+                            // 這邊可能不需要判斷這麼多
+                            // ->where([['batch_start', '<=', Carbon::today()], ['batch_end', '>=', Carbon::today()]])
+                            ->get();
         // 暫時性程式碼，待企業營及菁英營結束後刪除
         if($this->camp->id == 77 || $this->camp->id == 78 || $this->camp->id == 79 || $this->camp->id == 80) {
             $batches = $batches->filter(function ($batch) {
