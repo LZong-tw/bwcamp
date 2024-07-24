@@ -150,6 +150,10 @@ class CheckInController extends Controller {
             $applicants = Applicant::with(['batch', 'batch.camp' => $constraint, 'groupRelation', 'numberRelation'])
                                         ->whereHas('batch.camp', $constraint)
                                         ->where('is_admitted', 1)
+                                        // 暫時性程式碼，待企業營及菁英營結束後刪除
+                                        ->when($this->camp->id == 77 || $this->camp->id == 78, function($query){
+                                            $query->whereIn('batch_id', [166, 168]);
+                                        })
                                         ->where(function($query){
                                             if($this->has_attend_data){
                                                 $query->where('is_attend', 1);
