@@ -137,10 +137,10 @@ class CheckInController extends Controller {
                             })->get()->sortBy(['batch.camp.id', 'batch.id']);
         }
         else {
+            $numbers = collect([]);
             if ($group) {
                 $groups = $this->camp->groups()->where('alias', 'like', '%' . $group . '%')->get();
                 if ($number) {
-                    $numbers = collect([]);
                     foreach ($groups as $g) {
                         $num =  $g->numbers()?->where("number", $number)->get();
                         $numbers = $numbers->merge($num);
