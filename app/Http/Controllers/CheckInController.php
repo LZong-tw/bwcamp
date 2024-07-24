@@ -138,9 +138,13 @@ class CheckInController extends Controller {
         }
         else {
             if ($group) {
-                $group = $this->camp->groups()->where('alias', 'like', '%' . $group . '%')->first();
+                $groups = $this->camp->groups()->where('alias', 'like', '%' . $group . '%')->get();
                 if ($number) {
-                    $number = $group?->numbers()?->where("number", $number)->get();
+                    $numbers = collect([]);
+                    foreach ($groups as $g) {
+                        $num =  $g->numbers()?->where("number", $number)->get();
+                        $numbers = $numbers->merge($num);
+                    }
                 }
             }
             $applicants = Applicant::with(['batch', 'batch.camp' => $constraint, 'groupRelation', 'numberRelation'])
@@ -152,15 +156,15 @@ class CheckInController extends Controller {
                                             }
                                         })
                                         ->whereNotNull('group_id')
-                                        ->where(function($query) use ($request, $group, $number) {
+                                        ->where(function($query) use ($request, $groups, $numbers) {
                                             $query->where('applicants.id', $request->query_str);
-                                            if ($group && !$number) {
-                                                $query->orWhere('group_id', $group?->id);
+                                            if ($groups && (count($numbers) == 0 || !$numbers)) {
+                                                $query->orWhereIn('group_id', $groups?->pluck("id"));
                                             }
-                                            if ($number && $group) {
-                                                $query->orWhere(function ($query) use ($group, $number) {
-                                                    $query->where('group_id', $group?->id);
-                                                    $query->whereIn('number_id', $number?->pluck('id'));
+                                            if ((count($numbers) || $numbers) && $groups) {
+                                                $query->orWhere(function ($query) use ($groups, $numbers) {
+                                                    $query->whereIn('group_id', $groups?->pluck("id"));
+                                                    $query->whereIn('number_id', $numbers?->pluck('id'));
                                                 });
                                             }
                                             $query->orWhere('name', 'like', '%' . $request->query_str . '%')
