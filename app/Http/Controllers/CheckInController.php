@@ -346,6 +346,7 @@ class CheckInController extends Controller {
                         ->where('group_id', '<>', \DB::raw('""'))
                         // 這邊可能不需要判斷這麼多
                         // ->where([['batch_start', '<=', Carbon::today()], ['batch_end', '>=', Carbon::today()]])
+                        ->where([['batch_end', '>=', Carbon::today()]])
                         ->get();
             $checkedInCount = CheckIn::where('check_in_date', Carbon::today()->format('Y-m-d'))->whereIn('applicant_id', $applicants)->count();
             $applicants = $applicants->count();
