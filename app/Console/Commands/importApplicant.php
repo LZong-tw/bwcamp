@@ -17,7 +17,7 @@ class importStatus extends Command
     //ds_id: dynamic_stat_id
     //is_app: import applicant or not
     //is_org: assign org or not
-     protected $signature = 'import:Applicant {camp_id} {ds_id} {--is_app=1} {--is_org=0}';
+    protected $signature = 'import:Applicant {camp_id} {ds_id} {--is_app=1} {--is_org=0}';
 
     /**
      * The console command description.
