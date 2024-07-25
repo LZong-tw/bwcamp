@@ -68,8 +68,8 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('/home') }}">{{ Auth::user()->name }}</a>
-                        <a href="{{ route('profile') }}">{{ __('Profile') }}</a>
+                        <a href="{{ url('/home') }}?openExternalBrowser=1">{{ Auth::user()->name }}</a>
+                        <a href="{{ route('profile') }}?openExternalBrowser=1">{{ __('Profile') }}</a>
                     @else
                         <a href="{{ route('login') }}?rstr{{ \Str::random() }}={{ \Str::random() }}">{{ __('Login') }}</a>
 
@@ -93,7 +93,7 @@
                     @endforelse
                 </div>
                 <br>
-                <div class="h3"><a href="{{ route("sign_page.index") }}">學員簽到退系統</a></div>
+                <div class="h3"><a href="{{ route("sign_page.index") }}?openExternalBrowser=1">學員簽到退系統</a></div>
             </div>
         </div>
     </body>

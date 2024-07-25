@@ -81,7 +81,7 @@
                             </td>
                         @elseif($key == "name")
                             <td>
-                                <a href="{{ route('showAttendeeInfoGET', ($isShowVolunteers ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->id }}" target="_blank">{{ $applicant->name }}</a>&nbsp;(報名序號：{{ $applicant->id }})
+                                <a href="{{ route('showAttendeeInfoGET', ($isShowVolunteers ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->id }}&openExternalBrowser=1" target="_blank">{{ $applicant->name }}</a>&nbsp;(報名序號：{{ $applicant->id }})
                                 <div class="text-success">連結之帳號：{{ $applicant->user->name }}({{ $applicant->user->email }})</div>
                             </td>
                         @elseif($key == "avatar" && !$applicant->avatar)
@@ -133,7 +133,7 @@
                                 {{ Str::limit($applicant->contactlog?->sortByDesc('id')->first()?->notes, 50,'...') ?? "-" }}
                                 <div>
                                     @if($currentUser->canAccessResource(new App\Models\ContactLog(), 'create', $campFullData))
-                                        <a href="{{ route('showAttendeeInfoGET', ($isShowVolunteers ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->id }}#new" target="_blank">⊕新增關懷記錄</a>
+                                        <a href="{{ route('showAttendeeInfoGET', ($isShowVolunteers ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->id }}&openExternalBrowser=1#new" target="_blank">⊕新增關懷記錄</a>
                                     @endif
                                     @if(count($applicant->contactlog))
                                         &nbsp;&nbsp;
@@ -197,7 +197,7 @@
                         </td>
                     @elseif($key == "name")
                         <td>
-                            <a href="{{ route('showAttendeeInfoGET', ($isShowVolunteers ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->applicant_id }}" target="_blank">{{ $applicant->name }}</a>&nbsp;(報名序號：{{ $applicant->id }})
+                            <a href="{{ route('showAttendeeInfoGET', ($isShowVolunteers ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->applicant_id }}&openExternalBrowser=1" target="_blank">{{ $applicant->name }}</a>&nbsp;(報名序號：{{ $applicant->id }})
                             @if($applicant->user)
                                 <div class="text-success">連結之帳號：{{ $applicant->user->name }}({{ $applicant->user->email }})</div>
                             @endif
@@ -267,7 +267,7 @@
                         <td>
                             {{ Str::limit($applicant->contactlog?->sortByDesc('id')->first()?->notes, 50,'...') ?? "-" }}
                             <div>
-                                <a href="{{ route('showAttendeeInfoGET', ($isShowVolunteers ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->applicant_id }}#new" target="_blank">⊕新增關懷記錄</a>
+                                <a href="{{ route('showAttendeeInfoGET', ($isShowVolunteers ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN={{ $applicant->applicant_id }}&openExternalBrowser=1#new" target="_blank">⊕新增關懷記錄</a>
                                 @if(count($applicant->contactlog))
                                     &nbsp;&nbsp;
                                     <a href="{{ route('showContactLogs', [$campFullData->id, $applicant->id]) }}" target="_blank">🔍看更多</a>
