@@ -1590,6 +1590,11 @@ return [
                 "sort" => 1,
                 "for_query" => 1,
             ],
+            "number" => [
+                "name" => "座號",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
             "name" => [
                 "name" => "姓名",
                 "sort" => 0,
