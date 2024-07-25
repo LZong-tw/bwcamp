@@ -1279,11 +1279,13 @@ class BackendController extends Controller
                         } elseif($key == "is_checkin") {
                             if (isset($applicant->checkInData->first()->check_in_date))
                                     $data = 1;
+                        } elseif($key == "deposit") {
+                                $data = $applicant->traffic?->$key ?? 0;
                         } else {
                             if (isset($applicant->$key))
                                 $data = $applicant->$key;
                             else
-                                $data = $applicant->traffic->$key;
+                                $data = $applicant->traffic?->$key ?? 0;
                         }
                         $rows[] = '="' . $data . '"';
                     }
