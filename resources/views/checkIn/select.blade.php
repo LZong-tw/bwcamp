@@ -40,7 +40,7 @@
     <h4 class="mt-2 text-center">選擇欲執行報到營隊</h4>
     @forelse($camps as $camp)
         <div class="row">
-            <a href="/checkin?camp_id={{ $camp->id }}&t={{ time() }}" class="mx-auto mt-3">{{ $camp->fullName }}</a>
+            <a href="/checkin?camp_id={{ $camp->id }}&t={{ time() }}&openExternalBrowser=1" class="mx-auto mt-3">{{ $camp->fullName }}</a>
         </div>
     @empty
         無營隊

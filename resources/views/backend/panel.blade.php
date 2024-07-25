@@ -328,7 +328,7 @@
                     <ul class="nav navbar-nav ml-auto">
                         @if(isset($campFullData))
                             <li class="nav-item">
-                                <a class="nav-link card-link" href="/checkin?camp_id={{ $campFullData->id }}&t={{ time() }}" target="_blank">本營隊報到系統</a>
+                                <a class="nav-link card-link" href="/checkin?camp_id={{ $campFullData->id }}&t={{ time() }}&openExternalBrowser=1" target="_blank">本營隊報到系統</a>
                             </li>
                         @endif
                         @if(auth()->user()->getPermission()->level == 1 || (isset($currentUser) && $currentUser->canAccessResource(new \App\Models\Camp, "update", $campFullData)))
