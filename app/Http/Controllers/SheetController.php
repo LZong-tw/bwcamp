@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\ApplicantService;
+use App\Services\BackendService;
 use App\Services\GSheetService;
 use App\Models\Applicant;
 use App\Models\Camp;
 use App\Models\CheckIn;
+use App\Models\DynamicStat;
 use App\Models\Vcamp;
 use App\Models\Lodging;
 
@@ -16,15 +18,22 @@ class SheetController extends Controller
 {
     protected $gsheetservice;
     protected $applicantService;
+    protected $backendService;
+    protected $request;
     /**
      * 建構子
      */
     public function __construct(
         GSheetService $gsheetservice,
-        ApplicantService $applicantService
+        ApplicantService $applicantService,
+        BackendService $backendService,
+        //Request $request
+
     ) {
         $this->gsheetservice = $gsheetservice;
         $this->applicantService = $applicantService;
+        $this->backendService = $backendService;
+        //$this->request = $request;
     }
 
     public function Sheet()
@@ -133,16 +142,16 @@ class SheetController extends Controller
 
     public function importGSApplicants(Request $request)
     {
-        config([
-            //'google.post_spreadsheet_id' => '1g6gvbuLeEXz8W4QtMLPGhMpZ_u_Mu73OfmR3ems_9SI',
-            //'google.post_sheet_id' => '0821',
-            'google.post_spreadsheet_id' => '16hco1o1MMbgTqS59qETBf4soya3atbg0AI-NpR7mjTQ',
-            'google.post_sheet_id' => 'upload',
-        ]);
+        //camp_id = 77 & ds_id = 384
+        //php artisan import:Applicant 77 384 --is_org=1
         $camp = Camp::find($request->camp_id);
         $table = $camp->table;
 
-        $sheets = $this->gsheetservice->Get(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
+        $ds = DynamicStat::find($request->ds_id);
+        $ss_id = $ds->spreadsheet_id;
+        $sheet_name = $ds->sheet_name;
+
+        $sheets = $this->gsheetservice->Get($ss_id, $sheet_name);
         $titles = $sheets[0];
         $num_cols = count($titles);
         $num_rows = count($sheets);
@@ -176,10 +185,26 @@ class SheetController extends Controller
                 });
                 $create_count++;
             }
-            $users = \App\Models\User::where('email', 'like', "%". $applicant->email . "%")
-            ->orWhere('name', 'like', "%". $applicant->name . "%")
-            //->orWhereLike('mobile', "%". $candidate["data"]->mobile . "%")
-            ->orderByDesc('id')->first();
+            //dd($applicant);
+            /*if ($applicant->email <> null) {
+                $user = \App\Models\User::where('name', 'like', "%". $applicant->name . "%")
+                ->orWhere('email', 'like', "%". $applicant->email . "%")
+                //->orWhere('mobile', 'like', "%". $applicant->mobile . "%")
+                ->orderByDesc('id')->first();
+            } else {
+                $user = \App\Models\User::where('name', 'like', "%". $applicant->name . "%")
+                //->orWhere('mobile', 'like', "%". $applicant->mobile . "%")
+                ->orderByDesc('id')->first();
+            }*/
+            if ($request->is_org) {
+                $candidates = array();
+                $candidates[0]["type"] = "applicant";
+                $candidates[0]["id"] = $applicant->id;
+                $candidates[0]["uses_user_id"] = "generation_needed";
+                $org_id = $title_data['org_id'];
+                //dd($candidates);
+                $this->backendService->setGroupOrg($candidates, $org_id);
+            }
             if ($i % 500 == 0) {
                 sleep(5);
                 //dd($fail_count);

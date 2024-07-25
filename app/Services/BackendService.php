@@ -205,13 +205,25 @@ class BackendService
                 $applicant = Applicant::findOrFail($entity["id"]);
                 $applicant->is_admitted = 1;
                 $applicant->save();
-                $user = \App\Models\User::where('email', $applicant->email)->first();
+                //$user = \App\Models\User::where('email', $applicant->email)->first();
+                //use fuzzy search instead
+                //if eamil missing, compare name only, otherwise name+email
+                if ($applicant->email==null || $applicant->email=="") {
+                    $user = \App\Models\User::where('name', 'like', "%". $applicant->name . "%")
+                    //->orWhere('mobile', 'like', "%". $applicant->mobile . "%")
+                    ->orderByDesc('id')->first();
+                } else {
+                    $user = \App\Models\User::where('name', 'like', "%". $applicant->name . "%")
+                    ->orWhere('email', 'like', "%". $applicant->email . "%")
+                    //->orWhere('mobile', 'like', "%". $applicant->mobile . "%")
+                    ->orderByDesc('id')->first();
+                }
                 if ($user) {
                     \Sentry::captureMessage("Email " . $applicant->email . " 已註冊。");
-//                    return "<h1>" . $applicant->name . "的 Email " . $applicant->email . " 已註冊。</h1>
-//                            <h4>為什麼發生這個狀況？</h4>
-//                            <h3>您可能一次開了多個分頁做同樣的操作，或是對同一位義工指派新職務後，又按下上一頁，才會遇到這個狀況。</h3>
-//                            ";
+                    //return "<h1>" . $applicant->name . "的 Email " . $applicant->email . " 已註冊。</h1>
+                    //<h4>為什麼發生這個狀況？</h4>
+                    //<h3>您可能一次開了多個分頁做同樣的操作，或是對同一位義工指派新職務後，又按下上一頁，才會遇到這個狀況。</h3>
+                    //";
                 }
                 else {
                     $user = $this->generateUser($applicant);
@@ -288,6 +300,12 @@ class BackendService
 
     public function generateUser(Applicant $applicant): User
     {
+        //to deal with empty email and mobile
+        $milliseconds = (int) floor(microtime(true) * 1000);
+        if($applicant->email==null || $applicant->email=="")
+            $applicant->email="dummy" . $milliseconds. "@blisswisdom.org";
+        if($applicant->password==null || $applicant->mobile=="")
+            $applicant->mobile="0000000000";
         $user = new User([
             'name' => $applicant->name,
             'email' => $applicant->email,
