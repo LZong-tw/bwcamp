@@ -86,9 +86,12 @@
                             <th style="width: 20%"  onclick="sortTable(1, 'batch{{ $batch_key }}')">組別@if($camp->is_vcamp())職務 @endif</th>
                             @if($camp->table != 'ceocamp' && $camp->table != 'ecamp')
                                 <th style="width: 20%"  onclick="sortTable(2, 'batch{{ $batch_key }}')">編號</th>
+                                <th style="width: 20%"  onclick="sortTable(3, 'batch{{ $batch_key }}')">姓名</th>
+                                <th style="width: 20%"  onclick="sortTable(4, 'batch{{ $batch_key }}')">狀態</th>
+                            @else
+                                <th style="width: 20%"  onclick="sortTable(2, 'batch{{ $batch_key }}')">姓名</th>
+                                <th style="width: 20%"  onclick="sortTable(3, 'batch{{ $batch_key }}')">狀態</th>
                             @endif
-                            <th style="width: 20%"  onclick="sortTable(3, 'batch{{ $batch_key }}')">姓名</th>
-                            <th style="width: 20%"  onclick="sortTable(4, 'batch{{ $batch_key }}')">狀態</th>
                             <th style="width: 15%">動作</th>
                         @else
                             <th style="width: 18%">流水號</th>
