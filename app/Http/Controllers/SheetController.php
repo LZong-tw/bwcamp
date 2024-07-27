@@ -384,22 +384,6 @@ class SheetController extends Controller
             }
         }
 
-        $checkin_new = \DB::table('check_in')
-            ->where('updated_at', '>', $last_updated_time)
-            ->whereIn('applicant_id', $ids)
-            ->orderBy('updated_at','asc')->get();
-        echo "num_checkin_new: " . count($checkin_new) . "\n";
-        //dd($checkin_new);
-        $i=0;
-        foreach($checkin_new as $checkin) {
-            if ($i==60) break;
-            $row[0] = $checkin->applicant_id;
-            $row[1] = $checkin->updated_at;
-            $row[2] = 1;
-            $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $row);
-            $i = $i+1;
-        }
-
         if ($request->renew == 1) {
             $this->gsheetservice->Clear(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
             $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $titles);
@@ -419,6 +403,23 @@ class SheetController extends Controller
                 }
                 echo $k + 1 . " chunk done, total chunks: " . count($chunked_checkin_renew) . "\n";
                 sleep(65); // avoid rate limit
+            }
+        }
+        else {
+            $checkin_new = \DB::table('check_in')
+                ->where('updated_at', '>', $last_updated_time)
+                ->whereIn('applicant_id', $ids)
+                ->orderBy('updated_at','asc')->get();
+            echo "num_checkin_new: " . count($checkin_new) . "\n";
+            //dd($checkin_new);
+            $i=0;
+            foreach($checkin_new as $checkin) {
+                if ($i==60) break;
+                $row[0] = $checkin->applicant_id;
+                $row[1] = $checkin->updated_at;
+                $row[2] = 1;
+                $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $row);
+                $i = $i+1;
             }
         }
         echo "done" . "\n";
