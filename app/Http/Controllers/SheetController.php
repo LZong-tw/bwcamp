@@ -77,7 +77,7 @@ class SheetController extends Controller
 
         //multiple name columns
         $keys = array_keys($titles, '姓名');
-        
+
         foreach($keys as $key) {
             $i = 0;
             foreach ($sheets as $row) {
@@ -87,7 +87,7 @@ class SheetController extends Controller
             $key1 = array_search($name_tg, $names);
             if ($key1 <> false) break;
         }
-        
+
         if ($key1 == false) {
             $contents = null;
             $content_count = 0;
@@ -116,7 +116,7 @@ class SheetController extends Controller
 
         //multiple name columns
         $keys = array_keys($titles, '姓名');
-        
+
         foreach($keys as $key) {
             $i = 0;
             foreach ($sheets as $row) {
@@ -126,7 +126,7 @@ class SheetController extends Controller
             $key1 = array_search($name_tg, $names);
             if ($key1 <> false) break;
         }
-        
+
         if ($key1 == false) {
             $contents = null;
             $content_count = 0;
@@ -254,7 +254,7 @@ class SheetController extends Controller
         } else {
             exit(1);
         }
-        
+
         //$sheets = $this->gsheetservice->Get(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
 
         $applicants = Applicant::select('applicants.*', $table . '.*')
@@ -272,7 +272,7 @@ class SheetController extends Controller
 
         if($request->app_id==0) {
             $this->gsheetservice->Clear(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
-            $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $rows);  
+            $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $rows);
         }
 
         foreach ($applicants as $applicant) {
@@ -321,9 +321,9 @@ class SheetController extends Controller
             usleep(5000);   //5 millisecond
         }
     }
-    
+
     public function exportGSCheckIn(Request $request)
-    {   
+    {
         //將報名報到結果寫回GS
         $camp = Camp::find($request->camp_id);
         $table = $camp->table;
@@ -345,9 +345,10 @@ class SheetController extends Controller
                 'google.post_sheet_id' => 'checkin',
             ]);
         } else {
+            echo "not found\n";
             exit(1);
         }
-        
+
         $sheets = $this->gsheetservice->Get(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
         //dd($sheets);
         $titles = $sheets[0];
@@ -359,17 +360,17 @@ class SheetController extends Controller
         //columns: applicant_id, updated_at
         $first_updated_time = \Carbon\Carbon::parse($sheets[1][1]); //dummy entry
         $last_updated_time = \Carbon\Carbon::parse($sheets[$num_rows-1][1]);
-        
+
         if ($request->check_cancelled != 0) {
             $checkin_old = \DB::table('check_in')
             ->where('updated_at', '>', $first_updated_time)
             ->where('updated_at', '<=', $last_updated_time)
             ->whereIn('applicant_id', $ids)
             ->orderBy('updated_at','asc')->get();
-
+            echo "num_checkin_old: " . count($checkin_old) . "\n";
             if (count($checkin_old) != $num_checkin_old) {
                 $this->gsheetservice->Clear(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
-                $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $titles);  
+                $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $titles);
                 $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $dummy);
                 $i = 0;
                 foreach($checkin_old as $checkin) {
@@ -387,6 +388,7 @@ class SheetController extends Controller
             ->where('updated_at', '>', $last_updated_time)
             ->whereIn('applicant_id', $ids)
             ->orderBy('updated_at','asc')->get();
+        echo "num_checkin_new: " . count($checkin_new) . "\n";
         //dd($checkin_new);
         $i=0;
         foreach($checkin_new as $checkin) {
@@ -397,6 +399,7 @@ class SheetController extends Controller
             $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $row);
             $i = $i+1;
         }
+        echo "done" . "\n";
         return;
     }
 
@@ -459,13 +462,13 @@ class SheetController extends Controller
         }
         $applicants = Applicant::select('applicants.*')
             ->whereIn('id', $ids)->get();
-        
+
         //try {
             foreach ($applicants as $applicant) {
                 $applicant->is_attend = ($is_attends[$applicant->id]?? null);
                 if ($room_types[$applicant->id] == "") {
                     $applicant->save();
-                } else {             
+                } else {
                     $lodging = $applicant->lodging;
                     //尚未登記，建新的Lodging
                     if (!isset($lodging)) {
@@ -485,7 +488,7 @@ class SheetController extends Controller
         //}
         //catch(\Exception $e){
         //    logger($e);
-        //} 
+        //}
         return;
     }
 }
