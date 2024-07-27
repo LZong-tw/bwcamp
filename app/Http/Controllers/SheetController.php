@@ -435,16 +435,6 @@ class SheetController extends Controller
                     }
                 }
                 echo $k + 1 . " chunk done, total chunks: " . count($chunked_checkin_renew) . "\n";
-                echo "Waiting 65 seconds to avoid rate limit. Countdown: ";
-                for ($i = 65; $i > 0; $i--) {
-                    echo $i . " ";
-                    sleep(1);
-                    if (ob_get_level() > 0) {
-                        ob_flush();
-                    }
-                    flush();
-                }
-                echo "\n";
             }
         }
         else {
