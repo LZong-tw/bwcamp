@@ -151,6 +151,10 @@ class CheckInController extends Controller {
                     }
                 }
             }
+            else {
+                $groups = null;
+                $numbers = null;
+            }
             $applicants = Applicant::with(['batch', 'batch.camp' => $constraint, 'groupRelation', 'numberRelation'])
                                         ->whereHas('batch.camp', $constraint)
                                         ->where('is_admitted', 1)
