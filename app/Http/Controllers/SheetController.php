@@ -400,7 +400,7 @@ class SheetController extends Controller
                 ->whereIn('applicant_id', $ids)
                 ->orderBy('updated_at','asc')->get();
             echo "num_checkin_renew: " . count($checkin_renew) . "\n";
-            $chunked_checkin_renew = array_chunk($checkin_renew->toArray(), 30);
+            $chunked_checkin_renew = array_chunk($checkin_renew->toArray(), 60);
             $backoff = 1;
             $max_backoff = 65;
             foreach($chunked_checkin_renew as $k => $chunk) {
