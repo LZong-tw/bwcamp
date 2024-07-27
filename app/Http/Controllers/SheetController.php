@@ -400,9 +400,21 @@ class SheetController extends Controller
                     $row[1] = $checkin->updated_at;
                     $row[2] = 1;
                     $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $row);
+                    if (rand(0, 1) == 1) {
+                        sleep(1);
+                        flush();
+                        ob_flush();
+                    }
                 }
                 echo $k + 1 . " chunk done, total chunks: " . count($chunked_checkin_renew) . "\n";
-                sleep(65); // avoid rate limit
+                echo "Waiting 65 seconds to avoid rate limit. Countdown: ";
+                for ($i = 65; $i > 0; $i--) {
+                    echo $i . " ";
+                    sleep(1);
+                    flush();
+                    ob_flush();
+                }
+                echo "\n";
             }
         }
         else {
