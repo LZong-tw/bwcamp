@@ -393,19 +393,34 @@ class SheetController extends Controller
                 ->whereIn('applicant_id', $ids)
                 ->orderBy('updated_at','asc')->get();
             echo "num_checkin_renew: " . count($checkin_renew) . "\n";
-            $chunked_checkin_renew = array_chunk($checkin_renew->toArray(), 40);
+            $chunked_checkin_renew = array_chunk($checkin_renew->toArray(), 30);
             foreach($chunked_checkin_renew as $k => $chunk) {
                 foreach($chunk as $checkin) {
-                    $row[0] = $checkin->applicant_id;
-                    $row[1] = $checkin->updated_at;
-                    $row[2] = 1;
-                    $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $row);
-                    if (rand(0, 1) == 1) {
-                        sleep(1);
-                        if (ob_get_level() > 0) {
-                            ob_flush();
+                    try {
+                        echo "writing applicant_id: " . $checkin->applicant_id . "\n";
+                        $row[0] = $checkin->applicant_id;
+                        $row[1] = $checkin->updated_at;
+                        $row[2] = 1;
+                        $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $row);
+                        if (rand(0, 1) == 1) {
+                            sleep(1);
                         }
-                        flush();
+                    }
+                    catch(\Exception $e){
+                        // do again
+                        echo "error writing applicant_id: " . $checkin->applicant_id . "\n";
+                        $rand = rand(2, 8);
+                        echo "Waiting $rand seconds to avoid rate limit. Countdown: ";
+                        for ($i = $rand; $i > 0; $i--) {
+                            echo $i . " ";
+                            sleep(1);
+                            if (ob_get_level() > 0) {
+                                ob_flush();
+                            }
+                            flush();
+                        }
+                        echo "\n";
+                        $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $row);
                     }
                 }
                 echo $k + 1 . " chunk done, total chunks: " . count($chunked_checkin_renew) . "\n";
