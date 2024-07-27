@@ -13,7 +13,7 @@ class exportCheckIn extends Command
      *
      * @var string
      */
-    protected $signature = 'export:CheckIn {camp_id} {--check_cancelled=0}';
+    protected $signature = 'export:CheckIn {camp_id} {--check_cancelled=0} {--renew=0}';
 
     /**
      * The console command description.
@@ -46,6 +46,7 @@ class exportCheckIn extends Command
     {
         $this->request->camp_id = $this->argument('camp_id');
         $this->request->check_cancelled = $this->option('check_cancelled');
+        $this->request->renew = $this->option('renew');
         $this->sheetControl->exportGSCheckIn($this->request);
         return 0;
     }
