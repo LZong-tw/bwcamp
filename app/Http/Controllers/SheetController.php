@@ -402,8 +402,10 @@ class SheetController extends Controller
                     $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $row);
                     if (rand(0, 1) == 1) {
                         sleep(1);
+                        if (ob_get_level() > 0) {
+                            ob_flush();
+                        }
                         flush();
-                        ob_flush();
                     }
                 }
                 echo $k + 1 . " chunk done, total chunks: " . count($chunked_checkin_renew) . "\n";
@@ -411,8 +413,10 @@ class SheetController extends Controller
                 for ($i = 65; $i > 0; $i--) {
                     echo $i . " ";
                     sleep(1);
+                    if (ob_get_level() > 0) {
+                        ob_flush();
+                    }
                     flush();
-                    ob_flush();
                 }
                 echo "\n";
             }
