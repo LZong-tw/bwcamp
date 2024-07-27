@@ -402,24 +402,25 @@ class SheetController extends Controller
                     $row[1] = $checkin->updated_at;
                     $row[2] = 1;
                     $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $row);
-                $retry = true;
-                while ($retry) {
-                    try {
-                        foreach($chunk as $checkin) {
-                            $row[0] = $checkin->applicant_id;
-                            $row[1] = $checkin->updated_at;
-                            $row[2] = 1;
-                            $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $row);
-                        }
-                        $retry = false;
-                        $backoff = 1;  // Reset backoff on success
-                    } catch (\Exception $e) {
-                        if (strpos($e->getMessage(), 'Quota exceeded') !== false) {
-                            echo "Quota exceeded. Backing off for {$backoff} seconds.\n";
-                            sleep($backoff);
-                            $backoff = min($backoff * 2, $max_backoff);  // Exponential backoff
-                        } else {
-                            throw $e;  // Re-throw if it's not a quota error
+                    $retry = true;
+                    while ($retry) {
+                        try {
+                            foreach($chunk as $checkin) {
+                                $row[0] = $checkin->applicant_id;
+                                $row[1] = $checkin->updated_at;
+                                $row[2] = 1;
+                                $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $row);
+                            }
+                            $retry = false;
+                            $backoff = 1;  // Reset backoff on success
+                        } catch (\Exception $e) {
+                            if (strpos($e->getMessage(), 'Quota exceeded') !== false) {
+                                echo "Quota exceeded. Backing off for {$backoff} seconds.\n";
+                                sleep($backoff);
+                                $backoff = min($backoff * 2, $max_backoff);  // Exponential backoff
+                            } else {
+                                throw $e;  // Re-throw if it's not a quota error
+                            }
                         }
                     }
                 }
