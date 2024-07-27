@@ -409,7 +409,7 @@ class SheetController extends Controller
                     catch(\Exception $e){
                         // do again
                         echo "error writing applicant_id: " . $checkin->applicant_id . "\n";
-                        $rand = rand(2, 8);
+                        $rand = rand(35, 88);
                         echo "Waiting $rand seconds to avoid rate limit. Countdown: ";
                         for ($i = $rand; $i > 0; $i--) {
                             echo $i . " ";
