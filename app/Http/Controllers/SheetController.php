@@ -357,9 +357,15 @@ class SheetController extends Controller
         $num_rows = count($sheets);
         $num_checkin_old = $num_rows - 2;  //title and dummy
 
-        //columns: applicant_id, updated_at
-        $first_updated_time = \Carbon\Carbon::parse($sheets[1][1]); //dummy entry
-        $last_updated_time = \Carbon\Carbon::parse($sheets[$num_rows-1][1]);
+        if ($sheets[1][1]) {
+            //columns: applicant_id, updated_at
+            $first_updated_time = \Carbon\Carbon::parse($sheets[1][1]); //dummy entry
+            $last_updated_time = \Carbon\Carbon::parse($sheets[$num_rows-1][1]);
+        }
+        else {
+            $first_updated_time = today()->format('Y-m-d 00:00:00');
+            $last_updated_time = today()->format('Y-m-d 23:59:59');
+        }
 
         if ($request->check_cancelled != 0) {
             $checkin_old = \DB::table('check_in')
