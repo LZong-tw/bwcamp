@@ -412,8 +412,8 @@ class SheetController extends Controller
             $chunked_checkin_renew = array_chunk($checkin_renew->toArray(), 60);
             foreach($chunked_checkin_renew as $k => $chunk) {
                 foreach($chunk as $checkin) {
-                    $row[0] = $checkin["applicant_id"];
-                    $row[1] = $checkin["updated_at"];
+                    $row[0] = $checkin->applicant_id;
+                    $row[1] = $checkin->updated_at;
                     $row[2] = 1;
                     $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $row);
                 }
