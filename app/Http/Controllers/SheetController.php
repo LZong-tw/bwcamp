@@ -394,33 +394,33 @@ class SheetController extends Controller
                 ->orderBy('updated_at','asc')->get();
             echo "num_checkin_renew: " . count($checkin_renew) . "\n";
             $chunked_checkin_renew = array_chunk($checkin_renew->toArray(), 30);
+            $backoff = 1;
+            $max_backoff = 65;
             foreach($chunked_checkin_renew as $k => $chunk) {
                 foreach($chunk as $checkin) {
+                    $row[0] = $checkin->applicant_id;
+                    $row[1] = $checkin->updated_at;
+                    $row[2] = 1;
+                    $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $row);
+                $retry = true;
+                while ($retry) {
                     try {
-                        echo "writing applicant_id: " . $checkin->applicant_id . "\n";
-                        $row[0] = $checkin->applicant_id;
-                        $row[1] = $checkin->updated_at;
-                        $row[2] = 1;
-                        $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $row);
-                        if (rand(0, 1) == 1) {
-                            sleep(1);
+                        foreach($chunk as $checkin) {
+                            $row[0] = $checkin->applicant_id;
+                            $row[1] = $checkin->updated_at;
+                            $row[2] = 1;
+                            $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $row);
                         }
-                    }
-                    catch(\Exception $e){
-                        // do again
-                        echo "error writing applicant_id: " . $checkin->applicant_id . "\n";
-                        $rand = rand(35, 88);
-                        echo "Waiting $rand seconds to avoid rate limit. Countdown: ";
-                        for ($i = $rand; $i > 0; $i--) {
-                            echo $i . " ";
-                            sleep(1);
-                            if (ob_get_level() > 0) {
-                                ob_flush();
-                            }
-                            flush();
+                        $retry = false;
+                        $backoff = 1;  // Reset backoff on success
+                    } catch (\Exception $e) {
+                        if (strpos($e->getMessage(), 'Quota exceeded') !== false) {
+                            echo "Quota exceeded. Backing off for {$backoff} seconds.\n";
+                            sleep($backoff);
+                            $backoff = min($backoff * 2, $max_backoff);  // Exponential backoff
+                        } else {
+                            throw $e;  // Re-throw if it's not a quota error
                         }
-                        echo "\n";
-                        $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $row);
                     }
                 }
                 echo $k + 1 . " chunk done, total chunks: " . count($chunked_checkin_renew) . "\n";
