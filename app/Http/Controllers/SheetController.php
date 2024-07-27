@@ -357,7 +357,8 @@ class SheetController extends Controller
         $num_rows = count($sheets);
         $num_checkin_old = $num_rows - 2;  //title and dummy
 
-        if ($sheets[1][1]) {
+        $regex = '/^(\d{4}[-\/]\d{1,2}[-\/]\d{1,2}([T ]\d{1,2}:\d{1,2}(:\d{1,2})?(\.\d+)?(([+-]\d{2}:\d{2})|Z)?)?|\d{1,2}[-\/]\d{1,2}[-\/]\d{4}([T ]\d{1,2}:\d{1,2}(:\d{1,2})?(\.\d+)?(([+-]\d{2}:\d{2})|Z)?)?)$/';
+        if ($sheets[1][1] && preg_match($regex, $sheets[1][1])) {
             //columns: applicant_id, updated_at
             $first_updated_time = \Carbon\Carbon::parse($sheets[1][1]); //dummy entry
             $last_updated_time = \Carbon\Carbon::parse($sheets[$num_rows-1][1]);
