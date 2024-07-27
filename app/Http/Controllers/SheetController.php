@@ -404,6 +404,7 @@ class SheetController extends Controller
             $backoff = 1;
             $max_backoff = 65;
             foreach($chunked_checkin_renew as $k => $chunk) {
+                // Exponential backoff algorithm
                 $retry = true;
                 while ($retry) {
                     try {
