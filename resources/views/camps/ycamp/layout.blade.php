@@ -28,6 +28,28 @@
     <!-- Bootstrap confirmation JS -->
     <script src='{{ asset('js/bootstrap-confirmation.min.js') }}'></script>
     <script src='{{ asset('js/bootstrap-validate.js') }}'></script>
+    <script>
+        Sentry.onLoad(function() {
+            Sentry.init({
+            integrations: [
+                Sentry.replayIntegration({
+                maskAllText: false,
+                blockAllMedia: false,
+                }),
+            ],
+            // Session Replay
+            replaysSessionSampleRate: 0.5, // This sets the sample rate at 10%. You may want to change it to 100% while in development and then sample at a lower rate in production.
+            replaysOnErrorSampleRate: 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "ne7yzyapsk");
+    </script>
 </head>
 
 <BODY>
