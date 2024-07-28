@@ -26,6 +26,11 @@
     <!-- Bootstrap confirmation JS -->
     <script src='{{ asset('js/bootstrap-confirmation.min.js') }}'></script>
     <script src='{{ asset('js/bootstrap-validate.js') }}'></script>
+    <script
+        src="https://browser.sentry-cdn.com/8.20.0/bundle.tracing.replay.min.js"
+        integrity="sha384-e4DRKCQjGj8HoVTcv07HyAm3g1wDECvRclj9gsw2d06z1aLh+78iJ21phn6RhkJD"
+        crossorigin="anonymous"
+        ></script>
     <script>
         Sentry.onLoad(function() {
             Sentry.init({
