@@ -1386,6 +1386,8 @@ class BackendController extends Controller
                         $data = null;
                         if($key == "admitted_no") {
                             $data = $applicant->group . $applicant->number;
+                        } elseif($key == "deposit") {
+                            $data = $applicant->traffic?->$key ?? 0;
                         } elseif($key == "no") {
                             $data = $count;
                             $count++;
