@@ -64,6 +64,7 @@
                         </div>
                     @endif
                 </form><br>
+{{--
                 @if(!isset($applicant->is_attend) || $applicant->is_attend)
                     <h5>選擇交通方式</h5>
                     <!--
@@ -117,6 +118,7 @@
                         </form>
                     @endif
                 @endif
+--}}
 
                 <h5>聯絡我們</h5>
                 <div class="ml-0 mb-2">若有任何問題，歡迎</div>
