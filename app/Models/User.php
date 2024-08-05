@@ -308,6 +308,9 @@ class User extends Authenticatable
         $permissions = $this->rolePermissions;
         $forInspect = $permissions->where("resource", "\\" . $class)->where("action", $action)->first();
         if ($forInspect) {
+            if ($probing) {
+                dump($forInspect);
+            }
             switch ($forInspect->range_parsed) {
                 // 0: na, all
                 case 0:
