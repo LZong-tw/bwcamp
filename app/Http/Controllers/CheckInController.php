@@ -441,7 +441,10 @@ class CheckInController extends Controller {
         foreach($batches as $key => $batch){
             $allApplicants = Applicant::join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                             ->where('batchs.camp_id', $this->camp->id)
-                            ->where(\DB::raw("fee - deposit"), "<=", 0)
+                            // 暫時性程式碼，待大專營結束後刪除
+                            ->when($this->camp->id != 81 && $this->camp->id != 82, function($query){
+                                $query->where(\DB::raw("fee - deposit"), "<=", 0);
+                            })
                             ->where("batch_id", $batch->id)
                             ->whereNotNull('group_id')
                             ->where(function($query){
