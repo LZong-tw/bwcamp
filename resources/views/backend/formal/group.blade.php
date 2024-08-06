@@ -21,7 +21,7 @@
                     <th>就讀學校</th>
                     <th>就讀科系所 / 年級</th>
                     <th>行動電話</th>
-                    <th>家中電話</th>           
+                    <!--<th>家中電話</th>-->        
                 @endif  			
                 <th>分區</th>  
                 <th>選取<br>全選<input type="checkbox" name="selectAll" onclick="toggler()"></th> 			
@@ -42,7 +42,7 @@
                     <td>{{ $applicant->school }}</td>
                     <td>{{ $applicant->department }} / {{ $applicant->grade }}</td>
                     <td>{{ $applicant->mobile }}</td>
-                    <td>{{ $applicant->phone_home }}</td>
+                    <!--<td>{{ $applicant->phone_home }}</td>-->
                 @endif
                 <td>{{ $applicant->region }}</td>
                 <td>

@@ -42,7 +42,7 @@
                     <th>就讀學校</th>
                     <th>就讀科系所 / 年級</th>
                     <th>行動電話</th>
-                    <th>家中電話</th>
+                    <!--<th>家中電話</th>-->
                     <th>去程交通</th>
                     <th>回程交通</th>
                     <th>應交</th>
@@ -71,7 +71,7 @@
                     <td>{{ $applicant->school }}</td>
                     <td>{{ $applicant->department }} / {{ $applicant->grade }}</td>
                     <td>{{ $applicant->mobile }}</td>
-                    <td>{{ $applicant->phone_home }}</td>
+                    <!--<td>{{ $applicant->phone_home }}</td>-->
                     <td>{{ $applicant->traffic?->depart_from?? 0 }}</td>
                     <td>{{ $applicant->traffic?->back_to?? 0 }}</td>
                     <td>{{ $applicant->traffic?->fare?? 0 }}</td>
