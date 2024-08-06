@@ -12,7 +12,7 @@ class GSheetService
      */
     public function Sheet($sheet_id, $sheet_name)
     {
-        return Sheets::spreadsheet($sheet_id)->sheet($sheet_name); 
+        return Sheets::spreadsheet($sheet_id)->sheet($sheet_name);
     }
 
     /**
@@ -67,10 +67,10 @@ class GSheetService
     {
         //ds_id = 385/386 (男/女)
         $ds = DynamicStat::select('dynamic_stats.*')
-        ->where('urltable_id',$camp_id)
-        ->where('urltable_type','App\Models\Camp')
-        ->where('purpose','Accomodation')
-        ->where('sheet_name',$sheet_name)
+        ->where('urltable_id', $camp_id)
+        ->where('urltable_type', 'App\Models\Camp')
+        ->where('purpose', 'Accomodation')
+        ->where('sheet_name', $sheet_name)
         ->first();
 
         if ($ds == null) {
@@ -95,20 +95,20 @@ class GSheetService
         $colidx4 = 0;
 
         //find title
-        for ($i=1; $i<$num_cols; $i++) {
+        for ($i = 1; $i < $num_cols; $i++) {
             if (str_contains($titles[$i], $title_tg1)) {
                 $colidx1 = $i;
-            } else if (str_contains($titles[$i], $title_tg2)) {
+            } elseif (str_contains($titles[$i], $title_tg2)) {
                 $colidx2 = $i;
-            } else if (str_contains($titles[$i], $title_tg3)) {
+            } elseif (str_contains($titles[$i], $title_tg3)) {
                 $colidx3 = $i;
-            } else if (str_contains($titles[$i], $title_tg4)) {
+            } elseif (str_contains($titles[$i], $title_tg4)) {
                 $colidx4 = $i;
             }
         }
 
         $accomodations = array();
-        for ($j=1; $j<$num_rows; $j++) {
+        for ($j = 1; $j < $num_rows; $j++) {
             $data = $cells[$j];
             if ($data[$colidx1] == $group_name) {
                 $accomodation['apartment'] = $data[$colidx2];
