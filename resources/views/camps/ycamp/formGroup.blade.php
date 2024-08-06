@@ -7,7 +7,10 @@
     .table, table.table td{
         border: 1px solid black;
         border-collapse: collapse;
-        padding: 8px;   //10px;
+    }
+    th, td {
+        padding: 6px;
+        font-size: 16px;
     }
     .center{
         text-align: center;

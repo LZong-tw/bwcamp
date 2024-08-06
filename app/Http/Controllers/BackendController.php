@@ -2,36 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Applicant;
 use App\Models\ApplicantsGroup;
+use App\Models\Batch;
+use App\Models\Camp;
 use App\Models\CampOrg;
 use App\Models\CarerApplicantXref;
-use App\Models\GroupNumber;
-use App\Models\OrgUser;
-use App\Models\Vcamp;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Request;
-use App\Services\CampDataService;
-use App\Services\ApplicantService;
-use App\Services\BackendService;
-use App\Models\Camp;
-use App\Models\Applicant;
-use App\Models\Volunteer;
-use App\Models\Batch;
 use App\Models\CheckIn;
 use App\Models\ContactLog;
-use App\Models\Traffic;
+use App\Models\GroupNumber;
 use App\Models\Lodging;
+use App\Models\OrgUser;
+use App\Models\Region;
+use App\Models\SignInSignOut;
+use App\Models\Traffic;
 use App\Models\User;
+use App\Models\Vcamp;
+use App\Models\Volunteer;
+use App\Services\ApplicantService;
+use App\Services\BackendService;
+use App\Services\CampDataService;
+use App\Services\GSheetService;
+use App\Exports\ApplicantsExport;
+use App\Traits\EmailConfiguration;
 use Carbon\Carbon;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Intervention\Image\Facades\Image;
-use View;
-use App\Traits\EmailConfiguration;
-use App\Models\SignInSignOut;
-use App\Exports\ApplicantsExport;
-use App\Models\Region;
-use App\Services\GSheetService;
 use Maatwebsite\Excel\Facades\Excel;
+use View;
 
 class BackendController extends Controller
 {
@@ -1022,8 +1022,10 @@ class BackendController extends Controller
             $form_title = "報名報到暨宿舍安排單";
             $form_width = "740px";  //portrait
             $columns = config('camps_fields.form_accomodation.' . $this->campFullData->table) ?? [];
+            $accomodation_m = $this->gsheetService->importAccomodation($camp->id,'男', $group);
+            $accomodation_f = $this->gsheetService->importAccomodation($camp->id,'女',$group);
             //return view('camps.' . $this->campFullData->table . '.formAccomodation', compact( 'form_title','form_width','columns','camp','group','applicants'));
-            return \PDF::loadView('camps.' . $this->campFullData->table . '.formAccomodation', compact('form_title','form_width','columns','camp','group','applicants'))->setPaper('a3')->download($this->campFullData->abbreviation . $group . $form_title . Carbon::now()->format('YmdHis') . '.pdf');
+            return \PDF::loadView('camps.' . $this->campFullData->table . '.formAccomodation', compact('form_title','form_width','columns','camp','group','applicants','accomodation_m','accomodation_f'))->setPaper('a3')->download($this->campFullData->abbreviation . $group . $form_title . Carbon::now()->format('YmdHis') . '.pdf');
         } elseif (isset($request->download)&&$template==3) {
             $form_title = "通訊資料確認表";
             $form_width = "1046px"; //landscape

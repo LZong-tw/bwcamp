@@ -7,7 +7,10 @@
     .table, table.table td{
         border: 1px solid black;
         border-collapse: collapse;
-        padding: 8px;   //10px;
+    }
+    th, td {
+        padding: 6px;
+        font-size: 16px;
     }
     .center{
         text-align: center;
@@ -44,47 +47,53 @@
     </tr>
 </table>
 {{-- 在正式環境用 h 系列標籤，中文字型會壞掉 --}}
-<a style="font-size: 1em;">【住宿概況】</a>
+<a style="font-size: 1.6em;">【住宿概況】</a>
 <table class="table" width="740px">
     <tr>
         <td>棟別_戶別</td>
-        <td>　</td><td>　</td>
-        <td>　</td><td>　</td>
-        <td>　</td><td>　</td>
-        <td>　</td>
-        <td>總數</td>
+        @foreach($accomodation_m as $accomodation)
+            @foreach($accomodation as $key => $val)
+                @if($key == "apartment")
+                <td>{{ $val }}</td>
+                @endif
+            @endforeach
+        @endforeach
     </tr>
     <tr>
         <td>房號</td>
-        <td>　</td><td>　</td>
-        <td>　</td><td>　</td>
-        <td>　</td><td>　</td>
-        <td>　</td><td>　</td>
+        @foreach($accomodation_m as $accomodation)
+            @foreach($accomodation as $key => $val)
+                @if($key == "room")
+                <td>{{ $val }}</td>
+                @endif
+            @endforeach
+        @endforeach
     </tr>
     <tr>
-        <td>提供床位數(含預留)</td>
-        <td>　</td><td>　</td>
-        <td>　</td><td>　</td>
-        <td>　</td><td>　</td>
-        <td>　</td><td>　</td>
+        <td>提供床位數</td>
+        @foreach($accomodation_m as $accomodation)
+            @foreach($accomodation as $key => $val)
+                @if($key == "beds")
+                <td>{{ $val }}</td>
+                @endif
+            @endforeach
+        @endforeach
     </tr>
     <tr>
-        <td>實際報到床位數</td>
-        <td>　</td><td>　</td>
-        <td>　</td><td>　</td>
-        <td>　</td><td>　</td>
-        <td>　</td><td>　</td>
+        <td>實際報到床位數(含預留)</td>
+        @foreach($accomodation_m as $accomodation)
+            <td>　</td>
+        @endforeach
     </tr>
     <tr>
         <td>空床數</td>
-        <td>　</td><td>　</td>
-        <td>　</td><td>　</td>
-        <td>　</td><td>　</td>
-        <td>　</td><td>　</td>
+        @foreach($accomodation_m as $accomodation)
+            <td>　</td>
+        @endforeach
     </tr>
 </table>
 {{-- 在正式環境用 h 系列標籤，中文字型會壞掉 --}}
-<a style="font-size: 1em;">【報到暨床位安排】</a>
+<a style="font-size: 1.6em;">【報到暨床位安排】</a>
 @php
     $emptylines = 18;
 @endphp
@@ -140,47 +149,53 @@
     </tr>
 </table>
 {{-- 在正式環境用 h 系列標籤，中文字型會壞掉 --}}
-<a style="font-size: 1em;">【住宿概況】</a>
+<a style="font-size: 1.6em;">【住宿概況】</a>
 <table class="table" width="{{ $form_width }}">
     <tr>
         <td>棟別_戶別</td>
-        <td>　</td><td>　</td>
-        <td>　</td><td>　</td>
-        <td>　</td><td>　</td>
-        <td>　</td>
-        <td>總數</td>
+        @foreach($accomodation_f as $accomodation)
+            @foreach($accomodation as $key => $val)
+                @if($key == "apartment")
+                <td>{{ $val }}</td>
+                @endif
+            @endforeach
+        @endforeach
     </tr>
     <tr>
         <td>房號</td>
-        <td>　</td><td>　</td>
-        <td>　</td><td>　</td>
-        <td>　</td><td>　</td>
-        <td>　</td><td>　</td>
+        @foreach($accomodation_f as $accomodation)
+            @foreach($accomodation as $key => $val)
+                @if($key == "room")
+                <td>{{ $val }}</td>
+                @endif
+            @endforeach
+        @endforeach
     </tr>
     <tr>
-        <td>提供床位數(含預留)</td>
-        <td>　</td><td>　</td>
-        <td>　</td><td>　</td>
-        <td>　</td><td>　</td>
-        <td>　</td><td>　</td>
+        <td>提供床位數</td>
+        @foreach($accomodation_f as $accomodation)
+            @foreach($accomodation as $key => $val)
+                @if($key == "beds")
+                <td>{{ $val }}</td>
+                @endif
+            @endforeach
+        @endforeach
     </tr>
     <tr>
-        <td>實際報到床位數</td>
-        <td>　</td><td>　</td>
-        <td>　</td><td>　</td>
-        <td>　</td><td>　</td>
-        <td>　</td><td>　</td>
+        <td>實際報到床位數(含預留)</td>
+        @foreach($accomodation_f as $accomodation)
+            <td>　</td>
+        @endforeach
     </tr>
     <tr>
         <td>空床數</td>
-        <td>　</td><td>　</td>
-        <td>　</td><td>　</td>
-        <td>　</td><td>　</td>
-        <td>　</td><td>　</td>
+        @foreach($accomodation_f as $accomodation)
+            <td>　</td>
+        @endforeach
     </tr>
 </table>
 {{-- 在正式環境用 h 系列標籤，中文字型會壞掉 --}}
-<a style="font-size: 1em;">【報到暨床位安排】</a>
+<a style="font-size: 1.6em;">【報到暨床位安排】</a>
 @php
     $emptylines = 18;
 @endphp
