@@ -73,6 +73,10 @@ class GSheetService
         ->where('sheet_name',$sheet_name)
         ->first();
 
+        if ($ds == null) {
+            $accomodations = null;
+            return $accomodations;
+        }
         $sheet_id = $ds->spreadsheet_id;
         //$sheet_name = $ds->sheet_name;
         $cells = $this->Sheet($sheet_id, $sheet_name)->get();

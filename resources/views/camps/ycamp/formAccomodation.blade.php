@@ -51,45 +51,78 @@
 <table class="table" width="740px">
     <tr>
         <td>棟別_戶別</td>
-        @foreach($accomodation_m as $accomodation)
-            @foreach($accomodation as $key => $val)
-                @if($key == "apartment")
-                <td>{{ $val }}</td>
-                @endif
+        @if(isset($accomodation_m))
+            @foreach($accomodation_m as $accomodation)
+                @foreach($accomodation as $key => $val)
+                    @if($key == "apartment")
+                    <td>{{ $val }}</td>
+                    @endif
+                @endforeach
             @endforeach
-        @endforeach
+        @else
+            <td width=40px></td><td width=40px></td>
+            <td width=40px></td><td width=40px></td>
+            <td width=40px></td><td width=40px></td>
+            <td width=40px></td><td width=40px></td>
+            <td width=40px>總數</td>
+        @endif
     </tr>
     <tr>
         <td>房號</td>
-        @foreach($accomodation_m as $accomodation)
-            @foreach($accomodation as $key => $val)
-                @if($key == "room")
-                <td>{{ $val }}</td>
-                @endif
+        @if(isset($accomodation_m))
+            @foreach($accomodation_m as $accomodation)
+                @foreach($accomodation as $key => $val)
+                    @if($key == "room")
+                    <td>{{ $val }}</td>
+                    @endif
+                @endforeach
             @endforeach
-        @endforeach
+        @else
+            <td>　</td><td>　</td><td>　</td><td>　</td>
+            <td>　</td><td>　</td><td>　</td><td>　</td>
+            <td>　</td>
+        @endif
     </tr>
     <tr>
         <td>提供床位數</td>
-        @foreach($accomodation_m as $accomodation)
-            @foreach($accomodation as $key => $val)
-                @if($key == "beds")
-                <td>{{ $val }}</td>
-                @endif
+        @if(isset($accomodation_m))
+            @foreach($accomodation_m as $accomodation)
+                @foreach($accomodation as $key => $val)
+                    @if($key == "beds")
+                    <td>{{ $val }}</td>
+                    @endif
+                @endforeach
             @endforeach
-        @endforeach
+        @else
+            <td>　</td><td>　</td><td>　</td><td>　</td>
+            <td>　</td><td>　</td><td>　</td><td>　</td>
+            <td>　</td>
+        @endif
+
     </tr>
     <tr>
         <td>實際報到床位數(含預留)</td>
-        @foreach($accomodation_m as $accomodation)
+        @if(isset($accomodation_m))
+            @foreach($accomodation_m as $accomodation)
+                <td>　</td>
+            @endforeach
+        @else
+            <td>　</td><td>　</td><td>　</td><td>　</td>
+            <td>　</td><td>　</td><td>　</td><td>　</td>
             <td>　</td>
-        @endforeach
+        @endif
     </tr>
     <tr>
         <td>空床數</td>
-        @foreach($accomodation_m as $accomodation)
+        @if(isset($accomodation_m))
+            @foreach($accomodation_m as $accomodation)
+                <td>　</td>
+            @endforeach
+        @else
+            <td>　</td><td>　</td><td>　</td><td>　</td>
+            <td>　</td><td>　</td><td>　</td><td>　</td>
             <td>　</td>
-        @endforeach
+        @endif
     </tr>
 </table>
 {{-- 在正式環境用 h 系列標籤，中文字型會壞掉 --}}
@@ -128,11 +161,11 @@
     @for($l = 0; $l < $emptylines; $l++)
     <tr>
         @foreach($columns as $key => $val)
-                @if($key == "admitted_no")
-                <td>{{ $applicant->group }}</td>
-                @else
-                <td>　</td>
-                @endif
+            @if($key == "admitted_no")
+            <td>{{ $applicant->group }}</td>
+            @else
+            <td>　</td>
+            @endif
         @endforeach
     </tr>
     @endfor
@@ -153,45 +186,78 @@
 <table class="table" width="{{ $form_width }}">
     <tr>
         <td>棟別_戶別</td>
-        @foreach($accomodation_f as $accomodation)
-            @foreach($accomodation as $key => $val)
-                @if($key == "apartment")
-                <td>{{ $val }}</td>
-                @endif
+        @if(isset($accomodation_f))
+            @foreach($accomodation_f as $accomodation)
+                @foreach($accomodation as $key => $val)
+                    @if($key == "apartment")
+                    <td>{{ $val }}</td>
+                    @endif
+                @endforeach
             @endforeach
-        @endforeach
+        @else
+            <td width=40px></td><td width=40px></td>
+            <td width=40px></td><td width=40px></td>
+            <td width=40px></td><td width=40px></td>
+            <td width=40px></td><td width=40px></td>
+            <td width=40px>總數</td>
+        @endif
     </tr>
     <tr>
         <td>房號</td>
-        @foreach($accomodation_f as $accomodation)
-            @foreach($accomodation as $key => $val)
-                @if($key == "room")
-                <td>{{ $val }}</td>
-                @endif
+        @if(isset($accomodation_f))
+            @foreach($accomodation_f as $accomodation)
+                @foreach($accomodation as $key => $val)
+                    @if($key == "room")
+                    <td>{{ $val }}</td>
+                    @endif
+                @endforeach
             @endforeach
-        @endforeach
+        @else
+            <td>　</td><td>　</td><td>　</td><td>　</td>
+            <td>　</td><td>　</td><td>　</td><td>　</td>
+            <td>　</td>
+        @endif
     </tr>
     <tr>
         <td>提供床位數</td>
-        @foreach($accomodation_f as $accomodation)
-            @foreach($accomodation as $key => $val)
-                @if($key == "beds")
-                <td>{{ $val }}</td>
-                @endif
+        @if(isset($accomodation_f))
+            @foreach($accomodation_f as $accomodation)
+                @foreach($accomodation as $key => $val)
+                    @if($key == "beds")
+                    <td>{{ $val }}</td>
+                    @endif
+                @endforeach
             @endforeach
-        @endforeach
+        @else
+            <td>　</td><td>　</td><td>　</td><td>　</td>
+            <td>　</td><td>　</td><td>　</td><td>　</td>
+            <td>　</td>
+        @endif
+
     </tr>
     <tr>
         <td>實際報到床位數(含預留)</td>
-        @foreach($accomodation_f as $accomodation)
+        @if(isset($accomodation_f))
+            @foreach($accomodation_f as $accomodation)
+                <td>　</td>
+            @endforeach
+        @else
+            <td>　</td><td>　</td><td>　</td><td>　</td>
+            <td>　</td><td>　</td><td>　</td><td>　</td>
             <td>　</td>
-        @endforeach
+        @endif
     </tr>
     <tr>
         <td>空床數</td>
-        @foreach($accomodation_f as $accomodation)
+        @if(isset($accomodation_f))
+            @foreach($accomodation_f as $accomodation)
+                <td>　</td>
+            @endforeach
+        @else
+            <td>　</td><td>　</td><td>　</td><td>　</td>
+            <td>　</td><td>　</td><td>　</td><td>　</td>
             <td>　</td>
-        @endforeach
+        @endif
     </tr>
 </table>
 {{-- 在正式環境用 h 系列標籤，中文字型會壞掉 --}}
@@ -230,11 +296,11 @@
     @for($l = 0; $l < $emptylines; $l++)
     <tr>
         @foreach($columns as $key => $val)
-                @if($key == "admitted_no")
-                <td>{{ $applicant->group }}</td>
-                @else
-                <td>　</td>
-                @endif
+            @if($key == "admitted_no")
+            <td>{{ $applicant->group }}</td>
+            @else
+            <td>　</td>
+            @endif
         @endforeach
     </tr>
     @endfor
