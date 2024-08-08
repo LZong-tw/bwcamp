@@ -77,6 +77,7 @@ class GSheetService
             $accomodations = null;
             return $accomodations;
         }
+        
         $sheet_id = $ds->spreadsheet_id;
         //$sheet_name = $ds->sheet_name;
         $cells = $this->Sheet($sheet_id, $sheet_name)->get();
