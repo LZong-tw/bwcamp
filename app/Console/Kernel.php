@@ -30,15 +30,16 @@ class Kernel extends ConsoleKernel
         $schedule->command('check:Accounting ceocamp')->dailyAt("16:30");
         $schedule->command('media-library:delete-old-temporary-uploads')->daily();
 
-        $schedule->command('gen:BankSecondBarcode 79')->dailyAt("0:28"); //ceocamp
-        $schedule->command('import:Status 79')->dailyAt("0:29"); //ceocamp
-        $schedule->command('export:Applicant 79')->dailyAt("0:30"); //ceocamp
-        $schedule->command('export:Applicant 80')->dailyAt("1:00"); //ceovcamp
-        $schedule->command('export:Applicant 77')->dailyAt("1:30"); //ecamp
-        $schedule->command('export:Applicant 78')->dailyAt("2:30"); //evcamp
+        //$schedule->command('gen:BankSecondBarcode 79')->dailyAt("0:28"); //ceocamp
+        //$schedule->command('import:Status 79')->dailyAt("0:29"); //ceocamp
+        //$schedule->command('export:Applicant 79')->dailyAt("0:30"); //ceocamp
+        //$schedule->command('export:Applicant 80')->dailyAt("1:00"); //ceovcamp
+        //$schedule->command('export:Applicant 77')->dailyAt("1:30"); //ecamp
+        //$schedule->command('export:Applicant 78')->dailyAt("2:30"); //evcamp
 
         //$schedule->command('export:CheckIn 77')->everyThreeMinutes(); //ecamp
         //$schedule->command('export:CheckIn 79')->everyMinute(); //ceocamp
+        //$schedule->command('export:CheckIn 81')->everyMinute(); //ycamp
     }
 
     /**
