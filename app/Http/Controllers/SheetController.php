@@ -401,7 +401,7 @@ class SheetController extends Controller
         if ($sheets[$num_rows-1][$colidx3] && preg_match($regex, $sheets[$num_rows-1][$colidx3])) {
             //columns: applicant_id, updated_at, status, id
             $last_updated_time = \Carbon\Carbon::parse($sheets[$num_rows-1][$colidx3]);
-            $last_id = $sheets[$num_rows-1][$colidx3];
+            $last_id = $sheets[$num_rows-1][$colidx1];
         }
         else {
             $last_updated_time = today()->format('Y-m-d 00:00:00');
