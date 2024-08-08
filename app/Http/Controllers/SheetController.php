@@ -142,8 +142,8 @@ class SheetController extends Controller
 
     public function importGSApplicants(Request $request)
     {
-        //camp_id = 77 & ds_id = 384
-        //php artisan import:Applicant 77 384 --is_org=1
+        //camp_id = 78 & ds_id = 384
+        //php artisan import:Applicant 78 384 --is_org=1
         $camp = Camp::find($request->camp_id);
         $table = $camp->table;
 
@@ -174,6 +174,13 @@ class SheetController extends Controller
                 //$applicant->region = $title_data['region'];
                 $applicant->update($title_data);
                 $applicant->save();
+                $model = '\\App\\Models\\' . ucfirst($table);
+                //extended data
+                $xcamp = $model::select($table.'.*')
+                    ->where('applicant_id', $applicant->id)
+                    ->first();
+                $xcamp->update($title_data);
+                $xcamp->save();
                 $update_count++;
             } else {            //create new
                 $applicant = \DB::transaction(function () use ($title_data,$table) {
