@@ -339,71 +339,81 @@ class SheetController extends Controller
         $row = array();
         $row1 = array();
 
-        if ($table == 'ecamp') {
-            config([
-                //ecamp
-                'google.post_spreadsheet_id' => '1ihb-bcwwW8JItIyH692YniCJ03yyuqonXOseObExlvc',
-                'google.post_sheet_id' => 'checkin',
-            ]);
-        } else if ($table == 'ceocamp') {
-            config([
-                //evcamp
-                'google.post_spreadsheet_id' => '1GUvMO-GDdbfq3gVDHUMt_HTcEsj3dNFir5dO5KlnAGQ',
-                'google.post_sheet_id' => 'checkin',
-            ]);
-        } else {
-            echo "not found\n";
+        //ds_id = 387
+        $ds = DynamicStat::select('dynamic_stats.*')
+            ->where('urltable_id',$request->camp_id)
+            ->where('urltable_type','App\Models\Camp')
+            ->where('purpose','exportCheckIn')
+            ->first();
+        
+        if ($ds == null) {
+            echo "sheet not found\n";
             exit(1);
         }
+                
+        $sheet_id = $ds->spreadsheet_id;
+        $sheet_name = $ds->sheet_name;
+        $sheets = $this->gsheetservice->Get($sheet_id, $sheet_name);
 
-        $sheets = $this->gsheetservice->Get(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
         //dd($sheets);
         $titles = $sheets[0];
         $dummy = $sheets[1];
-        //$num_cols = count($titles);
+        $num_cols = count($titles);
         $num_rows = count($sheets);
-        $num_checkin_old = $num_rows - 2;  //title and dummy
 
-        $regex = '/^(\d{4}[-\/]\d{1,2}[-\/]\d{1,2}([T ]\d{1,2}:\d{1,2}(:\d{1,2})?(\.\d+)?(([+-]\d{2}:\d{2})|Z)?)?|\d{1,2}[-\/]\d{1,2}[-\/]\d{4}([T ]\d{1,2}:\d{1,2}(:\d{1,2})?(\.\d+)?(([+-]\d{2}:\d{2})|Z)?)?)$/';
-        if ($sheets[1][1] && preg_match($regex, $sheets[1][1])) {
-            //columns: applicant_id, updated_at
-            $first_updated_time = \Carbon\Carbon::parse($sheets[1][1]); //dummy entry
-            $last_updated_time = \Carbon\Carbon::parse($sheets[$num_rows-1][1]);
-        }
-        else {
-            $first_updated_time = today()->format('Y-m-d 00:00:00');
-            $last_updated_time = today()->format('Y-m-d 23:59:59');
-        }
+        $colidx1 = -1;
+        $colidx2 = -1;
+        $colidx3 = -1;
+        $colidx4 = -1;
 
-        if ($request->check_cancelled != 0) {
-            $checkin_old = \DB::table('check_in')
-            ->where('updated_at', '>', $first_updated_time)
-            ->where('updated_at', '<=', $last_updated_time)
-            ->whereIn('applicant_id', $ids)
-            ->orderBy('updated_at','asc')->get();
-            echo "num_checkin_old: " . count($checkin_old) . "\n";
-            if (count($checkin_old) != $num_checkin_old) {
-                $this->gsheetservice->Clear(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
-                $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $titles);
-                $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $dummy);
-                $i = 0;
-                foreach($checkin_old as $checkin) {
-                    if ($i==60) break;
-                    $row[0] = $checkin->applicant_id;
-                    $row[1] = $checkin->updated_at;
-                    $row[2] = 1;
-                    $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $row);
-                    $i = $i+1;
-                }
+        //find title
+        for ($i=0; $i<$num_cols; $i++) {
+            if ($titles[$i] == "id") {
+                $colidx1 = $i;
+            } else if ($titles[$i] == "applicant_id") {
+                $colidx2 = $i;
+            } else if ($titles[$i] == "updated_at") {
+                $colidx3 = $i;
+            } else if ($titles[$i] == "status") {
+                $colidx4 = $i;
             }
         }
 
+        if ($colidx1 == -1) 
+        {   echo "missing column id\n"; exit(1);}
+        else if ($colidx2 == -1) 
+        {   echo "missing column applicant_id\n"; exit(1);}
+        else if ($colidx3 == -1) 
+        {   echo "missing column updated_at\n"; exit(1);}
+        else if ($colidx4 == -1) 
+        {   echo "missing column status\n"; exit(1);}
+
+        //row=0: titles
+        //row=1: a dummy to set the first_updated_time first_id (use 0)
+        $regex = '/^(\d{4}[-\/]\d{1,2}[-\/]\d{1,2}([T ]\d{1,2}:\d{1,2}(:\d{1,2})?(\.\d+)?(([+-]\d{2}:\d{2})|Z)?)?|\d{1,2}[-\/]\d{1,2}[-\/]\d{4}([T ]\d{1,2}:\d{1,2}(:\d{1,2})?(\.\d+)?(([+-]\d{2}:\d{2})|Z)?)?)$/';
+        if ($sheets[1][$colidx3] && preg_match($regex, $sheets[1][$colidx3])) {
+            $init_updated_time = \Carbon\Carbon::parse($sheets[$num_rows-1][$colidx3]);
+        }
+        else {
+            $init_updated_time = today()->format('Y-m-d 00:00:00');
+        }
+
+        if ($sheets[$num_rows-1][$colidx3] && preg_match($regex, $sheets[$num_rows-1][$colidx3])) {
+            //columns: applicant_id, updated_at, status, id
+            $last_updated_time = \Carbon\Carbon::parse($sheets[$num_rows-1][$colidx3]);
+            $last_id = $sheets[$num_rows-1][$colidx3];
+        }
+        else {
+            $last_updated_time = today()->format('Y-m-d 00:00:00');
+            $last_id = 0;   //dummy
+        }
+
         if ($request->renew == 1) {
-            $this->gsheetservice->Clear(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
-            $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $titles);
-            $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $dummy);
+            $this->gsheetservice->Clear($sheet_id, $sheet_name);
+            $this->gsheetservice->Append($sheet_id, $sheet_name, $titles);
+            $this->gsheetservice->Append($sheet_id, $sheet_name, $dummy);
             $checkin_renew = \DB::table('check_in')
-                ->where('updated_at', '>', today()->format('Y-m-d 00:00:00'))
+                ->where('updated_at', '>', $init_updated_time)
                 ->whereIn('applicant_id', $ids)
                 ->orderBy('updated_at','asc')->get();
             echo "num_checkin_renew: " . count($checkin_renew) . "\n";
@@ -419,10 +429,11 @@ class SheetController extends Controller
                             if (!in_array($i, $processed_indices)) {
                                 $checkin = $chunk[$i];
                                 echo "writing applicant_id: " . $checkin->applicant_id . "\n";
-                                $row[0] = $checkin->applicant_id;
-                                $row[1] = $checkin->updated_at;
-                                $row[2] = 1;
-                                $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $row);
+                                $row[$colidx1] = $checkin->id;
+                                $row[$colidx2] = $checkin->applicant_id;
+                                $row[$colidx3] = $checkin->updated_at;
+                                $row[$colidx4] = 1;
+                                $this->gsheetservice->Append($sheet_id, $sheet_name, $row);
                                 $processed_indices[] = $i;
                             }
                         }
@@ -449,18 +460,20 @@ class SheetController extends Controller
         }
         else {
             $checkin_new = \DB::table('check_in')
-                ->where('updated_at', '>', $last_updated_time)
+                ->where('id', '>', $last_id)
+                ->where('updated_at', '>=', $last_updated_time) //同時間可以有很多筆
                 ->whereIn('applicant_id', $ids)
-                ->orderBy('updated_at','asc')->get();
+                ->orderBy('id','asc')->get();
             echo "num_checkin_new: " . count($checkin_new) . "\n";
             //dd($checkin_new);
             $i=0;
             foreach($checkin_new as $checkin) {
                 if ($i==60) break;
-                $row[0] = $checkin->applicant_id;
-                $row[1] = $checkin->updated_at;
-                $row[2] = 1;
-                $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $row);
+                $row[$colidx1] = $checkin->id;
+                $row[$colidx2] = $checkin->applicant_id;
+                $row[$colidx3] = $checkin->updated_at;
+                $row[$colidx4] = 1;
+                $this->gsheetservice->Append($sheet_id, $sheet_name, $row);
                 $i = $i+1;
             }
         }
