@@ -404,9 +404,10 @@ class User extends Authenticatable
         }
         elseif ($target && ((str_contains($class, "Applicant") || str_contains($class, "Volunteer")) && $action == "read")) {
             // $roles = $this->roles()->where('group_id', '<>', null)->where("camp_id", $camp->id);
-            // if ($probing) {
-            //     dd("second if", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
-            // }
+            if ($probing) {
+                dd("second if", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
+            }
+            return false;
             // return $roles->firstWhere(
             //     'group_id',
             //     $target->user?->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id
@@ -421,9 +422,10 @@ class User extends Authenticatable
         }
         elseif ($target && (str_contains($class, "User") && ($context == "vcamp" || $context == "vcampExport") && $action == "read")) {
             // $roles = $this->roles()->where('group_id', '<>', null)->where("camp_id", $camp->id);
-            // if ($probing) {
-            //     dd("third if", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
-            // }
+            if ($probing) {
+                dd("third if", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
+            }
+            return false;
             // return $roles->firstWhere(
             //         'group_id',
             //         $target->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id
