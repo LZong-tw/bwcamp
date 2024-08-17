@@ -664,6 +664,7 @@ return [
             "name" => "姓名",
             "school" => "學校",
             "department" => "系所",
+            "is_attend" => "參加意願",
             "is_checkin" => "是否報到",
         ],
     ],
