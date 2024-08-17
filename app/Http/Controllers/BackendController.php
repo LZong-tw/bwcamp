@@ -985,7 +985,7 @@ class BackendController extends Controller
                         ->where('batch_id', $batch_id)
                         ->where(function ($query) use ($request) {
                             if($this->has_attend_data && !$request->showAttend) {
-                                $query->where('is_attend', 1);
+                                $query->where('is_attend', '<>', 0);
                             }
                         })
                         ->get();
