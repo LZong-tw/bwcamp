@@ -42,6 +42,7 @@ import utcampUnitAndBatchSection from "./components/utcamp/UtcampUnitAndBatchSec
 import utcampTitle from "./components/utcamp/UtcampTitle.vue";
 import utcampIsBlisswisdom from "./components/utcamp/UtcampIsBlisswisdom.vue";
 import ioiSearch from "./components/backend/IoiSearch.vue";
+import applicantList from './components/backend/ApplicantList.vue';
 
 window.onload = () => {
     let currentPage = window.location.href.split("/").pop();
@@ -106,13 +107,23 @@ window.onload = () => {
         utcIsBlisswisdom.mount("#utcamp-is-blisswisdom");
     }
 
-    if ($("#ioi-search").length) {
-        const ioiSearchComponent = Vue.createApp({
+    // if ($("#ioi-search").length) {
+    //     const ioiSearchComponent = Vue.createApp({
+    //         components: {
+    //             ioiSearch,
+    //         },
+    //     });
+    //     ioiSearchComponent.mount("#ioi-search");
+    // }
+
+    if ($("#applicant-list").length) {
+        console.log(111);
+        const applicantListComponent = Vue.createApp({
             components: {
-                ioiSearch,
+                applicantList,
             },
         });
-        ioiSearchComponent.mount("#ioi-search");
+        applicantListComponent.mount("#applicant-list");
     }
 };
 

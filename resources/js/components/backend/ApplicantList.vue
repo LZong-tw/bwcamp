@@ -36,33 +36,33 @@
       </table>
     </div>
   </template>
-  
+
   <script>
-  import { ref, computed } from 'vue';
-  
+  import { ref, computed, watch } from 'vue';
+
   export default {
     props: {
-      initialApplicants: Array,
-      columns: Object,
-      isSetting: Boolean,
-      isSettingCarer: Boolean,
-      isShowVolunteers: Boolean,
-      queryStr: String,
-      campFullData: Object,
+        initialApplicants: { type: Array, required: true },
+        columns: { type: Object, required: true },
+        isSetting: { type: Boolean, default: false },
+        isSettingCarer: { type: Boolean, default: false },
+        isShowVolunteers: { type: Boolean, default: false },
+        queryStr: { type: String, default: '' },
+        campFullData: { type: Object, required: true },
     },
     setup(props) {
       const applicants = ref(props.initialApplicants);
       const selectedApplicantIds = ref([]);
-  
+
       const cancelledCount = computed(() => {
-        return applicants.value.filter(a => a.deleted_at).length;
+        // return applicants.value.filter(a => a.deleted_at).length;
       });
-  
+
       const filteredApplicants = computed(() => {
         // Implement filtering logic here if needed
         return applicants.value;
       });
-  
+
       function applicantTriggered(event, id) {
         if (event.target.checked) {
           selectedApplicantIds.value.push(id);
@@ -70,23 +70,28 @@
           selectedApplicantIds.value = selectedApplicantIds.value.filter(val => val !== id);
         }
       }
-  
+
       function getAttendeeInfoUrl(applicant) {
         // Implement the logic to generate the URL
         return `/attendee-info/${applicant.id}`;
       }
-  
+
+      watch(() => props.initialApplicants, (newValue) => {
+        applicants.value = newValue;
+      }, { immediate: true });
+
       return {
         applicants,
         cancelledCount,
         filteredApplicants,
         applicantTriggered,
         getAttendeeInfoUrl,
+        selectedApplicantIds,
       };
     }
   }
   </script>
-  
+
   <style scoped>
   .wrapper1 {
     width: 400px;
@@ -99,4 +104,3 @@
     height: 20px;
   }
   </style>
-  
