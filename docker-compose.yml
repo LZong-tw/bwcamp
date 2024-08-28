@@ -20,6 +20,7 @@ services:
 
     networks:
       - app-network
+    command: sh -c "composer install --no-interaction --no-plugins --no-scripts"
 
   #Nginx Service
   webserver:
