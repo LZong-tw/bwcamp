@@ -8,14 +8,14 @@
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }}</h4>
     </div>
-<!--
+
     @if($applicant->is_admitted)
         <div class="card">
             <div class="card-header">
                 <h2>研習證明下載</h2>
             </div>
             <div class="card-body">
-                <a href="https://bwcamp.bwfoce.org/downloads/ycamp2023/{{ $applicant->group }}{{ $applicant->number }}{{ $applicant->applicant_id }}.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-success">下載</a>
+                <a href="https://bwcamp.bwfoce.org/downloads/ycamp2024/{{ $applicant->group }}{{ $applicant->number }}{{ $applicant->applicant_id }}.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-success">下載</a>
             </div>
             <div class="card-body">
                 如下載顯示錯誤，請聯絡您的帶組老師，謝謝！
@@ -23,7 +23,8 @@
         </div>
         <br>
     @endif
--->
+
+{{--
     <div class="card">
         <div class="card-header">
             錄取查詢
@@ -64,7 +65,7 @@
                         </div>
                     @endif
                 </form><br>
-{{--
+
                 @if(!isset($applicant->is_attend) || $applicant->is_attend)
                     <h5>選擇交通方式</h5>
                     <!--
