@@ -119,7 +119,7 @@
                         </form>
                     @endif
                 @endif
---}}
+
 
                 <h5>聯絡我們</h5>
                 <div class="ml-0 mb-2">若有任何問題，歡迎</div>
@@ -219,6 +219,7 @@
             <a href="{{ $camp_data->site_url }}" class="btn btn-primary">回營隊首頁</a>
         </div>
     </div>
+--}}
     <script>
         @if(!isset($applicant->is_attend) || $applicant->is_attend)
             let cancel = document.getElementById('cancel');
