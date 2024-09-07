@@ -23,3 +23,4 @@ public/phpMyAdmin/*
 storage/fonts/installed-fonts.json
 storage/fonts/msjh_*
 .composer/
+auth.json
