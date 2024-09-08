@@ -12,7 +12,7 @@ class Actcamp extends Model
     public $resourceNameInMandarin = '小活動特殊欄位';
 
     protected $fillable = [
-        'applicant_id','category','lrclass_year','lrclass_number', 
+        'applicant_id','category','lrclass_year','lrclass_number',
         'transportation','participants','children_ages'
     ];
 
