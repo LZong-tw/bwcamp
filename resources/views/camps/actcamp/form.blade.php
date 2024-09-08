@@ -73,40 +73,92 @@
         </div>
     </div>
 
+    <div class="row form-group required">
+        <label for='inputGender' class='col-md-2 control-label text-md-right'>性別</label>
+        <div class='col-md-10'>
+            <div class="form-check form-check-inline">
+                <label class="form-check-label" for="M">
+                    <input class="form-check-input" type='radio' name="gender" value="M" required @if(isset($isModify) && $isModify) disabled @endif>
+                    男
+                    <div class="invalid-feedback">
+                        未選擇性別
+                    </div>
+                </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <label class="form-check-label" for="F">
+                    <input class="form-check-input" type='radio' name="gender" value="F" required @if(isset($isModify) && $isModify) disabled @endif>
+                    女
+                    <div class="invalid-feedback">
+                        &nbsp;
+                    </div>
+                </label>
+            </div>
+        </div>
+    </div>
+
     <div class='row form-group required'>
         <label for='inputCategory' class='col-md-2 control-label text-md-right'>身份別</label>
         <div class='col-md-10'>
             <label class=radio-inline>
-                <input selected type=radio required name='category' value=企業營學員 onClick='contact_field(0);'> 企業營學員
-                <div class="invalid-feedback">
-                    &nbsp;
-                </div>
-            </label> 
-            <label class=radio-inline>
-                <input type=radio required name='category' value=企業營學員親友 onClick='contact_field(1);'> 企業營學員親友
-                <div class="invalid-feedback">
-                    &nbsp;
-                </div>
-            </label>
-            <label class=radio-inline>
-                <input type=radio required name='category' value=義工 onClick='contact_field(0);'> 義工
+                <input selected type='radio' required name='category' value=2024企業營學員 onClick='contact_field(0);'> 2024企業營學員
                 <div class="invalid-feedback">
                     請選擇身份別
                 </div>
             </label> 
             <label class=radio-inline>
-                <input type=radio required name='category' value=義工親友 onClick='contact_field(1);'> 義工親友
-                <div class="invalid-feedback">
-                    &nbsp;
-                </div>
-            </label> 
-
-            <label class=radio-inline>
-                <input type=radio required name='category' value=其它 onClick='contact_field(0);'> 其它
+                <input type='radio' required name='category' value=一輪企業班幹部及學員 onClick='contact_field(0);'> 一輪企業班幹部及學員
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
             </label>
+            <label class=radio-inline>
+                <input type='radio' required name='category' value=企業聯誼會學員 onClick='contact_field(0);'> 企業聯誼會學員
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label> 
+            <label class=radio-inline>
+                <input type='radio' required name='category' value=其它 onClick='contact_field(0);'> 其它
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label>
+        </div>
+    </div>
+
+    <div class="text-info">一輪企業班幹部及學員請填廣論班年份及班號(例：23秋007)</div>
+    <div class='row form-group'>
+        <label for='inputLRclassYear' class='col-md-2 control-label text-md-right'>廣論班年份</label>
+        <div class='col-md-10'>
+            <label class=radio-inline>
+                <input type='radio' name='lrclass_year' value=21 > 21
+                <div class="invalid-feedback">
+                    請選擇廣論班年份
+                </div>
+            </label> 
+            <label class=radio-inline>
+                <input type='radio' name='lrclass_year' value=22 > 22
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label>
+            <label class=radio-inline>
+                <input type='radio' name='lrclass_year' value=23 > 23
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label>
+        </div>
+    </div>
+
+    <div class='row form-group'>
+        <label for='inputLRClassNumber' class='col-md-2 control-label text-md-right'>廣論班號</label>
+        <div class='col-md-10'>
+            <input type='text' name='lrclass_number' value='' class='form-control' id='inputLRClassNumber'>
+            <div class="invalid-feedback">
+                未填寫廣論班號
+            </div>
         </div>
     </div>
 
@@ -272,21 +324,22 @@
     <div class='row form-group required'>
         <label for='inputTransportation' class='col-md-2 control-label text-md-right'>交通方式</label>
         <div class='col-md-10'>
+            <div class="text-info">共乘大巴$300/人(搭車地點：另行公布)</div>
             <label class=radio-inline>
-                <input type=radio required name='transportation' value=自往 > 自往
+                <input type='radio' required name='transportation' value=自往 > 自往
                 <div class="invalid-feedback">
                     請選擇交通方式
                 </div>
             </label> 
             <label class=radio-inline>
-                <input type=radio required name='transportation' value=搭遊覽車 > 搭遊覽車
+                <input type='radio' required name='transportation' value=共乘大巴 > 共乘大巴
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
             </label>
             {{--
             <label class=radio-inline>
-                <input type=radio required name='transportation' value=其它 > 其它
+                <input type='radio' required name='transportation' value=其它 > 其它
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
@@ -294,29 +347,54 @@
             --}}
         </div>
     </div>
+
+    <div class='row form-group required'>
+    <label for='inputParticipants' class='col-md-2 control-label text-md-right'>參加人數(含本人)</label>
+        <div class='col-md-10'>
+            <input type=number required name='participants' value='' class='form-control' min=1 max=10 id='inputParticipants'>
+            <div class="invalid-feedback">
+                請填寫參加人數
+            </div>
+        </div>
+    </div>
+
+    <div class='row form-group'>
+        <label for='inputChildrenAges' class='col-md-2 control-label text-md-right'>若有兒童同行，請註明年紀(幾歲幾人)</label>
+        <div class='col-md-10'>
+            <textarea class=form-control rows=2 name='children_ages' id=inputChildrenAges></textarea>
+            <div class="invalid-feedback">
+                請填寫兒童年紀
+            </div>
+        </div>
+    </div>
+
+
+{{--
     <div class='row form-group required'>
         <label for='inputTransportation' class='col-md-2 control-label text-md-right'>活動費用</label>
         <div class='col-md-10'>
             <label class=radio-inline>
-                <input type=radio required name='fee' value=600 > 大人600
+                <input type='radio' required name='fee' value=600 > 大人600
                 <div class="invalid-feedback">
-                    請選擇交通方式
+                    請選擇活動費用
                 </div>
             </label> 
             <label class=radio-inline>
-                <input type=radio required name='fee' value=300 > 國小300
+                <input type='radio' required name='fee' value=300 > 國小300
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
             </label>
             <label class=radio-inline>
-                <input type=radio required name='fee' value=0 > 幼稚園以下免費
+                <input type='radio' required name='fee' value=0 > 幼稚園以下免費
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
             </label>
         </div>
     </div>
+--}}
+
 {{--
     <hr>
     <h5 class='form-control-static'>保險內容及投保資料</h5>
@@ -331,7 +409,7 @@
         <div class='col-md-10'>
             <div class="form-check form-check-inline">
                 <label class="form-check-label" for="M">
-                    <input class="form-check-input" type="radio" name="gender" value="M">
+                    <input class="form-check-input" type='radio' name="gender" value="M">
                     男
                     <div class="invalid-feedback">
                         未選擇性別
@@ -340,7 +418,7 @@
             </div>
             <div class="form-check form-check-inline">
                 <label class="form-check-label" for="F">
-                    <input class="form-check-input" type="radio" name="gender" value="F">
+                    <input class="form-check-input" type='radio' name="gender" value="F">
                     女
                     <div class="invalid-feedback">
                         &nbsp;
@@ -450,7 +528,7 @@
                 </div>
             </label>
             <label class=radio-inline>
-                <input type=radio required name="portrait_agree" value='0' > 我不同意
+                <input type='radio' required name="portrait_agree" value='0' > 我不同意
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
@@ -471,7 +549,7 @@
                 </div>
             </label>
             <label class=radio-inline>
-                <input type=radio required name="profile_agree" value='0' > 我不同意
+                <input type='radio' required name="profile_agree" value='0' > 我不同意
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
@@ -486,13 +564,13 @@
         <label for='inputIsAttend' class='col-md-2 control-label text-md-right'>取消或恢復參加</label>
         <div class='col-md-10'>
             <label class=radio-inline>
-                <input type=radio required name='is_attend' value=1 > 參加/恢復參加
+                <input type='radio' required name='is_attend' value=1 > 參加/恢復參加
                 <div class="invalid-feedback">
                     請選擇參加與否
                 </div>
             </label> 
             <label class=radio-inline>
-                <input type=radio required name='is_attend' value=0 > 取消參加
+                <input type='radio' required name='is_attend' value=0 > 取消參加
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
