@@ -582,7 +582,7 @@
     </div>
     @endif
 
-    <input type='hidden' name="gender" value='N'>
+    {{--<input type='hidden' name="gender" value='N'>--}}
 
     <div class="row form-group text-danger tips d-none">
         <div class='col-md-2'></div>
