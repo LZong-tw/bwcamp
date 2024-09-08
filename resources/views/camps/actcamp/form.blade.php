@@ -14,6 +14,7 @@
 
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }} 線上報名表</h4>
+        {{--
         參訪日期：2023/9/17(日)<br>
         遊覽車發車時間：早上7:50(8:00準時發車)<br>
         遊覽車搭車地點：福智台北學苑對面彰化銀行(南京東路四段126號)<br>
@@ -23,6 +24,7 @@
         若代親友報名，請分開填寫報名表。<br>
         若代親友報名，聯絡人必須是一同參加之企業營學員或義工。<br>
         若您在填寫表格時遇到困難，請洽詢您企業營的關懷員<br>
+        --}}
     </div>
 
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
@@ -127,10 +129,10 @@
         </div>
     </div>
 
-    <div class="text-info">一輪企業班幹部及學員請填廣論班年份及班號(例：23秋007)</div>
     <div class='row form-group'>
         <label for='inputLRclassYear' class='col-md-2 control-label text-md-right'>廣論班年份</label>
         <div class='col-md-10'>
+            <div class="text-info">一輪企業班幹部及學員請填廣論班年份及班號(例：23秋007)</div>
             <label class=radio-inline>
                 <input type='radio' name='lrclass_year' value=21 > 21
                 <div class="invalid-feedback">
