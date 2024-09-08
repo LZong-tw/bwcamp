@@ -361,8 +361,9 @@
     </div>
 
     <div class='row form-group'>
-        <label for='inputChildrenAges' class='col-md-2 control-label text-md-right'>若有兒童同行，請註明年紀(幾歲幾人)</label>
+        <label for='inputChildrenAges' class='col-md-2 control-label text-md-right'>備註</label>
         <div class='col-md-10'>
+            <div class="text-info">若有兒童同行，請註明年紀(幾歲幾人)</div>
             <textarea class=form-control rows=2 name='children_ages' id=inputChildrenAges></textarea>
             <div class="invalid-feedback">
                 請填寫兒童年紀
