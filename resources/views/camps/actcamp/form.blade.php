@@ -151,6 +151,12 @@
                     &nbsp;
                 </div>
             </label>
+            <label class=radio-inline>
+                <input type='radio' name='lrclass_year' value=24 > 24
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label>
         </div>
     </div>
 
