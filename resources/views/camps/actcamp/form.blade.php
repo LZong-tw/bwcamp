@@ -132,7 +132,7 @@
     <div class='row form-group'>
         <label for='inputLRclassYear' class='col-md-2 control-label text-md-right'>廣論班年份</label>
         <div class='col-md-10'>
-            <div class="text-info">一輪企業班幹部及學員請填廣論班年份及班號(例：23秋007)</div>
+            <div class="text-info">一輪企業班幹部及學員請選廣論班年份(例：23007：年份＝23)</div>
             <label class=radio-inline>
                 <input type='radio' name='lrclass_year' value=21 > 21
                 <div class="invalid-feedback">
@@ -163,6 +163,7 @@
     <div class='row form-group'>
         <label for='inputLRClassNumber' class='col-md-2 control-label text-md-right'>廣論班號</label>
         <div class='col-md-10'>
+            <div class="text-info">一輪企業班幹部及學員請填廣論班三碼班號(例：23007：班號＝007)</div>
             <input type='text' name='lrclass_number' value='' class='form-control' id='inputLRClassNumber'>
             <div class="invalid-feedback">
                 未填寫廣論班號
