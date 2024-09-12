@@ -19,21 +19,35 @@ RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 RUN docker-php-ext-install zip
 RUN apt-get update && apt-get install -y libftp-dev && docker-php-ext-install ftp
 RUN docker-php-ext-install opcache
+RUN apt-get update && apt-get install -y nodejs npm
+
 COPY php/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 COPY php/custom-php-fpm.conf /usr/local/etc/php-fpm.d/zz-custom.conf
 
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-
 # Set working directory
 WORKDIR /var/www
 
 # Copy existing application directory contents
-COPY . /var/www
+COPY . /var/www/
+
+COPY vite.config.js /var/www/vite.config.js
+
+COPY package.json /var/www/package.json
+
+COPY package-lock.json /var/www/package-lock.json
+
+COPY composer.json /var/www/composer.json
 
 # Copy existing application directory permissions
 COPY --chown=www-data:www-data . /var/www
+
+RUN npm install
+RUN npm install -g vite
+RUN npm install vite
+RUN composer install --no-interaction --prefer-dist
 
 # Change current user to www
 USER www-data
