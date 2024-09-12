@@ -288,6 +288,7 @@
     window.applicant_ids = [];
     window.csrf_token = "{{ csrf_token() }}";
     window.columns = @json($columns);
+    let only_applicants = @json($applicants);
     @if($registeredVolunteers ?? false)
         window.theVolunteersData = @json($registeredVolunteers);
         @php
@@ -300,11 +301,13 @@
                 }
             }
             $applicants = collect($users_applicants)->merge($applicants);
+            // 和 Blade 裡的 applicants 用了一樣的變數名，這裡的 applicants 在 Blade 執行完畢後才會被設定
         @endphp
     @endif
     window.theData = @json($applicants);
     window.isShowLearners = {{ $isShowLearners ? 1 : 0 }};
     window.isShowVolunteers = {{ $isShowVolunteers ? 1 : 0 }};
+    let user_application_logs = @json($users_applicants);
     (function() {
         $(".wrapper1").scroll(function(){
             $(".fixed-table-body").scrollLeft($(".wrapper1").scrollLeft());
