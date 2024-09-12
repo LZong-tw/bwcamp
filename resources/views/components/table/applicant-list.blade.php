@@ -11,7 +11,6 @@
     <table class="table table-bordered table-hover"
 {{--        style="overflow-x: auto;"--}}
         id="applicantTable"
-        data-toggle="table"
         data-show-columns="true"
         data-show-columns-search="true"
         data-search="true"
@@ -27,7 +26,7 @@
         data-pagination-pre-text="上一頁"
         data-pagination-next-text="下一頁">
         <caption></caption>
-        <thead>
+        <thead id="applicantTableHead">
             <tr class="bg-success text-white">
                 @if(($isSetting ?? false) || ($isSettingCarer ?? false))
                     <th></th>
@@ -51,7 +50,7 @@
                 @endforeach
             </tr>
         </thead>
-        @forelse ($registeredVolunteers as &$user)
+        {{-- @forelse ($registeredVolunteers as &$user)
             @forelse($user->application_log as &$applicant)
                 @php
                     $applicant = $applicant->load($campFullData->vcamp->table);
@@ -280,7 +279,7 @@
                 @endforeach
             </tr>
         @empty
-        @endforelse
+        @endforelse --}}
     </table>
 </div>
 
@@ -318,6 +317,10 @@
         });
     })();
 
+    $(function() {
+        fillTheList();
+    });
+
     function applicant_triggered(id) {
         if ($("#" + id).is(":checked")) {
             window.applicant_ids.push(id);
@@ -325,6 +328,30 @@
             window.applicant_ids = window.applicant_ids.filter(function(value, index, arr){
                 return value != id;
             });
+        }
+    }
+
+    function fillTheList() {
+        let table = $('#applicantTable');
+        // merge user_application_logs and only_applicants
+        let data = user_application_logs.concat(only_applicants)[0];
+        var result = Object.values(data);
+        console.log(result);
+        result.forEach(function(item) {
+            item.batch = item.batch.name;
+            if (item.groupRelation) {
+                item.group = item.groupRelation.alias;
+            }
+            if (item.groupOrgRelation) {
+                item.job = item.groupOrgRelation.position;
+            }
+            {{-- todo: 年齡、關懷員、關懷記錄 --}}
+        });
+        // try cacth
+        try {
+            table.bootstrapTable({data: result})
+        } catch (e) {
+            console.log(e);
         }
     }
 </script>
