@@ -169,5 +169,5 @@
         overflow-x: scroll; overflow-y:hidden;}
     .wrapper1{height: 20px; }
     .div1 {width:600px; height: 20px; }
-    .fixed-table-body { height: 0; }
+    .fixed-table-body { height: auto !important; }
 </style>
