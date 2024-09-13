@@ -216,7 +216,8 @@ class Applicant extends Model {
         if (!self::$campCache) {
             self::$campCache = $applicant->camp;
         }
-        $str = \Str::limit($this->contactlog?->sortByDesc('id')->first()?->notes, 50,'...') ?? "-";
+        $firstNote = $applicant->contactlog?->sortByDesc('id')->first()?->notes;
+        $str = \Str::limit($firstNote ?? "-", 50,'...') ?? "-";
         $str .= "<div>";
         $str .= '<a href="' . route("showAttendeeInfoGET", self::$campCache->id) . '?snORadmittedSN=' . $applicant->id . '&openExternalBrowser=1#new" target="_blank" class="text-primary">⊕新增關懷記錄</a>';
         if(count($applicant->contactlog)) {
