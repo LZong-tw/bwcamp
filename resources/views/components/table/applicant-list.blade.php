@@ -83,13 +83,13 @@
                     foreach ($v->application_log as $a) {
                         $a->gender = $a->gender_zh_tw;
                         $a->age = $a->age;
-                        match ($applicant->is_attend) {
-                            0 => $applicant->is_attend = "不參加",
-                            1 => $applicant->is_attend = "參加",
-                            2 => $applicant->is_attend = "尚未決定",
-                            3 => $applicant->is_attend = "聯絡不上",
-                            4 => $applicant->is_attend = "無法全程",
-                            default => $applicant->is_attend = "尚未聯絡"
+                        match ($a->is_attend) {
+                            0 => $a->is_attend = "不參加",
+                            1 => $a->is_attend = "參加",
+                            2 => $a->is_attend = "尚未決定",
+                            3 => $a->is_attend = "聯絡不上",
+                            4 => $a->is_attend = "無法全程",
+                            default => $a->is_attend = "尚未聯絡"
                         };
                         $a->contactlogHTML = $a->contactlogHTML($isShowVolunteers ?? false);
                         $users_applicants[] = $a;
