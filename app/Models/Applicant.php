@@ -218,10 +218,10 @@ class Applicant extends Model {
         }
         $str = \Str::limit($this->contactlog?->sortByDesc('id')->first()?->notes, 50,'...') ?? "-";
         $str .= "<div>";
-        $str .= '<a href="' . route("showAttendeeInfoGET", ($isShowVolunteers ?? false) ? self::$campCache->vcamp->id : self::$campCache->id) . '?snORadmittedSN=' . $this->id . '&openExternalBrowser=1#new" target="_blank">⊕新增關懷記錄</a>';
+        $str .= '<a href="' . route("showAttendeeInfoGET", ($isShowVolunteers ?? false) ? $this->camp->vcamp->id : $this->camp->id) . '?snORadmittedSN=' . $this->id . '&openExternalBrowser=1#new" target="_blank">⊕新增關懷記錄</a>';
         if(count($this->contactlog)) {
             $str .= "&nbsp;&nbsp;";
-            $str .= '<a href="' . route("showContactLogs", [self::$campCache->id, $this->id]) . '" target="_blank">🔍看更多</a>';
+            $str .= '<a href="' . route("showContactLogs", [$this->camp->id, $this->id]) . '" target="_blank">🔍看更多</a>';
         }
         $str .= "</div>";
         return $str;
