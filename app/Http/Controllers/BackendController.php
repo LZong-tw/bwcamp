@@ -525,7 +525,7 @@ class BackendController extends Controller
             $query .= "(已取消)";
             $applicants = $applicants->whereNotNull('deleted_at');
         }
-        
+
         //----- 為了顯示需要而新增的欄位 -----
         foreach($applicants as $applicant) {
             $applicant->id = $applicant->sn;
@@ -1862,7 +1862,7 @@ class BackendController extends Controller
             $showNoJob = null;
         }
         $batches = Batch::where("camp_id", $this->campFullData->vcamp->id)->get();
-        $query = Applicant::with('groupRelation', 'groupOrgRelation', 'batch', 'contactlog')
+        $query = Applicant::with('groupRelation', 'groupOrgRelation', 'batch', 'contactlog', 'user')
                         ->select("applicants.*", $this->campFullData->vcamp->table . ".*", $this->campFullData->vcamp->table . ".id as ''", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
                         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
