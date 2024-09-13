@@ -55,6 +55,8 @@ class User extends Authenticatable
 
     private static $forInspect;
 
+    private static $batchesForPermissionInspection;
+
     public function __construct(array $attributes = [])
     {
         $this->bootIfNotBooted();
@@ -183,7 +185,10 @@ class User extends Authenticatable
             $region_id = $resource->region_id;
         } elseif ($resource instanceof \App\Models\User) {
             $theCamp = $camp->vcamp;
-            $theApplicant = $resource->application_log->whereIn('batch_id', $theCamp->batchs()->pluck('id'))->first();
+            if (!self::$batchesForPermissionInspection) {
+                self::$batchesForPermissionInspection = $theCamp->batchs()->get();
+            }
+            $theApplicant = $resource->application_log->whereIn('batch_id', self::$batchesForPermissionInspection->pluck('id'))->first();
             $batch_id = $theApplicant?->batch_id;
             $region_id = $theApplicant?->region_id;
         }
