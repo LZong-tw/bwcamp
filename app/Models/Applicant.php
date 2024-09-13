@@ -212,16 +212,16 @@ class Applicant extends Model {
         return $this->gender == 'M' ? '男' : '女';
     }
 
-    public function contactlogHTML($isShowVolunteers = false) {
+    public function contactlogHTML($isShowVolunteers = false, $applicant, $camp = null) {
         if (!self::$campCache) {
-            self::$campCache = $this->camp;
+            self::$campCache = $applicant->camp;
         }
         $str = \Str::limit($this->contactlog?->sortByDesc('id')->first()?->notes, 50,'...') ?? "-";
         $str .= "<div>";
-        $str .= '<a href="' . route("showAttendeeInfoGET", ($isShowVolunteers ?? false) ? $this->camp->vcamp->id : $this->camp->id) . '?snORadmittedSN=' . $this->id . '&openExternalBrowser=1#new" target="_blank">⊕新增關懷記錄</a>';
-        if(count($this->contactlog)) {
+        $str .= '<a href="' . route("showAttendeeInfoGET", self::$campCache->id) . '?snORadmittedSN=' . $applicant->id . '&openExternalBrowser=1#new" target="_blank" class="text-primary">⊕新增關懷記錄</a>';
+        if(count($applicant->contactlog)) {
             $str .= "&nbsp;&nbsp;";
-            $str .= '<a href="' . route("showContactLogs", [$this->camp->id, $this->id]) . '" target="_blank">🔍看更多</a>';
+            $str .= '<a href="' . route("showContactLogs", [self::$campCache->id, $applicant->id]) . '" target="_blank">🔍看更多</a>';
         }
         $str .= "</div>";
         return $str;
