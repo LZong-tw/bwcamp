@@ -31,7 +31,7 @@ class Applicant extends Model {
 
     protected $guarded = [];
 
-    private static $camp;
+    private static $campCache;
 
     public function user()
     {
@@ -213,15 +213,15 @@ class Applicant extends Model {
     }
 
     public function contactlogHTML($isShowVolunteers = false) {
-        if (!self::$camp) {
-            self::$camp = $this->camp;
+        if (!self::$campCache) {
+            self::$campCache = $this->camp;
         }
         $str = \Str::limit($this->contactlog?->sortByDesc('id')->first()?->notes, 50,'...') ?? "-";
         $str .= "<div>";
-        $str .= '<a href="' . route("showAttendeeInfoGET", ($isShowVolunteers ?? false) ? self::$camp->vcamp?->id : self::$camp->id) . '?snORadmittedSN=' . $this->id . '&openExternalBrowser=1#new" target="_blank">⊕新增關懷記錄</a>';
+        $str .= '<a href="' . route("showAttendeeInfoGET", ($isShowVolunteers ?? false) ? self::$campCache->vcamp->id : self::$campCache->id) . '?snORadmittedSN=' . $this->id . '&openExternalBrowser=1#new" target="_blank">⊕新增關懷記錄</a>';
         if(count($this->contactlog)) {
             $str .= "&nbsp;&nbsp;";
-            $str .= '<a href="' . route("showContactLogs", [self::$camp->id, $this->id]) . '" target="_blank">🔍看更多</a>';
+            $str .= '<a href="' . route("showContactLogs", [self::$campCache->id, $this->id]) . '" target="_blank">🔍看更多</a>';
         }
         $str .= "</div>";
         return $str;
