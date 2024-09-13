@@ -58,7 +58,8 @@
     window.csrf_token = "{{ csrf_token() }}";
     window.columns = @json($columns);
     @php
-        $applicants = $applicants->each(function ($applicant) {
+        $camp = $campFullData;
+        $applicants = $applicants->each(function ($applicant) use ($camp) {
             $applicant->gender = $applicant->gender_zh_tw;
             $applicant->age = $applicant->age;
             match ($applicant->is_attend) {
@@ -69,8 +70,7 @@
                 4 => $applicant->is_attend = "無法全程",
                 default => $applicant->is_attend = "尚未聯絡"
             };
-            $applicant->contactlogHTML = $applicant->contactlogHTML($isShowVolunteers ?? false);
-            //dd($applicant);
+            $applicant->contactlogHTML = $applicant->contactlogHTML($isShowVolunteers ?? false, $applicant, $camp);
         });
     @endphp
     let only_applicants = @json($applicants);
@@ -91,7 +91,7 @@
                             4 => $a->is_attend = "無法全程",
                             default => $a->is_attend = "尚未聯絡"
                         };
-                        $a->contactlogHTML = $a->contactlogHTML($isShowVolunteers ?? false);
+                        $a->contactlogHTML = $a->contactlogHTML($isShowVolunteers ?? false, $a, $camp);
                         $users_applicants[] = $a;
                     }
                 }
@@ -131,7 +131,11 @@
     function fillTheList() {
         let table = $('#applicantTable');
         // merge user_application_logs and only_applicants
-        let data = user_application_logs.concat(only_applicants)[0];
+        @if ($isShowVolunteers)
+            let data = user_application_logs.concat(only_applicants);
+        @else
+            let data = user_application_logs.concat(only_applicants)[0];
+        @endif
         var result = Object.values(data);
         console.log(result);
         result.forEach(function(item) {
@@ -142,14 +146,15 @@
             if (item.groupOrgRelation) {
                 item.job = item.groupOrgRelation.position;
             }
+            item.name_original = item.name;
             if (item.user) {
-                item.name = '<a href="{{ route('showAttendeeInfoGET', ($isShowVolunteers ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN=' + item.id + '&openExternalBrowser=1" target="_blank">' + item.name + '</a>&nbsp;(報名序號：' + item.id + ')<div class="text-success">連結之帳號：' + item.user.name + '(' + item.user.email + ')</div>';
+                item.name = '<a href="{{ route('showAttendeeInfoGET', ($isShowVolunteers ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN=' + item.id + '&openExternalBrowser=1" target="_blank" class="text-primary">' + item.name + '</a>&nbsp;(報名序號：' + item.id + ')<div class="text-success">連結之帳號：' + item.user.name + '(' + item.user.email + ')</div>';
             }
             else {
-                item.name = '<a href="{{ route('showAttendeeInfoGET', ($isShowVolunteers ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN=' + item.id + '&openExternalBrowser=1" target="_blank">' + item.name + '</a>&nbsp;(報名序號：' + item.id + ')';
+                item.name = '<a href="{{ route('showAttendeeInfoGET', ($isShowVolunteers ?? false) ? $campFullData->vcamp->id : $campFullData->id) }}?snORadmittedSN=' + item.id + '&openExternalBrowser=1" target="_blank" class="text-primary">' + item.name + '</a>&nbsp;(報名序號：' + item.id + ')';
             }
             item.contactlog = item.contactlogHTML;
-            item.avatar = '<img src="{{ url("/backend/" . $campFullData->id . "/avatar/") }}' + item.id + '" width=80 alt="' + item.name + '">';
+            item.avatar = '<img src="{{ url("/backend/" . $campFullData->id . "/avatar/") }}/' + item.id + '" width=80 alt="' + item.name_original + '">';
         });
         // try cacth
         try {
