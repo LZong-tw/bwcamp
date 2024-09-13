@@ -51,6 +51,10 @@ class User extends Authenticatable
 
     public $resourceDescriptionInMandarin = '義工帳號的資料，非必要請勿使用這個權限。';
 
+    private static $permissions;
+
+    private static $forInspect;
+
     public function __construct(array $attributes = [])
     {
         $this->bootIfNotBooted();
@@ -304,9 +308,16 @@ class User extends Authenticatable
                 return $query->where('camp_id', $camp->id);
             });
         };
-        $this->rolePermissions = self::with(['roles' => $constraint, 'roles.permissions'])->whereHas('roles', $constraint)->where('id', $this->id)->get()->pluck('roles')->flatten()->pluck('permissions')->flatten()->unique('id')->values();
-        $permissions = $this->rolePermissions;
-        $forInspect = $permissions->where("resource", "\\" . $class)->where("action", $action)->first();
+        if (self::$permissions) {
+            $permissions = self::$permissions;
+            $forInspect = self::$forInspect;
+        } else {
+            $this->rolePermissions = self::with(['roles' => $constraint, 'roles.permissions'])->whereHas('roles', $constraint)->where('id', $this->id)->get()->pluck('roles')->flatten()->pluck('permissions')->flatten()->unique('id')->values();
+            $permissions = $this->rolePermissions;
+            $forInspect = $permissions->where("resource", "\\" . $class)->where("action", $action)->first();
+            self::$permissions = $permissions;
+            self::$forInspect = $forInspect;
+        }
         if ($forInspect) {
             if ($probing) {
                 dump($forInspect);

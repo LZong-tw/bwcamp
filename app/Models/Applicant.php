@@ -31,6 +31,8 @@ class Applicant extends Model {
 
     protected $guarded = [];
 
+    private static $camp;
+
     public function user()
     {
         if ($this->applicant_id ?? false) {
@@ -211,6 +213,12 @@ class Applicant extends Model {
     }
 
     public function contactlogHTML($isShowVolunteers = false) {
+        if (!self::$camp) {
+            self::$camp = $this->camp;
+        }
+        else {
+            $this->camp = self::$camp;
+        }
         $str = \Str::limit($this->contactlog?->sortByDesc('id')->first()?->notes, 50,'...') ?? "-";
         $str .= "<div>";
         $str .= '<a href="' . route("showAttendeeInfoGET", ($isShowVolunteers ?? false) ? $this->camp->vcamp->id : $this->camp->id) . '?snORadmittedSN=' . $this->id . '&openExternalBrowser=1#new" target="_blank">⊕新增關懷記錄</a>';
