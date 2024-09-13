@@ -210,6 +210,18 @@ class Applicant extends Model {
         return $this->gender == 'M' ? '男' : '女';
     }
 
+    public function contactlogHTML($isShowVolunteers = false) {
+        $str = \Str::limit($this->contactlog?->sortByDesc('id')->first()?->notes, 50,'...') ?? "-";
+        $str .= "<div>";
+        $str .= '<a href="' . route("showAttendeeInfoGET", ($isShowVolunteers ?? false) ? $this->camp->vcamp->id : $this->camp->id) . '?snORadmittedSN=' . $this->id . '&openExternalBrowser=1#new" target="_blank">⊕新增關懷記錄</a>';
+        if(count($this->contactlog)) {
+            $str .= "&nbsp;&nbsp;";
+            $str .= '<a href="' . route("showContactLogs", [$this->camp->id, $this->id]) . '" target="_blank">🔍看更多</a>';
+        }
+        $str .= "</div>";
+        return $str;
+    }
+
     /**
      * Get applicant's group by app version.
      *
