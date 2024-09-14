@@ -102,6 +102,8 @@ return [
         "applied_at" => "報名日期",
         "name" => "姓名",
         "category" => "身份別",
+        "lrclass_year" => "廣論班年份",
+        "lrclass_number" => "廣論班別",
         "emergency_name" => "聯絡人姓名",
         "emergency_mobile" => "聯絡人電話",
         "emergency_relationship" => "關係",
@@ -774,6 +776,16 @@ return [
             ],
             "category" => [
                 "name" => "身份別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "lrclass_year" => [
+                "name" => "廣論班年份",
+                "sort" => 1,
+                "for_query" => 1,
+            ],    
+            "lrclass_number" => [
+                "name" => "廣論班別",
                 "sort" => 1,
                 "for_query" => 1,
             ],
