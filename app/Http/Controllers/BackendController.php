@@ -166,6 +166,9 @@ class BackendController extends Controller
         if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer(), 'read', Vcamp::find($this->campFullData->id)->mainCamp, 'onlyCheckAvailability') && $this->user->id > 2) {
             return "<h3>沒有權限：瀏覽任何義工</h3>";
         }
+        if (!$this->isVcamp && $this->campFullData->access_end && Carbon::now()->gt($this->campFullData->access_end)) {
+            return "<h3>權限已關閉。</h3>";
+        }
         $message = null;
         $error = null;
         if ($request->isMethod('POST')) {
@@ -240,6 +243,9 @@ class BackendController extends Controller
         if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer(), 'read', Vcamp::find($this->campFullData->id)->mainCamp, 'onlyCheckAvailability') && $this->user->id > 2) {
             return "<h3>沒有權限：瀏覽任何義工</h3>";
         }
+        if (!$this->isVcamp && $this->campFullData->access_end && Carbon::now()->gt($this->campFullData->access_end)) {
+            return "<h3>權限已關閉。</h3>";
+        }
         if ($request->isMethod('POST')) {
             $error = array();
             $message = array();
@@ -312,6 +318,9 @@ class BackendController extends Controller
         if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer(), 'read', Vcamp::find($this->campFullData->id)->mainCamp, 'onlyCheckAvailability') && $this->user->id > 2) {
             return "<h3>沒有權限：瀏覽任何義工</h3>";
         }
+        if (!$this->isVcamp && $this->campFullData->access_end && Carbon::now()->gt($this->campFullData->access_end)) {
+            return "<h3>權限已關閉。</h3>";
+        }
         $applicants = explode(",", $request->snORadmittedSN);
         foreach($applicants as &$applicant) {
             $groupAndNumber = $this->applicantService->groupAndNumberSeperator($applicant);
@@ -345,7 +354,9 @@ class BackendController extends Controller
         if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer(), 'read', Vcamp::find($this->campFullData->id)->mainCamp, 'onlyCheckAvailability') && $this->user->id > 2) {
             return "<h3>沒有權限：瀏覽任何義工</h3>";
         }
-
+        if (!$this->isVcamp && $this->campFullData->access_end && Carbon::now()->gt($this->campFullData->access_end)) {
+            return "<h3>權限已關閉。</h3>";
+        }
         $result = [];
         $candidate = null;
         if (str_contains($request->snORadmittedSNorName, ',')) {
@@ -428,6 +439,9 @@ class BackendController extends Controller
         if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer(), 'read', Vcamp::find($this->campFullData->id)->mainCamp, 'onlyCheckAvailability') && $this->user->id > 2) {
             return "<h3>沒有權限：瀏覽任何義工</h3>";
         }
+        if (!$this->isVcamp && $this->campFullData->access_end && Carbon::now()->gt($this->campFullData->access_end)) {
+            return "<h3>權限已關閉。</h3>";
+        }
         if ($this->campFullData->table == 'ycamp' || $this->campFullData->table == 'yvcamp') {
             //2694-2716是輔導組
             if (count($this->user->roles->whereBetween('id',[2397,2398]))==0 &&count($this->user->roles->whereBetween('id',[2694,2716]))==0 &&  $this->user->id > 2) {
@@ -447,6 +461,9 @@ class BackendController extends Controller
         }
         if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer(), 'read', Vcamp::find($this->campFullData->id)->mainCamp, 'onlyCheckAvailability') && $this->user->id > 2) {
             return "<h3>沒有權限：瀏覽任何義工</h3>";
+        }
+        if (!$this->isVcamp && $this->campFullData->access_end && Carbon::now()->gt($this->campFullData->access_end)) {
+            return "<h3>權限已關閉。</h3>";
         }
 
         ini_set('max_execution_time', 1200);
@@ -861,6 +878,9 @@ class BackendController extends Controller
         if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer(), 'read', Vcamp::find($this->campFullData->id)->mainCamp, 'onlyCheckAvailability') && $this->user->id > 2) {
             return "<h3>沒有權限：瀏覽任何義工</h3>";
         }
+        if (!$this->isVcamp && $this->campFullData->access_end && Carbon::now()->gt($this->campFullData->access_end)) {
+            return "<h3>權限已關閉。</h3>";
+        }
         if ($this->campFullData->table == 'ycamp' || $this->campFullData->table == 'yvcamp') {
             //2694-2716是輔導組
             if (count($this->user->roles->whereBetween('id',[2397,2398]))==0 &&count($this->user->roles->whereBetween('id',[2694,2716]))==0 && $this->user->id > 2) {
@@ -915,6 +935,9 @@ class BackendController extends Controller
         if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer(), 'read', Vcamp::find($this->campFullData->id)->mainCamp, 'onlyCheckAvailability') && $this->user->id > 2) {
             return "<h3>沒有權限：瀏覽任何義工</h3>";
         }
+        if (!$this->isVcamp && $this->campFullData->access_end && Carbon::now()->gt($this->campFullData->access_end)) {
+            return "<h3>權限已關閉。</h3>";
+        }
         if ($this->campFullData->table == 'ycamp' || $this->campFullData->table == 'yvcamp') {
             //2694-2716是輔導組
             if (count($this->user->roles->whereBetween('id',[2397,2398]))==0 &&count($this->user->roles->whereBetween('id',[2694,2716]))==0 && $this->user->id > 2) {
@@ -939,6 +962,9 @@ class BackendController extends Controller
         }
         if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer(), 'read', Vcamp::find($this->campFullData->id)->mainCamp) && $this->user->id > 2) {
             return "<h3>沒有權限：瀏覽任何義工</h3>";
+        }
+        if (!$this->isVcamp && $this->campFullData->access_end && Carbon::now()->gt($this->campFullData->access_end)) {
+            return "<h3>權限已關閉。</h3>";
         }
         $batches = Batch::where('camp_id', $this->camp_id)->get();
         $batches->each(
@@ -965,6 +991,9 @@ class BackendController extends Controller
         }
         if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer(), 'read', Vcamp::find($this->campFullData->id)->mainCamp, 'onlyCheckAvailability') && $this->user->id > 2) {
             return "<h3>沒有權限：瀏覽任何義工</h3>";
+        }
+        if (!$this->isVcamp && $this->campFullData->access_end && Carbon::now()->gt($this->campFullData->access_end)) {
+            return "<h3>權限已關閉。</h3>";
         }
         $batch_id = $request->route()->parameter('batch_id');
         $group = $request->route()->parameter('group');
@@ -1135,6 +1164,9 @@ class BackendController extends Controller
         if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer(), 'read', Vcamp::find($this->campFullData->id)->mainCamp, 'onlyCheckAvailability') && $this->user->id > 2) {
             return "<h3>沒有權限：瀏覽任何義工</h3>";
         }
+        if (!$this->isVcamp && $this->campFullData->access_end && Carbon::now()->gt($this->campFullData->access_end)) {
+            return "<h3>權限已關閉。</h3>";
+        }
         $camp_id = $request->route()->parameter('camp_id'); //vcamp_id
         $org_id = $request->route()->parameter('org_id');
         $vcamp = Camp::find($camp_id);
@@ -1163,6 +1195,9 @@ class BackendController extends Controller
         }
         if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer(), 'read', Vcamp::find($this->campFullData->id)->mainCamp, 'onlyCheckAvailability') && $this->user->id > 2) {
             return "<h3>沒有權限：瀏覽任何義工</h3>";
+        }
+        if (!$this->isVcamp && $this->campFullData->access_end && Carbon::now()->gt($this->campFullData->access_end)) {
+            return "<h3>權限已關閉。</h3>";
         }
         $batches = Batch::where('camp_id', $this->camp_id)->get()->all();
         foreach($batches as &$batch) {
@@ -1325,6 +1360,9 @@ class BackendController extends Controller
         }
         if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer(), 'read', Vcamp::find($this->campFullData->id)->mainCamp, 'onlyCheckAvailability') && $this->user->id > 2) {
             return "<h3>沒有權限：瀏覽任何義工</h3>";
+        }
+        if (!$this->isVcamp && $this->campFullData->access_end && Carbon::now()->gt($this->campFullData->access_end)) {
+            return "<h3>權限已關閉。</h3>";
         }
         $batch_id = $_GET['batch_id'] ?? null;
         $depart_from = $_GET['depart_from'] ?? null;
