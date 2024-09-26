@@ -1,0 +1,223 @@
+{
+  "version": "orpg.1.0",
+  "characters": {
+    "char-PJmRpYgkauYT0lydBFA20pqBk91v": {
+      "id": "char-PJmRpYgkauYT0lydBFA20pqBk91v",
+      "model": "anthropic/claude-3.5-sonnet:beta",
+      "modelInfo": {
+        "id": 40,
+        "slug": "anthropic/claude-3.5-sonnet:beta",
+        "hf_slug": null,
+        "updated_at": null,
+        "created_at": "2024-06-20T00:00:00+00:00",
+        "hf_updated_at": null,
+        "name": "Anthropic: Claude 3.5 Sonnet (self-moderated)",
+        "short_name": "Claude 3.5 Sonnet (self-moderated)",
+        "author": "anthropic",
+        "description": "Claude 3.5 Sonnet delivers better-than-Opus capabilities, faster-than-Sonnet speeds, at the same Sonnet prices. Sonnet is particularly good at:\n\n- Coding: Autonomously writes, edits, and runs code with reasoning and troubleshooting\n- Data science: Augments human data science expertise; navigates unstructured data while using multiple tools for insights\n- Visual processing: excelling at interpreting charts, graphs, and images, accurately transcribing text to derive insights beyond just the text alone\n- Agentic tasks: exceptional tool use, making it great at agentic tasks (i.e. complex, multi-step problem solving tasks that require engaging with other systems)\n\n#multimodal\n\n_This is a faster endpoint, made available in collaboration with Anthropic, that is self-moderated: response moderation happens on the provider's side instead of OpenRouter's. For requests that pass moderation, it's identical to the [Standard](/models/anthropic/claude-3.5-sonnet) variant._",
+        "context_length": 200000,
+        "modality": "text+image->text",
+        "has_text_output": true,
+        "group": "Claude",
+        "instruct_type": null,
+        "default_system": null,
+        "default_stops": [],
+        "hidden": false,
+        "router": null,
+        "base_model_slug": "anthropic/claude-3.5-sonnet",
+        "warning_message": null,
+        "endpoint": {
+          "name": "Anthropic | anthropic/claude-3.5-sonnet:beta",
+          "model": {
+            "id": null,
+            "slug": "anthropic/claude-3.5-sonnet:beta",
+            "hf_slug": null,
+            "updated_at": null,
+            "created_at": "2024-06-20T00:00:00.000Z",
+            "hf_updated_at": null,
+            "name": "Anthropic: Claude 3.5 Sonnet",
+            "short_name": "Claude 3.5 Sonnet",
+            "description": "Claude 3.5 Sonnet delivers better-than-Opus capabilities, faster-than-Sonnet speeds, at the same Sonnet prices. Sonnet is particularly good at:\n\n- Coding: Autonomously writes, edits, and runs code with reasoning and troubleshooting\n- Data science: Augments human data science expertise; navigates unstructured data while using multiple tools for insights\n- Visual processing: excelling at interpreting charts, graphs, and images, accurately transcribing text to derive insights beyond just the text alone\n- Agentic tasks: exceptional tool use, making it great at agentic tasks (i.e. complex, multi-step problem solving tasks that require engaging with other systems)\n\n#multimodal\n\n_This is a faster endpoint, made available in collaboration with Anthropic, that is self-moderated: response moderation happens on the provider's side instead of OpenRouter's. For requests that pass moderation, it's identical to the [Standard](/models/anthropic/claude-3.5-sonnet) variant._",
+            "author": "anthropic",
+            "hidden": false,
+            "context_length": 200000,
+            "modality": "text+image->text",
+            "has_text_output": true,
+            "group": "Claude",
+            "instruct_type": null,
+            "default_stops": [],
+            "default_system": null,
+            "warning_message": null,
+            "router": null,
+            "base_model_slug": "anthropic/claude-3.5-sonnet",
+            "variant": "beta"
+          },
+          "model_slug": "anthropic/claude-3.5-sonnet:beta",
+          "provider_name": "Anthropic",
+          "provider_display_name": "Anthropic",
+          "provider_model_id": "claude-3-5-sonnet-20240620",
+          "is_beta": false,
+          "quantization": "unknown",
+          "variant": "beta",
+          "is_self_hosted": false,
+          "can_abort": true,
+          "can_stream": true,
+          "context_length": 200000,
+          "max_prompt_tokens": null,
+          "max_completion_tokens": 8192,
+          "supported_parameters": [
+            "tools",
+            "tool_choice",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "top_k",
+            "stop"
+          ],
+          "is_byok_required": false,
+          "moderation_required": false,
+          "data_policy": {
+            "url": "https://www.anthropic.com/legal/commercial-terms",
+            "training": false,
+            "requires_user_ids": true
+          },
+          "status_page": "https://status.anthropic.com/",
+          "pricing": {
+            "prompt": "0.000003",
+            "completion": "0.000015",
+            "image": "0.0048"
+          }
+        }
+      },
+      "updatedAt": "2024-09-26T06:27:11.000Z",
+      "samplingParameters": {},
+      "maxTokens": 200000,
+      "chatMemory": 8,
+      "description": ""
+    },
+    "char-uGOHhALobxyF0b8RYcEggrOSUwoh": {
+      "id": "char-uGOHhALobxyF0b8RYcEggrOSUwoh",
+      "model": "meta-llama/llama-3.1-8b-instruct",
+      "modelInfo": {
+        "id": 657,
+        "slug": "meta-llama/llama-3.1-8b-instruct",
+        "hf_slug": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+        "updated_at": "2024-07-23T17:57:12.13738+00:00",
+        "created_at": "2024-07-23T00:00:00+00:00",
+        "hf_updated_at": null,
+        "name": "Meta: Llama 3.1 8B Instruct",
+        "short_name": "Llama 3.1 8B Instruct",
+        "author": "meta-llama",
+        "description": "Meta's latest class of model (Llama 3.1) launched with a variety of sizes & flavors. This 8B instruct-tuned version is fast and efficient.\n\nIt has demonstrated strong performance compared to leading closed-source models in human evaluations.\n\nUsage of this model is subject to [Meta's Acceptable Use Policy](https://www.llama.com/llama3/use-policy/).",
+        "context_length": 131072,
+        "modality": "text->text",
+        "has_text_output": true,
+        "group": "Llama3",
+        "instruct_type": "llama3",
+        "default_system": null,
+        "default_stops": [
+          "<|eot_id|>",
+          "<|end_of_text|>"
+        ],
+        "hidden": false,
+        "router": null,
+        "base_model_slug": "meta-llama/llama-3.1-8b-instruct",
+        "warning_message": null,
+        "endpoint": {
+          "name": "DeepInfra | meta-llama/llama-3.1-8b-instruct",
+          "model": {
+            "id": null,
+            "slug": "meta-llama/llama-3.1-8b-instruct",
+            "hf_slug": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+            "updated_at": null,
+            "created_at": "2024-07-23T00:00:00.000Z",
+            "hf_updated_at": null,
+            "name": "Meta: Llama 3.1 8B Instruct",
+            "short_name": "Llama 3.1 8B Instruct",
+            "description": "Meta's latest class of model (Llama 3.1) launched with a variety of sizes & flavors. This 8B instruct-tuned version is fast and efficient.\n\nIt has demonstrated strong performance compared to leading closed-source models in human evaluations.\n\nUsage of this model is subject to [Meta's Acceptable Use Policy](https://www.llama.com/llama3/use-policy/).",
+            "author": "meta-llama",
+            "hidden": false,
+            "context_length": 131072,
+            "modality": "text->text",
+            "has_text_output": true,
+            "group": "Llama3",
+            "instruct_type": "llama3",
+            "default_stops": [
+              "<|eot_id|>",
+              "<|end_of_text|>"
+            ],
+            "default_system": null,
+            "warning_message": null,
+            "router": null,
+            "base_model_slug": "meta-llama/llama-3.1-8b-instruct",
+            "variant": null
+          },
+          "model_slug": "meta-llama/llama-3.1-8b-instruct",
+          "provider_name": "DeepInfra",
+          "provider_display_name": "DeepInfra",
+          "provider_model_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+          "is_beta": false,
+          "quantization": "bf16",
+          "variant": null,
+          "is_self_hosted": false,
+          "can_abort": true,
+          "can_stream": true,
+          "context_length": 100000,
+          "max_prompt_tokens": null,
+          "max_completion_tokens": null,
+          "supported_parameters": [
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "repetition_penalty",
+            "response_format",
+            "top_k"
+          ],
+          "is_byok_required": false,
+          "moderation_required": false,
+          "data_policy": {
+            "url": "https://deepinfra.com/docs/data",
+            "training": false
+          },
+          "status_page": "",
+          "pricing": {
+            "prompt": "0.000000055",
+            "completion": "0.000000055"
+          }
+        }
+      },
+      "updatedAt": "2024-09-26T06:27:14.800Z",
+      "samplingParameters": {},
+      "maxTokens": 0,
+      "chatMemory": 8,
+      "description": "",
+      "isDisabled": true
+    }
+  },
+  "messages": {
+    "msg-UqgeeQQ3zNzGouHQ7LLIpMHUj6FE": {
+      "characterId": "char-PJmRpYgkauYT0lydBFA20pqBk91v",
+      "content": "Based on the MySQL EXPLAIN ANALYZE output, there are several areas where we can optimize the query:\n\n1. Reduce subquery complexity: The query contains multiple nested subqueries, which are causing performance issues.\n\n2. Minimize table joins: There are numerous joins in the query, which can be optimized.\n\n3. Use proper indexing: Ensure that all columns used in WHERE, JOIN, and ORDER BY clauses are properly indexed.\n\n4. Avoid using whereHas and orWhereDoesntHave: These methods can lead to complex subqueries. Try to simplify the logic.\n\nHere's a refactored version of your Laravel query that might improve performance:\n\n```php\n$registeredUsers = \\App\\Models\\User::select('users.*')\n    ->join('user_applicant_xrefs', 'users.id', '=', 'user_applicant_xrefs.user_id')\n    ->join('applicants', 'user_applicant_xrefs.applicant_id', '=', 'applicants.id')\n    ->join($this->campFullData->vcamp->table . ' as evcamp', 'applicants.id', '=', 'evcamp.applicant_id')\n    ->leftJoin('org_user', function($join) {\n        $join->on('users.id', '=', 'org_user.user_id')\n            ->where('org_user.user_type', 'AppModelsUser');\n    })\n    ->leftJoin('camp_org', function($join) {\n        $join->on('org_user.org_id', '=', 'camp_org.id')\n            ->where('camp_org.camp_id', $this->campFullData->id);\n    })\n    ->whereIn('applicants.batch_id', $filtered_batches->pluck('id'))\n    ->where(function ($query) use ($queryRoles) {\n        $query->whereExists(function ($subquery) use ($queryRoles) {\n            $subquery->select(\\DB::raw(1))\n                ->from('camp_org')\n                ->join('org_user', 'camp_org.id', '=', 'org_user.org_id')\n                ->whereColumn('org_user.user_id', 'users.id')\n                ->where('camp_org.camp_id', $this->campFullData->id)\n                ->when($queryRoles && !$queryRoles->isEmpty(), function ($q) use ($queryRoles) {\n                    $q->whereIn('camp_org.id', $queryRoles->pluck('id'));\n                });\n        })\n        ->when(!$queryRoles || $queryRoles->isEmpty(), function ($q) {\n            $q->orWhereNotExists(function ($subquery) {\n                $subquery->select(\\DB::raw(1))\n                    ->from('camp_org')\n                    ->join('org_user', 'camp_org.id', '=', 'org_user.org_id')\n                    ->whereColumn('org_user.user_id', 'users.id')\n                    ->where('camp_org.camp_id', $this->campFullData->id);\n            });\n        });\n    });\n\nif ($request->isMethod(\"post\")) {\n    if ($showNoJob) {\n        // Add logic for showNoJob here\n    } else {\n        if ($queryStr != \"(1 = 1)\") {\n            $registeredUsers->whereRaw($queryStr);\n        }\n    }\n}\n\n$registeredUsers = $registeredUsers->distinct()->get();\n```\n\nThis refactored version:\n\n1. Uses joins instead of with() and whereHas() to reduce query complexity.\n2. Simplifies the subquery logic.\n3. Uses whereExists() and whereNotExists() instead of whereHas() and whereDoesntHave().\n4. Moves the condition checks outside of the main query structure for better readability.\n\nAdditionally, make sure you have proper indexes on the following columns:\n- users.id\n- user_applicant_xrefs.user_id, user_applicant_xrefs.applicant_id\n- applicants.id, applicants.batch_id\n- org_user.user_id, org_user.org_id, org_user.user_type\n- camp_org.id, camp_org.camp_id\n\nRemember to test this refactored version thoroughly, as the exact performance improvement will depend on your data structure and volume. You may need to make further adjustments based on your specific use case.",
+      "isGenerating": false,
+      "id": "msg-UqgeeQQ3zNzGouHQ7LLIpMHUj6FE",
+      "updatedAt": "2024-09-26T06:31:06.781Z",
+      "metadata": {
+        "generateDuration": 12360,
+        "latencyDuration": 1377,
+        "duration": 12360,
+        "tokensCount": 926,
+        "tokensPerSecond": 74.91909385113269
+      }
+    },
+    "msg-uuPLjNqLQDl3BGI9TALkzQzeiWAa": {
+      "characterId": "USER",
+      "content": "I have following Laravel code\n```\n$registeredUsers = \\App\\Models\\User::with([\n            'roles' => fn ($q) => $q->where('camp_id', $this->campFullData->id), // 給 IoiSearch 用的資料\n            'application_log.user.roles' => fn ($q) => $q->where('camp_id', $this->campFullData->id),  // applicant-list 顯示用的資料\n            'application_log.user.roles.batch',\n            'application_log' => function ($query) use ($filtered_batches) {\n                $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');\n                $query->whereIn('batch_id', $filtered_batches->pluck('id'));\n            },  'application_log.groupRelation',\n                'application_log.groupOrgRelation',\n                'application_log.batch',\n                'application_log.contactlog'\n            ])\n            ->where(function ($q) use ($queryRoles) {\n                $q->whereHas('application_log.user.roles', function ($query) use ($queryRoles) {\n                    $query->where('camp_id', $this->campFullData->id);\n                    if ($queryRoles && !$queryRoles->isEmpty()) {\n                        $query->whereIn('camp_org.id', $queryRoles->pluck('id'));\n                    }\n                });\n                if (!$queryRoles || $queryRoles->isEmpty()) {\n                    $q->orWhereDoesntHave('application_log.user.roles', function ($query) {\n                        $query->where('camp_id', $this->campFullData->id);\n                    });\n                }\n            })\n            ->whereHas('application_log', function ($query) use ($batches) {\n                $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');\n                $query->whereIn('batch_id', $batches->pluck('id'));\n            });\n        if ($request->isMethod(\"post\")) {\n            if ($showNoJob) {\n                if ($queryRoles->isEmpty() && $queryStr == \"(1 = 1)\") {\n                    $registeredUsers = $registeredUsers->whereDoesntHave('application_log.user.roles');\n                } else {\n                    $application_log_constraint = function ($query) use ($queryStr, $batches) {\n                        $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');\n                        $query->whereIn('batch_id', $batches->pluck('id'))\n                            ->when($queryStr, function ($query) use ($queryStr) {\n                                $query->whereRaw($queryStr);\n                            });\n                    };\n                    $registeredUsers = $registeredUsers->where(function ($query) use ($queryRoles, $queryStr, $application_log_constraint) {\n                        $query->when(!$queryRoles->isEmpty(), function ($query) use ($queryRoles) {\n                            $query->orWhereHas('application_log.user.roles', function ($query) use ($queryRoles) {\n                                $query->where('camp_id', $this->campFullData->id)\n                                    ->whereIn('camp_org.id', $queryRoles->pluck('id'));\n                            });\n                        })->when($queryStr != \"(1 = 1)\", function ($query) use ($queryRoles, $application_log_constraint, $queryStr) {\n                            $query->when($queryRoles->isEmpty(), function ($query) use ($application_log_constraint) {\n                                $query->orWhereHas('application_log', $application_log_constraint);\n                            })->when(!$queryRoles->isEmpty(), function ($query) use ($application_log_constraint) {\n                                $query->WhereHas('application_log', $application_log_constraint);\n                            })->when($queryStr, function ($query) use ($queryStr) {\n                                $query->whereRaw($queryStr);\n                            });\n                        })->orWhereDoesntHave('application_log.user.roles');\n                    });\n                }\n            } else {\n                $registeredUsers = $registeredUsers->when($queryStr != \"(1 = 1)\", function ($query) use ($queryStr, $batches) {\n                    $query->whereHas('application_log', function ($query) use ($queryStr, $batches) {\n                        $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id')\n                            ->whereIn('batch_id', $batches->pluck('id'))\n                            ->when($queryStr, function ($query) use ($queryStr) {\n                                $query->whereRaw($queryStr);\n                            });\n                    });\n                });\n            }\n        }\n        $registeredUsers = $registeredUsers->get();\n```\nIt runs extremely slow, I analyzed its SQL, and got MySQL explain analyze below\n\n-> Remove duplicate users rows using temporary table (weedout)  (cost=2054.02 rows=218) (actual time=5.819..7929.049 rows=1855 loops=1)\n    -> Nested loop inner join  (cost=2054.02 rows=218) (actual time=5.812..7924.552 rows=1904 loops=1)\n        -> Nested loop inner join  (cost=1979.37 rows=211) (actual time=5.798..7912.979 rows=1904 loops=1)\n            -> Nested loop inner join  (cost=1905.40 rows=211) (actual time=0.062..22.625 rows=1904 loops=1)\n                -> Covering index scan on user_applicant_xrefs using user_applicant_xrefs_user_id_applicant_id_index  (cost=425.95 rows=4227) (actual time=0.033..1.791 rows=4227 loops=1)\n                -> Filter: ((applicants.batch_id in (167,168)) and (applicants.deleted_at is null) and (applicants.id = user_applicant_xrefs.applicant_id))  (cost=0.25 rows=0.05) (actual time=0.005..0.005 rows=0 loops=4227)\n                    -> Single-row index lookup on applicants using PRIMARY (id=user_applicant_xrefs.applicant_id)  (cost=0.25 rows=1) (actual time=0.004..0.004 rows=1 loops=4227)\n            -> Filter: ((exists(select #2) or exists(select #5) is false) and (users.id = user_applicant_xrefs.user_id))  (cost=0.25 rows=1) (actual time=4.144..4.144 rows=1 loops=1904)\n                -> Single-row index lookup on users using PRIMARY (id=user_applicant_xrefs.user_id)  (cost=0.25 rows=1) (actual time=0.003..0.003 rows=1 loops=1904)\n                -> Select #2 (subquery in condition; dependent)\n                    -> Limit: 1 row(s)  (cost=3.19 rows=1) (actual time=2.062..2.062 rows=0 loops=1904)\n                        -> Nested loop semijoin  (cost=3.19 rows=1) (actual time=2.062..2.062 rows=0 loops=1904)\n                            -> Nested loop inner join  (cost=1.44 rows=0.1) (actual time=0.010..0.013 rows=1 loops=1904)\n                                -> Filter: (users.id = user_applicant_xrefs.user_id)  (cost=1.00 rows=1) (actual time=0.004..0.006 rows=1 loops=1904)\n                                    -> Covering index lookup on user_applicant_xrefs using user_applicant_xrefs_user_id_applicant_id_index (user_id=users.id)  (cost=1.00 rows=1) (actual time=0.004..0.005 rows=1 loops=1904)\n                                -> Filter: ((applicants.deleted_at is null) and (applicants.id = user_applicant_xrefs.applicant_id))  (cost=0.26 rows=0.1) (actual time=0.005..0.005 rows=1 loops=2674)\n                                    -> Single-row index lookup on applicants using PRIMARY (id=user_applicant_xrefs.applicant_id)  (cost=0.26 rows=1) (actual time=0.005..0.005 rows=1 loops=2674)\n                            -> Nested loop inner join  (cost=515.30 rows=11) (actual time=1.458..1.458 rows=0 loops=2674)\n                                -> Nested loop inner join  (cost=507.70 rows=61) (actual time=1.458..1.458 rows=0 loops=2674)\n                                    -> Nested loop inner join  (cost=394.79 rows=423) (actual time=0.871..1.452 rows=1 loops=2674)\n                                        -> Filter: (applicants.id = user_applicant_xrefs.applicant_id)  (cost=341.95 rows=423) (actual time=0.867..1.448 rows=1 loops=2674)\n                                            -> Covering index scan on user_applicant_xrefs using user_applicant_xrefs_user_id_applicant_id_index  (cost=341.95 rows=4227) (actual time=0.017..1.184 rows=4227 loops=2674)\n                                        -> Filter: (user_applicant_xrefs.user_id = users.id)  (cost=0.20 rows=1) (actual time=0.003..0.003 rows=1 loops=2674)\n                                            -> Single-row covering index lookup on users using PRIMARY (id=user_applicant_xrefs.user_id)  (cost=0.20 rows=1) (actual time=0.003..0.003 rows=1 loops=2674)\n                                    -> Filter: ((org_user.user_type = 'AppModelsUser') and (users.id = org_user.user_id))  (cost=0.99 rows=0.1) (actual time=0.006..0.006 rows=0 loops=2674)\n                                        -> Covering index lookup on org_user using org_user_user_id_org_id_user_type_index (user_id=users.id)  (cost=0.99 rows=1) (actual time=0.004..0.005 rows=2 loops=2674)\n                                -> Filter: ((camp_org.camp_id = 77) and (camp_org.id = org_user.org_id))  (cost=2.19 rows=0.2) (never executed)\n                                    -> Single-row index lookup on camp_org using PRIMARY (id=org_user.org_id)  (cost=2.19 rows=1) (never executed)\n                -> Select #5 (subquery in condition; dependent)\n                    -> Limit: 1 row(s)  (cost=3.19 rows=1) (actual time=2.074..2.074 rows=0 loops=1904)\n                        -> Nested loop semijoin  (cost=3.19 rows=1) (actual time=2.073..2.073 rows=0 loops=1904)\n                            -> Nested loop inner join  (cost=1.44 rows=0.1) (actual time=0.011..0.014 rows=1 loops=1904)\n                                -> Filter: (users.id = user_applicant_xrefs.user_id)  (cost=1.00 rows=1) (actual time=0.004..0.005 rows=1 loops=1904)\n                                    -> Covering index lookup on user_applicant_xrefs using user_applicant_xrefs_user_id_applicant_id_index (user_id=users.id)  (cost=1.00 rows=1) (actual time=0.004..0.005 rows=1 loops=1904)\n                                -> Filter: ((applicants.deleted_at is null) and (applicants.id = user_applicant_xrefs.applicant_id))  (cost=0.26 rows=0.1) (actual time=0.006..0.006 rows=1 loops=2674)\n                                    -> Single-row index lookup on applicants using PRIMARY (id=user_applicant_xrefs.applicant_id)  (cost=0.26 rows=1) (actual time=0.006..0.006 rows=1 loops=2674)\n                            -> Nested loop inner join  (cost=515.30 rows=11) (actual time=1.466..1.466 rows=0 loops=2674)\n                                -> Nested loop inner join  (cost=507.70 rows=61) (actual time=1.465..1.465 rows=0 loops=2674)\n                                    -> Nested loop inner join  (cost=394.79 rows=423) (actual time=0.862..1.459 rows=1 loops=2674)\n                                        -> Filter: (applicants.id = user_applicant_xrefs.applicant_id)  (cost=341.95 rows=423) (actual time=0.859..1.455 rows=1 loops=2674)\n                                            -> Covering index scan on user_applicant_xrefs using user_applicant_xrefs_user_id_applicant_id_index  (cost=341.95 rows=4227) (actual time=0.018..1.185 rows=4227 loops=2674)\n                                        -> Filter: (user_applicant_xrefs.user_id = users.id)  (cost=0.20 rows=1) (actual time=0.003..0.003 rows=1 loops=2674)\n                                            -> Single-row covering index lookup on users using PRIMARY (id=user_applicant_xrefs.user_id)  (cost=0.20 rows=1) (actual time=0.003..0.003 rows=1 loops=2674)\n                                    -> Filter: ((org_user.user_type = 'AppModelsUser') and (users.id = org_user.user_id))  (cost=0.99 rows=0.1) (actual time=0.006..0.006 rows=0 loops=2674)\n                                        -> Covering index lookup on org_user using org_user_user_id_org_id_user_type_index (user_id=users.id)  (cost=0.99 rows=1) (actual time=0.004..0.005 rows=2 loops=2674)\n                                -> Filter: ((camp_org.camp_id = 77) and (camp_org.id = org_user.org_id))  (cost=2.19 rows=0.2) (never executed)\n                                    -> Single-row index lookup on camp_org using PRIMARY (id=org_user.org_id)  (cost=2.19 rows=1) (never executed)\n        -> Filter: (evcamp.applicant_id = applicants.id)  (cost=0.26 rows=1) (actual time=0.005..0.006 rows=1 loops=1904)\n            -> Covering index lookup on evcamp using evcamp_applicant_id_foreign (applicant_id=user_applicant_xrefs.applicant_id)  (cost=0.26 rows=1) (actual time=0.004..0.005 rows=1 loops=1904)\n\nHow should I refactor?\n",
+      "attachments": [],
+      "id": "msg-uuPLjNqLQDl3BGI9TALkzQzeiWAa",
+      "updatedAt": "2024-09-26T06:30:53.019Z"
+    }
+  }
+}
