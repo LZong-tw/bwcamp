@@ -313,7 +313,18 @@
             $(".wrapper1")
                 .scrollLeft($(".fixed-table-body").scrollLeft());
         });
-    })();
+        $('#applicantTable').on('page-change.bs.table', function (number, size) {
+            sleep(50).then(() => {                
+                $('.applicants_selector').each(function () {
+                    $.inArray('A' + this.value, window.applicant_ids) === -1 ? $(this).prop('checked', false) : $(this).prop('checked', true);
+                });
+            });
+        })
+    })();    
+
+    function sleep (time) {
+        return new Promise((resolve) => setTimeout(resolve, time));
+    }
 
     function applicant_triggered(id) {
         if ($("#" + id).is(":checked")) {
