@@ -29,7 +29,7 @@
         <thead id="applicantTableHead">
             <tr class="bg-success text-white">
                 @if(($isSetting ?? false) || ($isSettingCarer ?? false))
-                    <th></th>
+                    <th class="text-center" data-field="checkfield"></th>
                 @endif
                 @foreach ($columns ?? [] as $key => $item)
                     @if($isSettingCarer && ($key == 'mobile' || $key == 'email' || $key == 'zipcode' || $key == 'address' || $key == 'birthdate' || $key == 'after_camp_available_day' || $key == 'region'))
@@ -97,7 +97,7 @@
                 }
             }
             $applicants = collect($users_applicants)->merge($applicants);
-            // 和 Blade 裡的 applicants 用了一樣的變數名，這裡的 applicants 在 Blade 執行完畢後才會被設定
+            // 雖然這裡和 Blade 裡的 applicants 用了一樣的變數名，但這裡的 applicants 在 Blade 執行完畢後才會被設定
         @endphp
     @endif
     window.theData = @json($applicants);
@@ -116,7 +116,18 @@
 
     $(function() {
         fillTheList();
+        $('#applicantTable').on('page-change.bs.table', function (number, size) {
+            sleep(50).then(() => {                
+                $('.applicants_selector').each(function () {
+                    $.inArray('A' + this.value, window.applicant_ids) === -1 ? $(this).prop('checked', false) : $(this).prop('checked', true);
+                });
+            });
+        })
     });
+
+    function sleep (time) {
+        return new Promise((resolve) => setTimeout(resolve, time));
+    }
 
     function applicant_triggered(id) {
         if ($("#" + id).is(":checked")) {
@@ -137,7 +148,7 @@
             let data = user_application_logs.concat(only_applicants)[0];
         @endif
         var result = Object.values(data);
-        result.forEach(function(item) {
+        result.forEach(function(item) {            
             item.batch = item.batch.name;
             if (item.groupRelation) {
                 item.group = item.groupRelation.alias;
@@ -154,6 +165,9 @@
             }
             item.contactlog = item.contactlogHTML;
             item.avatar = '<img src="{{ url("/backend/" . $campFullData->id . "/avatar/") }}/' + item.id + '" width=80 alt="' + item.name_original + '">';
+            @if(($isSetting ?? false) || ($isSettingCarer ?? false))
+                item.checkfield = '<input type="checkbox" name="applicants[]" class="applicants_selector" value="' + item.id + '"  id="A' + item.id + '" onclick="applicant_triggered(this.id)">';
+            @endif
         });
         // try cacth
         try {
