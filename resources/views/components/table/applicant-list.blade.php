@@ -137,7 +137,6 @@
             let data = user_application_logs.concat(only_applicants)[0];
         @endif
         var result = Object.values(data);
-        console.log(result);
         result.forEach(function(item) {
             item.batch = item.batch.name;
             if (item.groupRelation) {
