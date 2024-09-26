@@ -542,7 +542,7 @@ class BackendController extends Controller
             $query .= "(已取消)";
             $applicants = $applicants->whereNotNull('deleted_at');
         }
-        
+
         //----- 為了顯示需要而新增的欄位 -----
         foreach($applicants as $applicant) {
             $applicant->id = $applicant->sn;
@@ -1786,6 +1786,9 @@ class BackendController extends Controller
 
         if (!$user->canAccessResource(new \App\Models\Applicant(), 'read', $this->campFullData, 'onlyCheckAvailability') && $user->id > 2) {
             return "<h3>沒有權限瀏覽任何學員，或您尚未被指派任何學員</h3>";
+        }
+        if (!$this->isVcamp && $this->campFullData->access_end && Carbon::now()->gt($this->campFullData->access_end)) {
+            return "<h3>權限已關閉。</h3>";
         }
         ini_set('max_execution_time', -1);
         ini_set("memory_limit", -1);
