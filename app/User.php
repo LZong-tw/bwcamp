@@ -41,9 +41,14 @@ class User extends Authenticatable
 
     public $resourceNameInMandarin = '義工';
 
+    protected $hasRole = null;
+
     public function getPermission($top = false, $camp_id = null, $function_id = null) {
         if(!$top){
-            $hasRole = \App\Models\RoleUser::join('roles', 'roles.id', '=', 'role_user.role_id')->where('user_id', $this->id)->orderBy('level', 'asc')->get();
+            if (!$this->hasRole) {
+                $this->hasRole = \App\Models\RoleUser::join('roles', 'roles.id', '=', 'role_user.role_id')->where('user_id', $this->id)->orderBy('level', 'asc')->get();
+            }
+            $hasRole = $this->hasRole;
             if($hasRole->count() == 0){
                 $empty = new \App\Models\Role;
                 $empty->level = 999;
