@@ -117,7 +117,7 @@
     $(function() {
         fillTheList();
         $('#applicantTable').on('page-change.bs.table', function (number, size) {
-            sleep(50).then(() => {                
+            sleep(50).then(() => {
                 $('.applicants_selector').each(function () {
                     $.inArray('A' + this.value, window.applicant_ids) === -1 ? $(this).prop('checked', false) : $(this).prop('checked', true);
                 });
@@ -142,14 +142,18 @@
     function fillTheList() {
         let table = $('#applicantTable');
         // merge user_application_logs and only_applicants
-        @if ($isShowVolunteers)
-            let data = user_application_logs.concat(only_applicants);
-        @else
-            let data = user_application_logs.concat(only_applicants)[0];
-        @endif
+        let data = user_application_logs.concat(only_applicants);
         var result = Object.values(data);
-        result.forEach(function(item) {            
-            item.batch = item.batch.name;
+        // remove null item
+        result = result.filter(function(item) { return item != null && item != 0; });
+        let count = 0;
+        result.forEach(function(item) {
+            if (!item) {
+                console.log(item, count);
+                return;
+            }
+            count++;
+            item.batch = !item.batch ? "沒有梯次資料" : item.batch.name;
             if (item.groupRelation) {
                 item.group = item.groupRelation.alias;
             }
