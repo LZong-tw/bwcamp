@@ -163,6 +163,7 @@ class checkPayment extends Command
                     );
                     $applicant = \App\Models\Applicant::where('bank_second_barcode', $item["銷帳帳號"])->orderBy("id", "desc")->first();
                     if($applicant){
+                        //如果同一帳號交兩次錢，金額會加上去。
                         $applicant->deposit = $applicant->deposit + $item["繳款金額"];
                         $camp_table = $applicant->batch->camp->table;
                         if($camp_table == 'hcamp'){
@@ -180,6 +181,7 @@ class checkPayment extends Command
                             $traffic->deposit = $applicant->deposit;
                             $traffic->sum = $traffic->deposit + $traffic->cash;
                             $traffic->save();
+                            $applicant->save();
                         } else if ($camp_table == 'ceocamp') {
                             $lodging = $applicant->lodging;
                             if (!$lodging) {
@@ -191,6 +193,7 @@ class checkPayment extends Command
                             $lodging->deposit = $applicant->deposit;
                             $lodging->sum = $lodging->deposit + $lodging->cash;
                             $lodging->save();
+                            $applicant->save();
                         }
                     }
                 }
