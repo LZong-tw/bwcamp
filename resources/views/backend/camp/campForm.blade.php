@@ -205,15 +205,15 @@
             </div>
         </div>
         <div class='row form-group'>
-            <label for='inputName' class='col-md-2 control-label'>繳費開始日</label>
+            <label for='inputPaymentStartDate' class='col-md-2 control-label'>繳費開始日</label>
             <div class='col-md-6'>
-                <input type="text" name="payment_startdate" id="" class='form-control' value="{{ $camp->payment_startdate ?? "" }}">
+                <input type="date" name="payment_startdate" id="" class='form-control' value="{{ $camp->payment_startdate ?? "" }}">
             </div>
         </div>
         <div class='row form-group'>
-            <label for='inputName' class='col-md-2 control-label'>繳費截止日</label>
+            <label for='inputPaymentDeadline' class='col-md-2 control-label'>繳費截止日</label>
             <div class='col-md-6'>
-                <input type="text" name="payment_deadline" id="" class='form-control' value="{{ $camp->payment_deadline ?? "" }}">
+                <input type="date" name="payment_deadline" id="" class='form-control' value="{{ $camp->payment_deadline ?? "" }}">
             </div>
         </div>
         <div class='row form-group'>

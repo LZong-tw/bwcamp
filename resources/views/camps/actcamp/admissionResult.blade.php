@@ -24,7 +24,7 @@
                             <h4>活動費用</h4>
                                 <div class="ml-4 mb-2">1200元，繳費聯請下載附件檔。</div>
                             <h4>報到時間</h4>
-                                <div class="ml-4 mb-2">請於{{ \Carbon\Carbon::now()->year }}年{{ substr($camp_data->payment_deadline, 2, 2) }}月{{ substr($camp_data->payment_deadline, 4, 2) }}日前完成繳費，逾時將視同放棄錄取資格。</div>
+                                <div class="ml-4 mb-2">請於{{ substr($applicant->batch->camp->set_payment_deadline, 0, 4) }}年{{ substr($applicant->batch->camp->set_payment_deadline, 5, 2) }}月{{ substr($applicant->batch->camp->set_payment_deadline, 8, 2) }}日前完成繳費，逾時將視同放棄錄取資格。</div>
                             <h4>繳費地點</h4>
                                 <div class="ml-4 mb-2">可至超商、上海銀行繳費，或使用ATM轉帳、臨櫃匯款。<br>
                                 若完成繳費，請於至少一個工作天後，上網查詢是否已繳費完畢。</div>

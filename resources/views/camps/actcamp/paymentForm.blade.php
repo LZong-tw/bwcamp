@@ -42,8 +42,8 @@
     </tr>
     <tr>
         <td>
-            繳費期限：{{ \Carbon\Carbon::now()->year }}/{{ substr($applicant->batch->camp->payment_deadline, 2, 2) }}/{{ substr($applicant->batch->camp->payment_deadline, 4, 2) }}<br>
-            應繳金額：{{ $applicant->batch->camp->fee }}
+        繳費期限：{{ substr($applicant->batch->camp->set_payment_deadline, 0, 4) }}/{{ substr($applicant->batch->camp->set_payment_deadline, 5, 2) }}/{{ substr($applicant->batch->camp->set_payment_deadline, 8, 2) }}<br>
+        應繳金額：{{ $applicant->traffic?->fare ?? 0 }}
         </td>
     </tr>
     <tr>
