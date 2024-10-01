@@ -1103,7 +1103,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             if (nationality == '台灣') {
                 document.getElementById('inputCell').pattern = '09\\d{8}';
             } else {
-                document.getElementById('inputCell').pattern = '';
+                document.getElementById('inputCell').removeAttribute('pattern');
             }
             document.getElementById('inputCell').disabled = false;
             if (nationality == '') {
