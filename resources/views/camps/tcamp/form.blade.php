@@ -318,7 +318,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputCell' class='col-md-2 control-label text-md-right'>行動電話</label>
         <div class='col-md-10'>
-            <input type=tel required name='mobile' value='' class='form-control' id='inputCell' pattern='09\d{8}' placeholder='【請先選國籍，海外格式無限制，台灣格式：0912345678】' disabled>
+            <input type=number required name='mobile' value='' class='form-control' id='inputCell' pattern='09\d{8}' placeholder='【請先選國籍，海外格式無限制，台灣格式：0912345678】' disabled>
             <div class="invalid-feedback">
                 未填寫行動電話，或格式不正確
             </div>
