@@ -232,7 +232,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 </div>
             </div>
         </div>
-{{--        
+{{--
         <div class='row form-group'>
             <label for='inputNationName' class='col-md-2 control-label text-md-right'>國籍</label>
             <div class='col-md-10'>
@@ -251,7 +251,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 
                 <div class='row form-group'>
                     <div class='col-md-4'>
-                    <select class='form-control' name='nationality' id='inputNationName'>
+                    <select class='form-control' name='nationality' id='inputNationName' onChange="setMobile(this.value)">
+                        <option value='' selected>- 請選擇 -</option>
+                        <option value='台灣'>台灣</option>
                         <option value='美國' >美國</option>
                         <option value='加拿大' >加拿大</option>
                         <option value='澳大利亞' >澳大利亞</option>
@@ -259,7 +261,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         <option value='中國' >中國</option>
                         <option value='香港' >香港</option>
                         <option value='澳門' >澳門</option>
-                        <option value='台灣' selected>台灣</option>
                         <option value='韓國' >韓國</option>
                         <option value='日本' >日本</option>
                         <option value='蒙古' >蒙古</option>
@@ -277,7 +278,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
 
 
-        
+
         <div class='row form-group required'>
         <label for='inputUnit' class='col-md-2 control-label text-md-right'>服務單位名稱/校名</label>
             <div class='col-md-10'>
@@ -317,7 +318,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputCell' class='col-md-2 control-label text-md-right'>行動電話</label>
         <div class='col-md-10'>
-            <input type=tel required name='mobile' value='' class='form-control' id='inputCell' pattern='09\d{8}' placeholder='格式：0912345678'>
+            <input type=tel required name='mobile' value='' class='form-control' id='inputCell' pattern='09\d{8}' placeholder='【請先選國籍，海外格式無限制，台灣格式：0912345678】' disabled>
             <div class="invalid-feedback">
                 未填寫行動電話，或格式不正確
             </div>
@@ -1095,6 +1096,19 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             else {
                 $("#inputID").prop('required',false);
                 $("#inputID").parent().parent().hide();
+            }
+        }
+
+        function setMobile(nationality) {
+            if (nationality == '台灣') {
+                document.getElementById('inputCell').pattern = '09\\d{8}';
+            } else {
+                document.getElementById('inputCell').pattern = '';
+            }
+            document.getElementById('inputCell').disabled = false;
+            if (nationality == '') {
+                document.getElementById('inputCell').disabled = true;
+                document.getElementById('inputCell').value = '';
             }
         }
 
