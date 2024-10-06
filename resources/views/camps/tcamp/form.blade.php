@@ -9,12 +9,12 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     @include('partials.schools_script')
     @include('partials.counties_areas_script')
         <div class="alert alert-warning">
-            <h5>報名期間：112年10月16日(一)起至112年11月26日(日)止</h5>
-            <h5>研習時間：113年01月27日(六)起至113年01月30日(二)止</h5>
+            <h5>報名期間：113年10月19日(六)起至113年11月30日(日)止</h5>
+            <h5>研習時間：114年01月23日(四)起至114年01月26日(日)止</h5>
             <h5>研習時數：凡參加研習者依規定核發研習時數或數位研習證書</h5>
             <h6>指導單位：教育部生命教育中心</h6>
             <h6>主辦單位：財團法人福智文教基金會、大仁科技大學</h6>
-            <h6>協辦單位：福智學校財團法人、基隆市瑪陵國民小學、屏東縣立大路關國民小學</h6>
+            <h6>協辦單位：福智學校財團法人、基隆市立瑪陵國民小學、屏東縣立大路關國民小學</h6>
         </div>
     <div class='alert alert-info' role='alert'>
         您在本網站所填寫的個人資料，僅用於此次教師營的報名及活動聯絡之用。
@@ -139,7 +139,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 -->
     @if(!$camp_data->variant)
         <div class='row form-group required'>
-            <label for='inputHasLicense' class='col-md-2 control-label text-md-right'>是否有教師證</label>
+            <label for='inputHasLicense' class='col-md-2 control-label text-md-right'>教師證</label>
             <div class='col-md-10'>
                 <label class=radio-inline>
                     <input type=radio required name='has_license' value=1 > 有
@@ -437,7 +437,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class='row form-group required'>
-        <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>是否參加過「福智教師生命成長營」(寒假舉辦)</label>
+        <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>參加過「福智教師生命成長營」(寒假舉辦)</label>
         <div class='col-md-10'>
             <div class="form-check form-check-inline">
                 <label class="form-check-label">
@@ -778,12 +778,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <label><input type="checkbox" name=interesting[] value='情緒管理' > 情緒管理</label> <br/>
                 <label><input type="checkbox" name=interesting[] value='環保淨灘' > 環保淨灘</label> <br/>
                 <label><input type="checkbox" name=interesting[] value='農場體驗' > 農場體驗</label> <br/>
-                <label><input type="checkbox" name=interesting[] value='種樹活動' > 種樹活動</label> <br/>
-                <label><input type="checkbox" name=interesting[] value='藝文活動' > 藝文活動</label> <br/>
                 <label><input type="checkbox" name=interesting[] value='樂齡活動' > 樂齡活動</label> <br/>
-                <label><input type="checkbox" name=interesting[] value='正念靜心' > 正念靜心</label> <br/>
                 <label><input type="checkbox" name=interesting[] value='儒學與生活' > 儒學與生活</label> <br/>
-                <label><input type="checkbox" name=interesting[] value='其他' onchange="toggleICrequired()"> 其它</label> <br>
+                <label><input type="checkbox" name=interesting[] value='其它' onchange="toggleICrequired()"> 其它</label> <br>
                 <input type=text class='form-control' name="interesting_complement" value='' id="interesting_complement">
                 <div class="invalid-feedback">
                     請填寫活動
