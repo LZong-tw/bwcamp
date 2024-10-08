@@ -329,12 +329,19 @@ class AdminController extends BackendController {
         $batch_tg = null;
         $region_tg = null;
         if ($org_id == 0) { //無上層
+            //create 大會
             $batches = $camp->batchs;
             $regions = $camp->regions;
             $org_tg = new CampOrg();
-            $org_tg->id = 0;
-            $org_tg->section = 'root';
-            $org_tg->position = 'empty';
+            $org_tg->camp_id = $camp_id;
+            //$org_tg->batch_id = null;   //all batches
+            $org_tg->section = '大會';
+            $org_tg->position = '大會';
+            $org_tg->is_node = '0';
+            $org_tg->prev_id = '0';
+            $org_tg->order = '0';
+            $org_tg->save();
+            //dd($org_tg->id);
         } else {  //有上層
             $org_tg = CampOrg::find($org_id);
 
