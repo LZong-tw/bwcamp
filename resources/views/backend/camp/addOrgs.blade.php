@@ -13,8 +13,15 @@
             color: red;
         }
     </style>
-    <h2>{{ $camp->abbreviation }} 新增組織</h2>
+    
+    @php
+    if($org_tg->section == '大會' && $org_tg->position =='大會')
+        $org_tg->secpos = '大會';
+    else
+        $org_tg->secpos = $org_tg->section . '.' . $org_tg->position;
+    @endphp
 
+    <h2>{{ $camp->abbreviation }} 新增組織</h2>    
     <table class="table table-bordered">
         <tr>
             <td>
@@ -121,7 +128,7 @@
                 </td>
                 <td class="align-middle">
                 <input type="hidden" name="prev_id[0]" id='inputPrevId' value="{{$org_tg->id}}">
-                <input type="hidden" name="section[0]" id='inputSection' value="{{$org_tg->section}}.{{$org_tg->position}}">{{$org_tg->section}}.{{$org_tg->position}}
+                <input type="hidden" name="section[0]" id='inputSection' value="{{$org_tg->secpos}}">{{$org_tg->secpos}}
                 </td>
                 <td class="align-middle">
                     <input required type="text" name="position[0]" id="" class="form-control">
@@ -227,8 +234,8 @@
                 <input type="hidden" name="prev_id[`;            
             let pos_ele4 = `]" id='inputPrevId' value="{{$org_tg->id}}">
                 <input type="hidden" name="section[`;
-            let pos_ele5 = `]" id='inputSection' value="{{$org_tg->section}}.{{$org_tg->position}}">
-                {{$org_tg->section}}.{{$org_tg->position}}
+            let pos_ele5 = `]" id='inputSection' value="{{$org_tg->secpos}}">
+                {{$org_tg->secpos}}
                 </td>
                 <td class="align-middle">
                     <input required type="text" name="position[`;
