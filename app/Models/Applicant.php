@@ -91,7 +91,6 @@ class Applicant extends Model {
     public function ceocamp() {
         return $this->hasOne(Ceocamp::class, 'applicant_id', 'id');
     }
-
     public function ceovcamp() {
         return $this->hasOne(Ceovcamp::class, 'applicant_id', 'id');
     }
@@ -99,7 +98,6 @@ class Applicant extends Model {
     public function ecamp() {
         return $this->hasOne(Ecamp::class, 'applicant_id', 'id');
     }
-
     public function evcamp() {
         return $this->hasOne(Evcamp::class, 'applicant_id', 'id');
     }
@@ -110,6 +108,16 @@ class Applicant extends Model {
 
     public function tcamp() {
         return $this->hasOne(Tcamp::class, 'applicant_id', 'id');
+    }
+    public function tvcamp() {
+        return $this->hasOne(Tvcamp::class, 'applicant_id', 'id');
+    }
+
+    public function utcamp() {
+        return $this->hasOne(Utcamp::class, 'applicant_id', 'id');
+    }
+    public function utvcamp() {
+        return $this->hasOne(Utvcamp::class, 'applicant_id', 'id');
     }
 
     public function ycamp() {
