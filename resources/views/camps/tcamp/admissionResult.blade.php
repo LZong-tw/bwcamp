@@ -66,9 +66,9 @@
                                 <h5>諮詢窗口</h5>
                                 <div class="ml-4 mb-2">
                                     營隊相關訊息我們會有義工與您聯繫，或諮詢窗口（請於周一至周五 10:00~17:30 來電）<br>
-                                    陳昶安&emsp;先生<br>
-                                    電話：07-9743280#68601<br>
-                                    Email：ca7974zz@gmail.com<br>
+                                    王淑靜&emsp;小姐<br>
+                                    電話：07-9769341#413<br>
+                                    Email：shu-chin.wang@blisswisdom.org<br>
                                 </div>
                                 {{-- <h4>營隊資訊</h4>
                                 <div class="ml-4 mb-2">
