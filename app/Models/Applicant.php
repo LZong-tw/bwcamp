@@ -106,6 +106,24 @@ class Applicant extends Model {
         return $this->hasOne(Hcamp::class, 'applicant_id', 'id');
     }
 
+    public function icamp() {
+        return $this->hasOne(Icamp::class, 'applicant_id', 'id');
+    }
+    public function ivcamp() {
+        return $this->hasOne(Ivcamp::class, 'applicant_id', 'id');
+    }
+
+    public function lrcamp() {
+        return $this->hasOne(Lrcamp::class, 'applicant_id', 'id');
+    }
+    public function lrvcamp() {
+        return $this->hasOne(Lrvcamp::class, 'applicant_id', 'id');
+    }
+
+    public function scamp() {
+        return $this->hasOne(Scamp::class, 'applicant_id', 'id');
+    }
+
     public function tcamp() {
         return $this->hasOne(Tcamp::class, 'applicant_id', 'id');
     }
