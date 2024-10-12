@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 
 use App\Models\CampOrg;
@@ -6,11 +7,13 @@ use Illuminate\Support\Collection;
 
 class CampOrgService
 {
-    public function updatePrevIdChildren(Collection $orgs, CampOrg $parent){
-        if ($parent->prev_id == 0)  //root
+    public function updatePrevIdChildren(Collection $orgs, CampOrg $parent)
+    {
+        if ($parent->prev_id == 0) {  //root
             $sec_tg = $parent->position;
-        else
+        } else {
             $sec_tg = $parent->section . '.' . $parent->position;
+        }
 
         $children = $orgs->where('section', $sec_tg)->where('prev_id', '<>', 0);
         foreach ($children as $child) {
@@ -21,8 +24,9 @@ class CampOrgService
         }
     }
 
-    public function updatePrevId(Collection $orgs){
-        $root = $orgs->where('prev_id',0)->first();   //root
+    public function updatePrevId(Collection $orgs)
+    {
+        $root = $orgs->where('prev_id', 0)->first();   //root
         //recusively go through all nodes/leaves
         if ($root->is_node == 1) {  //has children
             $this->updatePrevIdChildren($orgs, $root);
@@ -33,12 +37,14 @@ class CampOrgService
         }
     }
 
-    public function updateSectionChildren(Collection $orgs, CampOrg $parent) {
+    public function updateSectionChildren(Collection $orgs, CampOrg $parent)
+    {
         $children = $orgs->where('prev_id', $parent->id);
-        if ($parent->prev_id == 0)  //root
+        if ($parent->prev_id == 0) {  //root
             $sec = $parent->position;
-        else
+        } else {
             $sec = $parent->section . '.' . $parent->position;
+        }
 
         foreach ($children as $child) {
             $child->section = $sec;
@@ -48,8 +54,9 @@ class CampOrgService
         }
     }
 
-    public function updateSection(Collection $orgs){
-        $root = $orgs->where('prev_id',0)->first();   //root
+    public function updateSection(Collection $orgs)
+    {
+        $root = $orgs->where('prev_id', 0)->first();   //root
         //recursively go through all nodes/leaves
         if ($root->is_node == 1) {
             $this->updateSectionChildren($orgs, $root);
