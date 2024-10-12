@@ -304,7 +304,7 @@ class BackendService
         $milliseconds = (int) floor(microtime(true) * 1000);
         if($applicant->email==null || $applicant->email=="")
             $applicant->email="dummy" . $milliseconds. "@blisswisdom.org";
-        if($applicant->password==null || $applicant->mobile=="")
+        if($applicant->mobile==null || $applicant->mobile=="")
             $applicant->mobile="0000000000";
         $user = new User([
             'name' => $applicant->name,
