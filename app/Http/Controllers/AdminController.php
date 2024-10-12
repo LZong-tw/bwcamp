@@ -19,8 +19,21 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
+use App\Services\BackendService;
+use App\Services\CampOrgService;
 
 class AdminController extends BackendController {
+
+    protected $campOrgService;
+
+    public function __construct(
+        BackendService $backendService,
+        CampOrgService $campOrgService,
+    ) {
+        $this->backendService = $backendService;
+        $this->campOrgService = $campOrgService;
+    }
+
     public function userlist(){
         return view('backend.user.list', ['users' => \App\User::all()]);
     }
@@ -366,16 +379,23 @@ class AdminController extends BackendController {
 
     public function copyOrgs(Request $request, $camp_id){
         $formData = $request->toArray();
-        $newSet = array();
+        //$newSet = array();
         $camp2copy_id = $formData['camp2copy'];
         $orgs2copy = CampOrg::where('camp_id', $camp2copy_id)->get();
         //dd($orgs2copy);
+
+        //update section before copying
+        $this->campOrgService->updateSection($orgs2copy);
+
         foreach ($orgs2copy as $org) {
             $newOrg = $org->replicate();
             $newOrg->camp_id = $camp_id;
             $newOrg->created_at = Carbon::now();
             $newOrg->save();
         }
+        $orgscopied = CampOrg::where('camp_id', $camp_id)->get();
+        $this->campOrgService->updatePrevId($orgscopied);
+
         \Session::flash('message', "組織複製成功。");
         return redirect()->route("showOrgs", $camp_id);
     }
