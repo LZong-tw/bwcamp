@@ -23,10 +23,23 @@ class ContactLog extends Model
     {
         return $this->belongsTo('App\Models\Applicant');
     }
-    
+
     //user: by whom the log is taken
     public function user(): BelongsTo
     {
         return $this->belongsTo('App\Models\User');
+    }
+
+    public function tags(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            //App\Models\ContactLog, id (local)
+            'App\Models\ContactLogTag', //id (foreign)
+            'App\Models\ContactLogTagXref', //id, tag_id (local), log_id (foregin)
+            'log_id',
+            'id', 
+            'id',
+            'tag_id'
+        );
     }
 }

@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::table('contact_log', function (Blueprint $table) {
             //
-            $table->unsignedBigInteger('takenby_id')->change();
             $table->renameColumn('takenby_id', 'user_id');
         });
     }
@@ -28,7 +27,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('contact_log', function (Blueprint $table) {
-            //
+            $table->renameColumn('user_id','takenby_id');
         });
     }
 };
