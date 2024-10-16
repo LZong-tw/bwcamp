@@ -52,9 +52,9 @@ class BackendController extends Controller
      * @return void
      */
     public function __construct(
-        CampDataService $campDataService,
         ApplicantService $applicantService,
         BackendService $backendService,
+        CampDataService $campDataService,
         GSheetService $gsheetService,
         Request $request
     ) {

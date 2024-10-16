@@ -14,7 +14,7 @@ class ContactLog extends Model
     public $resourceDescriptionInMandarin = '針對不同職別的義工，在使用學員及義工的關懷記錄上，提供不指定/義工大組／小組/個人不同的權限範疇。針對關懷記錄提供新增/查詢/修改/刪除的功能。';
 
     protected $fillable = [
-        'applicant_id', 'takenby_id', 'notes'
+        'applicant_id', 'user_id', 'notes'
     ];
 
     protected $guarded = [];
@@ -23,8 +23,9 @@ class ContactLog extends Model
     {
         return $this->belongsTo('App\Models\Applicant');
     }
-
-    public function takenby()
+    
+    //user: by whom the log is taken
+    public function user(): BelongsTo
     {
         return $this->belongsTo('App\Models\User');
     }

@@ -19,7 +19,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
+use App\Services\ApplicantService;
 use App\Services\BackendService;
+use App\Services\CampDataService;
+use App\Services\GSheetService;
 use App\Services\CampOrgService;
 
 class AdminController extends BackendController {
@@ -27,10 +30,20 @@ class AdminController extends BackendController {
     protected $campOrgService;
 
     public function __construct(
+        ApplicantService $applicantService,
         BackendService $backendService,
+        CampDataService $campDataService,
         CampOrgService $campOrgService,
+        GSheetService $gsheetService,
+        Request $request
     ) {
-        $this->backendService = $backendService;
+        parent::__construct(
+            $applicantService,
+            $backendService,
+            $campDataService,
+            $gsheetService,
+            $request
+        );
         $this->campOrgService = $campOrgService;
     }
 
