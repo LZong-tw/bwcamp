@@ -29,7 +29,7 @@ class ContactLogTag extends Model
             'App\Models\ContactLog',    //id (foreign)
             'App\Models\ContactLogTagXref', //id, log_id (local), tag_id (foregin)
             'tag_id',
-            'id', 
+            'id',
             'id',
             'log_id'
         );

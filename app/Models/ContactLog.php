@@ -23,7 +23,7 @@ class ContactLog extends Model
     {
         return $this->belongsTo('App\Models\Applicant');
     }
-    
+
     //user: by whom the log is taken
     public function user(): BelongsTo
     {
