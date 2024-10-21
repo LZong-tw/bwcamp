@@ -9,10 +9,18 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     zip \
     unzip \
-    libzip-dev
+    libwebp-dev \
+    libjpeg62-turbo-dev \
+    libxpm-dev \
+    libzip-dev \
+    libfreetype6-dev
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN docker-php-ext-configure gd \
+    --with-jpeg \
+    --with-freetype
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
