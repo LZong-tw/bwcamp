@@ -26,16 +26,17 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 <span id="tcamp-layout">
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
 @if((!isset($isModify) && $batch->is_appliable) || (isset($isModify) && $isModify))
-    <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form'>
+    <form method='post' action='{{ route('formSubmit', [$batch_id]) }}?{{ \Str::random(10) }}={{ \Str::random(10) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form'>
 {{-- 禁止前台報名 --}}
 @elseif(!$batch->is_appliable)
     <script>window.location = "/";</script>
     @exit
 {{-- 以上皆非: 檢視資料狀態 --}}
 @else
-    <form action="{{ route("queryupdate", $applicant_batch_id) }}" method="post" class="d-inline">
+    <form action="{{ route("queryupdate", $applicant_batch_id) }}?{{ \Str::random(10) }}={{ \Str::random(10) }}" method="post" class="d-inline">
 @endif
     @csrf
+    <input type="hidden" name="{{ \Str::random(10) }}" value="{{ \Str::random(10) }}">
     <div class='row form-group'>
         <div class='col-md-2'></div>
         <div class='col-md-10'>
@@ -201,7 +202,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <div class='row form-group required'>
             <label for='inputUnitCounty' class='col-md-2 control-label text-md-right'>服務單位所在縣市</label>
             <div class='col-md-10'>
-                <select required class='form-control' name='unit_county'' onChange='SchooList(this.options[this.options.selectedIndex].value);'>
+                <select required class='form-control' name='unit_county'' {{-- onChange='SchooList(this.options[this.options.selectedIndex].value);' --}}>
                     <option value='' selected>- 請選縣市 -</option>
                     <option value='海外' >海外</option>
                     <option value='臺北市' >臺北市</option>
@@ -241,7 +242,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
 --}}
         <div class='row form-group'>
-            <label for='inputNationName' class='col-md-2 control-label text-md-right'>國籍</label>
+            <label for='inputNationName' class='col-md-2 control-label text-md-right required'>國籍</label>
             <div class='col-md-10'>
                 <div class='row form-group'>
                     <div class='col-md-12 text-primary'>
@@ -251,7 +252,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 
                 <div class='row form-group'>
                     <div class='col-md-4'>
-                    <select class='form-control' name='nationality' id='inputNationName' onChange="setMobile(this.value)">
+                    <select class='form-control' name='nationality' id='inputNationName' onChange="setMobile(this.value)" required>
                         <option value='' selected>- 請選擇 -</option>
                         <option value='台灣'>台灣</option>
                         <option value='美國' >美國</option>
