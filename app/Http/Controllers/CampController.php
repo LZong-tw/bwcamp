@@ -194,6 +194,12 @@ class CampController extends Controller
             }
 
             $applicant = \DB::transaction(function () use ($formData) {
+                if (isset($formData['is_educating'])) {
+                    if ($formData['is_educating'] == 0) {
+                        $formData['school_or_course'] = '';
+                        $formData['subject_teaches'] = '';
+                    }
+                }
                 $applicant = Applicant::where('id', $formData['applicant_id'])->first();
                 $model = '\\App\\Models\\' . ucfirst($this->camp_data->table);
                 $camp = $model::where('applicant_id', $formData['applicant_id'])->first();

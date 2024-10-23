@@ -683,7 +683,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-    <!-- 有點複雜的「是否參加過福智活動」的調查 -->
+    {{-- 有點複雜的「是否參加過福智活動」的調查 --}}
     <!--
         <div class='row form-group'>
             <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>是否參加過<b><u>住宿型</u></b>「福智教師生命成長營」</label>
