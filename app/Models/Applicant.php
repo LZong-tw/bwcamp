@@ -138,6 +138,13 @@ class Applicant extends Model {
         return $this->hasOne(Utvcamp::class, 'applicant_id', 'id');
     }
 
+    public function wcamp() {
+        return $this->hasOne(Ycamp::class, 'applicant_id', 'id');
+    }
+    public function wvcamp() {
+        return $this->hasOne(Yvcamp::class, 'applicant_id', 'id');
+    }
+
     public function ycamp() {
         return $this->hasOne(Ycamp::class, 'applicant_id', 'id');
     }

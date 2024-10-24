@@ -511,6 +511,37 @@ return [
         "email" => "Email",
     ],
 
+    'wcamp' => [
+        "sn" => "報名序號",
+        "applied_at" => "報名日期",
+        "region" => "區域",
+        "nationality" => "國家",
+        "introducer_name" => "推薦人姓名",
+        "introducer_participated" => "推薦人相關訊息",
+        "introducer_phone" => "推薦人電話",
+        "introducer_email" => "推薦人電子信箱",
+        "name" => "姓名",
+        "gender" => "性別",
+        "mobile" => "聯絡電話",
+        "email" => "電子信箱",
+        "unit" => "服務單位",
+        "title" => "職稱",
+        "learning_experiences" => "學習狀況",
+        "volunteer_experiences" => "護持狀況",
+        "speak_experiences" => "講說經驗",
+        "character" => "講說特質",
+        "potential" => "潛力特質",
+        "comments" => "備註說明",
+    ],
+
+    'wvcamp' => [
+        "sn" => "報名序號",
+        "applied_at" => "報名日期",
+        "name" => "姓名",
+        "mobile" => "行動電話",
+        "email" => "電子郵件",
+    ],
+
     'ycamp' => [
         "sn" => "報名序號",
         "is_attend" => "參加意願",
@@ -1595,6 +1626,47 @@ return [
                 "sort" => 0,
                 "for_query" => 1,
             ]
+        ],
+
+        'wcamp' => [
+            "name" => [
+                "name" => "姓名",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "lrclass" => [
+                "name" => "廣論班別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "mobile" => [
+                "name" => "行動電話",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "email" => [
+                "name" => "電子郵件",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+        ],
+
+        'wvcamp' => [
+            "name" => [
+                "name" => "姓名",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "mobile" => [
+                "name" => "行動電話",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "email" => [
+                "name" => "電子郵件",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
         ],
 
         'ycamp' => [
