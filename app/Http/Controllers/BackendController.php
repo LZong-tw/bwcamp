@@ -1961,50 +1961,52 @@ class BackendController extends Controller
             $registeredUsers = $registeredUsers->get();
         } else {
             $registeredUsers = \App\Models\User::with([
-                    'roles' => fn ($q) => $q->where('camp_id', $this->campFullData->id), // 給 IoiSearch 用的資料
-                    'application_log.user.roles' => fn ($q) => $q->where('camp_id', $this->campFullData->id),  // applicant-list 顯示用的資料
-                    'application_log.user.roles.batch',
-                    'application_log' => function ($query) use ($filtered_batches) {
-                        $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');
-                        $query->whereIn('batch_id', $filtered_batches->pluck('id'));
-                    },  'application_log.groupRelation',
-                        'application_log.groupOrgRelation',
-                        'application_log.batch',
-                        'application_log.contactlog'
-                    ])->select('users.*')
-                    ->join('user_applicant_xrefs', 'users.id', '=', 'user_applicant_xrefs.user_id')
-                    ->join('applicants', 'user_applicant_xrefs.applicant_id', '=', 'applicants.id')
-                    ->join($this->campFullData->vcamp->table . ' as evcamp', 'applicants.id', '=', 'evcamp.applicant_id')
-                    ->leftJoin('org_user', function($join) {
-                        $join->on('users.id', '=', 'org_user.user_id')
-                            ->where('org_user.user_type', 'AppModelsUser');
-                    })
-                    ->leftJoin('camp_org', function($join) {
-                        $join->on('org_user.org_id', '=', 'camp_org.id')
-                            ->where('camp_org.camp_id', $this->campFullData->id);
-                    })
-                    ->whereIn('applicants.batch_id', $filtered_batches->pluck('id'))
-                    ->where(function ($query) use ($queryRoles) {
-                        $query->whereExists(function ($subquery) use ($queryRoles) {
-                            $subquery->select(\DB::raw(1))
-                                ->from('camp_org')
-                                ->join('org_user', 'camp_org.id', '=', 'org_user.org_id')
-                                ->whereColumn('org_user.user_id', 'users.id')
-                                ->where('camp_org.camp_id', $this->campFullData->id)
-                                ->when($queryRoles && !$queryRoles->isEmpty(), function ($q) use ($queryRoles) {
-                                    $q->whereIn('camp_org.id', $queryRoles->pluck('id'));
-                                });
-                        })
-                        ->when(!$queryRoles || $queryRoles->isEmpty(), function ($q) {
-                            $q->orWhereNotExists(function ($subquery) {
-                                $subquery->select(\DB::raw(1))
-                                    ->from('camp_org')
-                                    ->join('org_user', 'camp_org.id', '=', 'org_user.org_id')
-                                    ->whereColumn('org_user.user_id', 'users.id')
-                                    ->where('camp_org.camp_id', $this->campFullData->id);
-                            });
+                'roles' => fn ($q) => $q->where('camp_id', $this->campFullData->id), // 給 IoiSearch 用的資料
+                'application_log.user.roles' => fn ($q) => $q->where('camp_id', $this->campFullData->id),  // applicant-list 顯示用的資料
+                'application_log.user.roles.batch',
+                'application_log' => function ($query) use ($filtered_batches) {
+                    $query->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id');
+                    $query->whereIn('batch_id', $filtered_batches->pluck('id'));
+                },
+                'application_log.' .  $this->campFullData->vcamp->table,
+                'application_log.groupRelation',
+                'application_log.groupOrgRelation',
+                'application_log.batch',
+                'application_log.contactlog'
+            ])->select('users.*')
+            ->join('user_applicant_xrefs', 'users.id', '=', 'user_applicant_xrefs.user_id')
+            ->join('applicants', 'user_applicant_xrefs.applicant_id', '=', 'applicants.id')
+            ->join($this->campFullData->vcamp->table . ' as evcamp', 'applicants.id', '=', 'evcamp.applicant_id')
+            ->leftJoin('org_user', function($join) {
+                $join->on('users.id', '=', 'org_user.user_id')
+                    ->where('org_user.user_type', 'AppModelsUser');
+            })
+            ->leftJoin('camp_org', function($join) {
+                $join->on('org_user.org_id', '=', 'camp_org.id')
+                    ->where('camp_org.camp_id', $this->campFullData->id);
+            })
+            ->whereIn('applicants.batch_id', $filtered_batches->pluck('id'))
+            ->where(function ($query) use ($queryRoles) {
+                $query->whereExists(function ($subquery) use ($queryRoles) {
+                    $subquery->select(\DB::raw(1))
+                        ->from('camp_org')
+                        ->join('org_user', 'camp_org.id', '=', 'org_user.org_id')
+                        ->whereColumn('org_user.user_id', 'users.id')
+                        ->where('camp_org.camp_id', $this->campFullData->id)
+                        ->when($queryRoles && !$queryRoles->isEmpty(), function ($q) use ($queryRoles) {
+                            $q->whereIn('camp_org.id', $queryRoles->pluck('id'));
                         });
+                })
+                ->when(!$queryRoles || $queryRoles->isEmpty(), function ($q) {
+                    $q->orWhereNotExists(function ($subquery) {
+                        $subquery->select(\DB::raw(1))
+                            ->from('camp_org')
+                            ->join('org_user', 'camp_org.id', '=', 'org_user.org_id')
+                            ->whereColumn('org_user.user_id', 'users.id')
+                            ->where('camp_org.camp_id', $this->campFullData->id);
                     });
+                });
+            });
 
             if ($request->isMethod("post")) {
                 if ($showNoJob) {

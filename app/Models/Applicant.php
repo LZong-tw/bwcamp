@@ -228,6 +228,22 @@ class Applicant extends Model {
         return $str;
     }
 
+    public function contactlogHTMLoptimized($isShowVolunteers = false, $camp = null) {
+        if (!self::$campCache) {
+            self::$campCache = $this->camp;
+        }
+        $firstNote = $this->contactlog?->sortByDesc('id')->first()?->notes;
+        $str = \Str::limit($firstNote ?? "-", 50,'...') ?? "-";
+        $str .= "<div>";
+        $str .= '<a href="' . route("showAttendeeInfoGET", self::$campCache->id) . '?snORadmittedSN=' . $this->id . '&openExternalBrowser=1#new" target="_blank" class="text-primary">⊕新增關懷記錄</a>';
+        if(count($this->contactlog)) {
+            $str .= "&nbsp;&nbsp;";
+            $str .= '<a href="' . route("showContactLogs", [self::$campCache->id, $this->id]) . '" target="_blank">🔍看更多</a>';
+        }
+        $str .= "</div>";
+        return $str;
+    }
+
     /**
      * Get applicant's group by app version.
      *
