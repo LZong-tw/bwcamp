@@ -59,6 +59,8 @@
     window.columns = @json($columns);
     @php
         $camp = $campFullData;
+        $applicants = $applicants->load('carers');
+        $applicants = $applicants->load('contactlog');
         $applicants = $applicants->each(function ($applicant) use ($camp) {
             $applicant->gender = $applicant->gender_zh_tw;
             $applicant->age = $applicant->age;
@@ -71,6 +73,9 @@
                 default => $applicant->is_attend = "尚未聯絡"
             };
             $applicant->contactlogHTML = $applicant->contactlogHTML($isShowVolunteers ?? false, $applicant, $camp);
+            $applicant->carer = count($applicant->carers) ? $applicant->carers->map(function($item) {
+                return $item->name;
+            })->join('<br>') : null;
         });
     @endphp
     let only_applicants = @json($applicants);
@@ -181,11 +186,18 @@
             }
             count++;
             item.batch = !item.batch ? "沒有梯次資料" : item.batch.name;
-            if (item.groupRelation) {
-                item.group = item.groupRelation.alias;
+            if (item.group_relation) {
+                item.group = item.group_relation.alias;
             }
-            if (item.groupOrgRelation) {
-                item.job = item.groupOrgRelation.position;
+            if (item.birthday || item.birthmonth || item.birthyear) {
+                const formatBirthdate = (year, month, day) => {
+                    const parts = [];
+                    if (year) parts.push(year + '年');
+                    if (month) parts.push(month + '月');
+                    if (day) parts.push(day + '日');
+                    return parts.join('');
+                };
+                item.birthdate = formatBirthdate(item.birthyear, item.birthmonth, item.birthday);
             }
             item.name_original = item.name;
             if (item.user) {

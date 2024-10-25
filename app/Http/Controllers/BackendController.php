@@ -1763,7 +1763,7 @@ class BackendController extends Controller
             }
             $queryStr = $this->backendService->queryStringParser($payload, $request);
         }
-        $query = Applicant::with('groupRelation', 'groupOrgRelation', 'batch', 'contactlog')
+        $query = Applicant::with('groupRelation', 'groupOrgRelation', 'batch')
                         ->select("applicants.*", $this->campFullData->table . ".*", $this->campFullData->table . ".id as ''", "batchs.name as   bName", "applicants.id as sn", "applicants.created_at as applied_at")
                         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
