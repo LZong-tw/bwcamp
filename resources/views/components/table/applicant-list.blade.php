@@ -75,12 +75,15 @@
     @endphp
     let only_applicants = @json($applicants);
     @if($registeredVolunteers ?? false)
+        @php
+            $theCampTable = str_contains($camp->table, 'vcamp') ? $camp->table : $camp->vcamp->table;
+        @endphp
         window.theVolunteersData = @json($registeredVolunteers);
         @php
             $users_applicants = [];
             foreach ($registeredVolunteers as &$v) {
                 if ($v->application_log) {
-                    foreach ($v->application_log as $a) {
+                    foreach ($v->application_log as $k => &$a) {
                         $a->gender = $a->gender_zh_tw;
                         $a->age = $a->age;
                         match ($a->is_attend) {
@@ -91,7 +94,14 @@
                             4 => $a->is_attend = "無法全程",
                             default => $a->is_attend = "尚未聯絡"
                         };
-                        $a->contactlogHTML = $a->contactlogHTML($isShowVolunteers ?? false, $a, $camp);
+                        $a->contactlogHTML = $a->contactlogHTMLoptimized($isShowVolunteers ?? false, $camp);
+                        foreach ($columns ?? [] as $key => $item) {
+                            if ($key != "batch") {
+                                if ($a && !$a->$key && $a->$theCampTable?->$key) {
+                                    $a->$key = $a->$theCampTable->$key;
+                                }
+                            }
+                        }
                         $users_applicants[] = $a;
                     }
                 }
@@ -148,6 +158,7 @@
         result = result.filter(function(item) { return item != null && item != 0; });
         let count = 0;
         result.forEach(function(item) {
+            console.log(item.unit ? item.unit : item);
             if (!item) {
                 console.log(item, count);
                 return;
