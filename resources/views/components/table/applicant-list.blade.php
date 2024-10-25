@@ -76,7 +76,7 @@
     let only_applicants = @json($applicants);
     @if($registeredVolunteers ?? false)
         @php
-            $theCampTable = str_contains($camp->table, 'vcamp') ? $camp->table : $camp->vcamp->table;
+            $theVcampTable = str_contains($camp->table, 'vcamp') ? $camp->table : $camp->vcamp->table;
         @endphp
         window.theVolunteersData = @json($registeredVolunteers);
         @php
@@ -97,8 +97,25 @@
                         $a->contactlogHTML = $a->contactlogHTMLoptimized($isShowVolunteers ?? false, $camp);
                         foreach ($columns ?? [] as $key => $item) {
                             if ($key != "batch") {
-                                if ($a && !$a->$key && $a->$theCampTable?->$key) {
-                                    $a->$key = $a->$theCampTable->$key;
+                                if ($a && !$a->$key && $a->$theVcampTable?->$key) {
+                                    $a->$key = $a->$theVcampTable->$key;
+                                }
+                                if ($key == "roles") {
+                                    $a->roles = $a->user?->roles?->map(function ($item) {
+                                        return $item->section;
+                                    })->implode('<br>');
+                                }
+                                if ($key == "position") {
+                                    $a->position = $a->user?->roles?->map(function ($item) {
+                                        return $item->position;
+                                    })->implode('<br>');
+                                }
+                                if ($key == "group_priority") {
+                                    $priorities = collect([$a->$theVcampTable->group_priority1, $a->$theVcampTable->group_priority2, $a->$theVcampTable->group_priority3])
+                                        ->filter()
+                                        ->join('<br>');
+
+                                    $a->group_priority = $priorities ?: null;
                                 }
                             }
                         }
@@ -158,7 +175,6 @@
         result = result.filter(function(item) { return item != null && item != 0; });
         let count = 0;
         result.forEach(function(item) {
-            console.log(item.unit ? item.unit : item);
             if (!item) {
                 console.log(item, count);
                 return;
