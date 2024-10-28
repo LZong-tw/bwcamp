@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 
 use App\Models\Applicant;
@@ -35,8 +36,7 @@ class BackendService
                     'batch_id' => $batch->id,
                     'alias' => "第" . $i . "組",
                 ]);
-            }
-            else {
+            } else {
                 $group = ApplicantsGroup::where([
                     'batch_id' => $batch->id,
                     'alias' => "第" . $i . "組",
@@ -85,8 +85,7 @@ class BackendService
             ]);
             if ($group) {
                 return $group;
-            }
-            else {
+            } else {
                 $flag = 1;
             }
         } elseif ($applicant->batch->num_groups && !$this->checkBatchCanAddMoreGroup($applicant->batch)) {
@@ -96,12 +95,10 @@ class BackendService
             ])->first();
             if ($group) {
                 return $group;
-            }
-            else {
+            } else {
                 return null;
             }
-        }
-        elseif (!$applicant->batch->num_groups) {
+        } elseif (!$applicant->batch->num_groups) {
             return ApplicantsGroup::query()->firstOrCreate([
                 'batch_id' => $applicant->batch_id,
                 'alias' => $group,
@@ -199,8 +196,7 @@ class BackendService
                     'user_is_generated' => false,
                     'org' => $groupOrg,
                 ];
-            }
-            elseif ($entity["uses_user_id"] == "generation_needed") {
+            } elseif ($entity["uses_user_id"] == "generation_needed") {
                 $user_is_generated = false;
                 $applicant = Applicant::findOrFail($entity["id"]);
                 $applicant->is_admitted = 1;
@@ -208,7 +204,7 @@ class BackendService
                 //$user = \App\Models\User::where('email', $applicant->email)->first();
                 //use fuzzy search instead
                 //if eamil missing, compare name only, otherwise name+email
-                if ($applicant->email==null || $applicant->email=="") {
+                if ($applicant->email == null || $applicant->email == "") {
                     $user = \App\Models\User::where('name', 'like', "%". $applicant->name . "%")
                     //->orWhere('mobile', 'like', "%". $applicant->mobile . "%")
                     ->orderByDesc('id')->first();
@@ -224,8 +220,7 @@ class BackendService
                     //<h4>為什麼發生這個狀況？</h4>
                     //<h3>您可能一次開了多個分頁做同樣的操作，或是對同一位義工指派新職務後，又按下上一頁，才會遇到這個狀況。</h3>
                     //";
-                }
-                else {
+                } else {
                     $user = $this->generateUser($applicant);
                     $user_is_generated = true;
                 }
@@ -250,8 +245,7 @@ class BackendService
                     'user_is_generated' => $user_is_generated,
                     'org' => $groupOrg,
                 ];
-            }
-            elseif ($entity["uses_user_id"] == "generation_needed_custom") {
+            } elseif ($entity["uses_user_id"] == "generation_needed_custom") {
                 if (\App\Models\User::where('email', 'like', $entity["email"])->first()) {
                     \Sentry::captureMessage("Email " . $entity["email"] . " 已註冊。");
                     return "<h1>Email " . $entity["email"] . " 已註冊。</h1>";
@@ -261,7 +255,7 @@ class BackendService
                 $applicant->save();
                 $applicantTmp = clone $applicant;
                 $name = $applicantTmp->name;
-                $applicant = new Applicant;
+                $applicant = new Applicant();
                 $applicant->name = $name;
                 $applicant->email = $entity["email"];
                 $applicant->mobile = $entity["password"];
@@ -289,8 +283,7 @@ class BackendService
                     'user_is_generated' => true,
                     'org' => $groupOrg,
                 ];
-            }
-            else {
+            } else {
                 \Sentry::captureMessage("異常，請回上一頁檢查輸入資料是否齊全。");
                 return "<h1>異常，請回上一頁檢查輸入資料是否齊全。</h1>";
             }
@@ -302,10 +295,12 @@ class BackendService
     {
         //to deal with empty email and mobile
         $milliseconds = (int) floor(microtime(true) * 1000);
-        if($applicant->email==null || $applicant->email=="")
-            $applicant->email="dummy" . $milliseconds. "@blisswisdom.org";
-        if($applicant->mobile==null || $applicant->mobile=="")
-            $applicant->mobile="0000000000";
+        if($applicant->email == null || $applicant->email == "") {
+            $applicant->email = "dummy" . $milliseconds. "@blisswisdom.org";
+        }
+        if($applicant->mobile == null || $applicant->mobile == "") {
+            $applicant->mobile = "0000000000";
+        }
         $user = new User([
             'name' => $applicant->name,
             'email' => $applicant->email,
@@ -362,10 +357,12 @@ class BackendService
         $models = collect(File::allFiles(app_path('Models')))
             ->map(function ($item) {
                 $path = $item->getRelativePathName();
-                $class = sprintf('\%s%s',
+                $class = sprintf(
+                    '\%s%s',
                     'App\Models\\',
-                    strtr(substr($path, 0, strrpos($path, '.')), '/', '\\'));
-                $model = new $class;
+                    strtr(substr($path, 0, strrpos($path, '.')), '/', '\\')
+                );
+                $model = new $class();
                 if (str_contains($model->resourceNameInMandarin, "廢棄") || str_contains($model->resourceNameInMandarin, "未使用")) {
                     $name = "";
                 }
@@ -384,7 +381,7 @@ class BackendService
     public function getCampOrganizations(Camp $camp): Collection | null
     {
         //MCH: $camp->organizations will be empty, but not null.
-        return $camp->organizations->isEmpty()? null: $camp->organizations;
+        return $camp->organizations->isEmpty() ? null : $camp->organizations;
     }
 
     public function queryStringParser(array $payload, Request $request): string | null
@@ -419,23 +416,19 @@ class BackendService
                         } else {
                             if ($request->ceocamp_sets_learner) {
                                 $queryStr .= "(" . $key . "=" . $parameter . ")";
-                            }
-                            else {
+                            } else {
                                 if ($index == 0) {
                                     $queryStr .= "(";
                                 }
                                 $queryStr .= $key . "=" . $parameter . ")";
                             }
                         }
-                    }
-                    elseif ($key == "group_id" && ($parameter == "na" || $parameter == "NONE")) {
+                    } elseif ($key == "group_id" && ($parameter == "na" || $parameter == "NONE")) {
                         $queryStr .= "(group_id = '' or group_id is null)";
-                    }
-                    elseif ($key == "age") {
+                    } elseif ($key == "age") {
                         $parameter = str_replace("age", "timestampdiff(year, concat(birthyear, '-01-01'), curdate())", $parameter);
                         $queryStr .= $parameter;
-                    }
-                    elseif (is_string($parameter) && str_contains($key, 'name')) {
+                    } elseif (is_string($parameter) && str_contains($key, 'name')) {
                         // ceocamp: 菁英營
                         if (!$request->ceocamp_sets_learner) {
                             // 菁英營以外的營隊
@@ -448,18 +441,15 @@ class BackendService
                                 $need_to_close = 0;
                                 $skip = 1;
                             }
-                        }
-                        elseif ($key == 'applicants_name') {
+                        } elseif ($key == 'applicants_name') {
                             $queryStr .= "applicants.name like '%" . $parameter . "%'";
-                        }
-                        else {
+                        } else {
                             $queryStr .= $key . " like '%" . $parameter . "%'";
                         }
                         if (!($skip ?? false)) {
                             $need_to_close = 1;
                         }
-                    }
-                    elseif (is_string($parameter)) {
+                    } elseif (is_string($parameter)) {
                         if (($index == 0 || $parameter_count == 0) && !$request->ceocamp_sets_learner) {
                             $queryStr .= " (";
                         }
@@ -475,16 +465,13 @@ class BackendService
                         if ($index != count($parameters) - 1) {
                             if ($key != "age" && !$request->ceocamp_sets_learner) {
                                 $queryStr .= " or (";
-                            }
-                            else {
+                            } else {
                                 $queryStr .= " or ";
                             }
-                        }
-                        elseif ($key != 'applicants.name'){
+                        } elseif ($key != 'applicants.name') {
                             $queryStr .= ") ";
                         }
-                    }
-                    else {
+                    } else {
                         $queryStr .= ") ";
                     }
                     $parameter_count++;
@@ -494,15 +481,12 @@ class BackendService
             if ($count < count($payload)) {
                 if ($request->ceocamp_sets_learner) {
                     if ($key == 'age') {
+                    } elseif (($parameter != '' || $parameter != null) && $parameter_count <= count($parameters)) {
                     }
-                    elseif (($parameter != '' || $parameter != null) && $parameter_count <= count($parameters)) {
-                    }
-                }
-                elseif($directly_skipped_this_parameter) {
+                } elseif($directly_skipped_this_parameter) {
                     $queryStr .= " ";
                     $directly_skipped_this_parameter = 0;
-                }
-                else {
+                } else {
                 }
             }
         }
@@ -522,8 +506,7 @@ class BackendService
             if ($key == "roles") {
                 $do = true;
                 $column = "id";
-            }
-            elseif ($key == "sections") {
+            } elseif ($key == "sections") {
                 $do = true;
                 $column = "section";
             }
@@ -533,13 +516,13 @@ class BackendService
                 }
                 if (!$queryRoles) {
                     $queryRoles = CampOrg::whereIn($column, $value)->get();
-                    $queryRoles = $queryRoles->filter(fn($role) => $role->camp_id == $camp->id);
+                    $queryRoles = $queryRoles->filter(fn ($role) => $role->camp_id == $camp->id);
                     $targetVolunteers = OrgUser::whereIn('org_id', $value)->get()->pluck('user_id');
                     $targetVolunteers = \App\Models\User::whereIn('id', $targetVolunteers)->get();
                     $targetVolunteers->load('application_log');
-                    $targetVolunteers = $targetVolunteers->filter(fn($volunteer) => $volunteer->application_log->filter(function ($log) use ($camp) {
-                            return $log->camp->id == $camp->vcamp->id;
-                        })->count() > 0)->pluck('id');
+                    $targetVolunteers = $targetVolunteers->filter(fn ($volunteer) => $volunteer->application_log->filter(function ($log) use ($camp) {
+                        return $log->camp->id == $camp->vcamp->id;
+                    })->count() > 0)->pluck('id');
                 }
                 unset($payload[$key]);
             }
@@ -558,24 +541,24 @@ class BackendService
                         if ($key == 'age') {
                             $year = now()->subYears($parameter)->format('Y');
                             $queryStr .= "birthyear = " . $year;
-                        }
-                        else {
+                        } else {
                             $queryStr .= $key . "=" . $parameter;
                         }
-                    }
-                    else if ($key == "group_id") {
+                    } elseif ($key == "group_id") {
                         $queryStr .= "1 = 1";
                         $showNoJob = true;
-                    }
-                    else if (is_string($parameter)) {
-                        if ($key == 'name') { $key = 'applicants.name'; }
-                        if ($key == 'industry') { $key = $camp->vcamp->table . '.industry'; }
+                    } elseif (is_string($parameter)) {
+                        if ($key == 'name') {
+                            $key = 'applicants.name';
+                        }
+                        if ($key == 'industry') {
+                            $key = $camp->vcamp->table . '.industry';
+                        }
                         $queryStr .= $key . " like '%" . $parameter . "%'";
                     }
                     if ($index != count($parameters) - 1) {
                         $queryStr .= " or ";
-                    }
-                    else {
+                    } else {
                         $queryStr .= ") ";
                     }
                 }
@@ -607,8 +590,8 @@ class BackendService
                 $targetVolunteers = \App\Models\User::whereIn('id', $targetVolunteers)
                     ->with('application_log')
                     ->get()
-                    ->filter(fn($volunteer) => $volunteer->application_log
-                        ->filter(fn($log) => $log->camp->id == $camp->vcamp->id)
+                    ->filter(fn ($volunteer) => $volunteer->application_log
+                        ->filter(fn ($log) => $log->camp->id == $camp->vcamp->id)
                         ->isNotEmpty())
                     ->pluck('id');
 
@@ -659,7 +642,8 @@ class BackendService
         return [$queryStr, $queryRoles, $showNoJob];
     }
 
-    public function permissionTableProcessor($request, $roleID, $camp, $totalPermissions = [], $rolesModel = "\App\Models\CampOrg", $permissionModel = "\App\Models\Permission") {
+    public function permissionTableProcessor($request, $roleID, $camp, $totalPermissions = [], $rolesModel = "\App\Models\CampOrg", $permissionModel = "\App\Models\Permission")
+    {
         if ($request->resources && $request->range) {
             foreach ($request->resources as $resource => $actions) {
                 foreach ($actions as $key => $action) {
@@ -684,14 +668,11 @@ class BackendService
                 return back()->withErrors(['range' => '動作及範圍對應的資源數量不同。']);
             }
             return $totalPermissions;
-        }
-        else if ($request->range && !$request->resources) {
+        } elseif ($request->range && !$request->resources) {
             return back()->withErrors(['resources' => '您先前只選擇了範圍，未選擇動作。']);
-        }
-        else if (!$request->range && $request->resources) {
+        } elseif (!$request->range && $request->resources) {
             return back()->withErrors(['range' => '您先前只選擇了動作，未選擇範圍。']);
-        }
-        else if (!$request->range && !$request->resources) {
+        } elseif (!$request->range && !$request->resources) {
             return [];
         }
         return "<h1>異常。</h1>";
