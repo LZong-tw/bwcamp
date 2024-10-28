@@ -343,17 +343,16 @@
     </div>
 --}}
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3">
-                <a href="{{ route('showAddOrgs', [$camp->id, 0]) }}" class="btn btn-success d-inline-block" style="margin-bottom: 10px">新增組織</a>
-            </div>
-            <div class="col-md-9">
+    @if (!count($orgs))
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <a href="{{ route('showAddOrgs', [$camp->id, 0]) }}" class="btn btn-success d-inline-block" style="margin-bottom: 10px">新增組織</a>
+                </div>
+                <div class="col-md-9">
+                </div>
             </div>
         </div>
-    </div>
-
-    @if (!count($orgs))
         <form action="{{ route('copyOrgs', $camp->id) }}" method="post">
             @csrf
             <div class="container">

@@ -337,7 +337,7 @@ class BackendService
 
     public function setTakenByName(ContactLog $contactlog): ContactLog
     {
-        $takenby = User::find($contactlog->takenby_id);
+        $takenby = User::find($contactlog->user_id);
         $contactlog->takenby_name = $takenby->name;
         return $contactlog;
     }
@@ -383,7 +383,8 @@ class BackendService
 
     public function getCampOrganizations(Camp $camp): Collection | null
     {
-        return $camp->organizations ?? null;
+        //MCH: $camp->organizations will be empty, but not null.
+        return $camp->organizations->isEmpty()? null: $camp->organizations;
     }
 
     public function queryStringParser(array $payload, Request $request): string | null
