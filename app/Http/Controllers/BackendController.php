@@ -2434,7 +2434,7 @@ class BackendController extends Controller
             //$contactlog = $applicant->contactlog;
             $newSet['applicant_id'] = $applicant_id;
             $newSet['notes'] = $formData['notes'];
-            $newSet['takenby_id'] = auth()->user()->id;
+            $newSet['user_id'] = auth()->user()->id;
 
             ContactLog::create($newSet);
             \Session::flash('message', "關懷記錄新增成功。");

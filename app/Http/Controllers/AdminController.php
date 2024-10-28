@@ -346,40 +346,49 @@ class AdminController extends BackendController {
 
     public function showAddOrgs($camp_id, $org_id){
         $camp = Camp::find($camp_id);
-        $orgs = $this->backendService->getCampOrganizations($this->campFullData);
-        $orgs = $orgs->sortByDesc('section');
-        $batches = null;
-        $regions = null;
+        //$orgs = $this->backendService->getCampOrganizations($this->campFullData);
+        //$orgs = $orgs->sortByDesc('section');
+        $orgs = $camp->organizations->sortByDesc('section');
+        $batches = $camp->batchs;
+        $regions = $camp->regions;
         $org_tg = null;
         $sec_tg = null;
         $batch_tg = null;
         $region_tg = null;
         if ($org_id == 0) { //無上層
             //create 大會
-            $batches = $camp->batchs;
-            $regions = $camp->regions;
-            $org_tg = new CampOrg();
-            $org_tg->camp_id = $camp_id;
-            //$org_tg->batch_id = null;   //all batches
-            $org_tg->section = '大會';
-            $org_tg->position = '大會';
-            $org_tg->is_node = '0';
-            $org_tg->prev_id = '0';
-            $org_tg->order = '0';
-            $org_tg->save();
-            //dd($org_tg->id);
+            if ($orgs->isEmpty()) {
+                $org_tg = new CampOrg();
+                $org_tg->camp_id = $camp_id;
+                //$org_tg->batch_id = null;   //all batches
+                $org_tg->section = '大會';
+                $org_tg->position = '大會';
+                $org_tg->is_node = '0';
+                $org_tg->prev_id = '0';
+                $org_tg->order = '0';
+                $org_tg->save();
+                //$camp = Camp::find($camp_id);
+                //$orgs = $camp->organizations->sortByDesc('section');
+                $orgs->put(0,$org_tg);
+            }
+            $batch_tg = new Batch();
+            $batch_tg->id = 0;
+            $batch_tg->name = '不限';
+            $region_tg = new Region();
+            $region_tg->id = 0;
+            $region_tg->name = '不限';
         } else {  //有上層
             $org_tg = CampOrg::find($org_id);
 
             $sec_tg = $org_tg->section; //找到要新增的sec
-            if ($org_tg->batch_id==0) {
+            if ($org_tg->batch_id==0 || $org_tg->batch_id==null) {
                 $batch_tg = new Batch();
                 $batch_tg->id = 0;
                 $batch_tg->name = '不限';
             } else {
                 $batch_tg = Batch::find($org_tg->batch_id);
             }
-            if ($org_tg->region_id==0) {
+            if ($org_tg->region_id==0 || $org_tg->region_id==null) {
                 $region_tg = new Region();
                 $region_tg->id = 0;
                 $region_tg->name = '不限';
