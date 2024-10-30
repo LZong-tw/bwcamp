@@ -45,7 +45,7 @@ class QueuedApplicantMail extends Mailable
         $this->admission_announcing_date_Weekday = \Carbon\Carbon::create($this->campData->admission_announcing_date)->locale(\App::getLocale())->isoFormat("dddd");
 
         if(!$this->isGetSN) {
-            if ($this->camp == 'ceocamp') {
+            if ($this->camp == 'ceocamp' || $this->camp == 'wcamp') {
                 return $this->subject($this->applicant->batch->camp->abbreviation . '推薦報名完成')
                     ->view('camps.' . $this->applicant->batch->camp->table . ".applicantMail");
             }
