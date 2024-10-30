@@ -1649,6 +1649,27 @@ return [
                 "sort" => 0,
                 "for_query" => 1,
             ],
+            "learning_experiences" => [
+                "name" => "學習狀況",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "volunteer_experiences" => [
+                "name" => "護持狀況",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "speak_experiences" => [
+                "name" => "講說經驗",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "introducer_name" => [
+                "name" => "推薦人",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+
         ],
 
         'wvcamp' => [
