@@ -524,6 +524,7 @@ return [
         "gender" => "性別",
         "mobile" => "聯絡電話",
         "email" => "電子信箱",
+        "line" => "LineID",
         "unit" => "服務單位",
         "title" => "職稱",
         "learning_experiences" => "學習狀況",
@@ -540,6 +541,8 @@ return [
         "name" => "姓名",
         "mobile" => "行動電話",
         "email" => "電子郵件",
+        "line" => "LineID",
+        "self_intro" => "我是誰",
     ],
 
     'ycamp' => [
