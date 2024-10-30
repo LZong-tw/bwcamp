@@ -199,6 +199,16 @@
             </div>
         </div>
     </div>
+    
+    <div class='row form-group'> 
+    <label for='inputLineID' class='col-md-2 control-label text-md-right'>LINE ID</label>
+        <div class='col-md-10'>
+            <input type='text' name='line' value='' class='form-control' id='inputLineID'>
+            <div class="invalid-feedback crumb">
+                請填寫LINE ID
+            </div>
+        </div>
+    </div>
 
     <div class='row form-group required'>
     <label for='inputLRClass' class='col-md-2 control-label text-md-right'>廣論研討班別</label>
