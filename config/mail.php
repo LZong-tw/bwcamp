@@ -221,6 +221,20 @@ return [
         'name' => env('UTVCAMP_MAIL_FROM_NAME'),
     ],
 
+    'wcamp' => [
+        'address' => env('WCAMP_MAIL_USERNAME', 'hello@example.com'),
+        'username' => env('WCAMP_MAIL_USERNAME'),
+        'password' => env('WCAMP_MAIL_PASSWORD'),
+        'name' => env('WCAMP_MAIL_FROM_NAME'),
+    ],
+
+    'wvcamp' => [
+        'address' => env('WVCAMP_MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'username' => env('WVCAMP_MAIL_USERNAME'),
+        'password' => env('WVCAMP_MAIL_PASSWORD'),
+        'name' => env('WVCAMP_MAIL_FROM_NAME'),
+    ],
+
     'ycamp' => [
         'address' => env('YCAMP_MAIL_FROM_ADDRESS', 'hello@example.com'),
         'username' => env('YCAMP_MAIL_USERNAME'),
