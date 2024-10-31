@@ -817,7 +817,7 @@ return [
                 "name" => "廣論班年份",
                 "sort" => 1,
                 "for_query" => 1,
-            ],    
+            ],
             "lrclass_number" => [
                 "name" => "廣論班別",
                 "sort" => 1,
@@ -1778,6 +1778,24 @@ return [
                 "for_query" => 0,
             ],
         ],
+
+        'wcamp' => [
+            "group" => [
+                "name" => "組別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "name" => [
+                "name" => "姓名",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "gender" => [
+                "name" => "性別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+        ]
     ],
 
     'export4stat' => [
