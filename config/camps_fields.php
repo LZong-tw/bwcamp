@@ -1785,9 +1785,19 @@ return [
                 "sort" => 1,
                 "for_query" => 1,
             ],
+            "region" => [
+                "name" => "區域",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "nationality" => [
+                "name" => "國籍",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
             "name" => [
                 "name" => "姓名",
-                "sort" => 0,
+                "sort" => 1,
                 "for_query" => 1,
             ],
             "gender" => [
@@ -1795,7 +1805,93 @@ return [
                 "sort" => 1,
                 "for_query" => 1,
             ],
-        ]
+            "lrclass" => [
+                "name" => "廣論班別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "mobile" => [
+                "name" => "行動電話",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "email" => [
+                "name" => "電子郵件",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "line" => [
+                "name" => "Line ID",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "unit" => [
+                "name" => "服務單位",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "title" => [
+                "name" => "職稱",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "learning_experiences" => [
+                "name" => "學習狀況",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "volunteer_experiences" => [
+                "name" => "護持狀況",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "speak_experiences" => [
+                "name" => "講說經驗",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "character" => [
+                "name" => "講說特質",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "potential" => [
+                "name" => "潛力特質",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "comments" => [
+                "name" => "備註說明",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "introducer_name" => [
+                "name" => "推薦人",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "introducer_participated" => [
+                "name" => "推薦人相關訊息",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "introducer_phone" => [
+                "name" => "推薦人電話",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "introducer_email" => [
+                "name" => "推薦人電子信箱",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "created_at" => [
+                "name" => "報名日期",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+        ],
+
     ],
 
     'export4stat' => [
