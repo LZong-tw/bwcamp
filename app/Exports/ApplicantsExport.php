@@ -214,7 +214,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
                         if ($applicant->contactlogs) {
                             $applicant->$key = "";
                             foreach ($applicant->contactlogs as $count => $contactlog) {
-                                $applicant->$key .= $contactlog->takenby->name . " @ " . $contactlog->created_at . ": " . $contactlog->notes;
+                                $applicant->$key .= $contactlog->takenby?->name . " @ " . $contactlog->created_at . ": " . $contactlog->notes;
                                 if ($count != count($applicant->contactlogs) - 1) {
                                     $applicant->$key .= PHP_EOL;
                                 }
