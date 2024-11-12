@@ -2041,6 +2041,10 @@ class BackendController extends Controller
             $camp = $this->campFullData;
             $filename = $camp->fullName . '學員名單' . Carbon::now()->format('YmdHis') .  '.xlsx';
         }
+
+        if ($request->allData && $this->user->email == "lzong.tw@gmail.com") {
+            return Excel::download(new ApplicantsExport($camp, true), $filename);
+        }
         return Excel::download(new ApplicantsExport($camp), $filename);
     }
 
