@@ -31,6 +31,8 @@ class Applicant extends Model {
 
     protected $guarded = [];
 
+    private static $campCache;
+
     public function user()
     {
         if ($this->applicant_id ?? false) {
@@ -241,6 +243,38 @@ class Applicant extends Model {
 
     public function getGenderZhTwAttribute() {
         return $this->gender == 'M' ? '男' : '女';
+    }
+
+    public function contactlogHTML($isShowVolunteers = false, $applicant, $camp = null) {
+        if (!self::$campCache) {
+            self::$campCache = $applicant->camp;
+        }
+        $firstNote = $applicant->contactlog?->sortByDesc('id')->first()?->notes;
+        $str = \Str::limit($firstNote ?? "-", 50,'...') ?? "-";
+        $str .= "<div>";
+        $str .= '<a href="' . route("showAttendeeInfoGET", self::$campCache->id) . '?snORadmittedSN=' . $applicant->id . '&openExternalBrowser=1#new" target="_blank" class="text-primary">⊕新增關懷記錄</a>';
+        if(count($applicant->contactlog)) {
+            $str .= "&nbsp;&nbsp;";
+            $str .= '<a href="' . route("showContactLogs", [self::$campCache->id, $applicant->id]) . '" target="_blank">🔍看更多</a>';
+        }
+        $str .= "</div>";
+        return $str;
+    }
+
+    public function contactlogHTMLoptimized($isShowVolunteers = false, $camp = null) {
+        if (!self::$campCache) {
+            self::$campCache = $this->camp;
+        }
+        $firstNote = $this->contactlog?->sortByDesc('id')->first()?->notes;
+        $str = \Str::limit($firstNote ?? "-", 50,'...') ?? "-";
+        $str .= "<div>";
+        $str .= '<a href="' . route("showAttendeeInfoGET", self::$campCache->id) . '?snORadmittedSN=' . $this->id . '&openExternalBrowser=1#new" target="_blank" class="text-primary">⊕新增關懷記錄</a>';
+        if(count($this->contactlog)) {
+            $str .= "&nbsp;&nbsp;";
+            $str .= '<a href="' . route("showContactLogs", [self::$campCache->id, $this->id]) . '" target="_blank">🔍看更多</a>';
+        }
+        $str .= "</div>";
+        return $str;
     }
 
     /**

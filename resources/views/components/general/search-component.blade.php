@@ -115,6 +115,7 @@
                         $groups->forget($key);
                     }
                 }
+                $groups->load('batch');
             @endphp
             @forelse($groups->values() ?? [] as $key => $group)
                 @if(!$currentUser->canAccessResource($group, 'read', $camp))
