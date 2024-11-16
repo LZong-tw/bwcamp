@@ -10,7 +10,8 @@ use App\Traits\EmailConfiguration;
 
 class User extends Authenticatable
 {
-    use Notifiable, EmailConfiguration;
+    use Notifiable;
+    use EmailConfiguration;
 
     /**
      * The attributes that are mass assignable.
@@ -43,30 +44,30 @@ class User extends Authenticatable
 
     protected $hasRole = null;
 
-    public function getPermission($top = false, $camp_id = null, $function_id = null) {
-        if(!$top){
+    public function getPermission($top = false, $camp_id = null, $function_id = null)
+    {
+        if(!$top) {
             if (!$this->hasRole) {
                 $this->hasRole = \App\Models\RoleUser::join('roles', 'roles.id', '=', 'role_user.role_id')->where('user_id', $this->id)->orderBy('level', 'asc')->get();
             }
             $hasRole = $this->hasRole;
-            if($hasRole->count() == 0){
-                $empty = new \App\Models\Role;
+            if($hasRole->count() == 0) {
+                $empty = new \App\Models\Role();
                 $empty->level = 999;
                 return $empty;
             }
             return $hasRole->first();
-        }
-        else if($top){
-            if($camp_id){
+        } elseif($top) {
+            if($camp_id) {
                 return \DB::table('roles')->where('camp_id', $camp_id)->whereIn('id', $this->role_relations->pluck('role_id'))->orderBy('level', 'desc')->first();
-            }
-            else{
+            } else {
                 return \DB::table('roles')->whereIn('id', $this->role_relations->pluck('role_id'))->orderBy('level', 'desc')->get();
             }
         }
     }
 
-    public function role_relations(){
+    public function role_relations()
+    {
         return $this->hasMany('App\Models\RoleUser');
     }
 
@@ -91,7 +92,8 @@ class User extends Authenticatable
      * @param  mixed  $instance
      * @return void
      */
-    public function notify($instance) {
+    public function notify($instance)
+    {
         $this->setEmail($this->role_relations->first()->role->camp->table ?? "");
         app(\Illuminate\Contracts\Notifications\Dispatcher::class)->send($this, $instance);
     }
