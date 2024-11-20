@@ -24,7 +24,7 @@ class SignBackendController extends BackendController
                 new \DateInterval('P1D'),
                 \Carbon\Carbon::parse($batch->batch_end)->addDay()
             );
-    
+
 
             $days = [];
             foreach ($daysIterator as $date) {
@@ -73,7 +73,7 @@ class SignBackendController extends BackendController
         if(!$request->end && !$request->duration) {
             return redirect()->back()->withErrors(["未填寫任何結束時間。"])->withInput();
         }
-        
+
         $request->start = $request->day . " " . $request->start;
 
         if($request->end) {
@@ -92,8 +92,7 @@ class SignBackendController extends BackendController
             ]);
             \Session::flash('message', "設定成功。");
             return redirect()->back();
-        } 
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             \logger($e->getMessage());
             return redirect()->back()->withErrors(["發生未知錯誤，設定失敗。"])->withInput();
         }

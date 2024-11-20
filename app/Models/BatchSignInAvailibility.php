@@ -18,39 +18,48 @@ class BatchSignInAvailibility extends Model
 
     protected $fillable = ["batch_id", "timeslot_name", "start", "end", "type"];
 
-    public function batch() {
+    public function batch()
+    {
         return $this->belongsTo(Batch::class);
     }
 
-    public function camp() {
+    public function camp()
+    {
         return $this->batch()->camp();
     }
 
-    public function applicants() {
+    public function applicants()
+    {
         return $this->hasManyThrough(Applicant::class, SignInSignOut::class, "availability_id", "id", "id", "applicant_id");
     }
 
-    public function isSignIn() {
+    public function isSignIn()
+    {
         return $this->type == "in";
     }
 
-    public function signInfo() {
+    public function signInfo()
+    {
         return $this->type == "out";
     }
 
-    public function isSignableAt($datetime) {
+    public function isSignableAt($datetime)
+    {
         return $this->where([['start', '<=', $datetime], ['end', '>=', $datetime]])->first();
     }
 
-    public function getStartTimeAttribute() {
+    public function getStartTimeAttribute()
+    {
         return substr($this->start, 0, 16);
     }
 
-    public function getEndTimeAttribute() {
+    public function getEndTimeAttribute()
+    {
         return substr($this->end, 0, 16);
     }
 
-    public function getSignTimeAttribute() {
+    public function getSignTimeAttribute()
+    {
         return $this->getStartTimeAttribute() . " ~ " . substr($this->end, 11, 5);
     }
 }
