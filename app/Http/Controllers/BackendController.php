@@ -623,13 +623,15 @@ class BackendController extends Controller
                     foreach($signAvailabilities as $signAvailability) {
                         $signData[$signAvailability->id] = [
                             'type'       => $signAvailability->type,
+                            'name'       => $signAvailability->timeslot_name,
                             'date'       => substr($signAvailability->start, 5, 5),
                             'start'      => substr($signAvailability->start, 11, 5),
                             'end'        => substr($signAvailability->end, 11, 5),
                             'applicants' => $signAvailability->applicants->pluck('id')
                         ];
+                        $name = $signAvailability->timeslot_name ?? [];
                         $str = $signAvailability->type == "in" ? "簽到時間：" : "簽退時間：";
-                        $signDateTimesCols["SIGN_" . $signAvailability->id] = $str . substr($signAvailability->start, 5, 5) . " " . substr($signAvailability->start, 11, 5) . " ~ " . substr($signAvailability->end, 11, 5);
+                        $signDateTimesCols["SIGN_" . $signAvailability->id] = $name. $str . substr($signAvailability->start, 5, 5) . " " . substr($signAvailability->start, 11, 5) . " ~ " . substr($signAvailability->end, 11, 5);
                     }
                 } else {
                     $signData = array();

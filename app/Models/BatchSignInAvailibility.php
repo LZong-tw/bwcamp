@@ -16,7 +16,7 @@ class BatchSignInAvailibility extends Model
 
     public $resourceDescriptionInMandarin = '建立簽到作業所需的權限。擁有新增這個資源權限的人才可以決定什麼時間點可以簽到簽退。';
 
-    protected $fillable = ["batch_id", "start", "end", "type"];
+    protected $fillable = ["batch_id", "timeslot_name", "start", "end", "type"];
 
     public function batch() {
         return $this->belongsTo(Batch::class);
