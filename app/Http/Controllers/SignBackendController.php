@@ -85,6 +85,7 @@ class SignBackendController extends BackendController
         try {
             BatchSignInAvailibility::create([
                 "batch_id" => $request->batch_id,
+                "timeslot_name" => $request->timeslot_name,
                 "start" => \Carbon\Carbon::parse($request->start),
                 "end" => \Carbon\Carbon::parse($end),
                 "type" => $request->type

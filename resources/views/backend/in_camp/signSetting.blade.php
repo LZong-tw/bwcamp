@@ -37,7 +37,8 @@
                     <option value="">請選擇</option>
                     <option value="in" {{ old("type") == "in" ? "selected" : "" }}>簽到</option>
                     <option value="out" {{ old("type") == "out" ? "selected" : "" }}>簽退</option>
-                </select> <br>
+                </select><br>
+                時段名稱：<input type="text" name="timeslot_name" class="form-control col-md-6 d-inline-block mb-2" value="{{ old("timeslot_name") }}"> <br>
                 開始時間：<input type="time" name="start" required class="form-control col-md-6 d-inline-block mb-2" value="{{ old("start") }}"> <br>
                 結束時間：<input type="time" name="end" class="form-control col-md-6 d-inline-block mb-1" value="{{ old("end") }}"> <br> 或
                 <input type="integer" min="0" name="duration" class="form-control col-md-1 d-inline-block" value="{{ old("duration") }}"> 分鐘後結束 <br>
@@ -47,7 +48,7 @@
         <hr>
         @foreach ($batch->days as $day)
             <h5>{{ $day }}</h5>
-            <table class="table table-bordered text-center" style="width: 50%">
+            <table class="table table-bordered text-center" style="width: 70%">
                 @if ($day != now()->format('Y-m-d'))
                     <form action="{{ route("sign_set_back", $campFullData->id) }}" method="post">
                         @csrf
@@ -58,7 +59,8 @@
                             <option value="">請選擇</option>
                             <option value="in" {{ old("type") == "in" ? "selected" : "" }}>簽到</option>
                             <option value="out" {{ old("type") == "out" ? "selected" : "" }}>簽退</option>
-                        </select> <br>
+                        </select><br>
+                        時段名稱：<input type="text" name="timeslot_name" class="form-control col-md-6 d-inline-block mb-2" value="{{ old("timeslot_name") }}"> <br>
                         開始時間：<input type="time" name="start" required class="form-control col-md-6 d-inline-block mb-2" value="{{ old("start") }}"> <br>
                         結束時間：<input type="time" name="end" class="form-control col-md-6 d-inline-block mb-1" value="{{ old("end") }}"> <br> 或
                         <input type="integer" min="0" name="duration" class="form-control col-md-1 d-inline-block" value="{{ old("duration") }}"> 分鐘後結束 <br>
@@ -68,6 +70,7 @@
                 @foreach ($batch->sign_info($day) as $key => $row)
                     <tr class="">
                         <td class="align-middle">{{ $key + 1 }}</td>
+                        <td class="align-middle">{{ $row->timeslot_name }}</td>
                         <td class="align-middle">{{ $row->type == "in" || !$row->type ? "簽到" : "簽退" }}</td>
                         <td class="align-middle">{{ substr($row->start, 11, 5) }} ~ {{ substr($row->end, 11, 5) }}</td>
                         <td class="align-middle">
