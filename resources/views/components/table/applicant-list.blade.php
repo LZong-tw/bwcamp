@@ -186,8 +186,9 @@
         // remove null item
         result = result.filter(function(item) { return item != null && item != 0; });
         let count = 0;
+        let resultItems = Object.keys(structuredClone(result)).length;
         // check result is only one element and the length of only one element has many items //
-        if (result.length == 1 && Object.keys(result[0]).length > 1) {
+        if (result.length == 1 && resultItems > 1) {
             result = result[0];
         }
         result.forEach(function(item) {
