@@ -314,9 +314,17 @@ class User extends Authenticatable
             });
         };
 
-        $this->rolePermissions = $this->with(['roles' => $constraint, 'roles.permissions'])->whereHas('roles', $constraint)->where('id', $this->id)->get()->pluck('roles')->flatten()->pluck('permissions')->flatten()->unique('id')->values();
-        $permissions = $this->rolePermissions;
-        $forInspect = $permissions->where("resource", "\\" . $class)->where("action", $action)->first();
+        if (self::$permissions) {
+            $permissions = self::$permissions;
+            $forInspect = self::$forInspect;
+        } else {
+            $this->rolePermissions = self::with(['roles', 'roles.permissions'])->where('id', $this->id)->get()->pluck('roles')->flatten()->pluck('permissions')->flatten()->unique('id')->values();
+            $permissions = $this->rolePermissions;
+            $forInspect = $permissions->where("resource", "\\" . $class)->where("action", $action)->first();
+            self::$permissions = $permissions;
+            self::$forInspect = $forInspect;
+        }
+
 
         if ($forInspect) {
             if ($probing) {
