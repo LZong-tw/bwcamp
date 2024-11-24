@@ -186,7 +186,7 @@
         // remove null item
         result = result.filter(function(item) { return item != null && item != 0; });
         let count = 0;
-        result = result[0][0];
+        result = Object.values(result[0]);
         result.forEach(function(item) {
             if (!item || !item.id) {
                 console.log(item, count);
