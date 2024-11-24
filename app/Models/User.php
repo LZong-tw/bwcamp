@@ -314,6 +314,7 @@ class User extends Authenticatable
             });
         };
 
+        // 考慮方向：使用表做快取，同時，任何 Applicant（含營隊表）、Volunteer、User 在資料變動後，都要 Listen 並 handle 後續修改表格的動作
         if (self::$permissions) {
             $permissions = self::$permissions;
             $forInspect = self::$forInspect;
