@@ -186,12 +186,12 @@
         // remove null item
         result = result.filter(function(item) { return item != null && item != 0; });
         let count = 0;
-        // check result is only one element and the only one element has many items
-        if (result.length == 1 && result[0].length > 1) {
+        // check result is only one element and the length of only one element has many items //
+        if (result.length == 1 && Object.keys(result[0]).length > 1) {
             result = result[0];
         }
         result.forEach(function(item) {
-            if (!item) {
+            if (!item || !item.id) {
                 console.log(item, count);
                 return;
             }
