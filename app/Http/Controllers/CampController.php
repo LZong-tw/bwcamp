@@ -553,6 +553,9 @@ class CampController extends Controller
             $fare_back_to = config('camps_payments.fare_back_to.' . $campTable) ?? [];
             $applicant = $this->applicantService->checkPaymentStatus($applicant);
             
+            $applicant->batch_start_Weekday = \Carbon\Carbon::create($applicant->batch->batch_start)->locale(\App::getLocale())->isoFormat("dddd");
+            $applicant->batch_end_Weekday = \Carbon\Carbon::create($applicant->batch->batch_end)->locale(\App::getLocale())->isoFormat("dddd");
+    
             //for 2023大專教師營
             if ($applicant->camp->table == 'utcamp') {
                 $group = $applicant->group;
