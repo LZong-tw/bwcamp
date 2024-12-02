@@ -256,7 +256,7 @@ class BackendController extends Controller
             $batches = Batch::where("camp_id", $this->camp_id)->get()->pluck("id");
             foreach($request->id as $key => $id) {
                 if (!$id) {
-                    array_push($error, "第 " . ($key+1) . " 筆資料遺失，請回上上頁重新整理後再重試。");
+                    array_push($error, "第 " . ($key + 1) . " 筆資料遺失，請回上上頁重新整理後再重試。");
                     continue;
                 }
                 $skip = false;
