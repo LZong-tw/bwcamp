@@ -10,7 +10,7 @@
     </div>
     <div class="row">
         @php
-            $skip = false;
+            $skip = true;
         @endphp
         @if(!$skip)
             @if($applicant->is_admitted && $applicant->workshop_credit_type=="基金會研習數位證明書")
@@ -38,13 +38,15 @@
                             <p class="card-text">
                                 <table width="100%" style="table-layout:fixed; border: 0; text-align: center; margin-bottom: 12px; margin-top: -4px;">
                                     <tr>
-                                        <td><h6>場次</h6></td>
+                                        <td><h6>地點</h6></td>
+                                        <td><h6>時間</h6></td>
                                         <td><h6>姓名</h6></td>
                                         <td><h6>錄取編號</h6></td>
                                         <td><h6>組別</h6></td>
                                     </tr>
                                     <tr>
-                                        <td>{{ $applicant->batch->name }}</td>
+                                        <td>{{ $applicant->batch->locationName }}</td>
+                                        <td>{{ $applicant->batch->batch_start }}-{{ $applicant->batch->batch_end }}</td>
                                         <td>{{ $applicant->name }}</td>
                                         <td><u>{{ $applicant->group }}{{ $applicant->number }}</u></td>
                                         <td><u>{{ $applicant->group }}</u></td>
@@ -65,7 +67,7 @@
                                 </div>
                                 <h5>諮詢窗口</h5>
                                 <div class="ml-4 mb-2">
-                                    營隊相關訊息我們會有義工與您聯繫，或諮詢窗口（請於周一至周五 10:00~17:30 來電）<br>
+                                    報名報到諮詢窗口（周一至周五10:00~17:30）<br>
                                     王淑靜&emsp;小姐<br>
                                     電話：07-9769341#413<br>
                                     Email：shu-chin.wang@blisswisdom.org<br>
@@ -123,9 +125,9 @@
                                 　　關注「福智文教基金會」網站：<a href="https://bwfoce.org" target="_blank" rel="noopener noreferrer">https://bwfoce.org</a><br>
                                 　　關注「幸福心學堂online」FB社團：<a href="https://www.facebook.com/groups/bwfoce.happiness.new/" target="_blank" rel="noopener noreferrer">https://www.facebook.com/groups/bwfoce.happiness.new</a><br>
                                 <br>
-                                祝福　教安，健康平安！
+                                敬祝　教安！
                             </p>
-                            <p class="right">財團法人福智文教基金會　敬啟</p>
+                            <p class="right">財團法人福智文教基金會　謹此</p>
                             <p class="right">{{ \Carbon\Carbon::now()->year }}  年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
                             <input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>
                             <a href="{{ $camp_data->site_url }}" class="btn btn-primary">回營隊首頁</a>

@@ -48,14 +48,15 @@
         @csrf
         <div class="form-group input-group">
             {{-- <input type="text" class="form-control" name="query_str" id="" placeholder="請任選報名序號、姓名、手機輸入..." value="{{ old("query_str") }}" required> --}}
-            <input type="text" class="form-control" name="name" id="" placeholder="請輸入姓名全名..." value="{{ old("name", $name ?? "") }}" required>
+            <input type="text" class="form-control" name="name" id="name" placeholder="請輸入姓名全名..." value="{{ old("name", $name ?? "") }}" >
         </div>
         <div class="form-group input-group">
             {{-- <input type="text" class="form-control" name="admitted_no" id="" placeholder="請輸入錄取序號..." value="{{ old("admitted_no") }}" maxlength="5" minlength="5" required> --}}
-            <input type="text" class="form-control" name="mobile" id="" placeholder="請輸入手機..." value="{{ old("mobile", $mobile ?? "") }}" required>
+            <input type="text" class="form-control" name="mobile" id="mobile" placeholder="請輸入手機..." value="{{ old("mobile", $mobile ?? "") }}" >
         </div>
+        <div class="text-danger" id='reminder' style="display:none">請至少輸入一項</div>
         <div class="form-group input-group justify-content-center">
-            <button class="btn btn-outline-success" type="submit" id="signinsearch">
+            <button class="btn btn-outline-success" type="button" id="signinsearch" onclick="checkInput(this.closest('form'));">
                 Go <i class="fa fa-search"></i>
             </button> 
             <button class="btn btn-outline-danger ml-1" type="reset" id="">
@@ -63,6 +64,22 @@
             </button>
         </div>
     </form>
+    <script>
+        function checkInput (form) {
+            str_reminder = document.getElementById('reminder');
+            if (document.getElementById("name").value == "" 
+            && document.getElementById("mobile").value == "") {
+                //console.log('both empty');
+                str_reminder.style.display = '';
+            } else {
+                //console.log('at least one filled');
+                str_reminder.style.display = 'none';
+                form.submit();
+            }
+            return;
+        }
+    </script>
+
     @if(isset($applicant))
         @if(isset($message) && $message['status'])
             <div class='alert alert-success' role='alert'>
