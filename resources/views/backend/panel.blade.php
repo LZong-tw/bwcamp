@@ -226,9 +226,9 @@
                         <li>
                             <a href="{{ route('sign_back', $campFullData->id) }}">設定簽到退時間</a>
                         </li>
-                        <li>
+                        {{--<li>
                             <a href="{{ route('sign_upload', $campFullData->id) }}">更新簽到資料</a>
-                        </li>
+                        </li>--}}
                         <li>
                         @if($campFullData->table == "ycamp")
                             <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">現場手動繳費<br>修改繳費資料<br>修改交通</a>
