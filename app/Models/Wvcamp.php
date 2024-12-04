@@ -12,7 +12,7 @@ class Wvcamp extends Model
     public $resourceNameInMandarin = '講師培訓營義工特殊欄位';
 
     protected $fillable = [
-        'applicant_id', 'lrcalss', 'self_intro'
+        'applicant_id', 'lrclass', 'self_intro'
     ];
 
     protected $guarded = [];
