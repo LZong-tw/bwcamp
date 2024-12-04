@@ -452,7 +452,7 @@ return [
         "portrait_agree" => "肖像權",
         "profile_agree" => "個人資料允許",
         "transportation_depart" => "去程交通",
-        "transportation_back" =>"回程交通",
+        "transportation_back" => "回程交通",
         "carers" => "關懷員",
         "care_log" => "關懷記錄",
         "remark" => "備註",
@@ -498,7 +498,7 @@ return [
         "emergency_relationship" => "緊急聯絡人關係",
         "emergency_mobile" => "緊急聯絡人電話",
         "transportation_depart" => "去程交通",
-        "transportation_back" =>"回程交通",
+        "transportation_back" => "回程交通",
     ],
 
     'utvcamp' => [

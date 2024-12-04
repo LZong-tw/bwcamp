@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      *
@@ -15,7 +14,7 @@ return new class extends Migration
     {
         Schema::table('wvcamp', function (Blueprint $table) {
             //
-            $table->string('lrclass')->nullable()->after('applicant_id');  //廣論研討班別   
+            $table->string('lrclass')->nullable()->after('applicant_id');  //廣論研討班別
 
         });
     }
@@ -29,7 +28,7 @@ return new class extends Migration
     {
         Schema::table('wvcamp', function (Blueprint $table) {
             //
-            $table->dropColumn('lrclass');  //廣論研討班別   
+            $table->dropColumn('lrclass');  //廣論研討班別
         });
     }
 };
