@@ -39,7 +39,7 @@
             關注「福智文教基金會」網站：<a href="https://bwfoce.org">https://bwfoce.org</a>
         </li>
         <li>
-            營隊相關訊息我們會有義工與您聯繫，或諮詢窗口<span class="font-bold">（請於周一至周五 10:00~17:30 來電）：</span><br>
+            報名報到諮詢窗口<span class="font-bold">（周一至周五 10:00~17:30）：</span><br>
             王淑靜&emsp;小姐<br>
             電話：07-9769341#413<br>
             Email：shu-chin.wang@blisswisdom.org<br>

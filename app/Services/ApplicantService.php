@@ -158,13 +158,15 @@ class ApplicantService
     public function retriveApplicantForSignInSignOut($request) {
         // $group = substr($request->admitted_no, 0, 3);
         // $number = substr($request->admitted_no, 3, 2);
+        $request->name = $request->name ?? '0'; //if null, assign some value
+        $request->mobile = $request->mobile ?? 'x'; //if null, assign some value
         $applicant =  Applicant::where('is_admitted', 1)
                             ->where(function($query) use ($request){
                                 // $query->where('id', $request->query_str)
                                 // ->orWhere('name', 'like', '%' . $request->query_str . '%')
                                 $query->where('name', 'like', $request->name)
-                                      ->where(function ($query) use ($request) {
-                                           $query->where(\DB::raw("replace(mobile, '-', '')"), 'like', '%' . $request->mobile . '%')
+                                      ->orWhere(function ($query) use ($request) {
+                                           $query->where(\DB::raw("replace(mobile, '-', '')"),  'like', '%' . $request->mobile . '%')
                                                 ->orWhere(\DB::raw("replace(mobile, '(', '')"), 'like', '%' . $request->mobile . '%')
                                                 ->orWhere(\DB::raw("replace(mobile, ')', '')"), 'like', '%' . $request->mobile . '%')
                                                 ->orWhere(\DB::raw("replace(mobile, '（', '')"), 'like', '%' . $request->mobile . '%')
