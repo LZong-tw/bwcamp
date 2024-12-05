@@ -62,6 +62,7 @@
         $applicants = $applicants->load('carers');
         $applicants = $applicants->load('contactlog');
         $applicants = $applicants->each(function ($applicant) use ($camp) {
+            $applicant->number = $applicant->number;
             $applicant->gender = $applicant->gender_zh_tw;
             $applicant->age = $applicant->age;
             match ($applicant->is_attend) {
@@ -186,7 +187,7 @@
         // remove null item
         result = result.filter(function(item) { return item != null && item != 0; });
         let count = 0;
-        if (result.length == 1) { 
+        if (result.length == 1) {
             result = Object.values(result[0]);
         }
         result.forEach(function(item) {
