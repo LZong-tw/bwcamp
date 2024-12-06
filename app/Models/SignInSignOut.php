@@ -20,15 +20,18 @@ class SignInSignOut extends Model
 
     protected $table = "sign_in_sign_out";
 
-    public function applicant() {
+    public function applicant()
+    {
         return $this->belongsTo(Applicant::class);
     }
 
-    public function referencedAvailability() {
+    public function referencedAvailability()
+    {
         return $this->belongsTo(BatchSignInAvailibility::class, 'availability_id', 'id');
     }
 
-    public function referenced() {
+    public function referenced()
+    {
         return $this->referencedAvailability();
     }
 }
