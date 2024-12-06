@@ -3,7 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Camp;
 use App\Models\BatchSignInAvailibility;
+use App\Models\SignInSignOut;
+use App\Imports\ApplicantsImport;
+use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Concerns\ToCollection;
+
 
 class SignBackendController extends BackendController
 {
@@ -128,7 +135,7 @@ class SignBackendController extends BackendController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($request, $id)
     {
         //
     }
@@ -145,5 +152,77 @@ class SignBackendController extends BackendController
         BatchSignInAvailibility::destroy($id);
         \Session::flash('message', "刪除成功。");
         return redirect()->back();
+    }
+
+    public function sign_upload(Request $request)
+    {
+        //
+        $camp_id = $request->camp_id;
+        return view('backend.in_camp.signUpload', compact('camp_id'));
+    }
+    public function sign_update(Request $request)
+    {
+        //availability records
+        $camp_id = $request->camp_id;
+        $camp = Camp::find($request->camp_id);
+        $signAvailabilities = $camp->allSignAvailabilities;  
+        $avail_ids = $signAvailabilities->pluck('id');
+        //sign_in_sign_out records
+        $signRecords = SignInSignOut::whereIn('availability_id', $avail_ids)->orderBy("applicant_id")->get();
+        
+        //imported information, all sheets
+        $allsheets = Excel::toCollection(new ApplicantsImport, $request->fn_sign_update);
+        $sheet = $allsheets[0]; //1st sheet
+        $titles = $sheet[0];    //title row
+        $numrows = $sheet->count();
+        $numcols = $titles->count();
+
+        //to identify 
+        //(1) which column is the applicant_id
+        //(2) where the sign_in_sign_out columns start
+        $idxsign_start = 0;
+        $idxid = 0;
+        $idx = 0;
+        foreach ($titles as $title) {
+            if (str_contains($title, '報名序號')) {
+                $idxid = $idx;
+            }
+            if (str_contains($title, '簽到時間') || str_contains($title, '簽退時間')) {
+                $idxsign_start = $idx;
+                break;
+            }
+            $idx++;
+        }
+        $num_record_add = 0;
+        $num_record_delete = 0;
+        try {
+            for ($idxrow = 1; $idxrow<$numrows; $idxrow++) {
+                $row = $sheet[$idxrow]; 
+                $appl_id = $row[$idxid];
+                for ($idxsign = $idxsign_start; $idxsign<$numcols; $idxsign++) {
+                    $avail_id = $avail_ids[$idxsign-$idxsign_start];    //should be the same order
+                    $attendornot = $row[$idxsign];
+                    $filtered = $signRecords->where('applicant_id', $appl_id)
+                        ->where('availability_id', $avail_id)->first();
+                    if ($attendornot == '❌' && !is_null($filtered)) {
+                        $filtered->delete();
+                        $num_record_delete++;
+                    } elseif ($attendornot == '⭕' && is_null($filtered)) {
+                        $signadd = new SignInSignOut;
+                        $signadd->applicant_id = $appl_id;
+                        $signadd->availability_id = $avail_id;
+                        $signadd->save();
+                        $num_record_add++;
+                    }
+                }
+            }
+        }
+        catch(\Exception $e) {
+            \logger($e->getMessage());
+            $message = "資料庫寫入錯誤";
+            return view('backend.in_camp.signUpload', compact('camp_id', 'message', 'num_record_add', 'num_record_delete'));
+        }
+        $message = "資料庫寫入成功";
+        return view('backend.in_camp.signUpload', compact('camp_id', 'message', 'num_record_add', 'num_record_delete'));
     }
 }

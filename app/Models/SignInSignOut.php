@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use Applicants;
+//use Applicants;
+use App\Models\Applicant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -20,7 +21,7 @@ class SignInSignOut extends Model
     protected $table = "sign_in_sign_out";
 
     public function applicant() {
-        return $this->belongsTo(Applicants::class);
+        return $this->belongsTo(Applicant::class);
     }
 
     public function referencedAvailability() {
