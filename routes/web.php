@@ -247,6 +247,9 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
                 "store" => "sign_set_back",
                 "destroy" => "sign_delete_back"
             ]);
+    Route::get("/signUpload", "SignBackendController@sign_upload")->name("sign_upload");
+    Route::post("/signUpdate", "SignBackendController@sign_update")->name("sign_update");
+
 });
 
 /* GSheet Test
