@@ -11,7 +11,6 @@ use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Concerns\ToCollection;
 
-
 class SignBackendController extends BackendController
 {
     /**
@@ -31,7 +30,7 @@ class SignBackendController extends BackendController
                 new \DateInterval('P1D'),
                 \Carbon\Carbon::parse($batch->batch_end)->addDay()
             );
-    
+
 
             $days = [];
             foreach ($daysIterator as $date) {
@@ -80,7 +79,7 @@ class SignBackendController extends BackendController
         if(!$request->end && !$request->duration) {
             return redirect()->back()->withErrors(["未填寫任何結束時間。"])->withInput();
         }
-        
+
         $request->start = $request->day . " " . $request->start;
 
         if($request->end) {
@@ -99,8 +98,7 @@ class SignBackendController extends BackendController
             ]);
             \Session::flash('message', "設定成功。");
             return redirect()->back();
-        } 
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             \logger($e->getMessage());
             return redirect()->back()->withErrors(["發生未知錯誤，設定失敗。"])->withInput();
         }
@@ -165,19 +163,19 @@ class SignBackendController extends BackendController
         //availability records
         $camp_id = $request->camp_id;
         $camp = Camp::find($request->camp_id);
-        $signAvailabilities = $camp->allSignAvailabilities;  
+        $signAvailabilities = $camp->allSignAvailabilities;
         $avail_ids = $signAvailabilities->pluck('id');
         //sign_in_sign_out records
         $signRecords = SignInSignOut::whereIn('availability_id', $avail_ids)->orderBy("applicant_id")->get();
-        
+
         //imported information, all sheets
-        $allsheets = Excel::toCollection(new ApplicantsImport, $request->fn_sign_update);
+        $allsheets = Excel::toCollection(new ApplicantsImport(), $request->fn_sign_update);
         $sheet = $allsheets[0]; //1st sheet
         $titles = $sheet[0];    //title row
         $numrows = $sheet->count();
         $numcols = $titles->count();
 
-        //to identify 
+        //to identify
         //(1) which column is the applicant_id
         //(2) where the sign_in_sign_out columns start
         $idxsign_start = 0;
@@ -196,11 +194,11 @@ class SignBackendController extends BackendController
         $num_record_add = 0;
         $num_record_delete = 0;
         try {
-            for ($idxrow = 1; $idxrow<$numrows; $idxrow++) {
-                $row = $sheet[$idxrow]; 
+            for ($idxrow = 1; $idxrow < $numrows; $idxrow++) {
+                $row = $sheet[$idxrow];
                 $appl_id = $row[$idxid];
-                for ($idxsign = $idxsign_start; $idxsign<$numcols; $idxsign++) {
-                    $avail_id = $avail_ids[$idxsign-$idxsign_start];    //should be the same order
+                for ($idxsign = $idxsign_start; $idxsign < $numcols; $idxsign++) {
+                    $avail_id = $avail_ids[$idxsign - $idxsign_start];    //should be the same order
                     $attendornot = $row[$idxsign];
                     $filtered = $signRecords->where('applicant_id', $appl_id)
                         ->where('availability_id', $avail_id)->first();
@@ -208,7 +206,7 @@ class SignBackendController extends BackendController
                         $filtered->delete();
                         $num_record_delete++;
                     } elseif ($attendornot == "✔️" && is_null($filtered)) {
-                        $signadd = new SignInSignOut;
+                        $signadd = new SignInSignOut();
                         $signadd->applicant_id = $appl_id;
                         $signadd->availability_id = $avail_id;
                         $signadd->save();
@@ -216,8 +214,7 @@ class SignBackendController extends BackendController
                     }
                 }
             }
-        }
-        catch(\Exception $e) {
+        } catch(\Exception $e) {
             \logger($e->getMessage());
             $message = "資料庫寫入錯誤";
             return view('backend.in_camp.signUpload', compact('camp_id', 'message', 'num_record_add', 'num_record_delete'));
