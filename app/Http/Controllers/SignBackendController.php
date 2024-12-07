@@ -204,10 +204,10 @@ class SignBackendController extends BackendController
                     $attendornot = $row[$idxsign];
                     $filtered = $signRecords->where('applicant_id', $appl_id)
                         ->where('availability_id', $avail_id)->first();
-                    if ($attendornot == '❌' && !is_null($filtered)) {
+                    if ($attendornot == "❌" && !is_null($filtered)) {
                         $filtered->delete();
                         $num_record_delete++;
-                    } elseif ($attendornot == '⭕' && is_null($filtered)) {
+                    } elseif ($attendornot == "✔️" && is_null($filtered)) {
                         $signadd = new SignInSignOut;
                         $signadd->applicant_id = $appl_id;
                         $signadd->availability_id = $avail_id;

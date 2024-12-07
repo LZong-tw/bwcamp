@@ -87,7 +87,8 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
                         'applicants' => $signAvailability->applicants->pluck('id')
                     ];
                     $str = $signAvailability->type == "in" ? "簽到時間：" : "簽退時間：";
-                    $signDateTimesCols["SIGN_" . $signAvailability->id] = $str . substr($signAvailability->start, 5, 5) . " " . substr($signAvailability->start, 11, 5) . " ~ " . substr($signAvailability->end, 11, 5);
+                    $strName = $signAvailability->timeslot_name;
+                    $signDateTimesCols["SIGN_" . $signAvailability->id] = $strName . " " . $str . substr($signAvailability->start, 5, 5) . " " . substr($signAvailability->start, 11, 5) . " ~ " . substr($signAvailability->end, 11, 5);
                 }
             } else {
                 $signData = array();
