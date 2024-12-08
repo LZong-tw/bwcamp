@@ -63,7 +63,7 @@ class LoginController extends Controller
                             ->find(auth()->user()->id)
                             ->roles->sortByDesc("camp.year")->first();
         if (str_contains($roleForInspect->section, "關懷大組")) {
-            return "/backend/" . $role->camp->id . "/IOI/learner";
+            return "/backend/" . $roleForInspect->camp->id . "/IOI/learner";
         }
         if (str_contains($request->headers->get('referer'), 'login')) {
             return property_exists($this, 'redirectTo') ? $this->redirectTo : '/home';
