@@ -57,49 +57,47 @@
             </tr>
         </thead>
         @foreach ($applicants as $applicant)
-            @if($user->canAccessResource($applicant, 'read', $campFullData))
-                <tr>
-                    <td>{{ $applicant->sn }}</td>
-                    <td>{{ $applicant->group }}{{ $applicant->number }}</td>
-                    <td>{{ $applicant->name }}</td>
-                    <td>{{ $applicant->gender }}</td>
-                    @if($camp_data->table == "tcamp")
-                        <td>{{ $applicant->county }} / {{ $applicant->district }}</td>
-                        <td>{{ $applicant->unit }} / {{ $applicant->title }}</td>
-                    @endif
-                    @if($camp_data->table == "ycamp")
-                        <td>{{ $applicant->system }}</td>
-                        <td>{{ $applicant->school }}</td>
-                        <td>{{ $applicant->department }} / {{ $applicant->grade }}</td>
-                        <td>{{ $applicant->mobile }}</td>
-                        <!--<td>{{ $applicant->phone_home }}</td>-->
-                        <td>{{ $applicant->traffic?->depart_from?? 0 }}</td>
-                        <td>{{ $applicant->traffic?->back_to?? 0 }}</td>
-                        <td>{{ $applicant->traffic?->fare?? 0 }}</td>
-                        <td>{{ $applicant->traffic?->sum?? 0 }}</td>
-                    @endif
-                    <td>{{ $applicant->region }}</td>
-                    @if($applicant->is_attend === 1)
-                        <td style='color: green;'>參加</td>
-                    @elseif($applicant->is_attend === 0)
-                        <td style='color: red;'>不參加</td>
-                    @elseif($applicant->is_attend === 2)
-                        <td style='color: #ffb429;'>尚未決定</td>
-                    @elseif($applicant->is_attend === 3)
-                        <td style='color: pink;'>聯絡不上</td>
-                    @elseif($applicant->is_attend === 4)
-                        <td style='color: seagreen;'>無法全程</td>
-                    @else
-                        <td style='color: rgb(0, 132, 255);'>尚未聯絡</td>
-                    @endif
-                    @if($camp_data->table != "ycamp")
-                    <td>{!! $applicant->is_paid == "是" ? "<a style='color: green;'>是</a>" : "<a style='color: red;'>否</a>" !!}</td>
-                    @endif
-                    <td>
-                        <input type="checkbox" name="sns[]" value="{{ $applicant->sn }}" class="selected">
-                    </td>
-                </tr>
-            @endif
+            <tr>
+                <td>{{ $applicant->sn }}</td>
+                <td>{{ $applicant->group }}{{ $applicant->number }}</td>
+                <td>{{ $applicant->name }}</td>
+                <td>{{ $applicant->gender }}</td>
+                @if($camp_data->table == "tcamp")
+                    <td>{{ $applicant->county }} / {{ $applicant->district }}</td>
+                    <td>{{ $applicant->unit }} / {{ $applicant->title }}</td>
+                @endif
+                @if($camp_data->table == "ycamp")
+                    <td>{{ $applicant->system }}</td>
+                    <td>{{ $applicant->school }}</td>
+                    <td>{{ $applicant->department }} / {{ $applicant->grade }}</td>
+                    <td>{{ $applicant->mobile }}</td>
+                    <!--<td>{{ $applicant->phone_home }}</td>-->
+                    <td>{{ $applicant->traffic?->depart_from?? 0 }}</td>
+                    <td>{{ $applicant->traffic?->back_to?? 0 }}</td>
+                    <td>{{ $applicant->traffic?->fare?? 0 }}</td>
+                    <td>{{ $applicant->traffic?->sum?? 0 }}</td>
+                @endif
+                <td>{{ $applicant->region }}</td>
+                @if($applicant->is_attend === 1)
+                    <td style='color: green;'>參加</td>
+                @elseif($applicant->is_attend === 0)
+                    <td style='color: red;'>不參加</td>
+                @elseif($applicant->is_attend === 2)
+                    <td style='color: #ffb429;'>尚未決定</td>
+                @elseif($applicant->is_attend === 3)
+                    <td style='color: pink;'>聯絡不上</td>
+                @elseif($applicant->is_attend === 4)
+                    <td style='color: seagreen;'>無法全程</td>
+                @else
+                    <td style='color: rgb(0, 132, 255);'>尚未聯絡</td>
+                @endif
+                @if($camp_data->table != "ycamp")
+                <td>{!! $applicant->is_paid == "是" ? "<a style='color: green;'>是</a>" : "<a style='color: red;'>否</a>" !!}</td>
+                @endif
+                <td>
+                    <input type="checkbox" name="sns[]" value="{{ $applicant->sn }}" class="selected">
+                </td>
+            </tr>
         @endforeach
     </table>
     @if(Session::has("message"))

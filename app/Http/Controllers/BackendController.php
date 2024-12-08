@@ -1025,6 +1025,8 @@ class BackendController extends Controller
                         })
                         ->get();
 
+        $applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant));
+
         foreach($applicants as $applicant) {
             if($applicant->fee > 0) {
                 if($applicant->fee - $applicant->deposit <= 0) {
