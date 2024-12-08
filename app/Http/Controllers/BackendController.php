@@ -907,7 +907,7 @@ class BackendController extends Controller
                                 })->groupBy('region')->get();
             //dd($batch->regions);
             foreach($batch->regions as &$region) {
-                $region->groups = Applicant::select('applicants.id', 'group_id', \DB::raw('count(*) as groupApplicantsCount'))
+                $region->groups = Applicant::select('group_id', \DB::raw('count(*) as groupApplicantsCount'))
                     ->join('applicants_groups','applicants_groups.id','=','applicants.group_id')
                     ->where('applicants.batch_id', $batch->id)
                     ->where('region', $region->region)
