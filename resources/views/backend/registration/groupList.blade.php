@@ -25,7 +25,10 @@
                         @endphp
                         @foreach ($region->groups as $groupRepresentativeApplicant)
                             <tr>
-                                <td><a href="{{ route("showGroup", [$campFullData->id, $batch->id, $groupRepresentativeApplicant->group]) }}" class="card-link">{{ $groupRepresentativeApplicant->group }}</a></td>
+                                <td>
+                                    <a @if($user->canAccessResource($groupRepresentativeApplicant, 'read', $campFullData))
+                                        href="{{ route("showGroup", [$campFullData->id, $batch->id, $groupRepresentativeApplicant->group]) }}"
+                                    @endif class="card-link">{{ $groupRepresentativeApplicant->group }}</a></td>
                                 <td>{{ $groupRepresentativeApplicant->groupApplicantsCount }}</td>
                                 @php
                                     $count = $count + $groupRepresentativeApplicant->groupApplicantsCount;

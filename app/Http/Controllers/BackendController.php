@@ -930,7 +930,7 @@ class BackendController extends Controller
                 $region->region = $region->region ?? "其他";
             }
         }
-        return view('backend.registration.groupList')->with('batches', $batches);
+        return view('backend.registration.groupList')->with(['batches' => $batches, 'user' => $this->user]);
     }
 
     public function showSectionList()

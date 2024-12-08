@@ -157,14 +157,14 @@
                                 auth()->user()->email == "jadetang004@gmail.com" ||
                                 auth()->user()->email == "tsai.scow@gmail.com"
                             )
-                                <li>
+                                {{-- <li>
                                     <a href="{{ route("showRegistrationList", $campFullData->id)}}">檢視及下載</a>
-                                </li>
+                                </li> --}}
                             @endif
                         @else
-                            <li>
+                            {{-- <li>
                                 <a href="{{ route("showRegistrationList", $campFullData->id)}}">檢視及下載</a>
-                            </li>
+                            </li> --}}
                         @endif
                         <li>
                             <a href="{{ route("changeBatchOrRegionGET", $campFullData->id) }}">修改梯次 / 區域</a>
