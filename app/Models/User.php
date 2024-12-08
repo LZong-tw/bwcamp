@@ -378,6 +378,15 @@ class User extends Authenticatable
                     }
 
                     if ($class == "App\Models\ContactLog") {
+                        if ($probing) {
+                            dd("first if, case 2, ContactLog", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
+                        }
+                        return $roles->firstWhere('group_id', $target->group_id);
+                    }
+                    if ($class == "App\Models\ApplicantsGroup") {
+                        if ($probing) {
+                            dd("first if, case 2, ApplicantsGroup", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
+                        }
                         return $roles->firstWhere('group_id', $target->group_id);
                     }
                     if ($probing) {
