@@ -387,7 +387,7 @@ class User extends Authenticatable
                         if ($probing) {
                             dd("first if, case 2, ApplicantsGroup", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
                         }
-                        return $roles->firstWhere('group_id', $target->group_id);
+                        return $roles->firstWhere('group_id', $target?->group_id ?? $resource->id);
                     }
                     if ($probing) {
                         dd("first if, case 2", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
