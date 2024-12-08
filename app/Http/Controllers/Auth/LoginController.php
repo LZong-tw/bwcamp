@@ -62,7 +62,7 @@ class LoginController extends Controller
         $roleForInspect = \App\Models\User::with("roles", "roles.camp")
                             ->find(auth()->user()->id)
                             ->roles->sortByDesc("camp.year")->first();
-        if (str_contains($roleForInspect->section, "關懷大組")) {
+        if ($roleForInspect && str_contains($roleForInspect->section, "關懷大組")) {
             return "/backend/" . $roleForInspect->camp->id . "/IOI/learner";
         }
         if (str_contains($request->headers->get('referer'), 'login')) {
