@@ -59,12 +59,11 @@ class LoginController extends Controller
         if ($request->camp_id) {
             return "/backend/" . $request->camp_id . "/IOI/learner";
         }
-        if (\App\Models\User::find(auth()->user()->id)->roles->filter(static fn ($r) => $r->camp->year == now()->year)->count() == 1) {
-            foreach (\App\Models\User::find(auth()->user()->id)->roles as $role) {
-                if ($role->camp->year == now()->year && str_contains($role->section, "關懷大組")) {
-                    return "/backend/" . $role->camp->id . "/IOI/learner";
-                }
-            }
+        $roleForInspect = \App\Models\User::with("roles", "roles.camp")
+                            ->find(auth()->user()->id)
+                            ->roles->sortByDesc("camp.year")->first();
+        if (str_contains($roleForInspect->section, "關懷大組")) {
+            return "/backend/" . $role->camp->id . "/IOI/learner";
         }
         if (str_contains($request->headers->get('referer'), 'login')) {
             return property_exists($this, 'redirectTo') ? $this->redirectTo : '/home';
