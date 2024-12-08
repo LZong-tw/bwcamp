@@ -27,8 +27,8 @@
                             <tr>
                                 <td>
                                     <a @if($user->canAccessResource($groupRepresentativeApplicant->groupRelation, 'read', $campFullData))
-                                        href="{{ route("showGroup", [$campFullData->id, $batch->id, $groupRepresentativeApplicant->group]) }}"
-                                    @endif class="card-link">{{ $groupRepresentativeApplicant->group }}</a></td>
+                                        href="{{ route("showGroup", [$campFullData->id, $batch->id, $groupRepresentativeApplicant->group]) }}" class="card-link"
+                                    @endif>{{ $groupRepresentativeApplicant->group }}</a></td>
                                 <td>{{ $groupRepresentativeApplicant->groupApplicantsCount }}</td>
                                 @php
                                     $count = $count + $groupRepresentativeApplicant->groupApplicantsCount;
