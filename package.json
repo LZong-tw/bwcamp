@@ -16,11 +16,9 @@
     "lodash": "^4.17.13",
     "resolve-url-loader": "^4.0.0",
     "sass": "^1.56.1",
-    "vite": "^3.2.5",
-    "vite-plugin-require-transform": "^1.0.4"
+    "vite": "^3.2.5"
   },
   "dependencies": {
-    "@popperjs/core": "^2.11.6",
     "@rollup/plugin-inject": "^5.0.2",
     "vue": "^3.2.45"
   }
