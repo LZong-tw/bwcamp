@@ -2,11 +2,9 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import path from "path";
 import vue from '@vitejs/plugin-vue';
-import requireTransform from 'vite-plugin-require-transform';
 
 export default defineConfig({
     plugins: [
-        requireTransform({}),
         laravel({
             input: [
                 'resources/js/app.js'

@@ -1,4 +1,4 @@
-<div class="jumbotron mt-3 p-4" id="ioi-search">
+<div class="jumbotron mt-3 p-4" @if($camp->id != 86) id="ioi-search" @endif>
     <!-- Happiness is not something readymade. It comes from your own actions. - Dalai Lama -->
     <div class="alert-primary mb-3 border border-secondary rounded col-8 py-2">
         <span>查詢條件：@if($queryRoles != "")
