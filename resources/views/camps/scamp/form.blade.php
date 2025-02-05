@@ -14,9 +14,7 @@
 
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }} 線上報名表</h4>
-        課程資訊聯絡人：0918627969 許小姐<br>
-        　　　　　　　　0918031509 李小姐<br>
-        　　　　　　　　0939349349 陳小姐<br>
+        課程資訊聯絡人：0939349349 陳小姐<br>
     </div>
 
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
@@ -160,7 +158,7 @@
             </div>
         </div>
     </div>
-
+<!--
     <div class='row form-group required'>
         <label for='inputAddress' class='col-md-2 control-label text-md-right'>紙本證書郵寄地址</label>
     </div>
@@ -210,7 +208,7 @@
             </div>
         </div>
     </div>
-
+-->
     <div class='row form-group required'>
         <label for='inputEmail' class='col-md-2 control-label text-md-right'>電子郵件</label>
         <div class='col-md-10'>
@@ -461,7 +459,7 @@
         <label for='inputLast5' class='col-md-2 control-label text-md-right'>匯款帳號後五碼</label>
         <div class='col-md-10'>
             <p class='form-control-static text-info'>
-            說明：考證費用為台幣 $500，請將費用匯至以下匯款帳號，並填寫您繳款的帳號後五碼。<br>板信商業銀行(118)<br>匯款帳號：0914-5-00000510-7</p>
+            說明：考證費用為台幣 $800，請將費用匯至以下匯款帳號，並填寫您繳款的帳號後五碼。<br>板信商業銀行(118)<br>匯款帳號：0914-5-00000534-3</p>
             <input type=number required class='form-control' name='last5' min=0 max=99999 value='' placeholder=''>
             <div class="invalid-feedback crumb">
                 請填寫匯款帳號後五碼
