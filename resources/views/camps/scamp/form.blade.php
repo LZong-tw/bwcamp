@@ -64,6 +64,7 @@
             請填寫姓名
         </div>
     </div>
+<!--
     <div class='row form-group required'>
         <label for='inputEngName' class='col-md-2 control-label text-md-right'>英文姓名</label>
         <div class='col-md-10'>
@@ -73,6 +74,7 @@
             請填寫英文姓名
         </div>
     </div>
+-->
     <div class='row form-group required'>
         <label for='inputID' class='col-md-2 control-label text-md-right'>身份證字號</label>
         <div class='col-md-10'>
@@ -149,10 +151,10 @@
         </div>
     </div>
 
-    <div class='row form-group'>
+    <div class='row form-group required'>
     <label for='inputLineID' class='col-md-2 control-label text-md-right'>LINE ID</label>
         <div class='col-md-10'>
-            <input type=text name='line' value='' class='form-control' id='inputLineID'>
+            <input required type=text name='line' value='' class='form-control' id='inputLineID' placeholder='如果沒有，請填「沒有」；如果不清楚，請填「不清楚」'>
             <div class="invalid-feedback crumb">
                 請填寫LINE ID
             </div>
@@ -435,6 +437,7 @@
                     </div>
                 </label>
             </div>
+<!--
             <div class="form-check form-check-inline">
                 <label class="form-check-label">
                     <input type="radio" required name="exam_format" id='inputExamFormat0_3' value="紙本">
@@ -444,6 +447,7 @@
                     </div>
                 </label>
             </div>
+-->
         </div>
     </div>
 
@@ -459,11 +463,20 @@
         <label for='inputLast5' class='col-md-2 control-label text-md-right'>匯款帳號後五碼</label>
         <div class='col-md-10'>
             <p class='form-control-static text-info'>
-            說明：考證費用為台幣 $800，請將費用匯至以下匯款帳號，並填寫您繳款的帳號後五碼。<br>板信商業銀行(118)<br>匯款帳號：0914-5-00000534-3</p>
+            說明：考證費用為台幣 $800，請將費用匯至以下匯款帳號，並填寫您繳款的帳號後五碼。<br>
+            板信商業銀行(118)<br>
+            匯款帳號：0914-5-00000534-3</p>
             <input type=number required class='form-control' name='last5' min=0 max=99999 value='' placeholder=''>
             <div class="invalid-feedback crumb">
                 請填寫匯款帳號後五碼
             </div>
+            <p class='form-control-static text-danger'>
+            <br>
+            注意事項：若您使用網銀匯款，備註欄請<br>
+            (1)不填寫(銀行會顯示您的匯款帳號），或<br>
+            (2)僅寫您的姓名<br>
+            這樣會加速對帳流程，感謝您的配合！
+            </p>
         </div>
     </div>
 
@@ -613,14 +626,14 @@
                 document.getElementById("inputExamFormat0_0").required = true;
                 document.getElementById("inputExamFormat0_1").required = true;
                 document.getElementById("inputExamFormat0_2").required = true;
-                document.getElementById("inputExamFormat0_3").required = true;
+                //document.getElementById("inputExamFormat0_3").required = true;
                 tg0[0].style.display = '';
                 tg1[0].style.display = 'none';
             } else { //if (mode==1)
                 document.getElementById("inputExamFormat0_0").required = false;
                 document.getElementById("inputExamFormat0_1").required = false;
                 document.getElementById("inputExamFormat0_2").required = false;
-                document.getElementById("inputExamFormat0_3").required = false;
+                //document.getElementById("inputExamFormat0_3").required = false;
                 tg0[0].style.display = 'none';
                 tg1[0].style.display = '';
             }
