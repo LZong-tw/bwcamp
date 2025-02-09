@@ -44,6 +44,7 @@
                     <option value="lrcamp" @if(isset($camp) && $camp->table == "lrcamp") selected @endif>研討班</option>
                     <option value="lrvcamp" @if(isset($camp) && $camp->table == "lrvcamp") selected @endif>研討班護持</option>
                     <option value="scamp" @if(isset($camp) && $camp->table == "scamp") selected @endif>永續課程</option>
+                    <option value="svcamp" @if(isset($camp) && $camp->table == "svcamp") selected @endif>永續課程義工</option>
                     <option value="coupon" @if(isset($camp) && $camp->table == "coupon") selected @endif>優惠碼/劵</option>
                 </select>
             </div>

@@ -185,6 +185,13 @@ return [
         'name' => env('SCAMP_MAIL_FROM_NAME'),
     ],
 
+    'svcamp' => [
+        'address' => env('SVCAMP_MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'username' => env('SVCAMP_MAIL_USERNAME'),
+        'password' => env('SVCAMP_MAIL_PASSWORD'),
+        'name' => env('SVCAMP_MAIL_FROM_NAME'),
+    ],
+
     'tcamp' => [
         'address' => env('TCAMP_MAIL_FROM_ADDRESS', 'hello@example.com'),
         'username' => env('TCAMP_MAIL_USERNAME'),

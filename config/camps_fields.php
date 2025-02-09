@@ -399,6 +399,17 @@ return [
         "remark" => "備註",
     ],
 
+    'svcamp' => [
+        "sn" => "報名序號",
+        "applied_at" => "報名日期",
+        "name" => "姓名",
+        "mobile" => "行動電話",
+        "email" => "電子郵件",
+        "line" => "LineID",
+        "self_intro" => "我是誰",
+    ],
+
+
     'tcamp' => [
         "sn" => "報名序號",
         "applied_at" => "報名日期",
@@ -1405,6 +1416,44 @@ return [
             "address" => [
                 "name" => "地址",
                 "sort" => 1,
+                "for_query" => 1,
+            ],
+        ],
+
+        'svcamp' => [
+            "name" => [
+                "name" => "姓名",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "roles" => [
+                "name" => "職務組別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "position" => [
+                "name" => "職務",
+                "sort" => 1,
+                "for_query" => 0,
+            ],
+            "mobile" => [
+                "name" => "行動電話",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "email" => [
+                "name" => "電子郵件",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "lrclass" => [
+                "name" => "廣論班別",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "self_intro" => [
+                "name" => "我是誰",
+                "sort" => 0,
                 "for_query" => 1,
             ],
         ],
