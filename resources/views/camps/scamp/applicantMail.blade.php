@@ -10,7 +10,7 @@
     <br>
     請點擊以下連結或掃QR Code加入本課程的 Line 群組，以便即時接收課程相關訊息。
     <a href="https://line.me/ti/g/r7xu4KMf9M">https://line.me/ti/g/r7xu4KMf9M</a><br>
-    <img src="{{ url('downloads/lineqrcode.jpg') }}"><br>
+    <img src="{{ url('downloads/lineqrcode.jpg') }}" width="300"><br>
     <br>
     <br>
 <blockquote>
