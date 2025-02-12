@@ -125,6 +125,9 @@ class Applicant extends Model {
     public function scamp() {
         return $this->hasOne(Scamp::class, 'applicant_id', 'id');
     }
+    public function svcamp() {
+        return $this->hasOne(Scamp::class, 'applicant_id', 'id');
+    }
 
     public function tcamp() {
         return $this->hasOne(Tcamp::class, 'applicant_id', 'id');

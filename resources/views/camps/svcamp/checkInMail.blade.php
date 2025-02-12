@@ -11,7 +11,7 @@
     <table width="100%" style="table-layout:fixed; border: 0;">
         <tr>
             <!-- <td>梯次：{{ $applicant->batch->name }}</td> -->
-            <td>班級：{{ $applicant->wvcamp->lrclass }}</td>
+            <td>班級：{{ $applicant->svcamp->lrclass }}</td>
             <td>{{ $applicant->name }}大德</td>
             <td>組別：{{ $org->section }}{{ $org->position }}</td>
         </tr>
