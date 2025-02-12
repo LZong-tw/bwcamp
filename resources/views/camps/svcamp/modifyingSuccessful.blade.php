@@ -1,4 +1,4 @@
-@extends('camps.wvcamp.layout')
+@extends('camps.svcamp.layout')
 @section('content')
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }}</h4>
@@ -10,7 +10,7 @@
         <div class="card-body">
             <p class="card-text">
                 您成功修改報名 {{ $camp_data->fullName }}（簡稱本營隊）的個人資料。<br>
-                @include('camps.wvcamp.successMessages')
+                @include('camps.svcamp.successMessages')
             </p>
             <form action="{{ route("queryview", $applicant->batch_id) }}" method="post" class="d-inline">
                 @csrf

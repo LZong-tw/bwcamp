@@ -1,4 +1,4 @@
-@extends('camps.wvcamp.layout')
+@extends('camps.svcamp.layout')
 @section('content')
     <style>
         .indent{

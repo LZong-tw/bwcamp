@@ -5,7 +5,7 @@
     header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     $regions = ['北區', '竹區', '中區', '高區'];
 @endphp
-@extends('camps.wvcamp.layout')
+@extends('camps.svcamp.layout')
 @section('content')
     @include('partials.counties_areas_script')
 {{--
