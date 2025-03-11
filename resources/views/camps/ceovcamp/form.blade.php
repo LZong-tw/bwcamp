@@ -28,14 +28,9 @@
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態；只在[報名狀態]時提供載入舊資料選項 --}}
 @if(!isset($isModify) && !isset($batch_id_from))
     <hr>
-    <h5 class='form-control-static text-warning bg-secondary'>若您曾報名2023年菁英營義工，請點選下面連結，查詢並使用2023年菁英營義工報名資料<br>
-        @if(str_contains($batch->name, "開南"))
-            <a href="{{ route('query', 110) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary">＊<u>北區</u>＊</a>
-            <a href="{{ route('query', 112) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary">＊<u>竹區</u>＊</a>
-            <a href="{{ route('query', 134) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"> ＊高區＊</a>
-        @else
-            <a href="{{ route('query', 113) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"> ＊中區＊</a>
-        @endif
+    <h5 class='form-control-static text-warning bg-secondary'>若您曾報名2024年菁英營義工，請點選下面連結，查詢並使用2024年菁英營義工報名資料<br>
+            <a href="{{ route('query', 181) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary">＊<u>北竹高區</u>＊</a>
+            <a href="{{ route('query', 184) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary">＊<u>中區</u>＊</a>
     </h5>
     <hr>
 @endif
@@ -89,7 +84,6 @@
             </div>
         </div>
     @endif
-    @if(\Str::contains($batch->name, "開南"))
         <div class="row form-group required">
             <label for='inputRegion' class='col-md-2 control-label text-md-right'>區域</label>
             <div class='col-md-10'>
@@ -111,23 +105,17 @@
                 </div>
                 <div class="form-check form-check-inline">
                     <label class="form-check-label" for="Chu">
-                        <input class="form-check-input" type="radio" name="region" value="高區" required>高區
+                        <input class="form-check-input" type="radio" name="region" value="中區" required>中區
                         <div class="invalid-feedback">
                             &nbsp;
                         </div>
                     </label>
                 </div>
-            </div>
-        </div>
-    @else
-        <div class="row form-group required">
-            <label for='inputRegion' class='col-md-2 control-label text-md-right'>區域</label>
-            <div class='col-md-10'>
                 <div class="form-check form-check-inline">
-                    <label class="form-check-label" for="Pei">
-                        <input class="form-check-input" type="radio" name="region" value="中區" required checked>中區
+                    <label class="form-check-label" for="Chu">
+                        <input class="form-check-input" type="radio" name="region" value="高區" required>高區
                         <div class="invalid-feedback">
-                            請選擇區域
+                            &nbsp;
                         </div>
                     </label>
                 </div>
