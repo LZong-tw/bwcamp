@@ -121,7 +121,6 @@
                 </div>
             </div>
         </div>
-    @endif
 
     <hr>
     <h5 class='form-control-static text-info'>說明：我們非常重視您的志願選擇，但也會考量營隊人力需求來分配組別，尚請多多理解。感恩！</h5>
