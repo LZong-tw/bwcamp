@@ -31,6 +31,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Intervention\Image\Facades\Image;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Jobs\CheckResourceAccessJob;
+use Illuminate\Support\Facades\Bus;
 use View;
 
 class BackendController extends Controller
@@ -1868,8 +1870,65 @@ class BackendController extends Controller
             }
         }
 
-        $applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant));
+        $applicants = $applicants->filter(function ($applicant) {
+            // 先檢查快取
+            $cacheKey = "user_{$this->user->id}_can_access_{$applicant->id}";
+            return cache()->remember($cacheKey, now()->addMinutes(10), function () use ($applicant) {
+                return $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant);
+            });
+        });
 
+        // $chunks = $applicants->chunk(100);
+        // $filteredApplicants = new \Illuminate\Database\Eloquent\Collection;
+
+        // foreach ($chunks as $chunk) {
+        //     $jobs = $chunk->map(function ($applicant) {
+        //         return new CheckResourceAccessJob($applicant, $this->user, $this->campFullData);
+        //     });
+            
+        //     Bus::batch($jobs)->dispatch();
+            
+        //     // 處理結果
+        //     $filtered = $chunk->filter(fn ($applicant) => $applicant->access_granted);
+        //     $filteredApplicants = $filteredApplicants->merge($filtered);
+        // }
+
+        // $applicants = $filteredApplicants;
+
+        /*// 使用多執行緒處理
+        $chunkSize = 100; // 調整批次大小
+        $chunks = $applicants->chunk($chunkSize);
+        $filteredApplicants = new \Illuminate\Database\Eloquent\Collection;
+
+        // 創建一個程序池
+        $pool = \Spatie\Async\Pool::create();
+        $user_id = $this->user->id;
+        $camp_id = $this->campFullData->id;
+
+        foreach ($chunks as $chunk) {
+            $pool->add(function() use ($chunk, $user_id, $camp_id) {
+                // 在子程序中重新取得資源
+                $user = \App\Models\User::find($user_id);
+                $camp = \App\Models\Camp::find($camp_id);
+                
+                return $chunk->filter(function ($applicant) use ($user, $camp) {
+                    return $user->canAccessResource($applicant, 'read', $camp, target: $applicant);
+                })->values()->toArray();
+            })->then(function($result) use (&$filteredApplicants) {
+                // 將陣列轉回 Eloquent 集合
+                $collection = new \Illuminate\Database\Eloquent\Collection;
+                foreach ($result as $item) {
+                    $model = new \App\Models\Applicant;
+                    $model->setRawAttributes($item, true);
+                    $collection->push($model);
+                }
+                $filteredApplicants = $filteredApplicants->merge($collection);
+            });
+        }
+
+        $pool->wait();
+        $applicants = $filteredApplicants;*/
+        
         $columns_zhtw = config('camps_fields.display.' . $this->campFullData->table);
 
         return view('backend.integrated_operating_interface.theList')

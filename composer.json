@@ -31,6 +31,7 @@
         "revolution/laravel-google-sheets": "^6.2",
         "santigarcor/laratrust": "^7.1",
         "sentry/sentry-laravel": "^3.0",
+        "spatie/async": "*",
         "spatie/laravel-medialibrary": "^10.0.0",
         "spatie/laravel-medialibrary-pro": "^2.0.0"
     },
