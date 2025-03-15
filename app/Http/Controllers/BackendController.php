@@ -1885,9 +1885,9 @@ class BackendController extends Controller
         //     $jobs = $chunk->map(function ($applicant) {
         //         return new CheckResourceAccessJob($applicant, $this->user, $this->campFullData);
         //     });
-            
+
         //     Bus::batch($jobs)->dispatch();
-            
+
         //     // 處理結果
         //     $filtered = $chunk->filter(fn ($applicant) => $applicant->access_granted);
         //     $filteredApplicants = $filteredApplicants->merge($filtered);
@@ -1910,7 +1910,7 @@ class BackendController extends Controller
                 // 在子程序中重新取得資源
                 $user = \App\Models\User::find($user_id);
                 $camp = \App\Models\Camp::find($camp_id);
-                
+
                 return $chunk->filter(function ($applicant) use ($user, $camp) {
                     return $user->canAccessResource($applicant, 'read', $camp, target: $applicant);
                 })->values()->toArray();
@@ -1928,7 +1928,7 @@ class BackendController extends Controller
 
         $pool->wait();
         $applicants = $filteredApplicants;*/
-        
+
         $columns_zhtw = config('camps_fields.display.' . $this->campFullData->table);
 
         return view('backend.integrated_operating_interface.theList')
@@ -2720,6 +2720,18 @@ class BackendController extends Controller
             $request->session()->flash('messages', $messages);
             return redirect()->route("showVolunteers", [$request->camp_id, 'isSetting' => 1, 'batch_id' => $request->group_id]);
         }
+    }
+
+    public function cancelRegistration(Request $request) {
+        $applicant = Applicant::find($request->id);
+        $applicant->delete();
+        return redirect()->route("showAttendeeInfoGET", ["camp_id" => $request->camp_id, "snORadmittedSN" => $applicant->id]);
+    }
+
+    public function revertCancellation(Request $request) {
+        $applicant = Applicant::withTrashed()->find($request->id);
+        $applicant->restore();
+        return redirect()->route("showAttendeeInfoGET", ["camp_id" => $request->camp_id, "snORadmittedSN" => $applicant->id]);
     }
 
     public function switchToUser($id)
