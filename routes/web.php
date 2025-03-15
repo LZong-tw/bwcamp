@@ -113,28 +113,36 @@ Route::group(["prefix" => "checkin", ], function () {
 });
 
 Route::group(["prefix" => "backend/campManage"], function(){
-    Route::get("/list", [AdminController::class, "campManagement"])->name("campManagement");
-    //Camps
-    Route::post("/list/add", [AdminController::class, "addCamp"])->name("addCamp");
-    Route::get("/list/add", [AdminController::class, "showAddCamp"])->name("showAddCamp");
-    Route::post("/list/modify/{camp_id}", [AdminController::class, "modifyCamp"])->name("modifyCamp");
-    Route::get("/list/modify/{camp_id}", [AdminController::class, "showModifyCamp"])->name("showModifyCamp");
-    //Batches
-    Route::post("/batchList/{camp_id}/add", [AdminController::class, "addBatches"])->name("addBatch");
-    Route::get("/batchList/{camp_id}/add", [AdminController::class, "showAddBatch"])->name("showAddBatch");
-    Route::post("/batchList/{camp_id}/cop", [AdminController::class, "copyBatch"])->name("copyBatch");
-    Route::get("/batchList/{camp_id}", [AdminController::class, "showBatch"])->name("showBatch");
-    Route::post("/batchList/{camp_id}/{batch_id}/modify", [AdminController::class, "modifyBatch"])->name("modifyBatches");
-    Route::get("/batchList/{camp_id}/{batch_id}/modify", [AdminController::class, "showModifyBatch"])->name("showModifyBatch");
-    Route::post("/batchList/remove", [AdminController::class, "removeBatch"])->name("removeBatch");
-    //Camp Organization
-    Route::post("/orgList/{camp_id}/add", [AdminController::class, "addOrgs"])->name("addOrgs");
-    Route::post("/orgList/{camp_id}/copy", [AdminController::class, "copyOrgs"])->name("copyOrgs");
-    Route::get("/orgList/{camp_id}/{org_id}/add", [AdminController::class, "showAddOrgs"])->name("showAddOrgs");
-    Route::get("/orgList/{camp_id}", [AdminController::class, "showOrgs"])->name("showOrgs");
-    Route::post("/orgList/{camp_id}/{org_id}/modify", [AdminController::class, "modifyOrg"])->name("modifyOrg");
-    Route::get("/orgList/{camp_id}/{org_id}/modify", [AdminController::class, "showModifyOrg"])->name("showModifyOrg");
-    Route::post("/orgList/remove", [AdminController::class, "removeOrg"])->name("removeOrg");
+    // 營隊基本管理
+    Route::group(['prefix' => 'list'], function () {
+        Route::get("/", [AdminController::class, "campManagement"])->name("campManagement");
+        Route::get("/add", [AdminController::class, "showAddCamp"])->name("showAddCamp");
+        Route::post("/add", [AdminController::class, "addCamp"])->name("addCamp");
+        Route::get("/modify/{camp_id}", [AdminController::class, "showModifyCamp"])->name("showModifyCamp");
+        Route::post("/modify/{camp_id}", [AdminController::class, "modifyCamp"])->name("modifyCamp");
+    });
+
+    // 梯次管理
+    Route::group(['prefix' => 'batchList'], function () {
+        Route::get("/{camp_id}", [AdminController::class, "showBatch"])->name("showBatch");
+        Route::get("/{camp_id}/add", [AdminController::class, "showAddBatch"])->name("showAddBatch");
+        Route::post("/{camp_id}/add", [AdminController::class, "addBatches"])->name("addBatch");
+        Route::post("/{camp_id}/cop", [AdminController::class, "copyBatch"])->name("copyBatch");
+        Route::get("/{camp_id}/{batch_id}/modify", [AdminController::class, "showModifyBatch"])->name("showModifyBatch");
+        Route::post("/{camp_id}/{batch_id}/modify", [AdminController::class, "modifyBatch"])->name("modifyBatches");
+        Route::post("/remove", [AdminController::class, "removeBatch"])->name("removeBatch");
+    });
+
+    // 組織管理
+    Route::group(['prefix' => 'orgList'], function () {
+        Route::get("/{camp_id}", [AdminController::class, "showOrgs"])->name("showOrgs");
+        Route::post("/{camp_id}/add", [AdminController::class, "addOrgs"])->name("addOrgs");
+        Route::post("/{camp_id}/copy", [AdminController::class, "copyOrgs"])->name("copyOrgs");
+        Route::get("/{camp_id}/{org_id}/add", [AdminController::class, "showAddOrgs"])->name("showAddOrgs");
+        Route::get("/{camp_id}/{org_id}/modify", [AdminController::class, "showModifyOrg"])->name("showModifyOrg");
+        Route::post("/{camp_id}/{org_id}/modify", [AdminController::class, "modifyOrg"])->name("modifyOrg");
+        Route::post("/remove", [AdminController::class, "removeOrg"])->name("removeOrg");
+    });
 });
 
 Route::group(["prefix" => "backend/{camp_id}", ], function () {
@@ -160,39 +168,61 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
     Route::get("/file/media/{file}", "BackendController@getFile")->name("getFile");
     Route::get("/image/media/{path}", "BackendController@getMediaImage")->name("getMediaImage");
     Route::get("/logs", "\Rap2hpoutre\LaravelLogViewer\LogViewerController@index")->middleware("permitted")->name("logs");
-    Route::get("/registration/admission", "BackendController@admission")->name("admissionGET");
-    Route::get("/registration/showPaymentForm/{applicant_id}", "BackendController@showPaymentForm")->name("showPaymentForm");
-    Route::get("/registration/batchAdmission", "BackendController@batchAdmission")->name("batchAdmissionGET");
-    Route::post("/registration/showCandidate", "BackendController@showCandidate")->name("showCandidate");
-    Route::get("/registration/showCandidate", "BackendController@showCandidate")->name("showCandidateGET");
-    Route::post("/registration/showBatchCandidate", "BackendController@showBatchCandidate")->name("showBatchCandidate");
-    Route::post("/registration/admission", "BackendController@admission")->name("admission");
-    Route::post("/registration/batchAdmission", "BackendController@batchAdmission")->name("batchAdmission");
-    Route::get("/registration", "BackendController@showRegistration")->name("showRegistration");
-    Route::get("/registration/list", "BackendController@showRegistrationList")->name("showRegistrationList");
+    Route::group(['prefix' => 'registration'], function () {
+        // 報名與審核
+        Route::group(['prefix' => 'admission'], function () {
+            Route::get("/", "BackendController@admission")->name("admissionGET");
+            Route::post("/", "BackendController@admission")->name("admission");
+            Route::get("/batch", "BackendController@batchAdmission")->name("batchAdmissionGET");
+            Route::post("/batch", "BackendController@batchAdmission")->name("batchAdmission");
+            Route::get("/showCandidate", "BackendController@showCandidate")->name("showCandidateGET");
+            Route::post("/showCandidate", "BackendController@showCandidate")->name("showCandidate");
+            Route::post("/showBatchCandidate", "BackendController@showBatchCandidate")->name("showBatchCandidate");
+        });
+        // 列表相關
+        Route::get("/", "BackendController@showRegistration")->name("showRegistration");
+        Route::get("/list", "BackendController@showRegistrationList")->name("showRegistrationList");
+        Route::post("/getList", "BackendController@getRegistrationList")->name("getRegistrationList");
+        // 群組與分組
+        Route::get("/groupList", "BackendController@showGroupList")->name("showGroupList");
+        Route::get("/sectionList", "BackendController@showSectionList")->name("showSectionList");
+        Route::get("/group/{batch_id}/{group}", "BackendController@showGroup")->name("showGroup");
+        Route::get("/section/{org_id}", "BackendController@showSection")->name("showSection");
+        // 郵件發送
+        Route::post("/sendAdmittedMail", "BackendController@sendAdmittedMail")->name("sendAdmittedMail");
+        Route::post("/sendNotAdmittedMail", "BackendController@sendNotAdmittedMail")->name("sendNotAdmittedMail");
+        Route::post("/sendCheckInMail", "BackendController@sendCheckInMail")->name("sendCheckInMail");
+        // 其他功能
+        Route::get("/showPaymentForm/{applicant_id}", "BackendController@showPaymentForm")->name("showPaymentForm");
+        Route::get("/showNotAdmitted", "BackendController@showNotAdmitted")->name("showNotAdmitted");
+        Route::get("/modifyAttend", "BackendController@modifyAttend")->name("modifyAttendGET");
+    });
+
+    Route::group(['prefix' => 'inCamp'], function () {
+        // 交通相關
+        Route::get("/trafficList", "BackendController@showTrafficList")->name("showTrafficList");
+        Route::get("/trafficListLoc", "BackendController@showTrafficListLoc")->name("showTrafficListLoc");
+
+        // 學員管理
+        Route::get("/queryAttendee", "BackendController@queryAttendee")->name("queryAttendee");
+        Route::get("/attendeeInfo", "BackendController@showAttendeeInfo")->name("showAttendeeInfoGET");
+        Route::post("/attendeeInfo", "BackendController@showAttendeeInfo")->name("showAttendeeInfo");
+        Route::post("/cancelRegistration", "BackendController@cancelRegistration")->name("cancelRegistration");
+        Route::post("/revertCancellation", "BackendController@revertCancellation")->name("revertCancellation");
+
+        // 刪除相關
+        Route::get("/deleteUserRole", "BackendController@deleteUserRole")->name("deleteUserRole");
+        Route::get("/deleteApplicantGroupAndNumber", "BackendController@deleteApplicantGroupAndNumber")->name("deleteApplicantGroupAndNumber");
+        Route::get("/deleteApplicantCarer", "BackendController@deleteApplicantCarer")->name("deleteApplicantCarer");
+
+        // 其他功能
+        Route::get("/volunteerPhoto", "BackendController@showVolunteerPhoto")->name("showVolunteerPhoto");
+    });
+
+    // 批次異動路由
     Route::get("/changeBatchOrRegion", "BackendController@changeBatchOrRegion")->name("changeBatchOrRegionGET");
     Route::post("/changeBatchOrRegion", "BackendController@changeBatchOrRegion")->name("changeBatchOrRegion");
     Route::post("/massChangeBatchOrRegion", "BackendController@massChangeBatchOrRegion")->name("massChangeBatchOrRegion");
-    Route::post("/registration/getList", "BackendController@getRegistrationList")->name("getRegistrationList");
-    Route::post("/registration/sendAdmittedMail", "BackendController@sendAdmittedMail")->name("sendAdmittedMail");
-    Route::post("/registration/sendNotAdmittedMail", "BackendController@sendNotAdmittedMail")->name("sendNotAdmittedMail");
-    Route::post("/registration/sendCheckInMail", "BackendController@sendCheckInMail")->name("sendCheckInMail");
-    Route::get("/registration/groupList", "BackendController@showGroupList")->name("showGroupList");
-    Route::get("/registration/sectionList", "BackendController@showSectionList")->name("showSectionList");
-    Route::get("/registration/showNotAdmitted", "BackendController@showNotAdmitted")->name("showNotAdmitted");
-    Route::get("/registration/group/{batch_id}/{group}", "BackendController@showGroup")->name("showGroup");
-    Route::get("/registration/section/{org_id}", "BackendController@showSection")->name("showSection");
-    Route::get("/registration/modifyAttend", "BackendController@modifyAttend")->name("modifyAttendGET");
-    Route::get("/inCamp/trafficList", "BackendController@showTrafficList")->name("showTrafficList");
-    Route::get("/inCamp/trafficListLoc", "BackendController@showTrafficListLoc")->name("showTrafficListLoc");
-    Route::get("/inCamp/volunteerPhoto", "BackendController@showVolunteerPhoto")->name("showVolunteerPhoto");
-
-    Route::get("/inCamp/queryAttendee", "BackendController@queryAttendee")->name("queryAttendee");
-    Route::get("/inCamp/attendeeInfo", "BackendController@showAttendeeInfo")->name("showAttendeeInfoGET");
-    Route::post("/inCamp/attendeeInfo", "BackendController@showAttendeeInfo")->name("showAttendeeInfo");
-    Route::get("/inCamp/deleteUserRole", "BackendController@deleteUserRole")->name("deleteUserRole");
-    Route::get("/inCamp/deleteApplicantGroupAndNumber", "BackendController@deleteApplicantGroupAndNumber")->name("deleteApplicantGroupAndNumber");
-    Route::get("/inCamp/deleteApplicantCarer", "BackendController@deleteApplicantCarer")->name("deleteApplicantCarer");
 
     //GSheet
     Route::get("/inCamp/gsFeedback/{applicant_id}/{day?}", "SheetController@showGSFeedback")->name("showGSFeedback");

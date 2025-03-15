@@ -71,6 +71,24 @@
                     {{ '-' }}
                 @endforelse<br>
             </div>
+            <div class="row d-flex justify-content-end">
+                @if ($applicant->deleted_at)                    
+                    <div class="text-danger">
+                        本學員已取消報名。
+                    </div>
+                    <form class="mr-4 mb-2" action="{{ route('revertCancellation', $camp->id) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="id" value="{{ $applicant->applicant_id ?? $applicant->id }}">
+                        <input class="btn btn-success" type="submit" value="重新報名">
+                    </form>
+                @else
+                    <form class="mr-4 mb-2" action="{{ route('cancelRegistration', $camp->id) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="id" value="{{ $applicant->applicant_id ?? $applicant->id }}">
+                        <input class="btn btn-danger" type="submit" value="取消報名">
+                    </form>
+                @endif
+            </div>
         </div>
     </div>
 <!--
