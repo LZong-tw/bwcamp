@@ -37,7 +37,7 @@
                         $carer->groupOrgRelation = $query->get();
                     @endphp
                     @foreach($carer->groupOrgRelation as $carer_position)
-                        <option value='{{ $carer->id }}'>{{ $carer_position->batch?->name }}：{{ $carer->name }}：{{ $carer_position->position }}</option>
+                        <option value='{{ $carer->id }}'>{{ $carer_position->batch?->name }}：{{ $carer_position->region?->name }}：{{ $carer->name }}：{{ $carer_position->position }}</option>
                     @endforeach
                 @empty
                     <option value="">本梯次或您所在的小組沒有關懷員</option>
