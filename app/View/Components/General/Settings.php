@@ -3,6 +3,7 @@
 namespace App\View\Components\General;
 
 use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\View\Component;
 
 class Settings extends Component
@@ -17,7 +18,7 @@ class Settings extends Component
         public bool $isShowVolunteers = false,
         public bool $isShowLearners = false,
         public bool $isSettingCarer = false,
-        public $carers = null,
+        public Collection|EloquentCollection|Null $carers,
         public $targetGroupIds = null,
     ) {
         //

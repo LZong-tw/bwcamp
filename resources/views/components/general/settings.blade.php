@@ -29,13 +29,6 @@
             <select required name='attendee_care' onChange=''>
                 <option value=''>- 請選擇 -</option>
                 @forelse($carers as $carer)
-                    @php
-                        $query = $carer->groupOrgRelation()->whereIn('group_id', $targetGroupIds);
-                        if (request()->batch_id) {
-                            $query = $query->where('batch_id', request()->batch_id);
-                        }
-                        $carer->groupOrgRelation = $query->get();
-                    @endphp
                     @foreach($carer->groupOrgRelation as $carer_position)
                         <option value='{{ $carer->id }}'>{{ $carer_position->batch?->name }}：{{ $carer_position->region?->name }}：{{ $carer->name }}：{{ $carer_position->position }}</option>
                     @endforeach
