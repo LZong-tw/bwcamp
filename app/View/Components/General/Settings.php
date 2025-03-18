@@ -18,7 +18,7 @@ class Settings extends Component
         public bool $isShowVolunteers = false,
         public bool $isShowLearners = false,
         public bool $isSettingCarer = false,
-        public Collection|EloquentCollection|Null $carers,
+        public Collection|EloquentCollection|null $carers,
         public $targetGroupIds = null,
     ) {
         //
