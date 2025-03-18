@@ -29,6 +29,9 @@ class BackendService
 
     public function groupsCreation(Batch $batch): bool
     {
+        if (!$batch->num_groups) {
+            return true;
+        }
         for ($i = 1; $i <= $batch->num_groups; $i++) {
             if ($this->checkBatchCanAddMoreGroup($batch)) {
                 $group = ApplicantsGroup::firstOrCreate([
