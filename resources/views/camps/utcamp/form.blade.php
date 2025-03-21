@@ -12,9 +12,11 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         您在本網站所填寫的個人資料，僅用於此次教師營的報名及活動聯絡之用。
     </div>
 
+    <!--
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }} {{ $batch->name }}梯 線上報名表</h4>
     </div>
+    -->
 <span id="utcamp-layout">
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
 @if((!isset($isModify) && $batch->is_appliable) || (isset($isModify) && $isModify))
@@ -63,14 +65,14 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class="row form-group required">
-        <label for='inputGender' class='col-md-2 control-label text-md-right'>生理性別</label>
+        <label for='inputGender' class='col-md-2 control-label text-md-right'>性別</label>
         <div class='col-md-10'>
             <div class="form-check form-check-inline">
                 <label class="form-check-label">
                     <input class="form-check-input" type="radio" name="gender" value="M" required @if(isset($isModify) && $isModify) disabled @endif>
                     男
                     <div class="invalid-feedback">
-                        未選擇生理性別
+                        未選擇性別
                     </div>
                 </label>
             </div>
@@ -278,7 +280,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     </div>
-
+<!--
     <div class='row form-group required'>
         <label for='inputEmail' class='col-md-2 control-label text-md-right'>願意收到福智文教基金會電子報</label>
         <div class="col-md-10">
@@ -302,7 +304,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     </div>
-
+-->
     <div class='row form-group'>
         <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>如何得知報名訊息(可複選)</label>
         <div class='col-md-10'>
@@ -334,7 +336,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     請填寫本欄位
                 </div> --}}
             </div>
-
+            <!--
             <div class='row form-group'>
                 <div class='col-md-2'>
                     關係：
@@ -352,6 +354,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     </select>
                 </div>
             </div>
+            -->
         </div>
     </div>
 
@@ -362,7 +365,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     -----是否參加過福智舉辦活動----->
 
     <div class='row form-group'>
-        <label for='inputExpect' class='col-md-2 control-label text-md-right'>您對營隊的期許</label>
+        <label for='inputExpect' class='col-md-2 control-label text-md-right'>您對營隊的期待</label>
         <div class='col-md-10'>
             <textarea class='form-control' rows=2 name='expectation' id=inputExpect></textarea>
             {{-- <div class="invalid-feedback">
@@ -386,10 +389,11 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <div class='col-md-10'>
                     <input type='text' class='form-control' name="emergency_name" value='' required>
                     <div class="invalid-feedback">
-                    未填寫緊急聯絡人姓名
+                        未填寫緊急聯絡人姓名
                     </div>
                 </div>
             </div>
+            <!--
             <div class='row form-group'>
                 <div class='col-md-2 required'>
                     關係<label class='text-danger'>＊</label>
@@ -412,6 +416,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     </div>
                 </div>
             </div>
+            -->
             <div class='row form-group'>
                 <div class='col-md-2 required'>
                     手機<label class='text-danger'>＊</label>
@@ -426,12 +431,87 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-    <div class='row form-group'>
-        <label class='col-md-2 control-label text-md-right'>交通需求</label>
+    <div class='row form-group required'>
+        <label class='col-md-2 control-label text-md-right'>住宿需求</label>
         <div class='col-md-10'>
             <div class='row form-group'>
                 <div class='col-md-12 text-primary'>
-                    ＊＊＊僅供大會接駁規劃用，活動前另有義工個別聯繫確認＊＊＊
+                    依房型不同，每人活動費用如下：
+                </div>
+            </div>
+            <div class="row form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="fee" value="6000" required onclick='showCompanion(this)'>
+                    活動費 NT$6,000元：雙人2床房 或 雙人1張雙人床房（每房2人）
+                </label>
+            </div>
+            <div class="row form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="fee" value="8000" required onclick='showCompanion(this)'>
+                    活動費 NT$8,000元：單人房（床型為一張雙人床，每房1人）
+                </label>
+            </div>
+            <label class='form-check-label text-primary'> 
+                    【特別優惠】兩人以上同行享優惠：
+            </label>
+            <div class="row form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="fee" value="5000" required onclick='showCompanion(this)'>
+                    每人活動費 NT$5,000元：標準雙人雙床房（單人特大床房不適用此優惠）
+                    <div class="invalid-feedback">
+                        未選擇住宿需求
+                    </div>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class='row form-group companion_sec' style='display:none'>
+        <label class='col-md-2 control-label text-md-right'>同行人</label>
+        <div class='col-md-10'>
+            <div class='row form-group'>
+                <div class='col-md-2'>
+                    姓名<label class='text-danger'>＊</label>
+                </div>
+                <div class='col-md-10'>
+                    <input type='text' class='form-control' name='companion_name' id='companion_name' value=''>
+                    <div class="invalid-feedback">
+                        未填寫同行人姓名
+                    </div>
+                </div>
+            </div>
+            <div class='row form-group'>
+                <div class='col-md-2'>
+                    希望同房<label class='text-danger'>＊</label>
+                </div>
+                <div class='col-md-10'>
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                            <input type="radio" name="companion_as_roommate" id="as_roommate_y" value="1">是
+                            <div class="invalid-feedback">
+                                請選擇一項
+                            </div>
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                            <input type="radio" name="companion_as_roommate" id="as_roommate_n" value="0">否
+                            <div class="invalid-feedback">
+                                &nbsp;
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class='row form-group'>
+        <label class='col-md-2 control-label text-md-right'>是否需要高鐵站接駁</label>
+        <div class='col-md-10'>
+            <div class='row form-group'>
+                <div class='col-md-12 text-primary'>
+                    若需要 2025/6/22 新竹高鐵接駁，接駁車會由12:30發車
                 </div>
             </div>
             <div class='row form-group required'>
@@ -439,25 +519,43 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     去程
                 </label>
                 <div class='col-md-10'>
-                    <select required class='form-control' name='transportation_depart' onChange=''>
-                        <option value='' selected>- 請選擇 -</option>
-                        <option value='屏東火車站至大仁科大接駁' >屏東火車站至大仁科大接駁</option>
-                        <option value='左營高鐵站至大仁科大接駁' >左營高鐵站至大仁科大接駁</option>
-                        <option value='自行前往無以上需求' >自行前往無以上需求</option>
-                    </select>
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                            <input type="radio" name="transportation_depart" value="高鐵接駁" required> 是
+                            <div class="invalid-feedback">
+                                請選擇一項
+                            </div>
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                            <input type="radio" name="transportation_depart" value="自往" required> 否
+                            <div class="invalid-feedback">
+                                &nbsp;
+                            </div>
+                        </label>
+                    </div>
                 </div>
-            </div>
-            <div class='row form-group required'>
                 <label for='inputTransportationBack' class='col-md-2 control-label'>
                     回程
                 </label>
                 <div class='col-md-10'>
-                    <select required class='form-control' name='transportation_back' onChange=''>
-                        <option value='' selected>- 請選擇 -</option>
-                        <option value='大仁科大至屏東火車站接駁' >大仁科大至屏東火車站接駁</option>
-                        <option value='大仁科大至左營高鐵站接駁' >大仁科大至左營高鐵站接駁</option>
-                        <option value='自行返回無以上需求' >自行返回無以上需求</option>
-                    </select>
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                            <input type="radio" name="transportation_back" value="高鐵接駁" required> 是
+                            <div class="invalid-feedback">
+                                請選擇一項
+                            </div>
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                            <input type="radio" name="transportation_back" value="自回" required> 否
+                            <div class="invalid-feedback">
+                                &nbsp;
+                            </div>
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -475,7 +573,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     <button type="button" class="text-primary" data-toggle="modal" data-target="#exampleModalCenter">
                     活動或課程進行期間內所採訪或拍攝或攝影
                     </button>
-                    之文字與影像進行合理範圍內之招生或使用（官網活動花絮等）。
+                    之文字與影像作為未來文教基金會相關活動之推廣（如：官網活動花絮等）。
                 </label>
             </p>
             <input type='radio' class='d-none' name="portrait_agree" value='0'>
@@ -515,7 +613,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <p class='form-control-static text-primary mb-0'>
                 <label>
                     <input type='radio' required name='profile_agree' value='1'>
-                    我同意主辦單位於本次營隊取得我的個人資料，於營隊期間及後續主辦單位舉辦之活動，作為訊息通知、行政處理等非營利目的之使用，不會提供給無關之其他私人單位使用。
+                    我同意主辦單位於本次營隊取得我的個人資料，於營隊期間及後續主辦單位舉辦之活動，作為訊息通知、行政處理等非營利目的之使用，但不會提供給其他機構組織作為以營利為目的之用途。
                 </label>
             </p>
             <input type='radio' class='d-none' name='profile_agree' value='0'>
@@ -552,247 +650,280 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </form>
 </span>
 
-    <script>
-        window.addEventListener("load", function() {
-            $('[data-toggle="confirmation"]').confirmation({
-                rootSelector: '[data-toggle=confirmation]',
-                title: "敬請再次確認資料填寫無誤。",
-                btnOkLabel: "正確無誤，送出",
-                btnCancelLabel: "再檢查一下",
-                popout: true,
-                onConfirm: function() {
-                            let isValid = document.Camp.checkValidity();
-                            console.log(123);
-                            if(document.Camp.title) {
-                                if(document.Camp.title.value == '' && document.Camp.title.disabled) {
-                                    document.Camp.title.classList.add("is-invalid");
-                                    isValid = false;
-                                }
-                            }
-
-                            // let blisswisdom_type_complements = $('input').filter(function() {
-                            //                                         return this.name.match(/blisswisdom_type_complement\[\d\]/);
-                            //                                     });
-                            // if(blisswisdom_type_complements) {
-                            //     let totalFilled = 0;
-                            //     for (var i = 0; i < blisswisdom_type_complements.length; i++) {
-                            //         if(blisswisdom_type_complements[i].value) {
-                            //             totalFilled++;
-                            //         }
-                            //     }
-                            //     if(totalFilled == 0 && document.getElementById("complement_row").style.display != "none") {
-                            //         console.log(blisswisdom_type_complements);
-                            //         for (var i = 0; i < blisswisdom_type_complements.length; i++) {
-                            //             blisswisdom_type_complements[i].classList.add("is-invalid");
-                            //             console.log(blisswisdom_type_complements[i].value);
-                            //         }
-                            //         isValid = false;
-                            //     }
-                            // }
-                            if (isValid === false) {
-                                $(".tips").removeClass('d-none');
-                                event.preventDefault();
-                                event.stopPropagation();
-                            }
-                            else{
-                                $(".tips").addClass('d-none');
-                                document.Camp.submit();
-                            }
-                            document.Camp.classList.add('was-validated');
-                        }
-            })
-        });
-        (function() {
-            'use strict';
-            document.addEventListener('DOMContentLoaded', function () {
-                const inputs = Array.from(
-                    document.querySelectorAll('input[name="blisswisdom_type_complement[0]"], input[name="blisswisdom_type_complement[1]"]'));
-                const inputListener = e => inputs.filter(i => i !== e.target).forEach(i => i.required = !e.target.value.length);
-
-                inputs.forEach(i => i.addEventListener('input', inputListener));
-            });
-            window.addEventListener('load', function() {
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                var forms = document.getElementsByClassName('needs-validation');
-                // Loop over them and prevent submission
-                var validation = Array.prototype.filter.call(forms, function(form) {
-                    form.addEventListener('submit', function(event) {
-                        let isValid = form.checkValidity();
-                        console.log(223);
-                        if(form.title) {
-                            if(form.title.value == '' && form.title.disabled) {
-                                form.title.classList.add("is-invalid");
-                            }
-                        }
-                        if(form.blisswisdom_type_complement) {
-                            let totalFilled = 0;
-                            form.blisswisdom_type_complement.forEach(element => {
-                                if(element.value) { totalFilled++; }
-                            });
-                            if(totalFilled == 0 && document.getElementById("complement_row").style.display != "none") {
-                                form.blisswisdom_type_complement.forEach(element => {
-                                    element.classList.add("is-invalid");
-                                });
+<script>
+    window.addEventListener("load", function() {
+        $('[data-toggle="confirmation"]').confirmation({
+            rootSelector: '[data-toggle=confirmation]',
+            title: "敬請再次確認資料填寫無誤。",
+            btnOkLabel: "正確無誤，送出",
+            btnCancelLabel: "再檢查一下",
+            popout: true,
+            onConfirm: function() {
+                        let isValid = document.Camp.checkValidity();
+                        console.log(123);
+                        if(document.Camp.title) {
+                            if(document.Camp.title.value == '' && document.Camp.title.disabled) {
+                                document.Camp.title.classList.add("is-invalid");
                                 isValid = false;
                             }
                         }
+
+                        // let blisswisdom_type_complements = $('input').filter(function() {
+                        //                                         return this.name.match(/blisswisdom_type_complement\[\d\]/);
+                        //                                     });
+                        // if(blisswisdom_type_complements) {
+                        //     let totalFilled = 0;
+                        //     for (var i = 0; i < blisswisdom_type_complements.length; i++) {
+                        //         if(blisswisdom_type_complements[i].value) {
+                        //             totalFilled++;
+                        //         }
+                        //     }
+                        //     if(totalFilled == 0 && document.getElementById("complement_row").style.display != "none") {
+                        //         console.log(blisswisdom_type_complements);
+                        //         for (var i = 0; i < blisswisdom_type_complements.length; i++) {
+                        //             blisswisdom_type_complements[i].classList.add("is-invalid");
+                        //             console.log(blisswisdom_type_complements[i].value);
+                        //         }
+                        //         isValid = false;
+                        //     }
+                        // }
                         if (isValid === false) {
+                            $(".tips").removeClass('d-none');
                             event.preventDefault();
                             event.stopPropagation();
                         }
-                        form.classList.add('was-validated');
-                    }, false);
-                });
-            }, false);
-        })();
+                        else{
+                            $(".tips").addClass('d-none');
+                            document.Camp.submit();
+                        }
+                        document.Camp.classList.add('was-validated');
+                    }
+        })
+    });
+    (function() {
+        'use strict';
+        document.addEventListener('DOMContentLoaded', function () {
+            const inputs = Array.from(
+                document.querySelectorAll('input[name="blisswisdom_type_complement[0]"], input[name="blisswisdom_type_complement[1]"]'));
+            const inputListener = e => inputs.filter(i => i !== e.target).forEach(i => i.required = !e.target.value.length);
 
-        /**
-        * Ready functions.
-        * Executes commands after the web page is loaded.
-        */
-        document.onreadystatechange = () => {
-            if (document.readyState === 'complete') {
-            }
-        };
-        //toggle info_source_other required or not
-        function toggleISOrequired() {
-            document.getElementById('info_source_other').required = !document.getElementById('info_source_other').required ? true : false;
-        }
-        //toggle blisswisdom_type_complement required or not
-        function toggleBTCrequired() {
-            document.getElementById('blisswisdom_type_complement').required = !document.getElementById('blisswisdom_type_complement').required ? true : false;
-        }
-        //??
-        function toggleComplement(val) {
-            let blisswisdom_type_complements = $('input').filter(function() {
-        return this.name.match(/blisswisdom_type_complement\[\d\]/);
+            inputs.forEach(i => i.addEventListener('input', inputListener));
         });
-            for (var i = 0; i < blisswisdom_type_complements.length; i++) {
-                blisswisdom_type_complements[i].required = val;
-            }
-            if(val) {
-                $("#complement_row").show();
-            }
-            else {
-                $("#complement_row").hide();
-            }
-        }
-        function toggleTcampYear(val) {
-            if(val) {
-                $("#tcamp_year_row").show();
-                document.getElementById('inputTcampYear').required = true;
-            }
-            else {
-                $("#tcamp_year_row").hide();
-                document.getElementById('inputTcampYear').required = false;
-            }
-        }
+        window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    let isValid = form.checkValidity();
+                    console.log(223);
+                    if(form.title) {
+                        if(form.title.value == '' && form.title.disabled) {
+                            form.title.classList.add("is-invalid");
+                        }
+                    }
+                    if(form.blisswisdom_type_complement) {
+                        let totalFilled = 0;
+                        form.blisswisdom_type_complement.forEach(element => {
+                            if(element.value) { totalFilled++; }
+                        });
+                        if(totalFilled == 0 && document.getElementById("complement_row").style.display != "none") {
+                            form.blisswisdom_type_complement.forEach(element => {
+                                element.classList.add("is-invalid");
+                            });
+                            isValid = false;
+                        }
+                    }
+                    if (isValid === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
 
-        function id_setRequired(ele) {
-            if(ele.value == "一般教師研習時數" || ele.value == "公務員研習時數") {
-                $("#inputID").parent().parent().show();
-                $("#inputID").prop('required',true);
-            }
-            else {
-                $("#inputID").prop('required',false);
-                $("#inputID").parent().parent().hide();
-            }
+    /**
+    * Ready functions.
+    * Executes commands after the web page is loaded.
+    */
+    document.onreadystatechange = () => {
+        if (document.readyState === 'complete') {
         }
-
-        function setRequired(elements){
-            for(let i = 0; i < elements.length; i++){
-                elements[i].required = true;
-            }
+    };
+    //toggle info_source_other required or not
+    function toggleISOrequired() {
+        document.getElementById('info_source_other').required = !document.getElementById('info_source_other').required ? true : false;
+    }
+    //toggle blisswisdom_type_complement required or not
+    function toggleBTCrequired() {
+        document.getElementById('blisswisdom_type_complement').required = !document.getElementById('blisswisdom_type_complement').required ? true : false;
+    }
+    //??
+    function toggleComplement(val) {
+        let blisswisdom_type_complements = $('input').filter(function() {
+    return this.name.match(/blisswisdom_type_complement\[\d\]/);
+    });
+        for (var i = 0; i < blisswisdom_type_complements.length; i++) {
+            blisswisdom_type_complements[i].required = val;
         }
+        if(val) {
+            $("#complement_row").show();
+        }
+        else {
+            $("#complement_row").hide();
+        }
+    }
+    function toggleTcampYear(val) {
+        if(val) {
+            $("#tcamp_year_row").show();
+            document.getElementById('inputTcampYear').required = true;
+        }
+        else {
+            $("#tcamp_year_row").hide();
+            document.getElementById('inputTcampYear').required = false;
+        }
+    }
 
-        @if(isset($applicant_data))
-            {{-- 回填報名資料 --}}
-            (function() {
-                window.applicant_id = '{{ $applicant_id }}';
-                let applicant_data = JSON.parse('{!! $applicant_data !!}');
-                let inputs = document.getElementsByTagName('input');
-                let selects = document.getElementsByTagName('select');
-                let textareas = document.getElementsByTagName('textarea');
-                let complementPivot = 0;
-                let complementData = applicant_data["blisswisdom_type_complement"] ? applicant_data["blisswisdom_type_complement"].split("||/") : null;
-                // console.log(inputs);
-                for (var i = 0; i < inputs.length; i++){
-                    if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox"){
-                        if(inputs[i].type == "radio"){
-                            let radios = document.getElementsByName(inputs[i].name);
-                            for( j = 0; j < radios.length; j++ ) {
-                                if( radios[j].value == applicant_data[inputs[i].name] ) {
-                                    radios[j].checked = true;
-                                }
+    function id_setRequired(ele) {
+        if(ele.value == "一般教師研習時數" || ele.value == "公務員研習時數") {
+            $("#inputID").parent().parent().show();
+            $("#inputID").prop('required',true);
+        }
+        else {
+            $("#inputID").prop('required',false);
+            $("#inputID").parent().parent().hide();
+        }
+    }
+
+    function setRequired(elements){
+        for(let i = 0; i < elements.length; i++){
+            elements[i].required = true;
+        }
+    }
+
+    function showCompanion(radio_ele) {
+        // 檢查 radio_ele 被勾選是哪項
+        if(radio_ele.value==5000) {
+            // 兩人同行優惠
+            tg = document.getElementsByClassName('companion_sec');
+            tg[0].style.display = ''; 
+            document.getElementById('companion_name').required = true;
+            document.getElementById('as_roommate_y').required = true;
+            document.getElementById('as_roommate_n').required = true;
+        }
+        else {
+            // 無優惠
+            tg = document.getElementsByClassName('companion_sec');
+            tg[0].style.display = 'none'; 
+            document.getElementById('companion_name').required = false;
+            document.getElementById('as_roommate_y').required = false;
+            document.getElementById('as_roommate_n').required = false;
+        }
+    }
+    @if(isset($applicant_data))
+        {{-- 回填報名資料 --}}
+        (function() {
+            window.applicant_id = '{{ $applicant_id }}';
+            let applicant_data = JSON.parse('{!! $applicant_data !!}');
+
+            //兩人同行優惠則顯示同行人
+            tg = document.getElementsByName('fee');
+            if (typeof applicant_data['fee'] !== "undefined") {
+                if (applicant_data['fee'] == 5000) {
+                    console.log(tg);
+                    tg = document.getElementsByClassName('companion_sec');
+                        tg[0].style.display = ''; 
+                        document.getElementById('companion_name').required = true;
+                        document.getElementById('as_roommate_y').required = true;
+                        document.getElementById('as_roommate_n').required = true;
+                }
+            }
+
+            let inputs = document.getElementsByTagName('input');
+            let selects = document.getElementsByTagName('select');
+            let textareas = document.getElementsByTagName('textarea');
+            let complementPivot = 0;
+            let complementData = applicant_data["blisswisdom_type_complement"] ? applicant_data["blisswisdom_type_complement"].split("||/") : null;
+            // console.log(inputs);
+            for (var i = 0; i < inputs.length; i++){
+                if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox"){
+                    if(inputs[i].type == "radio"){
+                        let radios = document.getElementsByName(inputs[i].name);
+                        for( j = 0; j < radios.length; j++ ) {
+                            if( radios[j].value == applicant_data[inputs[i].name] ) {
+                                radios[j].checked = true;
                             }
                         }
-                        else if(inputs[i].type == "checkbox"){
-                            let checkboxes = document.getElementsByName(inputs[i].name);
-                            let deArray = inputs[i].name.slice(0, -2);
-                            if(applicant_data[deArray]){
-                                let checkedValues = applicant_data[deArray].split("||/");
-                                for( j = 0; j < checkboxes.length; j++ ) {
-                                    for( k = 0; k < checkboxes.length; k++ ) {
-                                        if( checkboxes[j].value == checkedValues[k] ) {
-                                            checkboxes[j].checked = true;
-                                        }
+                    }
+                    else if(inputs[i].type == "checkbox"){
+                        let checkboxes = document.getElementsByName(inputs[i].name);
+                        let deArray = inputs[i].name.slice(0, -2);
+                        if(applicant_data[deArray]){
+                            let checkedValues = applicant_data[deArray].split("||/");
+                            for( j = 0; j < checkboxes.length; j++ ) {
+                                for( k = 0; k < checkboxes.length; k++ ) {
+                                    if( checkboxes[j].value == checkedValues[k] ) {
+                                        checkboxes[j].checked = true;
                                     }
                                 }
                             }
                         }
-                        else if(applicant_data[inputs[i].name]){
-                            inputs[i].value = applicant_data[inputs[i].name];
-                        }
                     }
-                    else if(inputs[i].type == "text" && (inputs[i].name == 'blisswisdom_type_complement[]' || inputs[i].name == 'blisswisdom_type_complement[0]' || inputs[i].name == 'blisswisdom_type_complement[1]')){
-                        toggleComplement(applicant_data["is_blisswisdom"]);
-                        inputs[i].value = complementData ? complementData[complementPivot] : null;
-                        complementPivot++;
-                    }
-                    else if(inputs[i].type == "text"){
+                    else if(applicant_data[inputs[i].name]){
                         inputs[i].value = applicant_data[inputs[i].name];
                     }
-                    if(inputs[i].name == 'emailConfirm'){
-                        inputs[i].value = applicant_data['email'];
+                }
+                else if(inputs[i].type == "text" && (inputs[i].name == 'blisswisdom_type_complement[]' || inputs[i].name == 'blisswisdom_type_complement[0]' || inputs[i].name == 'blisswisdom_type_complement[1]')){
+                    toggleComplement(applicant_data["is_blisswisdom"]);
+                    inputs[i].value = complementData ? complementData[complementPivot] : null;
+                    complementPivot++;
+                }
+                else if(inputs[i].type == "text"){
+                    inputs[i].value = applicant_data[inputs[i].name];
+                }
+                if(inputs[i].name == 'emailConfirm'){
+                    inputs[i].value = applicant_data['email'];
+                }
+            }
+            for (var i = 0; i < selects.length; i++){
+                if(typeof applicant_data[selects[i].name] !== "undefined"){
+                    selects[i].value = applicant_data[selects[i].name];
+                }
+            }
+            for (var i = 0; i < textareas.length; i++){
+                if(typeof applicant_data[textareas[i].name] !== "undefined"){
+                    textareas[i].value = applicant_data[textareas[i].name];
+                }
+            }
+
+            @if(!$isModify)
+                for (var i = 0; i < inputs.length; i++){
+                    if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox" || inputs[i].name == 'emailConfirm' || inputs[i].name == "blisswisdom_type[]" || inputs[i].name == "blisswisdom_type_complement[]"
+                    || inputs[i].name == "blisswisdom_type_complement[0]" || inputs[i].name == "blisswisdom_type_complement[1]"){
+                        inputs[i].disabled = true;
                     }
                 }
                 for (var i = 0; i < selects.length; i++){
-                    if(typeof applicant_data[selects[i].name] !== "undefined"){
-                        selects[i].value = applicant_data[selects[i].name];
-                    }
+                    selects[i].disabled = true;
                 }
                 for (var i = 0; i < textareas.length; i++){
-                    if(typeof applicant_data[textareas[i].name] !== "undefined"){
-                        textareas[i].value = applicant_data[textareas[i].name];
-                    }
+                    textareas[i].disabled = true;
                 }
+            @endif
+        })();
 
-                @if(!$isModify)
-                    for (var i = 0; i < inputs.length; i++){
-                        if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox" || inputs[i].name == 'emailConfirm' || inputs[i].name == "blisswisdom_type[]" || inputs[i].name == "blisswisdom_type_complement[]"
-                        || inputs[i].name == "blisswisdom_type_complement[0]" || inputs[i].name == "blisswisdom_type_complement[1]"){
-                            inputs[i].disabled = true;
-                        }
-                    }
-                    for (var i = 0; i < selects.length; i++){
-                        selects[i].disabled = true;
-                    }
-                    for (var i = 0; i < textareas.length; i++){
-                        textareas[i].disabled = true;
-                    }
-                @endif
-            })();
-
-            function checkIfNull(val) {
-                return val == "";
-            }
-        @endif
-    </script>
-    <style>
-        .required .control-label::after {
-            content: "＊";
-            color: red;
+        function checkIfNull(val) {
+            return val == "";
         }
-    </style>
+    @endif
+</script>
+<style>
+    .required .control-label::after {
+        content: "＊";
+        color: red;
+    }
+</style>
 @stop
 

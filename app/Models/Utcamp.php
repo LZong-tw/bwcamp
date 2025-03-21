@@ -14,7 +14,7 @@ class Utcamp extends Model
         'applicant_id', 'title', 'position', 'unit', 'unit_county',
         'department', 'workshop_credit_type', 'info_source', 'info_source_other',
         'is_blisswisdom', 'blisswisdom_type',
-        'transportation_depart', 'transportation_back'
+        'transportation_depart', 'transportation_back', 'companion_name', 'companion_as_roommate'
     ];
 
     protected $guarded = [];
