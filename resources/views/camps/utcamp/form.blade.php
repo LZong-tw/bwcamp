@@ -12,11 +12,10 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         您在本網站所填寫的個人資料，僅用於此次教師營的報名及活動聯絡之用。
     </div>
 
-    <!--
     <div class='page-header form-group'>
-        <h4>{{ $camp_data->fullName }} {{ $batch->name }}梯 線上報名表</h4>
+        <h4>{{ $camp_data->fullName }} 報名表</h4>
     </div>
-    -->
+
 <span id="utcamp-layout">
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
 @if((!isset($isModify) && $batch->is_appliable) || (isset($isModify) && $isModify))

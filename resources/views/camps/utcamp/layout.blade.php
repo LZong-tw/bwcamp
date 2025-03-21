@@ -38,7 +38,7 @@
 @else
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #ebfbeb;">
         <div class="container">
-            <a class='navbar-brand' href=''>心之呼吸｜{{ $camp_data->fullName }} 報名表</a>
+            <a class='navbar-brand' href=''>{{ $camp_data->fullName }}</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
