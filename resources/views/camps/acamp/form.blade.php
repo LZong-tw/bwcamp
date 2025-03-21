@@ -137,7 +137,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-    <div class='row form-group'>
+    <div class='row form-group required'>
         <label for='inputBirthYear' class='col-md-2 control-label text-md-right'>出生年</label>
         <div class='date col-md-10' id='inputBirthYear'>
             <div class='row form-group'>
@@ -145,7 +145,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     西元
                 </div>
                 <div class="col-md-3">
-                    <input type='number' class='form-control' name='birthyear' min='{{ \Carbon\Carbon::now()->subYears(40)->year }}' max='{{ \Carbon\Carbon::now()->subYears(16)->year }}' value='' placeholder=''>
+                    <input type='number' required class='form-control' name='birthyear' min='{{ \Carbon\Carbon::now()->subYears(40)->year }}' max='{{ \Carbon\Carbon::now()->subYears(16)->year }}' value='' placeholder=''>
                     <div class="invalid-feedback">
                         未填寫或日期不正確
                     </div>
@@ -157,11 +157,11 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-    <div class='row form-group'>
+    <div class='row form-group required'>
         <label for='inputIsStudent' class='col-md-2 control-label text-md-right'>身分</label>
         <div class='col-md-10'>
             <label class=radio-inline>
-                <input type=radio name='is_student' value='0' > 社會青年(已畢業非學生)
+                <input type=radio required name='is_student' value='0' > 社會青年(正職或待業)
                 <div class="invalid-feedback">
                     請選擇身分
                 </div>
@@ -230,7 +230,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputEmail' class='col-md-2 control-label text-md-right'>電子郵件</label>
         <div class='col-md-10'>
-            <input type='email' required name='email' value='' class='form-control' id='inputEmail' placeholder='請務必填寫正確，以利營隊相關訊息通知'>
+            <input type='email' required name='email' value='' class='form-control' id='inputEmail' placeholder='請務必填寫'>
             <div class="invalid-feedback">
                 郵件不正確
             </div>
@@ -294,7 +294,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </p>
             <div class='row'>
                 <div class='col-md-3'>
-                    <select name="class_county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value, 'unit'); if(this.options[this.options.selectedIndex].value == '其他'){ handleHiddenCustomField('show', 'unit') } else { handleHiddenCustomField('hide', 'unit') } if(this.options[this.options.selectedIndex].value == '海外'){ handleOverseas('set', 'unit') } else { handleOverseas('unset', 'unit') }" required>
+                    <select name="class_county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value, 'class'); if(this.options[this.options.selectedIndex].value == '其他'){ handleHiddenCustomField('show', 'class') } else { handleHiddenCustomField('hide', 'class') } if(this.options[this.options.selectedIndex].value == '海外'){ handleOverseas('set', 'class') } else { handleOverseas('unset', 'class') }" required>
                         <option value=''>- 請選擇縣市 -</option>
                         <option value='臺北市'>臺北市</option>
                         <option value='新北市'>新北市</option>
@@ -323,15 +323,15 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     </select>
                 </div>
                 <div class='col-md-3'>
-                    <select name='class_subarea' id="class_subarea" class='form-control' onChange='document.Camp.unit_zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.unit_address.value=MyAddress(document.Camp.unit_county.value, this.options[this.options.selectedIndex].text);' required>
+                    <select name='class_subarea' id="class_subarea" class='form-control' onChange='document.Camp.class_zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.class_address.value=MyAddress(document.Camp.class_county.value, this.options[this.options.selectedIndex].text);' required>
                         <option value=''>- 再選區鄉鎮 -</option>
                     </select>
                 </div>
                 <div class='col-md-1'>
-                    <input readonly type=hidden name=unit_zipcode value='' class='form-control'>
+                    <input readonly type=hidden name='class_zipcode' value='' class='form-control'>
                 </div>
                 <div class='col-md-3'>
-                    <input type=hidden name=unit_address value='' maxlength=80 class='form-control' placeholder='請填寫通訊地址'>
+                    <input type=hidden name='class_address' value='' maxlength=80 class='form-control' placeholder='請填寫通訊地址'>
                     <div class="invalid-feedback">
                         請填寫通訊地址
                     </div>
@@ -340,8 +340,25 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
+    <div class='row form-group required'>
+        <label class='col-md-2 control-label text-md-right'>是否有介紹人</label>
+        <div class='col-md-10'>
+            <label class=radio-inline>
+                <input type=radio required name="has_introducer" value="1" onclick='showIntroducer(this)'> 是
+                <div class="invalid-feedback">
+                    請選擇是否有介紹人
+                </div>
+            </label>
+            <label class=radio-inline>
+                <input type=radio required name="has_introducer" value="0" onclick='showIntroducer(this)'> 否
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label>
+        </div>
+    </div>
 
-    <div class='row form-group'>
+    <div class='row form-group introducer_sec required' style='display:none'>
         <label class='col-md-2 control-label text-md-right'>若有介紹人<br>請填寫介紹人資料</label>
         <div class='col-md-10'>
             <div class='row form-group'>
@@ -349,7 +366,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     姓名：
                 </div>
                 <div class='col-md-10'>
-                    <input type='text' class='form-control' name="introducer_name" value=''>
+                    <input type='text' class='form-control' name='introducer_name' id='introducer_name' value=''>
                 </div>
                 <div class="invalid-feedback">
                     請填寫本欄位
@@ -361,7 +378,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     聯絡電話：
                 </div>
                 <div class='col-md-10'>
-                    <input type='tel' class='form-control' name="introducer_phone" value=''>
+                    <input type='tel' class='form-control' name='introducer_phone' id='introducer_phone' value=''>
                 </div>
                 <div class="invalid-feedback">
                     請填寫本欄位
@@ -373,7 +390,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     與報名者關係：
                 </div>
                 <div class='col-md-10'>
-                    <select name="introducer_relationship" class="form-control">
+                    <select name='introducer_relationship' id='introducer_relationship' class="form-control">
                         <option value=''>- 請選擇 -</option>
                         <option value='配偶'>配偶</option>
                         <option value='父親'>父親</option>
@@ -393,7 +410,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     福智班別：
                 </div>
                 <div class='col-md-10'>
-                    <input type='text'class='form-control' name="introducer_participated" value=''>
+                    <input type='text'class='form-control' name='introducer_participated' value=''>
                 </div>
                 <div class="invalid-feedback">
                     請填寫本欄位
@@ -470,9 +487,8 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputTerm' class='col-md-2 control-label text-md-right'>請同意</label>
         <div class='col-md-10'>
-            <label>
-                <p class='form-control-static text-danger'>
-                <input type='radio' required name='profile_agree' value='1'> 我同意，本報名表所填個人資料，提供本次營隊及後續主辦單位舉辦之活動，作為訊息通知、行政處理等非營利目的使用。主辦單位有權將此次活動的錄影、照片，於刊物及網路上撥放、展出。(同意將肖像用於相關活動的宣傳與播放使用）</p>
+            <label class='form-control-static text-danger'>
+                <input type='radio' required name='profile_agree' value='1'> 我同意，本報名表所填個人資料，提供本次營隊及後續主辦單位舉辦之活動，作為訊息通知、行政處理等非營利目的使用。主辦單位有權將此次活動的錄影、照片，於刊物及網路上撥放、展出。(同意將肖像用於相關活動的宣傳與播放使用）
                 <div class="invalid-feedback">
                     請圈選本欄位
                 </div>
@@ -488,9 +504,8 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputTerm' class='col-md-2 control-label text-md-right'>肖像權</label>
         <div class='col-md-10 form-check'>
-            <label>
-                <p class='form-control-static text-danger'>
-                <input type='radio' required name="portrait_agree" value='1'> 我同意，主辦單位有權將此次活動的錄影、照片，於刊物及網路上撥放、展出。(同意將肖像用於相關活動的宣傳與播放使用）</p>
+            <label class='form-control-static text-danger'>
+                <input type='radio' required name="portrait_agree" value='1'> 我同意，主辦單位有權將此次活動的錄影、照片，於刊物及網路上撥放、展出。(同意將肖像用於相關活動的宣傳與播放使用）
                 <div class="invalid-feedback">
                     請圈選本欄位
                 </div>
@@ -505,20 +520,20 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <label class='col-md-2 control-label text-md-right'>是否為本人親自報名</label>
         <div class='col-md-10'>
             <label class=radio-inline>
-                <input type=radio required name="is_inperson" value="1" > 是
+                <input type=radio required name="is_inperson" value="1" onclick='showAgent(this)'> 是
                 <div class="invalid-feedback">
                     請選擇是否本人親自報名
                 </div>
             </label>
             <label class=radio-inline>
-                <input type=radio required name="is_inperson" value="0" > 否
+                <input type=radio required name="is_inperson" value="0" onclick='showAgent(this)'> 否
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
             </label>
         </div>
     </div>
-    <div class='row form-group'>
+    <div class='row form-group agent_sec' style='display:none'>
         <label class='col-md-2 control-label text-md-right'>如非本人報名<br>請填寫填表人資料</label>
         <div class='col-md-10'>
             <div class='row form-group'>
@@ -526,7 +541,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     姓名：
                 </div>
                 <div class='col-md-10'>
-                    <input type=text class='form-control' name="agent_name" value=''>
+                    <input type=text class='form-control' name='agent_name' id='agent_name' value=''>
                 </div>
             </div>
             <div class='row form-group'>
@@ -534,7 +549,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     聯絡電話：
                 </div>
                 <div class='col-md-10'>
-                    <input type=tel class='form-control' name="agent_phone" value=''>
+                    <input type=tel class='form-control' name='agent_phone' id='agent_phone' value=''>
                 </div>
             </div>
             <div class='row form-group'>
@@ -542,7 +557,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     與報名者關係：
                 </div>
                 <div class='col-md-10'>
-                    <select name="agent_relationship" class="form-control">
+                    <select name='agent_relationship' id='agent_relationship' class='form-control'>
                         <option value=''>- 請選擇 -</option>
                         <option value='配偶'>配偶</option>
                         <option value='父親'>父親</option>
@@ -561,17 +576,17 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 
 <hr>
 
-    <div class='row form-group required'>
+    <div class='row form-group'>
         <label for='inputStuType' class='col-md-2 control-label text-md-right'>是否為主管</label>
         <div class='col-md-10'>
             <label class=radio-inline>
-                <input type=radio required name='is_manager' value='1' > 是
+                <input type=radio name='is_manager' value='1' > 是
                 <div class="invalid-feedback">
                     請選擇是否為主管
                 </div>
             </label>
             <label class=radio-inline>
-                <input type=radio required name='is_manager' value='0' > 否
+                <input type=radio name='is_manager' value='0' > 否
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
@@ -615,10 +630,10 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 -->
-    <div class='row form-group required'>
+    <div class='row form-group'>
         <label for='inputSource' class='col-md-2 control-label text-md-right'>您如何得知此營隊？(單選，最主要管道)</label>
         <div class='col-md-10'>
-                <select required name="way" class="form-control">
+                <select name="way" class="form-control">
                         <option value=''>- 請選擇 -</option>
                         <option value='網路、fb'>網路、fb</option>
                         <option value='朋友同事'>朋友同事</option>
@@ -672,7 +687,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     {{-- 動機 --}}
-    <div class='row form-group required'>
+    <div class='row form-group'>
         <label for='inputMotivation' class='col-md-2 control-label text-md-right'>報名探索營的動機（可複選）</label>
         <div class='col-md-10'>
             <label><input type="checkbox" class="motivation" name=motivation[] value='自我提升' > 自我提升</label> <br/>
@@ -709,7 +724,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     {{-- 曾參與 --}}
-    <div class='row form-group required'>
+    <div class='row form-group'>
         <label for='inputBlisswisdomType' class='col-md-2 control-label text-md-right'>曾參與福智文教基金會所舉辦的營隊或課程（可複選）</label>
         <div class='col-md-10'>
             <label><input type="checkbox" class="blisswisdom_type" name=blisswisdom_type[] value='否' > 否</label> <br/>
@@ -729,10 +744,10 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-    <div class='row form-group required'>
+    <div class='row form-group'>
         <label for='inputIndustry' class='col-md-2 control-label text-md-right'>產業別</label>
         <div class='col-md-10'>
-            <select required class='form-control' name='industry' onChange=''>
+            <select class='form-control' name='industry' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
                 <option value='科技業' >科技業</option>
                 <option value='製造業' >製造業</option>
@@ -751,10 +766,10 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-    <div class='row form-group required'>
+    <div class='row form-group'>
         <label for='inputJobProperty' class='col-md-2 control-label text-md-right'>目前工作屬性</label>
         <div class='col-md-10'>
-            <select required class='form-control' name='job_property' onChange=''>
+            <select class='form-control' name='job_property'    onChange=''>
                 <option value='' selected>- 請選擇 -</option>
                 <option value='經營/管理' >經營/管理</option>
                 <option value='一般行政' >一般行政</option>
@@ -774,10 +789,11 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 
 <hr>
 
-    <div class='row form-group required'>
+    <div class='row form-group'>
         <label for='inputBirth' class='col-md-2 control-label text-md-right'>生日</label>
         <div class='date col-md-10' id='inputBirth'>
-            <div class='row form-group required'>
+            <div class='row form-group'>
+                <!--
                 <div class="col-md-1">
                     西元
                 </div>
@@ -790,8 +806,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <div class="col-md-1">
                     年
                 </div>
+                -->
                 <div class="col-md-2">
-                    <input type='number' required class='form-control' name='birthmonth' min=1 max=12 value='' placeholder=''>
+                    <input type='number' class='form-control' name='birthmonth' min=1 max=12 value='' placeholder=''>
                     <div class="invalid-feedback">
                         未填寫或日期不正確
                     </div>
@@ -800,7 +817,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     月
                 </div>
                 <div class="col-md-3">
-                    <input type='number' required class='form-control' name='birthday' min=1 max=31 value='' placeholder=''>
+                    <input type='number' class='form-control' name='birthday' min=1 max=31 value='' placeholder=''>
                     <div class="invalid-feedback">
                         未填寫或日期不正確
                     </div>
@@ -812,10 +829,10 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-    <div class='row form-group required'>
+    <div class='row form-group'>
         <label for='inputAddress' class='col-md-2 control-label text-md-right'>現居住地點</label>
         <div class='col-md-2'>
-            <select name="county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value); if(this.options[this.options.selectedIndex].value == '其他'){ handleHiddenCustomField('show') } else { handleHiddenCustomField('hide') } if(this.options[this.options.selectedIndex].value == '海外'){ handleOverseas('set') } else { handleOverseas('unset') }" required>
+            <select name="county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value); if(this.options[this.options.selectedIndex].value == '其他'){ handleHiddenCustomField('show') } else { handleHiddenCustomField('hide') } if(this.options[this.options.selectedIndex].value == '海外'){ handleOverseas('set') } else { handleOverseas('unset') }">
                 <option value=''>- 請先選縣市 -</option>
                 <option value='臺北市'>臺北市</option>
                 <option value='新北市'>新北市</option>
@@ -844,7 +861,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </select>
         </div>
         <div class='col-md-2'>
-            <select name=subarea id="subarea" class='form-control' onChange='document.Camp.zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.address.value=MyAddress(document.Camp.county.value, this.options[this.options.selectedIndex].text);' required>
+            <select name=subarea id="subarea" class='form-control' onChange='document.Camp.zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.address.value=MyAddress(document.Camp.county.value, this.options[this.options.selectedIndex].text);'>
                 <option value=''>- 再選區鄉鎮 -</option>
             </select>
         </div>
@@ -852,27 +869,27 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <input readonly type=hidden name=zipcode value='' class='form-control'>
         </div>
         <div class='col-md-3'>
-            <input type=hidden name=address value='' maxlength=80 class='form-control' placeholder='請填寫通訊地址'>
+            <input type=hidden name=address value='' maxlength=80 class='form-control' placeholder='請填寫現居住地點'>
             <div class="invalid-feedback">
-                請填寫通訊地址
+                請填寫現居住地點
             </div>
         </div>
     </div>
 
-    <div class='row form-group required'>
+    <div class='row form-group'>
     <label for='inputUnit' class='col-md-2 control-label text-md-right'>服務單位</label>
         <div class='col-md-10'>
-            <input type=text required name='unit' value='' class='form-control' id='inputUnit' placeholder='公司名稱'>
+            <input type=text name='unit' value='' class='form-control' id='inputUnit' placeholder='公司名稱'>
             <div class="invalid-feedback crumb">
                 請填寫服務單位(公司名稱)
             </div>
         </div>
     </div>
 
-    <div class='row form-group required'>
+    <div class='row form-group'>
         <label for='inputUnitCounty' class='col-md-2 control-label text-md-right'>服務地點</label>
         <div class='col-md-2'>
-            <select name="unit_county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value, 'unit'); if(this.options[this.options.selectedIndex].value == '其他'){ handleHiddenCustomField('show', 'unit') } else { handleHiddenCustomField('hide', 'unit') } if(this.options[this.options.selectedIndex].value == '海外'){ handleOverseas('set', 'unit') } else { handleOverseas('unset', 'unit') }" required>
+            <select name="unit_county" class="form-control" onChange="Address(this.options[this.options.selectedIndex].value, 'unit'); if(this.options[this.options.selectedIndex].value == '其他'){ handleHiddenCustomField('show', 'unit') } else { handleHiddenCustomField('hide', 'unit') } if(this.options[this.options.selectedIndex].value == '海外'){ handleOverseas('set', 'unit') } else { handleOverseas('unset', 'unit') }">
                 <option value=''>- 請選擇縣市 -</option>
                 <option value='臺北市'>臺北市</option>
                 <option value='新北市'>新北市</option>
@@ -901,35 +918,35 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </select>
         </div>
         <div class='col-md-2'>
-            <select name='unit_subarea' id="unit_subarea" class='form-control' onChange='document.Camp.unit_zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.unit_address.value=MyAddress(document.Camp.unit_county.value, this.options[this.options.selectedIndex].text);' required>
+            <select name='unit_subarea' id="unit_subarea" class='form-control' onChange='document.Camp.unit_zipcode.value=this.options[this.options.selectedIndex].value; document.Camp.unit_address.value=MyAddress(document.Camp.unit_county.value, this.options[this.options.selectedIndex].text);'>
                 <option value=''>- 再選區鄉鎮 -</option>
             </select>
         </div>
         <div class='col-md-1'>
-            <input readonly type=hidden name=unit_zipcode value='' class='form-control'>
+            <input readonly type=hidden name='unit_zipcode' value='' class='form-control'>
         </div>
         <div class='col-md-3'>
-            <input type=hidden name=unit_address value='' maxlength=80 class='form-control' placeholder='請填寫通訊地址'>
+            <input type=hidden name='unit_address' value='' maxlength=80 class='form-control' placeholder='請填寫服務地點'>
             <div class="invalid-feedback">
-                請填寫通訊地址
+                請填寫服務地點
             </div>
         </div>
     </div>
 
-    <div class='row form-group required'>
+    <div class='row form-group'>
     <label for='inputTitle' class='col-md-2 control-label text-md-right'>職稱</label>
         <div class='col-md-10'>
-            <input type=text required name='title' value='' class='form-control' id='inputTitle'>
+            <input type=text name='title' value='' class='form-control' id='inputTitle'>
             <div class="invalid-feedback crumb">
                 請填寫職稱
             </div>
         </div>
     </div>
 
-    <div class='row form-group required'>
+    <div class='row form-group'>
         <label for='inputEducation' class='col-md-2 control-label text-md-right'>最高學歷</label>
         <div class='col-md-10'>
-            <select name="education" class="form-control" required>
+            <select name="education" class="form-control">
                 <option value=''>- 請選擇 -</option>
                 <option value='高中職'>高中職</option>
                 <option value='大專'>大專</option>
@@ -982,6 +999,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             onConfirm: function() {
                 console.log($('.motivation').filter(':checked').length);
                 console.log($('.blisswisdom_type').filter(':checked').length);
+{{--
                 if($('.motivation').filter(':checked').length < 1) {
                     document.Camp.checkValidity();
                     event.preventDefault();
@@ -996,6 +1014,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     $(".tips").removeClass('d-none');
                     $('#motivation-invalid').hide();
                 }
+
                 if($('.blisswisdom_type').filter(':checked').length < 1) {
                     document.Camp.checkValidity();
                     event.preventDefault();
@@ -1010,9 +1029,16 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     $(".tips").removeClass('d-none');
                     $('#blisswisdom_type-invalid').hide();
                 }
+
                 if (document.Camp.checkValidity() === false
                     || ($('.motivation').filter(':checked').length < 1)
                     || ($('.blisswisdom_type').filter(':checked').length < 1 )) {
+                    $(".tips").removeClass('d-none');
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+--}}
+                if (document.Camp.checkValidity() === false) {
                     $(".tips").removeClass('d-none');
                     event.preventDefault();
                     event.stopPropagation();
@@ -1049,7 +1075,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         * Ready functions.
         * Executes commands after the web page is loaded.
         */
-{{--
+
         document.onreadystatechange = () => {
             if (document.readyState === 'complete') {
                 document.getElementById('motivation_other_checkbox').addEventListener("change", function(){
@@ -1058,6 +1084,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 document.getElementById('blisswisdom_type_other_checkbox').addEventListener("change", function(){
                     document.Camp.blisswisdom_type_other.required = document.getElementById('blisswisdom_type_other_checkbox').checked;
                 });
+{{--
                 /**
                 * 是否在學校或教育單位任職，勾選後顯示/隱藏任職單位相關欄位。
                 */
@@ -1084,9 +1111,10 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     titles[i].addEventListener("click", fillTheTitle);
                     titles[i].addEventListener("change", fillTheTitle);
                 }
+--}}
             }
         };
---}}
+
         function setMotivationOther(checkbox_ele) {
             // 檢查 checkbox_ele 是否被勾選
             //console.log(checkbox_ele.checked);
@@ -1113,6 +1141,47 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             }
         }
 
+        function showIntroducer(radio_ele) {
+            // 檢查 radio_ele 被勾選是哪項
+            if(radio_ele.value==1) {
+                // 有介紹人
+                tg = document.getElementsByClassName('introducer_sec');
+                tg[0].style.display = ''; 
+                document.getElementById('introducer_name').required = true;
+                document.getElementById('introducer_phone').required = true;
+                document.getElementById('introducer_relationship').required = true;
+            }
+            else {
+                // 無介紹人
+                tg = document.getElementsByClassName('introducer_sec');
+                tg[0].style.display = 'none'; 
+                document.getElementById('introducer_name').required = false;
+                document.getElementById('introducer_phone').required = false;
+                document.getElementById('introducer_relationship').required = false;
+            }
+        }
+
+        function showAgent(radio_ele) {
+            // 檢查 radio_ele 被勾選是哪項
+            if(radio_ele.value==0) {
+                // 非本人自填
+                tg = document.getElementsByClassName('agent_sec');
+                tg[0].style.display = ''; 
+                document.getElementById('agent_name').required = true;
+                document.getElementById('agent_phone').required = true;
+                document.getElementById('agent_relationship').required = true;
+            }
+            else {
+                // 本人自填
+                tg = document.getElementsByClassName('agent_sec');
+                tg[0].style.display = 'none'; 
+                document.getElementById('agent_name').required = false;
+                document.getElementById('agent_phone').required = false;
+                document.getElementById('agent_relationship').required = false;
+            }
+        }
+
+{{--
         function showFields(){
             rowIsEducating.innerHTML = "<div class='row form-group required'>" +
                 "    <label for='inputSchoolOrCourse' class='col-md-2 control-label text-md-right'>任職機關/任教學程</label>" +
@@ -1233,30 +1302,125 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 document.getElementById('title').value = this.value;
             }
         }
-
+--}}
         @if(isset($applicant_data))
             {{-- 回填報名資料 --}}
             sleep(10).then(() => {
                 (function() {
                     let applicant_data = JSON.parse('{!! $applicant_data !!}');
+
+                    tg = document.getElementsByName('has_introducer');
+                    if (typeof applicant_data['introducer_name'] !== "undefined") {
+                        for (j=0; j<tg.length;j++) {
+                            if (tg[j].value == 1) tg[j].checked = 1;
+                        } 
+                        tg = document.getElementsByClassName('introducer_sec');
+                        tg[0].style.display = ''; 
+                        document.getElementById('introducer_name').required = true;
+                        document.getElementById('introducer_phone').required = true;
+                        document.getElementById('introducer_relationship').required = true;
+                    } else {
+                        for (j=0; j<tg.length;j++) {
+                            if (tg[j].value == 0) tg[j].checked = 1;
+                        } 
+                    }
+
+                    if (applicant_data['is_inpersion'] == 0) {
+                        tg = document.getElementsByClassName('agent_sec');
+                        tg[0].style.display = ''; 
+                        document.getElementById('agent_name').required = true;
+                        document.getElementById('agent_phone').required = true;
+                        document.getElementById('agent_relationship').required = true;
+                    }
+
                     let inputs = document.getElementsByTagName('input');
                     let selects = document.getElementsByTagName('select');
                     let textareas = document.getElementsByTagName('textarea');
                     let complementPivot = 0;
                     let complementData = applicant_data["blisswisdom_type_complement"] ? applicant_data["blisswisdom_type_complement"].split("||/") : null;
                     // console.log(inputs);
+                    
+                    if (typeof applicant_data['introducer_name'] !== "undefined") {
+                        document.getElementsByName('has_introducer')[0].value = 1;
+                        tg = document.getElementsByClassName('introducer_sec');
+                        tg[0].style.display = ''; 
+                        document.getElementById('introducer_name').required = true;
+                        document.getElementById('introducer_phone').required = true;
+                        document.getElementById('introducer_relationship').required = true;
+                    } else {
+                        document.getElementsByName('has_introducer')[0].value = 0;
+                    }
+                    
                     for (var i = 0; i < selects.length; i++){
+                        console.log(selects[i].name);
+
                         if(typeof applicant_data[selects[i].name] !== "undefined"){
-                            if (selects[i].name == 'unit_subarea'){
+
+                            if (selects[i].name == 'class_subarea' 
+                                || selects[i].name == 'subarea' 
+                                || selects[i].name == 'unit_subarea'){
                                 continue;
                             }
+
                             selects[i].value = applicant_data[selects[i].name];
+                            
+                            if (selects[i].name == 'class_county'){
+                                Address(applicant_data[selects[i].name], 'class');
+                                
+                                /*if (applicant_data[selects[i].name].includes('海外')) {
+                                    document.getElementsByName('class_address')[0].value = applicant_data["class_county"] + applicant_data["class_subarea"];
+                                    continue;
+                                }*/
+
+                                var selectElement = document.getElementById("class_subarea");
+
+                                // Get the options of the select element
+                                var options = selectElement.options;
+
+                                // Iterate through the options
+                                for (var j = 0; j < options.length; j++) {
+
+                                    // Get the text of the option
+                                    var optionText = options[j].text;
+
+                                    // Check if the text equals to the specific text
+                                    if (optionText == applicant_data['class_subarea']) {
+                                        options[j].selected = true;
+                                    }
+                                }
+                            }
+                                                        
+                            if (selects[i].name == 'county'){
+                                Address(applicant_data[selects[i].name]);
+                                /*if (applicant_data[selects[i].name].includes('海外')) {
+                                    document.getElementsByName('address')[0].value = applicant_data["county"] + applicant_data["subarea"];
+                                    continue;
+                                }*/
+                                var selectElement = document.getElementById("subarea");
+
+                                // Get the options of the select element
+                                var options = selectElement.options;
+
+                                // Iterate through the options
+                                for (var j = 0; j < options.length; j++) {
+
+                                    // Get the text of the option
+                                    var optionText = options[j].text;
+
+                                    // Check if the text equals to the specific text
+                                    if (optionText == applicant_data['subarea']) {
+                                        options[j].selected = true;
+                                    }
+                                }
+                            }
+
                             if (selects[i].name == 'unit_county'){
                                 Address(applicant_data[selects[i].name], 'unit');
-                                if (applicant_data[selects[i].name].includes('海外')) {
+                                /*if (applicant_data[selects[i].name].includes('海外')) {
                                     document.getElementsByName('unit_address')[0].value = applicant_data["unit_county"] + applicant_data["unit_subarea"];
                                     continue;
-                                }
+                                }*/
+
                                 var selectElement = document.getElementById("unit_subarea");
 
                                 // Get the options of the select element
@@ -1274,6 +1438,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                                     }
                                 }
                             }
+
+                            
+
                             if (selects[i].name == 'transportation') {
                                 var selectElement = document.getElementsByName("transportation")[0];
                                 // Get the options of the select element
@@ -1287,7 +1454,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                                 }
                             }
                         }
-                        if (selects[i].name == 'county'){
+                        /*if (selects[i].name == 'county'){
                             // Split the string into an array of characters.
                             if(!applicant_data["address"]){
                                 for (var j = 0; j < document.getElementsByName('county')[0].options.length; j++){
@@ -1363,7 +1530,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                             //     selectElement.add(option);
                             //     option.selected = true;
                             // }
-                        }
+                        }*/
                     }
                     for (var i = 0; i < inputs.length; i++){
                         if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox"){

@@ -91,7 +91,7 @@
                         <a class="nav-link" href="http://www.youngone.org.tw/camp/">課程表</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url("downloads/acamp2024/2024卓越青年生命探索營報名簡章20240219R1.pdf") }}">報名簡章下載</a>
+                        <a class="nav-link" href="{{ url("downloads/acamp2025/2025卓青營報名表20250320R4.pdf") }}">報名簡章下載</a>
                     </li>
                 </ul>
             </div>

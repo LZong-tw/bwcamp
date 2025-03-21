@@ -38,7 +38,7 @@
 @else
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #ebfbeb;">
         <div class="container">
-            <a class='navbar-brand' href=''>{{ $camp_data->abbreviation }}</a>
+            <a class='navbar-brand' href=''>心之呼吸｜{{ $camp_data->fullName }} 報名表</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -47,7 +47,7 @@
                     {{-- <li class="nav-item active"> --}}
                     {{-- <span class="sr-only">(current)</span> --}}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ $camp_data->site_url }}">營隊資訊</a>
+                        <a class="nav-link" href="{{ $camp_data->site_url }}">活動網頁</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('registration', $batch_id) }}">報名表單</a>
@@ -69,10 +69,10 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url("downloads/utcamp2024/2024第32屆教師生命成長營大專教職員梯-活動簡章_含課表紙本報名表_R2.docx") }}">課程表</a>
                     </li>
-                    --}}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url("downloads/utcamp2024/2024第32屆教師生命成長營大專教職員梯-活動簡章_含課表紙本報名表_R2.docx") }}">報名簡章(含課表)下載</a>
                     </li>
+                    --}}
                 </ul>
             </div>
         </div>

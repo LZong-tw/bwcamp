@@ -354,12 +354,16 @@ class CampDataService
             $tainan = array ("臺南市");
             $kaohsiung = array ("高雄市", "屏東縣", "澎湖縣", "臺東縣", "南海諸島");
 
-            //用「後續課程地點」來決定分區的參考地點; 「皆可」則使用「上班附近」
-            if ($formData["class_location"] == "住家附近") {
-                $addr = $formData["address"];
-            }
-            else {
-                $addr = $formData["unit_address"];
+            if (isset($formData["class_location"])) {
+                //用「後續課程地點」來決定分區的參考地點; 「皆可」則使用「上班附近」
+                if ($formData["class_location"] == "住家附近") {
+                    $addr = $formData["address"];
+                }
+                else {
+                    $addr = $formData["unit_address"];
+                }
+            } else {
+                $addr = $formData["class_county"].$formData["class_subarea"];
             }
 
             //先做區域大分區
@@ -390,9 +394,11 @@ class CampDataService
             }
 
             //「北區」裡的主管/儲訓幹部/專門技術人員改成「北苑」
-            if(($region == "北區") &&
-                (($formData["is_manager"] == 1) || ($formData["is_cadre"] == 1) || ($formData["is_technical_staff"] == 1))) {
-                $region = "北苑";
+            if (isset($formData["is_manager"]) && isset($formData["is_cadre"]) && isset($formData["is_technical_staff"])) {
+                if(($region == "北區") &&
+                    (($formData["is_manager"] == 1) || ($formData["is_cadre"] == 1) || ($formData["is_technical_staff"] == 1))) {
+                    $region = "北苑";
+                }
             }
 
             if($region == "") { $region = "其他"; }
