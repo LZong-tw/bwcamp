@@ -96,6 +96,25 @@ class CampDataService
                 'motivation' => implode("||/", $request->motivation)
             ]);
         }
+        //居住地址
+        if(isset($request->address)) {
+            if ($request->subarea == "000") {
+                $request->merge([
+                    'subarea' => $request->address
+                ]);
+            }
+            elseif ($request->subarea == "999") {
+                $request->merge([
+                    'subarea' => $request->address
+                ]);
+            }
+            else {
+                $request->merge([
+                    'subarea' => \Str::substr($request->address, 3)
+                ]);
+            }
+        }
+        //工作地址
         if(isset($request->unit_address)) {
             if ($request->unit_subarea == "000") {
                 $request->merge([
@@ -110,6 +129,25 @@ class CampDataService
             else {
                 $request->merge([
                     'unit_subarea' => \Str::substr($request->unit_address, 3)
+                ]);
+            }
+        }
+        //上課地址,acamp only
+        if(isset($request->class_address)) {
+            if ($request->class_subarea == "000") { //其它
+                $request->merge([
+                    'class_subarea' => $request->class_address
+                ]);
+            }
+            elseif ($request->unit_subarea == "999") {  //海外
+                $request->merge([
+                    'class_subarea' => $request->class_address
+                ]);
+            }
+            else {
+                $request->merge([
+                    //'calss_subarea' => \Str::substr($request->class_address, 3)
+                    'class_subarea' => $request->class_subarea_text
                 ]);
             }
         }
