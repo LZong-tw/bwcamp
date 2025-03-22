@@ -20,14 +20,9 @@
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態；只在報名時提供載入舊資料選項--}}
     @if(!isset($isModify) && !isset($batch_id_from))
     <hr>
-    <h5 class='form-control-static text-warning bg-secondary'>若您曾報名2023年企業營義工，請點選下面連結，查詢並使用2023年企業營義工報名資料<br>
-    <a href="{{ route('query', 103) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"><u>台北</u>　</a>
-    <a href="{{ route('query', 124) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"><u>桃園</u>　</a>
-    <a href="{{ route('query', 125) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"><u>新竹</u>　</a>
-    <a href="{{ route('query', 126) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"><u>中區</u>　</a>
-    <a href="{{ route('query', 127) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"><u>雲嘉</u>　</a>
-    <a href="{{ route('query', 122) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"><u>台南</u>　</a>
-    <a href="{{ route('query', 128) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"><u>高雄</u></a>
+    <h5 class='form-control-static text-warning bg-secondary'>若您曾報名2024年企業營義工，請點選下面連結，查詢並使用2024年企業營義工報名資料<br>
+    <a href="{{ route('query', 167) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"><u>北區場</u>　</a>
+    <a href="{{ route('query', 168) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"><u>中區場</u>　</a>
     </h5>
     <hr>
     @endif
@@ -83,65 +78,29 @@
     @endif
 
     <hr>
-    <h5 class='form-control-static text-info'>說明：我們非常重視您的志願選擇，但也會考量營隊人力需求來分配組別，尚請多多理解。感恩！</h5>
+    <!--<h5 class='form-control-static text-info'>說明：我們非常重視您的志願選擇，但也會考量營隊人力需求來分配組別，尚請多多理解。感恩！</h5>-->
 
     <div class='row form-group required'>
-        <label for='inputGroupPriority1' class='col-md-2 control-label text-md-right'>報名組別第1志願</label>
+        <label for='inputGroupPriority1' class='col-md-2 control-label text-md-right'>報名組別</label>
         <div class='col-md-10'>
             <select required class='form-control' name='group_priority1' id='inputGroupPriority1' onChange='showFields();'>
                 <option value='' selected>- 請選擇 -</option>
                 @if(str_contains($batch->name, "第一梯"))
-                {{-- 總部企劃、秘書組、教務組、關懷組、總務組、公關組、餐飲組、福青組、依營隊需求安排 --}}
-                    <option value='總部企劃' >總部企劃</option>
-                    <option value='秘書組' >秘書組</option>
-                    <option value='教務組' >教務組</option>
-                    <option value='關懷組' >關懷組</option>
-                    <option value='總務組' >總務組</option>
-                    <option value='公關組' >公關組</option>
-                    <option value='餐飲組' >餐飲組</option>
-                    <option value='福青組' >福青組</option>
-                @elseif(\Str::contains($batch->name, "桃園"))
-                    <option value='秘書：義工' >秘書：義工</option>
-                    <option value='秘書：財務' >秘書：財務</option>
-                    <option value='秘書：行政' >秘書：行政</option>
-                    <option value='秘書：資訊' >秘書：資訊</option>
-                    <option value='文宣採訪：文字採訪' >文宣採訪：文字採訪</option>
-                    <option value='文宣採訪：活動記錄' >文宣採訪：活動記錄</option>
-                    <option value='教務：課務教材' >教務：課務教材</option>
-                    <option value='教務：課務行政' >教務：課務行政</option>
-                    <option value='教務：展覽' >教務：展覽</option>
-                    <option value='教務：視聽' >教務：視聽</option>
-                    <option value='教務：主持人' >教務：主持人</option>
-                    <option value='關懷：報名報到' >關懷：報名報到</option>
-                    <option value='關懷：關懷行政' >關懷：關懷行政</option>
-                    <option value='關懷：關懷服務' >關懷：關懷服務</option>
-                    <option value='關懷：關懷員' >關懷：關懷員</option>
-                    <option value='總務：場地' >總務：場地</option>
-                    <option value='總務：交通' >總務：交通</option>
-                    <option value='總務：資材' >總務：資材</option>
-                    <option value='總務：餐飲' >總務：餐飲</option>
-                    <option value='總務：環保' >總務：環保</option>
-                    <option value='總務：保健' >總務：保健</option>
-                    <option value='總務：機動' >總務：機動</option>
-                    <option value='公關：外接待' >公關：外接待</option>
                 @else
-                    <option value='總部企劃' >總部</option>
-                    <option value='秘書組' >秘書組</option>
-                    <option value='資訊組' >資訊組</option>
-                    <option value='教務組' >教務組</option>
-                    <option value='關懷組' >關懷組</option>
-                    <option value='總務組' >總務組</option>
-                    <option value='公關組' >公關組</option>
-                    <option value='海外組' >海外組</option>
-                    @if(\Str::contains($batch->name, "中區"))
-                    <option value='餐飲組' >餐飲組</option>
-                    @endif
-                    @if(\Str::contains($batch->name, "高雄"))
-                    <option value='節目組' >節目組</option>
-                    @endif
-                    <option value='報到組義工' >報到組義工</option>
+                    <option value='總部：關懷規劃' >總部：關懷規劃</option>
+                    <option value='總部：課程規劃' >總部：課程規劃</option>
+                    <option value='總部：資訊規劃' >總部：資訊規劃</option>
+                    <option value='總部：宣傳規劃' >總部：宣傳規劃</option>
+                    <option value='總部：公關規劃' >總部：公關規劃</option>
+                    <option value='總部：行政規劃' >總部：行政規劃</option>
+                    <option value='關懷大組：報名報到' >關懷大組：報名報到</option>
+                    <option value='關懷大組：關懷行政' >關懷大組：關懷行政</option>
+                    <option value='關懷大組：關懷教育' >關懷大組：關懷教育</option>
+                    <option value='關懷大組：關懷服務' >關懷大組：關懷服務</option>
+                    <option value='關懷大組：關懷影視' >關懷大組：關懷影視</option>
+                    <option value='關懷大組：關懷小組' >關懷大組：關懷小組</option>
                 @endif
-                <option value='依營隊需求安排' >依營隊需求安排</option>
+                <!--<option value='依營隊需求安排' >依營隊需求安排</option>-->
             </select>
             <div class="invalid-feedback">
                 請選擇報名組別第1志願
@@ -151,52 +110,14 @@
 
     <input type='hidden' name='recruit_channel' id='inputRecruitCh' value='自招'>
 
-{{--
+<!--
     <div class='row form-group'>
         <label for='inputGroupPriority2' class='col-md-2 control-label text-md-right'>報名組別第2志願</label>
         <div class='col-md-10'>
             <select class='form-control' name='group_priority2' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
                 @if(\Str::contains($batch->name, "桃園"))
-                    <option value='秘書：義工' >秘書：義工</option>
-                    <option value='秘書：財務' >秘書：財務</option>
-                    <option value='秘書：行政' >秘書：行政</option>
-                    <option value='秘書：資訊' >秘書：資訊</option>
-                    <option value='文宣採訪：文字採訪' >文宣採訪：文字採訪</option>
-                    <option value='文宣採訪：活動記錄' >文宣採訪：活動記錄</option>
-                    <option value='教務：課務教材' >教務：課務教材</option>
-                    <option value='教務：課務行政' >教務：課務行政</option>
-                    <option value='教務：展覽' >教務：展覽</option>
-                    <option value='教務：視聽' >教務：視聽</option>
-                    <option value='教務：主持人' >教務：主持人</option>
-                    <option value='關懷：報名報到' >關懷：報名報到</option>
-                    <option value='關懷：關懷行政' >關懷：關懷行政</option>
-                    <option value='關懷：關懷服務' >關懷：關懷服務</option>
-                    <option value='關懷：關懷員' >關懷：關懷員</option>
-                    <option value='總務：場地' >總務：場地</option>
-                    <option value='總務：交通' >總務：交通</option>
-                    <option value='總務：資材' >總務：資材</option>
-                    <option value='總務：餐飲' >總務：餐飲</option>
-                    <option value='總務：環保' >總務：環保</option>
-                    <option value='總務：保健' >總務：保健</option>
-                    <option value='總務：機動' >總務：機動</option>
-                    <option value='公關：外接待' >公關：外接待</option>
                 @else
-                    <option value='總部' >總部</option>
-                    <option value='資訊組' >資訊組</option>
-                    <option value='秘書組' >秘書組</option>
-                    <option value='教務組' >教務組</option>
-                    <option value='關懷組' >關懷組</option>
-                    <option value='總務組' >總務組</option>
-                    <option value='公關組' >公關組</option>
-                    <option value='海外組' >海外組</option>
-                    @if(\Str::contains($batch->name, "中區"))
-                    <option value='餐飲組' >餐飲組</option>
-                    @endif
-                    @if(\Str::contains($batch->name, "高雄"))
-                    <option value='節目組' >節目組</option>
-                    @endif
-                    <option value='報到組義工' >報到組義工</option>
                 @endif
                 <option value='無' >無</option>
             </select>
@@ -209,45 +130,7 @@
             <select class='form-control' name='group_priority3' onChange=''>
             <option value='' selected>- 請選擇 -</option>
                 @if(\Str::contains($batch->name, "桃園"))
-                    <option value='秘書：義工' >秘書：義工</option>
-                    <option value='秘書：財務' >秘書：財務</option>
-                    <option value='秘書：行政' >秘書：行政</option>
-                    <option value='秘書：資訊' >秘書：資訊</option>
-                    <option value='文宣採訪：文字採訪' >文宣採訪：文字採訪</option>
-                    <option value='文宣採訪：活動記錄' >文宣採訪：活動記錄</option>
-                    <option value='教務：課務教材' >教務：課務教材</option>
-                    <option value='教務：課務行政' >教務：課務行政</option>
-                    <option value='教務：展覽' >教務：展覽</option>
-                    <option value='教務：視聽' >教務：視聽</option>
-                    <option value='教務：主持人' >教務：主持人</option>
-                    <option value='關懷：報名報到' >關懷：報名報到</option>
-                    <option value='關懷：關懷行政' >關懷：關懷行政</option>
-                    <option value='關懷：關懷服務' >關懷：關懷服務</option>
-                    <option value='關懷：關懷員' >關懷：關懷員</option>
-                    <option value='總務：場地' >總務：場地</option>
-                    <option value='總務：交通' >總務：交通</option>
-                    <option value='總務：資材' >總務：資材</option>
-                    <option value='總務：餐飲' >總務：餐飲</option>
-                    <option value='總務：環保' >總務：環保</option>
-                    <option value='總務：保健' >總務：保健</option>
-                    <option value='總務：機動' >總務：機動</option>
-                    <option value='公關：外接待' >公關：外接待</option>
                 @else
-                    <option value='總部' >總部</option>
-                    <option value='資訊組' >資訊組</option>
-                    <option value='秘書組' >秘書組</option>
-                    <option value='教務組' >教務組</option>
-                    <option value='關懷組' >關懷組</option>
-                    <option value='總務組' >總務組</option>
-                    <option value='公關組' >公關組</option>
-                    <option value='海外組' >海外組</option>
-                    @if(\Str::contains($batch->name, "中區"))
-                    <option value='餐飲組' >餐飲組</option>
-                    @endif
-                    @if(\Str::contains($batch->name, "高雄"))
-                    <option value='節目組' >節目組</option>
-                    @endif
-                    <option value='報到組義工' >報到組義工</option>
                 @endif
                 <option value='無' >無</option>
             </select>
@@ -263,7 +146,7 @@
             </div>
         </div>
     </div>
---}}
+-->
 
     <div class='row form-group required'>
     <label for='inputLRClass' class='col-md-2 control-label text-md-right'>廣論研討班別</label>
@@ -314,6 +197,24 @@
         </div>
     </div>
 
+    <div class='row form-group required'>
+        <label for='inputPreliminaries' class='col-md-2 control-label text-md-right'>儲訓班別</label>
+        <div class='col-md-10'>
+            <label class=radio-inline>
+                <input type=radio required name='trclass' value='24' > 24
+                <div class="invalid-feedback">
+                    請選擇儲訓班別
+                </div>
+            </label>
+            <label class=radio-inline>
+                <input type=radio required name='trclass' value='25' > 25
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label>
+        </div>
+    </div>
+    
     <div class='row form-group required'>
         <label for='inputName' class='col-md-2 control-label text-md-right'>中文姓名</label>
         <div class='col-md-10'>
@@ -423,8 +324,8 @@
         </div>
     </div>
 
+<!--
     <hr>
-
     {{-- 護持日期 --}}
     <div class='row form-group required' >
         <label for='inputParticipationDates' class='col-md-2 control-label text-md-right'>護持日期(多選)</label>
@@ -537,6 +438,7 @@
             </label>
         </div>
     </div>
+-->
 
     <hr>
 
@@ -665,19 +567,15 @@
         <div class='col-md-10'>
             <select class='form-control itemreg_long' name='industry' id='inputIndustry' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
-                <option value='製造業' >製造業</option>
-                <option value='公共事業' >公共事業</option>
-                <option value='營建工程相關產業' >營建工程相關產業</option>
-                <option value='批發、零售及貿易相關產業' >批發、零售及貿易相關產業</option>
-                <option value='運輸及倉儲相關產業' >運輸及倉儲相關產業</option>
-                <option value='住宿及餐飲相關產業' >住宿及餐飲相關產業</option>
-                <option value='大眾傳播通訊相關產業' >大眾傳播通訊相關產業</option>
-                <option value='金融及保險業相關產業' >金融及保險業相關產業</option>
-                <option value='專業、科學及技術相關服務業(會計師、律師、顧問等）' >專業、科學及技術相關服務業(會計師、律師、顧問等）</option>
-                <option value='教育學術相關產業' >教育學術相關產業</option>
-                <option value='醫療保健及社會工作服務相關' >醫療保健及社會工作服務相關</option>
-                <option value='藝術、娛樂及休閒服務相關' >藝術、娛樂及休閒服務相關</option>
-                <option value='公家機關' >公家機關</option>
+                <option value='傳產營造' >傳產營造(食衣住行傳統製造 / 石化製造／營建／工程／不動產)</option>
+                <option value='資訊科技' >資訊科技(電子／資訊／科技／通訊／半導體／軟體)</option>
+                <option value='教育文化' >教育文化(學術／研究／出版／傳播／文化／藝術／娛樂)</option>
+                <option value='醫療保健' >醫療保健(醫療／保健／藥廠)</option>
+                <option value='金融諮詢' >金融諮詢(金融 / 保險／會計／法律／諮商)</option>
+                <option value='民生服務' >民生服務(水電天然氣供應 / 交通運輸／批發 / 零售 / 倉儲／住宿／餐飲)</option>
+                <option value='政府機關' >政府機關(公家機關／政府單位)</option>
+                <option value='非營利組織' >非營利組織(公益單位 / 非營利組織／社會服務)</option>
+                <option value='永續產業' >永續產業(再生能源／能源管理／永續發展／企業社會責任部門／環境工程)</option>
                 <option value='其它' >其它</option>
             </select>
             <div class="invalid-feedback crumb">
@@ -686,7 +584,7 @@
         </div>
     </div>
 
-{{--
+<!--
     <div class='row form-group field_long' style='display:none'>
     <label for='inputIndustryOther' class='col-md-2 control-label text-md-right'>產業別:自填</label>
         <div class='col-md-10'>
@@ -696,7 +594,7 @@
             </div>
         </div>
     </div>
---}}
+-->
 
     <div class='row form-group required field_long' style='display:none'>
     <label for='inputTitle' class='col-md-2 control-label text-md-right'>職稱</label>
@@ -708,6 +606,7 @@
         </div>
     </div>
 
+<!--
     <div class='row form-group required field_long' style='display:none'>
         <label for='inputJobProperty' class='col-md-2 control-label text-md-right'>職務類型</label>
         <div class='col-md-10'>
@@ -739,8 +638,7 @@
             </div>
         </div>
     </div>
-
-{{--
+    
     <div class='row form-group field_long' style='display:none'>
     <label for='inputJobPropertyOther' class='col-md-2 control-label text-md-right'>職務類型:自填</label>
         <div class='col-md-10'>
@@ -760,7 +658,7 @@
             </div>
         </div>
     </div>
---}}
+-->
 
     <div class='row form-group field_long' style='display:none'>
     <label for='inputEmployees' class='col-md-2 control-label text-md-right'>公司員工總數</label>
@@ -1066,6 +964,7 @@
                         form.classList.add('was-validated');
                     }, false);
                 });
+                showFields(true);
             }, false);
         })();
 
@@ -1129,18 +1028,15 @@
             }
         }
 
-        function showFields(){
+        function showFields(force = null){
+            if (!force) force = false;
             sel = document.getElementById('inputGroupPriority1').value;
-            //console.log(sel);
             fields_long = document.getElementsByClassName('field_long');
             fields_short = document.getElementsByClassName('field_short');
             itemsreq_long = document.getElementsByClassName('itemreq_long');
             itemsreq_short = document.getElementsByClassName('itemreq_short');
             recruit_ch = document.getElementById('inputRecruitCh');
-            //console.log(fields_long.length);
-            //console.log(itemsreq_long.length);
-            //console.log(itemsreq_long);
-            if (sel == '關懷組') {
+            if (sel == '關懷組' || (force == true)) {
                 for (i=0;i<fields_long.length;i++) fields_long[i].style.display = '';
                 for (i=0;i<fields_short.length;i++) fields_short[i].style.display = 'none';
                 for (i=0;i<itemsreq_long.length;i++) itemsreq_long[i].required = true;
