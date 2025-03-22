@@ -49,28 +49,26 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ $camp_data->site_url }}">活動網頁</a>
                     </li>
+                    {{--
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('registration', $batch_id) }}">報名表單</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('query', $batch_id) }}">報名查詢/修改</a>
                     </li>
-                    {{-- 
-                        <li class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('payment', $batch_id) }}">線上繳費</a>
-                        </li> 
-                    --}}
+                    </li> 
                     @if(\Carbon\Carbon::now() >= \Carbon\Carbon::createFromFormat("Y-m-d", $camp_data->admission_announcing_date))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route("queryadmitGET", $batch_id) }}">錄取查詢</a>
+                            <a class="nav-link" href="{{ route('queryadmitGET', $batch_id) }}">錄取查詢</a>
                         </li>
                     @endif
-                    {{-- 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url("downloads/utcamp2024/2024第32屆教師生命成長營大專教職員梯-活動簡章_含課表紙本報名表_R2.docx") }}">課程表</a>
+                        <a class="nav-link" href="{{ url('downloads/utcamp2024/2024第32屆教師生命成長營大專教職員梯-活動簡章_含課表紙本報名表_R2.docx') }}">課程表</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url("downloads/utcamp2024/2024第32屆教師生命成長營大專教職員梯-活動簡章_含課表紙本報名表_R2.docx") }}">報名簡章(含課表)下載</a>
+                        <a class="nav-link" href="{{ url('downloads/utcamp2024/2024第32屆教師生命成長營大專教職員梯-活動簡章_含課表紙本報名表_R2.docx') }}">報名簡章(含課表)下載</a>
                     </li>
                     --}}
                 </ul>
