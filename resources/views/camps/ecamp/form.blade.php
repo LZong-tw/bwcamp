@@ -61,7 +61,8 @@
     @endif
         @csrf
         <div class="container py-4 py-xl-5">
-            <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-lg-3">
+            <!--div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-lg-3"-->
+            <div class="row gy-4 row-cols-1 row-cols-md-2">
                 <div class="col">
                     <div class="card border-light border-1 d-flex p-4" style="background: rgb(208,225,234);border-radius: 20px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;text-align: left;">
                         <h1 style="font-size: xx-large;">關於您</h1>
@@ -126,19 +127,15 @@
                                     <tr style="background: rgba(255,255,255,0);">
                                         <td style="border-style: none;background: rgba(255,255,255,0);padding: 8px;"><strong><span style="color: rgb(255, 109, 3);" class="required">產&nbsp; 業&nbsp; 別：&nbsp;</span></strong><select style="width: 140px;border-radius: 5px;padding: 3px;background: var(--bs-table-bg);border-style: none;" required name='industry' onChange=''>
                                                 <option value='' selected>- 請選擇 -</option>
-                                                <option value='製造業' >製造業</option>
-                                                <option value='公共事業' >公共事業</option>
-                                                <option value='營建工程相關產業' >營建工程相關產業</option>
-                                                <option value='批發、零售及貿易相關產業' >批發、零售及貿易相關產業</option>
-                                                <option value='運輸及倉儲相關產業' >運輸及倉儲相關產業</option>
-                                                <option value='住宿及餐飲相關產業' >住宿及餐飲相關產業</option>
-                                                <option value='大眾傳播通訊相關產業' >大眾傳播通訊相關產業</option>
-                                                <option value='金融及保險業相關產業' >金融及保險業相關產業</option>
-                                                <option value='專業、科學及技術相關服務業(會計師、律師、顧問等）' >專業、科學及技術相關服務業(會計師、律師、顧問等）</option>
-                                                <option value='教育學術相關產業' >教育學術相關產業</option>
-                                                <option value='醫療保健及社會工作服務相關' >醫療保健及社會工作服務相關</option>
-                                                <option value='藝術、娛樂及休閒服務相關' >藝術、娛樂及休閒服務相關</option>
-                                                <option value='公家機關' >公家機關</option>
+                                                <option value='傳產營造' >傳產營造(食衣住行傳統製造 / 石化製造／營建／工程／不動產)</option>
+                                                <option value='資訊科技' >資訊科技(電子／資訊／科技／通訊／半導體／軟體)</option>
+                                                <option value='教育文化' >教育文化(學術／研究／出版／傳播／文化／藝術／娛樂)</option>
+                                                <option value='醫療保健' >醫療保健(醫療／保健／藥廠)</option>
+                                                <option value='金融諮詢' >金融諮詢(金融 / 保險／會計／法律／諮商)</option>
+                                                <option value='民生服務' >民生服務(水電天然氣供應 / 交通運輸／批發 / 零售 / 倉儲／住宿／餐飲)</option>
+                                                <option value='政府機關' >政府機關(公家機關／政府單位)</option>
+                                                <option value='非營利組織' >非營利組織(公益單位 / 非營利組織／社會服務)</option>
+                                                <option value='永續產業' >永續產業(再生能源／能源管理／永續發展／企業社會責任部門／環境工程)</option>                       
                                                 <option value='其它' >其它</option>
                                             </select>&nbsp;</td>
                                     </tr>
@@ -229,6 +226,7 @@
                         </div>
                     </div>
                 </div>
+<!--
                 <div class="col">
                     <div class="card border-light border-1 d-flex p-4" style="background: rgb(255,231,214);border-radius: 30px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;text-align: left;">
                         <h1 style="font-size: xx-large;">您的經歷</h1>
@@ -249,8 +247,9 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+                    </div>  
                 </div>
+-->                
             </div><img src="{{ asset("mockup-assets/ecamp/img/illustrations/eco.png") }}" style="width: 95%;margin: 20px;">
             <div class="row gy-4 row-cols-1 row-cols-md-2">
                 <div class="col">
@@ -347,6 +346,7 @@
                         <div class="col-md-6 text-center text-md-start d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-md-start align-items-md-center justify-content-xl-center">
                             <div><img class="rounded img-fluid fit-cover" style="min-height: 300px;width: 100%;height: auto;" src="{{ asset("mockup-assets/ecamp/img/illustrations/活動.png")}}" width="800"></div>
                         </div>
+                        <!--
                         <div class="col" style="text-align: left;">
                             <div style="max-width: 450px;">
                                 <h3 class="fw-bold pb-md-1 required" style="font-size: 18px;color: #ed5412;">有興趣參加活動的類別？(可複選)</h3>
@@ -379,6 +379,7 @@
                                 <input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='週日'><span style="color: rgb(0, 0, 0); background-color: rgba(220, 220, 220, 0);">&nbsp;</span><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">週日</span></p>
                             </div>
                         </div>
+                        -->
                     </div>
                 </div>
             </section>

@@ -185,7 +185,7 @@
                 </select>
             </div>
             <div class='col-auto'>
-                <input type='tel' required name='lrclassNumber' placeholder='班號' class='form-control' id='inputLRClassNumber' onKeyUp="if(document.Camp.lrclassNumber.value == ''){ document.Camp.lrclass.value = ''; } else {document.getElementById('inputLRClass').value = document.Camp.lrRegion.value + document.Camp.lrYear.value + document.Camp.lrRank.value + document.Camp.lrclassNumber.value;}">
+                <input type='number' required name='lrclassNumber' placeholder='班號' class='form-control' id='inputLRClassNumber' onKeyUp="if(document.Camp.lrclassNumber.value == ''){ document.Camp.lrclass.value = ''; } else {document.getElementById('inputLRClass').value = document.Camp.lrRegion.value + document.Camp.lrYear.value + document.Camp.lrRank.value + document.Camp.lrclassNumber.value;}">
             </div>
             <div class='col-auto mt-3'>
                 <label>班別預覽：
@@ -197,21 +197,21 @@
         </div>
     </div>
 
-    <div class='row form-group required'>
-        <label for='inputPreliminaries' class='col-md-2 control-label text-md-right'>儲訓班別</label>
-        <div class='col-md-10'>
+    <div class='row form-group'>
+        <label for='inputTrClass' class='col-md-2 control-label text-md-right'>儲訓班別(中區)</label>
+        <div class='col-auto'>
             <label class=radio-inline>
-                <input type=radio required name='trclass' value='24' > 24
-                <div class="invalid-feedback">
-                    請選擇儲訓班別
-                </div>
+                <input type=radio  name='trclass' value='24' > 24
             </label>
             <label class=radio-inline>
-                <input type=radio required name='trclass' value='25' > 25
-                <div class="invalid-feedback">
-                    &nbsp;
-                </div>
+                <input type=radio  name='trclass' value='25' > 25
             </label>
+        </div>
+        <div class='col-auto'>
+            編號
+        </div>
+        <div class='col-auto'>
+            <input type='text' name='trclass_no' value='' class='form-control' id=''>
         </div>
     </div>
     
@@ -606,7 +606,6 @@
         </div>
     </div>
 
-<!--
     <div class='row form-group required field_long' style='display:none'>
         <label for='inputJobProperty' class='col-md-2 control-label text-md-right'>職務類型</label>
         <div class='col-md-10'>
@@ -638,7 +637,7 @@
             </div>
         </div>
     </div>
-    
+<!--
     <div class='row form-group field_long' style='display:none'>
     <label for='inputJobPropertyOther' class='col-md-2 control-label text-md-right'>職務類型:自填</label>
         <div class='col-md-10'>
