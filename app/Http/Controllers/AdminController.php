@@ -400,6 +400,7 @@ class AdminController extends BackendController {
     }
 
     public function copyOrgs(Request $request, $camp_id){
+        //複製整個營隊組織
         $formData = $request->toArray();
         $campDst_id = $camp_id;
         $campDst = Camp::find($campDst_id);
@@ -451,6 +452,20 @@ class AdminController extends BackendController {
         $this->campOrgService->updatePrevId($orgsDst);
 
         \Session::flash('message', "組織複製成功。");
+        return redirect()->route("showOrgs", $camp_id);
+    }
+
+    public function duplicateOrg($camp_id, $org_id){
+        //複製單一組織＋權限
+        //$formData = $request->toArray();
+        $orgSrc = CampOrg::find($org_id);   //找到要被複製的org
+        $orgDst = $orgSrc->replicate();
+        $orgDst->position = $orgSrc->position . "copy";
+        $orgDst->is_node = 0;               //新增是leaf
+        $orgDst->created_at = Carbon::now();
+        $orgDst->save();
+        $this->campOrgService->duplicatePermissions($orgDst, $orgSrc);
+        \Session::flash('message', $orgSrc->section . $orgSrc->position ." 複製成功。");
         return redirect()->route("showOrgs", $camp_id);
     }
 

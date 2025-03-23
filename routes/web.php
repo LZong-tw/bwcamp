@@ -139,6 +139,7 @@ Route::group(["prefix" => "backend/campManage"], function(){
         Route::post("/{camp_id}/add", [AdminController::class, "addOrgs"])->name("addOrgs");
         Route::post("/{camp_id}/copy", [AdminController::class, "copyOrgs"])->name("copyOrgs");
         Route::get("/{camp_id}/{org_id}/add", [AdminController::class, "showAddOrgs"])->name("showAddOrgs");
+        Route::get("/{camp_id}/{org_id}/duplicate", [AdminController::class, "duplicateOrg"])->name("duplicateOrg");
         Route::get("/{camp_id}/{org_id}/modify", [AdminController::class, "showModifyOrg"])->name("showModifyOrg");
         Route::post("/{camp_id}/{org_id}/modify", [AdminController::class, "modifyOrg"])->name("modifyOrg");
         Route::post("/remove", [AdminController::class, "removeOrg"])->name("removeOrg");
