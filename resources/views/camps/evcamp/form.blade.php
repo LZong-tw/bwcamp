@@ -83,7 +83,7 @@
     <div class='row form-group required'>
         <label for='inputGroupPriority1' class='col-md-2 control-label text-md-right'>報名組別</label>
         <div class='col-md-10'>
-            <select required class='form-control' name='group_priority1' id='inputGroupPriority1' onChange='showFields();'>
+            <select required class='form-control' name='group_priority1' id='inputGroupPriority1' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
                 @if(str_contains($batch->name, "第一梯"))
                 @else
