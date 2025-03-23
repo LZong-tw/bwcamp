@@ -99,4 +99,19 @@ class CampOrgService
         $orgDst->syncPermissions($permissionsDst);
         return;
     }
+    
+    //campDst = campSrc && batchDst = batchSrc
+    public function duplicatePermissions(CampOrg $orgDst, CampOrg $orgSrc) {
+        $permissionsSrc = $orgSrc->permissions;
+        if ($permissionsSrc->count() == 0) return;   //nothing to copy
+        $permissionsDst = collect();
+        foreach($permissionsSrc as $permissionSrc) {
+            $permissionDst = $permissionSrc->replicate();
+            $permissionDst->created_at = Carbon::now();
+            $permissionDst->save();
+            $permissionsDst->push($permissionDst);
+        }
+        $orgDst->syncPermissions($permissionsDst);
+        return;
+    }
 }
