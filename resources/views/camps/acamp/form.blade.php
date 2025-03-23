@@ -145,7 +145,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     西元
                 </div>
                 <div class="col-md-3">
-                    <input type='number' required class='form-control' name='birthyear' min='{{ \Carbon\Carbon::now()->subYears(40)->year }}' max='{{ \Carbon\Carbon::now()->subYears(16)->year }}' value='' placeholder=''>
+                    <input type='number' required class='form-control' name='birthyear' min='{{ \Carbon\Carbon::now()->subYears(100)->year }}' max='{{ \Carbon\Carbon::now()->subYears(1)->year }}' value='' placeholder=''>
                     <div class="invalid-feedback">
                         未填寫或日期不正確
                     </div>
@@ -431,7 +431,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <option value='校園汽車停車位' >校園汽車位</option>
                 <option value='校園機車停車位' >校園機車位</option>
                 <option value='搭乘各區直達專車(暫定：台北、台中、嘉義、台南、高雄、屏東)
-                ' >搭乘各區直達專車(暫定：台北、台中、嘉義、台南、高雄、屏東)</option>
+                ' >搭乘各區直達專車(暫定：台中、嘉義、台南、高雄、屏東)</option>
                 <option value='無前述需求' >無前述需求</option>
             </select>
         </div>
