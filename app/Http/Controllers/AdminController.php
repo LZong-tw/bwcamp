@@ -401,22 +401,54 @@ class AdminController extends BackendController {
 
     public function copyOrgs(Request $request, $camp_id){
         $formData = $request->toArray();
-        //$newSet = array();
-        $camp2copy_id = $formData['camp2copy'];
-        $orgs2copy = CampOrg::where('camp_id', $camp2copy_id)->get();
-        //dd($orgs2copy);
+        $campDst_id = $camp_id;
+        $campDst = Camp::find($campDst_id);
+        $batchesDst = $campDst->batchs;
+
+        $campSrc_id = $formData['camp2copy'];
+        $campSrc = Camp::find($campSrc_id);
+        $batchesSrc = $campSrc->batchs;
+        $orgsSrc = $campSrc->organizations;
+        //dd($orgsSrc);
+        $doCopyPermissions = $formData['do_copy_permissions'];
+
+        //match batches
+        //check if number of batches is the same
+        if ($batchesDst->count() != $batchesSrc->count()) {
+            \Session::flash('error', "梯次數量不同，無法複製");
+            return back();
+        }
+        //match by batches' names
+        $batchIdMatchList = array("0" => 0);
+        foreach($batchesSrc as $batchSrc) {
+            $batchDst = $batchesDst->where('name',$batchSrc->name)->first();
+            //batch
+            $batchIdMatchList[$batchSrc->id] = $batchDst?->id ?? null;
+            //vbatch
+            if (!is_null($batchSrc->vbatch)) {
+                $batchIdMatchList[$batchSrc->vbatch->id] = $batchDst?->vbatch?->id ?? null;
+            }
+        }
+        //dd($batchIdMatchList);
 
         //update section before copying
-        $this->campOrgService->updateSection($orgs2copy);
+        $this->campOrgService->updateSection($orgsSrc);
+        //dd($orgsSrc);
 
-        foreach ($orgs2copy as $org) {
-            $newOrg = $org->replicate();
-            $newOrg->camp_id = $camp_id;
-            $newOrg->created_at = Carbon::now();
-            $newOrg->save();
+        foreach ($orgsSrc as $org) {
+            $orgDst = $org->replicate();
+            $orgDst->camp_id = $campDst_id;
+            if ( !is_null($orgDst->batch_id) ) {
+                $orgDst->batch_id = $batchIdMatchList[$org->batch_id];
+            }
+            $orgDst->created_at = Carbon::now();
+            $orgDst->save();
+            if($doCopyPermissions) {
+                $this->campOrgService->copyPermissions($campDst, $campSrc, $orgDst, $org, $batchIdMatchList);
+            }
         }
-        $orgscopied = CampOrg::where('camp_id', $camp_id)->get();
-        $this->campOrgService->updatePrevId($orgscopied);
+        $orgsDst = CampOrg::where('camp_id', $campDst_id)->get();
+        $this->campOrgService->updatePrevId($orgsDst);
 
         \Session::flash('message', "組織複製成功。");
         return redirect()->route("showOrgs", $camp_id);

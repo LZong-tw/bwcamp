@@ -1,7 +1,10 @@
 <?php
 namespace App\Services;
 
+use App\Models\Camp;
 use App\Models\CampOrg;
+use App\Models\Permission;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
 class CampOrgService
@@ -58,5 +61,42 @@ class CampOrgService
         foreach ($orgs as $org) {    //1st layer
             $org->save();
         }
+    }
+
+    public function copyPermissions(Camp $campDst, Camp $campSrc, CampOrg $orgDst, CampOrg $orgSrc, array $batchIdMatchList) {
+        /*
+        //match batches
+        $batchesDst = $campDst->batchs;
+        $batchesSrc = $campSrc->batchs;
+        //check if number of batches is the same
+        if ($batchesDst->count != $batchesSrc->count) {
+            return;
+        }
+        $batchIdMatchList = array("0"=>"0");
+        foreach($batchesSrc as $batchSrc) {
+            $batchDst = $batchesDst->pull();
+            //batch
+            $batchMatchList[$batchSrc->id] = $batchDst->id;
+            //vbatch
+            $batchMatchList[$batchSrc->vbatch->id] = $batchDst->vbatch->id;
+        }*/
+
+        $permissionsSrc = $orgSrc->permissions;
+        if ($permissionsSrc->count() == 0) return;   //nothing to copy
+        $permissionsDst = collect();
+        foreach($permissionsSrc as $permissionSrc) {
+            $permissionDst = $permissionSrc->replicate();
+            $permissionDst->camp_id = $campDst->id;
+            if ( !is_null($permissionDst->batch_id) ) {
+                $permissionDst->batch_id = $batchIdMatchList[$permissionSrc->batch_id];
+            }
+            $permissionDst->display_name = str_replace($campSrc->abbreviation, $campDst->abbreviation, $permissionSrc->display_name);
+            $permissionDst->description = str_replace($campSrc->abbreviation, $campDst->abbreviation, $permissionSrc->description);
+            $permissionDst->created_at = Carbon::now();
+            $permissionDst->save();
+            $permissionsDst->push($permissionDst);
+        }
+        $orgDst->syncPermissions($permissionsDst);
+        return;
     }
 }

@@ -10,12 +10,10 @@
         }
     </style>
     <h2 class="d-inline-block">{{ $camp->abbreviation }} 組織列表　</h2><br>
-    @if($errors->any())
-        @foreach ($errors->all() as $message)
-            <div class='alert alert-danger' role='alert'>
-                {{ $message }}
-            </div>
-        @endforeach
+    @if(\Session::has('error'))
+        <div class='alert alert-danger' role='alert'>
+            {{ \Session::get('error') }}
+        </div>
     @endif
     @if(\Session::has('message'))
         <div class='alert alert-success' role='alert'>
@@ -375,6 +373,16 @@
                     </div>
                     <div class="col-md-2">
                         <button class="btn btn-primary">複製</button><br><br>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2 text-md-right">
+                        選擇複製內容
+                    </div>
+                    <div class="col-md-8">
+                    <label><input type="radio" name="do_copy_permissions" value="N"> 只複製組織</label>
+                    <label><input type="radio" name="do_copy_permissions" value="Y" checked> 複製組織及權限</label>
                     </div>
                 </div>
                 <div class="row">
