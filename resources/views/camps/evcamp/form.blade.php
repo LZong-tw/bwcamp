@@ -198,7 +198,7 @@
     </div>
 
     <div class='row form-group'>
-        <label for='inputTrClass' class='col-md-2 control-label text-md-right'>儲訓班別(中區)</label>
+        <label for='inputTrClass' class='col-md-2 control-label text-md-right'>儲訓班別</label>
         <div class='col-auto'>
             <label class=radio-inline>
                 <input type=radio  name='trclass' value='24' > 24
