@@ -51,7 +51,7 @@
         </div>
     </nav>
     <header class="pt-5"></header>
-    <section style="text-align: center;"><img src="{{ asset("img/2024ecampBANNER_1024x300.png") }}" style="width: 100%;margin: initial;padding: initial;">
+    <section style="text-align: center;"><img src="{{ asset("img/2025ecampBANNER_1920x565.jpg") }}" style="width: 100%;margin: initial;padding: initial;">
     {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
     @if(!isset($isModify) || $isModify)
         <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form'>
@@ -188,7 +188,7 @@
                                     <tr style="border-style: none;background: rgba(255,255,255,0);">
                                         <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);" class="required">職　　稱：&nbsp;</span></strong><input type="text" style="background: var(--bs-table-bg);border-radius: 10px;width: 140px;border-style: none;" required name='title' value='' maxlength="40" id='inputTitle'>&nbsp;&nbsp;</td>
                                     </tr>
-                                    <tr style="border-style: none;background: rgba(255,255,255,0);">
+                                    <!--<tr style="border-style: none;background: rgba(255,255,255,0);">
                                         <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);" class="required">工作屬性：&nbsp;</span></strong><select style="width: 143px;border-radius: 5px;padding: 3px;border-style: none;background: var(--bs-table-bg);"  required name='job_property' onChange=''>
                                                 <option value='' selected>- 請選擇 -</option>
                                                 <option value='經營/人資' >經營/人資</option>
@@ -212,7 +212,7 @@
                                                 <option value='軍警消/保全' >軍警消/保全</option>
                                                 <option value='其它' >其它</option>
                                             </select></td>
-                                    </tr>
+                                    </tr>-->
                                     <tr style="border-style: none;background: rgba(255,255,255,0);">
                                         <td style="border-style: none;background: rgba(255,255,255,0);"><strong><span style="color: rgb(255, 109, 3);" class="required">公司人數：&nbsp;</span></strong><input type="text" style="width: 120px;border-radius: 10px;background: var(--bs-table-bg);border-style: none;" required name='employees' value='' id='inputEmployees'>&nbsp;人&nbsp;</td>
                                     </tr>

@@ -65,7 +65,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class="row form-group required">
-        <label for='inputGender' class='col-md-2 control-label text-md-right'>生理性別</label>
+        <label for='inputGender' class='col-md-2 control-label text-md-right'>性別</label>
         <div class='col-md-10'>
             <div class="form-check form-check-inline">
                 <label class="form-check-label" for="M">
