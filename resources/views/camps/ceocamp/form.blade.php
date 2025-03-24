@@ -50,7 +50,7 @@
         style="background: linear-gradient(rgb(233,186,239), rgba(255,255,255,0.4) 52%, rgb(222,192,225)), rgba(255,255,255,0.6);border-radius: 0px;height: 60px;box-shadow: 0px 0px 14px;">
         <div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><span
                     style="font-family: Abel, sans-serif;color: rgb(46,83,99);"><span
-                        style="color: rgb(105, 24, 137);">2024 企業菁英營推薦</span><span
+                        style="color: rgb(105, 24, 137);">{{ $camp_data->year }}企業菁英營推薦</span><span
                         style="color: rgb(154, 0, 0);">（{{ $batch->name }}梯）</span></span></a><button data-bs-toggle="collapse"
                 class="navbar-toggler" data-bs-target="#navcol-1"
                 style="width: 43px;height: 40px;padding: 0px 0px;background: rgba(255,255,255,0.3);"><span
@@ -68,12 +68,12 @@
     </nav>
     <header class="pt-5"></header>
     <section style="text-align: center;"><img
-            src="{{ asset('mockup-assets/ceocamp/img/illustrations/菁英營banner2.jpg') }}"
+            src="{{ asset('mockup-assets/ceocamp/img/illustrations/2025菁英營banner_1920x675.png') }}"
             style="width: 100%;margin: initial;padding: initial;">
         <div class="container">
             <p style="text-align: left;margin: 0px;"><span
-                    style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">若您在填寫表格時遇到困難，請洽詢：</span>北區—陳小姐
-                0958367318、陳先生 0966891868｜竹區—邱小姐 0922437236、陳小姐 0921625305｜中區—陳小姐 0972087070、王小姐 0937308673｜高區—陳小姐 0922208027</p>
+                    style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">若您在填寫表格時遇到困難，請洽詢：</span><br>北區—陳小姐
+                0935-237-395、劉小姐 0953-226-558｜竹區—何小姐 0920-431-831、林小姐 0933-973-825｜<br>中區—王小姐 0937-308-673、林小姐 0935-303-658｜高區—陳先生 0952-413-683、陳小姐 0929-350-820</p>
         </div>
         <div class="container py-4 py-xl-5">
             {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
@@ -276,16 +276,15 @@
                                         <td
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                             <span style="color: rgb(0, 0, 0);" class="required">區域別：&nbsp;</span>
-                                            @if(str_contains($batch->name, "開南"))
+                                            @if(str_contains($batch->name, ""))
                                                 <input type="radio" value="北區　" name="region" required><span
                                                     style="color: rgb(0, 0, 0);"> 北區　</span>
                                                 <input type="radio" value="竹區" name="region" required><span
                                                     style="color: rgb(0, 0, 0);"> 竹區　</span>
+                                                <input type="radio" value="中區" name="region" required checked><span
+                                                    style="color: rgb(0, 0, 0);"> 中區　</span>
                                                 <input type="radio" value="高區" name="region" required><span
                                                     style="color: rgb(0, 0, 0);"> 高區　</span><br>
-                                            @else
-                                                <input type="radio" value="中區" name="region" required checked><span
-                                                    style="color: rgb(0, 0, 0);"> 中區</span>
                                             @endif
                                             <sup><span style="color: rgb(96, 18, 72);">建議根據被推薦人的工作/生活地區選擇</span></sup>
                                         </td>
