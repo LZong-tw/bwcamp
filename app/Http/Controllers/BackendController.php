@@ -2473,6 +2473,22 @@ class BackendController extends Controller
                 } else {
                     return view("backend.modifyAccounting", compact('applicant','message','fare_depart_from','fare_back_to', 'fare_room'));
                 }
+            } elseif ($camp_table == 'utcamp') {
+                $applicant->fee = ($request->fee)?? 0;
+
+                if ($request->is_add == 'add')
+                    $applicant->deposit = $applicant->deposit + $request->cash;
+                else
+                    $applicant->deposit = $request->cash;
+
+                $applicant = $this->applicantService->fillPaymentData($applicant);
+                $applicant->save();
+                $message = "修改完成。";
+                if ($request->page=="attendeeInfo") {
+                    return redirect()->back();
+                } else {
+                    return view("backend.modifyAccounting", compact('applicant','message','fare_depart_from','fare_back_to', 'fare_room'));
+                }
             } else {
                 if($admitted_sn == $request->double_check || $applicant->id == $request->double_check) {
                     $applicant->deposit = $applicant->fee;

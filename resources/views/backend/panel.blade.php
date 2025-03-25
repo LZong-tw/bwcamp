@@ -190,15 +190,19 @@
                         <li>
                             <a href="{{ route("showNotAdmitted", $campFullData->id) }}" class="text-warning">寄送未錄取通知信</a>
                         </li>
+                    <!--
                         <li>
                         @if($campFullData->table == "ycamp")
                             <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">修改繳費資料<br>修改交通</a>
                         @elseif($campFullData->table == "ceocamp")
                             <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">修改繳費資料<br>修改住宿</a>
+                        @elseif($campFullData->table == "utcamp")
+                            <a href="{{ route("modifyAccountingGET",    $campFullData->id) }}">修改繳費資料<br>修改住宿</a>
                         @else
                             <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">修改繳費資料</a>
                         @endif
                         </li>
+                    -->
                         <li>
                             <a href="{{ route("modifyAttendGET", $campFullData->id) }}">設定取消參加</a>
                         </li>
@@ -233,6 +237,8 @@
                         @if($campFullData->table == "ycamp")
                             <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">現場手動繳費<br>修改繳費資料<br>修改交通</a>
                         @elseif($campFullData->table == "ceocamp")
+                            <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">現場手動繳費<br>修改繳費資料<br>修改住宿</a>
+                        @elseif($campFullData->table == "utcamp")
                             <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">現場手動繳費<br>修改繳費資料<br>修改住宿</a>
                         @else
                             <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">現場手動繳費<br>修改繳費資料</a>

@@ -194,7 +194,7 @@
                                                         </span><span
                                                             style="color: rgb(60, 145, 190); background-color: rgba(220, 220, 220, 0);">被推薦人同意參加</span><span
                                                             style="color: rgb(255, 107, 0); background-color: rgba(220, 220, 220, 0);">&nbsp;</span></strong><span
-                                                        style="color: rgb(35, 35, 35); background-color: rgba(220, 220, 220, 0);">本次營隊活動，並且</span>
+                                                        style="color: rgb(35, 35, 35); background-color: rgba(220, 220, 220, 0);">本次營隊活動，</span>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -207,8 +207,8 @@
                                                             style="color: rgb(170, 0, 18); background-color: rgba(220, 220, 220, 0);">&nbsp;</span></strong><span
                                                         style="color: rgb(35, 35, 35); background-color: rgba(220, 220, 220, 0);">將營隊推薦報名表内相關資料</span><strong><span
                                                             style="background-color: rgba(220, 220, 220, 0);">&nbsp;</span><span
-                                                            style="color: rgb(60, 145, 190); background-color: rgba(220, 220, 220, 0);">提供給主辦單位</span><span
-                                                            style="color: rgb(105, 57, 62); background-color: rgba(220, 220, 220, 0);">。</span></strong>
+                                                            style="color: rgb(60, 145, 190); background-color: rgba(220, 220, 220, 0);">提供給主辦單位</span></strong><span
+                                                            style="color: rgb(35, 35, 35); background-color: rgba(220, 220, 220, 0);">，並且</span>
                                                 </td>
                                             </tr>
 
@@ -219,14 +219,15 @@
                                                         <strong><span
                                                                 style="color: rgb(105, 57, 62); background-color: rgba(220, 220, 220, 0);">3.
                                                             </span><span
-                                                                style="color: rgb(60, 145, 190); background-color: rgba(220, 220, 220, 0);">知悉並告知被推薦人：配合兩天一夜課程，由主辦單位安排7/26晚間住宿者（以安排「雙人房」為主），費用為NT$2,400元。欲住宿單人房者，費用為NT$4,800元。</span></strong>
+                                                                style="color: rgb(60, 145, 190); background-color: rgba(220, 220, 220, 0);">知悉並告知被推薦人</span></strong><span
+                                                                style="color: rgb(35, 35, 35); background-color: rgba(220, 220, 220, 0);">：配合兩天一夜課程，由主辦單位安排7/26晚間住宿者（以安排「雙人房」為主），費用為NT$2,400元。欲住宿單人房者，費用為NT$4,800元。</span>
                                                     </td>
                                                 </tr>
                                             @endif
 
 
                                             <tr>
-                                                <td style="font-size: initial;background: rgba(186,220,238,0.3);padding: 5px 40px;border-style: none;border-color: rgb(255,255,255);border-radius: 30px;">
+                                                <td style="font-size: initial;background: rgba(173,192,224,0.3);padding: 5px 40px;border-style: none;border-color: rgb(255,255,255);border-radius: 30px;">
                                                     @if (str_contains($batch->name, ""))
                                                         <span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">若有需要，可下載&nbsp;</span><a href="{{ url("downloads/ceocamp2025/2025菁英營學員推薦表v1.docx") }}" target="_blank"><strong><span style="color: rgb(50, 125, 70); background-color: rgba(220, 220, 220, 0);">學員推薦表WORD檔</span></strong></a>&nbsp;<span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">或&nbsp;</span><a href="{{ url("downloads/ceocamp2025/2025菁英營學員推薦表v1.pdf") }}" target="_blank"><strong><span style="color: rgb(50, 125, 70); background-color: rgba(220, 220, 220, 0);">學員推薦表PDF檔</span></strong></a><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">， 請被推薦人提供資料，做為填寫此表單的依據。</span>
                                                     @else
@@ -281,7 +282,7 @@
                                                     style="color: rgb(0, 0, 0);"> 北區　</span>
                                                 <input type="radio" value="竹區" name="region" required><span
                                                     style="color: rgb(0, 0, 0);"> 竹區　</span>
-                                                <input type="radio" value="中區" name="region" required checked><span
+                                                <input type="radio" value="中區" name="region" required><span
                                                     style="color: rgb(0, 0, 0);"> 中區　</span>
                                                 <input type="radio" value="高區" name="region" required><span
                                                     style="color: rgb(0, 0, 0);"> 高區　</span><br>

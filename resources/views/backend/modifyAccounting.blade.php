@@ -165,6 +165,67 @@
             </form>
             <br>
             <a href="{{ route('modifyAccountingGET', $campFullData->id) }}" class="btn btn-primary">下一筆</a>
+        @elseif($campFullData->table=='utcamp')
+            @php 
+                $cash=0 
+            @endphp
+            <form action="{{ route("modifyAccounting", $campFullData->id) }}" method="post" class="form-horizontal">
+                @csrf
+                <input type="hidden" name="id" value="{{ $applicant->id }}">
+                <input type="hidden" name="page" value="modifyAccounting">
+                <div class='row form-group required'>
+                    <label for='inputFee' class='col-md-2 control-label text-md-right'>修改費用</label>
+                    <div class="col-md-4">
+                        <select required class='form-control' name='fee' id='inputFee'>
+                        <option value=''>- 請選擇 -</option>
+                            @foreach($fare_room as $key => $value)
+                            <option value='{{ $value }}' >{{ $key }}({{ $value }})</option>
+                            @endforeach
+                        </select>
+                        <div class="invalid-feedback">
+                            請選擇費用
+                        </div>
+                    </div>
+                </div>
+                <!--<div class='row form-group required'>
+                    <label for='inputNights' class='col-md-2 control-label text-md-right'>修改天數</label>
+                    <div class="col-md-4">
+                        <input type='number' required class='form-control' name='nights' min=0 max=1 value='' placeholder=''>
+                        <div class="invalid-feedback">
+                            請選擇天數
+                        </div>
+                    </div>
+                </div>-->
+                <div class='row form-group required'>
+                    <label for='inputCash' class='col-md-2 control-label text-md-right'>修改現金繳費<br>金額</label>
+                    <div class='col-md-10'>
+                        <input type="text" class="form-control" name="cash" value=0 placeholder="填寫現場手動（現金）繳費金額" required><br>
+                        <div class="invalid-feedback">
+                            請填寫輸入現場手動（現金）繳費金額
+                        </div>
+                    </div>
+                </div>
+                <div class='row form-group required'>
+                    <label for='inputModifyMethod' class='col-md-2 control-label text-md-right'>修改方式</label>
+                    <div class='col-md-10'>
+                        <label class=radio-inline>
+                            <input type=radio required name='is_add' value=replace checked> 覆寫現金繳費
+                            <div class="invalid-feedback">
+                                請選擇修改方式
+                            </div>
+                        </label> 
+                        <label class=radio-inline>
+                            <input type=radio required name='is_add' value=add > 加入現金繳費
+                            <div class="invalid-feedback">
+                                &nbsp;
+                            </div>
+                        </label> 
+                    </div>
+                </div>
+            <input type="submit" class="btn btn-success" id="confirmaccounting" value="確認修改">
+            </form>
+            <br>
+            <a href="{{ route('modifyAccountingGET', $campFullData->id) }}" class="btn btn-primary">下一筆</a>
         @else
             @if(!$applicant->showCheckInInfo || $applicant->deposit > $applicant->fee)
                 <form action="{{ route("modifyAccounting", $campFullData->id) }}" method="post" class="form-horizontal">
@@ -214,6 +275,19 @@
                 field1[0].value = lodging_data[field1[0].name];
                 let field2 = document.getElementsByName('cash');
                 field2[0].value = lodging_data[field2[0].name];
+            })();
+        @endif
+        @if(isset($applicant->fee) && ($campFullData->table=='utcamp'))
+            {{-- 回填費用選項 --}}
+            (function() {
+                var selects = document.getElementsByTagName('select');
+                var options = selects[0].options;
+                for (var i = 0; i < options.length; i++){
+                    if (options[i].value == {{ $applicant->fee }}) {
+                        options[i].selected = true;
+                        break;
+                    }
+                }
             })();
         @endif
     </script>
