@@ -45,13 +45,13 @@
     </style>
 </head>
 
-<body style="color: #343458;background: #fcf2ff;">
+<body style="color: #343458;background: #def0fa;">
     <nav class="navbar navbar-expand-md fixed-top navbar-shrink py-3 navbar-light" id="mainNav"
-        style="background: linear-gradient(rgb(233,186,239), rgba(255,255,255,0.4) 52%, rgb(222,192,225)), rgba(255,255,255,0.6);border-radius: 0px;height: 60px;box-shadow: 0px 0px 14px;">
+        style="background: linear-gradient(rgb(186,207,227), rgba(255,255,255,0.4) 52%, rgb(196,207,227)), rgba(255,255,255,0.6);border-radius: 0px;height: 60px;box-shadow: 0px 0px 14px;">
         <div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><span
                     style="font-family: Abel, sans-serif;color: rgb(46,83,99);"><span
-                        style="color: rgb(105, 24, 137);">{{ $camp_data->year }}企業菁英營推薦</span><span
-                        style="color: rgb(154, 0, 0);">（{{ $batch->name }}梯）</span></span></a><button data-bs-toggle="collapse"
+                        style="color: rgb(40, 100, 80);">{{ $camp_data->year }}企業菁英營推薦</span><span
+                        style="color: rgb(154, 0, 0);"><!--（{{ $batch->name }}梯）--></span></span></a><button data-bs-toggle="collapse"
                 class="navbar-toggler" data-bs-target="#navcol-1"
                 style="width: 43px;height: 40px;padding: 0px 0px;background: rgba(255,255,255,0.3);"><span
                     class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
@@ -87,9 +87,9 @@
             <div class="row gy-4 row-cols-1 row-cols-md-2">
                 <div class="col">
                     <div class="card border-light border-1 d-flex p-4"
-                        style="background: rgba(197,154,204,0.56);border-radius: 20px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;text-align: left;">
+                        style="background: rgba(166,207,227,0.56);border-radius: 20px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;text-align: left;">
                         <h1 style="font-size: x-large;color: rgb(67,36,18);border-color: rgb(255,94,0);"><span
-                                style="color: rgb(96, 18, 72);">推薦人基本資料</span></h1>
+                                style="color: rgb(30, 70, 90);">推薦人基本資料</span></h1>
                         <div class="table-responsive" style="width: 98%;">
                             <table class="table">
                                 <thead>
@@ -161,9 +161,9 @@
                 </div>
                 <div class="col">
                     <div class="card border-light border-1 d-flex p-4"
-                        style="background: rgba(197,154,204,0.56);border-radius: 30px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;text-align: left;">
+                        style="background: rgba(166,207,227,0.56);border-radius: 30px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;text-align: left;">
                         <h1 style="font-size: x-large;color: rgb(67,36,18);"><span
-                                style="color: rgb(96, 18, 72);" class="required">推薦理由</span></h1>
+                                style="color: rgb(30,70,90);" class="required">推薦理由</span></h1>
                         <textarea name='reasons_recommend' style="width: 98%;height: 300px;border-style: none;border-radius: 10px;" required></textarea>
                     </div>
                 </div>
@@ -178,7 +178,7 @@
                                         <thead>
                                             <tr>
                                                 <th
-                                                    style="font-size: larger;background: rgb(201,81,143);border-radius: 30px;padding: 10px 24px;border-style: none;">
+                                                    style="font-size: larger;background: rgb(30,70,90);border-radius: 30px;padding: 10px 24px;border-style: none;">
                                                     <span
                                                         style="font-weight: normal !important; color: rgb(238, 238, 238); background-color: rgba(220, 220, 220, 0);">若繼續填寫下方資料，表示</span><strong><span
                                                             style="color: rgb(255, 255, 255); background-color: rgba(220, 220, 220, 0);">&nbsp;您已確認：</span></strong>
@@ -192,7 +192,7 @@
                                                     <strong><span
                                                             style="color: rgb(105, 57, 62); background-color: rgba(220, 220, 220, 0);">1.
                                                         </span><span
-                                                            style="color: rgb(96, 40, 117); background-color: rgba(220, 220, 220, 0);">被推薦人同意參加</span><span
+                                                            style="color: rgb(60, 145, 190); background-color: rgba(220, 220, 220, 0);">被推薦人同意參加</span><span
                                                             style="color: rgb(255, 107, 0); background-color: rgba(220, 220, 220, 0);">&nbsp;</span></strong><span
                                                         style="color: rgb(35, 35, 35); background-color: rgba(220, 220, 220, 0);">本次營隊活動，並且</span>
                                                 </td>
@@ -203,34 +203,34 @@
                                                     <strong><span
                                                             style="color: rgb(105, 57, 62); background-color: rgba(220, 220, 220, 0);">2.
                                                         </span><span
-                                                            style="color: rgb(96, 40, 117); background-color: rgba(220, 220, 220, 0);">被推薦人同意</span><span
+                                                            style="color: rgb(60, 145, 190); background-color: rgba(220, 220, 220, 0);">被推薦人同意</span><span
                                                             style="color: rgb(170, 0, 18); background-color: rgba(220, 220, 220, 0);">&nbsp;</span></strong><span
                                                         style="color: rgb(35, 35, 35); background-color: rgba(220, 220, 220, 0);">將營隊推薦報名表内相關資料</span><strong><span
                                                             style="background-color: rgba(220, 220, 220, 0);">&nbsp;</span><span
-                                                            style="color: rgb(96, 40, 117); background-color: rgba(220, 220, 220, 0);">提供給主辦單位</span><span
+                                                            style="color: rgb(60, 145, 190); background-color: rgba(220, 220, 220, 0);">提供給主辦單位</span><span
                                                             style="color: rgb(105, 57, 62); background-color: rgba(220, 220, 220, 0);">。</span></strong>
                                                 </td>
                                             </tr>
 
-                                            @if (str_contains($batch->name, "開南"))
+                                            @if (str_contains($batch->name, ""))
                                                 <tr>
                                                     <td
                                                         style="font-size: larger;background: rgba(255,255,255,0);padding: 5px 40px;border-style: none;border-color: rgb(255,255,255);">
                                                         <strong><span
                                                                 style="color: rgb(105, 57, 62); background-color: rgba(220, 220, 220, 0);">3.
                                                             </span><span
-                                                                style="color: rgb(96, 40, 117); background-color: rgba(220, 220, 220, 0);">知悉並告知被推薦人：本營隊費用為 NT$ 2,000 元（安排住宿於鄰近開南大學之飯店雙人房，欲住宿單人房者加收 NT$ 1,650 元）。</span></strong>
+                                                                style="color: rgb(60, 145, 190); background-color: rgba(220, 220, 220, 0);">知悉並告知被推薦人：配合兩天一夜課程，由主辦單位安排7/26晚間住宿者（以安排「雙人房」為主），費用為NT$2,400元。欲住宿單人房者，費用為NT$4,800元。</span></strong>
                                                     </td>
                                                 </tr>
                                             @endif
 
 
                                             <tr>
-                                                <td style="font-size: initial;background: rgba(201,81,143,0.3);padding: 5px 40px;border-style: none;border-color: rgb(255,255,255);border-radius: 30px;">
-                                                    @if (str_contains($batch->name, "開南"))
-                                                        <span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">若有需要，可下載&nbsp;</span><a href="{{ url("downloads/ceocamp2024/2024菁英營學員推薦表_開南.docx") }}" target="_blank"><strong><span style="color: rgb(150, 59, 106); background-color: rgba(220, 220, 220, 0);">學員推薦表WORD檔</span></strong></a>&nbsp;<span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">或&nbsp;</span><a href="{{ url("downloads/ceocamp2024/2024菁英營學員推薦表_開南.pdf") }}" target="_blank"><strong><span style="color: rgb(150, 59, 106); background-color: rgba(220, 220, 220, 0);">學員推薦表PDF檔</span></strong></a><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">， 請被推薦人提供資料，做為填寫此表單的依據。</span>
+                                                <td style="font-size: initial;background: rgba(186,220,238,0.3);padding: 5px 40px;border-style: none;border-color: rgb(255,255,255);border-radius: 30px;">
+                                                    @if (str_contains($batch->name, ""))
+                                                        <span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">若有需要，可下載&nbsp;</span><a href="{{ url("downloads/ceocamp2025/2025菁英營學員推薦表v1.docx") }}" target="_blank"><strong><span style="color: rgb(50, 125, 70); background-color: rgba(220, 220, 220, 0);">學員推薦表WORD檔</span></strong></a>&nbsp;<span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">或&nbsp;</span><a href="{{ url("downloads/ceocamp2025/2025菁英營學員推薦表v1.pdf") }}" target="_blank"><strong><span style="color: rgb(50, 125, 70); background-color: rgba(220, 220, 220, 0);">學員推薦表PDF檔</span></strong></a><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">， 請被推薦人提供資料，做為填寫此表單的依據。</span>
                                                     @else
-                                                        <span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">若有需要，可下載&nbsp;</span><a href="{{ url("downloads/ceocamp2024/2024菁英營學員推薦表_勤益.docx") }}"><strong><span style="color: rgb(150, 59, 106); background-color: rgba(220, 220, 220, 0);">學員推薦表WORD檔</span></strong></a>&nbsp;<span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">或&nbsp;</span><a href="{{ url("downloads/ceocamp2024/2024菁英營學員推薦表_勤益.pdf") }}"><strong><span style="color: rgb(150, 59, 106); background-color: rgba(220, 220, 220, 0);">學員推薦表PDF檔</span></strong></a><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">， 請被推薦人提供資料，做為填寫此表單的依據。</span>
+                                                        <span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">若有需要，可下載&nbsp;</span><a href="{{ url("downloads/ceocamp2025/2025菁英營學員推薦表v1.docx") }}"><strong><span style="color: rgb(50, 125, 70); background-color: rgba(220, 220, 220, 0);">學員推薦表WORD檔</span></strong></a>&nbsp;<span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">或&nbsp;</span><a href="{{ url("downloads/ceocamp2025/2025菁英營學員推薦表v1.pdf") }}"><strong><span style="color: rgb(50, 125, 70); background-color: rgba(220, 220, 220, 0);">學員推薦表PDF檔</span></strong></a><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">， 請被推薦人提供資料，做為填寫此表單的依據。</span>
                                                     @endif
                                                 </td>
                                             </tr>
@@ -246,9 +246,9 @@
                 <div class="col">
                     <div class="card border-light border-1 d-flex p-4"
                         style="background: #ffffff;border-radius: 20px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;text-align: left;">
-                        <h1 style="font-size: x-large;"><span style="color: rgb(96, 18, 72);">被推薦人</span><sup><span
-                                    style="color: rgb(96, 18, 72);">(營隊學員)</span></sup><span
-                                style="color: rgb(96, 18, 72);">基本資料</span></h1>
+                        <h1 style="font-size: x-large;"><span style="color: rgb(30, 70, 90);">被推薦人</span><sup><span
+                                    style="color: rgb(30, 70, 90);">(營隊學員)</span></sup><span
+                                style="color: rgb(30, 70, 90);">基本資料</span></h1>
                         <div class="table-responsive" style="width: 98%;">
                             <table class="table">
                                 <thead>
@@ -286,7 +286,7 @@
                                                 <input type="radio" value="高區" name="region" required><span
                                                     style="color: rgb(0, 0, 0);"> 高區　</span><br>
                                             @endif
-                                            <sup><span style="color: rgb(96, 18, 72);">建議根據被推薦人的工作/生活地區選擇</span></sup>
+                                            <sup><span style="color: rgb(30, 70, 90);">建議根據被推薦人的工作/生活地區選擇</span></sup>
                                         </td>
                                     </tr>
                                     <tr
@@ -347,8 +347,8 @@
                                         <td
                                             style="width: 60%;color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                             <strong><span style="color: rgb(0, 0, 0);" class="required">確認電子信箱：</span></strong><span
-                                                style="color: rgb(96, 18, 72);">(請再輸入一次)&nbsp;</span><strong><span
-                                                    style="color: rgb(96, 18, 72);">&nbsp;</span></strong><input
+                                                style="color: rgb(30, 70, 90);">(請再輸入一次)&nbsp;</span><strong><span
+                                                    style="color: rgb(30, 70, 90);">&nbsp;</span></strong><input
                                                 type="email"
                                                 style="background: rgba(206,212,218,0.35);border-style: none;border-radius: 10px;width: 100%;padding: 3px 10px;" required name='emailConfirm' value='' id='inputEmailConfirm'>
                                         </td>
@@ -422,7 +422,7 @@
                                         style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                         <td
                                             style="color: rgb(0,0,0);background: rgba(255,255,255,0);border-style: none;">
-                                            <span style="color: rgb(96, 18, 72);">被推薦人</span><span
+                                            <span style="color: rgb(30, 70, 90);">被推薦人</span><span
                                                 style="color: rgb(0, 0, 0);" class="required">是否已加入廣論班：&nbsp;</span><input
                                                 type="radio" name='is_lrclass' value='0' required onclick="document.getElementById('inputLRClass').required=0;document.getElementById('inputLRClassText').classList.remove('required');"><span
                                                 style="color: rgb(0, 0, 0);">&nbsp;否　</span><input
@@ -439,11 +439,11 @@
                 <div class="col">
                     <div class="card border-light border-1 d-flex p-4"
                         style="background: var(--bs-body-bg);border-radius: 30px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;text-align: left;">
-                        <h1 style="font-size: x-large;"><span style="color: rgb(96, 18, 72);">被推薦人</span><sup><span
-                                    style="color: rgb(96, 18, 72);">(營隊學員)</span></sup><span
-                                style="color: rgb(96, 18, 72);">其他資料</span></h1>
+                        <h1 style="font-size: x-large;"><span style="color: rgb(30, 70, 90);">被推薦人</span><sup><span
+                                    style="color: rgb(30, 70, 90);">(營隊學員)</span></sup><span
+                                style="color: rgb(30, 70, 90);">其他資料</span></h1>
                         <h1 style="font-size: small;"><span
-                                style="color: rgb(201, 81, 143); background-color: rgba(255, 255, 255, 0);">＊公司及職務相關欄位，若被推薦人已退休，請填寫退休前資料＊</span>
+                                style="color: rgb(50, 125, 70); background-color: rgba(255, 255, 255, 0);">＊公司及職務相關欄位，若被推薦人已退休，請填寫退休前資料＊</span>
                         </h1>
                         <div class="table-responsive" style="width: 98%;">
                             <table class="table">
@@ -552,7 +552,7 @@
                                             <span style="color: rgb(0, 0, 0);">資本額單位：&nbsp;</span>
                                                 <input type="radio" name='capital_unit' value='元'>&nbsp;<span style="color: rgb(0, 0, 0);">元　</span>
                                                 <input name='capital_unit' value='萬元' type="radio"><span style="color: rgb(0, 0, 0);">&nbsp;萬元　</span>
-                                                <input name='capital_unit' value='億元' type="radio"><span style="color: rgb(0, 0, 0);"> 億元</span><span style="color: rgb(201, 81, 143);">〔資本額填寫說明〕如資本額為500萬元，請在資本額欄位填寫500，單位選「萬元」；如資本額為1000億元，請在資本額欄位填寫1000，單位選「億元」。</span>
+                                                <input name='capital_unit' value='億元' type="radio"><span style="color: rgb(0, 0, 0);"> 億元</span><span style="color: rgb(50, 125, 70);">〔資本額填寫說明〕如資本額為500萬元，請在資本額欄位填寫500，單位選「萬元」；如資本額為1000億元，請在資本額欄位填寫1000，單位選「億元」。</span>
                                         </td>
                                     </tr>
                                     <tr
@@ -602,18 +602,18 @@
             <div class="card border-light border-1 d-flex p-4"
                 style="background: rgba(255,255,255,0);border-radius: 30px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;padding: initial;margin: 10px 0px;">
                 <p style="color: rgb(70,78,171);margin: 0px;font-size: initial;text-align: left;"><strong><span
-                            style="color: rgb(96, 18, 72);" class="required">個人資料：</span></strong><span
+                            style="color: rgb(30, 70, 90);" class="required">個人資料：</span></strong><span
                         style="color: rgb(0, 0, 0); background-color: rgba(253, 126, 20, 0);">為落實個人資料之保護，於本次營隊活動及活動結束後，福智文教基金會（簡稱本基金會）及本基金會所屬福智團體將利用被推薦人所提供個人資料通知被推薦人本次營隊活動相關訊息，及日後福智團體相關課程、活動訊息通知之非營利目的使用。同意期間自被推薦人同意參加活動之日起，至被推薦人提出刪除日止。營隊活動期間由本基金會及本基金會所屬福智團體保存被推薦人的個人資料，以作為被推薦人、本基金會查詢、確認證明之用。<br></span><br><span
                         style="color: rgb(0, 0, 0); background-color: rgba(253, 126, 20, 0);">除上述情形外，本基金會於本次營隊取得之個人資料，不會未經被推薦人以言詞、書面、電話、簡訊、電子郵件、傳真、電子文件等方式同意提供給第三單位使用。&nbsp;</span><br><br><input
-                        type="radio" required name="profile_agree" value='1' checked>&nbsp;<strong><span style="color: rgb(96, 18, 72);">被推薦人</span><span
-                            style="color: rgb(96, 18, 72);">同意</span></strong>　　<input
-                        type="radio" required name="profile_agree" value='0'>&nbsp;<strong><span style="color: rgb(96, 18, 72);">被推薦人不同意</span></strong></p>
+                        type="radio" required name="profile_agree" value='1' checked>&nbsp;<strong><span style="color: rgb(30, 70, 90);">被推薦人</span><span
+                            style="color: rgb(30, 70, 90);">同意</span></strong>　　<input
+                        type="radio" required name="profile_agree" value='0'>&nbsp;<strong><span style="color: rgb(30, 70, 90);">被推薦人不同意</span></strong></p>
             </div>
             <div class="col" style="text-align: center;"><button class="btn btn-warning" type="reset"
-                    style="border-style: none;border-radius: 20px;box-shadow: 1px 1px 5px rgba(0,0,0,0.4);padding: 8px 20px;margin: 10px;background: rgb(238,194,222);"><span
+                    style="border-style: none;border-radius: 20px;box-shadow: 1px 1px 5px rgba(0,0,0,0.4);padding: 8px 20px;margin: 10px;background: rgb(186,220,238);"><span
                         style="color: rgb(96, 96, 96);">清除重填 🤔</span></button><button class="btn btn-success"
                     type="submit"
-                    style="text-align: center;border-radius: 20px;margin: 10px;border-style: none;box-shadow: 1px 1px 8px rgb(55,55,55);padding: 8px 60px;font-size: 20px;background: rgb(201,81,143);">確認送出
+                    style="text-align: center;border-radius: 20px;margin: 10px;border-style: none;box-shadow: 1px 1px 8px rgb(55,55,55);padding: 8px 60px;font-size: 20px;background: rgb(30,70,90);">確認送出
                     😊</button></div>
         </form>
         </div>
