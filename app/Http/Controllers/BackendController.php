@@ -2483,6 +2483,7 @@ class BackendController extends Controller
 
                 $applicant = $this->applicantService->fillPaymentData($applicant);
                 $applicant->save();
+                $applicant = $this->applicantService->checkPaymentStatus($applicant);
                 $message = "修改完成。";
                 if ($request->page=="attendeeInfo") {
                     return redirect()->back();
