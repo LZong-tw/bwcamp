@@ -181,14 +181,25 @@
 
     function fillTheList() {
         let table = $('#applicantTable');
+        let data = null;
+        let applicants_array = null;
         // merge user_application_logs and only_applicants
-        let data = user_application_logs.concat(only_applicants);
-        var result = Object.values(data);
-        // remove null item
-        result = result.filter(function(item) { return item != null && item != 0; });
-        let count = 0;
-        if (result.length == 1) {
-            result = Object.values(result[0]);
+        if (user_application_logs.length > 0) {
+            if(only_applicants.length == 1) {
+                applicants_array = Object.values([only_applicants]);
+            }
+            else {
+                applicants_array = Object.values(only_applicants);
+            }
+            data = user_application_logs.concat(applicants_array);
+        }
+        else {
+            if(only_applicants.length == 1) {
+                data = [only_applicants];
+            }
+            else {
+                data = only_applicants;
+            }
         }
         result.forEach(function(item) {
             if (!item || !item.id) {
