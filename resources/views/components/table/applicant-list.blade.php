@@ -201,6 +201,13 @@
                 data = only_applicants;
             }
         }
+        var result = Object.values(data);
+        // remove null item
+        result = result.filter(function(item) { return item != null && item != 0; });
+        let count = 0;
+        if (result.length == 1) {
+            result = Object.values(result[0]);
+        }
         result.forEach(function(item) {
             if (!item || !item.id) {
                 console.log(item, count);
