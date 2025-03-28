@@ -1027,14 +1027,14 @@ class BackendController extends Controller
                         })
                         ->get();
 
-        // $applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant));
-        $applicants = $applicants->filter(function ($applicant) {
-            // 先檢查快取
-            $cacheKey = "user_{$this->user->id}_can_access_{$applicant->id}";
-            return cache()->remember($cacheKey, now()->addMinutes(10), function () use ($applicant) {
-                return $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant);
-            });
-        });
+        $applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant));
+        // $applicants = $applicants->filter(function ($applicant) {
+        //     // 先檢查快取
+        //     $cacheKey = "user_{$this->user->id}_can_access_{$applicant->id}";
+        //     return cache()->remember($cacheKey, now()->addMinutes(10), function () use ($applicant) {
+        //         return $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant);
+        //     });
+        // });
         foreach($applicants as $applicant) {
             if($applicant->fee > 0) {
                 if($applicant->fee - $applicant->deposit <= 0) {
@@ -1477,14 +1477,14 @@ class BackendController extends Controller
                         ->join($camp->table, 'applicants.id', '=', $camp->table . '.applicant_id')
                         ->where('camps.id', $camp->id)->withTrashed();
         $applicants = $query->get();
-        // $applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant));
-        $applicants = $applicants->filter(function ($applicant) {
-            // 先檢查快取
-            $cacheKey = "user_{$this->user->id}_can_access_{$applicant->id}";
-            return cache()->remember($cacheKey, now()->addMinutes(10), function () use ($applicant) {
-                return $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant);
-            });
-        });
+        $applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant));
+        // $applicants = $applicants->filter(function ($applicant) {
+        //     // 先檢查快取
+        //     $cacheKey = "user_{$this->user->id}_can_access_{$applicant->id}";
+        //     return cache()->remember($cacheKey, now()->addMinutes(10), function () use ($applicant) {
+        //         return $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant);
+        //     });
+        // });
 
         if($request->download) {
             return \PDF::loadView('backend.in_camp.volunteerPhoto', compact('applicants', 'batches'))->download(Carbon::now()->format('YmdHis') . $camp->table . '義工名冊.pdf');
@@ -1883,13 +1883,15 @@ class BackendController extends Controller
             }
         }
 
-        $applicants = $applicants->filter(function ($applicant) {
-            // 先檢查快取
-            $cacheKey = "user_{$this->user->id}_can_access_{$applicant->id}";
-            return cache()->remember($cacheKey, now()->addMinutes(10), function () use ($applicant) {
-                return $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant);
-            });
-        });
+        $applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant));
+
+        // $applicants = $applicants->filter(function ($applicant) {
+        //     // 先檢查快取
+        //     $cacheKey = "user_{$this->user->id}_can_access_{$applicant->id}";
+        //     return cache()->remember($cacheKey, now()->addMinutes(10), function () use ($applicant) {
+        //         return $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant);
+        //     });
+        // });
 
         // $chunks = $applicants->chunk(100);
         // $filteredApplicants = new \Illuminate\Database\Eloquent\Collection;
@@ -2166,22 +2168,22 @@ class BackendController extends Controller
             }
             $registeredUsers = $registeredUsers->distinct()->get();
         }
-        // $registeredUsers = $registeredUsers->filter(fn ($user) => $this->user->canAccessResource($user, 'read', $this->campFullData, target: $user, context: 'vcamp'));
-        // $applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant, context: 'vcamp'));
-        $registeredUsers = $registeredUsers->filter(function ($user) {
-            // 先檢查快取
-            $cacheKey = "user_{$this->user->id}_can_access_user_{$user->id}";
-            return cache()->remember($cacheKey, now()->addMinutes(10), function () use ($user) {
-                return $this->user->canAccessResource($user, 'read', $this->campFullData, target: $user, context: 'vcamp');
-            });
-        });
-        $applicants = $applicants->filter(function ($applicant) {
-            // 先檢查快取
-            $cacheKey = "user_{$this->user->id}_can_access_{$applicant->id}";
-            return cache()->remember($cacheKey, now()->addMinutes(10), function () use ($applicant) {
-                return $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant, context: 'vcamp');
-            });
-        });
+        $registeredUsers = $registeredUsers->filter(fn ($user) => $this->user->canAccessResource($user, 'read', $this->campFullData, target: $user, context: 'vcamp'));
+        $applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant, context: 'vcamp'));
+        // $registeredUsers = $registeredUsers->filter(function ($user) {
+        //     // 先檢查快取
+        //     $cacheKey = "user_{$this->user->id}_can_access_user_{$user->id}";
+        //     return cache()->remember($cacheKey, now()->addMinutes(10), function () use ($user) {
+        //         return $this->user->canAccessResource($user, 'read', $this->campFullData, target: $user, context: 'vcamp');
+        //     });
+        // });
+        // $applicants = $applicants->filter(function ($applicant) {
+        //     // 先檢查快取
+        //     $cacheKey = "user_{$this->user->id}_can_access_{$applicant->id}";
+        //     return cache()->remember($cacheKey, now()->addMinutes(10), function () use ($applicant) {
+        //         return $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant, context: 'vcamp');
+        //     });
+        // });
 
         if($request->isSetting==1) {
             $isSetting = 1;
