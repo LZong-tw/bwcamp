@@ -200,8 +200,7 @@ class BackendController extends Controller
                     $this->backendService->setNumber($candidate, $number);
                     $this->applicantService->fillPaymentData($candidate);
                     $message = "錄取完成。";
-                }
-                else {
+                } else {
                     $error = "錄取失敗，請檢查學員組數是否已達上限無法再新增。";
                 }
             }
@@ -295,8 +294,7 @@ class BackendController extends Controller
                         $candidate = $this->applicantService->fillPaymentData($candidate);
                         $applicant = $candidate->save();
                         array_push($message, $candidate->name . "，錄取序號" . $request->admittedSN[$key] . "錄取完成。");
-                    }
-                    else {
+                    } else {
                         array_push($error, $candidate->name . "，報名序號" . $id . "錄取失敗，請檢查學員組數是否已達上限無法再新增。");
                     }
                 }
@@ -377,22 +375,19 @@ class BackendController extends Controller
                 $candidate = $this->applicantService->fetchApplicantData($this->campFullData->id, $this->campFullData->table, $c, $group, $number);
                 if($candidate) {
                     $result[] = $this->applicantService->Mandarization($candidate);
-                }
-                else {
+                } else {
                     $result[] = "報名序號 {$c} 已取消或查無此學員";
                 }
             }
             $candidate = null;
-        }
-        else {
+        } else {
             $groupAndNumber = $this->applicantService->groupAndNumberSeperator($request->snORadmittedSNorName);
             $group = $groupAndNumber['group'];
             $number = $groupAndNumber['number'];
             $candidate = $this->applicantService->fetchApplicantData($this->campFullData->id, $this->campFullData->table, $request->snORadmittedSNorName, $group, $number);
             if($candidate) {
                 $candidate = $this->applicantService->Mandarization($candidate);
-            }
-            else {
+            } else {
                 return "<h3>學員已取消或查無此學員</h3>";
             }
         }
@@ -410,7 +405,7 @@ class BackendController extends Controller
             $fare_depart_from = config('camps_payments.fare_depart_from.' . $camp_table) ?? [];
             $fare_back_to = config('camps_payments.fare_back_to.' . $camp_table) ?? [];
             $fare_room = config('camps_payments.fare_room.' . $camp_table) ?? [];
-            return view('backend.modifyAccounting', compact('applicant','fare_depart_from','fare_back_to','fare_room'));
+            return view('backend.modifyAccounting', compact('applicant', 'fare_depart_from', 'fare_back_to', 'fare_room'));
         }
         //設定取消參加
         if(\Str::contains(request()->headers->get('referer'), 'modifyAttend') || (\Str::contains(request()->headers->get('referer'), 'modifyAttend') && $request->isMethod("GET"))) {
@@ -450,14 +445,14 @@ class BackendController extends Controller
         }
         if ($this->campFullData->table == 'ycamp' || $this->campFullData->table == 'yvcamp') {
             //2694-2716是輔導組
-            if (count($this->user->roles->whereBetween('id',[2397,2398]))==0 &&count($this->user->roles->whereBetween('id',[2694,2716]))==0 &&  $this->user->id > 2) {
+            if (count($this->user->roles->whereBetween('id', [2397,2398])) == 0 && count($this->user->roles->whereBetween('id', [2694,2716])) == 0 &&  $this->user->id > 2) {
                 return "<h3>大專營：只有輔導組幹部有權限。</h3>";
             }
         }
         $batches = Batch::where("camp_id", $this->campFullData->id)->get();
         $camp = Camp::find($this->campFullData->id);
         $regions = $camp->regions;
-        return view('backend.registration.list', compact('batches','regions'));
+        return view('backend.registration.list', compact('batches', 'regions'));
     }
 
     public function getRegistrationList(Request $request)
@@ -815,8 +810,7 @@ class BackendController extends Controller
                 $candidate->region = Region::find($request->region_id_new[$key])?->name;
                 if ($notChanged) {
                     $message .= $a_id . " " . $candidate->name . " <u>未修改</u>。 <br>";
-                }
-                else {
+                } else {
                     $candidate->save();
                     $message .= $a_id . " " . $candidate->name . " <strong>修改完成</strong>。 <br>";
                 }
@@ -891,7 +885,7 @@ class BackendController extends Controller
         }
         if ($this->campFullData->table == 'ycamp' || $this->campFullData->table == 'yvcamp') {
             //2694-2716是輔導組
-            if (count($this->user->roles->whereBetween('id',[2397,2398]))==0 &&count($this->user->roles->whereBetween('id',[2694,2716]))==0 && $this->user->id > 2) {
+            if (count($this->user->roles->whereBetween('id', [2397,2398])) == 0 && count($this->user->roles->whereBetween('id', [2694,2716])) == 0 && $this->user->id > 2) {
                 return "<h3>大專營：只有輔導組幹部有權限。</h3>";
             }
         }
@@ -910,7 +904,7 @@ class BackendController extends Controller
             //dd($batch->regions);
             foreach($batch->regions as &$region) {
                 $region->groups = Applicant::select('group_id', \DB::raw('count(*) as groupApplicantsCount'))
-                    ->join('applicants_groups','applicants_groups.id','=','applicants.group_id')
+                    ->join('applicants_groups', 'applicants_groups.id', '=', 'applicants.group_id')
                     ->where('applicants.batch_id', $batch->id)
                     ->where('region', $region->region)
                     ->where('is_admitted', 1)
@@ -948,7 +942,7 @@ class BackendController extends Controller
         }
         if ($this->campFullData->table == 'ycamp' || $this->campFullData->table == 'yvcamp') {
             //2694-2716是輔導組
-            if (count($this->user->roles->whereBetween('id',[2397,2398]))==0 &&count($this->user->roles->whereBetween('id',[2694,2716]))==0 && $this->user->id > 2) {
+            if (count($this->user->roles->whereBetween('id', [2397,2398])) == 0 && count($this->user->roles->whereBetween('id', [2694,2716])) == 0 && $this->user->id > 2) {
                 return "<h3>大專營：只有輔導組幹部有權限。</h3>";
             }
         }
@@ -1048,10 +1042,11 @@ class BackendController extends Controller
             $applicant->id = $applicant->applicant_id;
             $applicant = $this->applicantService->Mandarization($applicant);    //M/F->男/女
             //是否報到
-            if (isset($applicant->checkInData->first()->check_in_date))
+            if (isset($applicant->checkInData->first()->check_in_date)) {
                 $applicant->is_checkin = 1;
-            else
+            } else {
                 $applicant->is_checkin = 0;
+            }
         }
 
         $applicants = $applicants->sortBy([
@@ -1063,38 +1058,38 @@ class BackendController extends Controller
         $template = $request->template ?? 0;
         $camp = $this->campFullData;
 
-        if (isset($request->download)&&$template==2) {
+        if (isset($request->download) && $template == 2) {
             $form_title = "報名報到暨宿舍安排單";
             $form_width = "740px";  //portrait
             $columns = config('camps_fields.form_accomodation.' . $this->campFullData->table) ?? [];
-            $accomodation_m = $this->gsheetService->importAccomodation($camp->id,'男', $group);
-            $accomodation_f = $this->gsheetService->importAccomodation($camp->id,'女',$group);
+            $accomodation_m = $this->gsheetService->importAccomodation($camp->id, '男', $group);
+            $accomodation_f = $this->gsheetService->importAccomodation($camp->id, '女', $group);
             //return view('camps.' . $this->campFullData->table . '.formAccomodation', compact( 'form_title','form_width','columns','camp','group','applicants'));
-            return \PDF::loadView('camps.' . $this->campFullData->table . '.formAccomodation', compact('form_title','form_width','columns','camp','group','applicants','accomodation_m','accomodation_f'))->setPaper('a3')->download($this->campFullData->abbreviation . $group . $form_title . Carbon::now()->format('YmdHis') . '.pdf');
-        } elseif (isset($request->download)&&$template==3) {
+            return \PDF::loadView('camps.' . $this->campFullData->table . '.formAccomodation', compact('form_title', 'form_width', 'columns', 'camp', 'group', 'applicants', 'accomodation_m', 'accomodation_f'))->setPaper('a3')->download($this->campFullData->abbreviation . $group . $form_title . Carbon::now()->format('YmdHis') . '.pdf');
+        } elseif (isset($request->download) && $template == 3) {
             $form_title = "通訊資料確認表";
             $form_width = "1046px"; //landscape
             $columns = config('camps_fields.form_contact.' . $this->campFullData->table) ?? [];
             //return view('camps.' . $this->campFullData->table . '.formContact', compact('form_title','form_width','columns','camp','group','applicants'));
-            return \PDF::loadView('camps.' . $this->campFullData->table . '.formGroup', compact( 'form_title','form_width','columns','camp','group','applicants'))->setPaper('a3','landscape')->download($this->campFullData->abbreviation . $group . $form_title . Carbon::now()->format('YmdHis') .'.pdf');
-        } elseif (isset($request->download)&&$template==4) {
+            return \PDF::loadView('camps.' . $this->campFullData->table . '.formGroup', compact('form_title', 'form_width', 'columns', 'camp', 'group', 'applicants'))->setPaper('a3', 'landscape')->download($this->campFullData->abbreviation . $group . $form_title . Carbon::now()->format('YmdHis') .'.pdf');
+        } elseif (isset($request->download) && $template == 4) {
             $form_title = "回程交通確認表";
             $form_width = "740px";  //portrait
             $columns = config('camps_fields.form_traffic_confirm.' . $this->campFullData->table) ?? [];
             //return view('camps.' . $this->campFullData->table . '.formTraffic', compact('form_title','form_width','columns','camp','group','applicants'));
-            return \PDF::loadView('camps.' . $this->campFullData->table . '.formGroup', compact( 'form_title','form_width','columns','camp','group','applicants'))->setPaper('a3')->download($this->campFullData->abbreviation . $group . $form_title . Carbon::now()->format('YmdHis') .'.pdf');
-        } elseif (isset($request->download)&&$template==50) {
+            return \PDF::loadView('camps.' . $this->campFullData->table . '.formGroup', compact('form_title', 'form_width', 'columns', 'camp', 'group', 'applicants'))->setPaper('a3')->download($this->campFullData->abbreviation . $group . $form_title . Carbon::now()->format('YmdHis') .'.pdf');
+        } elseif (isset($request->download) && $template == 50) {
             $form_title = "報到學員名單";
             $form_width = "740px";  //portrait
             $columns = config('camps_fields.form_checkin.' . $this->campFullData->table) ?? [];
             //return view('camps.' . $this->campFullData->table . '.formGroup', compact('form_title','form_width','columns','camp','group','applicants'));
-            return \PDF::loadView('camps.' . $this->campFullData->table . '.formGroup', compact( 'form_title','form_width','columns','camp','group','applicants'))->setPaper('a3')->download($this->campFullData->abbreviation . $group . $form_title . Carbon::now()->format('YmdHis') .'.pdf');
+            return \PDF::loadView('camps.' . $this->campFullData->table . '.formGroup', compact('form_title', 'form_width', 'columns', 'camp', 'group', 'applicants'))->setPaper('a3')->download($this->campFullData->abbreviation . $group . $form_title . Carbon::now()->format('YmdHis') .'.pdf');
         }
 
         if(isset($request->download)) {
-            if ($template==1) { //名單樣板=名單for now
+            if ($template == 1) { //名單樣板=名單for now
                 $fileName = $this->campFullData->abbreviation . $group . "組名單樣板" . Carbon::now()->format('YmdHis') . '.csv';
-            } elseif ($template==51) {
+            } elseif ($template == 51) {
                 $form_title = "報到學員名單";
                 $fileName = $this->campFullData->abbreviation . $group . $form_title . Carbon::now()->format('YmdHis') .'.csv';
             } else {    //名單
@@ -1115,14 +1110,13 @@ class BackendController extends Controller
                 // 先寫入此三個字元使 Excel 能正確辨認編碼為 UTF-8
                 // http://jeiworld.blogspot.com/2009/09/phpexcelutf-8csv.html
                 fwrite($file, "\xEF\xBB\xBF");
-                if ($template==1) {  //名單樣板＝名單for now
+                if ($template == 1) {  //名單樣板＝名單for now
                     if($this->campFullData->table == 'tcamp') {
                         $columns = ["admitted_no" => "錄取序號", "name" => "姓名", "idno" => "身分證字號", "unit_county" => "服務單位所在縣市", "unit" => "服務單位", "workshop_credit_type" => "研習時數類型"];
-                    }
-                    else {
+                    } else {
                         $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table) ?? []);
                     }
-                } elseif ($template==51) {  //報到學員名單
+                } elseif ($template == 51) {  //報到學員名單
                     $columns = config('camps_fields.form_checkin.' . $this->campFullData->table) ?? [];
                 } else {    //名單
                     $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table) ?? []);
@@ -1135,7 +1129,7 @@ class BackendController extends Controller
                         $data = null;
                         if($key == "admitted_no") {
                             $data = $applicant->group . $applicant->number;
-                        } else if($key == "is_attend") {
+                        } elseif($key == "is_attend") {
                             match ($applicant->is_attend) {
                                 0 => $data = "不參加",
                                 1 => $data = "參加",
@@ -1316,7 +1310,7 @@ class BackendController extends Controller
                     "Expires"             => "0"
             );
 
-            $callback = function () use ($applicants,$columns,$batch) {
+            $callback = function () use ($applicants, $columns, $batch) {
                 $file = fopen('php://output', 'w');
                 // 先寫入此三個字元使 Excel 能正確辨認編碼為 UTF-8
                 // http://jeiworld.blogspot.com/2009/09/phpexcelutf-8csv.html
@@ -1330,15 +1324,17 @@ class BackendController extends Controller
                         if($key == "admitted_no") {
                             $data = $applicant->group . $applicant->number;
                         } elseif($key == "is_checkin") {
-                            if (isset($applicant->checkInData->first()->check_in_date))
-                                    $data = 1;
+                            if (isset($applicant->checkInData->first()->check_in_date)) {
+                                $data = 1;
+                            }
                         } elseif($key == "deposit") {
-                                $data = $applicant->traffic?->$key ?? 0;
+                            $data = $applicant->traffic?->$key ?? 0;
                         } else {
-                            if (isset($applicant->$key))
+                            if (isset($applicant->$key)) {
                                 $data = $applicant->$key;
-                            else
+                            } else {
                                 $data = $applicant->traffic?->$key ?? 0;
+                            }
                         }
                         $rows[] = '="' . $data . '"';
                     }
@@ -1428,14 +1424,14 @@ class BackendController extends Controller
                     "Expires"             => "0"
             );
 
-            $callback = function () use ($applicants,$columns) {
+            $callback = function () use ($applicants, $columns) {
                 $file = fopen('php://output', 'w');
                 // 先寫入此三個字元使 Excel 能正確辨認編碼為 UTF-8
                 // http://jeiworld.blogspot.com/2009/09/phpexcelutf-8csv.html
                 fwrite($file, "\xEF\xBB\xBF");
 
                 fputcsv($file, $columns);
-                $count=1;
+                $count = 1;
                 foreach ($applicants as $applicant) {
                     $rows = array();
                     foreach($columns as $key => $v) {
@@ -1461,7 +1457,7 @@ class BackendController extends Controller
 
 
         } else {
-            return view('backend.in_camp.trafficListLoc', compact('camp','batch','direction','location','applicants','columns'));
+            return view('backend.in_camp.trafficListLoc', compact('camp', 'batch', 'direction', 'location', 'applicants', 'columns'));
         }
     }
 
@@ -1801,10 +1797,10 @@ class BackendController extends Controller
         //    //MCH:find the urls
         //    $dynamic_stats = $user_applicant->dynamic_stats ?? [];
         //} else {
-            $roles = $user->roles?->where('camp_id', $this->campFullData->id) ?? null;
-            foreach($roles as $role) {
-                $dynamic_stats = $dynamic_stats->merge($role->dynamic_stats ?? null);
-            }
+        $roles = $user->roles?->where('camp_id', $this->campFullData->id) ?? null;
+        foreach($roles as $role) {
+            $dynamic_stats = $dynamic_stats->merge($role->dynamic_stats ?? null);
+        }
         //}
 
         if (!$user->canAccessResource(new \App\Models\Applicant(), 'read', $this->campFullData, 'onlyCheckAvailability') && $user->id > 2) {
@@ -1842,7 +1838,7 @@ class BackendController extends Controller
         }
         $applicants = $query->get();
         $applicants = $applicants->each(fn ($applicant) => $applicant->id = $applicant->applicant_id);
-        if($request->isSetting==1) {
+        if($request->isSetting == 1) {
             $isSetting = 1;
         } else {
             $isSetting = 0;
@@ -1851,7 +1847,7 @@ class BackendController extends Controller
         if ($request->isSettingCarer) {
             $target_group_ids = $user->roles()->where('camp_id', $this->campFullData->id)->where('camp_org.position', 'like', '%關懷小組第%')->get()->pluck('group_id');
             $all_groups = $user->roles()->where('camp_id', $this->campFullData->id)->where('camp_org.section', 'like', '%關懷大組%')->where('all_group', 1)->get();
-            if (!count($target_group_ids) && ($user->canAccessResource(new \App\Models\CarerApplicantXref, 'create', $this->campFullData, target: $this->campFullData->vcamp) || $user->canAccessResource(new \App\Models\CarerApplicantXref, 'assign', $this->campFullData, target: $this->campFullData->vcamp))) {
+            if (!count($target_group_ids) && ($user->canAccessResource(new \App\Models\CarerApplicantXref(), 'create', $this->campFullData, target: $this->campFullData->vcamp) || $user->canAccessResource(new \App\Models\CarerApplicantXref(), 'assign', $this->campFullData, target: $this->campFullData->vcamp))) {
                 $permissions = $user->load('roles.permissions')->roles->pluck("permissions")->flatten()->filter(
                     static fn ($permission) => $permission->name == '\App\Models\CarerApplicantXref.create' || $permission->name == '\App\Models\CarerApplicantXref.assign'
                 );
@@ -1992,7 +1988,8 @@ class BackendController extends Controller
                         ->join($this->campFullData->vcamp->table, 'applicants.id', '=', $this->campFullData->vcamp->table . '.applicant_id')
                         ->where('camps.id', $this->campFullData->vcamp->id)
                         ->whereDoesntHave('user')
-                        ->withTrashed()->orderBy('deleted_at', 'asc');;
+                        ->withTrashed()->orderBy('deleted_at', 'asc');
+        ;
         if ($request->batch_id) {
             $query->where('batchs.id', $request->batch_id);
         }
@@ -2100,11 +2097,11 @@ class BackendController extends Controller
             ->join('user_applicant_xrefs', 'users.id', '=', 'user_applicant_xrefs.user_id')
             ->join('applicants', 'user_applicant_xrefs.applicant_id', '=', 'applicants.id')
             ->join($this->campFullData->vcamp->table . ' as evcamp', 'applicants.id', '=', 'evcamp.applicant_id')
-            ->leftJoin('org_user', function($join) {
+            ->leftJoin('org_user', function ($join) {
                 $join->on('users.id', '=', 'org_user.user_id')
                     ->where('org_user.user_type', 'AppModelsUser');
             })
-            ->leftJoin('camp_org', function($join) {
+            ->leftJoin('camp_org', function ($join) {
                 $join->on('org_user.org_id', '=', 'camp_org.id')
                     ->where('camp_org.camp_id', $this->campFullData->id);
             })
@@ -2185,7 +2182,7 @@ class BackendController extends Controller
         //     });
         // });
 
-        if($request->isSetting==1) {
+        if($request->isSetting == 1) {
             $isSetting = 1;
         } else {
             $isSetting = 0;
@@ -2220,8 +2217,7 @@ class BackendController extends Controller
         if ($request->input('vcamp')) {
             $camp = Camp::find($this->campFullData->vcamp->id);
             $filename = $camp->fullName . '義工名單' . Carbon::now()->format('YmdHis') .  '.xlsx';
-        }
-        else {
+        } else {
             $camp = $this->campFullData;
             $filename = $camp->fullName . '學員名單' . Carbon::now()->format('YmdHis') .  '.xlsx';
         }
@@ -2296,7 +2292,7 @@ class BackendController extends Controller
         $registeredUsers = \App\Models\User::with('roles')->whereHas('roles', function ($query) {
             $query->where('camp_id', $this->campFullData->id)->where('position', 'like', '%關懷小組%');
         })->get();
-        if($request->isSetting==1) {
+        if($request->isSetting == 1) {
             $isSetting = 1;
         } else {
             $isSetting = 0;
@@ -2340,7 +2336,8 @@ class BackendController extends Controller
         return response('無', 404);
     }
 
-    public function getMediaImage($camp_id, $path) {
+    public function getMediaImage($camp_id, $path)
+    {
         if (file_exists(base_path(\Storage::disk('local')->url("media/" . $path)))) {
             return response()->file(base_path(\Storage::disk('local')->url("media/" . $path)));
         }
@@ -2423,7 +2420,7 @@ class BackendController extends Controller
                 $traffic = $applicant->traffic;
                 //尚未登記，建新的Traffic
                 if (!$traffic) {
-                    $traffic = new Traffic;
+                    $traffic = new Traffic();
                     $traffic->applicant_id = $applicant->id;
                 }
                 //更新去程交通、回桯交通及應繳車資
@@ -2431,10 +2428,11 @@ class BackendController extends Controller
                 $traffic->back_to = $request->back_to;
                 $traffic->fare = ($fare_depart_from[$traffic->depart_from] ?? 0) + ($fare_back_to[$traffic->back_to] ?? 0);
                 //更新現金繳費金額
-                if ($request->is_add == 'add')
+                if ($request->is_add == 'add') {
                     $traffic->cash = $traffic->cash + $request->cash;
-                else
+                } else {
                     $traffic->cash = $request->cash;
+                }
                 //重新計算已繳總額
                 $traffic->sum = $traffic->deposit + $traffic->cash;
                 $traffic->save();
@@ -2442,16 +2440,16 @@ class BackendController extends Controller
                 $applicant = $this->applicantService->fillPaymentData($applicant);
                 $applicant->save();
                 $message = "手動繳費完成。";
-                if ($request->page=="attendeeInfo") {
+                if ($request->page == "attendeeInfo") {
                     return redirect()->back();
                 } else {
-                    return view("backend.modifyAccounting", compact('applicant','message','fare_depart_from','fare_back_to', 'fare_room'));
+                    return view("backend.modifyAccounting", compact('applicant', 'message', 'fare_depart_from', 'fare_back_to', 'fare_room'));
                 }
             } elseif ($camp_table == 'ceocamp') {
                 $lodging = $applicant->lodging;
                 //尚未登記，建新的Lodging
                 if (!$lodging) {
-                    $lodging = new Lodging;
+                    $lodging = new Lodging();
                     $lodging->applicant_id = $applicant->id;
                 }
                 //更新房型、天數及應繳車資
@@ -2459,10 +2457,11 @@ class BackendController extends Controller
                 $lodging->nights = $request->nights;
                 $lodging->fare = ($fare_room[$lodging->room_type] ?? 0) * ($lodging->nights ?? 0);
                 //更新現金繳費金額
-                if ($request->is_add == 'add')
+                if ($request->is_add == 'add') {
                     $lodging->cash = $lodging->cash + $request->cash;
-                else
+                } else {
                     $lodging->cash = $request->cash;
+                }
                 //重新計算已繳總額
                 $lodging->sum = $lodging->deposit + $lodging->cash;
                 $lodging->save();
@@ -2470,27 +2469,28 @@ class BackendController extends Controller
                 $applicant = $this->applicantService->fillPaymentData($applicant);
                 $applicant->save();
                 $message = "修改完成。";
-                if ($request->page=="attendeeInfo") {
+                if ($request->page == "attendeeInfo") {
                     return redirect()->back();
                 } else {
-                    return view("backend.modifyAccounting", compact('applicant','message','fare_depart_from','fare_back_to', 'fare_room'));
+                    return view("backend.modifyAccounting", compact('applicant', 'message', 'fare_depart_from', 'fare_back_to', 'fare_room'));
                 }
             } elseif ($camp_table == 'utcamp') {
-                $applicant->fee = ($request->fee)?? 0;
+                $applicant->fee = ($request->fee) ?? 0;
 
-                if ($request->is_add == 'add')
+                if ($request->is_add == 'add') {
                     $applicant->deposit = $applicant->deposit + $request->cash;
-                else
+                } else {
                     $applicant->deposit = $request->cash;
+                }
 
                 $applicant = $this->applicantService->fillPaymentData($applicant);
                 $applicant->save();
                 $applicant = $this->applicantService->checkPaymentStatus($applicant);
                 $message = "修改完成。";
-                if ($request->page=="attendeeInfo") {
+                if ($request->page == "attendeeInfo") {
                     return redirect()->back();
                 } else {
-                    return view("backend.modifyAccounting", compact('applicant','message','fare_depart_from','fare_back_to', 'fare_room'));
+                    return view("backend.modifyAccounting", compact('applicant', 'message', 'fare_depart_from', 'fare_back_to', 'fare_room'));
                 }
             } else {
                 if($admitted_sn == $request->double_check || $applicant->id == $request->double_check) {
@@ -2498,18 +2498,17 @@ class BackendController extends Controller
                     $applicant->save();
                     $applicant = $this->applicantService->checkPaymentStatus($applicant);
                     $message = "繳費完成 / 已繳金額設定完成。";
-                    return view("backend.modifyAccounting", compact('applicant','message','fare_depart_from','fare_back_to', 'fare_room'));
+                    return view("backend.modifyAccounting", compact('applicant', 'message', 'fare_depart_from', 'fare_back_to', 'fare_room'));
                 } else {
                     $error = "報名序號錯誤。";
                     $applicant = $this->applicantService->checkPaymentStatus($applicant);
-                    return view("backend.modifyAccounting", compact('applicant','message','fare_depart_from','fare_back_to', 'fare_room'));
+                    return view("backend.modifyAccounting", compact('applicant', 'message', 'fare_depart_from', 'fare_back_to', 'fare_room'));
                 }
             }
-        }
-        else { //$request->isMethod('GET')
+        } else { //$request->isMethod('GET')
             $title = "現場手動繳費 / 修改繳費資料";
             $campFullData = $this->campFullData;
-            return view("backend.findApplicant",compact("campFullData","title"));
+            return view("backend.findApplicant", compact("campFullData", "title"));
         }
     }
 
@@ -2519,12 +2518,13 @@ class BackendController extends Controller
             $applicant = Applicant::find($request->id);
             $admitted_sn = $applicant->group.$applicant->number;
             //dd($request->cash);
-            if($this->campFullData->table == 'ycamp' && $request->cash>0) {
+            if($this->campFullData->table == 'ycamp' && $request->cash > 0) {
                 $traffic = $applicant->traffic;
-                if ($request->is_add == 'add')
+                if ($request->is_add == 'add') {
                     $traffic->cash = $traffic->cash + $request->cash;
-                else
+                } else {
                     $traffic->cash = $request->cash;
+                }
                 $traffic->sum = $traffic->deposit + $traffic->cash;
                 $traffic->save();
                 $message = "手動繳費完成。";
@@ -2542,11 +2542,10 @@ class BackendController extends Controller
                     return view("backend.modifyAccounting", compact("applicant", "error"));
                 }
             }
-        }
-        else { //$request->isMethod('GET')
+        } else { //$request->isMethod('GET')
             $title = "設定取消參加";
             $campFullData = $this->campFullData;
-            return view("backend.findApplicant",compact("campFullData","title"));
+            return view("backend.findApplicant", compact("campFullData", "title"));
         }
     }
 
@@ -2609,7 +2608,7 @@ class BackendController extends Controller
         }
         $applicant_id = $formData['applicant_id'];
         $applicant = Applicant::find($applicant_id);
-        $applicant->remark=$formData['remark'];
+        $applicant->remark = $formData['remark'];
         //dd($applicant->remark);
         $applicant->save();
         \Session::flash('message', "備註修改成功。");
@@ -2768,13 +2767,15 @@ class BackendController extends Controller
         }
     }
 
-    public function cancelRegistration(Request $request) {
+    public function cancelRegistration(Request $request)
+    {
         $applicant = Applicant::find($request->id);
         $applicant->delete();
         return redirect()->route("showAttendeeInfoGET", ["camp_id" => $request->camp_id, "snORadmittedSN" => $applicant->id]);
     }
 
-    public function revertCancellation(Request $request) {
+    public function revertCancellation(Request $request)
+    {
         $applicant = Applicant::withTrashed()->find($request->id);
         $applicant->restore();
         return redirect()->route("showAttendeeInfoGET", ["camp_id" => $request->camp_id, "snORadmittedSN" => $applicant->id]);
