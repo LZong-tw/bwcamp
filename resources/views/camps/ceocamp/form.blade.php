@@ -308,7 +308,7 @@
                                                 style="width: 90px;background: rgba(206,212,218,0.35);border-style: none;border-radius: 3px;padding: 3px;"
                                                 name='birthyear' required>
                                                 <option value="">請選擇</option>
-                                                @for ($i = 1900; $i <= 2006; $i++)
+                                                @for ($i = 1940; $i <= 2006; $i++)
                                                     <option value="{{ $i }}">{{ $i }}</option>
                                                 @endfor
                                             </select>
