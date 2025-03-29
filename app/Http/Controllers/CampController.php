@@ -50,6 +50,7 @@ class CampController extends Controller
         }
         $admission_announcing_date_Weekday = $this->camp_data['admission_announcing_date_Weekday'];
         $admission_confirming_end_Weekday = $this->camp_data['admission_confirming_end_Weekday'];
+
         $this->camp_data = $this->camp_data['camp_data'];
         View::share('batch_id', $this->batch_id);
         View::share('camp_data', $this->camp_data);
@@ -511,6 +512,7 @@ class CampController extends Controller
     {
         $campTable = $this->camp_data->table;
         $camp = $this->camp_data;
+        $camp_data = $this->camp_data;
         $applicant = null;
 
         $request->validate([
@@ -582,6 +584,7 @@ class CampController extends Controller
                     $applicant->xaddr = '台北市南京東路四段165號九樓 福智學堂';
                 }
             }
+            //dd($camp_data);
             return view('camps.' . $campTable . ".admissionResult", compact('applicant','traffic','fare_depart_from','fare_back_to'));
         } else{
             return back()->withInput()->withErrors(["找不到報名資料，請確認是否已成功報名，或是輸入了錯誤的查詢資料。"]);

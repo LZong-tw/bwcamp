@@ -21,10 +21,27 @@ class CampDataService
         $admission_confirming_end = $camp_data->admission_confirming_end ? Carbon::createFromFormat('Y-m-d', $camp_data->admission_confirming_end) : null;
         $admission_confirming_end_Weekday = $admission_confirming_end ? Carbon::create($admission_confirming_end)->locale(App::getLocale())->isoFormat("dddd") : null;
 
+        //從梯次取得正行開始及結束日期
+        $batch_data = Batch::find($batch_id) ?? [];
+        if (!$batch_data) {
+            return "<h1>查無營隊資料</h1>";
+        }
+        // 正行開始及結束資料轉換 (取得星期字串)
+        $batch_start = $batch_data->batch_start ? Carbon::createFromFormat('Y-m-d', $batch_data->batch_start) : null;
+        $batch_start_Weekday = $batch_start ? Carbon::create($batch_start)->locale(App::getLocale())->isoFormat("dddd") : null;
+        $batch_end = $batch_data->batch_end ? Carbon::createFromFormat('Y-m-d', $batch_data->batch_end) : null;
+        $batch_end_Weekday = $batch_end ? Carbon::create($batch_end)->locale(App::getLocale())->isoFormat("dddd") : null;
+
+        $camp_data->batch_start =  $batch_data->batch_start;
+        $camp_data->batch_start_Weekday =  $batch_start_Weekday;
+        $camp_data->batch_end =  $batch_data->batch_end;
+        $camp_data->batch_end_Weekday =  $batch_end_Weekday;
+        $camp_data->locationName =  $batch_data->locationName;
+        $camp_data->location =  $batch_data->location;
+        
         return [
             'camp_data' => $camp_data,
             'admission_announcing_date_Weekday' => $admission_announcing_date_Weekday,
-            'admission_confirming_end_Weekday' => $admission_confirming_end_Weekday
         ];
     }
 
