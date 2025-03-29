@@ -23,9 +23,9 @@
                         <p class="card-text">我們誠摯歡迎您來共享這場心靈饗宴。三天研習務必全程參加，請參閱下列說明。</p>
                         <p class="card-text">
                             <h4>營隊資訊</h4>
-                                <div class="ml-4 mb-2">研習日期：2024年7月19日(星期五)至7月21日(星期日)，請務必<u>全程參加</u>。</div>
-                                <div class="ml-4 mb-2">報到時間：2024年7月19日(星期五)</div>
-                                <div class="ml-4 mb-2">報到地點：開南大學(桃園市蘆竹區開南路1號)(詳見報到通知單，預計6月寄出Email)</div>
+                                <div class="ml-4 mb-2">研習日期：{{ $camp_data->batch_start }}({{ $camp_data->batch_start_Weekday }})至{{ $camp_data->batch_end }}({{ $camp_data->batch_end_Weekday }})，請務必<u>全程參加</u>。</div>
+                                <div class="ml-4 mb-2">報到時間：{{ $camp_data->batch_start }}({{ $camp_data->batch_start_Weekday }})</div>
+                                <div class="ml-4 mb-2">報到地點：{{ $camp_data->locationName }}({{ $camp_data->location }})(詳見報到通知單，預計7/9寄出Email)</div>
                             <h4>確認參加</h4>
                             <div class="ml-4 mb-2">請回覆確認參加。</div>
                             @if(!isset($applicant->is_attend))
@@ -48,7 +48,7 @@
                                 @endif
                             </form>
                             <h4>建議攜帶物品</h4>
-                                <div class="ml-4 mb-2">以下謹列出參加此次活動所需攜帶物品，以及本營隊提供之物品，方便您準備之依據。</div>
+                                <div class="ml-4 mb-2">以下謹列出參加此次活動所需攜帶物品，方便您準備之依據。</div>
                                 <br>
                                 <div class="ml-4 mb-2">＊多套換洗衣物(洗衣不方便)、備用袋(裝使用過之衣物)。</div>
                                 <div class="ml-4 mb-2">＊毛巾、牙膏、牙刷、香皂、洗髮精、拖鞋、衣架、輕薄外套(防上課地點冷氣過冷)。</div>
@@ -72,7 +72,7 @@
                         　　桃區：03-275-6133#1305<br>
                         　　竹區：03-532-5566<br>
                         　　中區：04-370-69300#620202<br>
-                        　　雲嘉：05-283-3940#203<br>
+                        　　雲嘉：05-283-3940#202<br>
                         　　台南：06-264-6831#351<br>
                         　　高屏(含台東)：07-974-3280#68104</p>
                         <p class="card-text">洽詢時間：週一～週五 10:00～20:00、週六 10:00～16:00</p>

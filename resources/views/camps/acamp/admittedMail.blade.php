@@ -12,7 +12,7 @@
     <h4>【營隊資訊】</h4>
         <div class="ml-4 mb-2">1.研習日期：{{ $applicant->batch->batch_start }} ({{ $batch_start_Weekday }}) 至 {{ $applicant->batch->batch_end }} ({{ $batch_end_Weekday }})，請務必<u>全程參加</u>。</div>
         <div class="ml-4 mb-2">2.報到時間：{{ $applicant->batch->batch_start }} ({{ $batch_start_Weekday }})</div>
-        <div class="ml-4 mb-2">3.報到地點：開南大學(桃園市蘆竹區開南路1號)(詳見報到通知單，預計7/9寄出Email)</div>
+        <div class="ml-4 mb-2">3.報到地點：{{ $applicant->batch->locationName }}({{ $applicant->batch->location }})(詳見報到通知單，預計7/9寄出Email)</div>
     <h4>【參加確認回條】</h4>
         <div class="ml-4 mb-2">請點擊以下連結由瀏覽器進入頁面做回覆<a href="https://bwcamp.bwfoce.org/camp/{{ $applicant->batch->id }}/showadmit?sn={{ $applicant->id }}&name={{ $applicant->name }}">確認參加</a></div>
         <div class="ml-4 mb-2">若以上連結無法點選，請複製下方文字後，再由瀏覽器進入頁面做回覆：</div>
@@ -41,7 +41,7 @@
 　　桃區：03-275-6133#1305<br>
 　　竹區：03-532-5566<br>
 　　中區：04-370-69300#620202<br>
-　　雲嘉：05-283-3940#203<br>
+　　雲嘉：05-283-3940#202<br>
 　　台南：06-264-6831#351<br>
 　　高屏(含台東)：07-974-3280#68104</p>
 <p class="card-text">洽詢時間：週一～週五 10:00～20:00、週六 10:00～16:00</p>
