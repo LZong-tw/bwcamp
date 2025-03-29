@@ -97,8 +97,11 @@
                     <option value='關懷大組：關懷行政' >關懷大組：關懷行政</option>
                     <option value='關懷大組：關懷教育' >關懷大組：關懷教育</option>
                     <option value='關懷大組：關懷服務' >關懷大組：關懷服務</option>
-                    <option value='關懷大組：關懷影視' >關懷大組：關懷影視</option>
+                    <option value='關懷大組：關懷影視(視聽)' >關懷大組：關懷影視(視聽)</option>
                     <option value='關懷大組：關懷小組' >關懷大組：關懷小組</option>
+                    <option value='關懷大組：企業勤務' >關懷大組：企業勤務</option>
+                    <option value='關懷大組：關懷窗口' >關懷大組：關懷窗口</option>
+                    <option value='關懷大組：關懷大組' >關懷大組：關懷大組</option>
                 @endif
                 <!--<option value='依營隊需求安排' >依營隊需求安排</option>-->
             </select>
