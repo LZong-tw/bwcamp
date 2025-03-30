@@ -38,10 +38,11 @@ class CampDataService
         $camp_data->batch_end_Weekday =  $batch_end_Weekday;
         $camp_data->locationName =  $batch_data->locationName;
         $camp_data->location =  $batch_data->location;
-        
+
         return [
             'camp_data' => $camp_data,
             'admission_announcing_date_Weekday' => $admission_announcing_date_Weekday,
+            'admission_confirming_end_Weekday' => $admission_confirming_end_Weekday,
         ];
     }
 
