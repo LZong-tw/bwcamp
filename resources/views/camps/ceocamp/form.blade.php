@@ -604,7 +604,7 @@
                 style="background: rgba(255,255,255,0);border-radius: 30px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;padding: initial;margin: 10px 0px;">
                 <p style="color: rgb(70,78,171);margin: 0px;font-size: initial;text-align: left;"><strong><span
                             style="color: rgb(30, 70, 90);" class="required">個人資料：</span></strong><span
-                        style="color: rgb(0, 0, 0); background-color: rgba(253, 126, 20, 0);">為落實個人資料之保護，於本次營隊活動及活動結束後，福智文教基金會（簡稱本基金會）及本基金會所屬福智團體將利用被推薦人所提供個人資料通知被推薦人本次營隊活動相關訊息，及日後福智團體相關課程、活動訊息通知之非營利目的使用。同意期間自被推薦人同意參加活動之日起，至被推薦人提出刪除日止。營隊活動期間由本基金會及本基金會所屬福智團體保存被推薦人的個人資料，以作為被推薦人、本基金會查詢、確認證明之用。<br></span><br><span
+                        style="color: rgb(0, 0, 0); background-color: rgba(253, 126, 20, 0);">為落實個人資料之保護，於本次營隊活動及活動結束後，福智文教基金會（簡稱本基金會）將利用被推薦人所提供之個人資料通知被推薦人本次營隊活動相關訊息，及日後本基金會相關課程、活動訊息通知之非營利目的使用。同意期間自被推薦人同意參加活動之日起，至被推薦人提出刪除日止。營隊活動期間由本基金會保存被推薦人的個人資料，以作為被推薦人、本基金會查詢、確認證明之用。<br></span><br><span
                         style="color: rgb(0, 0, 0); background-color: rgba(253, 126, 20, 0);">除上述情形外，本基金會於本次營隊取得之個人資料，不會未經被推薦人以言詞、書面、電話、簡訊、電子郵件、傳真、電子文件等方式同意提供給第三單位使用。&nbsp;</span><br><br><input
                         type="radio" required name="profile_agree" value='1' checked>&nbsp;<strong><span style="color: rgb(30, 70, 90);">被推薦人</span><span
                             style="color: rgb(30, 70, 90);">同意</span></strong>　　<input
