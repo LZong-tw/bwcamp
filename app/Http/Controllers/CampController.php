@@ -48,14 +48,14 @@ class CampController extends Controller
             echo "查無營隊資料，請確認網址是否正確。" . "<br>";
             die();
         }
-        $admission_announcing_date_Weekday = $this->camp_data['admission_announcing_date_Weekday'];
-        $admission_confirming_end_Weekday = $this->camp_data['admission_confirming_end_Weekday'];
+        $this->admission_announcing_date_Weekday = $this->camp_data['admission_announcing_date_Weekday'];
+        $this->admission_confirming_end_Weekday = $this->camp_data['admission_confirming_end_Weekday'];
 
         $this->camp_data = $this->camp_data['camp_data'];
         View::share('batch_id', $this->batch_id);
         View::share('camp_data', $this->camp_data);
-        View::share('admission_announcing_date_Weekday', $admission_announcing_date_Weekday);
-        View::share('admission_confirming_end_Weekday', $admission_confirming_end_Weekday);
+        View::share('admission_announcing_date_Weekday', $this->admission_announcing_date_Weekday);
+        View::share('admission_confirming_end_Weekday', $this->admission_confirming_end_Weekday);
         // 動態載入電子郵件設定
         $this->setEmail($this->camp_data->table, $this->camp_data->variant);
     }
@@ -554,10 +554,10 @@ class CampController extends Controller
             $fare_depart_from = config('camps_payments.fare_depart_from.' . $campTable) ?? [];
             $fare_back_to = config('camps_payments.fare_back_to.' . $campTable) ?? [];
             $applicant = $this->applicantService->checkPaymentStatus($applicant);
-            
+
             $applicant->batch_start_Weekday = \Carbon\Carbon::create($applicant->batch->batch_start)->locale(\App::getLocale())->isoFormat("dddd");
             $applicant->batch_end_Weekday = \Carbon\Carbon::create($applicant->batch->batch_end)->locale(\App::getLocale())->isoFormat("dddd");
-    
+
             //for 2023大專教師營
             if ($applicant->camp->table == 'utcamp') {
                 $group = $applicant->group;
