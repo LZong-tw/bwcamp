@@ -7,10 +7,10 @@
     <meta name="robots" content="noindex, nofollow">
     <meta name='description' content='「教育是人類升沈的樞紐」邀請您報名參加教師生命成長營。' />
     <meta name='author' content='福智文教基金會'>
-    <meta property='og:url' content='https://bwfoce.org/tcamp/'/>
+    <meta property='og:url' content='https://bwfoce.org/ufscamp/'/>
     <meta property='og:title' content='{{ $camp_data->abbreviation }}'/>
     <meta property='og:description' content='「教育是人類升沈的樞紐」邀請您報名參加教師生命成長營。' />
-    <meta property='og:image' content='https://bwfoce.org/tcamp/'/>
+    <meta property='og:image' content='https://bwfoce.org/ufscamp/'/>
     {{-- <link rel='icon' href='/camp/favicon.ico'> --}}
     <title> {{ $camp_data->fullName }} </title>
     <!-- Bootstrap core CSS -->
