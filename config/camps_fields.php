@@ -1584,6 +1584,12 @@ return [
         ],
 
         'utcamp' => [
+            "applied_at" => [
+                "name" => "報名日期",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+
             "group" => [
                 "name" => "組別",
                 "sort" => 1,
