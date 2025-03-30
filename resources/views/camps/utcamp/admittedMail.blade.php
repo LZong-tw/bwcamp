@@ -37,7 +37,7 @@
     }
 @endphp
 <h2 class="center">{{ $applicant->batch->camp->fullName }}</h2>
-<h2 class="center">{{ $applicant->batch->name }} 錄取通知單</h2>
+<h2 class="center">錄取通知單</h2>
 <br>
 <table width="100%" style="table-layout:fixed; border: 0;">
     <tr>
