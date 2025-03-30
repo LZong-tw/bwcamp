@@ -60,7 +60,7 @@
     <li>營隊資訊<br>
         <ul>
             <li>活動期間：{{ $applicant->batch->batch_start }}({{ $batch_start_Weekday }})～{{ $applicant->batch->batch_end }}({{ $batch_end_Weekday }})</li>
-            <li>地點：{{ $applicant->batch->locationName }} {{ $applicant->batch->location }}</li>
+            <li>地點：{{ $applicant->batch->locationName }}（{{ $applicant->batch->location }}）</li>
         </ul>
     </li>
 
