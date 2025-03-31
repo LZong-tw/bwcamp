@@ -171,7 +171,7 @@
             <div class='col-auto'>
                 <select required class='form-control' name='lrYear' onchange="if(this.value == ''){ document.getElementById('inputLRClass').value = ''; } else {document.getElementById('inputLRClass').value = document.Camp.lrRegion.value + this.value;}">
                     <option value=''>- 年度 -</option>
-                    @for($i = 10; $i <= 24; $i++)
+                    @for($i = 10; $i <= 25; $i++)
                     <option value='{{ $i }}'>{{ $i }}</option>
                     @endfor
                 </select>
