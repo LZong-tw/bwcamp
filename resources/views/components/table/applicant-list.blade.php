@@ -194,7 +194,7 @@
             data = user_application_logs.concat(applicants_array);
         }
         else {
-            if(only_applicants.length == 1) {
+            if(typeof only_applicants.length == "undefined") {
                 data = [only_applicants];
             }
             else {
