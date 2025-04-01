@@ -50,7 +50,7 @@
         style="background: linear-gradient(rgb(186,207,227), rgba(255,255,255,0.4) 52%, rgb(196,207,227)), rgba(255,255,255,0.6);border-radius: 0px;height: 60px;box-shadow: 0px 0px 14px;">
         <div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><span
                     style="font-family: Abel, sans-serif;color: rgb(46,83,99);"><span
-                        style="color: rgb(40, 100, 80);">{{ $camp_data->year }}企業菁英營推薦</span><span
+                        style="color: rgb(40, 100, 80);">{{ $camp_data->year }}企業菁英生命成長營推薦</span><span
                         style="color: rgb(154, 0, 0);"><!--（{{ $batch->name }}梯）--></span></span></a><button data-bs-toggle="collapse"
                 class="navbar-toggler" data-bs-target="#navcol-1"
                 style="width: 43px;height: 40px;padding: 0px 0px;background: rgba(255,255,255,0.3);"><span

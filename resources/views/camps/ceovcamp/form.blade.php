@@ -133,7 +133,7 @@
                 <option value='全區/總部幹部' >全區/總部幹部</option>
                 <option value='正副總護持' >正副總護持</option>
                 <option value='關懷規劃組' >關懷規劃組</option>
-                <option value='教務行政組' >教務行政組</option>
+                <option value='教務組' >教務組</option>
                 <option value='行政秘書組' >行政秘書組</option>
                 <option value='場地組' >場地組</option>
                 <option value='依營隊需求安排' >依營隊需求安排</option>
