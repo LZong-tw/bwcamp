@@ -325,6 +325,10 @@ class User extends Authenticatable
             switch ($forInspect->range_parsed) {
                 // 0: na, all
                 case 0:
+                    if (str_contains($class, "Applicant") && $context == "vcamp") {
+                        // 志工名單中不能看到「只有報名但未編組」的人
+                        return false;
+                    }
                     return true;
                 // 1: volunteer_large_group
                 case 1:
