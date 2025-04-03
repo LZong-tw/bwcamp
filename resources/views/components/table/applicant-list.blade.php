@@ -24,8 +24,7 @@
 {{--        data-export-data-type="all"--}}
         data-page-list="[10, 50, 100]"
         data-pagination-pre-text="上一頁"
-        data-pagination-next-text="下一頁"
-        data-row-style="rowStyle">
+        data-pagination-next-text="下一頁">
         <caption></caption>
         <thead id="applicantTableHead">
             <tr class="bg-success text-white">
@@ -166,16 +165,6 @@
             });
         })
     });
-
-    function rowStyle(row, index) {
-        if (row.deleted_at.includes(" ")) {
-            return {
-            css: {
-                'color': 'rgba(120, 120, 120, 0.4)'
-            }
-            }
-        }
-    }
 
     function sleep (time) {
         return new Promise((resolve) => setTimeout(resolve, time));
