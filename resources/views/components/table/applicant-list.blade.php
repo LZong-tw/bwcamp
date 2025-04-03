@@ -24,7 +24,8 @@
 {{--        data-export-data-type="all"--}}
         data-page-list="[10, 50, 100]"
         data-pagination-pre-text="上一頁"
-        data-pagination-next-text="下一頁">
+        data-pagination-next-text="下一頁"
+        data-row-style="rowStyle">
         <caption></caption>
         <thead id="applicantTableHead">
             <tr class="bg-success text-white">
@@ -165,6 +166,29 @@
             });
         })
     });
+
+    window.rowStyle = (row, index) => {
+        const classes = [
+            'bg-blue',
+            'bg-green',
+            'bg-orange',
+            'bg-yellow',
+            'bg-red'
+        ]
+
+        if (row.deleted_at.includes(" ")) {
+            return {
+                css: {
+                    'color': 'rgba(120, 120, 120, 0.4)'
+                }
+            }
+        }
+        return {
+            css: {
+                color: 'blue'
+            }
+        }
+    }
 
     function sleep (time) {
         return new Promise((resolve) => setTimeout(resolve, time));
