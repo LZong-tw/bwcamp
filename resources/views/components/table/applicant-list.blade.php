@@ -167,6 +167,16 @@
         })
     });
 
+    function rowStyle(row, index) {
+        if (row.deleted_at.includes(" ")) {
+            return {
+            css: {
+                'color': 'rgba(120, 120, 120, 0.4)'
+            }
+            }
+        }
+    }
+
     function sleep (time) {
         return new Promise((resolve) => setTimeout(resolve, time));
     }
@@ -248,16 +258,6 @@
             table.bootstrapTable({data: result})
         } catch (e) {
             console.log(e);
-        }
-    }
-
-    function rowStyle(row, index) {
-        if (row.deleted_at.includes(" ")) {
-            return {
-            css: {
-                'color': 'rgba(120, 120, 120, 0.4)'
-            }
-            }
         }
     }
 </script>
