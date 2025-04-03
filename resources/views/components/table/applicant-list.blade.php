@@ -183,6 +183,11 @@
                 }
             }
         }
+        return {
+            css: {
+                color: ''
+            }
+        }
     }
 
     function sleep (time) {
