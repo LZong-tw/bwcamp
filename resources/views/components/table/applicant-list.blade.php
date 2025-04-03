@@ -183,11 +183,6 @@
                 }
             }
         }
-        return {
-            css: {
-                color: 'blue'
-            }
-        }
     }
 
     function sleep (time) {
