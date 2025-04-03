@@ -24,7 +24,8 @@
 {{--        data-export-data-type="all"--}}
         data-page-list="[10, 50, 100]"
         data-pagination-pre-text="上一頁"
-        data-pagination-next-text="下一頁">
+        data-pagination-next-text="下一頁"
+        data-row-style="rowStyle">
         <caption></caption>
         <thead id="applicantTableHead">
             <tr class="bg-success text-white">
@@ -47,6 +48,7 @@
                     @else
                         <th class="text-center" data-field="{{ $key }}" data-sortable="{{ $item['sort'] }}">{{ $item['name'] }}</th>
                     @endif
+                    <th data-field="deleted_at" data-visible="false" data-sortable="0"></th>
                 @endforeach
             </tr>
         </thead>
@@ -246,6 +248,16 @@
             table.bootstrapTable({data: result})
         } catch (e) {
             console.log(e);
+        }
+    }
+
+    function rowStyle(row, index) {
+        if (row.deleted_at.includes(" ")) {
+            return {
+            css: {
+                'color': 'rgba(120, 120, 120, 0.4)'
+            }
+            }
         }
     }
 </script>
