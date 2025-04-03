@@ -14,10 +14,10 @@ class Permission extends LaratrustPermission
     public string $resourceDescriptionInMandarin = '針對權限清單的項目擁有新增/查詢/修改的功能。可以進行職務與權限之間的連結，依據營隊的需求設定每個職務可以行使的權限內容，提供新增/查詢/修改/刪除的功能。';
     public array $ranges = [
         "na" => 0,
-        "all" => 0,
         "volunteer_large_group" => 1,
         "learner_group" => 2,
         "person" => 3,
+        "all" => 4,
     ];
     protected $appends = ['range_parsed'];
 
