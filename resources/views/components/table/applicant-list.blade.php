@@ -176,7 +176,7 @@
             'bg-red'
         ]
 
-        if (row.deleted_at.includes(" ")) {
+        if (row.deleted_at) {
             return {
                 css: {
                     'color': 'rgba(120, 120, 120, 0.4)'
