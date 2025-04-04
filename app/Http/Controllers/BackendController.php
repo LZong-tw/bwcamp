@@ -1865,6 +1865,7 @@ class BackendController extends Controller
                                 $query->where('batch_id', $request->batch_id);
                             }
                         })->get());
+                        break;
                     }
                 }
             } else {
