@@ -27,47 +27,47 @@
         @elseif($isSettingCarer)
             將所選學員之關懷員設定為
             <span class="filter-selects">
-                <select id="batch_select" onchange="filterCarers()">
+                <!-- Batch 選單 -->
+                <select id="batch_select" onchange="filterCarers2()">
                     <option value="">- 選擇梯次 -</option>
-                    @foreach($carers->pluck('groupOrgRelation.*.batch.name')->flatten()->unique() as $batchName)
-                        <option value="{{ $batchName }}">{{ $batchName }}</option>
+                    @foreach($carers->pluck('groupOrgRelation.*.batch.name')->flatten()->unique() as $batch)
+                        <option value="{{ $batch ?? 'all' }}">{{ $batch ?? '不分梯' }}</option>
                     @endforeach
                 </select>
 
-                <select id="region_select" onchange="filterCarers()">
+                <!-- Region 選單 -->
+                <select id="region_select" onchange="filterCarers2()">
                     <option value="">- 選擇區域 -</option>
                     @foreach($carers->pluck('groupOrgRelation.*.region.name')->flatten()->unique() as $regionName)
-                        <option value="{{ $regionName }}">{{ $regionName }}</option>
+                        <option value="{{ $regionName ?? 'all' }}">{{ $regionName ?? '不分區' }}</option>
                     @endforeach
                 </select>
 
-                <select required name='attendee_care' id="carer_select">
-                    <option value=''>- 選擇關懷員 -</option>
-                    @forelse($carers as $carer)
-                        @foreach($carer->groupOrgRelation as $carer_position)
+                <!-- Position 選單 -->
+                <select id="position_select" onchange="filterCarers2()">
+                    <option value="">- 選擇職位 -</option>
+                    @foreach($carers->pluck('groupOrgRelation.*.position')->flatten()->unique() as $position)
+                        <option value="{{ $position }}">{{ $position }}</option>
+                    @endforeach
+                </select>
+
+                <!-- Carer 選單 -->
+                <select id="carer_select">
+                    <option value="">- 選擇關懷員 -</option>
+                    @foreach($carers as $carer)
+                        @foreach($carer->groupOrgRelation as $relation)
                             <option
-                                value='{{ $carer->id }}'
-                                data-batch="{{ $carer_position->batch?->name }}"
-                                data-region="{{ $carer_position->region?->name }}"
+                                value="{{ $carer->id }}"
+                                data-batch="{{ $relation->batch?->name ?? 'all' }}"
+                                data-region="{{ $relation->region?->name ?? 'all' }}"
+                                data-position="{{ $relation->position }}"
                             >
-                                {{ $carer->name }}：{{ $carer_position->position }}
+                                {{ $relation->batch?->name ?? "不分梯" }}：{{ $relation->region?->name ?? "不分區" }}：{{ $carer->name }}：{{ $relation->section . $relation->position }}
                             </option>
                         @endforeach
-                    @empty
-                        <option value="">本梯次或您所在的小組沒有關懷員</option>
-                    @endforelse
+                    @endforeach
                 </select>
             </span>
-            {{-- <select required name='attendee_care' onChange=''>
-                <option value=''>- 請選擇 -</option>
-                @forelse($carers as $carer)
-                    @foreach($carer->groupOrgRelation as $carer_position)
-                        <option value='{{ $carer->id }}'>{{ $carer_position->batch?->name }}：{{ $carer_position->region?->name }}：{{ $carer->name }}：{{ $carer_position->position }}</option>
-                    @endforeach
-                @empty
-                    <option value="">本梯次或您所在的小組沒有關懷員</option>
-                @endforelse
-            </select> --}}
         @elseif(!$isShowVolunteers)
             將所選學員設定為第
             <select required name='attendee_group' onChange='' id="learnerGroups">
@@ -156,6 +156,11 @@
                 }
             }
         });
+
+        @if ($isSettingCarer)
+            let carers = @json($carers);
+            {{-- console.log(carers); --}}
+        @endif
     })();
 
     function setGroup() {
@@ -306,6 +311,28 @@
             const matchRegion = !selectedRegion || option.dataset.region === selectedRegion;
 
             option.style.display = matchBatch && matchRegion ? '' : 'none';
+        });
+    }
+
+    function filterCarers2() {
+        const batchSelect = document.getElementById('batch_select');
+        const regionSelect = document.getElementById('region_select');
+        const positionSelect = document.getElementById('position_select');
+        const carerSelect = document.getElementById('carer_select');
+
+        const selectedBatch = batchSelect.value || null;
+        const selectedRegion = regionSelect.value || null;
+        const selectedPosition = positionSelect.value || null;
+
+        // 遍歷所有關懷員選項
+        Array.from(carerSelect.options).forEach(option => {
+            if (option.value === '') return; // 跳過預設選項
+
+            const matchBatch = selectedBatch === null || option.dataset.batch === selectedBatch;
+            const matchRegion = selectedRegion === null || option.dataset.region === selectedRegion;
+            const matchPosition = selectedPosition === null || option.dataset.position === selectedPosition;
+
+            option.style.display = matchBatch && matchRegion && matchPosition  ? '' : 'none';
         });
     }
 </script>
