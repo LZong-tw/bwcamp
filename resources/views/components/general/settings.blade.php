@@ -129,16 +129,6 @@
             }
             else {
                 let organizations = Object.entries(response.data);
-                for (let i in organizations) {
-                    for (let j in organizations) {
-                        if (organizations[i] != null && organizations[j] != null) {
-                            if (organizations[i][1]['section'] == organizations[j][1]['section'] && i < j) {
-                                organizations[j] = null;
-                            }
-                        }
-                    }
-                }
-                let select = document.getElementById('volunteerGroups');
 
                 // 按 region 排序
                 organizations.sort((a, b) => {
@@ -148,7 +138,20 @@
                     return 0;
                 });
 
+                // 去重複
+                for (let i in organizations) {
+                    for (let j in organizations) {
+                        if (organizations[i] != null && organizations[j] != null) {
+                            if (organizations[i][1]['section'] == organizations[j][1]['section'] && i < j) {
+                                organizations[j] = null;
+                            }
+                        }
+                    }
+                }
+
+                let select = document.getElementById('volunteerGroups');
                 let currentRegion = null;
+
                 for (let i = 0; i < organizations.length; i++) {
                     if (organizations[i] != null) {
                         // 如果 region 改變，插入 region 標題
