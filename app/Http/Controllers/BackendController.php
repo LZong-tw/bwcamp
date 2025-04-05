@@ -1856,10 +1856,19 @@ class BackendController extends Controller
                     static fn ($permission) => $permission->name == '\App\Models\CarerApplicantXref.create' || $permission->name == '\App\Models\CarerApplicantXref.assign'
                 );
                 $carers = collect([]);
-                $target_group_ids = $this->campFullData->organizations()->where('camp_org.position', 'like', '%關懷小組第%')->get()->pluck('group_id');
+                $target_group_ids = $this->campFullData->organizations()->where('camp_org.camp_id', $this->campFullData->id)->where('camp_org.position', 'like', '%關懷小組第%')->get()->pluck('group_id');
                 foreach ($permissions as $permission) {
                     if ($permission->range == 'na' || $permission->range == 'all') {
-                        $carers = $carers->merge(\App\Models\User::with(['groupOrgRelation', 'groupOrgRelation.region', 'groupOrgRelation.batch'])->whereHas('groupOrgRelation', function ($query) use ($request, $target_group_ids) {
+                        $carers = $carers->merge(\App\Models\User::with([
+                            'groupOrgRelation' => function ($query) use ($request) {
+                                $query->where('camp_id', $this->campFullData->id);
+                                if ($request->batch_id) {
+                                    $query->where('batch_id', $request->batch_id);
+                                }
+                            },
+                            'groupOrgRelation.region',
+                            'groupOrgRelation.batch']
+                        )->whereHas('groupOrgRelation', function ($query) use ($request, $target_group_ids) {
                             $query->where('camp_id', $this->campFullData->id)->whereIn('group_id', $target_group_ids);
                             if ($request->batch_id) {
                                 $query->where('batch_id', $request->batch_id);
@@ -1870,13 +1879,27 @@ class BackendController extends Controller
                 }
             } else {
                 if ($request->batch_id) {
-                    $carers = \App\Models\User::with(['groupOrgRelation', 'groupOrgRelation.region', 'groupOrgRelation.batch'])
-                        ->whereHas('groupOrgRelation', function ($query) use ($request, $target_group_ids) {
+                    $carers = \App\Models\User::with([
+                        'groupOrgRelation' => function ($query) use ($request, $target_group_ids) {
+                            $query->where('camp_id', $this->campFullData->id)
+                                ->where('batch_id', $request->batch_id)
+                                ->whereIn('group_id', $target_group_ids);
+                        },
+                        'groupOrgRelation.region',
+                        'groupOrgRelation.batch'
+                    ])->whereHas('groupOrgRelation', function ($query) use ($request, $target_group_ids) {
                             $query->where('batch_id', $request->batch_id)
                                 ->whereIn('group_id', $target_group_ids);
                         })->get();
                 } else {
-                    $carers = \App\Models\User::with(['groupOrgRelation', 'groupOrgRelation.region', 'groupOrgRelation.batch'])->whereHas('groupOrgRelation', function ($query) use ($target_group_ids) {
+                    $carers = \App\Models\User::with([
+                        'groupOrgRelation' => function ($query) use ($target_group_ids) {
+                            $query->where('camp_id', $this->campFullData->id)
+                                ->whereIn('group_id', $target_group_ids);
+                        },
+                        'groupOrgRelation.region',
+                        'groupOrgRelation.batch'
+                    ])->whereHas('groupOrgRelation', function ($query) use ($target_group_ids) {
                         $query->where('camp_id', $this->campFullData->id)
                             ->whereIn('group_id', $target_group_ids);
                     })->get();
