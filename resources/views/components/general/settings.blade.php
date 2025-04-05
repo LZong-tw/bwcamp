@@ -139,18 +139,31 @@
                     }
                 }
                 let select = document.getElementById('volunteerGroups');
+
+                // 按 region 排序
+                organizations.sort((a, b) => {
+                    if (a && b) {
+                        return a[1]['region_name'].localeCompare(b[1]['region_name']);
+                    }
+                    return 0;
+                });
+
+                let currentRegion = null;
                 for (let i = 0; i < organizations.length; i++) {
                     if (organizations[i] != null) {
+                        // 如果 region 改變，插入 region 標題
+                        if (currentRegion !== organizations[i][1]['region_name']) {
+                            currentRegion = organizations[i][1]['region_name'];
+                            let regionOption = document.createElement('option');
+                            regionOption.text = `--- ${currentRegion} ---`;
+                            regionOption.disabled = true;
+                            select.appendChild(regionOption);
+                        }
+
+                        // 插入 option
                         let option = document.createElement('option');
                         option.value = organizations[i][1]['id'];
-                        // check if contains string
-                        if (organizations[i][1]['section'].includes('大會')) {
-                            option.text = organizations[i][1]['section'];
-                        }
-                        else {
-                            option.text = organizations[i][1]['section'];
-                        }
-                        option.value = organizations[i][1]['id'];
+                        option.text = organizations[i][1]['section'];
                         select.appendChild(option);
                     }
                 }
