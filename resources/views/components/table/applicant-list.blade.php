@@ -211,7 +211,12 @@
         // merge user_application_logs and only_applicants
         if (user_application_logs.length > 0) {
             if(only_applicants.length == 1) {
-                applicants_array = Object.values([only_applicants]);
+                if(typeof only_applicants.length == "undefined") {
+                    applicants_array = Object.values([only_applicants]);
+                }
+                else {
+                    applicants_array = Object.values(only_applicants);
+                }
             }
             else {
                 applicants_array = Object.values(only_applicants);
