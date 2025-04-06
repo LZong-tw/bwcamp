@@ -230,7 +230,8 @@ class Applicant extends Model {
             false => match ($this->birthyear && $this->birthmonth) {
                 true => Carbon::parse("{$this->birthyear}-{$this->birthmonth}")->format('Y-m'),
                 false => match ($this->birthyear && 1) {
-                    true => Carbon::parse("{$this->birthyear}")->format('Y'),
+                    //true => Carbon::parse("{$this->birthyear}")->format('Y'),
+                    true => Carbon::parse("{$this->birthyear}-01-01")->format('Y-m'),
                     false => null,
                 },
             },
