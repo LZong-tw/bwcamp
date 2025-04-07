@@ -230,8 +230,9 @@ class Applicant extends Model {
             false => match ($this->birthyear && $this->birthmonth) {
                 true => Carbon::parse("{$this->birthyear}-{$this->birthmonth}")->format('Y-m'),
                 false => match ($this->birthyear && 1) {
-                    //true => Carbon::parse("{$this->birthyear}")->format('Y'),
-                    true => Carbon::parse("{$this->birthyear}-01-01")->format('Y-m'),
+                    // 單獨使用年為參數，要注意 1959 以前（包含 1959）的年份，也可被視為時間，因而造成誤判
+                    // https://github.com/php/php-src/issues/15945
+                    true => Carbon::parse(mktime(0, year: "{$this->birthyear}"))->format('Y'),
                     false => null,
                 },
             },
