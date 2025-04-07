@@ -287,7 +287,7 @@
                                                 <input type="radio" value="高區" name="region" required><span
                                                     style="color: rgb(0, 0, 0);"> 高區　</span><br>
                                             @endif
-                                            <sup><span style="color: rgb(30, 70, 90);">建議根據被推薦人的工作/生活地區選擇</span></sup>
+                                            <sup><span style="color: rgb(255, 0, 0);">建議根據被推薦人的工作/生活地區選擇</span></sup>
                                         </td>
                                     </tr>
                                     <tr
