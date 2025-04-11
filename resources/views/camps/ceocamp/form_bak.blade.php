@@ -19,13 +19,13 @@
         <h4>{{ $camp_data->fullName }}線上推薦報名表</h4>
         若您在填寫表格時遇到困難，請洽詢：<br>
         {{--@if($batch->name == '北區')--}}
-            北區：陳小姐 0958367318、陳先生 0966891868、吳小姐 0910123257<br>
+            北區—陳小姐 0935-237-395、劉小姐 0953-226-558<br>
         {{--@elseif($batch->name == '竹區')--}}
-            竹區：邱小姐 0922437236、陳小姐 0921625305<br>
+            竹區—何小姐 0920-431-831、林小姐 0933-973-825<br>
         {{--@elseif($batch->name == '中區') --}}
-            中區：陳小姐 0972087070，王小姐 0937308673<br>
+            中區—王小姐 0937-308-673、林小姐 0935-303-658<br>
         {{--@elseif($batch->name == '高區')--}}
-            高區：陳小姐 0922208027<br>
+            高區—陳先生 0952-413-683、陳小姐 0929-350-820<br>
         {{--@else
         @endif--}}
     </div>
@@ -81,7 +81,6 @@
     <div class="row form-group required">
         <label for='inputRegion' class='col-md-2 control-label text-md-right'>區域</label>
         <div class='col-md-10'>
-            @if(str_contains($batch->name, "開南"))
                 <div class="form-check form-check-inline">
                     <label class="form-check-label" for="Pei">
                         <input class="form-check-input" type="radio" name="region" value="北區" required>北區
@@ -98,6 +97,14 @@
                         </div>
                     </label>
                 </div>
+		        <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="Pei">
+                        <input class="form-check-input" type="radio" name="region" value="中區" required>中區
+                        <div class="invalid-feedback">
+                            &nbsp;
+                        </div>
+                    </label>
+                </div>
                 <div class="form-check form-check-inline">
                     <label class="form-check-label" for="Chu">
                         <input class="form-check-input" type="radio" name="region" value="高區" required>高區
@@ -106,16 +113,7 @@
                         </div>
                     </label>
                 </div>
-            @else
-                <div class="form-check form-check-inline">
-                    <label class="form-check-label" for="Pei">
-                        <input class="form-check-input" type="radio" name="region" value="中區" required checked>中區
-                        <div class="invalid-feedback">
-                            請選擇區域
-                        </div>
-                    </label>
-                </div>
-            @endif
+                <div><span class='text-danger'>建議根據被推薦人的工作/生活地區選擇</span></div>
         </div>
     </div>
     <hr>
@@ -198,17 +196,17 @@
     <h6 class='form-control-static text-danger'>若繼續填寫下方資料，表示您已確認：<br>
         （1）被推薦人同意參加本次營隊活動，並且<br>
         （2）被推薦人同意將營隊推薦報名表内相關資料提供給主辦單位。
-        @if (str_contains($batch->name, "開南"))
-            <br>（3）知悉並告知被推薦人：本營隊費用為 NT$ 2,000 元（安排住宿於鄰近開南大學之飯店雙人房，欲住宿單人房者加收 NT$ 1,650 元）。
+        @if (str_contains($batch->name, ""))
+            <br>（3）知悉並告知被推薦人：營隊活動地點為臺中國立勤益科技大學，配合兩天一夜課程，臺中以外縣市學員若由主辦單位安排7/26晚間住宿者（以安排「雙人房」為主），費用為NT$2,400元。欲住宿單人房者，費用為NT$4,800元。
         @endif
     </h6>
 
     <hr>
     <h5 class='form-control-static'>被推薦人(營隊學員)基本資料：</h5>
-        @if (str_contains($batch->name, "開南"))
-            <h6>＊＊若有需要，可下載<a href="{{ url("downloads/ceocamp2024/2024菁英營學員推薦表_開南.docx") }}" target="_blank">學員推薦表WORD檔</a>或<a href="{{ url("downloads/ceocamp2024/2024菁英營學員推薦表_開南.pdf") }}" target="_blank">學員推薦表PDF檔</a>， 請被推薦人提供資料，做為填寫此表單的依據。＊＊</h6>
+        @if (str_contains($batch->name, ""))
+            <h6>＊＊若有需要，可下載<a href="{{ url("downloads/ceocamp2025/2025菁英營學員推薦表v3.docx") }}" target="_blank">學員推薦表WORD檔</a>或<a href="{{ url("downloads/ceocamp2025/2025菁英營學員推薦表v3.pdf") }}" target="_blank">學員推薦表PDF檔</a>， 請被推薦人提供資料，做為填寫此表單的依據。＊＊</h6>
         @else
-            <h6>＊＊若有需要，可下載<a href="{{ url("downloads/ceocamp2024/2024菁英營學員推薦表_勤益.docx") }}" target="_blank">學員推薦表WORD檔</a>或<a href="{{ url("downloads/ceocamp2024/2024菁英營學員推薦表_勤益.pdf") }}" target="_blank">學員推薦表PDF檔</a>， 請被推薦人提供資料，做為填寫此表單的依據。＊＊</h6>
+            <h6>＊＊若有需要，可下載<a href="{{ url("downloads/ceocamp2025/2025菁英營學員推薦表v3.docx") }}" target="_blank">學員推薦表WORD檔</a>或<a href="{{ url("downloads/ceocamp2025/2025菁英營學員推薦表v3.pdf") }}" target="_blank">學員推薦表PDF檔</a>， 請被推薦人提供資料，做為填寫此表單的依據。＊＊</h6>
         @endif
     <br>
 
@@ -834,7 +832,7 @@
         <label for='inputTerm' class='col-md-2 control-label text-md-right'>個人資料</label>
         <div class='col-md-10 form-check'>
             <p class='form-control-static text-danger'>
-            為落實個人資料之保護，於本次營隊活動及活動結束後，福智文教基金會（簡稱本基金會）及本基金會所屬福智團體將利用被推薦人所提供個人資料通知被推薦人本次營隊活動相關訊息，及日後福智團體相關課程、活動訊息通知之非營利目的使用。同意期間自被推薦人同意參加活動之日起，至被推薦人提出刪除日止。營隊活動期間由本基金會及本基金會所屬福智團體保存被推薦人的個人資料，以作為被推薦人、本基金會查詢、確認證明之用。<br>
+            為落實個人資料之保護，於本次營隊活動及活動結束後，福智文教基金會（簡稱本基金會）將利用被推薦人所提供之個人資料通知被推薦人本次營隊活動相關訊息，及日後本基金會相關課程、活動訊息通知之非營利目的使用。同意期間自被推薦人同意參加活動之日起，至被推薦人提出刪除日止。營隊活動期間由本基金會保存被推薦人的個人資料，以作為被推薦人、本基金會查詢、確認證明之用。<br>
             除上述情形外，本基金會於本次營隊取得之個人資料，不會未經被推薦人以言詞、書面、電話、簡訊、電子郵件、傳真、電子文件等方式同意提供給第三單位使用。
             </p>
             <label class=radio-inline>
