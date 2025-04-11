@@ -215,6 +215,25 @@
     </div>
 
     <div class='row form-group required'>
+        <label for='inputIndustry' class='col-md-2 control-label text-md-right'>產業別</label>
+        <div class='col-md-10'>
+            <select required class='form-control' name='industry' onChange=''>
+                <option value='' selected>- 請選擇 -</option>
+                <option value='傳產營造' >傳產營造(食衣住行傳統製造 / 石化製造／營建／工程／不動產)</option>
+                <option value='資訊科技' >資訊科技(電子／資訊／科技／通訊／半導體／軟體)</option>
+                <option value='教育文化' >教育文化(學術／研究／出版／傳播／文化／藝術／娛樂)</option>
+                <option value='醫療保健' >醫療保健(醫療／保健／藥廠)</option>
+                <option value='金融諮詢' >金融諮詢(金融 / 保險／會計／法律／諮商)</option>
+                <option value='民生服務' >民生服務(水電天然氣供應 / 交通運輸／批發 / 零售 / 倉儲／住宿／餐飲)</option>
+                <option value='政府機關' >政府機關(公家機關／政府單位)</option>
+                <option value='非營利組織' >非營利組織(公益單位 / 非營利組織／社會服務)</option>
+                <option value='永續產業' >永續產業(再生能源／能源管理／永續發展／企業社會責任部門／環境工程)</option>                       
+                <option value='其它' >其它</option>
+            </select>
+        </div>
+    </div>
+
+    <div class='row form-group required'>
         <label for='inputUnitLocation' class='col-md-2 control-label text-md-right'>服務單位<br>所在地</label>
         <div class='col-md-10'>
             <select required class='form-control' name='unit_county' onChange='handleRegionChange(this)'>
@@ -270,7 +289,7 @@
             </div>
         </div>
     </div>
-{{--
+<!--
     <div class='row form-group required'>
         <label for='inputLevel' class='col-md-2 control-label text-md-right'>位階</label>
         <div class='col-md-10'>
@@ -283,7 +302,7 @@
             </select>
         </div>
     </div>
---}}
+
     <div class='row form-group required'>
         <label for='inputJobProperty' class='col-md-2 control-label text-md-right'>工作屬性</label>
         <div class='col-md-10'>
@@ -322,7 +341,7 @@
             </div> --}}
         </div>
     </div>
-
+-->
 
     <div class='row form-group required'>
     <label for='inputEmployees' class='col-md-2 control-label text-md-right'>公司員工人數</label>
@@ -344,28 +363,6 @@
         </div>
     </div>
 
-    <div class='row form-group required'>
-        <label for='inputIndustry' class='col-md-2 control-label text-md-right'>產業別</label>
-        <div class='col-md-10'>
-            <select required class='form-control' name='industry' onChange=''>
-            <option value='' selected>- 請選擇 -</option>
-                <option value='製造業' >製造業</option>
-                <option value='公共事業' >公共事業</option>
-                <option value='營建工程相關產業' >營建工程相關產業</option>
-                <option value='批發、零售及貿易相關產業' >批發、零售及貿易相關產業</option>
-                <option value='運輸及倉儲相關產業' >運輸及倉儲相關產業</option>
-                <option value='住宿及餐飲相關產業' >住宿及餐飲相關產業</option>
-                <option value='大眾傳播通訊相關產業' >大眾傳播通訊相關產業</option>
-                <option value='金融及保險業相關產業' >金融及保險業相關產業</option>
-                <option value='專業、科學及技術相關服務業(會計師、律師、顧問等）' >專業、科學及技術相關服務業(會計師、律師、顧問等）</option>
-                <option value='教育學術相關產業' >教育學術相關產業</option>
-                <option value='醫療保健及社會工作服務相關' >醫療保健及社會工作服務相關</option>
-                <option value='藝術、娛樂及休閒服務相關' >藝術、娛樂及休閒服務相關</option>
-                <option value='公家機關' >公家機關</option>
-                <option value='其它' >其它</option>
-            </select>
-        </div>
-    </div>
 
     <hr>
     <h5 class='form-control-static'>聯絡方式</h5>
@@ -493,6 +490,15 @@
         </div>
     </div>
 
+    <div class='row form-group required'>
+        <label for='inputExpect' class='col-md-2 control-label text-md-right'>期望成長營給您的幫助</label>
+        <div class='col-md-10'>
+            <textarea required class='form-control' rows=2 name='expectation' id=inputExpect></textarea>
+            <div class="invalid-feedback">
+                請填寫本欄位
+            </div>
+        </div>
+    </div>
 
     <div class='row form-group required'>
         <label class='col-md-2 control-label text-md-right'>緊急聯絡人</label>
@@ -601,15 +607,6 @@
         </div>
     </div>
 
-    <div class='row form-group'>
-        <label for='inputExpect' class='col-md-2 control-label text-md-right'>期望成長營帶給我什麼幫助</label>
-        <div class='col-md-10'>
-            <textarea class='form-control' rows=2 name='expectation' id=inputExpect></textarea>
-            {{-- <div class="invalid-feedback">
-                請填寫本欄位
-            </div> --}}
-        </div>
-    </div>
 
     <!--- 同意書 -->
     <div class='row form-group required'>
@@ -655,7 +652,7 @@
     </div>
 
     <hr>
-
+<!--
     <div class='row form-group required'>
         <label for='inputFavoredEvent' class='col-md-2 control-label text-md-right'>請問您有興趣參加活動的類別？(可複選)</label>
         <div class='col-md-10'>
@@ -691,7 +688,7 @@
             </div>
         </div>
     </div>
-
+-->
     <div class="row form-group text-danger tips d-none">
         <div class='col-md-2'></div>
         <div class='col-md-10'>

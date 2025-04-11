@@ -560,6 +560,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
+{{-- 
     <!--- 同意書 -->
     <div class='row form-group required'>
         <label for='inputTerm' class='col-md-2 control-label text-md-right'>肖像權</label>
@@ -620,6 +621,49 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <div class="invalid-feedback mt-0">
                 請圈選本欄位
             </div>
+        </div>
+    </div>
+--}}
+    <div class='row form-group required'>
+        <label for='inputTerm' class='col-md-2 control-label text-md-right'>肖像權</label>
+        <div class='col-md-10 form-check'>
+            <p class='form-control-static text-danger'>
+            主辦單位在營隊期間拍照、錄影之活動記錄，可使用於營隊及主辦單位的非營利教育推廣使用，並以網路方式推播。
+            </p>
+            <label class=radio-inline>
+                <input type='radio' required name="portrait_agree" value='1' > 我同意
+                <div class="invalid-feedback">
+                    請圈選本欄位
+                </div>
+            </label>
+            <label class=radio-inline>
+                <input type=radio required name="portrait_agree" value='0' > 我不同意
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label>
+        </div>
+    </div>
+
+    <div class='row form-group required'>
+        <label for='inputTerm' class='col-md-2 control-label text-md-right'>個人資料</label>
+        <div class='col-md-10 form-check'>
+            <p class='form-control-static text-danger'>
+            為落實個人資料之保護，於本次營隊活動及活動結束後，福智文教基金會（簡稱本基金會）將利用被推薦人所提供之個人資料通知被推薦人本次營隊活動相關訊息，及日後本基金會相關課程、活動訊息通知之非營利目的使用。同意期間自被推薦人同意參加活動之日起，至被推薦人提出刪除日止。營隊活動期間由本基金會保存被推薦人的個人資料，以作為被推薦人、本基金會查詢、確認證明之用。<br>
+            除上述情形外，本基金會於本次營隊取得之個人資料，不會未經被推薦人以言詞、書面、電話、簡訊、電子郵件、傳真、電子文件等方式同意提供給第三單位使用。
+            </p>
+            <label class=radio-inline>
+                <input type='radio' required name="profile_agree" value='1' > 我同意
+                <div class="invalid-feedback">
+                    請圈選本欄位
+                </div>
+            </label>
+            <label class=radio-inline>
+                <input type=radio required name="profile_agree" value='0' > 我不同意
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label>
         </div>
     </div>
 

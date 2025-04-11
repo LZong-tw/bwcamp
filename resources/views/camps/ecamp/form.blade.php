@@ -38,7 +38,7 @@
 
 <body style="color: #343458;background: rgb(220,220,220);">
     <nav class="navbar navbar-expand-md fixed-top navbar-shrink py-3 navbar-light" id="mainNav" style="background: linear-gradient(rgba(104,163,193,0.4), rgba(255,255,255,0.4) 52%, rgb(208,225,234)), rgba(255,255,255,0.6);border-radius: 0px;height: 60px;box-shadow: 0px 0px 14px;">
-        <div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><span style="font-family: Abel, sans-serif;color: rgb(46,83,99);">2024 企業主管生命成長營</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1" style="width: 43px;height: 40px;padding: 0px 0px;background: rgba(103,162,192,0.3);"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><span style="font-family: Abel, sans-serif;color: rgb(46,83,99);">2025 企業主管生命成長營</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1" style="width: 43px;height: 40px;padding: 0px 0px;background: rgba(103,162,192,0.3);"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-1" style="height: 50px;">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item"><a class="nav-link active" href="https://bwfoce.org/ecamp">營隊資訊</a></li>
