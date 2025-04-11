@@ -95,13 +95,13 @@
                     <li class="nav-item">
                     <a class="nav-link" href="https://bwfoceec.wixsite.com/ecamp/課程介紹">課程介紹</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url("downloads/ceocamp2025/2025菁英營學員推薦表v3.docx") }}">學員推薦表WORD檔下載</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url("downloads/ceocamp2025/2025菁英營學員推薦表v3.pdf") }}">學員推薦表PDF檔下載</a>
+                    </li>
                     -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url("downloads/ceocamp2025/2025菁英營學員推薦表v2.docx") }}">學員推薦表WORD檔下載</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url("downloads/ceocamp2025/2025菁英營學員推薦表v2.pdf") }}">學員推薦表PDF檔下載</a>
-                    </li>
                 </ul>
             </div>
         </div>
