@@ -631,7 +631,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             主辦單位在營隊期間拍照、錄影之活動記錄，可使用於營隊及主辦單位的非營利教育推廣使用，並以網路方式推播。
             </p>
             <label class=radio-inline>
-                <input type='radio' required name="portrait_agree" value='1' > 我同意
+                <input type='radio' required name="portrait_agree" value='1' checked> 我同意
                 <div class="invalid-feedback">
                     請圈選本欄位
                 </div>
@@ -653,7 +653,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             除上述情形外，本基金會於本次營隊取得之個人資料，不會未經被推薦人以言詞、書面、電話、簡訊、電子郵件、傳真、電子文件等方式同意提供給第三單位使用。
             </p>
             <label class=radio-inline>
-                <input type='radio' required name="profile_agree" value='1' > 我同意
+                <input type='radio' required name="profile_agree" value='1' checked> 我同意
                 <div class="invalid-feedback">
                     請圈選本欄位
                 </div>
