@@ -180,20 +180,21 @@ class StatController extends BackendController
 
     public function countyStat() {
         if ($this->campFullData->table == 'acamp' && $this->campFullData->year >= 2025) {
-            $applicants = Applicant::select(\DB::raw('acamp.class_county as county, count(*) as total'))
+            $applicants_tmp = Applicant::select(\DB::raw('acamp.class_county as county, count(*) as total'))
             ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
             ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
             ->join('camps', 'camps.id', '=', 'batchs.camp_id')
             ->where('camps.id', $this->campFullData->id)
             ->groupBy('county')->get();
         } else {
-            $applicants = Applicant::select(\DB::raw('SUBSTRING(applicants.address, 1, 3) as county, count(*) as total'))
+            $applicants_tmp = Applicant::select(\DB::raw('SUBSTRING(applicants.address, 1, 3) as county, count(*) as total'))
             ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
             ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
             ->join('camps', 'camps.id', '=', 'batchs.camp_id')
             ->where('camps.id', $this->campFullData->id)
             ->groupBy('county')->get();
         }
+        $applicants = $applicants_tmp->whereNull('$applicants.deleted_at');
         $rows = count($applicants);
         $array = $applicants->toArray();
         $i = 0 ;
