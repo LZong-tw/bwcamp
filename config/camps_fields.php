@@ -1702,6 +1702,11 @@ return [
             ],
             "email" => [
                 "name" => "Email",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "self_intro" => [
+                "name" => "我是誰",
                 "sort" => 0,
                 "for_query" => 1,
             ]
