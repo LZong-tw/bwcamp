@@ -473,10 +473,11 @@ class AdminController extends BackendController {
         $formData = $request->toArray();
         $camp = Camp::find($camp_id);
         $org_tg = CampOrg::find($org_id);   //找到要被修改的org
-        $sec_tg = $org_tg->section;     //修改前大組名稱
-        $is_root = ($formData['position'] == 'root')? true:false;    //是否修改大組名稱
+        $pos_tg = $org_tg->position;        //修改前職務名稱
+        //$sec_tg = $org_tg->section;     //修改前大組名稱
+        //$is_root = ($formData['position'] == 'root')? true:false;    //是否修改大組名稱
 
-        if ($is_root) {
+        /*if ($is_root) {
             $orgs = $camp->organizations;   //找到所有orgs
             foreach ($orgs as $org) {
                 if ($org->section == $sec_tg) { //如果大組名稱=要被修改的大組名稱
@@ -484,14 +485,22 @@ class AdminController extends BackendController {
                     $org->update($formData);
                 }
             }
-        } else {
+        } else {*/
             $totalPermissions = $this->backendService->permissionTableProcessor($request, $org_tg->id, $camp);
             if (!is_array($totalPermissions)) {
                 return $totalPermissions;
             }
             $org_tg->update($formData);     //修改職務only
             $org_tg->syncPermissions($totalPermissions);
-        }
+            //如果修改position名稱, 底下children都需更新
+            if ($org_tg->position != $pos_tg) {
+                $orgs = $camp->organizations;
+                $this->campOrgService->updateSectionChildren($orgs, $org_tg);
+                foreach ($orgs as $org) {
+                    $org->save();
+                }        
+            }     
+        //}
         \Session::flash('message', $camp->abbreviation . " 組織職務：" . $org_tg->batch?->name . $org_tg->section . "-" . $org_tg->position . " 修改成功。");
         return redirect()->route("showOrgs", $camp_id);
     }
