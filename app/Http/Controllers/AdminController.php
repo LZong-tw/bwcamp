@@ -492,6 +492,7 @@ class AdminController extends BackendController {
             }
             $org_tg->update($formData);     //修改職務only
             $org_tg->syncPermissions($totalPermissions);
+            $org_tg->save();
             //如果修改position名稱, 底下children都需更新
             if ($org_tg->position != $pos_tg) {
                 $orgs = $camp->organizations;
@@ -550,12 +551,26 @@ class AdminController extends BackendController {
     }
 
     public function removeOrg(Request $request){
+        //=====>目前只允許is_node=0可被刪
         //刪除大組：找到（同camp_id）&（同section）的全刪掉
-        if ($request->org_position == 'root') {
-            $result = \App\Models\CampOrg::where('camp_id', $request->camp_id)->where('section', $request->org_section)->delete();
-        } else {    //刪除職務：刪除此org_id就好
-            $result = \App\Models\CampOrg::find($request->org_id)?->delete();
-        }
+        //if ($request->org_position == 'root') {
+        //    $result = \App\Models\CampOrg::where('camp_id', $request->camp_id)->where('section', $request->org_section)->delete();
+        //} else {    //刪除職務：刪除此org_id就好
+            //$result = \App\Models\CampOrg::find($request->org_id)?->delete();
+            $org_tg = CampOrg::find($request->org_id);
+            $parent_id = $org_tg->prev_id;  //先記錄下來
+            $result = $org_tg->delete();
+
+            if ($result) {
+                //檢查parent是否還有children
+                $org_siblings = CampOrg::where('prev_id',$parent_id);
+                if ($org_siblings->count()==0) {
+                    $org_parent = CampOrg::find($parent_id);
+                    $org_parent->is_node = 0;
+                    $result = $org_parent->save();
+                }
+            }
+        //}
         if($result){
             \Session::flash('message', "職務刪除成功。");
             return back();
