@@ -2788,7 +2788,7 @@ class BackendController extends Controller
                 }
             }
             $request->session()->flash('messages', $messages);
-            return redirect()->route("showVolunteers", [$request->camp_id, 'isSetting' => 1, 'batch_id' => $request->group_id]);
+            return redirect()->route("showVolunteers", [$request->camp_id, 'isSetting' => 1]);
         }
     }
 
