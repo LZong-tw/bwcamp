@@ -554,7 +554,7 @@ class StatController extends BackendController
         $applicants = Applicant::select(\DB::raw($table.'.way as way, count(*) as total'))
         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
-        ->join($table., $table.'.applicant_id', '=', 'applicants.id')
+        ->join($table, $table.'.applicant_id', '=', 'applicants.id')
         ->where('camps.id', $this->campFullData->id)
         ->whereNull('$applicants.deleted_at')
         ->groupBy('ycamp.way')->get();
