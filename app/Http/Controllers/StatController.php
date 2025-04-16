@@ -16,7 +16,7 @@ class StatController extends BackendController
         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
         ->where('camps.id', $this->campFullData->id)
-        ->whereNull('$applicants.deleted_at')
+        ->whereNull('applicants.deleted_at')
         ->groupBy('agerange')->orderBy('agerange')->get();
         $rows = count($applicants);
         $array = $applicants->toArray();
@@ -49,7 +49,7 @@ class StatController extends BackendController
         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
         ->where('camps.id', $this->campFullData->id)
-        ->whereNull('$applicants.deleted_at')
+        ->whereNull('applicants.deleted_at')
         ->groupBy('date')->withTrashed()->get();
         $rows = count($applicants);
         $array = $applicants->toArray();
@@ -87,7 +87,7 @@ class StatController extends BackendController
         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
         ->join('ecamp', 'ecamp.applicant_id', '=', 'applicants.id')
         ->where('camps.id', $this->campFullData->id)
-        ->whereNull('$applicants.deleted_at')
+        ->whereNull('applicants.deleted_at')
         ->groupBy('event')->get();        
         $rows = count($applicants);
         $array = $applicants->toArray();
@@ -153,7 +153,7 @@ class StatController extends BackendController
         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
         ->where('camps.id', $this->campFullData->id)
-        ->whereNull('$applicants.deleted_at')
+        ->whereNull('applicants.deleted_at')
         ->groupBy('applicants.gender')->get();
         $rows = count($applicants);
         foreach($applicants as $applicant){
@@ -189,7 +189,7 @@ class StatController extends BackendController
             ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
             ->join('camps', 'camps.id', '=', 'batchs.camp_id')
             ->where('camps.id', $this->campFullData->id)
-            ->whereNull('$applicants.deleted_at')
+            ->whereNull('applicants.deleted_at')
             ->groupBy('county')->get();
         } else {
             $applicants = Applicant::select(\DB::raw('SUBSTRING(applicants.address, 1, 3) as county, count(*) as total'))
@@ -197,7 +197,7 @@ class StatController extends BackendController
             ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
             ->join('camps', 'camps.id', '=', 'batchs.camp_id')
             ->where('camps.id', $this->campFullData->id)
-            ->whereNull('$applicants.deleted_at')
+            ->whereNull('applicants.deleted_at')
             ->groupBy('county')->get();
         }
         $rows = count($applicants);
@@ -230,7 +230,7 @@ class StatController extends BackendController
         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
         ->where('camps.id', $this->campFullData->id)
-        ->whereNull('$applicants.deleted_at')
+        ->whereNull('applicants.deleted_at')
         ->groupBy('birthyear')->get();
         $rows = count($applicants);
         $array = $applicants->toArray();
@@ -261,7 +261,7 @@ class StatController extends BackendController
         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
         ->where('camps.id', $this->campFullData->id)
-        ->whereNull('$applicants.deleted_at')
+        ->whereNull('applicants.deleted_at')
         ->groupBy('batchs.name')->get();
         $rows = count($applicants);
         $array = $applicants->toArray();
@@ -294,7 +294,7 @@ class StatController extends BackendController
         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
         ->where('camps.id', $this->campFullData->id)
-        ->whereNull('$applicants.deleted_at')
+        ->whereNull('applicants.deleted_at')
         ->groupBy('applicants.region')->get();
         $rows = count($applicants);
         foreach($applicants as $applicant){
@@ -460,7 +460,7 @@ class StatController extends BackendController
         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
         ->join($this->campFullData->table, $this->campFullData->table . '.applicant_id', '=', 'applicants.id')
         ->where('camps.id', $this->campFullData->id)
-        ->whereNull('$applicants.deleted_at')
+        ->whereNull('applicants.deleted_at')
         ->groupBy('education')->get();
         $rows = count($applicants);
         $array = $applicants->toArray();
@@ -556,7 +556,7 @@ class StatController extends BackendController
         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
         ->join($table, $table.'.applicant_id', '=', 'applicants.id')
         ->where('camps.id', $this->campFullData->id)
-        ->whereNull('$applicants.deleted_at')
+        ->whereNull('applicants.deleted_at')
         ->groupBy('ycamp.way')->get();
         $rows = count($applicants);
         $array = $applicants->toArray();
@@ -591,7 +591,7 @@ class StatController extends BackendController
         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
         ->join($table, $table.'.applicant_id', '=', 'applicants.id')
         ->where('camps.id', $this->campFullData->id)
-        ->whereNull('$applicants.deleted_at')
+        ->whereNull('applicants.deleted_at')
         ->groupBy($table.'.industry')->get();
 
         $rows = count($applicants);
