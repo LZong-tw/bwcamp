@@ -1680,15 +1680,10 @@ return [
                 "sort" => 1,
                 "for_query" => 1,
             ],
-            "unit" => [
-                "name" => "服務單位",
+            "position" => [
+                "name" => "職務",
                 "sort" => 1,
-                "for_query" => 1,
-            ],
-            "title" => [
-                "name" => "職稱",
-                "sort" => 0,
-                "for_query" => 1,
+                "for_query" => 0,
             ],
             "mobile" => [
                 "name" => "手機",
