@@ -1680,6 +1680,11 @@ return [
                 "sort" => 1,
                 "for_query" => 1,
             ],
+            "roles" => [
+                "name" => "職務組別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
             "position" => [
                 "name" => "職務",
                 "sort" => 1,
