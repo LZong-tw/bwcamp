@@ -255,7 +255,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
                         continue;
                     }
                 } elseif($key == "role_section") {
-                    if ($this->allData || $this->user->canAccessResource(new CampOrg, 'read', $this->camp, target: $applicant)) {
+                    if ($this->allData || $this->user->canAccessResource(new CampOrg, 'read', $this->camp, context: str_contains($this->camp->table, "vcamp") ? "vcampExport" : null, target: $applicant)) {
                         $roles = "";
                         $aRoles = $applicant->user?->roles()->where('camp_id', $applicant->vcamp->mainCamp->id)->get() ?? [];
                         foreach ($aRoles as $k => $role) {
@@ -270,7 +270,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
                         continue;
                     }
                 } elseif($key == "role_position") {
-                    if ($this->allData || $this->user->canAccessResource(new CampOrg, 'read', $this->camp, target: $applicant)) {
+                    if ($this->allData || $this->user->canAccessResource(new CampOrg, 'read', $this->camp, context: str_contains($this->camp->table, "vcamp") ? "vcampExport" : null, target: $applicant)) {
                         $roles = "";
                         $aRoles = $applicant->user?->roles()->where('camp_id', $applicant->vcamp->mainCamp->id)->get() ?? [];
                         foreach ($aRoles as $k => $role) {
