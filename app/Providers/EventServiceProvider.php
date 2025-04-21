@@ -6,6 +6,8 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use App\Models\Batch;
+use App\Observers\BatchObserver;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -20,6 +22,12 @@ class EventServiceProvider extends ServiceProvider
         // ],
         'Illuminate\Auth\Events\Login' => [
             'App\Listeners\LogSuccessfulLogin',
+        ],
+    ];
+
+    protected $observers = [
+        Batch::class => [
+            BatchObserver::class,
         ],
     ];
 
