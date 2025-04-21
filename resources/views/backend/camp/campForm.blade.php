@@ -105,7 +105,7 @@
                 <input type="text" name="icon" id="" class='form-control' value="{{ $camp->icon ?? "" }}">
             </div>
         </div>
-        @if($vcamps ?? false && !str_contains($camp->table, 'vcamp'))
+        @if(isset($vcamps) && !str_contains($camp->table, 'vcamp'))
             <div class='row form-group'>
                 <label for='inputName' class='col-md-2 control-label'>關聯之義工營</label>
                 <div class='col-md-6'>
