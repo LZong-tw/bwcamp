@@ -1590,7 +1590,11 @@ return [
                 "sort" => 1,
                 "for_query" => 1,
             ],
-
+            "admitted_at" => [
+                "name" => "錄取日期",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
             "group" => [
                 "name" => "組別",
                 "sort" => 1,

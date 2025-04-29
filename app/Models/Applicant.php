@@ -16,7 +16,7 @@ class Applicant extends Model {
     //
     protected $fillable = [
         'batch_id', 'name', 'english_name', 'region', 'region_id', 'avatar','gender',
-        'group_id', 'number_id', 'is_admitted', 'is_paid', 'is_attend',
+        'group_id', 'number_id', 'is_admitted', 'admitted_at', 'is_paid', 'is_attend',
         'birthyear', 'birthmonth', 'birthday', 'age_range', 'nationality', 'idno',
         'is_foreigner', 'is_allow_notified', 'mobile', 'phone_home', 'phone_work',
         'fax', 'line', 'wechat', 'email', 'zipcode', 'address',

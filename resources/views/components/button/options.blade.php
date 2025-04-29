@@ -1,13 +1,24 @@
 <div>
     <!-- Always remember that you are absolutely unique. Just like everyone else. - Margaret Mead -->
     <p align="right">
-        @if(!str_contains($campFullData->table, 'ceo') ||
+        @if(str_contains($campFullData->table, 'ceo'))
+            @if(
              str_contains($currentUser->email, "cuboy.chen@gmail.com") ||
              str_contains($currentUser->email, "evelynhua@gmail.com") ||
              str_contains($currentUser->email, "jadetang01@gmail.com") ||
              str_contains($currentUser->email, "jadetang004@gmail.com") ||
              str_contains($currentUser->email, "tsai.scow@gmail.com") ||
              str_contains($currentUser->email, "0808leo.er@gmail.com"))
+            <a href="{{ route("export", $campFullData->id) }}?vcamp={{ $isShowVolunteers }}" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">匯出資料</a>
+            @endif
+        @elseif(str_contains($campFullData->table, 'utcamp'))
+            @if(
+             str_contains($currentUser->email, "dlcheng@gmail.com") ||
+             str_contains($currentUser->email, "bluestar.white.723@gmail.com") ||
+             str_contains($currentUser->email, "mengichiu@gmail.com"))
+            <a href="{{ route("export", $campFullData->id) }}?vcamp={{ $isShowVolunteers }}" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">匯出資料</a>
+            @endif
+        @else
             <a href="{{ route("export", $campFullData->id) }}?vcamp={{ $isShowVolunteers }}" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">匯出資料</a>
         @endif
         @if($isShowLearners)            &nbsp;&nbsp;
