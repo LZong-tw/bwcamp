@@ -1611,6 +1611,11 @@ return [
                 "sort" => 1,
                 "for_query" => 1,
             ],
+            "avatar" => [
+                "name" => "照片",
+                "sort" => 0,
+                "for_query" => 0,
+            ],
             "unit" => [
                 "name" => "服務單位名稱/校名",
                 "sort" => 1,
