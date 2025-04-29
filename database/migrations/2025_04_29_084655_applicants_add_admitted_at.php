@@ -13,8 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('ycamp', function (Blueprint $table) {
+        Schema::table('applicants', function (Blueprint $table) {
             //
+            $table->timestamp('admitted_at')->nullable()->after('is_admitted');  //錄取時間
         });
     }
 
@@ -25,8 +26,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('ycamp', function (Blueprint $table) {
+        Schema::table('applicants', function (Blueprint $table) {
             //
+            $table->dropColumn('admitted_at');
         });
     }
 };

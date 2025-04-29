@@ -45,7 +45,7 @@
         <div class="row">
             <div class="col-md-3">
                 @if($applicant->avatar)
-                <img src="{{ url("/backend/" . $applicant->camp->id . "/avatar/" . $applicant->id) }}" width=80>
+                <img src="{{ url("/backend/" . $applicant->camp->id . "/avatar/" . $applicant->id) }}" width=160>
                 @else
                 no photo
                 @endif
