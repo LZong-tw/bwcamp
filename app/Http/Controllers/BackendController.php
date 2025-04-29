@@ -1550,6 +1550,9 @@ class BackendController extends Controller
                 }
                 $files = [];
                 if($file1 ?? false) {
+                    if ($this->campFullData->table == 'utcamp') {
+                        $path = 'avatars/';
+                    }
                     $disk->put($path, $file1);
                     $image = Image::make(storage_path($path . $name1))->resize(800, null, function ($constraint) {
                         $constraint->aspectRatio();
@@ -1567,7 +1570,11 @@ class BackendController extends Controller
                 }
                 if($applicant && count($files) > 0) {
                     $a = Applicant::find($applicant->applicant_id);
-                    $a->files = json_encode($files);
+                    if ($this->campFullData->table == 'utcamp') {
+                        $a->avatar = $files[0];
+                    } else {
+                        $a->files = json_encode($files);
+                    }
                     $a->save();
                     $a->refresh();
                     $applicant = $this->applicantService->fetchApplicantData(

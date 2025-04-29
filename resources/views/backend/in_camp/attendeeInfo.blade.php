@@ -45,7 +45,7 @@
         <div class="row">
             <div class="col-md-3">
                 @if($applicant->avatar)
-                <img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($applicant->avatar)) }}" width=80 alt="{{ $applicant->name }}">
+                <img src="{{ url("/backend/" . $applicant->camp->id . "/avatar/" . $applicant->id) }}" width=80>
                 @else
                 no photo
                 @endif
@@ -151,7 +151,21 @@
 {{--        @endif--}}
 {{--    </div>--}}
 {{--    <br>--}}
-
+    @if($applicant->camp->table == "utcamp")
+    <div class="container alert alert-primary">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="POST" class="" name="filesForm" enctype="multipart/form-data">
+                    @csrf
+                    <h5>上傳學員照片</h5>
+                    <input type="file" name="file1" id="">
+                    <input type="button" class="btn btn-success" value="上傳" onclick="document.filesForm.submit()">
+                    <button type="reset" class="btn btn-danger">重設</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    @endif
     <div class="container">
         <div class="row">
             <div class="col-md-4">
