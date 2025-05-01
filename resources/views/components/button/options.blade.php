@@ -2,17 +2,18 @@
     <!-- Always remember that you are absolutely unique. Just like everyone else. - Margaret Mead -->
     <p align="right">
         @php
-            $ceoEmails = config('permissions.ceo_emails', []);
-            $ecampEmails = config('permissions.ecamp_emails', []);
+            $ceoEmails = config('special_permissions.ceo_emails', []);
+            $ecampEmails = config('special_permissions.ecamp_emails', []);
+            $utcampEmails = config('special_permissions.utcamp_emails', []);
 
             $showExportButton = false;
             $tableContent = $campFullData->table;
             $userEmail = $currentUser->email;
             $isCeocamp = str_contains($tableContent, 'ceo');
             $isEcamp = str_contains($tableContent, 'ecamp');
+            $isUtcamp = str_contains($tableContent, 'utcamp');
 
-            if (!$isCeocamp && !$isEcamp) {
-                // 如果 tableContent 不包含 'ceo' 也不包含 'ecamp'，則顯示按鈕
+            if (!$isCeocamp && !$isEcamp && !$isUtcamp) {
                 $showExportButton = true;
             } else {
                 // 否則，根據 email 判斷
@@ -20,20 +21,12 @@
                     $showExportButton = true;
                 } elseif ($isEcamp && in_array($userEmail, $ecampEmails)) {
                     $showExportButton = true;
+                } elseif ($isUtcamp && in_array($userEmail, $utcampEmails)) {
+                    $showExportButton = true;
                 }
             }
         @endphp
         @if($showExportButton)
-            <a href="{{ route("export", $campFullData->id) }}?vcamp={{ $isShowVolunteers }}" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">匯出資料</a>
-            @endif
-        @elseif(str_contains($campFullData->table, 'utcamp'))
-            @if(
-             str_contains($currentUser->email, "dlcheng@gmail.com") ||
-             str_contains($currentUser->email, "bluestar.white.723@gmail.com") ||
-             str_contains($currentUser->email, "mengichiu@gmail.com"))
-            <a href="{{ route("export", $campFullData->id) }}?vcamp={{ $isShowVolunteers }}" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">匯出資料</a>
-            @endif
-        @else
             <a href="{{ route("export", $campFullData->id) }}?vcamp={{ $isShowVolunteers }}" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">匯出資料</a>
         @endif
         @if($isShowLearners)            &nbsp;&nbsp;
