@@ -52,7 +52,7 @@
                 </select>
 
                 <!-- Carer 選單 -->
-                <select id="carer_select">
+                <select id="carer_select" name="attendee_care">
                     <option value="">- 選擇關懷員 -</option>
                     @foreach($carers as $carer)
                         @foreach($carer->groupOrgRelation as $relation)
