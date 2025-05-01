@@ -1,14 +1,29 @@
 <div>
     <!-- Always remember that you are absolutely unique. Just like everyone else. - Margaret Mead -->
     <p align="right">
-        @if(str_contains($campFullData->table, 'ceo'))
-            @if(
-             str_contains($currentUser->email, "cuboy.chen@gmail.com") ||
-             str_contains($currentUser->email, "evelynhua@gmail.com") ||
-             str_contains($currentUser->email, "jadetang01@gmail.com") ||
-             str_contains($currentUser->email, "jadetang004@gmail.com") ||
-             str_contains($currentUser->email, "tsai.scow@gmail.com") ||
-             str_contains($currentUser->email, "0808leo.er@gmail.com"))
+        @php
+            $ceoEmails = config('permissions.ceo_emails', []);
+            $ecampEmails = config('permissions.ecamp_emails', []);
+
+            $showExportButton = false;
+            $tableContent = $campFullData->table;
+            $userEmail = $currentUser->email;
+            $isCeocamp = str_contains($tableContent, 'ceo');
+            $isEcamp = str_contains($tableContent, 'ecamp');
+
+            if (!$isCeocamp && !$isEcamp) {
+                // 如果 tableContent 不包含 'ceo' 也不包含 'ecamp'，則顯示按鈕
+                $showExportButton = true;
+            } else {
+                // 否則，根據 email 判斷
+                if ($isCeocamp && in_array($userEmail, $ceoEmails)) {
+                    $showExportButton = true;
+                } elseif ($isEcamp && in_array($userEmail, $ecampEmails)) {
+                    $showExportButton = true;
+                }
+            }
+        @endphp
+        @if($showExportButton)
             <a href="{{ route("export", $campFullData->id) }}?vcamp={{ $isShowVolunteers }}" target="_blank" rel="noopener noreferrer" class="btn btn-danger mb-3">匯出資料</a>
             @endif
         @elseif(str_contains($campFullData->table, 'utcamp'))
