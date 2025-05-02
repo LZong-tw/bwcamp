@@ -251,17 +251,31 @@ class CampController extends Controller
                 );
             }
             if ($request->required_name || $request->required_filename) {
-                \Sentry::captureMessage('異常報名資料', [
-                    'extra' => [
-                        'ip' => $request->ip(),
-                        'user_agent' => $request->header('User-Agent'),
-                    ]
-                ]);
+                \Sentry::captureMessage(
+                    '異常報名資料',
+                    null,
+                    function (\Sentry\State\Scope $scope) use ($request): void {
+                        $scope->setExtras([
+                            'ip' => $request->ip(),
+                            'user_agent' => $request->header('User-Agent'),
+                        ]);
+                    }
+                );
                 return response()->json([
                     'status' => 'success'
                 ])->setStatusCode(200);
             }
             else {
+                \Sentry::captureMessage(
+                    'Registration from camp ID: ' . $this->camp_data->id,
+                    null,
+                    function (\Sentry\State\Scope $scope) use ($request): void {
+                        $scope->setExtras([
+                            'ip' => $request->ip(),
+                            'user_agent' => $request->header('User-Agent'),
+                        ]);
+                    }
+                );
                 $request = $this->campDataService->checkBoxToArray($request);
                 $formData = $request->toArray();
                 $formData['batch_id'] = isset($formData["set_batch_id"]) ? $formData["set_batch_id"] : $this->batch_id;
