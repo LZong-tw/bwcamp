@@ -43,6 +43,7 @@ class SendAdmittedMail implements ShouldQueue, ShouldBeUnique
         ini_set('memory_limit', -1);
         $applicant = $this->applicant;
         $applicant = $applicantService->checkIfPaidEarlyBird($applicant);
+        $applicant->admitted_at = \Carbon\Carbon::now();    //MCH
         $applicant->save();
         // 動態載入電子郵件設定
         $this->setEmail($applicant->batch->camp->table, $applicant->batch->camp->variant);
@@ -53,8 +54,6 @@ class SendAdmittedMail implements ShouldQueue, ShouldBeUnique
             $paymentFile = \PDF::loadView('camps.' . $applicant->batch->camp->table . '.paymentFormPDF', compact('applicant'))->setPaper('a3')->output();
             \Mail::to($applicant->email)->send(new \App\Mail\AdmittedMail($applicant, $applicant->batch->camp, $paymentFile));
         }
-        //$applicant->admitted_at = \Carbon\Carbon::now();
-        //$applicant->save();
         \logger('SendAdmittedMail, Applicant: ' . $applicant->id . ' Email: ' . $applicant->email . '   success');
     }
 
