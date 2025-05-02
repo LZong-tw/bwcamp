@@ -969,7 +969,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             請檢查是否有未填寫或格式錯誤的欄位。
         </div>
     </div>
-    <input type=hidden name='required'>
+    <input type=hidden name='required_name'>
     <input class='d-none' name='required_filename'>
     <!--- 確認送出 -->
     <div class='row form-group'>

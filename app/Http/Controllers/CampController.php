@@ -250,7 +250,7 @@ class CampController extends Controller
                     'applicant' => $applicant]
                 );
             }
-            if ($request->required || $request->required_filename) {
+            if ($request->required_name || $request->required_filename) {
                 return response()->json([
                     'status' => 'success'
                 ])->setStatusCode(200);
