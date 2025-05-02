@@ -528,7 +528,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </label>
             <label class=radio-inline>
                 <input type=radio required name="is_inperson" id="is_inperson_n" value="0" onclick='showAgent(this)'> 否
-                <div class="invalid-feedback"> 
+                <div class="invalid-feedback">
                     &nbsp;
                 </div>
             </label>
@@ -969,7 +969,8 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             請檢查是否有未填寫或格式錯誤的欄位。
         </div>
     </div>
-
+    <input type=hidden name='required'>
+    <input class='d-none' name='required_filename'>
     <!--- 確認送出 -->
     <div class='row form-group'>
         <div class='col-md-2'></div>
@@ -1002,7 +1003,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             onConfirm: function() {
                 //console.log($('.motivation').filter(':checked').length);
                 //console.log($('.blisswisdom_type').filter(':checked').length);
-                
+
                 //clear introducer if has_introducer = 0
                 ck1 = $("#has_introducer_n").is(':checked');
                 ck2 = $("#is_inperson_y").is(':checked');
@@ -1156,13 +1157,13 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             if(radio_ele.value==1) {
                 // 有介紹人
                 tg = document.getElementsByClassName('introducer_sec');
-                tg[0].style.display = ''; 
+                tg[0].style.display = '';
                 setIntroducerReq(true);
             }
             else {
                 // 無介紹人
                 tg = document.getElementsByClassName('introducer_sec');
-                tg[0].style.display = 'none'; 
+                tg[0].style.display = 'none';
                 setIntroducerReq(false);
             }
         }
@@ -1184,13 +1185,13 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             if(radio_ele.value==0) {
                 // 非本人自填
                 tg = document.getElementsByClassName('agent_sec');
-                tg[0].style.display = ''; 
+                tg[0].style.display = '';
                 setAgentReq(true);
             }
             else {
                 // 本人自填
                 tg = document.getElementsByClassName('agent_sec');
-                tg[0].style.display = 'none'; 
+                tg[0].style.display = 'none';
                 setAgentReq(false);
             }
         }
@@ -1207,13 +1208,13 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         };
         function updateSubarea(ele,address_type = null) {
             //console.log(ele);
-            if(!address_type) 
+            if(!address_type)
                 address_type = '';
             else
                 address_type = address_type + '_';
-                
+
             document.Camp[address_type + 'zipcode'].value=ele.options[ele.options.selectedIndex].value;
-            document.Camp[address_type + 'subarea_text'].value=ele.options[ele.options.selectedIndex].text; 
+            document.Camp[address_type + 'subarea_text'].value=ele.options[ele.options.selectedIndex].text;
             document.Camp[address_type + 'address'].value = MyAddress(document.Camp[address_type + 'county'].value, ele.options[ele.options.selectedIndex].text);
             return;
         }
@@ -1350,20 +1351,20 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     if (applicant_data['introducer_name'] == null) {
                         for (j=0; j<tg.length;j++) {
                             if (tg[j].value == 0) tg[j].checked = 1;
-                        } 
+                        }
                     } else {
                         for (j=0; j<tg.length;j++) {
                             if (tg[j].value == 1) tg[j].checked = 1;
-                        } 
+                        }
                         tg = document.getElementsByClassName('introducer_sec');
-                        tg[0].style.display = ''; 
+                        tg[0].style.display = '';
                         setIntroducerReq(true);
                     }
                     //先處理要不要開agent_sec
                     console.log(applicant_data['is_inperson']);
                     if (applicant_data['is_inperson'] == 0) {
                         tg = document.getElementsByClassName('agent_sec');
-                        tg[0].style.display = ''; 
+                        tg[0].style.display = '';
                         setAgentReq(true);
                     }
 
@@ -1372,24 +1373,24 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     let textareas = document.getElementsByTagName('textarea');
                     let complementPivot = 0;
                     let complementData = applicant_data["blisswisdom_type_complement"] ? applicant_data["blisswisdom_type_complement"].split("||/") : null;
-                    
+
                     for (var i = 0; i < selects.length; i++){
                         //console.log(selects[i].name);
 
                         if(typeof applicant_data[selects[i].name] !== "undefined"){
 
                             //先有county才能有正確subarea,所以跳過
-                            if (selects[i].name == 'class_subarea' 
-                                || selects[i].name == 'subarea' 
+                            if (selects[i].name == 'class_subarea'
+                                || selects[i].name == 'subarea'
                                 || selects[i].name == 'unit_subarea'){
                                 continue;
                             }
 
                             selects[i].value = applicant_data[selects[i].name];
-                            
+
                             if (selects[i].name == 'class_county'){
                                 Address(applicant_data[selects[i].name], 'class');
-                                
+
                                 /*if (applicant_data[selects[i].name].includes('海外')) {
                                     document.getElementsByName('class_address')[0].value = applicant_data["class_county"] + applicant_data["class_subarea"];
                                     continue;
@@ -1414,7 +1415,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                                 //update address, zipcode, etc.
                                 updateSubarea(selectElement,'class');
                             }
-                                                        
+
                             if (selects[i].name == 'county'){
                                 Address(applicant_data[selects[i].name]);
                                 /*if (applicant_data[selects[i].name].includes('海外')) {
@@ -1467,7 +1468,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                                 updateSubarea(selectElement,'unit');
                             }
 
-                            
+
 
                             if (selects[i].name == 'transportation') {
                                 var selectElement = document.getElementsByName("transportation")[0];
@@ -1620,11 +1621,11 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 
                     @if(!$isModify)
                         for (var i = 0; i < inputs.length; i++){
-                            if(typeof applicant_data[inputs[i].name] !== "undefined" 
-                            || inputs[i].type == "checkbox" 
-                            || inputs[i].name == 'has_introducer' 
-                            || inputs[i].name == 'emailConfirm' 
-                            || inputs[i].name == "blisswisdom_type[]" 
+                            if(typeof applicant_data[inputs[i].name] !== "undefined"
+                            || inputs[i].type == "checkbox"
+                            || inputs[i].name == 'has_introducer'
+                            || inputs[i].name == 'emailConfirm'
+                            || inputs[i].name == "blisswisdom_type[]"
                             || inputs[i].name == "blisswisdom_type_complement[]"){
                                 inputs[i].disabled = true;
                             }
