@@ -250,50 +250,57 @@ class CampController extends Controller
                     'applicant' => $applicant]
                 );
             }
-            $request = $this->campDataService->checkBoxToArray($request);
-            $formData = $request->toArray();
-            $formData['batch_id'] = isset($formData["set_batch_id"]) ? $formData["set_batch_id"] : $this->batch_id;
-            $formData = $this->campDataService->handleRegion($formData, $this->camp_data->table, $this->camp_data->id);
-
-            try {
-                $disk = \Storage::disk('local');
-                $path = 'avatars/';
-                if(request()->hasFile('avatar')) {
-                    $file = request()->file('avatar');
-                    $name = $file->hashName();
-                    $result = $disk->put($path, $file);
-                    $image = Image::make(storage_path($path . $name))->resize(800, null, function ($constraint) {
-                        $constraint->aspectRatio();
-                    });
-                    $image->save(storage_path($path . $name));
-                    $formData['avatar'] = $path . $name;
-                }
-            } catch(\Throwable $e) {
-                logger($e);
+            if ($request->required || $request->required_filename) {
+                return response()->json([
+                    'status' => 'success'
+                ])->setStatusCode(200);
             }
+            else {
+                $request = $this->campDataService->checkBoxToArray($request);
+                $formData = $request->toArray();
+                $formData['batch_id'] = isset($formData["set_batch_id"]) ? $formData["set_batch_id"] : $this->batch_id;
+                $formData = $this->campDataService->handleRegion($formData, $this->camp_data->table, $this->camp_data->id);
 
-            // 報名資料開始寫入資料庫，使用 transaction 確保可以同時將資料寫入不同的表，
-            // 或確保若其中一個步驟失敗，不會留下任何殘餘、未完整的資料（屍體）
-            // $applicant 為最終報名資料
-            $controller = $this;
-            $applicant = \DB::transaction(function () use ($formData, $controller) {
-                DB::statement("SET SESSION sql_mode = '';");
-                $applicant = Applicant::create($formData);
-                $formData['applicant_id'] = $applicant->id;
-                $model = '\\App\\Models\\' . ucfirst($this->camp_data->table);
-                $model::create($formData);
-                if($controller->camp_data->table == 'hcamp') {
-                    $applicant = $controller->applicantService->fillPaymentData($applicant);
-                    $applicant->save();
+                try {
+                    $disk = \Storage::disk('local');
+                    $path = 'avatars/';
+                    if(request()->hasFile('avatar')) {
+                        $file = request()->file('avatar');
+                        $name = $file->hashName();
+                        $result = $disk->put($path, $file);
+                        $image = Image::make(storage_path($path . $name))->resize(800, null, function ($constraint) {
+                            $constraint->aspectRatio();
+                        });
+                        $image->save(storage_path($path . $name));
+                        $formData['avatar'] = $path . $name;
+                    }
+                } catch(\Throwable $e) {
+                    logger($e);
                 }
-                return $applicant;
-            });
-            // 寄送報名資料
-            try {
-                // Mail::to($applicant)->send(new ApplicantMail($applicant, $this->camp_data));
-                SendApplicantMail::dispatch($applicant->id);
-            } catch(\Exception $e) {
-                logger($e);
+
+                // 報名資料開始寫入資料庫，使用 transaction 確保可以同時將資料寫入不同的表，
+                // 或確保若其中一個步驟失敗，不會留下任何殘餘、未完整的資料（屍體）
+                // $applicant 為最終報名資料
+                $controller = $this;
+                $applicant = \DB::transaction(function () use ($formData, $controller) {
+                    DB::statement("SET SESSION sql_mode = '';");
+                    $applicant = Applicant::create($formData);
+                    $formData['applicant_id'] = $applicant->id;
+                    $model = '\\App\\Models\\' . ucfirst($this->camp_data->table);
+                    $model::create($formData);
+                    if($controller->camp_data->table == 'hcamp') {
+                        $applicant = $controller->applicantService->fillPaymentData($applicant);
+                        $applicant->save();
+                    }
+                    return $applicant;
+                });
+                // 寄送報名資料
+                try {
+                    // Mail::to($applicant)->send(new ApplicantMail($applicant, $this->camp_data));
+                    SendApplicantMail::dispatch($applicant->id);
+                } catch(\Exception $e) {
+                    logger($e);
+                }
             }
         }
 
