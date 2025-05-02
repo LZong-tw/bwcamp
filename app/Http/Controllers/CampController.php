@@ -251,6 +251,12 @@ class CampController extends Controller
                 );
             }
             if ($request->required_name || $request->required_filename) {
+                \Sentry::captureMessage('異常報名資料', [
+                    'extra' => [
+                        'ip' => $request->ip(),
+                        'user_agent' => $request->header('User-Agent'),
+                    ]
+                ]);
                 return response()->json([
                     'status' => 'success'
                 ])->setStatusCode(200);
