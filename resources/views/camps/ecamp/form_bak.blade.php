@@ -249,59 +249,6 @@
             </div>
         </div>
     </div>
-<!--
-    <div class='row form-group required'>
-        <label for='inputLevel' class='col-md-2 control-label text-md-right'>位階</label>
-        <div class='col-md-10'>
-            <select required class='form-control' name='level' onChange=''>
-                <option value='' selected>- 請選擇 -</option>
-                <option value='負責人／大股東' >負責人／大股東</option>
-                <option value='高階管理幹部' >高階管理幹部</option>
-                <option value='中階經理人' >中階經理人</option>
-                <option value='基層幹部' >基層幹部</option>
-            </select>
-        </div>
-    </div>
-
-    <div class='row form-group required'>
-        <label for='inputJobProperty' class='col-md-2 control-label text-md-right'>工作屬性</label>
-        <div class='col-md-10'>
-            <select required class='form-control' name='job_property' onChange=''>
-                <option value='' selected>- 請選擇 -</option>
-                <option value='經營/人資' >經營/人資</option>
-                <option value='行政/總務' >行政/總務</option>
-                <option value='法務' >法務</option>
-                <option value='財會/金融' >財會/金融</option>
-                <option value='行銷/企劃' >行銷/企劃</option>
-                <option value='專案管理' >專案管理</option>
-                <option value='客服/門市' >客服/門市</option>
-                <option value='業務/貿易' >業務/貿易</option>
-                <option value='餐飲/旅遊/美容美髮' >餐飲/旅遊/美容美髮</option>
-                <option value='資訊軟體/研發' >資訊軟體/研發</option>
-                <option value='生產製造/品管/環衛' >生產製造/品管/環衛</option>
-                <option value='物流/運輸' >物流/運輸</option>
-                <option value='建築/營建' >建築/營建</option>
-                <option value='影視演藝/幕後製作' >影視演藝/幕後製作</option>
-                <option value='藝術創作/視覺設計' >藝術創作/視覺設計</option>
-                <option value='文字創作/傳媒工作' >文字創作/傳媒工作</option>
-                <option value='醫療/保健服務' >醫療/保健服務</option>
-                <option value='學術/教育輔導' >學術/教育輔導</option>
-                <option value='軍警消/保全' >軍警消/保全</option>
-                <option value='其它' >其它</option>
-            </select>
-        </div>
-    </div>
-
-    <div class='row form-group'>
-        <label for='inputExperience' class='col-md-2 control-label text-md-right'>經歷</label>
-        <div class='col-md-10'>
-            <textarea class='form-control' rows=2 name='experience' id=inputExperience></textarea>
-            {{-- <div class="invalid-feedback">
-                請填寫經歷
-            </div> --}}
-        </div>
-    </div>
--->
 
     <div class='row form-group required'>
     <label for='inputEmployees' class='col-md-2 control-label text-md-right'>公司員工人數</label>
@@ -612,43 +559,6 @@
     </div>
 
     <hr>
-<!--
-    <div class='row form-group required'>
-        <label for='inputFavoredEvent' class='col-md-2 control-label text-md-right'>請問您有興趣參加活動的類別？(可複選)</label>
-        <div class='col-md-10'>
-            <label><input type="checkbox" class="favored_event" name=favored_event[] value='企業參訪' > 企業參訪</label> <br/>
-            <label><input type="checkbox" class="favored_event" name=favored_event[] value='種樹活動' > 種樹活動</label> <br/>
-            <label><input type="checkbox" class="favored_event" name=favored_event[] value='環保淨灘' > 環保淨灘</label> <br/>
-            <label><input type="checkbox" class="favored_event" name=favored_event[] value='農場體驗' > 農場體驗</label> <br/>
-            <label><input type="checkbox" class="favored_event" name=favored_event[] value='禪修活動' > 禪修活動</label> <br/>
-            <label><input type="checkbox" class="favored_event" name=favored_event[] value='寺院參訪' > 寺院參訪</label> <br/>
-            <label><input type="checkbox" class="favored_event" name=favored_event[] value='儒學課程' > 儒學課程</label> <br/>
-            <label><input type="checkbox" class="favored_event" name=favored_event[] value='心靈講座' > 心靈講座</label> <br/>
-            <label><input type="checkbox" class="favored_event" name=favored_event[] value='藝文活動' > 藝文活動</label> <br/>
-            <label><input type="checkbox" class="favored_event" name=favored_event[] value='親子講座' > 親子講座</label> <br/>
-            <label><input type="checkbox" class="favored_event" name=favored_event[] value='樂齡活動' > 樂齡活動</label> <br/>
-            <div class="invalid-feedback" id="favored_event-invalid">
-                請勾選有興趣參加活動的類別
-            </div>
-        </div>
-    </div>
-
-    <div class='row form-group required'>
-        <label for='inputAvailableDay' class='col-md-2 control-label text-md-right'>營隊結束後，若有後續課程開課，請問您比較方便參加的時段？(可複選)</label>
-        <div class='col-md-10'>
-            <label><input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='週一' > 週一</label> <br/>
-            <label><input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='週二' > 週二</label> <br/>
-            <label><input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='週三' > 週三</label> <br/>
-            <label><input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='週四' > 週四</label> <br/>
-            <label><input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='週五' > 週五</label> <br/>
-            <label><input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='週六' > 週六</label> <br/>
-            <label><input type="checkbox" class="after_camp_available_day" name=after_camp_available_day[] value='週日' > 週日</label> <br/>
-            <div class="invalid-feedback" id="after_camp_available_day-invalid">
-                請勾選方便參加後續課程的時段
-            </div>
-        </div>
-    </div>
--->
     <div class="row form-group text-danger tips d-none">
         <div class='col-md-2'></div>
         <div class='col-md-10'>
