@@ -493,6 +493,7 @@ return [
         "is_admitted" => "錄取",
         "is_attend" => "參加意願",
         "name" => "姓名",
+        "avatar" => "大頭照",
         "gender" => "性別",
         "birthyear" => "出生年",
         //"workshop_credit_type" => "研習時數類型",
