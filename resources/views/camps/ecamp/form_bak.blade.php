@@ -227,7 +227,7 @@
                 <option value='民生服務' >民生服務(水電天然氣供應 / 交通運輸／批發 / 零售 / 倉儲／住宿／餐飲)</option>
                 <option value='政府機關' >政府機關(公家機關／政府單位)</option>
                 <option value='非營利組織' >非營利組織(公益單位 / 非營利組織／社會服務)</option>
-                <option value='永續產業' >永續產業(再生能源／能源管理／永續發展／企業社會責任部門／環境工程)</option>                       
+                <option value='永續產業' >永續產業(再生能源／能源管理／永續發展／企業社會責任部門／環境工程)</option>
                 <option value='其它' >其它</option>
             </select>
         </div>
@@ -236,47 +236,7 @@
     <div class='row form-group required'>
         <label for='inputUnitLocation' class='col-md-2 control-label text-md-right'>服務單位<br>所在地</label>
         <div class='col-md-10'>
-            <select required class='form-control' name='unit_county' onChange='handleRegionChange(this)'>
-                <option value='' selected>- 請選擇 -</option>
-                <option value='' disabled>- 北區 -</option>
-                <option value='臺北市' >臺北市</option>
-                <option value='新北市' >新北市</option>
-                <option value='基隆市' >基隆市</option>
-                <option value='宜蘭縣' >宜蘭縣</option>
-                <option value='花蓮縣' >花蓮縣</option>
-                <option value='桃園市' >桃園市</option>
-                <option value='新竹市' >新竹市</option>
-                <option value='新竹縣' >新竹縣</option>
-                <option value='' disabled>- 中區 -</option>
-                <option value='苗栗縣' >苗栗縣</option>
-                <option value='臺中市' >臺中市</option>
-                <option value='彰化縣' >彰化縣</option>
-                <option value='南投縣' >南投縣</option>
-                <option value='雲林縣' >雲林縣</option>
-                <option value='嘉義市' >嘉義市</option>
-                <option value='嘉義縣' >嘉義縣</option>
-                <option value='' disabled>- 南區 -</option>
-                <option value='臺南市' >臺南市</option>
-                <option value='高雄市' >高雄市</option>
-                <option value='屏東縣' >屏東縣</option>
-                <option value='臺東縣' >臺東縣</option>
-                <option value='澎湖縣' >澎湖縣</option>
-                <option value='金門縣' >金門縣</option>
-                <option value='連江縣' >連江縣</option>
-                <option value='' disabled>- 其它 -</option>
-                <option value='上海地區' >上海地區</option>
-                <option value='港澳深圳' >港澳深圳</option>
-                <option value='南海諸島' >南海諸島</option>
-                <option value='星馬地區' >星馬地區</option>
-                <option value='其它海外' >其它海外</option>
-            </select>
-            <select  required class='form-control' name='unit_subarea' onChange='document.Camp.unit_location.value=MyAddress(document.Camp.unit_county.value, this.options[this.options.selectedIndex].text);' id='inputUnitSubarea'>
-                <option value=''>- 再選區鄉鎮 -</option>
-            </select>
-            <input type='hidden' name='unit_zipcode' value=''>
-            <input type='hidden' name='unit_address' value=''>
-            <input type="hidden" name='unit_location' value='' id='inputUnitLocation'>
-            <input type="hidden" name='' value='' id='inputUnitSubarea2' disabled="true" type="text" class='form-control' placeholder="請輸入行政區或地區">
+            <input type=text required name='unit_location' value='' class='form-control' id='inputUnitLocation'>
         </div>
     </div>
 
