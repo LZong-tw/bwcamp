@@ -84,7 +84,7 @@
     let only_applicants = @json($applicants);
     @if($registeredVolunteers ?? false)
         @php
-            $theVcampTable = str_contains($camp->table, 'vcamp') ? $camp->table : $camp->vcamp->table;
+            $theVcampTable = str_contains($camp->table, 'vcamp') ? $camp->table : $camp->vcamp?->table;
         @endphp
         window.theVolunteersData = @json($registeredVolunteers);
         @php
