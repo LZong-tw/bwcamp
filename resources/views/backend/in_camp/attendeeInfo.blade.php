@@ -45,7 +45,7 @@
         <div class="row">
             <div class="col-md-3">
                 @if($applicant->avatar)
-                <img src="{{ url("/backend/" . $applicant->camp->id . "/avatar/" . $applicant->id) }}" width=160>
+                <img src="data:image/png;base64, {{ base64_encode(\Storage::disk('local')->get($applicant->avatar)) }}" width=80 alt="{{ $applicant->name }}">
                 @else
                 no photo
                 @endif
