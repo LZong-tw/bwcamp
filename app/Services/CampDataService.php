@@ -6,6 +6,7 @@ use App\Models\Batch;
 use Carbon\Carbon;
 use App;
 use App\Models\Region;
+use Illuminate\Support\Str;
 
 class CampDataService
 {
@@ -471,7 +472,7 @@ class CampDataService
                 "金門縣" => "台北",
                 "連江縣" => "台北",
                 "桃園市" => "桃園",
-                "桃園縣" => "桃園",
+                "桃園縣" => "桃園", // 保留舊縣名以防萬一
                 "新竹市" => "新竹",
                 "新竹縣" => "新竹",
                 "苗栗縣頭份鎮" => "新竹",
@@ -496,19 +497,61 @@ class CampDataService
                 "其它海外" => "中區"
             );
 
+            $pairKeys = array_keys($pairs);
+            // 將鍵按長度由長到短排序，確保優先配對更具體的地址
+            usort($pairKeys, fn($a, $b) => strlen($b) <=> strlen($a));
 
-            if (!(($formData["unit_county"] == "苗栗縣" && $formData["unit_subarea"] == "頭份鎮") ||
-                 ($formData["unit_county"] == "苗栗縣" && $formData["unit_subarea"] == "竹南鎮"))) {
-                $formData["region"] = $pairs[$formData["unit_county"]];
+            $determinedRegion = null;
+            $regionFound = false;
+
+            // 情況 1: unit_county 已設定
+            if (isset($formData["unit_county"]) && $formData["unit_county"] != "") {
+                // 優先處理苗栗縣頭份鎮/竹南鎮的特殊規則
+                if ($formData["unit_county"] == "苗栗縣" && isset($formData["unit_subarea"]) && ($formData["unit_subarea"] == "頭份鎮" || $formData["unit_subarea"] == "竹南鎮")) {
+                    $determinedRegion = "新竹";
+                    $regionFound = true;
+                } else {
+                    // 嘗試直接匹配 unit_county
+                    if (isset($pairs[$formData["unit_county"]])) {
+                         $determinedRegion = $pairs[$formData["unit_county"]];
+                         $regionFound = true;
+                    }
+                    // 如果直接匹配失敗，再嘗試用 unit_county 開頭匹配 (較少見，但作為備用)
+                    if (!$regionFound) {
+                        foreach ($pairKeys as $key) {
+                            if (Str::startsWith($formData["unit_county"], $key)) { // 使用 Str::startsWith
+                                $determinedRegion = $pairs[$key];
+                                $regionFound = true;
+                                break;
+                            }
+                        }
+                    }
+                }
             }
-            else {
-                $formData["region"] = "新竹";
+            // 情況 2: unit_county 未設定，嘗試使用 unit_location
+            else if (isset($formData["unit_location"]) && $formData["unit_location"] != "") {
+                foreach ($pairKeys as $key) {
+                    // 檢查 unit_location 是否以 key 開頭
+                    if (Str::startsWith($formData["unit_location"], $key)) { // 使用 Str::startsWith
+                        $determinedRegion = $pairs[$key];
+                        $regionFound = true;
+                        break; // 找到第一個（最長）配對
+                    }
+                }
             }
+
+            // 如果沒有找到任何配對，設定預設值
+            if (!$regionFound) {
+                $determinedRegion = "其他";
+            }
+
+            $formData["region"] = $determinedRegion;
         }
 
+        // 在所有營隊邏輯之後，統一處理 region_id
         if (isset($formData["region"]) && (!isset($formData["region_id"]) || $formData["region_id"] == '')) {
-            $region = Region::query()->where('name', $formData["region"])->first();
-            $formData["region_id"] = $region->id ?? null;
+            $regionModel = Region::query()->where('name', $formData["region"])->first(); // 使用 $regionModel 避免變數衝突
+            $formData["region_id"] = $regionModel->id ?? null; // 如果找不到對應的 Region，設為 null
         }
 
         return $formData;
