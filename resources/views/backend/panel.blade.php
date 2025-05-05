@@ -15,22 +15,13 @@
                                 ->orWhereNotNull("position");
                         })->get();
                     $userOnlyCarer = $onlyOneRole->count() == 1 && str_contains($onlyOneRole->first()->position, '關懷小組');
+                    // Pre-fetch vcamp counterpart if camp data exists
+                    $vcamp_counterpart = \App\Models\Vcamp::find($campFullData->id);
                 }
             @endphp
-            @if(isset($campFullData) && !$userOnlyCarer)
-                @php
-                    $vcamp_counterpart = \App\Models\Vcamp::find($campFullData->id);
-                @endphp
-                @if(!str_contains($campFullData->table, "vcamp") && $campFullData->vcamp)
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route("campIndex", $campFullData->vcamp->id) }}">義工資料統計及操作</a>
-                    </li>
-                @elseif($vcamp_counterpart->mainCamp)
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route("campIndex", $vcamp_counterpart->mainCamp->id) }}">回主營隊</a>
-                    </li>
-                @endif
-                @if(!str_contains($campFullData->table, "vcamp"))
+            @if(isset($campFullData))
+                @if($userOnlyCarer)
+                    {{-- If user is only a Carer, show only Learner List --}}
                     <li>
                         <a href="#integratedOperatingInterface" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">綜合操作介面</a>
                         <ul class="collapse list-unstyled show" id="integratedOperatingInterface">
@@ -41,227 +32,255 @@
                                     <a href="{{ route("showLearners", $campFullData->id) }}">學員名單</a>
                                 @endif
                             </li>
-                            <li>
-                                @if(str_contains($campFullData->table, "vcamp"))
-                                    <a href="{{ route("showVolunteers", $vcamp_counterpart->mainCamp->id) }}">義工名單</a>
-                                @else
-                                    <a href="{{ route("showVolunteers", $campFullData->id) }}">義工名單</a>
-                                @endif
-                            </li>
                         </ul>
                     </li>
-                @endif
-                <li>
-                    <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">統計資料</a>
-                    <ul class="collapse list-unstyled show" id="pageSubmenu3">
-                        <li>
-                            <a href="{{ route("appliedDateStat", $campFullData->id) }}">報名日期</a>
+                @else
+                    {{-- Existing logic for users who are not only Carers --}}
+                    @php
+                        // $vcamp_counterpart is already defined above
+                    @endphp
+                    @if(!str_contains($campFullData->table, "vcamp") && $campFullData->vcamp)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route("campIndex", $campFullData->vcamp->id) }}">義工資料統計及操作</a>
                         </li>
-                        <li>
-                            <a href="{{ route("genderStat", $campFullData->id) }}">性別比率</a>
+                    @elseif($vcamp_counterpart && $vcamp_counterpart->mainCamp)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route("campIndex", $vcamp_counterpart->mainCamp->id) }}">回主營隊</a>
                         </li>
+                    @endif
+                    @if(!str_contains($campFullData->table, "vcamp"))
                         <li>
-                            <a href="{{ route("countyStat", $campFullData->id) }}">區域縣市</a>
+                            <a href="#integratedOperatingInterface" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">綜合操作介面</a>
+                            <ul class="collapse list-unstyled show" id="integratedOperatingInterface">
+                                <li>
+                                    @if(str_contains($campFullData->table, "vcamp"))
+                                        <a href="{{ route("showLearners", $vcamp_counterpart->mainCamp->id) }}">學員名單</a>
+                                    @else
+                                        <a href="{{ route("showLearners", $campFullData->id) }}">學員名單</a>
+                                    @endif
+                                </li>
+                                <li>
+                                    @if(str_contains($campFullData->table, "vcamp"))
+                                        <a href="{{ route("showVolunteers", $vcamp_counterpart->mainCamp->id) }}">義工名單</a>
+                                    @else
+                                        <a href="{{ route("showVolunteers", $campFullData->id) }}">義工名單</a>
+                                    @endif
+                                </li>
+                            </ul>
                         </li>
-                        @if($campFullData->table == "ycamp")
-                        <li>
-                            <a href="{{ route("birthyearStat", $campFullData->id) }}">年次(歲)</a>
-                        </li>
-                        @else
-                        <li>
-                            <a href="{{ route("ageRangeStat", $campFullData->id) }}">年齡級距</a>
-                        </li>
-                        @endif
-                        @if($campFullData->table == "ycamp")
+                    @endif
+                    <li>
+                        <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">統計資料</a>
+                        <ul class="collapse list-unstyled show" id="pageSubmenu3">
                             <li>
-                                <a href="{{ route("wayStat", $campFullData->id) }}">管道統計</a>
-                            </li>
-                            <!--
-                            <li>
-                                <a href="#">國籍(開發中)</a>
-                            </li>
-                            -->
-                        @endif
-                        @if($campFullData->table == "ycamp" || $campFullData->table == "hcamp")
-                            <li>
-                                <a href="{{ route("educationStat", $campFullData->id) }}">就讀學程</a>
-                            </li>
-                        @endif
-                        <li>
-                            <a href="{{ route("batchesStat", $campFullData->id) }}">報名梯次</a>
-                        </li>
-                        <li>
-                            <a href="{{ route("admissionStat", $campFullData->id) }}">錄取統計</a>
-                        </li>
-                        <li>
-                            <a href="{{ route("checkinStat", $campFullData->id) }}">報到統計</a>
-                        </li>
-                        @if($campFullData->table == "ycamp")
-                            <li>
-                                <a href="{{ route("regionStat", $campFullData->id) }}">各區報名人數</a>
+                                <a href="{{ route("appliedDateStat", $campFullData->id) }}">報名日期</a>
                             </li>
                             <li>
-                                <a href="{{ route("bwclubschoolStat", $campFullData->id) }}">福青社學校統計</a>
-                            </li>
-                        @endif
-                        @if($campFullData->table == "acamp" ||$campFullData->table == "ceocamp" || $campFullData->table == "ecamp")
-                            <li>
-                                <a href="{{ route("industryStat", $campFullData->id) }}">產業別</a>
-                            </li>
-                        @endif
-                        @if($campFullData->table == "acamp" ||$campFullData->table == "ceocamp" || $campFullData->table == "ecamp")
-                            <li>
-                                <a href="{{ route("jobPropertyStat", $campFullData->id) }}">工作屬性</a>
-                            </li>
-                        @endif
-                        @if($campFullData->table == "ecamp")
-                            <li>
-                                <a href="{{ route("favoredEventStat", $campFullData->id) }}">有興趣活動</a>
-                            </li>
-                        @endif
-                        @if($campFullData->table == "tcamp")
-                            <li>
-                                <a href="{{ route("schoolOrCourseStat", $campFullData->id) }}">任教學程</a>
+                                <a href="{{ route("genderStat", $campFullData->id) }}">性別比率</a>
                             </li>
                             <li>
-                                ---開 發 中---
+                                <a href="{{ route("countyStat", $campFullData->id) }}">區域縣市</a>
+                            </li>
+                            @if($campFullData->table == "ycamp")
+                            <li>
+                                <a href="{{ route("birthyearStat", $campFullData->id) }}">年次(歲)</a>
+                            </li>
+                            @else
+                            <li>
+                                <a href="{{ route("ageRangeStat", $campFullData->id) }}">年齡級距</a>
+                            </li>
+                            @endif
+                            @if($campFullData->table == "ycamp")
+                                <li>
+                                    <a href="{{ route("wayStat", $campFullData->id) }}">管道統計</a>
+                                </li>
+                                <!--
+                                <li>
+                                    <a href="#">國籍(開發中)</a>
+                                </li>
+                                -->
+                            @endif
+                            @if($campFullData->table == "ycamp" || $campFullData->table == "hcamp")
+                                <li>
+                                    <a href="{{ route("educationStat", $campFullData->id) }}">就讀學程</a>
+                                </li>
+                            @endif
+                            <li>
+                                <a href="{{ route("batchesStat", $campFullData->id) }}">報名梯次</a>
                             </li>
                             <li>
-                                <a href="#">有無教師證</a>
+                                <a href="{{ route("admissionStat", $campFullData->id) }}">錄取統計</a>
                             </li>
                             <li>
-                                <a href="#">職稱</a>
+                                <a href="{{ route("checkinStat", $campFullData->id) }}">報到統計</a>
                             </li>
+                            @if($campFullData->table == "ycamp")
+                                <li>
+                                    <a href="{{ route("regionStat", $campFullData->id) }}">各區報名人數</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route("bwclubschoolStat", $campFullData->id) }}">福青社學校統計</a>
+                                </li>
+                            @endif
+                            @if($campFullData->table == "acamp" ||$campFullData->table == "ceocamp" || $campFullData->table == "ecamp")
+                                <li>
+                                    <a href="{{ route("industryStat", $campFullData->id) }}">產業別</a>
+                                </li>
+                            @endif
+                            @if($campFullData->table == "acamp" ||$campFullData->table == "ceocamp" || $campFullData->table == "ecamp")
+                                <li>
+                                    <a href="{{ route("jobPropertyStat", $campFullData->id) }}">工作屬性</a>
+                                </li>
+                            @endif
+                            @if($campFullData->table == "ecamp")
+                                <li>
+                                    <a href="{{ route("favoredEventStat", $campFullData->id) }}">有興趣活動</a>
+                                </li>
+                            @endif
+                            @if($campFullData->table == "tcamp")
+                                <li>
+                                    <a href="{{ route("schoolOrCourseStat", $campFullData->id) }}">任教學程</a>
+                                </li>
+                                <li>
+                                    ---開 發 中---
+                                </li>
+                                <li>
+                                    <a href="#">有無教師證</a>
+                                </li>
+                                <li>
+                                    <a href="#">職稱</a>
+                                </li>
+                                <li>
+                                    <a href="#">服務縣市</a>
+                                </li>
+                                <li>
+                                    <a href="#">參加意願</a>
+                                </li>
+                                <li>
+                                    ---開 發 中---
+                                </li>
+                            @endif
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">報名相關</a>
+                        <ul class="collapse list-unstyled show" id="pageSubmenu2">
                             <li>
-                                <a href="#">服務縣市</a>
+                                <a href="{{ route("showRegistration", $campFullData->id) }}">報名</a>
                             </li>
-                            <li>
-                                <a href="#">參加意願</a>
-                            </li>
-                            <li>
-                                ---開 發 中---
-                            </li>
-                        @endif
-                    </ul>
-                </li>
-                <li>
-                    <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">報名相關</a>
-                    <ul class="collapse list-unstyled show" id="pageSubmenu2">
-                        <li>
-                            <a href="{{ route("showRegistration", $campFullData->id) }}">報名</a>
-                        </li>
-                        @if ($campFullData->table == "ceocamp" || $campFullData->table == "ceovcamp")
-                            @if (auth()->user()->email == "cuboy.chen@gmail.com" ||
-                                auth()->user()->email == "evelynhua@gmail.com" ||
-                                auth()->user()->email == "jadetang01@gmail.com" ||
-                                auth()->user()->email == "jadetang004@gmail.com" ||
-                                auth()->user()->email == "tsai.scow@gmail.com"
-                            )
+                            @if ($campFullData->table == "ceocamp" || $campFullData->table == "ceovcamp")
+                                @if (auth()->user()->email == "cuboy.chen@gmail.com" ||
+                                    auth()->user()->email == "evelynhua@gmail.com" ||
+                                    auth()->user()->email == "jadetang01@gmail.com" ||
+                                    auth()->user()->email == "jadetang004@gmail.com" ||
+                                    auth()->user()->email == "tsai.scow@gmail.com"
+                                )
+                                    {{-- <li>
+                                        <a href="{{ route("showRegistrationList", $campFullData->id)}}">檢視及下載</a>
+                                    </li> --}}
+                                @endif
+                            @else
                                 {{-- <li>
                                     <a href="{{ route("showRegistrationList", $campFullData->id)}}">檢視及下載</a>
                                 </li> --}}
                             @endif
-                        @else
-                            {{-- <li>
-                                <a href="{{ route("showRegistrationList", $campFullData->id)}}">檢視及下載</a>
-                            </li> --}}
-                        @endif
-                        <li>
-                            <a href="{{ route("changeBatchOrRegionGET", $campFullData->id) }}">修改梯次 / 區域</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="active">
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">錄取相關</a>
-                    <ul class="collapse list-unstyled show" id="homeSubmenu">
-                        <li>
-                            <a href="{{ route("admissionGET", $campFullData->id) }}">單一錄取<br>查詢報名資料</a>
-                        </li>
-                        <li>
-                            <a href="{{ route("batchAdmissionGET", $campFullData->id) }}">批次錄取</a>
-                        </li>
-                        <li>
-                            @if(str_contains($campFullData->table, "vcamp"))
-                            <a href="{{ route("showSectionList", $campFullData->id) }}">組別名單查詢/下載<br>寄送錄取通知信<br>寄送報到通知信</a>
+                            <li>
+                                <a href="{{ route("changeBatchOrRegionGET", $campFullData->id) }}">修改梯次 / 區域</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="active">
+                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">錄取相關</a>
+                        <ul class="collapse list-unstyled show" id="homeSubmenu">
+                            <li>
+                                <a href="{{ route("admissionGET", $campFullData->id) }}">單一錄取<br>查詢報名資料</a>
+                            </li>
+                            <li>
+                                <a href="{{ route("batchAdmissionGET", $campFullData->id) }}">批次錄取</a>
+                            </li>
+                            <li>
+                                @if(str_contains($campFullData->table, "vcamp"))
+                                <a href="{{ route("showSectionList", $campFullData->id) }}">組別名單查詢/下載<br>寄送錄取通知信<br>寄送報到通知信</a>
+                                @else
+                                <a href="{{ route("showGroupList", $campFullData->id) }}">組別名單查詢/下載<br>寄送錄取通知信<br>寄送報到通知信</a>
+                                @endif
+                            </li>
+                            <li>
+                                <a href="{{ route("showNotAdmitted", $campFullData->id) }}" class="text-warning">寄送未錄取通知信</a>
+                            </li>
+                        <!--
+                            <li>
+                            @if($campFullData->table == "ycamp")
+                                <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">修改繳費資料<br>修改交通</a>
+                            @elseif($campFullData->table == "ceocamp")
+                                <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">修改繳費資料<br>修改住宿</a>
+                            @elseif($campFullData->table == "utcamp")
+                                <a href="{{ route("modifyAccountingGET",    $campFullData->id) }}">修改繳費資料<br>修改住宿</a>
                             @else
-                            <a href="{{ route("showGroupList", $campFullData->id) }}">組別名單查詢/下載<br>寄送錄取通知信<br>寄送報到通知信</a>
+                                <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">修改繳費資料</a>
                             @endif
-                        </li>
-                        <li>
-                            <a href="{{ route("showNotAdmitted", $campFullData->id) }}" class="text-warning">寄送未錄取通知信</a>
-                        </li>
-                    <!--
-                        <li>
+                            </li>
+                        -->
+                            <li>
+                                <a href="{{ route("modifyAttendGET", $campFullData->id) }}">設定取消參加</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">正行相關</a>
+                        <ul class="collapse list-unstyled show" id="pageSubmenu">
+                        @if($campFullData->vcamp)
+                            <li>
+                                <a href="{{route('showVolunteerPhoto', $campFullData->id) }}">義工名冊</a>
+                            </li>
+                        @endif
+                            <li>
+                                <a href="{{route('showGroupAttendList', $campFullData->id) }}">回覆參加名單</a>
+                            </li>
+                            <li>
+                                <a href="{{route('showTrafficList', $campFullData->id) }}">交通名單</a>
+                            </li>
                         @if($campFullData->table == "ycamp")
-                            <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">修改繳費資料<br>修改交通</a>
-                        @elseif($campFullData->table == "ceocamp")
-                            <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">修改繳費資料<br>修改住宿</a>
-                        @elseif($campFullData->table == "utcamp")
-                            <a href="{{ route("modifyAccountingGET",    $campFullData->id) }}">修改繳費資料<br>修改住宿</a>
-                        @else
-                            <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">修改繳費資料</a>
+                            <li>
+                                <a href="{{ route('showGroupList', $campFullData->id) }}">輔導組表格</a>
+                            </li>
                         @endif
-                        </li>
-                    -->
-                        <li>
-                            <a href="{{ route("modifyAttendGET", $campFullData->id) }}">設定取消參加</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">正行相關</a>
-                    <ul class="collapse list-unstyled show" id="pageSubmenu">
-                    @if($campFullData->vcamp)
-                        <li>
-                            <a href="{{route('showVolunteerPhoto', $campFullData->id) }}">義工名冊</a>
-                        </li>
-                    @endif
-                        <li>
-                            <a href="{{route('showGroupAttendList', $campFullData->id) }}">回覆參加名單</a>
-                        </li>
-                        <li>
-                            <a href="{{route('showTrafficList', $campFullData->id) }}">交通名單</a>
-                        </li>
-                    @if($campFullData->table == "ycamp")
-                        <li>
-                            <a href="{{ route('showGroupList', $campFullData->id) }}">輔導組表格</a>
-                        </li>
-                    @endif
-                        <li>
-                            <a href="{{ route('sign_back', $campFullData->id) }}">設定簽到退時間</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('sign_upload', $campFullData->id) }}">更新簽到資料</a>
-                        </li>
-                        <li>
-                        @if($campFullData->table == "ycamp")
-                            <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">現場手動繳費<br>修改繳費資料<br>修改交通</a>
-                        @elseif($campFullData->table == "ceocamp")
-                            <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">現場手動繳費<br>修改繳費資料<br>修改住宿</a>
-                        @elseif($campFullData->table == "utcamp")
-                            <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">現場手動繳費<br>修改繳費資料<br>修改住宿</a>
-                        @else
-                            <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">現場手動繳費<br>修改繳費資料</a>
-                        @endif
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#other" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">其　　他</a>
-                    <ul class="collapse list-unstyled show" id="other">
-                        <li>
-                            <a href="{{ route("accounting", $campFullData->id) }}">銷帳資料</a>
-                        </li>
-                        <li>
-                            <a href="{{ route("customMail", $campFullData->id) }}">寄送自定郵件</a>
-                        </li>
-                        @if(auth()->user()->getPermission()->level == 1)
-                        <li>
-                            <a href="{{ route("showAddDSLink", $campFullData->id) }}">新增動態統計連結</a>
-                        </li>
-                        @endif
-                    </ul>
-                </li>
+                            <li>
+                                <a href="{{ route('sign_back', $campFullData->id) }}">設定簽到退時間</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('sign_upload', $campFullData->id) }}">更新簽到資料</a>
+                            </li>
+                            <li>
+                            @if($campFullData->table == "ycamp")
+                                <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">現場手動繳費<br>修改繳費資料<br>修改交通</a>
+                            @elseif($campFullData->table == "ceocamp")
+                                <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">現場手動繳費<br>修改繳費資料<br>修改住宿</a>
+                            @elseif($campFullData->table == "utcamp")
+                                <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">現場手動繳費<br>修改繳費資料<br>修改住宿</a>
+                            @else
+                                <a href="{{ route("modifyAccountingGET", $campFullData->id) }}">現場手動繳費<br>修改繳費資料</a>
+                            @endif
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#other" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">其　　他</a>
+                        <ul class="collapse list-unstyled show" id="other">
+                            <li>
+                                <a href="{{ route("accounting", $campFullData->id) }}">銷帳資料</a>
+                            </li>
+                            <li>
+                                <a href="{{ route("customMail", $campFullData->id) }}">寄送自定郵件</a>
+                            </li>
+                            @if(auth()->user()->getPermission()->level == 1)
+                            <li>
+                                <a href="{{ route("showAddDSLink", $campFullData->id) }}">新增動態統計連結</a>
+                            </li>
+                            @endif
+                        </ul>
+                    </li>
+                @endif
             @else
                 <li class="active">
                     <a class="" href="">未選擇營隊</a>
