@@ -8,49 +8,49 @@
 </style>
 <body>
 <table role="presentation"  cellpadding="0" cellspacing="0" border="0" align="center" width="100%">
-<tr><td><img width="100%" src="{{ $message->embed(public_path() . '/img/ecamp2024/head.png') }}" /></td></tr>
+<tr><td><img width="100%" src="{{ $message->embed(public_path() . '/img/ecamp2025/head.png') }}" /></td></tr>
 <tr><td>
 <table width="80%" border="0" cellpadding="0" cellspacing="0" align="center"><tr><td>
+@if (str_contains($applicant->batch->name, "南區"))
+<h2 class="center">{{ $applicant->batch->camp->fullName }}<br>分&nbsp;組&nbsp;通&nbsp;知&nbsp;單</h2>
+@else
 <h2 class="center">{{ $applicant->batch->camp->fullName }}<br>錄&nbsp;取&nbsp;通&nbsp;知&nbsp;單</h2>
+@endif
 <table width="100%" style="table-layout:fixed; border: 0;">
     <tr>
         <td>姓名：{{ $applicant->name }}</td>
         <td>序號：{{ $applicant->id }}</td>
         <td>組別：{{ $applicant->groupRelation?->alias ?? "異常，請回報主辦單位" }}</td> 
-        <td>場次：@if (str_contains($applicant->batch->name, "第一梯")) 北區場(開南大學) @else 中區(勤益科大) @endif</td>
+        <td>場次：@if (str_contains($applicant->batch->name, "南區")) 南區({{ $applicant->batch->locationName }}) @else 中區({{ $applicant->batch->locationName }}) @endif</td>
     </tr>
 </table><br>
 
 親愛的企業主管您好 :<br>
 感謝您報名「2024企業主管生命成長營」，誠摯的歡迎您來共享這場心靈饗宴，一起翻轉人生，開創無限美好的幸福。<br><br>
 為使研習進行順利，請詳閱下列須知：
-{{-- @if (str_contains($applicant->batch->camp->fullName, "台北")) --}}
 <ol>
-    <li>上課時間：@if (str_contains($applicant->batch->name, "第一梯")) 
-            2024年7月12日(五)至7月14日(星期日) @else
-            2024年7月26日(五)至7月28日(星期日) @endif</li>
-    <li>報到時間：@if (str_contains($applicant->batch->name, "第一梯")) 
-            2024年7月12日(星期五)&nbsp;<a style="color: red;">09:30~10:30</a> @else
-            2024年7月26日(五)&nbsp;09:30~10:30 @endif</li>
-    <li>舉辦地點 : @if (str_contains($applicant->batch->name, "第一梯")) 
-            開南大學&nbsp;&nbsp;(桃園市蘆竹區開南路一號) @else            
-            國立勤益科大&nbsp;&nbsp;(台中市太平區中山路二段57號) @endif</li>
+    <li>上課時間：
+            {{ $applicant->batch->batch_start }}({{ $batch_start_Weekday }})至{{ $applicant->batch->batch_end }}({{ $batch_end_Weekday }}) </li>
+    <li>報到時間：
+            {{ $applicant->batch->batch_start }}({{ $batch_start_Weekday }})&nbsp;<a style="color: red;">09:30~10:30</a> </li>
+    <li>舉辦地點：
+            {{ $applicant->batch->locationName }}&nbsp;&nbsp;({{ $applicant->batch->location }}) </li>
     <li>
-        交通 :<br>
-        @if (str_contains($applicant->batch->name, "第一梯"))
-            本基金會將於7/12&nbsp;上午09:00~10:10在以下地點提供交通接駁服務，現場有穿黃色背心義工協助引導(逾10:10請自行搭計程車前往開南大學)。 <br>
+        @if (str_contains($applicant->batch->name, "南區"))
+        交通：（屏東大學民生校區臨近屏東火車站約3公里）<br>
             <ol>
-                <li>桃園火車站後站出口處</li>
-                <li>桃園高鐵車站5號出口處</li>
-                <li>自行前往者請導航:&nbsp;開南大學&nbsp;桃園市蘆竹區開南路一號。(<a href="https://maps.app.goo.gl/ZMi9usQo7SPTH7HV6">https://maps.app.goo.gl/ZMi9usQo7SPTH7HV6</a>)</li>
+                <li>火車：屏東站下車，轉乘客運至學校大門口。</li>
+                <li>高鐵：於左營高鐵站下車，轉乘台鐵至屏東站；再乘客運至學校大門口。</li>
+                <li>自行前往者請導航：&nbsp;{{ $applicant->batch->locationName }}&nbsp;{{ $applicant->batch->location }}。(<a href="https://goo.gl/maps/jbHDZ">https://goo.gl/maps/jbHDZ</a>)</li>
             </ol>
-            <u>因會場停車位有限，懇請多利用公共交通工具及本會提供的接駁服務。</u>
+            <u>因會場停車位有限，懇請多利用公共交通工具。</u>
         @else
-            本基金會將於7/26&nbsp;上午09:00~10:10在以下地點提供交通接駁服務，現場有穿黃色背心義工協助引導(逾10:10請自行搭計程車前往勤益科大)。 <br>
+        交通：<br>
+            本基金會將於{{ $applicant->batch->batch_start }}&nbsp;上午09:00~10:00在以下地點提供交通接駁服務，現場有穿黃色背心義工協助引導(逾10:00請自行搭計程車前往{{ $applicant->batch->locationName }})。 <br>
             <ol>
-                <li>台中火車站出口處大廳</li>
-                <li>台中高鐵車站出口處大廳</li>
-                <li>自行前往者請導航:&nbsp;國立勤益科大&nbsp;台中市太平區中山路二段57號。(<a href="https://maps.app.goo.gl/qjTTxRTdFjSw2ocB7">https://maps.app.goo.gl/qjTTxRTdFjSw2ocB7</a>)</li>
+                <li>台中火車站出口處大廳(3號出口)</li>
+                <li>台中高鐵車站出口處大廳(4A出口)</li>
+                <li>自行前往者請導航:&nbsp;{{ $applicant->batch->locationName }}&nbsp;{{ $applicant->batch->location }}。(<a href="https://maps.app.goo.gl/qjTTxRTdFjSw2ocB7">https://maps.app.goo.gl/qjTTxRTdFjSw2ocB7</a>)</li>
             </ol>
             <u>因會場停車位有限，懇請多利用公共交通工具及本會提供的接駁服務。</u>
         @endif
@@ -323,5 +323,5 @@
 <a class="right">主辦單位：財團法人福智文教基金會&nbsp;敬啟</a><br>
 <a class="right">{{ \Carbon\Carbon::now()->year }}  年　{{ \Carbon\Carbon::now()->month }}  月 　 {{ \Carbon\Carbon::now()->day }}  日</a>
 </td></tr></table></td></tr>
-<tr><td><br><br><img width="100%" height="20%" src="{{ $message->embed(public_path() . '/img/ecamp2024/footer.png') }}" /></td></tr></table>
+<tr><td><br><br><img width="100%" height="20%" src="{{ $message->embed(public_path() . '/img/ecamp2025/footer.png') }}" /></td></tr></table>
 </body>
