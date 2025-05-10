@@ -194,6 +194,12 @@
                 <input type="date" name="admission_announcing_date" id="" class='form-control' required value="{{ $camp->admission_announcing_date ?? "" }}">
             </div>
         </div>
+        <div class='row form-group required'>
+            <label for='inputName' class='col-md-2 control-label'>未錄取公佈日</label>
+            <div class='col-md-6'>
+                <input type="date" name="rejection_showing_date" id="" class='form-control' required value="{{ $camp->rejection_showing_date ?? "" }}">
+            </div>
+        </div>
         <div class='row form-group'>
             <label for='inputName' class='col-md-2 control-label'>是否需回覆參加</label>
             <div class='col-md-6'>
