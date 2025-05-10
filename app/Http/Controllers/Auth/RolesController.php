@@ -24,13 +24,13 @@ class RolesController extends BackendController
     protected $backendService;
     protected $user;
 
-    public function __construct(CampDataService $campDataService,
-                                ApplicantService $applicantService,
-                                BackendService $backendService,
-                                protected GSheetService $gSheetService,
-                                Request $request
-    )
-    {
+    public function __construct(
+        CampDataService $campDataService,
+        ApplicantService $applicantService,
+        BackendService $backendService,
+        protected GSheetService $gSheetService,
+        Request $request
+    ) {
         $this->backendService = $backendService;
         $this->campDataService = $campDataService;
         $this->applicantService = $applicantService;
@@ -48,7 +48,8 @@ class RolesController extends BackendController
         $this->checkPermission($request);
     }
 
-    public function checkPermission($request) {
+    public function checkPermission($request)
+    {
         $that = $this;
         $this->middleware(function ($request, $next) use (&$that) {
             $that->user = \App\Models\User::with("roles.permissions")->find(auth()->user()->id);
