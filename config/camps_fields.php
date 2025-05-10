@@ -468,7 +468,7 @@ return [
         "portrait_agree" => "肖像權",
         "profile_agree" => "個人資料允許",
         "transportation_depart" => "去程交通",
-        "transportation_back" =>"回程交通",
+        "transportation_back" => "回程交通",
         "carers" => "關懷員",
         "care_log" => "關懷記錄",
         "remark" => "備註",
@@ -520,7 +520,7 @@ return [
         "companion_name" =>"同行人姓名",
         "companion_as_roommate" =>"希望同房",
         "transportation_depart" => "去程交通",
-        "transportation_back" =>"回程交通",
+        "transportation_back" => "回程交通",
     ],
 
     'utvcamp' => [
