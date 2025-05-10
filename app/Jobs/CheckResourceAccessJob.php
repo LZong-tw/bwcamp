@@ -11,13 +11,17 @@ use Illuminate\Foundation\Bus\Dispatchable;
 
 class CheckResourceAccessJob implements ShouldQueue
 {
-    use Batchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     public function __construct(
         protected $applicant,
         protected $user,
         protected $campFullData
-    ) {}
+    ) {
+    }
 
     public function handle()
     {
