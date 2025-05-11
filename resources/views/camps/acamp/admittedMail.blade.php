@@ -12,7 +12,7 @@
     <h4>【營隊資訊】</h4>
         <div class="ml-4 mb-2">1.研習日期：{{ $applicant->batch->batch_start }} ({{ $batch_start_Weekday }}) 至 {{ $applicant->batch->batch_end }} ({{ $batch_end_Weekday }})，請務必<u>全程參加</u>。</div>
         <div class="ml-4 mb-2">2.報到時間：{{ $applicant->batch->batch_start }} ({{ $batch_start_Weekday }})</div>
-        <div class="ml-4 mb-2">3.報到地點：{{ $applicant->batch->locationName }}({{ $applicant->batch->location }})(詳見報到通知單，預計7/9寄出Email)</div>
+        <div class="ml-4 mb-2">3.報到地點：{{ $applicant->batch->locationName }}({{ $applicant->batch->location }})(詳見報到通知單，預計7/14寄出Email)</div>
     <h4>【參加確認回條】</h4>
         <div class="ml-4 mb-2">請點擊以下連結由瀏覽器進入頁面做回覆<a href="https://bwcamp.bwfoce.org/camp/{{ $applicant->batch->id }}/showadmit?sn={{ $applicant->id }}&name={{ $applicant->name }}">確認參加</a></div>
         <div class="ml-4 mb-2">若以上連結無法點選，請複製下方文字後，再由瀏覽器進入頁面做回覆：</div>
