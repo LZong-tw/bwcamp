@@ -9,9 +9,9 @@
     <meta property='og:url' content='http://bwfoce.org/ceocamp'/>
     <meta property='og:title' content='{{ $camp_data->abbreviation }}'/>
     <meta property='og:description' content='邀請您推薦報名參加菁英營。' />
-    <meta property="og:image" content="https://static.wixstatic.com/media/53b3d5_0cdf79a7c81a422ea7f9fd51467a4c05~mv2.jpg/v1/fill/w_2500,h_1406,al_c/53b3d5_0cdf79a7c81a422ea7f9fd51467a4c05~mv2.jpg"/>
-    <meta property="og:image:width" content="2500"/>
-    <meta property="og:image:height" content="1406"/>
+    <meta property="og:image" content="https://static.wixstatic.com/media/53b3d5_660b10ef9b64497ea89186e12b6bc9a7~mv2.png/v1/fill/w_1960,h_648,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/53b3d5_660b10ef9b64497ea89186e12b6bc9a7~mv2.png"/>
+    <meta property="og:image:width" content="1960"/>
+    <meta property="og:image:height" content="648"/>
     {{-- <link rel='icon' href='/camp/favicon.ico'> --}}
     <title> {{ $camp_data->fullName }} </title>
     <!-- Bootstrap core CSS -->

@@ -18,13 +18,13 @@
     <meta property='og:title' content='{{ $camp_data->abbreviation }}' />
     <meta property='og:description' content='邀請您推薦報名參加菁英營。' />
     @if (str_contains($batch->name, "開南"))
-        <meta property="og:image" content="{{ asset('img/ceocamp2024/n.jpg') }}"/>
-        <meta property="og:image:width" content="1186"/>
-        <meta property="og:image:height" content="980"/>
+        <meta property="og:image" content="{{ asset('img/ceocamp2025/icon_camp.png') }}"/>
+        <meta property="og:image:width" content="801"/>
+        <meta property="og:image:height" content="605"/>
     @else        
-        <meta property="og:image" content="{{ asset('img/ceocamp2024/c.jpg') }}"/>
-        <meta property="og:image:width" content="1188"/>
-        <meta property="og:image:height" content="980"/>
+        <meta property="og:image" content="{{ asset('img/ceocamp2025/icon_camp.png') }}"/>
+        <meta property="og:image:width" content="801"/>
+        <meta property="og:image:height" content="605"/>
     @endif
     {{-- <link rel='icon' href='/camp/favicon.ico'> --}}
     <title> {{ $camp_data->fullName }} </title>

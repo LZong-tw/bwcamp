@@ -25,7 +25,7 @@
                             <h4>營隊資訊</h4>
                                 <div class="ml-4 mb-2">研習日期：{{ $camp_data->batch_start }}({{ $camp_data->batch_start_Weekday }})至{{ $camp_data->batch_end }}({{ $camp_data->batch_end_Weekday }})，請務必<u>全程參加</u>。</div>
                                 <div class="ml-4 mb-2">報到時間：{{ $camp_data->batch_start }}({{ $camp_data->batch_start_Weekday }})</div>
-                                <div class="ml-4 mb-2">報到地點：{{ $camp_data->locationName }}({{ $camp_data->location }})(詳見報到通知單，預計7/9寄出Email)</div>
+                                <div class="ml-4 mb-2">報到地點：{{ $camp_data->locationName }}({{ $camp_data->location }})(詳見報到通知單，預計7/14寄出Email)</div>
                             <h4>確認參加</h4>
                             <div class="ml-4 mb-2">請回覆確認參加。</div>
                             @if(!isset($applicant->is_attend))
