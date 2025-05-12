@@ -38,9 +38,9 @@ class AdminController extends BackendController {
         Request $request
     ) {
         parent::__construct(
+            $campDataService,
             $applicantService,
             $backendService,
-            $campDataService,
             $gsheetService,
             $request
         );
@@ -499,8 +499,8 @@ class AdminController extends BackendController {
                 $this->campOrgService->updateSectionChildren($orgs, $org_tg);
                 foreach ($orgs as $org) {
                     $org->save();
-                }        
-            }     
+                }
+            }
         //}
         \Session::flash('message', $camp->abbreviation . " 組織職務：" . $org_tg->batch?->name . $org_tg->section . "-" . $org_tg->position . " 修改成功。");
         return redirect()->route("showOrgs", $camp_id);
@@ -636,7 +636,7 @@ class AdminController extends BackendController {
             ->first();
             if($ds==null) {
                 \Session::flash('message', " 查無資料。");
-                return redirect()->route("showAddDSLink", $camp_id);    
+                return redirect()->route("showAddDSLink", $camp_id);
             } else {
                 $is_show = 1;
                 //replace App\Models\XXX with XXX
