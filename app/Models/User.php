@@ -451,8 +451,7 @@ class User extends Authenticatable
                 dd("third if", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
             }
             $result = $roles->some(function ($role) use ($theApplicant) {
-                return $role->group_id == $theApplicant->group_id ||
-                    $role->region_id == $theApplicant->region_id;
+                return $role->region_id == $theApplicant->region_id;
             });
             return $result;
             // return $roles->firstWhere(
