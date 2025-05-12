@@ -1,4 +1,5 @@
-<?
+<?php
+
 $camp = Camp::find(102);
 $action = "read";
 $resource = User::find(172);
