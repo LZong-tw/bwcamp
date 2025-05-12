@@ -445,11 +445,16 @@ class User extends Authenticatable
             // })->firstWhere('all_group', 1));
         }
         elseif ($target && (str_contains($class, "User") && ($context == "vcamp" || $context == "vcampExport") && $action == "read")) {
-            // $roles = $this->roles()->where('group_id', '<>', null)->where("camp_id", $camp->id);
+            $roles = $this->roles()->where("camp_id", $camp->id);
+            $theApplicant = $target->application_log->whereIn('batch_id', $camp->vcamp->batchs()->pluck('id'))->first();
             if ($probing) {
                 dd("third if", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
             }
-            return false;
+            $result = $roles->some(function ($role) use ($theApplicant) {
+                // 先針對區域做判別
+                return $role->group_id == $theApplicant->group_id;
+            });
+            return $result;
             // return $roles->firstWhere(
             //         'group_id',
             //         $target->roles()->where("position", "like", "%關懷小組%")->firstWhere('camp_id', $camp->id)?->group_id
