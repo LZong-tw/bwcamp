@@ -672,6 +672,7 @@ return [
 
     'regions' => [
         'ycamp' => ['台北','桃園','新竹','台中','雲嘉','台南','高雄','海外'],
+        'utcamp' => ['台北','桃園','新竹','台中','雲嘉','台南','高雄','海外'],
     ],
 
     'form_accomodation' => [
@@ -1809,13 +1810,13 @@ return [
         ],
 
         'ycamp' => [
-            "group" => [
-                "name" => "組別",
+            "created_at" => [
+                "name" => "報名日期",
                 "sort" => 1,
                 "for_query" => 1,
             ],
-            "number" => [
-                "name" => "座號",
+            "group" => [
+                "name" => "組別",
                 "sort" => 1,
                 "for_query" => 1,
             ],
@@ -1849,13 +1850,8 @@ return [
                 "sort" => 1,
                 "for_query" => 1,
             ],
-            "fee" => [
-                "name" => "應交車資",
-                "sort" => 1,
-                "for_query" => 1,
-            ],
-            "deposit" => [
-                "name" => "已交車資",
+            "way" => [
+                "name" => "如何得知活動",
                 "sort" => 1,
                 "for_query" => 1,
             ],
