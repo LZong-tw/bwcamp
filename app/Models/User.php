@@ -447,11 +447,13 @@ class User extends Authenticatable
         elseif ($target && (str_contains($class, "User") && ($context == "vcamp" || $context == "vcampExport") && $action == "read")) {
             $roles = $this->roles()->where("camp_id", $camp->id)->get();
             $theApplicant = $target->application_log->whereIn('batch_id', $camp->vcamp->batchs()->pluck('id'))->first();
+            $targetRoles = $target->roles()->where("camp_id", $camp->id)->get();
             if ($probing) {
                 dd("third if", $forInspect, $resource, $action, $camp, $context, $target, $permissions);
             }
-            $result = $roles->some(function ($role) use ($theApplicant) {
-                return $role->region_id == $theApplicant->region_id;
+            $result = $roles->some(function ($role) use ($theApplicant, $targetRoles) {
+                return $role->region_id == $theApplicant->region_id ||
+                    $role->group_id == $targetRoles->firstWhere('group_id', $role->group_id)?->group_id;
             });
             return $result;
             // return $roles->firstWhere(
