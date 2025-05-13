@@ -453,8 +453,8 @@ class User extends Authenticatable
             }
             $result = $roles->some(function ($role) use ($theApplicant, $targetRoles) {
                 return $role->region_id == $theApplicant->region_id ||
-                    $role->group_id == $targetRoles->firstWhere('group_id', $role->group_id)?->group_id ||
-                    $role->region_id == $targetRoles->firstWhere('region_id', $role->region_id)?->region_id;
+                    ($role->group_id && $role->group_id == $targetRoles->firstWhere('group_id', $role->group_id)?->group_id) ||
+                    ($role->region_id && $role->region_id == $targetRoles->firstWhere('region_id', $role->region_id)?->region_id);
             });
             return $result;
             // return $roles->firstWhere(
