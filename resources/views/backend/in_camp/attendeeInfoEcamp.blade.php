@@ -116,7 +116,7 @@
                 </form>
             </div>
         @endif
-        <div class="row d-flex justify-content-end">
+        {{-- <div class="row d-flex justify-content-end">
             @if ($applicant->deleted_at)
                 <form class="mr-4 mb-2" action="{{ route('revertCancellation', $camp->id) }}" method="POST">
                     @csrf
@@ -130,7 +130,7 @@
                     <input class="btn btn-danger" type="submit" value="取消報名">
                 </form>
             @endif
-        </div>
+        </div> --}}
     </div>
 
 {{--    <div class="container alert alert-primary">--}}
