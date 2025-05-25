@@ -656,7 +656,7 @@
 
     //嘉義縣：民雄校區
     if (cityname == '嘉義縣')
-    {   document.Camp.sname.options[ctr] = new Option ("嘉義大學", "國立嘉義大學") ;
+    {   document.Camp.sname.options[ctr] = new Option ("嘉義大學", "國立嘉義大學民雄校區") ;
         ctr = ctr + 1;
     }
 
@@ -689,7 +689,12 @@
 
     //嘉義市：蘭潭校區和新民校區
     if (cityname == '嘉義市')
-    {   document.Camp.sname.options[ctr] = new Option ("嘉義大學", "國立嘉義大學") ;
+    {   document.Camp.sname.options[ctr] = new Option ("嘉義大學", "國立嘉義大學蘭潭校區") ;
+        ctr = ctr + 1;
+    }
+
+    if (cityname == '嘉義市')
+    {   document.Camp.sname.options[ctr] = new Option ("嘉義大學", "國立嘉義大學新民校區") ;
         ctr = ctr + 1;
     }
 
