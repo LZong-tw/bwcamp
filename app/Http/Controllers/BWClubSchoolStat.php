@@ -5,41 +5,42 @@ namespace App\Http\Controllers;
 use App\Models\Applicant;
 use Illuminate\Http\Request;
 
-class BWClubSchoolStat extends BackendController{
-    protected $taipei = array (
-		"國立臺灣大學",
-		"國立臺灣科技大學",
-		"臺北醫學大學",
-		"國立政治大學",
-		"國立臺灣師範大學",
-		"國立臺北教育大學",
-		"臺北市立大學",
-		"淡江大學",
-		"國立臺北科技大學",
-		"國立臺北護理健康大學",
-		"長庚大學",
-		"輔仁大學",
-		"東吳大學",
-		"國立東華大學",
-		"國立臺灣海洋大學",
-		"銘傳大學臺北校區",
-		"中國文化大學",
-		"國立陽明交通大學陽明校區"
+class BWClubSchoolStat extends BackendController
+{
+    protected $taipei = array(
+        "國立臺灣大學",
+        "國立臺灣科技大學",
+        "臺北醫學大學",
+        "國立政治大學",
+        "國立臺灣師範大學",
+        "國立臺北教育大學",
+        "臺北市立大學",
+        "淡江大學",
+        "國立臺北科技大學",
+        "國立臺北護理健康大學",
+        "長庚大學",
+        "輔仁大學",
+        "東吳大學",
+        "國立東華大學",
+        "國立臺灣海洋大學",
+        "銘傳大學臺北校區",
+        "中國文化大學",
+        "國立陽明交通大學陽明校區"
     );
-    protected $taoyuan = array (
+    protected $taoyuan = array(
             "國立中央大學",
             "開南大學",
             "銘傳大學桃園校區",
             "中原大學",
             "中央警察大學"
     );
-    protected $hsinchu = array (
+    protected $hsinchu = array(
             "國立陽明交通大學新竹校區",
             "國立清華大學",
             "國立清華大學南大校區",
             "明新科技大學"
     );
-    protected $taichung = array (
+    protected $taichung = array(
             "中國醫藥大學",
             "國立中興大學",
             "逢甲大學",
@@ -50,7 +51,7 @@ class BWClubSchoolStat extends BackendController{
             "大葉大學",
             "中山醫學大學"
     );
-    protected $yunchia = array (
+    protected $yunchia = array(
             "國立雲林科技大學",
             "國立虎尾科技大學",
             "南華大學",
@@ -59,13 +60,13 @@ class BWClubSchoolStat extends BackendController{
             "國立嘉義大學新民校區",
             "國立嘉義大學民雄校區"
     );
-    protected $tainan = array (
+    protected $tainan = array(
             "國立臺南大學",
             "國立成功大學",
             "嘉南藥理大學",
             "長榮大學"
     );
-    protected $kaohsiung = array (
+    protected $kaohsiung = array(
             // "國立高雄科技大學(原第一科大)",
             // "國立高雄科技大學(原海洋科大)",
             // "國立高雄科技大學(原應用科大)",
@@ -77,11 +78,11 @@ class BWClubSchoolStat extends BackendController{
             "高雄醫學大學",
             "國立高雄師範大學",
             "大仁科技大學",
-            "國立屏東大學" 
+            "國立屏東大學"
     );
 
-    protected $groups = array ();
-    
+    protected $groups = array();
+
     /**
      * Handle the incoming request.
      *
@@ -92,7 +93,7 @@ class BWClubSchoolStat extends BackendController{
     {
         //
         $this->groups = array(
-		    "臺北" => $this->taipei,
+            "臺北" => $this->taipei,
             "桃園" => $this->taoyuan,
             "新竹" => $this->hsinchu,
             "臺中" => $this->taichung,
@@ -108,18 +109,17 @@ class BWClubSchoolStat extends BackendController{
                                 ->where('camps.id', $request->camp_id)
                                 ->groupBy('school')->get();
 
-        $totals = array ();
-        foreach($bwclubbersBySchool as $school){
+        $totals = array();
+        foreach($bwclubbersBySchool as $school) {
             $totals[$school->school] = $school->total;
         }
 
-        foreach($this->groups as $groupname => $group){
+        foreach($this->groups as $groupname => $group) {
             $total = 0;
-            foreach($group as $school){
-                if(isset($totals[$school])){
+            foreach($group as $school) {
+                if(isset($totals[$school])) {
                     $total += $totals[$school];
-                }
-                else{
+                } else {
                     $totals[$school] = 0;
                 }
             }
