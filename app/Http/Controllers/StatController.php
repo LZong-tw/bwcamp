@@ -57,13 +57,22 @@ class StatController extends BackendController
         $i = 0 ;
         $total = 0 ;
         $GChartData = array(
-                        'cols'=> array(
-                            array('id'=>'date','label'=>'日期','type'=>'date'),
-                            array('id'=>'people','label'=>'人數','type'=>'number'),
-                            array('id'=>'annotation','role'=>'annotation','type'=>'number')
-                        ),
-                        'rows' => array()
-                    );
+            'cols'=> array(
+                array('id'=>'date','label'=>'日期','type'=>'date'),
+                array('id'=>'people','label'=>'人數','type'=>'number'),
+                array('id'=>'annotation','role'=>'annotation','type'=>'number')
+            ),
+            'rows' => array()
+        );
+        $GChartData1 = array(
+            'cols'=> array(
+                array('id'=>'date','label'=>'日期','type'=>'date'),
+                array('id'=>'people_accu','label'=>'累計人數','type'=>'number'),
+                array('id'=>'annotation','role'=>'annotation','type'=>'number')
+            ),
+            'rows' => array()
+        );
+
         for($i = 0; $i < $rows; $i ++) {
             $record = $array[$i];
             $year = (int) substr($record['date'], 0, 4);
@@ -75,10 +84,16 @@ class StatController extends BackendController
                 array('v' => intval($record['total']))
             )));
             $total = $total + $record['total'];
+            array_push($GChartData1['rows'], array('c' => array(
+                array('v' => "Date($year, $month, $day)"),
+                array('v' => intval($total)),
+                array('v' => intval($total))
+            )));
         }
         $GChartData = json_encode($GChartData);
+        $GChartData1 = json_encode($GChartData1);
         
-        return view('backend.statistics.appliedDate', compact('GChartData',  'total'));
+        return view('backend.statistics.appliedDate', compact('GChartData','GChartData1', 'total'));
     }
 
     public function favoredEventStat(){
