@@ -1840,6 +1840,11 @@ return [
                 "sort" => 1,
                 "for_query" => 1,
             ],
+            "region" => [
+                "name" => "區域",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
             "school" => [
                 "name" => "學校",
                 "sort" => 1,
