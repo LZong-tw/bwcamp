@@ -1183,7 +1183,6 @@
         {{--
         可能比較好的做法
         @if(isset($applicant_data))
-            {{-- 回填報名資料 --}}
             (function() {
                 // 安全的 JSON 解析函數
                 function safeJsonParse(jsonString) {
