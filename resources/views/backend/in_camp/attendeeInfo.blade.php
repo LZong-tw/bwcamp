@@ -199,6 +199,8 @@
                 <b>同意個資使用</b>：@if($applicant->profile_agree) 是 @else 否
                 @endif<br>
                 <b>同意肖像權使用</b>：@if($applicant->portrait_agree) 是 @else 否 @endif<br>
+                <b>應繳金額</b>：{{$applicant->fee ?? 0}}<br>
+                <b>已繳金額</b>：{{$applicant->deposit ?? 0}}<br>
             </div>
         </div>
     </div>
