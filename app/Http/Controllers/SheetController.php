@@ -234,35 +234,20 @@ class SheetController extends Controller
             $main_camp_id = null;
         }
 
-        if ($table == 'ecamp') {
-            config([
-                //ecamp
-                'google.post_spreadsheet_id' => '1ihb-bcwwW8JItIyH692YniCJ03yyuqonXOseObExlvc',
-                'google.post_sheet_id' => 'ecamp',
-            ]);
-        } else if ($table == 'evcamp') {
-            config([
-                //evcamp
-                'google.post_spreadsheet_id' => '1ihb-bcwwW8JItIyH692YniCJ03yyuqonXOseObExlvc',
-                'google.post_sheet_id' => 'evcamp',
-            ]);
-        } else if ($table == 'ceocamp') {
-            config([
-                //evcamp
-                'google.post_spreadsheet_id' => '1GUvMO-GDdbfq3gVDHUMt_HTcEsj3dNFir5dO5KlnAGQ',
-                'google.post_sheet_id' => 'ceocamp',
-            ]);
-        } else if ($table == 'ceovcamp'){
-            config([
-                //ceocamp
-                'google.post_spreadsheet_id' => '1GUvMO-GDdbfq3gVDHUMt_HTcEsj3dNFir5dO5KlnAGQ',
-                'google.post_sheet_id' => 'ceovcamp',
-            ]);
-        } else {
+        $ds = DynamicStat::select('dynamic_stats.*')
+            ->where('urltable_id',$request->camp_id)
+            ->where('urltable_type','App\Models\Camp')
+            ->where('purpose','exportApplicants')
+            ->first();
+        
+        if ($ds == null) {
+            echo "sheet not found\n";
             exit(1);
         }
-
-        //$sheets = $this->gsheetservice->Get(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
+                
+        $sheet_id = $ds->spreadsheet_id;
+        $sheet_name = $ds->sheet_name;
+        $sheets = $this->gsheetservice->Get($sheet_id, $sheet_name);
 
         $applicants = Applicant::select('applicants.*', $table . '.*')
         ->join($table, 'applicants.id', '=', $table . '.applicant_id')
@@ -278,8 +263,8 @@ class SheetController extends Controller
         }
 
         if($request->app_id==0) {
-            $this->gsheetservice->Clear(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
-            $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $rows);
+            $this->gsheetservice->Clear($sheet_id, $sheet_name);
+            $this->gsheetservice->Append($sheet_id, $sheet_name, $rows);
         }
 
         foreach ($applicants as $applicant) {
@@ -323,7 +308,7 @@ class SheetController extends Controller
                 }
                 $rows[] = '"'. $data .'"';
             }
-            $this->gsheetservice->Append(config('google.post_spreadsheet_id'), config('google.post_sheet_id'), $rows);
+            $this->gsheetservice->Append($sheet_id, $sheet_name, $rows);
             sleep(1);   //1 second
             usleep(5000);   //5 millisecond
         }
