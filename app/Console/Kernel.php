@@ -32,10 +32,14 @@ class Kernel extends ConsoleKernel
 
         //$schedule->command('gen:BankSecondBarcode 79')->dailyAt("0:28"); //ceocamp
         //$schedule->command('import:Status 79')->dailyAt("0:29"); //ceocamp
-        //$schedule->command('export:Applicant 79')->dailyAt("0:30"); //ceocamp
-        //$schedule->command('export:Applicant 80')->dailyAt("1:00"); //ceovcamp
-        //$schedule->command('export:Applicant 77')->dailyAt("1:30"); //ecamp
-        //$schedule->command('export:Applicant 78')->dailyAt("2:30"); //evcamp
+        $schedule->command('export:Applicant 96')->dailyAt("0:30"); //ceocamp
+        $schedule->command('export:Applicant 97')->dailyAt("0:45"); //ceovcamp
+        $schedule->command('export:Applicant 102')->dailyAt("1:00"); //ecamp_c
+        $schedule->command('export:Applicant 100')->dailyAt("1:30"); //ecamp_s
+        $schedule->command('export:Applicant 106')->dailyAt("2:00"); //ecamp_n
+        $schedule->command('export:Applicant 103')->dailyAt("2:30"); //evcamp_c
+        $schedule->command('export:Applicant 101')->dailyAt("3:00"); //evcamp_s
+        $schedule->command('export:Applicant 107')->dailyAt("3:30"); //evcamp_n
 
         //$schedule->command('export:CheckIn 77')->everyThreeMinutes(); //ecamp
         //$schedule->command('export:CheckIn 79')->everyMinute(); //ceocamp
