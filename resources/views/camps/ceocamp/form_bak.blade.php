@@ -1180,6 +1180,237 @@
                 return val == "";
             }
         @endif
+        {{--
+        可能比較好的做法
+        @if(isset($applicant_data))
+            (function() {
+                // 安全的 JSON 解析函數
+                function safeJsonParse(jsonString) {
+                    // 先檢查基本情況
+                    if (!jsonString || jsonString.trim() === '') {
+                        console.warn('JSON 字串為空');
+                        return {};
+                    }
+
+                    // 移除前後空白
+                    jsonString = jsonString.trim();
+
+                    // 檢查是否以 { 開始和 } 結束
+                    if (!jsonString.startsWith('{') || !jsonString.endsWith('}')) {
+                        console.warn('JSON 字串格式不正確，不是有效的物件格式');
+                        return {};
+                    }
+
+                    try {
+                        return JSON.parse(jsonString);
+                    } catch (e) {
+                        console.warn('首次 JSON 解析失敗:', e.message);
+
+                        // 嘗試修復常見問題
+                        let fixed = jsonString;
+
+                        try {
+                            // 修復 1: 處理控制字元但保留 null 值
+                            fixed = fixed.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '');
+
+                            // 修復 2: 處理未轉義的引號和反斜線，但不影響 null
+                            fixed = fixed
+                                // 先保護 null 值
+                                .replace(/:\s*null/g, ':###NULL###')
+                                // 處理反斜線
+                                .replace(/\\/g, '\\\\')
+                                // 修復過度轉義的引號
+                                .replace(/\\\\"/g, '\\"')
+                                // 處理未轉義的引號（但不在值的開頭）
+                                .replace(/([^\\])"/g, '$1\\"')
+                                // 處理換行符
+                                .replace(/\n/g, '\\n')
+                                .replace(/\r/g, '\\r')
+                                .replace(/\t/g, '\\t')
+                                // 恢復 null 值
+                                .replace(/:###NULL###/g, ':null');
+
+                            return JSON.parse(fixed);
+                        } catch (e2) {
+                            console.warn('第一次修復失敗:', e2.message);
+
+                            try {
+                                // 修復 3: 更謹慎的處理
+                                fixed = jsonString
+                                    // 保護特殊值
+                                    .replace(/:\s*null/g, ':###NULL###')
+                                    .replace(/:\s*true/g, ':###TRUE###')
+                                    .replace(/:\s*false/g, ':###FALSE###')
+                                    // 處理字串中的問題
+                                    .replace(/[\r\n\t]/g, ' ')
+                                    .replace(/\s+/g, ' ')
+                                    .replace(/,\s*}/g, '}')
+                                    .replace(/,\s*]/g, ']')
+                                    // 恢復特殊值
+                                    .replace(/:###NULL###/g, ':null')
+                                    .replace(/:###TRUE###/g, ':true')
+                                    .replace(/:###FALSE###/g, ':false');
+
+                                return JSON.parse(fixed);
+                            } catch (e3) {
+                                console.warn('第二次修復失敗:', e3.message);
+
+                                // 修復 4: 手動解析，保留 null 值
+                                try {
+                                    return parseJsonLikeString(jsonString);
+                                } catch (e4) {
+                                    console.error('所有修復嘗試都失敗:', e4.message);
+                                    return {};
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // 手動解析，保留 null 和其他特殊值
+                function parseJsonLikeString(str) {
+                    console.warn('嘗試手動解析 JSON 字串');
+
+                    const result = {};
+
+                    // 匹配字串值 "key":"value"
+                    const keyValueRegex = /"([^"]+)"\s*:\s*"([^"]*)"/g;
+                    let match;
+
+                    while ((match = keyValueRegex.exec(str)) !== null) {
+                        const key = match[1];
+                        const value = match[2];
+                        result[key] = value;
+                    }
+
+                    // 匹配數字值 "key":123
+                    const keyNumberRegex = /"([^"]+)"\s*:\s*(\d+(?:\.\d+)?)/g;
+                    while ((match = keyNumberRegex.exec(str)) !== null) {
+                        const key = match[1];
+                        const value = parseFloat(match[2]);
+                        result[key] = value;
+                    }
+
+                    // 匹配布林值 "key":true/false
+                    const keyBooleanRegex = /"([^"]+)"\s*:\s*(true|false)/g;
+                    while ((match = keyBooleanRegex.exec(str)) !== null) {
+                        const key = match[1];
+                        const value = match[2] === 'true';
+                        result[key] = value;
+                    }
+
+                    // 匹配 null 值 "key":null
+                    const keyNullRegex = /"([^"]+)"\s*:\s*null/g;
+                    while ((match = keyNullRegex.exec(str)) !== null) {
+                        const key = match[1];
+                        result[key] = null;
+                    }
+
+                    console.log('手動解析結果:', result);
+                    return result;
+                }
+
+                // 獲取原始 JSON 字串
+                let rawJsonString = '{!! $applicant_data !!}';
+
+                // 調試輸出
+                console.log('原始 JSON 字串長度:', rawJsonString.length);
+                console.log('原始 JSON 字串前 100 字元:', rawJsonString.substring(0, 100));
+
+                let applicant_data = safeJsonParse(rawJsonString);
+
+                // 確保 applicant_data 是物件
+                if (typeof applicant_data !== 'object' || applicant_data === null) {
+                    console.warn('解析結果不是有效物件，使用空物件');
+                    applicant_data = {};
+                }
+
+                console.log('最終解析結果:', applicant_data);
+
+                let inputs = document.getElementsByTagName('input');
+                let selects = document.getElementsByTagName('select');
+                let textareas = document.getElementsByTagName('textarea');
+                let complementPivot = 0;
+                let complementData = applicant_data["blisswisdom_type_complement"] ? applicant_data["blisswisdom_type_complement"].split("||/") : null;
+
+                // console.log(inputs);
+                for (var i = 0; i < inputs.length; i++){
+                    // 修改這裡：明確檢查 null 值並保留它
+                    if(applicant_data.hasOwnProperty(inputs[i].name) || inputs[i].type == "checkbox"){
+                        if(inputs[i].type == "radio"){
+                            let radios = document.getElementsByName(inputs[i].name);
+                            for( j = 0; j < radios.length; j++ ) {
+                                if( radios[j].value == applicant_data[inputs[i].name] ) {
+                                    radios[j].checked = true;
+                                }
+                            }
+                        }
+                        else if(inputs[i].type == "checkbox"){
+                            let checkboxes = document.getElementsByName(inputs[i].name);
+                            let deArray = inputs[i].name.slice(0, -2);
+                            if(applicant_data[deArray]){
+                                let checkedValues = applicant_data[deArray].split("||/");
+                                for( j = 0; j < checkboxes.length; j++ ) {
+                                    for( k = 0; k < checkboxes.length; k++ ) {
+                                        if( checkboxes[j].value == checkedValues[k] ) {
+                                            checkboxes[j].checked = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else if(applicant_data[inputs[i].name] !== null && applicant_data[inputs[i].name] !== undefined){
+                            // 只有在值不是 null 且不是 undefined 時才填入
+                            inputs[i].value = applicant_data[inputs[i].name];
+                        }
+                    }
+                    else if(inputs[i].type == "text" && inputs[i].name == 'blisswisdom_type_complement[]'){
+                        inputs[i].value = complementData ? complementData[complementPivot] : null;
+                        complementPivot++;
+                    }
+                    else if(inputs[i].type == "text"){
+                        // 檢查是否存在於 applicant_data 中且不是 null
+                        if(applicant_data.hasOwnProperty(inputs[i].name) && applicant_data[inputs[i].name] !== null){
+                            inputs[i].value = applicant_data[inputs[i].name];
+                        }
+                    }
+                    if(inputs[i].name == 'emailConfirm'){
+                        inputs[i].value = applicant_data['email'];
+                    }
+                }
+                for (var i = 0; i < selects.length; i++){
+                    if(applicant_data.hasOwnProperty(selects[i].name) && applicant_data[selects[i].name] !== null){
+                        selects[i].value = applicant_data[selects[i].name];
+                    }
+                }
+                for (var i = 0; i < textareas.length; i++){
+                    if(applicant_data.hasOwnProperty(textareas[i].name) && applicant_data[textareas[i].name] !== null){
+                        textareas[i].value = applicant_data[textareas[i].name];
+                    }
+                }
+
+                @if(!$isModify)
+                    for (var i = 0; i < inputs.length; i++){
+                        if(applicant_data.hasOwnProperty(inputs[i].name) || inputs[i].type == "checkbox" || inputs[i].name == 'emailConfirm' || inputs[i].name == "blisswisdom_type[]" || inputs[i].name == "blisswisdom_type_complement[]"){
+                            inputs[i].disabled = true;
+                        }
+                    }
+                    for (var i = 0; i < selects.length; i++){
+                        selects[i].disabled = true;
+                    }
+                    for (var i = 0; i < textareas.length; i++){
+                        textareas[i].disabled = true;
+                    }
+                @endif
+            })();
+
+            function checkIfNull(val) {
+                return val == "";
+            }
+        @endif
+
+
+         --}}
     </script>
     <style>
         .required .control-label::after {

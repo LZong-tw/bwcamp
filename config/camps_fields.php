@@ -1657,6 +1657,11 @@ return [
                 "sort" => 1,
                 "for_query" => 1,
             ],
+            "deposit" => [
+                "name" => "已交金額",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
             "companion_name" => [
                 "name" => "同行人姓名",
                 "sort" => 0,
@@ -1832,6 +1837,11 @@ return [
             ],
             "age" => [
                 "name" => "年齡",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "region" => [
+                "name" => "區域",
                 "sort" => 1,
                 "for_query" => 1,
             ],
