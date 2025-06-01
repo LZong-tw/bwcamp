@@ -38,6 +38,14 @@ class CheckInMail extends Mailable
             $headers = $message->getHeaders();
             $headers->addTextHeader('time', time());
         });
+
+        $this->applicant->batch_start_Weekday = \Carbon\Carbon::create($this->applicant->batch->batch_start)->locale(\App::getLocale())->isoFormat("dddd");
+        $this->applicant->batch_end_Weekday = \Carbon\Carbon::create($this->applicant->batch->batch_end)->locale(\App::getLocale())->isoFormat("dddd");
+
+        $subject1 = '報到通知';
+        if ($this->applicant->batch->camp->fullName == "心之呼吸｜2025大專教師生命成長營")
+            $subject1 = '行前通知單';
+
         if($this->applicant->batch->camp->table == 'coupon'){
             return $this->subject($this->applicant->batch->camp->fullName)
                     ->view('camps.' . $this->applicant->batch->camp->table . ".checkInMail", ['applicant' => $this->applicant]);
@@ -46,12 +54,12 @@ class CheckInMail extends Mailable
 //                    ]);
         }
         elseif(!$this->attachment){
-            return $this->subject($this->applicant->batch->camp->abbreviation . '報到通知')
-                    ->view('camps.' . $this->applicant->batch->camp->table . ".checkInMail");
+            return $this->subject($this->applicant->batch->camp->abbreviation . $subject1)
+                    ->view('camps.' . $this->applicant->batch->camp->table . ".checkInMail", ['applicant' => $this->applicant]);
         }
         else{
-            return $this->subject($this->applicant->batch->camp->abbreviation . '報到通知')
-                    ->view('camps.' . $this->applicant->batch->camp->table . ".checkInMail")
+            return $this->subject($this->applicant->batch->camp->abbreviation . $subject1)
+                    ->view('camps.' . $this->applicant->batch->camp->table . ".checkInMail", ['applicant' => $this->applicant])
                     ->attachData($this->attachment, $this->applicant->batch->camp->abbreviation . $this->applicant->id . $this->applicant->name . 'QR code 報到單.pdf', [
                         'mime' => 'application/pdf',
                     ]);
