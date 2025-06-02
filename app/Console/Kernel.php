@@ -32,7 +32,8 @@ class Kernel extends ConsoleKernel
 
         //$schedule->command('gen:BankSecondBarcode 79')->dailyAt("0:28"); //ceocamp
         //$schedule->command('import:Status 79')->dailyAt("0:29"); //ceocamp
-        $schedule->command('export:Applicant 96')->dailyAt("0:30"); //ceocamp
+        $schedule->command('export:Applicant 96')->dailyAt("12:30"); //ceocamp,1st
+        $schedule->command('export:Applicant 96')->dailyAt("0:30"); //ceocamp,2nd
         $schedule->command('export:Applicant 97')->dailyAt("0:45"); //ceovcamp
         $schedule->command('export:Applicant 102')->dailyAt("1:00"); //ecamp_c
         $schedule->command('export:Applicant 100')->dailyAt("1:30"); //ecamp_s
