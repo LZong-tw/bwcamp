@@ -166,8 +166,12 @@
                         <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">報名相關</a>
                         <ul class="collapse list-unstyled show" id="pageSubmenu2">
                             <li>
-                                <a href="{{ route("showRegistration", $campFullData->id) }}">報名</a>
+                                <a href="{{ route('showRegistration', $campFullData->id) }}">報名</a>
                             </li>
+                            <li>
+                                <a href="{{ route('showRegistrationUpload', $campFullData->id) }}">匯入報名表</a>
+                            </li>
+
                             @if ($campFullData->table == "ceocamp" || $campFullData->table == "ceovcamp")
                                 @if (auth()->user()->email == "cuboy.chen@gmail.com" ||
                                     auth()->user()->email == "evelynhua@gmail.com" ||
