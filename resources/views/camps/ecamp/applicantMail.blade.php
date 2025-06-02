@@ -6,9 +6,14 @@
 <br>
 若對營隊相關訊息有任何問題或建議，歡迎洽詢<br>
 活動聯繫窗口：(週一至週五10:00~17:30)<br>
+@if (str_contains($batch->name, "北區"))
+紀雅真：0921-059-597 yc890906@gmail.com<br>
+張惠琴：0920-846-619 lilychang846619@gmail.com<br>
+@else
 南區場：07-2819498 方小姐<br>
 中區場：04-3706-9300 (分機621201) 陳小姐<br>
 電子郵件：ent.camp@blisswisdom.org<br>
+@end
 <br>
 <br>
 <blockquote>財團法人福智文教基金會  敬啟</blockquote>
