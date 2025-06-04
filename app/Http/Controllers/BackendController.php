@@ -440,60 +440,52 @@ class BackendController extends Controller
 
     public function showRegistrationUpload()
     {
+        //權限??
         if (!$this->isVcamp && !$this->user->canAccessResource(new \App\Models\Applicant(), 'read', $this->campFullData, 'onlyCheckAvailability') && $this->user->id > 2) {
             return "<h3>沒有權限：瀏覽任何學員</h3>";
         }
         if ($this->isVcamp && !$this->user->canAccessResource(new \App\Models\Volunteer(), 'read', Vcamp::find($this->campFullData->id)->mainCamp, 'onlyCheckAvailability') && $this->user->id > 2) {
             return "<h3>沒有權限：瀏覽任何義工</h3>";
         }
-        $user_batch_or_region = null;
-        //        if($this->campFullData->table == 'ecamp' && auth()->user()->getPermission('all')->first()->level > 2){
-        //            $user_batch_or_region = Batch::where('camp_id', $this->campFullData->id)->where('name', 'like', '%' . auth()->user()->getPermission(true, $this->campFullData->id)->region . '%')->first();
-        //            $user_batch_or_region = $user_batch_or_region ?? "empty";
-        //        }
-        return view('backend.registration.registrationUpload', compact('user_batch_or_region'));
+        $batches = $this->campFullData->batchs;
+        return view('backend.registration.registrationUpload', compact('batches'));
     }
 
     public function registrationUpload(Request $request)
     {
-        //availability records
-        /*
-        $camp_id = $request->camp_id;
-        $camp = Camp::find($request->camp_id);
-        $batches = $camp->batchs;
-        foreach ($batches as $batch) {
-            $batch_ids[$batch->name] = $batch->id;
-        }
-        $titles_map = array_merge(config('camps_fields.general'), config('camps_fields.' . $camp->table) ?? []);
+        //$camp_id = $this->campFullData->id;
+        $camp = $this->campFullData;
+        $batches = $this->campFullData->batchs;
+        $batch_id = $request->batch_id;
+        $table = $camp->table;
+
+        $titles_map = array_merge(config('camps_fields.general'), config('camps_fields.' . $table) ?? []);
         $titles_flip = array_flip($titles_map);
 
         //imported information, all sheets
         $allsheets = Excel::toCollection(new ApplicantsImport, $request->fn_registration_upload);
-        $sheet = $allsheets[0]; //1st sheet
+        $sheet = $allsheets[0];     //1st sheet
         $titles_chn = $sheet[0];    //title row
         $num_rows = $sheet->count();
         $num_cols = $titles_chn->count();
 
-        for ($i=1; $i<$num_cols; $i++) {
+        //chinese 2 english
+        for ($i=0; $i<$num_cols; $i++) {
             $titles[$i] = $titles_flip[$titles_chn[$i]] ?? "";
         }
-        
         $create_count = 0;
         $update_count = 0;
+        $title_data = array();
 
         try {
             for ($i=1; $i<$num_rows; $i++) {
-                $data = $sheets[$i];
+                $data = $sheet[$i];
                 for ($j=0; $j<$num_cols; $j++) {
-
-                    if ($titles[$j] == bName) {
-                        //match name 2 batch_id
-                        $title_data["batch_id"] = $batch_ids[$data[$j]];
-                    }
-
                     $title_data[$titles[$j]] = $data[$j];
                 }
-                dd($title_data);
+                $title_data['batch_id'] = $batch_id;
+                $title_data = $this->applicantService->convertFormat($title_data, $camp);
+
                 $applicant = Applicant::select('applicants.*')
                     ->where('batch_id', $title_data['batch_id'])
                     ->where('name', $title_data['name'])
@@ -504,7 +496,6 @@ class BackendController extends Controller
                     //$applicant->group_id = $title_data['group_id'];
                     //$applicant->region = $title_data['region'];
                     $applicant->update($title_data);
-                    $applicant->save();
                     $model = '\\App\\Models\\' . ucfirst($table);
                     //extended data
                     $xcamp = $model::select($table.'.*')
@@ -528,15 +519,14 @@ class BackendController extends Controller
         catch(\Exception $e) {
             \logger($e->getMessage());
             $message = "資料庫寫入錯誤";
-            return view('backend.registration.registrationUpload', compact('camp_id', 'message', 'create_count', 'update_count'));
+            return view('backend.registration.registrationUpload', compact('batches', 'message', 'create_count', 'update_count'));
         }
         $message = "資料庫寫入成功";
-        $stat['create'] = $create_count;
-        $stat['update'] = $update_count;
+        //$stat['create'] = $create_count;
+        //$stat['update'] = $update_count;
         //dd($stat);
-        return view('backend.registration.registrationUpload', compact('camp_id', 'message', 'create_count','update_count'));
-        */
-        dd("to be implemented");
+        return view('backend.registration.registrationUpload', compact('batches', 'message', 'create_count','update_count'));
+        //dd("to be implemented");
     }
 
     public function showRegistrationList()

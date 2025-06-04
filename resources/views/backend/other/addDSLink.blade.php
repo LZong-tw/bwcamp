@@ -19,6 +19,11 @@
             {{ \Session::get('message') }}
         </div>
     @endif
+    @if(\Session::has('error'))
+        <div class='alert alert-danger' role='alert'>
+            {{ \Session::get('error') }}
+        </div>
+    @endif
     @if(isset($ds))
     <h4>修改 動態統計連結</h4>
     <form action="{{ route('modifyDSLink', $camp_id) }}" method="post" class="form-horizontal">

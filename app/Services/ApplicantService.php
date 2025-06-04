@@ -18,6 +18,41 @@ class ApplicantService
         return $applicant;
     }
 
+    public function convertFormat($title_data, $camp) {
+        //匯入報名表時，將各種人理解的內容轉成要寫入database的內容
+        //$regions = $camp->regions;  //valid regions
+        foreach($title_data as $key => $value) {
+            if ($key == 'gender') {
+                switch($value){
+                    case "男":
+                        $title_data[$key] = "M";
+                        break;
+                    case "女":
+                        $title_data[$key] = "F";
+                        break;
+                }        
+            }
+            if ($key == 'portrait_agree' || $key == 'profile_agree') {
+                switch($value){
+                    case "同意":
+                        $title_data[$key] = "1";
+                        break;
+                    case "不同意":
+                        $title_data[$key] = "0";
+                        break;
+                }        
+            }
+            if ($key == 'region') {
+                $region_found = $camp->regions->where('name', $value)->first();
+                if ($region_found) {
+                    $title_data['region_id'] = $region_found->id;
+                }
+                //otherwise, leave it null
+            }
+        }
+        return $title_data;
+    }
+
     public function groupAndNumberSeperator($admittedSN){
         $group = substr($admittedSN, 0, 3);
         $number = substr($admittedSN, 3, strlen($admittedSN));
