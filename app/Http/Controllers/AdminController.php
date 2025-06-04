@@ -589,15 +589,30 @@ class AdminController extends BackendController {
         }
         else if ($formData['urltable_type'] == 'Batch') {
             $batch = Batch::find($formData['urltable_id']);
-            $is_this_camp = ($batch->camp->id == $camp_id)? true:false;
+            if ($batch) {
+                $is_this_camp = ($batch->camp->id == $camp_id)? true:false;
+            } else {
+                \Session::flash('error', " 找不到梯次，DSLink新增失敗。");
+                return redirect()->route("showAddDSLink", $camp_id);
+            }
         }
         else if ($formData['urltable_type'] == 'CampOrg') {
             $org = CampOrg::find($formData['urltable_id']);
-            $is_this_camp = ($org->camp_id == $camp_id)? true:false;
+            if ($org) {
+                $is_this_camp = ($org->camp_id == $camp_id)? true:false;
+            } else {
+                \Session::flash('error', " 找不到職務，DSLink新增失敗。");
+                return redirect()->route("showAddDSLink", $camp_id);
+            }
         }
         else {  //$formData['urltable_type'] == 'Applicant'
             $applicant = Applicant::find($formData['urltable_id']);
-            $is_this_camp = ($applicant->camp->id == $camp_id)? true:false;
+            if ($applicant) {
+                $is_this_camp = ($applicant->camp->id == $camp_id)? true:false;
+            } else {
+                \Session::flash('error', " 找不到報名者，DSLink新增失敗。");
+                return redirect()->route("showAddDSLink", $camp_id);
+            }
         }
         if ($is_this_camp) {
             $formData['urltable_type'] = 'App\\Models\\' . $formData['urltable_type'];
@@ -605,7 +620,7 @@ class AdminController extends BackendController {
             \Session::flash('message', " DSLink新增成功。");
             return redirect()->route("showAddDSLink", $camp_id);
         } else {
-            \Session::flash('message', " 非屬此營隊，DSLink新增失敗。");
+            \Session::flash('error', " 非屬此營隊，DSLink新增失敗。");
             return redirect()->route("showAddDSLink", $camp_id);
         }
     }

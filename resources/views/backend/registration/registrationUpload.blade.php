@@ -27,14 +27,27 @@
     <form method="POST" class="" name="filesForm" enctype="multipart/form-data" 
         action="{{ route("registrationUpload", $camp_id) }}">
         @csrf
-        <input required type="file" name="fn_registration_upload" id="">
-        <input type="button" class="btn btn-success" value="上傳" onclick="document.filesForm.submit()">
-        <button type="reset" class="btn btn-danger">重設</button>
+        <div class='form-group required'>
+            選擇梯次（不同梯次請分別上傳）＊
+            <select required name='batch_id' id='selBatchId' class='form-control' onChange=''>
+                    <option value='' selected>- 請選擇 -</option>
+                    @foreach($batches as $batch)
+                    <option value={{ $batch->id }} >{{ $batch->name }}</option>
+                    @endforeach
+            </select>
+        </div>
+        <div class='form-group required'>
+            <input required type="file" name="fn_registration_upload" id="selFile">
+        </div>
+        <div class='form-group required'>
+            <input type="button" class="btn btn-success" value="上傳" onclick="document.filesForm.submit()">
+            <button type="reset" class="btn btn-danger">重設</button>
+        </div>
     </form>
-    @if(isset($num_record_add))
+    @if(isset($create_count))
     <hr>
     更新結果：<br>
-    新增{{$num_record_add}}筆資料<br>
-    刪除{{$num_record_delete}}筆資料<br>
+    新增{{ $create_count }}筆資料<br>
+    更新{{ $update_count }}筆資料<br>
     @endif
 @endsection
