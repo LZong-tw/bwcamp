@@ -521,6 +521,7 @@ return [
         "companion_as_roommate" =>"希望同房",
         "transportation_depart" => "去程交通",
         "transportation_back" =>"回程交通",
+        "care_log" => "關懷記錄",
     ],
 
     'utvcamp' => [
