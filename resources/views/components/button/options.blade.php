@@ -5,6 +5,7 @@
             $ceoEmails = config('special_permissions.ceo_emails', []);
             $ecampEmails = config('special_permissions.ecamp_emails', []);
             $utcampEmails = config('special_permissions.utcamp_emails', []);
+            $ycampEmails = config('special_permissions.ycamp_emails', []);
 
             $showExportButton = false;
             $tableContent = $campFullData->table;
@@ -12,8 +13,9 @@
             $isCeocamp = str_contains($tableContent, 'ceo');
             $isEcamp = str_contains($tableContent, 'ecamp');
             $isUtcamp = str_contains($tableContent, 'utcamp');
+            $isYcamp = str_contains($tableContent, 'ycamp') || str_contains($tableContent, 'yvcamp');
 
-            if (!$isCeocamp && !$isEcamp && !$isUtcamp) {
+            if (!$isCeocamp && !$isEcamp && !$isUtcamp && !isYcamp) {
                 $showExportButton = true;
             } else {
                 // 否則，根據 email 判斷
@@ -22,6 +24,8 @@
                 } elseif ($isEcamp && in_array($userEmail, $ecampEmails)) {
                     $showExportButton = true;
                 } elseif ($isUtcamp && in_array($userEmail, $utcampEmails)) {
+                    $showExportButton = true;
+                } elseif ($isYcamp && in_array($userEmail, $ycampEmails)) {
                     $showExportButton = true;
                 }
             }

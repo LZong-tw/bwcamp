@@ -20,6 +20,36 @@
                 }
             @endphp
             @if(isset($campFullData))
+                <!--使用 options.blade.php 設定--->
+                @php
+                    $ceoEmails = config('special_permissions.ceo_emails', []);
+                    $ecampEmails = config('special_permissions.ecamp_emails', []);
+                    $utcampEmails = config('special_permissions.utcamp_emails', []);
+                    $ycampEmails = config('special_permissions.ycamp_emails', []);
+
+                    $showExportButton = false;
+                    $tableContent = $campFullData->table;
+                    $userEmail = $currentUser->email;
+                    $isCeocamp = str_contains($tableContent, 'ceo');
+                    $isEcamp = str_contains($tableContent, 'ecamp');
+                    $isUtcamp = str_contains($tableContent, 'utcamp');
+                    $isYcamp = str_contains($tableContent, 'ycamp') || str_contains($tableContent, 'yvcamp');
+
+                    if (!$isCeocamp && !$isEcamp && !$isUtcamp && !$isYcamp) {
+                        $showExportButton = false;
+                    } else {
+                        // 否則，根據 email 判斷
+                        if ($isCeocamp && in_array($userEmail, $ceoEmails)) {
+                            $showExportButton = true;
+                        } elseif ($isEcamp && in_array($userEmail, $ecampEmails)) {
+                            $showExportButton = true;
+                        } elseif ($isUtcamp && in_array($userEmail, $utcampEmails)) {
+                            $showExportButton = true;
+                        } elseif ($isYcamp && in_array($userEmail, $ycampEmails)) {
+                            $showExportButton = true;
+                        }
+                    }
+                @endphp
                 @if($userOnlyCarer)
                     {{-- If user is only a Carer, show only Learner List --}}
                     <li>
@@ -171,22 +201,10 @@
                             <li>
                                 <a href="{{ route('showRegistrationUpload', $campFullData->id) }}">匯入報名表</a>
                             </li>
-
-                            @if ($campFullData->table == "ceocamp" || $campFullData->table == "ceovcamp")
-                                @if (auth()->user()->email == "cuboy.chen@gmail.com" ||
-                                    auth()->user()->email == "evelynhua@gmail.com" ||
-                                    auth()->user()->email == "jadetang01@gmail.com" ||
-                                    auth()->user()->email == "jadetang004@gmail.com" ||
-                                    auth()->user()->email == "tsai.scow@gmail.com"
-                                )
-                                    {{-- <li>
-                                        <a href="{{ route("showRegistrationList", $campFullData->id)}}">檢視及下載</a>
-                                    </li> --}}
-                                @endif
-                            @else
-                                {{-- <li>
+                            @if ($showExportButton)
+                                <li>
                                     <a href="{{ route("showRegistrationList", $campFullData->id)}}">檢視及下載</a>
-                                </li> --}}
+                                </li>
                             @endif
                             <li>
                                 <a href="{{ route("changeBatchOrRegionGET", $campFullData->id) }}">修改梯次 / 區域</a>
