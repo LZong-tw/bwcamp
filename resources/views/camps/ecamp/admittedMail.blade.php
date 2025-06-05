@@ -21,7 +21,15 @@
         <td>姓名：{{ $applicant->name }}</td>
         <td>序號：{{ $applicant->id }}</td>
         <td>組別：{{ $applicant->groupRelation?->alias ?? "異常，請回報主辦單位" }}</td> 
-        <td>場次：@if (str_contains($applicant->batch->name, "南區")) 南區({{ $applicant->batch->locationName }}) @else 中區({{ $applicant->batch->locationName }}) @endif</td>
+        <td>場次：
+            @if(str_contains($applicant->batch->name, "南區"))
+            南區({{ $applicant->batch->locationName }})
+            @elseif(str_contains($applicant->batch->name, "中區")) 
+            中區({{ $applicant->batch->locationName }}) 
+            @else
+            北區場({{ $applicant->batch->locationName }})
+            @endif
+        </td>
     </tr>
 </table><br>
 
@@ -32,9 +40,17 @@
     <li>上課時間：
             {{ $applicant->batch->batch_start }}({{ $batch_start_Weekday }})至{{ $applicant->batch->batch_end }}({{ $batch_end_Weekday }}) </li>
     <li>報到時間：
-            {{ $applicant->batch->batch_start }}({{ $batch_start_Weekday }})&nbsp;<a style="color: red;">09:30~10:30</a> </li>
+            {{ $applicant->batch->batch_start }}({{ $batch_start_Weekday }})&nbsp;<a style="color: red;">
+                @if (str_contains($applicant->batch->name, "北區")) 
+                10:00~10:40 
+                @else
+                09:30~10:30
+                @endif
+            </a> </li>
     <li>舉辦地點：
-            {{ $applicant->batch->locationName }}&nbsp;&nbsp;({{ $applicant->batch->location }}) </li>
+            {{ $applicant->batch->locationName }}&nbsp;&nbsp;({{ $applicant->batch->location }})
+            @if (str_contains($applicant->batch->name, "北區"))
+            &nbsp;&nbsp;(<a href='https://maps.app.goo.gl/12WLJ2MdiHmJp37T6'>https://maps.app.goo.gl/12WLJ2MdiHmJp37T6</a>) @endif</li>
     <li>
         @if (str_contains($applicant->batch->name, "南區"))
         交通：（屏東大學民生校區臨近屏東火車站約3公里）<br>
@@ -44,7 +60,7 @@
                 <li>自行前往者請導航：&nbsp;{{ $applicant->batch->locationName }}&nbsp;{{ $applicant->batch->location }}。(<a href="https://goo.gl/maps/jbHDZ">https://goo.gl/maps/jbHDZ</a>)</li>
             </ol>
             <u>因會場停車位有限，懇請多利用公共交通工具。</u>
-        @else
+        @elseif (str_contains($applicant->batch->name, "中區"))
         交通：<br>
             本基金會將於{{ $applicant->batch->batch_start }}&nbsp;上午09:00~10:00在以下地點提供交通接駁服務，現場有穿黃色背心義工協助引導(逾10:00請自行搭計程車前往{{ $applicant->batch->locationName }})。 <br>
             <ol>
@@ -53,6 +69,15 @@
                 <li>自行前往者請導航:&nbsp;{{ $applicant->batch->locationName }}&nbsp;{{ $applicant->batch->location }}。(<a href="https://maps.app.goo.gl/qjTTxRTdFjSw2ocB7">https://maps.app.goo.gl/qjTTxRTdFjSw2ocB7</a>)</li>
             </ol>
             <u>因會場停車位有限，懇請多利用公共交通工具及本會提供的接駁服務。</u>
+        @else
+        交通：<br>
+            因會場位於市區內交通便捷，<u>請搭乘台北捷運<span style="color: green">綠線</span></u>至: <br>
+            <ol>
+                <li><span style="color: green">小巨蛋站</span>: 4號出口直行至光復北路右轉即可到達 (步行約8分鐘)</li>
+                <li><span style="color: green">南京三民站</span>: 2號出口直行過光復北路左轉即可到達 (步行約8分鐘)</li>
+            </ol>
+            或搭乘公車至附近站牌: <br>
+            <span style="color: red">博仁醫院站、榮民服務處、光復路口站、南京寧安站、南京三民站</span>
         @endif
     </li>
     <li>
