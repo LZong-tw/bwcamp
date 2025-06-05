@@ -27,6 +27,14 @@
         {{ session()->get('message') }}
     </div>
 @endif
+@php
+    $showCancelButton = false;
+    $userEmail = $currentUser->email;
+    $ecampEmails = array("lilychang6619@gmail.com", "jadetang01@gmail.com");
+    if (in_array($userEmail, $ecampEmails)) {
+        $showCancelButton = true;
+    } 
+@endphp
 @if(isset($applicant))
     <h4>{{ $camp->fullName }}>>個人詳細資料>>{{ $applicant->name }}</h4>
 
@@ -124,11 +132,13 @@
                     <input class="btn btn-success" type="submit" value="重新報名">
                 </form>
             @else
+                @if($showCancelButton)
                 <form class="mr-4 mb-2" action="{{ route('cancelRegistration', $camp->id) }}" method="POST">
                     @csrf
                     <input type="hidden" name="id" value="{{ $applicant->applicant_id ?? $applicant->id }}">
                     <input class="btn btn-danger" type="submit" value="取消報名">
                 </form>
+                @endif
             @endif
         </div> --}}
     </div>
