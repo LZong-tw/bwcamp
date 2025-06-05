@@ -278,18 +278,14 @@
                                         <td
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                             <span style="color: rgb(0, 0, 0);" class="required">區域別：&nbsp;</span>
-                                            @if(str_contains($batch->name, ""))
                                                 <input type="radio" value="北區　" name="region" required><span
                                                     style="color: rgb(0, 0, 0);"> 北區　</span>
                                                 <input type="radio" value="竹區" name="region" required><span
                                                     style="color: rgb(0, 0, 0);"> 竹區　</span>
-                                                <!--
-                                                    <input type="radio" value="中區" name="region" required><span
+                                                <input type="radio" value="中區" name="region" required><span
                                                     style="color: rgb(0, 0, 0);"> 中區　</span>
-                                                -->
                                                 <input type="radio" value="高區" name="region" required><span
                                                     style="color: rgb(0, 0, 0);"> 高區　</span><br>
-                                            @endif
                                             <sup><span style="color: rgb(255, 0, 0);">建議根據被推薦人的工作/生活地區選擇</span></sup>
                                         </td>
                                     </tr>
