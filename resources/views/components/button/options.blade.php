@@ -15,7 +15,7 @@
             $isUtcamp = str_contains($tableContent, 'utcamp');
             $isYcamp = str_contains($tableContent, 'ycamp') || str_contains($tableContent, 'yvcamp');
 
-            if (!$isCeocamp && !$isEcamp && !$isUtcamp && !isYcamp) {
+            if (!$isCeocamp && !$isEcamp && !$isUtcamp && !$isYcamp) {
                 $showExportButton = true;
             } else {
                 // 否則，根據 email 判斷
