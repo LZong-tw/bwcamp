@@ -5,7 +5,7 @@
     <!-- 錄取名單將於 {{ $applicant->batch->camp->admission_announcing_date }} 後陸續以E-mail通知。<br>-->
     <br>
     洽詢電話及電子郵件：<br>
-    @if (str_contains($batch->name, "北區"))
+    @if (str_contains($applicant->batch->name, "北區"))
     紀雅真：0921-059-597 yc890906@gmail.com<br>
     張惠琴：0920-846-619 lilychang846619@gmail.com<br>
     @else
