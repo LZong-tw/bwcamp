@@ -6,7 +6,7 @@
 <br>
 若對營隊相關訊息有任何問題或建議，歡迎洽詢<br>
 活動聯繫窗口：(週一至週五10:00~17:30)<br>
-@if (str_contains($batch->name, "北區"))
+@if (str_contains($applicant->batch->name, "北區"))
 紀雅真：0921-059-597 yc890906@gmail.com<br>
 張惠琴：0920-846-619 lilychang846619@gmail.com<br>
 @else
