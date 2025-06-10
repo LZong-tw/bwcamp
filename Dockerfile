@@ -42,6 +42,12 @@ WORKDIR /var/www
 
 # Copy existing application directory contents
 COPY . /var/www/
+USER root
+RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache && \
+    chmod -R ug+w /var/www/storage /var/www/bootstrap/cache && \
+    touch /var/www/storage/logs/laravel.log && \
+    chown www-data:www-data /var/www/storage/logs/laravel.log && \
+    chmod ug+w /var/www/storage/logs/laravel.log
 
 COPY vite.config.js /var/www/vite.config.js
 
