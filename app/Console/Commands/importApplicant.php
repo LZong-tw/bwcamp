@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\BackendController;
 use App\Http\Controllers\SheetController;
 
-class importStatus extends Command
+class importApplicant extends Command
 {
     /**
      * The name and signature of the console command.
