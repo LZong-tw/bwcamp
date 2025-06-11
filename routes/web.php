@@ -265,6 +265,7 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
     Route::get("/statistics/admission", [StatController::class, "admissionStat"])->name("admissionStat");
     Route::get("/statistics/checkin", [StatController::class, "checkinStat"])->name("checkinStat");
     Route::get("/statistics/bwclubschool", BWClubSchoolStat::class)->name("bwclubschoolStat");
+    Route::get("/statistics/bwnschool", BWNSchoolStat::class)->name("bwnschoolStat");
     Route::get("/accounting", "BackendController@showAccountingPage")->name("accounting");
     Route::get("/accounting/modify", "BackendController@modifyAccounting")->name("modifyAccountingGET");
     Route::post("/accounting/modify", "BackendController@modifyAccounting")->name("modifyAccounting");

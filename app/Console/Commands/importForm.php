@@ -6,14 +6,14 @@ use Illuminate\Console\Command;
 use Illuminate\Http\Request;
 use App\Http\Controllers\SheetController;
 
-class importStatus extends Command
+class importForm extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'import:Status {camp_id} {--app_id=0}';
+    protected $signature = 'import:Form {camp_id} {--app_id=0}';
 
     /**
      * The console command description.
@@ -32,7 +32,7 @@ class importStatus extends Command
         Request $request
     ) {
         parent::__construct();
-        $this->sheetControl = $sheetController;
+        $this->sheetController = $sheetController;
         $this->request = $request;
         return;
     }
@@ -46,7 +46,7 @@ class importStatus extends Command
     {
         $this->request->camp_id = $this->argument('camp_id');
         $this->request->app_id = $this->option('app_id');
-        $this->sheetControl->importGSStatus($this->request);
+        $this->sheetController->importGSStatus($this->request);
         return 0;
     }
 }

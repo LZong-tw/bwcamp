@@ -125,10 +125,13 @@ class BWClubSchoolStat extends BackendController{
             }
             $totals[$groupname] = $total;
         }
-
+        $title1 = "福青社學校統計";
+        $title2 = "地區";
         return view('backend.statistics.bwclubschool', [
+            'title1' => $title1,
+            'title2' => $title2,
             'groups' => $this->groups,
             'totals' => $totals
-            ]);
+        ]);
     }
 }

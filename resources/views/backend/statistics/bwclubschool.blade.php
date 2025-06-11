@@ -1,9 +1,9 @@
 @extends('backend.master')
 @section('content')
-    <h2>{{ $campFullData->abbreviation }} 福青社學校統計</h2>
+    <h2>{{ $campFullData->abbreviation }} {{ $title1 }}</h2>
     <table class="table table-bordered table-hover">
         <tr>
-            <td align=center>地區</td>
+            <td align=center>{{ $title2 }}</td>
             <td align=center>學校全名</td>
             <td align=center>報名人數</td>
             <td align=center>小計</td>
