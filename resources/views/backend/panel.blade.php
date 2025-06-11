@@ -151,6 +151,9 @@
                                 <li>
                                     <a href="{{ route("bwclubschoolStat", $campFullData->id) }}">福青社學校統計</a>
                                 </li>
+                                <li>
+                                    <a href="{{ route("bwnschoolStat", $campFullData->id) }}">北區學校統計</a>
+                                </li>
                             @endif
                             @if($campFullData->table == "acamp" ||$campFullData->table == "ceocamp" || $campFullData->table == "ecamp")
                                 <li>
