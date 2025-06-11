@@ -5,16 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Applicant;
 use Illuminate\Http\Request;
 
-class BWNSchoolStat extends BackendController{
-    protected $ntu = array (
-		"國立臺灣大學",
-		"國立臺灣科技大學",
-		"臺北醫學大學"
+class BWNSchoolStat extends BackendController
+{
+    protected $ntu = array(
+        "國立臺灣大學",
+        "國立臺灣科技大學",
+        "臺北醫學大學"
     );
-    protected $shifu = array (
-		"國立臺灣師範大學",
-		"國立臺北教育大學",
-		"臺北市立大學",
+    protected $shifu = array(
+        "國立臺灣師範大學",
+        "國立臺北教育大學",
+        "臺北市立大學",
         "佛光大學",
         "國立宜蘭大學",
         "國立金門大學",
@@ -30,7 +31,7 @@ class BWNSchoolStat extends BackendController{
         "國立體育大學",
         "跨區越南生"
     );
-    protected $peitam = array (
+    protected $peitam = array(
         "淡江大學",
         "國立臺北科技大學",
         "國立臺北護理健康大學",
@@ -49,7 +50,7 @@ class BWNSchoolStat extends BackendController{
         "台北海洋科技大學",
         "耕莘健康管理專科學校"
     );
-    protected $chengdong = array (
+    protected $chengdong = array(
         "國立政治大學",
         "東吳大學",
         "國立臺灣海洋大學",
@@ -68,19 +69,19 @@ class BWNSchoolStat extends BackendController{
         "國立臺灣戲曲學院",
         "華梵大學"
     );
-    protected $hualien = array (
+    protected $hualien = array(
         "國立東華大學",
         "慈濟大學",
         "慈濟科技大學"
     );
-    protected $other = array (
+    protected $other = array(
         "海外",
         "高中",
         "其他"
     );
 
-    protected $groups = array ();
-    
+    protected $groups = array();
+
     /**
      * Handle the incoming request.
      *
@@ -91,7 +92,7 @@ class BWNSchoolStat extends BackendController{
     {
         //
         $this->groups = array(
-		    "台大" => $this->ntu,
+            "台大" => $this->ntu,
             "師輔" => $this->shifu,
             "北淡" => $this->peitam,
             "政東" => $this->chengdong,
@@ -106,18 +107,17 @@ class BWNSchoolStat extends BackendController{
                                 ->where('camps.id', $request->camp_id)
                                 ->groupBy('school')->get();
 
-        $totals = array ();
-        foreach($bwclubbersBySchool as $school){
+        $totals = array();
+        foreach ($bwclubbersBySchool as $school) {
             $totals[$school->school] = $school->total;
         }
 
-        foreach($this->groups as $groupname => $group){
+        foreach ($this->groups as $groupname => $group) {
             $total = 0;
-            foreach($group as $school){
-                if(isset($totals[$school])){
+            foreach ($group as $school) {
+                if (isset($totals[$school])) {
                     $total += $totals[$school];
-                }
-                else{
+                } else {
                     $totals[$school] = 0;
                 }
             }
