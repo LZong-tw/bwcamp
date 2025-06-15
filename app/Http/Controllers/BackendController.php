@@ -981,12 +981,13 @@ class BackendController extends Controller
         if (!$this->isVcamp && $this->campFullData->access_end && Carbon::now()->gt($this->campFullData->access_end)) {
             return "<h3>權限已關閉。</h3>";
         }
+        /*
         if ($this->campFullData->table == 'ycamp' || $this->campFullData->table == 'yvcamp') {
             //2694-2716是輔導組
             if (count($this->user->roles->whereBetween('id',[2397,2398]))==0 &&count($this->user->roles->whereBetween('id',[2694,2716]))==0 && $this->user->id > 2) {
                 return "<h3>大專營：只有輔導組幹部有權限。</h3>";
             }
-        }
+        }*/
 
         $batches = Batch::with('groups', 'groups.applicants')->where('camp_id', $this->camp_id)->get()->all();
         foreach($batches as &$batch) {
@@ -1038,12 +1039,13 @@ class BackendController extends Controller
         if (!$this->isVcamp && $this->campFullData->access_end && Carbon::now()->gt($this->campFullData->access_end)) {
             return "<h3>權限已關閉。</h3>";
         }
+        /*
         if ($this->campFullData->table == 'ycamp' || $this->campFullData->table == 'yvcamp') {
             //2694-2716是輔導組
             if (count($this->user->roles->whereBetween('id',[2397,2398]))==0 &&count($this->user->roles->whereBetween('id',[2694,2716]))==0 && $this->user->id > 2) {
                 return "<h3>大專營：只有輔導組幹部有權限。</h3>";
             }
-        }
+        }*/
         //for ecamp only
         $main_camp = VCamp::find($this->camp_id)->mainCamp;
         $roles = $main_camp->roles;
