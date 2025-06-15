@@ -1931,7 +1931,7 @@ class BackendController extends Controller
                         ->join('batchs', 'batchs.id', '=', 'applicants.batch_id')
                         ->join('camps', 'camps.id', '=', 'batchs.camp_id')
                         ->join($this->campFullData->table, 'applicants.id', '=', $this->campFullData->table . '.applicant_id')
-                        ->where('camps.id', $this->campFullData->id)->withTrashed()->orderBy('deleted_at', 'asc');
+                        ->where('camps.id', $this->campFullData->id)->withTrashed()->orderBy('deleted_at', 'asc')->orderBy('id', 'asc');
         if ($request->batch_id) {
             $query->where('batchs.id', $request->batch_id);
         }
