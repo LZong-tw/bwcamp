@@ -468,108 +468,127 @@ class SheetController extends Controller
 
     public function importGSStatus(Request $request)
     {
-        config([
-            'ceocamp'=> [
-                'google.post_spreadsheet_id' => '1nTogm6qganBoxUmYnaw1BQwGnJs3yiy6vDFxJ1M7V58',
-                'google.post_sheet_id' => '表單回應 2',
-            ],
-            'utcamp'=> [
-                'google.post_spreadsheet_id' => '12hJHZlTzUaN0nd15pt_PTJJ5Ym0Ta-ZWyrpDj0dOd-4',
-                'google.post_sheet_id' => '正行學員報名表',
-            ],
-        ]);
-
         $camp = Camp::find($request->camp_id);
         $table = $camp->table;
-        $fare_room = config('camps_payments.fare_room.'.$table) ?? [];
+        $fare_room = config('camps_payments.fare_room.' . $table) ?? [];
+        
+        //maybe more than one
+        $dss = DynamicStat::select('dynamic_stats.*')
+            ->where('urltable_id',$request->camp_id)
+            ->where('urltable_type','App\Models\Camp')
+            ->where('purpose','importForm')
+            ->get();
 
-        $sheets = $this->gsheetservice->Get(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
-        $titles = $sheets[0];
-        $num_cols = count($titles);
-        $num_rows = count($sheets);
-        //dd($titles);
-
-        $title_tg[] = array("報名序號", "是否參加營隊", "住宿房型", "繳費");
-        $colidx[] = array(0, 0, 0, 0);
-        $jcnt = count($title_tg);
-
-        //find title
-        for ($i=1; $i<$num_cols; $i++) {
-            for ($j=0; $j<jcnt; $j++) {
-                if (str_contains($titles[$i], $title_tg[$j])) {
-                    $colidx[$j] = $i;
-                    continue;
-                }
-            }
+        if ($dss == null) {
+            echo "sheet not found\n";
+            exit(1);
         }
 
-        if ($table == 'ceocamp') {
-            //$success_count = 0;
-            //$fail_count = 0;
-            $ids = array();
-            $is_attends = array();
-            $room_types = array();
-            for ($j=1; $j<$num_rows; $j++) {
-                $data = $sheets[$j];
-                if (count($data) > 2) { //已調查
-                    array_push($ids, $data[$colidx1]);
-                    //$is_attends[$data[$colidx1]] = ($data[$colidx2]?? "");
-                    if (isset($data[$colidx2])) {
-                        if ($data[$colidx2] == "是")
-                            $is_attends[$data[$colidx1]] = 1;
-                        elseif ($data[$colidx2] == "否")
-                            $is_attends[$data[$colidx1]] = 0;
-                        elseif ($data[$colidx2] == "不確定")
-                            $is_attends[$data[$colidx1]] = 2;
+        foreach ($dss as $ds) {
+            $sheet_id = $ds->spreadsheet_id;
+            $sheet_name = $ds->sheet_name;
+            $sheets = $this->gsheetservice->Get($sheet_id, $sheet_name);
+        
+            $titles = $sheets[0];
+            $num_cols = count($titles);
+            $num_rows = count($sheets);
+
+            $title_tg = array("報名序號", "是否參加營隊", "住宿房型", "繳費");
+            $colidx = array(-1, -1, -1, -1);
+            $jcnt = count($title_tg);
+            //find title
+            for ($i=0; $i<$num_cols; $i++) {
+                for ($j=0; $j<$jcnt; $j++) {
+                    if (str_contains($titles[$i], $title_tg[$j])) {
+                        $colidx[$j] = $i;
+                        continue;
                     }
-                    $room_types[$data[$colidx1]] = ($data[$colidx3]?? "");
                 }
             }
-            $applicants = Applicant::select('applicants.*')
-                ->whereIn('id', $ids)->get();
 
-            //try {
-                foreach ($applicants as $applicant) {
-                    $applicant->is_attend = ($is_attends[$applicant->id]?? null);
-                    if ($room_types[$applicant->id] == "") {
-                        $applicant->save();
-                    } else {
-                        $lodging = $applicant->lodging;
-                        //尚未登記，建新的Lodging
-                        if (!isset($lodging)) {
-                            $lodging = new Lodging;
-                            $lodging->applicant_id = $applicant->id;
+            if ($table == 'ceocamp') {
+                //$success_count = 0;
+                //$fail_count = 0;
+                $ids = array();
+                $is_attends = array();
+                $room_types = array();
+                for ($j=1; $j<$num_rows; $j++) {
+                    $data = $sheets[$j];
+                    if (count($data) > 2) { //已調查
+                        array_push($ids, $data[$colidx[0]]);
+                        //$is_attends[$data[$colidx1]] = ($data[$colidx2]?? "");
+                        if (isset($data[$colidx[1]])) {
+                            if ($data[$colidx[1]] == "是")
+                                $is_attends[$data[$colidx[0]]] = 1;
+                            elseif ($data[$colidx[1]] == "否")
+                                $is_attends[$data[$colidx[0]]] = 0;
+                            else
+                                $is_attends[$data[$colidx[0]]] = 2;
                         }
-                        //更新房型、天數及應繳車資
-                        $lodging->room_type = $room_types[$applicant->id];
-                        $lodging->nights = 1;
-                        $lodging->fare = ($fare_room[$lodging->room_type] ?? 0) * ($lodging->nights ?? 0);
-                        $lodging->save();
-                        //update barcode
-                        $applicant = $this->applicantService->fillPaymentData($applicant);
-                        $applicant->save();
+                        $room_types[$data[$colidx[0]]] = ($data[$colidx[2]]?? "");
                     }
-                }        
-            //}
-            //catch(\Exception $e){
-            //    logger($e);
-            //}
-        } elseif ($table == 'utcamp') {
-            $ids = array();
-            $deposit = array();
-            for ($j=1; $j<$num_rows; $j++) {
-                $data = $sheets[$j];
-                array_push($ids, $data[$colidx[0]]);
-                $deposit[$data[$colidx[0]]] = $data[$colidx[3]];
-            }
-            $applicants = Applicant::select('applicants.*')
-                ->whereIn('id', $ids)->get();
+                }
+                
+                $applicants = Applicant::select('applicants.*')
+                    ->whereIn('id', $ids)->get();
+                try {
+                    foreach ($applicants as $applicant) {
+                        //dd($applicant->id);
+                        $applicant->is_attend = ($is_attends[$applicant->id]?? null);
+                        if ($room_types[$applicant->id] == "") {
+                            $applicant->save();
+                        } else {
+                            $lodging = $applicant->lodging;
+                            //尚未登記，建新的Lodging
+                            if (!isset($lodging)) {
+                                $lodging = new Lodging;
+                                $lodging->applicant_id = $applicant->id;
+                            }
+                            //更新房型、天數及應繳車資
+                            $lodging->room_type = $room_types[$applicant->id];
+                            $lodging->nights = 1;
+                            $lodging->fare = ($fare_room[$lodging->room_type] ?? 0) * ($lodging->nights ?? 0);
+                            $lodging->save();
+                            //dd($lodging);
+                            //update barcode
+                            $applicant = $this->applicantService->fillPaymentData($applicant);
+                            $applicant->save();
+                        }
+                    }  
+                }
+                catch(\Exception $e) {
+                    logger($e);
+                }
+            } elseif ($table == 'utcamp') {
+                $ids = array();
+                $deposits = array();
+                for ($j=1; $j<$num_rows; $j++) {
+                    $data = $sheets[$j];
+                    if (count($data) < $num_cols) break;
+                    $app_id = preg_replace("/[^0-9]/", "", $data[$colidx[0]]);
+                    $deposit = preg_replace("/[^0-9.]/", "", $data[$colidx[3]]);
+                    if ($app_id == "") continue;
+                    array_push($ids, $app_id);
+                    $deposits[$app_id] = $deposit;
+                }
+                $applicants = Applicant::select('applicants.*')
+                    ->whereIn('id', $ids)->get();
 
-            foreach ($applicants as $applicant) {
-                $applicant->deposit = $deposit[$applicant->id];
-                $applicant->save();
+                $update_count = 0;
+                try {
+                    foreach ($applicants as $applicant) {
+                        $applicant->deposit = $deposit[$applicant->id];
+                        $applicant->save();
+                        $update_count++;
+                    }
+                }
+                catch(\Exception $e){
+                    logger($e);
+                }
             }
         }
         return;
     }
 }
+
+
