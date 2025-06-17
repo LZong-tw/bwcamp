@@ -46,7 +46,8 @@ class importForm extends Command
     {
         $this->request->camp_id = $this->argument('camp_id');
         $this->request->app_id = $this->option('app_id');
-        $this->sheetController->importGSStatus($this->request);
+        $update_count = $this->sheetController->importGSStatus($this->request);
+        $this->info('update_count = '. $update_count);
         return 0;
     }
 }

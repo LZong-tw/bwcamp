@@ -505,7 +505,7 @@ class SheetController extends Controller
                     }
                 }
             }
-
+            
             if ($table == 'ceocamp') {
                 //$success_count = 0;
                 //$fail_count = 0;
@@ -577,17 +577,18 @@ class SheetController extends Controller
                 $update_count = 0;
                 try {
                     foreach ($applicants as $applicant) {
-                        $applicant->deposit = $deposit[$applicant->id];
+                        $applicant->deposit = $deposits[$applicant->id];
                         $applicant->save();
                         $update_count++;
                     }
                 }
-                catch(\Exception $e){
+                catch(\Exception $e)
+                {
                     logger($e);
                 }
             }
         }
-        return;
+        return($update_count);
     }
 }
 
