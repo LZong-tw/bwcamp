@@ -1,3 +1,8 @@
+<style>
+    u{
+        color: red;
+    }
+</style>
 @extends('camps.ycamp.layout')
 @section('content')
     @if(Session::has('error'))
@@ -15,7 +20,7 @@
                 <h2>研習證明下載</h2>
             </div>
             <div class="card-body">
-                <a href="https://bwcamp.bwfoce.org/downloads/ycamp2024/{{ $applicant->group }}{{ $applicant->number }}{{ $applicant->applicant_id }}.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-success">下載</a>
+                <a href="https://bwcamp.bwfoce.org/downloads/ycamp2025/{{ $applicant->group }}{{ $applicant->number }}{{ $applicant->applicant_id }}.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-success">下載</a>
             </div>
             <div class="card-body">
                 如下載顯示錯誤，請聯絡您的帶組老師，謝謝！
@@ -31,15 +36,14 @@
         <div class="card-body">
             @if($applicant->is_admitted && !$applicant->deleted_at)
                 <p class="card-text">親愛的 {{ $applicant->name }} 同學您好</p>
-                <p class="card-text text-indent">非常恭喜您錄取「{{ $camp_data->fullName }}」！</p>
+                <p class="card-text text-indent">非常恭喜您錄取「{{ $camp_data->fullName }}」！</p>竭誠歡迎您的到來！<u>請於6月20日(五) ~ 6月30日(一)回覆交通方式！</u>並請詳閱以下訊息，祝福您營隊收穫滿滿。</p><br>
+
                 <p class="card-text text-indent">
                 您的報名序號：{{ $applicant->applicant_id }}<br>
                 您的錄取編號：{{ $applicant->group }}{{ $applicant->number }}<br>
-                營隊日期：{{ $applicant->batch->batch_start }}({{ $applicant->batch_start_weekday }}) ~ {{ $applicant->batch->batch_end }}({{ $applicant->batch_end_weekday }})，共4天<br>
+                營隊期間：{{ $applicant->batch->batch_start }}({{ $applicant->batch_start_Weekday }}) ~ {{ $applicant->batch->batch_end }}({{ $applicant->batch_end_Weekday }})，共4天<br>
                 營隊地點：{{ $applicant->batch->locationName }}({{ $applicant->batch->location }})<br>
                 </p>
-                <p class="card-text text-indent">此次營隊報名人數超過1,200人，錄取1,000 名，竭誠歡迎您的到來！請詳閱錄取/報到通知，並於7月9日(二)前回覆交通方式！祝福您營隊收穫滿滿。</p><br>
-
 
                 <h5>錄取/報到通知</h5>
                 <div class="ml-2 mb-2">請詳閱<a href="{{ url('downloads/ycamp2025/【2025第58屆大專青年生命成長營】錄取通知單.pdf') }}">錄取/報到通知</a>，內含報到資訊、必帶物品，及交通資訊等等。</div>
@@ -124,15 +128,15 @@
                 <div class="ml-0 mb-2">若有任何問題，歡迎</div>
                 <div class="ml-2 mb-2">1. 洽各組輔導員</div>
                 <div class="ml-2 mb-2">2. 與『福智文教基金會』各區窗口聯絡</div>
-                <div class="ml-4 mb-2">台北／林舒萱0988-250-005</div>
-                <div class="ml-4 mb-2">台北／畢兆豪0915-394-395</div>
-                <div class="ml-4 mb-2">桃園／李致緯0916-103-155</div>
-                <div class="ml-4 mb-2">桃園／李源庭0905-508-981</div>
-                <div class="ml-4 mb-2">新竹／黃貞瑜0929-926-773</div>
-                <div class="ml-4 mb-2">台中／林佳瑩0975-769-937</div>
-                <div class="ml-4 mb-2">雲嘉／翁靖淳0978-110-827</div>
-                <div class="ml-4 mb-2">台南／顏瀅真0963-271-801</div>
-                <div class="ml-4 mb-2">高雄／吳京諭0963-681-833</div>
+                <div class="ml-4 mb-2">台北／姚子麒 0986-090-623</div>
+                <div class="ml-4 mb-2">台北／阮暄丰 0921-857-901</div>
+                <div class="ml-4 mb-2">桃園／蔡欣芮 0981-558-582</div>
+                <div class="ml-4 mb-2">桃園／王元亨 0975-698-256</div>
+                <div class="ml-4 mb-2">新竹／黃貞瑜 0929-926-773</div>
+                <div class="ml-4 mb-2">台中／林佳瑩 0975-769-937</div>
+                <div class="ml-4 mb-2">雲嘉／徐逸芳 0930-456-233</div>
+                <div class="ml-4 mb-2">台南／王觀珳 0936-398-203</div>
+                <div class="ml-4 mb-2">高雄／尤筱文 0916-627-665</div>
                 <div class="ml-2 mb-2">3. Email福智青年：<a href="mailto:youth@blisswisdom.org">youth@blisswisdom.org</a></div>
                 <div class="ml-2 mb-2">4.留言給福智青年：<a href="https://www.facebook.com/bwyouth" target="_blank" rel="noopener noreferrer">福智青年粉專</a></div>
 

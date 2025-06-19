@@ -5,16 +5,15 @@
 </style>
 <h2 class="center">{{ $applicant->batch->camp->fullName }}<br>【錄取/報到通知單】</h2>
 <p class="card-text">親愛的 {{ $applicant->name }} 同學您好：</p>
-<p class="card-text text-indent">非常恭喜您錄取「{{ $applicant->batch->camp->fullName }}」！</p>
+<p class="card-text text-indent">非常恭喜您錄取「{{ $applicant->batch->camp->fullName }}」！竭誠歡迎您的到來！<u>請於6月20日(五) ~ 6月30日(一)上網回覆交通方式！</u>並請詳閱以下訊息，祝福您營隊收穫滿滿。</p>
 <p class="card-text text-indent">
 您的報名序號：{{ $applicant->id }}<br>
 您的錄取編號：{{ $applicant->group }}{{ $applicant->number }}<br>
-營隊日期：{{ $applicant->batch->batch_start }}(五) ~ {{ $applicant->batch->batch_end }}(一)，共4天<br>
+營隊日期：{{ $applicant->batch->batch_start }}({{ $applicant->batch_start_Weekday }}) ~ {{ $applicant->batch->batch_end }}({{ $applicant->batch_end_Weekday }})，共4天<br>
 營隊地點：{{ $applicant->batch->locationName }}({{ $applicant->batch->location }})<br>
 </p>
-<p class="card-text text-indent">此次營隊報名人數超過1,200人，錄取1,000 名，竭誠歡迎您的到來！請詳閱錄取/報到通知，並於7月9日(二)前回覆交通方式！祝福您營隊收穫滿滿。</p>
 <ul>
-    <li><p class="card-text indent"><a href="http://bwcamp.bwfoce.org/downloads/ycamp2024/【2024第57屆大專青年生命成長營】錄取通知單.pdf">錄取/報到通知連結</a></p></li>
+    <li><p class="card-text indent"><a href="http://bwcamp.bwfoce.org/downloads/ycamp2025/【2025第58屆大專青年生命成長營】錄取通知單.pdf">錄取/報到通知連結</a></p></li>
     <li><p class="card-text indent">上網<a href="https://bwcamp.bwfoce.org/camp/{{ $applicant->batch->id }}/showadmit?sn={{ $applicant->id }}&name={{ $applicant->name }}">回覆交通方式</a></p>
     <p>若以上連結無法點選，請複製下方文字後，再由瀏覽器進入頁面做回覆：</p>
     <p>https://bwcamp.bwfoce.org/camp/{{ $applicant->batch->id }}/queryadmit</p>
