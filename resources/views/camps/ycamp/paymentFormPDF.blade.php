@@ -54,23 +54,23 @@
 <table class="table">
     <tr>
         <td>
-            親愛的同學您好，請使用下列繳款方式繳納: <br>
+            親愛的同學您好，請使用下列繳款方式繳納：<br>
             ＊上海銀行繳納：請持本繳款單至全台上海商業儲蓄銀行<br>
-            &nbsp;&nbsp;臨櫃繳納，免手續費。<br>
+            臨櫃繳納，免手續費。<br>
             ＊ATM 轉帳：選擇「轉帳」或「繳費」→ 輸入上海銀行<br>
-            &nbsp;&nbsp;代號011 → 輸入銷帳編號輸入應繳金額，<br>
-            &nbsp;&nbsp;跨行轉帳須支付手續費。 <br>
-            ＊超商繳納：請持本繳款單至7-11、全家、萊爾富、OK<br>
-            &nbsp;&nbsp;繳費，免付手續費。<br>
-            ＊臨櫃匯款：收款行=上海商業儲蓄銀行南京東路分行，<br>
-            &nbsp;&nbsp;銀行代碼=0110406、戶名=財團法人福智文教基金會，<br>
-            &nbsp;&nbsp;帳號=銷帳編號(14碼)，須自付手續費。
+            代號011 → 輸入銷帳編號 → 輸入應繳金額，<br>
+            跨行轉帳須支付手續費。<br>
+            ＊超商繳納：請持本繳款單至 7-11、全家、萊爾富、OK<br>
+            繳費，免付手續費。<br>
+            ＊臨櫃匯款：收款行 = 上海商業儲蓄銀行南京東路分行，<br>
+            銀行代碼 = 0110406，戶名 = 財團法人福智文教基金會，<br>
+            帳號 = 銷帳編號(14碼)，須自付手續費。
         </td>
         <td style="padding: 0!important" width="200px">
             <table class="table" style="margin: -12px">
                 <tr>
                     <td>
-                        繳費期限：{{ \Carbon\Carbon::now()->year }}/{{ substr($applicant->batch->camp->payment_deadline, 2, 2) }}/{{ substr($applicant->batch->camp->payment_deadline, 4, 2) }}<br>
+		    	繳費期限：{{ substr($applicant->batch->camp->set_payment_deadline, 0, 4) }}/{{ substr($applicant->batch->camp->set_payment_deadline, 5, 2) }}/{{ substr($applicant->batch->camp->set_payment_deadline, 8, 2) }}<br>
                         應繳金額：{{ $applicant->traffic?->fare ?? 0 }}
                     </td>
                 </tr>
@@ -128,13 +128,14 @@
 </ul>
 <a style="font-size: 1.17em;">【注意事項】</a>
 <ul>
-    <li>繳費時間：請於{{ \Carbon\Carbon::now()->year }}年{{ substr($applicant->batch->camp->payment_deadline, 2, 2) }}月{{ substr($applicant->batch->camp->payment_deadline, 4, 2) }}日前完成繳費，<a style="color: red;">逾時將視同放棄搭乘專車！</a>
+    <li>繳費時間：請於{{ substr($applicant->batch->camp->payment_deadline, 0, 4) }}年{{ substr($applicant->batch->camp->payment_deadline, 5, 2) }}月{{ substr($applicant->batch->camp->payment_deadline, 8, 2) }}日前完成繳費，<a style="color: red;">逾時將視同放棄搭乘專車！</a>
     <li>繳費方式：請見上面繳費單說明。</li>
     <li>查詢：完成繳費後，請於至少一個工作天後，再上網查詢是否已繳費完畢。<br>
-        （<a href="http://bwcamp.bwfoce.org/camp/{{ $applicant->batch->id }}/queryadmit" target="_blank" rel="noopener noreferrer">http://bwcamp.bwfoce.org/camp/{{ $applicant->batch->id }}/queryadmit</a> ）</li>
+    （<a href="http://bwcamp.bwfoce.org/camp/{{ $applicant->batch->id }}/queryadmit" target="_blank" rel="noopener noreferrer">http://bwcamp.bwfoce.org/camp/{{ $applicant->batch->id }}/queryadmit</a> ）</li>
         {{-- （<a href="{{ url('camp/' . $applicant->batch_id . '/queryadmit') }}" target="_blank">{{ url('camp/' . $applicant->batch_id . '/queryadmit') }}</a>） --}}
     <li>發票：本交通服務為代收代付，故不提供發票，敬請見諒。</li>
-    <li>退費：車資繳交後視為已訂位，恕不退費。</li>
+    <li>退費：車資繳交後視為已訂位，未於退費申請截止前申請退費者，恕不退費。<br>
+    2025大專營車資退費申請表單：<a href="https://forms.gle/uNdCacCLirnQUsHG7">https://forms.gle/uNdCacCLirnQUsHG7</a></li>
 </ul>
 <a class="right">財團法人福智文教基金會　敬啟</a><br>
 <a class="right">{{ \Carbon\Carbon::now()->year }}  年　{{ \Carbon\Carbon::now()->month }}  月 　 {{ \Carbon\Carbon::now()->day }}  日</a>
