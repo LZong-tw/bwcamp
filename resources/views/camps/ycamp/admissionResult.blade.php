@@ -8,7 +8,7 @@
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }}</h4>
     </div>
-
+{{--
     @if($applicant->is_admitted)
         <div class="card">
             <div class="card-header">
@@ -23,8 +23,7 @@
         </div>
         <br>
     @endif
-
-{{--
+--}}
     <div class="card">
         <div class="card-header">
             錄取查詢
@@ -36,15 +35,15 @@
                 <p class="card-text text-indent">
                 您的報名序號：{{ $applicant->applicant_id }}<br>
                 您的錄取編號：{{ $applicant->group }}{{ $applicant->number }}<br>
-                營隊日期：{{ $applicant->batch->batch_start }}(五) ~ {{ $applicant->batch->batch_end }}(一)，共4天<br>
+                營隊日期：{{ $applicant->batch->batch_start }}({{ $applicant->batch_start_weekday }}) ~ {{ $applicant->batch->batch_end }}({{ $applicant->batch_end_weekday }})，共4天<br>
                 營隊地點：{{ $applicant->batch->locationName }}({{ $applicant->batch->location }})<br>
                 </p>
                 <p class="card-text text-indent">此次營隊報名人數超過1,200人，錄取1,000 名，竭誠歡迎您的到來！請詳閱錄取/報到通知，並於7月9日(二)前回覆交通方式！祝福您營隊收穫滿滿。</p><br>
 
 
                 <h5>錄取/報到通知</h5>
-                <div class="ml-2 mb-2">請詳閱<a href="{{ url('downloads/ycamp2024/【2024第57屆大專青年生命成長營】錄取通知單.pdf') }}">錄取/報到通知</a>，內含報到資訊、必帶物品，及交通資訊等等。</div>
-                <div class="ml-2 mb-2"><a href="{{ url('downloads/ycamp2024/【2024第57屆大專青年生命成長營】錄取通知單.pdf') }}" download class="btn btn-primary" target="_blank" style="margin-top: 10px">下載錄取/報到通知</a></div><br>
+                <div class="ml-2 mb-2">請詳閱<a href="{{ url('downloads/ycamp2025/【2025第58屆大專青年生命成長營】錄取通知單.pdf') }}">錄取/報到通知</a>，內含報到資訊、必帶物品，及交通資訊等等。</div>
+                <div class="ml-2 mb-2"><a href="{{ url('downloads/ycamp2025/【2025第58屆大專青年生命成長營】錄取通知單.pdf') }}" download class="btn btn-primary" target="_blank" style="margin-top: 10px">下載錄取/報到通知</a></div><br>
 
                 <h5>放棄參加</h5>
                 <form class="ml-2 mb-2" action="{{ route('toggleAttend', $batch_id) }}" method="POST" id="attendcancel">
@@ -77,7 +76,7 @@
                     <form class="ml-2 mb-2" action="{{ route('modifyTraffic', $batch_id) }}" method="POST" id="selecttraffic">
                         @csrf
                         <div class="ml-0 mb-2">交通方式預設為自往及自回</div>
-                        <div class="ml-0 mb-2">交通資訊請參閱<a href="{{ url('downloads/ycamp2024/【2024第57屆大專青年生命成長營】錄取通知單.pdf') }}">錄取/報到通知</a>之附件</div>
+                        <div class="ml-0 mb-2">交通資訊請參閱<a href="{{ url('downloads/ycamp2025/【2025第58屆大專青年生命成長營】錄取通知單.pdf') }}">錄取/報到通知</a>之附件</div>
                         <input type="hidden" name="id" value="{{ $applicant->applicant_id ?? $applicant->id }}">
                         <input type="hidden" name="camp" value="ycamp">
                         <div class='row form-group required'>
@@ -139,7 +138,7 @@
 
                 <p class="card-text text-right">主辦單位：財團法人福智文教基金會／國立雲林科技大學　敬啟</p>
                 <p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
-            @elseif($applicant->created_at->gte(\Carbon\Carbon::parse('2024-06-21 00:00:00')))
+            @elseif($applicant->created_at->gte(\Carbon\Carbon::parse('2025-06-11 00:00:00')))
                 <!-----錄取中----->
                 <p class="card-text">親愛的 {{ $applicant->name }} 同學您好</p>
                 <p class="card-text indent">感謝您報名「{{ $camp_data->fullName }}」，錄取作業正在進行中，請稍後再進行錄取查詢。感謝您的耐心等待！</p>
@@ -152,7 +151,6 @@
                 <p class="card-text indent">感謝您報名「{{ $camp_data->fullName }}」，錄取作業正在進行中，請稍後再進行錄取查詢。感謝您的耐心等待！</p>
                 <p class="card-text text-right">財團法人福智文教基金會 敬啟</p>
                 <p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
-                </p>
 -->
                 <!-----備取=不錄取----->
                 <p class="card-text">親愛的 {{ $applicant->name }} 同學您好</p>
@@ -219,7 +217,7 @@
             <a href="{{ $camp_data->site_url }}" class="btn btn-primary">回營隊首頁</a>
         </div>
     </div>
---}}
+
     <script>
         @if(!isset($applicant->is_attend) || $applicant->is_attend)
             let cancel = document.getElementById('cancel');
