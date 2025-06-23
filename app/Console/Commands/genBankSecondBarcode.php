@@ -48,8 +48,7 @@ class genBankSecondBarcode extends Command
 
         try {
             $config_camp = config('camps_payments.' . $table);
-        }
-        catch(\Exception $e){
+        } catch (\Exception $e) {
             logger($e);
             return;
         }
@@ -65,8 +64,7 @@ class genBankSecondBarcode extends Command
             try {
                 $applicant->save();
                 unset($paymentflow);
-            }
-            catch(\Exception $e) {
+            } catch (\Exception $e) {
                 logger($e);
                 return;
             }
