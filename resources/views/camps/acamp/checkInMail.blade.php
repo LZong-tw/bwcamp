@@ -24,7 +24,7 @@
 <h4>&#10023;報到及交通：</h4>
 <p><ol>
     <li>研習日期：{{ $applicant->batch->batch_start }}({{ $batch_start_Weekday }})至{{ $applicant->batch->batch_end }}(({{ $batch_end_Weekday }}))</li>
-    <li><b>報到時間：{{ $applicant->batch->batch_start }}({{ $batch_start_Weekday }}) <u>09:00~09:50</u></b><br>
+    <li><b>報到時間：{{ $applicant->batch->batch_start }}({{ $batch_start_Weekday }}) <u>09:30~10:10</u></b><br>
         敬請準時報到，若有特殊情形請告知關懷員。</li>            
     <li>報到地點：開南大學。地址：桃園市開南路一號。</li>
     <li>報到方式：報到時請先準備好個人專屬QR code (印出來或手機直接顯示皆可) ，掃完QR Code確認報到後，請至所屬組別桌辦理住宿及領取個人名牌</li>
@@ -32,10 +32,12 @@
         <a href="https://recruit.knu.edu.tw/p/412-1003-461.php?Lang=zh-tw">https://recruit.knu.edu.tw/p/412-1003-461.php?Lang=zh-tw</a></li>
     <li>接駁服務：
         <ul>
-            <li>接駁車地點：<br>
+            <li>預計接駁車搭車地點：（實際地點當天請依照義工引導）<br>
                 (1)桃園<b>台鐵車站<u>後站(往延平路/大林路出口)</u></b>出口處。<br>
+                (下車步行到搭車處，約15分鐘)<br>
                 (2)桃園<b>高鐵車站<u>5號</u></b>出口處。</li>
-            <li>接駁服務時間：{{ $applicant->batch->batch_start }}({{ $batch_start_Weekday }}) 08:30~09:30。<br>
+                (下車步行到搭車處，約5分鐘)<br>
+            <li>接駁服務時間：{{ $applicant->batch->batch_start }}({{ $batch_start_Weekday }}) 08:50~09:35。<br>
                 逾時請自行搭計程車前往開南大學。</li>
             <li><u>現場有「福智」字樣之黃色背心義工協助引導。</u><br></li>
         </ul>
@@ -66,7 +68,7 @@
     <li>營隊場地<u>沒有</u>提供網路服務。</li>
     <li>請勿攜帶酒類飲料進入營隊。</li>
     <li>配合開南大學，本營隊場地全面禁菸。</li>
-    <li>課程預計於{{ $$applicant->batch->batch_end }}下午3:20結束。如有回程車票需求，建議購買下午5:00以後班次。</li>
+    <li>課程預計於{{ $$applicant->batch->batch_end }}下午3:30結束。如有回程車票需求，建議購買下午5:00以後班次。</li>
 </ul></p>
 <h4>&#10023;聯絡我們：</h4>
 <p><ul>
