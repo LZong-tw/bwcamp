@@ -60,8 +60,16 @@ class genBankSecondBarcode extends Command
             $data["銷帳編號"] = $data["銷帳流水號前1碼"] . str_pad($applicant->id, 5, '0', STR_PAD_LEFT);
             $paymentflow = new paymentflowService($data);
             $applicant->bank_second_barcode = $paymentflow->getBankSecondBarcode();
-            $applicant->save();
-            unset($paymentflow);
+            //$this->info($applicant->id);
+            //$this->info($applicant->bank_second_barcode);
+            try {
+                $applicant->save();
+                unset($paymentflow);
+            }
+            catch(\Exception $e) {
+                logger($e);
+                return;
+            }
         }
         return 0;
     }
