@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Models\Camp;
 use App\Models\Applicant;
 use App\Mail\ApplicantMail;
+use App\Mail\CheckInMail;
 use App\Traits\EmailConfiguration;
 
 class sendApplicantMail extends Command
@@ -62,6 +63,23 @@ class sendApplicantMail extends Command
                     $this->error("收件者營隊與指定營隊不一致。");
                 }
                 break;
+            case "checkInMail":
+                if(is_numeric($this->argument('camp'))){
+                    $camp = Camp::find($this->argument('camp'));
+                }
+                else{
+                    $camp = Camp::where('table', $this->argument('camp'))->orderBy('id', 'desc')->first();
+                }
+                $applicant = Applicant::find($this->argument('applicant_id'));
+                if($applicant->batch->camp->id == $camp->id){
+                    Mail::to($applicant)->send(new CheckInMail($applicant, $camp));
+                    $this->info("成功寄送報到郵件。");
+                }
+                else{
+                    $this->error("收件者營隊與指定營隊不一致。");
+                }
+                break;
+
         }
         return 0;
     }
