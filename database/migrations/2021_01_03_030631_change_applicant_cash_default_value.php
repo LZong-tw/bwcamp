@@ -1,9 +1,9 @@
 <?php
 
-use App\Models\Applicant;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 class ChangeApplicantCashDefaultValue extends Migration
 {
@@ -14,8 +14,8 @@ class ChangeApplicantCashDefaultValue extends Migration
      */
     public function up()
     {
-        Applicant::whereNull('fee')->update(["fee" => 0]);
-        Applicant::whereNull('deposit')->update(["deposit" => 0]);
+        DB::table('applicants')->whereNull('fee')->update(["fee" => 0]);
+        DB::table('applicants')->whereNull('deposit')->update(["deposit" => 0]);
         Schema::table('applicants', function (Blueprint $table) {
             //
             $table->integer('fee')->nullable(false)->default(0)->change();
