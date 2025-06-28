@@ -30,10 +30,15 @@ return new class extends Migration
     public function down()
     {
         Schema::table('actcamp', function (Blueprint $table) {
-            //
             $table->dropColumn('lrclass_year');
+        });
+        Schema::table('actcamp', function (Blueprint $table) {
             $table->dropColumn('lrclass_number');
+        });
+        Schema::table('actcamp', function (Blueprint $table) {
             $table->dropColumn('participants');
+        });
+        Schema::table('actcamp', function (Blueprint $table) {
             $table->dropColumn('children_ages');
         });
     }

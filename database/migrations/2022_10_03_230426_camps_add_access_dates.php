@@ -30,10 +30,15 @@ class CampsAddAccessDates extends Migration
     public function down()
     {
         Schema::table('camps', function (Blueprint $table) {
-            //
             $table->dropColumn('year');
+        });
+        Schema::table('camps', function (Blueprint $table) {
             $table->dropColumn('mode');
+        });
+        Schema::table('camps', function (Blueprint $table) {
             $table->dropColumn('access_start');
+        });
+        Schema::table('camps', function (Blueprint $table) {
             $table->dropColumn('access_end');
         });
     }

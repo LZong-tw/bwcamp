@@ -14,8 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::table('icamp', function (Blueprint $table) {
-            //
             $table->dropColumn('special_needs');    //特殊需求
+        });
+        Schema::table('icamp', function (Blueprint $table) {
             $table->integer('passport_expiry_year')->nullable()->after('lrclass');  //護照到期年
             $table->integer('passport_expiry_month')->nullable()->after('passport_expiry_year');    //護照到期月
             $table->integer('passport_expiry_day')->nullable()->after('passport_expiry_month'); //護照到期日
@@ -34,14 +35,27 @@ return new class extends Migration
     public function down()
     {
         Schema::table('icamp', function (Blueprint $table) {
-            //
             $table->string('special_needs')->nullable()->after('other_needs');      //特殊需求
+        });
+        Schema::table('icamp', function (Blueprint $table) {
             $table->dropColumn('passport_expiry_year');
+        });
+        Schema::table('icamp', function (Blueprint $table) {
             $table->dropColumn('passport_expiry_month');
+        });
+        Schema::table('icamp', function (Blueprint $table) {
             $table->dropColumn('passport_expiry_day');
+        });
+        Schema::table('icamp', function (Blueprint $table) {
             $table->dropColumn('transportation_back_location');
+        });
+        Schema::table('icamp', function (Blueprint $table) {
             $table->dropColumn('acommodation_needs');
+        });
+        Schema::table('icamp', function (Blueprint $table) {
             $table->dropColumn('dietary_needs');
+        });
+        Schema::table('icamp', function (Blueprint $table) {
             $table->dropColumn('other_needs');
         });
     }

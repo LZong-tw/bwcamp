@@ -35,17 +35,28 @@ class ChangePhoneColumns extends Migration
      */
     public function down()
     {
-        //
         Schema::table('applicants', function (Blueprint $table) {
             $table->dropColumn('phone_home');
+        });
+        Schema::table('applicants', function (Blueprint $table) {
             $table->dropColumn('phone_work');
+        });
+        Schema::table('applicants', function (Blueprint $table) {
             $table->dropColumn('emergency_phone_home');
+        });
+        Schema::table('applicants', function (Blueprint $table) {
             $table->dropColumn('emergency_phone_work');
+        });
+        Schema::table('applicants', function (Blueprint $table) {
             $table->dropColumn('introducer_phone');
         });
         Schema::table('ycamp', function (Blueprint $table) {
             $table->dropColumn('father_phone');
+        });
+        Schema::table('ycamp', function (Blueprint $table) {
             $table->dropColumn('mother_phone');
+        });
+        Schema::table('ycamp', function (Blueprint $table) {
             $table->dropColumn('agent_phone');
         });
     }

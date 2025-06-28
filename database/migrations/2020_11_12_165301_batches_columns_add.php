@@ -30,10 +30,15 @@ class BatchesColumnsAdd extends Migration
     public function down()
     {
         Schema::table('batchs', function (Blueprint $table) {
-            //
             $table->dropColumn('locationName');
+        });
+        Schema::table('batchs', function (Blueprint $table) {
             $table->dropColumn('location');
+        });
+        Schema::table('batchs', function (Blueprint $table) {
             $table->dropColumn('check_in_day');
+        });
+        Schema::table('batchs', function (Blueprint $table) {
             $table->dropColumn('tel');
         });
     }

@@ -20,6 +20,8 @@ class AddBatchsColumn extends Migration
         });
         Schema::table('camps', function (Blueprint $table) {
             $table->dropColumn('camp_start');
+        });
+        Schema::table('camps', function (Blueprint $table) {
             $table->dropColumn('camp_end');
         });
     }
@@ -34,6 +36,8 @@ class AddBatchsColumn extends Migration
         //
         Schema::table('batchs', function (Blueprint $table) {
             $table->dropColumn('batch_start');
+        });
+        Schema::table('batchs', function (Blueprint $table) {
             $table->dropColumn('batch_end');
         });
         Schema::table('camps', function (Blueprint $table) {

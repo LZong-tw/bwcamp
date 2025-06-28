@@ -30,11 +30,16 @@ class CeocampAddColumns extends Migration
     public function down()
     {
         Schema::table('ceocamp', function (Blueprint $table) {
-            //
             $table->dropColumn('industry_other');
+        });
+        Schema::table('ceocamp', function (Blueprint $table) {
             $table->dropColumn('job_property_other');
+        });
+        Schema::table('ceocamp', function (Blueprint $table) {
             $table->dropColumn('org_type_other');
-            $table->renameColumn('org_type', 'organization_type');            
+        });
+        Schema::table('ceocamp', function (Blueprint $table) {
+            $table->renameColumn('org_type', 'organization_type');
         });
     }
 }

@@ -35,11 +35,16 @@ class Tcamp2022AndApplicantsAddColumns extends Migration
     public function down()
     {
         Schema::table('tcamp', function (Blueprint $table) {
-            //
             $table->dropColumn('workshop_credit_type');
-            $table->dropColumn('never_attend_any_stay_over_tcamps');            
-            $table->dropColumn('info_source');            
-            $table->dropColumn('interesting');            
+        });
+        Schema::table('tcamp', function (Blueprint $table) {
+            $table->dropColumn('never_attend_any_stay_over_tcamps');
+        });
+        Schema::table('tcamp', function (Blueprint $table) {
+            $table->dropColumn('info_source');
+        });
+        Schema::table('tcamp', function (Blueprint $table) {
+            $table->dropColumn('interesting');
         });
         Schema::table('applicants', function (Blueprint $table) {
             //

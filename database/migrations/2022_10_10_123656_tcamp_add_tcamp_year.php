@@ -32,10 +32,15 @@ class TcampAddTcampYear extends Migration
     public function down()
     {
         Schema::table('tcamp', function (Blueprint $table) {
-            //
             $table->dropColumn('is_attend_tcamp');
+        });
+        Schema::table('tcamp', function (Blueprint $table) {
             $table->dropColumn('tcamp_year');
+        });
+        Schema::table('tcamp', function (Blueprint $table) {
             $table->dropColumn('after_camp_available_day');
+        });
+        Schema::table('tcamp', function (Blueprint $table) {
             $table->string('never_attend_any_stay_over_tcamps')->nullable()->change();
             $table->text('blisswisdom_type')->nullable()->change();
             $table->string('blisswisdom_type_complement',40)->nullable()->change();

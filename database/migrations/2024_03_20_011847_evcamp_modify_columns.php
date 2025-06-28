@@ -48,12 +48,21 @@ return new class extends Migration
     public function down()
     {
         Schema::table('evcamp', function (Blueprint $table) {
-            //
             $table->dropColumn('recruit_channel');
+        });
+        Schema::table('evcamp', function (Blueprint $table) {
             $table->dropColumn('stay_dates');
+        });
+        Schema::table('evcamp', function (Blueprint $table) {
             $table->dropColumn('is_preliminaries');
+        });
+        Schema::table('evcamp', function (Blueprint $table) {
             $table->dropColumn('is_cleanup');
+        });
+        Schema::table('evcamp', function (Blueprint $table) {
             $table->dropColumn('depart_from');
+        });
+        Schema::table('evcamp', function (Blueprint $table) {
             $table->dropColumn('depart_from_location');
         });
     }

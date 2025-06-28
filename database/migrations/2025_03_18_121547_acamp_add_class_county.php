@@ -49,11 +49,18 @@ return new class extends Migration
     public function down()
     {
         Schema::table('acamp', function (Blueprint $table) {
-            //
             $table->dropColumn('is_student');
+        });
+        Schema::table('acamp', function (Blueprint $table) {
             $table->dropColumn('class_county');
+        });
+        Schema::table('acamp', function (Blueprint $table) {
             $table->dropColumn('class_subarea');
+        });
+        Schema::table('acamp', function (Blueprint $table) {
             $table->dropColumn('county');
+        });
+        Schema::table('acamp', function (Blueprint $table) {
             $table->dropColumn('subarea');
         });
     }

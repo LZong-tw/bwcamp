@@ -31,10 +31,15 @@ return new class extends Migration
     public function down()
     {
         Schema::table('ivcamp', function (Blueprint $table) {
-            //
             $table->dropColumn('group_priority1');
+        });
+        Schema::table('ivcamp', function (Blueprint $table) {
             $table->dropColumn('lrclass');
+        });
+        Schema::table('ivcamp', function (Blueprint $table) {
             $table->dropColumn('expertise');
+        });
+        Schema::table('ivcamp', function (Blueprint $table) {
             $table->dropColumn('expertise_other');
         });
     }

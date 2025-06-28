@@ -29,9 +29,12 @@ class CampsAddPaymentColumn extends Migration
     public function down()
     {
         Schema::table('camps', function (Blueprint $table) {
-            //
             $table->dropColumn('payment_startdate');
+        });
+        Schema::table('camps', function (Blueprint $table) {
             $table->dropColumn('payment_deadline');
+        });
+        Schema::table('camps', function (Blueprint $table) {
             $table->dropColumn('fee');
         });
     }

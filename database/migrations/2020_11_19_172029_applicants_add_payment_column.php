@@ -33,13 +33,24 @@ class ApplicantsAddPaymentColumn extends Migration
     public function down()
     {
         Schema::table('applicants', function (Blueprint $table) {
-            //
             $table->dropColumn('store_first_barcode');
+        });
+        Schema::table('applicants', function (Blueprint $table) {
             $table->dropColumn('store_second_barcode');
+        });
+        Schema::table('applicants', function (Blueprint $table) {
             $table->dropColumn('store_third_barcode');
+        });
+        Schema::table('applicants', function (Blueprint $table) {
             $table->dropColumn('bank_second_barcode');
+        });
+        Schema::table('applicants', function (Blueprint $table) {
             $table->dropColumn('bank_third_barcode');
+        });
+        Schema::table('applicants', function (Blueprint $table) {
             $table->dropColumn('fee');
+        });
+        Schema::table('applicants', function (Blueprint $table) {
             $table->dropColumn('deposit');
         });
     }

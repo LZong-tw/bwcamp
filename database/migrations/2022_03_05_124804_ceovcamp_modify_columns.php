@@ -17,8 +17,14 @@ class CeovcampModifyColumns extends Migration
             //
             $table->text('volunteer_experiences')->nullable()->after('lrclass');   //義工護持記錄
             $table->text('cadre_experiences')->nullable()->after('lrclass');       //班級護持記錄
+        });
+        Schema::table('ceovcamp', function (Blueprint $table) {
             $table->dropColumn('industry_other');
+        });
+        Schema::table('ceovcamp', function (Blueprint $table) {
             $table->dropColumn('job_property_other');
+        });
+        Schema::table('ceovcamp', function (Blueprint $table) {
             $table->dropColumn('org_type_other');
         });
     }
@@ -31,9 +37,12 @@ class CeovcampModifyColumns extends Migration
     public function down()
     {
         Schema::table('ceovcamp', function (Blueprint $table) {
-            //
             $table->dropColumn('volunteer_experiences');
+        });
+        Schema::table('ceovcamp', function (Blueprint $table) {
             $table->dropColumn('cadre_experiences');
+        });
+        Schema::table('ceovcamp', function (Blueprint $table) {
             $table->string('industry_other', 30)->nullable()->after('industry');            //產業別:自填
             $table->string('job_property_other', 30)->nullable()->after('job_property');    //工作性質:自填
             $table->string('org_type_other', 30)->nullable()->after('org_type');            //公司性質:自填

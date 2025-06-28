@@ -29,9 +29,12 @@ class CampsAddEarlyBirdColumn extends Migration
     public function down()
     {
         Schema::table('camps', function (Blueprint $table) {
-            //
             $table->dropColumn('has_early_bird');
-            $table->dropColumn('early_bird_fee');  
+        });
+        Schema::table('camps', function (Blueprint $table) {
+            $table->dropColumn('early_bird_fee');
+        });
+        Schema::table('camps', function (Blueprint $table) {
             $table->dropColumn('early_bird_last_day');
         });
     }

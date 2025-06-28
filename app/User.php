@@ -7,10 +7,11 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Traits\EmailConfiguration;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends Authenticatable
 {
-    use Notifiable, EmailConfiguration;
+    use Notifiable, EmailConfiguration, HasFactory;
 
     /**
      * The attributes that are mass assignable.

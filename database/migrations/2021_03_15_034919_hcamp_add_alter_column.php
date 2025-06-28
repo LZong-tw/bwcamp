@@ -29,9 +29,12 @@ class HcampAddAlterColumn extends Migration
     public function down()
     {
         Schema::table('hcamp', function (Blueprint $table) {
-            //
             $table->dropColumn('traffic_return');
-            $table->dropColumn('is_lamrim');  
+        });
+        Schema::table('hcamp', function (Blueprint $table) {
+            $table->dropColumn('is_lamrim');
+        });
+        Schema::table('hcamp', function (Blueprint $table) {
             $table->dropColumn('is_child_blisswisdommed');
         });
     }

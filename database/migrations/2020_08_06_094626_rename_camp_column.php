@@ -31,7 +31,11 @@ class RenameCampColumn extends Migration
         //
         Schema::table('camps', function (Blueprint $table) {
             $table->renameColumn('fullName', 'name');
+        });
+        Schema::table('camps', function (Blueprint $table) {
             $table->string('name', 40)->change();
+        });
+        Schema::table('camps', function (Blueprint $table) {
             $table->dropColumn('abbreviation');
         });
     }

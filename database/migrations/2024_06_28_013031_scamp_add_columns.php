@@ -29,9 +29,12 @@ return new class extends Migration
     public function down()
     {
         Schema::table('scamp', function (Blueprint $table) {
-            //
             $table->dropColumn('way');
+        });
+        Schema::table('scamp', function (Blueprint $table) {
             $table->dropColumn('way_other');
+        });
+        Schema::table('scamp', function (Blueprint $table) {
             $table->dropColumn('last5');
         });
     }
