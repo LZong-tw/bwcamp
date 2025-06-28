@@ -22,3 +22,8 @@ use App\Http\Controllers\ApiController;
 Route::post('getBatch', [FormFieldApiController::class, 'getBatch']);
 Route::post('getFieldData', [FormFieldApiController::class, 'getFieldData']);
 Route::post('getCampData', [ApiController::class, 'sendCampData']);
+
+Route::middleware('auth:web')->group(function () {
+    Route::post('applicant/transfer', [\App\Http\Controllers\BackendController::class, 'transferApplicant'])->name('api.applicant.transfer');
+    Route::get('batches/available', [\App\Http\Controllers\BackendController::class, 'getAvailableBatches'])->name('api.batches.available');
+});

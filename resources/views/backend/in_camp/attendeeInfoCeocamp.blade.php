@@ -38,16 +38,22 @@
 @if(isset($applicant))
     <h4>{{ $camp->fullName }}>>個人詳細資料>>{{ $applicant->name }}</h4>
 
-    <!-- 修改學員資料,使用報名網頁 -->
-    <form target="_blank" action="{{ route('queryupdate', $batch->id) }}" method="post">
-        @csrf
-        <input type="hidden" name="sn" value="{{ $applicant->applicant_id }}">
-        <input type="hidden" name="name" value="{{ $applicant->name }}">
-        <!-- input type="hidden" name="isBackend" value="目前為後台檢視狀態。"-->
-        <input type="hidden" name="isModify" value="1">
-        <button class="btn btn-primary float-right">修改學員(報名)資料</button>
-        <br>
-    </form>
+    <div class="row mb-3">
+        <div class="col-md-12 text-right">
+            <!-- 轉換營隊/梯次按鈕 -->
+            @include('components.transfer.applicant-transfer-button')
+            
+            <!-- 修改學員資料,使用報名網頁 -->
+            <form class="d-inline" target="_blank" action="{{ route('queryupdate', $batch->id) }}" method="post">
+                @csrf
+                <input type="hidden" name="sn" value="{{ $applicant->applicant_id }}">
+                <input type="hidden" name="name" value="{{ $applicant->name }}">
+                <!-- input type="hidden" name="isBackend" value="目前為後台檢視狀態。"-->
+                <input type="hidden" name="isModify" value="1">
+                <button class="btn btn-primary">修改學員(報名)資料</button>
+            </form>
+        </div>
+    </div>
     <br>
     <div class="container alert alert-warning">
         <div class="row">
@@ -381,4 +387,17 @@
         }
     }
 </script>
+
+<!-- 轉換營隊/梯次 Modal -->
+@include('components.transfer.applicant-transfer-modal')
+
+<script>
+    function enableEditRemark(){
+        document.getElementById("remark").readOnly=false;
+        document.getElementById("editremark").disabled=false;
+    }
+</script>
+
+<!-- 轉換營隊/梯次 JavaScript -->
+@include('components.transfer.applicant-transfer-script')
 @endsection

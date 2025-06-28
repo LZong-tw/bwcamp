@@ -41,23 +41,28 @@ class CampController extends Controller
         $this->applicantService = $applicantService;
         $this->campDataService = $campDataService;
         // 營隊資料，存入 view 全域
-        $this->batch_id = $request->route()->parameter('batch_id');
-        $this->camp_data = $this->campDataService->getCampData($this->batch_id);
-        if (is_string($this->camp_data) && str_contains($this->camp_data, "查無營隊資料")) {
-            // halt if no camp data found
-            echo "查無營隊資料，請確認網址是否正確。" . "<br>";
-            die();
-        }
-        $this->admission_announcing_date_Weekday = $this->camp_data['admission_announcing_date_Weekday'];
-        $this->admission_confirming_end_Weekday = $this->camp_data['admission_confirming_end_Weekday'];
+        $this->batch_id = $request->route() ? $request->route()->parameter('batch_id') : null;
+        
+        if ($this->batch_id) {
+            $this->camp_data = $this->campDataService->getCampData($this->batch_id);
+            if (is_string($this->camp_data) && str_contains($this->camp_data, "查無營隊資料")) {
+                // halt if no camp data found
+                echo "查無營隊資料，請確認網址是否正確。" . "<br>";
+                die();
+            }
+            $this->admission_announcing_date_Weekday = $this->camp_data['admission_announcing_date_Weekday'];
+            $this->admission_confirming_end_Weekday = $this->camp_data['admission_confirming_end_Weekday'];
 
-        $this->camp_data = $this->camp_data['camp_data'];
-        View::share('batch_id', $this->batch_id);
-        View::share('camp_data', $this->camp_data);
-        View::share('admission_announcing_date_Weekday', $this->admission_announcing_date_Weekday);
-        View::share('admission_confirming_end_Weekday', $this->admission_confirming_end_Weekday);
+            $this->camp_data = $this->camp_data['camp_data'];
+            View::share('batch_id', $this->batch_id);
+            View::share('camp_data', $this->camp_data);
+            View::share('admission_announcing_date_Weekday', $this->admission_announcing_date_Weekday);
+            View::share('admission_confirming_end_Weekday', $this->admission_confirming_end_Weekday);
+        }
         // 動態載入電子郵件設定
-        $this->setEmail($this->camp_data->table, $this->camp_data->variant);
+        if ($this->camp_data) {
+            $this->setEmail($this->camp_data->table, $this->camp_data->variant);
+        }
     }
 
     /**

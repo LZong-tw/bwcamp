@@ -20,6 +20,7 @@ use App\Models\User;
 use App\Models\Vcamp;
 use App\Models\Volunteer;
 use App\Services\ApplicantService;
+use App\Services\ApplicantTransferService;
 use App\Services\BackendService;
 use App\Services\CampDataService;
 use App\Services\GSheetService;
@@ -67,7 +68,7 @@ class BackendController extends Controller
         $this->backendService = $backendService;
         $this->gsheetService = $gsheetService;
 
-        if ($request->route()->parameter('batch_id')) {
+        if ($request->route() && $request->route()->parameter('batch_id')) {
             // 營隊資料，存入 view 全域
             $this->batch_id = $request->route()->parameter('batch_id');
             $this->camp_data = $this->campDataService->getCampData($this->batch_id)['camp_data'];
@@ -89,7 +90,7 @@ class BackendController extends Controller
                 die();
             }
         }
-        if($request->route()->parameter('camp_id')) {
+        if($request->route() && $request->route()->parameter('camp_id')) {
             $this->middleware('permitted');
             $this->camp_id = $request->route()->parameter('camp_id');
             $this->campFullData = Camp::find($request->route()->parameter('camp_id'));
@@ -2930,5 +2931,102 @@ class BackendController extends Controller
             throw new \Exception("Error returning to your user", 1);
         }
         return back();
+    }
+
+    public function transferApplicant(Request $request)
+    {
+        try {
+            $request->validate([
+                'applicant_id' => 'required|integer',
+                'target_batch_id' => 'required|integer'
+            ]);
+
+            // 取得申請人以檢查權限
+            $applicant = Applicant::with('batch.camp')->find($request->applicant_id);
+            if (!$applicant) {
+                throw new \Exception('申請人不存在');
+            }
+
+            // 檢查來源營隊的寫入權限
+            $user = auth()->user();
+            if (!$user->canAccessResource(new Applicant, 'write', $applicant->batch->camp)) {
+                throw new AuthorizationException('您沒有權限操作來源營隊的申請人');
+            }
+
+            // 檢查目標梯次並驗證目標營隊的寫入權限
+            $targetBatch = Batch::with('camp')->find($request->target_batch_id);
+            if (!$targetBatch) {
+                throw new \Exception('目標梯次不存在');
+            }
+
+            if (!$user->canAccessResource(new Applicant, 'write', $targetBatch->camp)) {
+                throw new AuthorizationException('您沒有權限操作目標營隊的申請人');
+            }
+
+            $transferService = new ApplicantTransferService();
+            $result = $transferService->transferApplicant(
+                $request->applicant_id,
+                $request->target_batch_id
+            );
+
+            return response()->json($result);
+
+        } catch (AuthorizationException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 403);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 400);
+        }
+    }
+
+    public function getAvailableBatches(Request $request)
+    {
+        try {
+            // 由於這是取得所有可用梯次的一般性查詢
+            // 實際的轉換權限會在執行轉換時再檢查
+            // 這裡只需要確認用戶已登入即可
+
+            $batches = Batch::with(['camp' => function ($query) {
+                $query->select('id', 'fullName', 'abbreviation', 'table');
+            }])
+            ->select('id', 'camp_id', 'name', 'batch_start', 'batch_end')
+            ->where('batch_start', '>', now()->toDateString())
+            ->orderBy('batch_start', 'asc')
+            ->get()
+            ->map(function ($batch) {
+                return [
+                    'id' => $batch->id,
+                    'name' => $batch->name,
+                    'camp_name' => $batch->camp->fullName ?? $batch->camp->abbreviation,
+                    'camp_table' => $batch->camp->table,
+                    'batch_start' => $batch->batch_start,
+                    'batch_end' => $batch->batch_end,
+                    'display_name' => ($batch->camp->fullName ?? $batch->camp->abbreviation) . ' - ' . $batch->name
+                ];
+            });
+
+            return response()->json([
+                'success' => true,
+                'batches' => $batches
+            ]);
+
+        } catch (AuthorizationException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 403);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => '取得梯次列表失敗'
+            ], 500);
+        }
     }
 }
