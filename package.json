@@ -2,9 +2,16 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:report": "playwright show-report",
+    "test:e2e:docker": "SKIP_WEB_SERVER=true DOCKER_APP_URL=http://localhost:8080 playwright test",
+    "test:e2e:docker-ui": "SKIP_WEB_SERVER=true DOCKER_APP_URL=http://localhost:8080 playwright test --ui"
   },
   "devDependencies": {
+    "@playwright/test": "^1.53.1",
     "@vitejs/plugin-vue": "^3.2.0",
     "@volar-plugins/vetur": "^0.1.0",
     "@vue/compat": "^3.2.45",

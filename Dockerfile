@@ -21,6 +21,7 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-configure gd --with-jpeg --with-freetype \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd intl zip ftp opcache \
     && docker-php-ext-enable gd \
+    && npm install -g yarn \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Composer
@@ -31,11 +32,11 @@ WORKDIR /var/www
 
 # Copy dependency files first for better caching
 COPY composer.json composer.lock /var/www/
-COPY package.json package-lock.json /var/www/
+COPY package.json yarn.lock /var/www/
 
 # Install dependencies
 RUN composer install --no-interaction --prefer-dist --no-scripts --no-autoloader
-RUN npm ci
+RUN yarn install --frozen-lockfile
 
 # Copy PHP configuration files
 COPY php/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
