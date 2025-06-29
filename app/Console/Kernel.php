@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('check:Accounting ceocamp')->dailyAt("16:30");
         $schedule->command('media-library:delete-old-temporary-uploads')->daily();
 
-        $schedule->command('gen:BankSecondBarcode 79')->dailyAt("0:28"); //ceocamp
+        $schedule->command('gen:BankSecondBarcode 96')->dailyAt("0:28"); //ceocamp
         $schedule->command('import:Form 96')->dailyAt("12:29"); //ceocamp
         $schedule->command('import:Form 96')->dailyAt("0:29"); //ceocamp
         $schedule->command('import:Form 96')->dailyAt("18:29"); //ceocamp
