@@ -72,7 +72,7 @@ class sendApplicantMail extends Command
                 }
                 $applicant = Applicant::find($this->argument('applicant_id'));
                 if($applicant->batch->camp->id == $camp->id){
-                    Mail::to($applicant)->send(new CheckInMail($applicant, $camp));
+                    Mail::to($applicant)->send(new CheckInMail($applicant));
                     $this->info("成功寄送報到郵件。");
                 }
                 else{
