@@ -6,46 +6,90 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a comprehensive Buddhist camp management system (福智營隊管理系統) for managing various educational camps including youth camps, teacher camps, business camps, and volunteer programs. The system handles the complete lifecycle from registration to check-in and post-camp management.
 
-## Development Commands
+## Docker Development Environment
 
-### Core Laravel Commands
+### Docker Services Architecture
+- **app** (PHP 8.2-fpm): Laravel application with optimized PHP configuration
+- **webserver** (Nginx): Web server handling HTTP requests
+- **db** (MySQL 8.0.32): Database service with persistent storage
+- **redis**: Cache and session storage
+
+### Environment Setup
 ```bash
-# Database migrations
-php artisan migrate
+# Initial setup
+cp .env.example .env
+docker-compose up -d
+docker-compose exec app composer install
+docker-compose exec app php artisan key:generate
+docker-compose exec app php artisan migrate
 
-# Clear and cache configuration
-php artisan config:cache
-
-# Queue management (run as su)
-php artisan queue:restart
-
-# Testing
-# Local testing (if running directly)
-./vendor/bin/phpunit
-./vendor/bin/pest
-
-# Docker environment testing
-docker exec -it bwcamp ./vendor/bin/phpunit
-docker exec -it bwcamp ./vendor/bin/pest
-
-# Run specific test files
-docker exec -it bwcamp ./vendor/bin/pest tests/Feature/ApplicantTransferTest.php
-docker exec -it bwcamp ./vendor/bin/phpunit tests/Feature/ApplicantTransferTest.php
-
-# Run specific test methods
-docker exec -it bwcamp ./vendor/bin/pest --filter="test_name"
-
-# Frontend development
-npm run dev         # Development server with Vite
-npm run build       # Production build
+# Daily development workflow
+docker-compose up -d              # Start all services
+docker-compose down               # Stop all services
+docker-compose logs -f [service]  # View service logs
 ```
 
-### Application Management
+### Core Laravel Commands (Docker)
+```bash
+# Database migrations
+docker-compose exec app php artisan migrate
+
+# Clear and cache configuration
+docker-compose exec app php artisan config:cache
+
+# Queue management
+docker-compose exec app php artisan queue:restart
+
+# Testing in Docker environment
+docker-compose exec app ./vendor/bin/phpunit
+docker-compose exec app ./vendor/bin/pest
+
+# Run specific test files
+docker-compose exec app ./vendor/bin/pest tests/Feature/ApplicantTransferTest.php
+docker-compose exec app ./vendor/bin/phpunit tests/Feature/ApplicantTransferTest.php
+
+# Run specific test methods
+docker-compose exec app ./vendor/bin/pest --filter="test_name"
+
+# Frontend development
+docker-compose exec app yarn install
+docker-compose exec app yarn dev          # Development server with Vite
+docker-compose exec app yarn build        # Production build
+```
+
+### Database Management (Docker)
+```bash
+# Access MySQL container
+docker-compose exec db mysql -u root -p
+
+# Database backup
+docker-compose exec db mysqldump -u root -p bwcamp > backup.sql
+
+# Database restore
+docker-compose exec -T db mysql -u root -p bwcamp < backup.sql
+
+# Connection details:
+# Host: db (internal) / localhost:3306 (external)
+# Database: bwcamp
+# User: bwcamp / root
+# Password: bwcamp
+```
+
+### Application Management (Docker)
 ```bash
 # After each update, run in sequence:
-php artisan migrate
-php artisan config:cache
-php artisan queue:restart  # As su/root user
+docker-compose exec app php artisan migrate
+docker-compose exec app php artisan config:cache
+docker-compose exec app php artisan queue:restart
+
+# Cache management
+docker-compose exec app php artisan cache:clear
+docker-compose exec app php artisan config:clear
+docker-compose exec app php artisan route:cache
+docker-compose exec app php artisan view:cache
+
+# Performance optimization
+docker-compose exec app composer dump-autoload --optimize
 ```
 
 ## Architecture Overview
@@ -114,10 +158,10 @@ Email notifications and heavy operations use Laravel's queue system:
 - **Pest Framework** - Modern testing framework alongside PHPUnit
 - **Test Environment** - Uses SQLite in-memory database for testing
 
-Run tests with:
+Run tests with Docker:
 ```bash
-./vendor/bin/phpunit  # Traditional PHPUnit
-./vendor/bin/pest     # Modern Pest framework
+docker-compose exec app ./vendor/bin/phpunit  # Traditional PHPUnit
+docker-compose exec app ./vendor/bin/pest     # Modern Pest framework
 ```
 
 ## Domain-Specific Features

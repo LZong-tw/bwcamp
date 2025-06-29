@@ -45,11 +45,36 @@ This repository contains the source code for the bwcamp project, written primari
 4. Backend data that cannot be changed dynamically.
 5. Countdown timer: https://motionmailapp.com
 
-## Usage Instructions
-- Commands to be executed after each update:
-  - `php artisan migrate`
-  - `php artisan config:cache`
-  - `php artisan queue:restart` (this command should be executed as `su`)
+## Development Environment Setup (Docker)
+This project uses Docker for containerized development. The setup includes:
+- **PHP 8.2-fpm** with Laravel framework
+- **Nginx** web server (ports 80, 443)
+- **MySQL 8.0.32** database (port 3306)
+- **Redis** for caching (port 6379)
+
+### Quick Start
+1. Clone the repository
+2. Copy environment configuration: `cp .env.example .env`
+3. Start Docker containers: `docker-compose up -d`
+4. Install dependencies: `docker-compose exec app composer install`
+5. Generate application key: `docker-compose exec app php artisan key:generate`
+6. Run migrations: `docker-compose exec app php artisan migrate`
+
+### Docker Commands
+- Start services: `docker-compose up -d`
+- Stop services: `docker-compose down`
+- View logs: `docker-compose logs -f [service_name]`
+- Execute commands in app container: `docker-compose exec app [command]`
+
+### Post-Update Commands (to be executed in Docker container)
+- `docker-compose exec app php artisan migrate`
+- `docker-compose exec app php artisan config:cache`
+- `docker-compose exec app php artisan queue:restart`
+
+### Service Access
+- Web Application: http://localhost
+- Database: localhost:3306 (user: bwcamp, password: bwcamp, database: bwcamp)
+- Redis: localhost:6379
 
 ## Completed Features
 - Display sales account data.
