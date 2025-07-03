@@ -22,16 +22,30 @@ class CampFactory extends Factory
     public function definition()
     {
         static $counter = 1;
-        return [
+        $data = [
             'fullName' => 'Test Camp ' . $counter++,
             'table' => 'ycamp',
-            'year' => 2024,
             'registration_start' => now()->subDays(30),
             'registration_end' => now()->addDays(30),
             'admission_announcing_date' => now()->addDays(35),
             'admission_confirming_end' => now()->addDays(40),
-            'payment_deadline' => now()->addDays(45),
-            'fee' => 1000,
         ];
+        
+        // 只在非測試環境加入額外欄位
+        if (!app()->environment('testing')) {
+            $data = array_merge($data, [
+                'abbreviation' => 'Test Camp ' . ($counter - 1),
+                'icon' => '',
+                'year' => 2024,
+                'registration_start' => now()->subDays(30),
+                'registration_end' => now()->addDays(30),
+                'admission_announcing_date' => now()->addDays(35),
+                'admission_confirming_end' => now()->addDays(40),
+                'payment_deadline' => now()->addDays(45),
+                'fee' => 1000,
+            ]);
+        }
+        
+        return $data;
     }
 }

@@ -11,8 +11,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UserSeeder::class);
-        $this->call('CampBatchSeeder');
-        $this->command->info('Camp and batch seeded!');
+        // 開發和測試環境的基本種子資料
+        if (app()->environment(['local', 'testing'])) {
+            $this->call('TestDataSeeder');
+        } else {
+            // 原有的種子資料（僅在正式環境）
+            $this->call('CampBatchSeeder');
+            $this->command->info('Camp and batch seeded!');
+        }
     }
 }
