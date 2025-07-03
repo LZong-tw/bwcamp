@@ -24,3 +24,7 @@ storage/fonts/installed-fonts.json
 storage/fonts/msjh_*
 .composer/
 auth.json
+
+# Playwright test artifacts
+playwright-report/
+test-results/

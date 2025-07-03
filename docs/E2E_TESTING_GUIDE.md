@@ -1,23 +1,63 @@
-# E2E 測試使用教學
+# Applicant Transfer E2E 測試執行指南
 
-## 概述
+## 📋 總覽
 
-本專案使用 Playwright 進行端到端 (E2E) 測試，專為福智營隊管理系統設計。Playwright 提供快速、穩定且功能豐富的瀏覽器自動化測試。
+本指南提供 Applicant Transfer（申請人轉換營隊/梯次）功能的完整測試執行方法，以及福智綜合資料庫的 E2E 測試使用教學。本專案使用 Playwright 進行端到端 (E2E) 測試，提供快速、穩定且功能豐富的瀏覽器自動化測試。
+
+## 🎯 測試範圍
+
+### 測試類型
+- **單元測試**: 服務類別方法測試
+- **整合測試**: API 端點和資料庫整合
+- **端到端測試**: 完整用戶流程測試 (包含 Playwright E2E 測試)
+- **前端測試**: UI 組件和互動測試
+
+### 測試檔案
+- `tests/Feature/ApplicantTransferTest.php` - 核心功能測試
+- `tests/Feature/ApplicantTransferFrontendTest.php` - 前端整合測試
+- `tests/Feature/ApplicantTransferSimpleTest.php` - 基本驗證測試
+- `tests/e2e/` - Playwright 端到端測試
+
+## 🚀 快速開始
+
+### 前置準備
+```bash
+# 確保 Docker 容器正在運行
+docker ps | grep bwcamp
+
+# 進入容器 (如果需要)
+docker exec -it bwcamp bash
+```
+
+### 基本測試執行
+```bash
+# 執行所有 Applicant Transfer 功能測試
+docker exec bwcamp ./vendor/bin/pest tests/Feature/ApplicantTransfer*.php
+
+# 或使用 PHPUnit
+docker exec bwcamp ./vendor/bin/phpunit tests/Feature/ApplicantTransferTest.php
+
+# 執行 E2E 測試 (Playwright)
+npm run test:e2e:docker
+```
 
 ## 安裝與設定
 
 ### 前置需求
 - Node.js 16+ 
-- Laravel 開發環境已設定
+- Laravel 開發環境已設定 (Docker 或本機)
 - 測試資料庫已配置
 
 ### 安裝步驟
 ```bash
-# 安裝 Playwright (專案使用 Yarn)
-yarn add --dev @playwright/test
+# 安裝 Playwright (專案使用 npm)
+npm install @playwright/test
 
 # 安裝瀏覽器
 npx playwright install
+
+# 如果系統依賴有問題，安裝系統依賴
+npx playwright install-deps
 ```
 
 ## 執行測試
@@ -72,7 +112,7 @@ npx playwright test --grep "login functionality"
 npx playwright test --debug
 
 # 產生測試程式碼
-npx playwright codegen http://localhost:8000
+npx playwright codegen http://localhost
 ```
 
 ## 測試結構

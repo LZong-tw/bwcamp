@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a comprehensive Buddhist camp management system (福智營隊管理系統) for managing various educational camps including youth camps, teacher camps, business camps, and volunteer programs. The system handles the complete lifecycle from registration to check-in and post-camp management.
+This is a comprehensive Buddhist camp management system (福智綜合資料庫) for managing various educational camps including youth camps, teacher camps, business camps, and volunteer programs. The system handles the complete lifecycle from registration to check-in and post-camp management.
 
 ## Docker Development Environment
 
@@ -177,7 +177,7 @@ docker-compose exec app ./vendor/bin/pest     # Modern Pest framework
 - Complex regional assignment logic varies per camp type
 - Region-specific volunteer permissions and access control
 
-### Buddhist Camp Features
+### BWCamp Features
 - Dharma class tracking (廣論研討班) for participant history
 - Buddhist activity participation records
 - Volunteer care system with detailed contact logging

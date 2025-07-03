@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide provides comprehensive instructions for testing the Applicant Transfer feature in the Buddhist Camp Management System. The testing covers all aspects from unit tests to full end-to-end workflows.
+This guide provides comprehensive instructions for testing the Applicant Transfer feature in the BWCamp Management System. The testing covers all aspects from unit tests to full end-to-end workflows.
 
 ## Test Files Created
 
