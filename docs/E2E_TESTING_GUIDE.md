@@ -621,6 +621,198 @@ test('無障礙測試', async ({ page }) => {
 
 ---
 
+## 📝 Applicant Transfer 功能實作測試指南
+
+### 🗂 測試檔案結構
+
+#### 1. 核心功能測試
+- **檔案**: `tests/Feature/ApplicantTransferTest.php`
+- **涵蓋範圍**: 22+ 個測試方法，涵蓋所有核心功能
+- **重要的 E2E 測試方法**:
+  - `end_to_end_api_transfer_with_complete_workflow()`
+  - `end_to_end_permission_based_access_control()`
+  - `end_to_end_cross_camp_data_preservation_and_clearing()`
+  - `end_to_end_transaction_rollback_on_failure()`
+  - `end_to_end_concurrent_transfer_handling()`
+  - `end_to_end_logging_and_audit_trail()`
+  - `end_to_end_fee_calculation_across_camps()`
+
+#### 2. 前端整合測試
+- **檔案**: `tests/Feature/ApplicantTransferFrontendTest.php`
+- **涵蓋範圍**: UI 組件、AJAX 互動、權限基礎渲染
+- **重要測試項目**:
+  - 基於權限的轉梯按鈕顯示
+  - Modal 互動和梯次載入
+  - CSRF 保護和表單驗證
+  - 錯誤處理和成功訊息
+  - 跨營隊相容性
+
+#### 3. 基本驗證測試
+- **檔案**: `tests/Feature/ApplicantTransferSimpleTest.php`
+- **涵蓋範圍**: 類別、方法、視圖的基本存在性檢查
+
+### 🔧 資料庫環境考量
+
+由於測試環境中的 SQLite 遷移限制，建議採用以下方法：
+
+#### 方法 1: 手動測試 (推薦用於 E2E)
+```bash
+# 進入應用程式
+docker exec -it bwcamp bash
+
+# 執行遷移確保表格存在
+php artisan migrate
+
+# 手動測試 API 端點
+php artisan tinker
+```
+
+#### 方法 2: 使用生產資料庫測試
+```bash
+# 備份現有資料庫
+cp database/database.sqlite database/database_backup.sqlite
+
+# 使用生產資料執行測試 (小心使用！)
+docker exec bwcamp ./vendor/bin/pest tests/Feature/ApplicantTransferTest.php
+```
+
+### 📋 手動 E2E 測試清單
+
+#### 1. API 端點測試
+
+**測試轉梯 API**
+```bash
+# 使用 curl 或類似工具
+POST /api/applicant/transfer
+{
+    "applicant_id": 1,
+    "target_batch_id": 2
+}
+
+# 預期回應:
+{
+    "success": true,
+    "message": "跨營隊類型轉換完成，請補完特殊欄位資料",
+    "is_same_camp_type": false,
+    "changes": {
+        "basic_fields": { ... },
+        "special_fields": { ... }
+    }
+}
+```
+
+**測試可用梯次 API**
+```bash
+GET /api/batches/available
+
+# 預期回應:
+{
+    "success": true,
+    "batches": [
+        {
+            "id": 1,
+            "name": "A梯",
+            "camp_name": "大專營",
+            "camp_table": "ycamp",
+            "display_name": "大專營 - A梯"
+        }
+    ]
+}
+```
+
+#### 2. 前端整合測試
+
+**測試轉梯按鈕顯示**
+1. 導航到 `/backend/in_camp/attendeeInfo/{applicant_id}`
+2. 驗證按鈕對授權用戶顯示
+3. 驗證按鈕對未授權用戶隱藏
+4. 測試所有營隊類型 (Ycamp, Tcamp, Ecamp, Acamp, Ceocamp)
+
+**測試轉梯 Modal**
+1. 點擊轉梯按鈕
+2. 驗證 modal 開啟並顯示梯次選擇
+3. 測試梯次過濾 (僅未來梯次)
+4. 提交轉梯並驗證成功/錯誤訊息
+
+#### 3. 權限測試
+
+**測試角色基礎存取**
+1. 建立不同權限等級的用戶
+2. 測試每種用戶類型的轉梯存取權
+3. 驗證基於權限的 API 回應
+4. 測試梯次可見性過濾
+
+#### 4. 跨營隊轉梯測試
+
+**同營隊類型轉梯** (例: 大專營 A梯 → 大專營 B梯)
+1. 驗證特殊資料被保留
+2. 檢查狀態欄位被重置
+3. 確認費用適當更新
+
+**跨營隊類型轉梯** (例: 大專營 → 教師營)
+1. 驗證特殊資料被清除
+2. 檢查轉梯備註被新增
+3. 確認所有關聯被清除
+
+#### 5. 資料完整性測試
+
+**資料庫狀態驗證**
+```sql
+-- 轉梯前
+SELECT * FROM applicants WHERE id = ?;
+SELECT * FROM ycamp WHERE applicant_id = ?;
+SELECT * FROM carer_applicant_xref WHERE applicant_id = ?;
+
+-- 轉梯後
+-- 驗證: batch_id 已變更、特殊資料已清除、狀態已重置
+```
+
+**交易測試**
+1. 模擬轉梯失敗
+2. 驗證資料庫回滾
+3. 檢查資料一致性
+
+### 🚀 自動化測試命令
+
+#### 執行所有轉梯測試
+```bash
+# 如果 SQLite 問題已解決
+docker exec bwcamp ./vendor/bin/pest tests/Feature/ApplicantTransfer*.php
+
+# PHPUnit 替代方案
+docker exec bwcamp ./vendor/bin/phpunit tests/Feature/ApplicantTransferTest.php
+```
+
+#### 執行特定測試類別
+```bash
+# 僅端到端測試
+docker exec bwcamp ./vendor/bin/pest --filter="end_to_end"
+
+# 僅 API 測試
+docker exec bwcamp ./vendor/bin/pest --filter="api.*transfer"
+
+# 僅前端測試
+docker exec bwcamp ./vendor/bin/pest --filter="frontend"
+```
+
+### ✅ 預期測試結果
+
+#### 成功標準
+- ✅ **API 端點**: 所有端點在適當認證下正確回應
+- ✅ **資料完整性**: 轉梯在所有情境下維持資料一致性
+- ✅ **權限控制**: 基於用戶權限適當限制存取
+- ✅ **跨營隊支援**: 同類型和跨類型轉梯都正確運作
+- ✅ **前端整合**: UI 組件正確渲染和運作
+- ✅ **錯誤處理**: 所有失敗情境都有適當錯誤訊息
+- ✅ **稽核追蹤**: 完整記錄所有轉梯操作
+
+#### 效能基準
+- API 回應時間: < 500ms (一般轉梯)
+- 資料庫交易時間: < 200ms
+- UI 回應性: 立即回饋用戶操作
+
+---
+
 **提示**：
 - 🎯 推薦使用 `yarn test:e2e:docker-ui` 可以看到測試過程
 - 🔍 如果連接失敗，先用瀏覽器造訪 `http://localhost:埠口` 確認應用正常
