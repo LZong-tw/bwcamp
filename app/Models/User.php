@@ -9,6 +9,10 @@ use Laratrust\Traits\LaratrustUserTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Traits\EmailConfiguration;
+use App\Services\Permission\EnhancedPermissionService;
+use App\Services\Permission\PermissionCache;
+use App\Services\Permission\CacheInvalidationService;
+use App\Events\PermissionChanged;
 
 class User extends Authenticatable
 {
@@ -168,7 +172,81 @@ class User extends Authenticatable
         return $parsed;
     }
 
+    /**
+     * Get cached permissions for a camp
+     */
+    public function getCachedPermissions($camp)
+    {
+        $cache = app(PermissionCache::class);
+        
+        // Check cache first
+        $cached = $cache->getUserPermissions($this, $camp);
+        if ($cached) {
+            return $cached;
+        }
+        
+        // Load permissions if not cached
+        $permissions = $this->loadPermissionsForCamp($camp);
+        $cache->cacheUserPermissions($this, $camp, $permissions);
+        
+        return $permissions;
+    }
+
+    /**
+     * Load permissions for a specific camp
+     */
+    private function loadPermissionsForCamp($camp)
+    {
+        $constraint = function ($query) use ($camp) {
+            $query->where('camp_id', $camp->id);
+        };
+
+        return $this->with(['roles' => $constraint, 'roles.permissions'])
+            ->whereHas('roles', $constraint)
+            ->where('id', $this->id)
+            ->get()
+            ->pluck('roles')
+            ->flatten()
+            ->pluck('permissions')
+            ->flatten()
+            ->unique('id')
+            ->values();
+    }
+
+    /**
+     * Enhanced permission check using new permission service
+     */
     public function canAccessResource($resource, $action, $camp, $context = null, $target = null, $probing = null) {
+        // For backward compatibility, convert old parameters to new format
+        $contextArray = [
+            'context' => $context,
+            'target' => $target,
+            'probing' => $probing
+        ];
+        
+        // Use the new enhanced permission service
+        $permissionService = app(EnhancedPermissionService::class);
+        return $permissionService->canAccessResource($this, $resource, $action, $camp, $contextArray);
+    }
+
+    /**
+     * Batch permission check for better performance
+     */
+    public function canAccessResourceBatch(array $resources, $action, $camp, $context = null, $target = null): array
+    {
+        $contextArray = [
+            'context' => $context,
+            'target' => $target
+        ];
+        
+        $permissionService = app(EnhancedPermissionService::class);
+        return $permissionService->canAccessResourceBatch($this, $resources, $action, $camp, $contextArray);
+    }
+
+    /**
+     * Legacy method - kept for backward compatibility
+     */
+    public function canAccessResourceLegacy($resource, $action, $camp, $context = null, $target = null, $probing = null) {
         if (!$resource) {
             return false;
         }
@@ -193,20 +271,64 @@ class User extends Authenticatable
             $region_id = $theApplicant?->region_id;
         }
 
-        // $existingAccessResult = $this->canAccessResult()
-        //     ->where('camp_id', $camp->id)
-        //     ->where('batch_id', $batch_id)
-        //     ->where('region_id', $region_id)
-        //     ->where('accessible_id', $target->id ?? null)
-        //     ->where('accessible_type', $class)
-        //     ->first();
-
-        // if ($existingAccessResult) {
-        //     return $existingAccessResult->can_access;
-        // } else {
-        //     return $this->fillingAccessibleResult($resource, $action, $camp, $context, $target, $probing);
-        // }
         return $this->getAccessibleResult($resource, $action, $camp, $context, $target, $probing);
+    }
+
+    /**
+     * Clear permission cache for this user
+     */
+    public function clearPermissionCache(?Camp $camp = null): void
+    {
+        $cacheInvalidation = app(CacheInvalidationService::class);
+        $cacheInvalidation->invalidateUserRoleCache($this, $camp);
+    }
+
+    /**
+     * Fire permission changed event
+     */
+    public function firePermissionChangedEvent(?Camp $camp, string $changeType, array $changeDetails = []): void
+    {
+        event(new PermissionChanged($this, $camp, $changeType, $changeDetails));
+    }
+
+    /**
+     * Override the attachRole method to include cache invalidation
+     */
+    public function attachRole($role, $team = null)
+    {
+        $result = parent::attachRole($role, $team);
+        
+        // Get camp from role if it's a model instance
+        $camp = null;
+        if (is_object($role) && isset($role->camp_id)) {
+            $camp = Camp::find($role->camp_id);
+        }
+        
+        $this->firePermissionChangedEvent($camp, 'role_attached', [
+            'role_id' => is_object($role) ? $role->id : $role
+        ]);
+        
+        return $result;
+    }
+
+    /**
+     * Override the detachRole method to include cache invalidation
+     */
+    public function detachRole($role, $team = null)
+    {
+        // Get camp before detaching
+        $camp = null;
+        if (is_object($role) && isset($role->camp_id)) {
+            $camp = Camp::find($role->camp_id);
+        }
+        
+        $result = parent::detachRole($role, $team);
+        
+        $this->firePermissionChangedEvent($camp, 'role_detached', [
+            'role_id' => is_object($role) ? $role->id : $role
+        ]);
+        
+        return $result;
     }
 
     public function fillingAccessibleResult($resource, $action, $camp, $context = null, $target = null, $probing = null) {

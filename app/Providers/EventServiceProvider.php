@@ -8,6 +8,8 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 use Illuminate\Support\Facades\Event;
 use App\Models\Batch;
 use App\Observers\BatchObserver;
+use App\Events\PermissionChanged;
+use App\Listeners\HandlePermissionChange;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -22,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         // ],
         'Illuminate\Auth\Events\Login' => [
             'App\Listeners\LogSuccessfulLogin',
+        ],
+        PermissionChanged::class => [
+            HandlePermissionChange::class,
         ],
     ];
 
