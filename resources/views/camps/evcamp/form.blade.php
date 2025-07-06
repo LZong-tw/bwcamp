@@ -166,6 +166,7 @@
                     <option value='南'>南</option>
                     <option value='高'>高</option>
                     <option value='園'>園</option>
+                    <option value='海外'>海外</option>
                 </select>
             </div>
             <div class='col-auto'>
