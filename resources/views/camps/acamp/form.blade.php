@@ -430,7 +430,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <option value='高鐵桃園站接駁車' >高鐵桃園站接駁車</option>
                 <option value='校園汽車停車位' >校園汽車位</option>
                 <option value='校園機車停車位' >校園機車位</option>
-                <option value='搭乘各區直達專車(暫定：台北、台中、嘉義、台南、高雄、屏東)
+                <option value='搭乘各區直達專車(暫定：台中、嘉義、台南、高雄、屏東)
                 ' >搭乘各區直達專車(暫定：台中、嘉義、台南、高雄、屏東)</option>
                 <option value='無前述需求' >無前述需求</option>
             </select>
