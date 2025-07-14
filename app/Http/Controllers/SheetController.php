@@ -313,7 +313,7 @@ class SheetController extends Controller
             usleep(5000);   //5 millisecond
         }
     }
-
+/*
     public function exportGSCheckIn(Request $request)
     {
         //將報名報到結果寫回GS
@@ -461,6 +461,73 @@ class SheetController extends Controller
                 $this->gsheetservice->Append($sheet_id, $sheet_name, $row);
                 $i = $i+1;
             }
+        }
+        echo "done" . "\n";
+        return;
+    }
+*/
+
+    public function exportGSCheckIn(Request $request)
+    {
+        //將報名報到結果寫回GS
+        $camp = Camp::find($request->camp_id);
+        $table = $camp->table;
+        $ids = $camp->applicants->pluck('id');
+        //dd($ids);
+        $row_id = array();
+        $row_applicant_id = array();
+        $row_updated_at = array();
+
+        //ds_id = 387
+        $ds = DynamicStat::select('dynamic_stats.*')
+            ->where('urltable_id',$request->camp_id)
+            ->where('urltable_type','App\Models\Camp')
+            ->where('purpose','exportCheckIn')
+            ->first();
+        
+        if ($ds == null) {
+            echo "sheet not found\n";
+            exit(1);
+        }
+                
+        $sheet_id = $ds->spreadsheet_id;
+        $sheet_name = $ds->sheet_name;
+        $sheets = $this->gsheetservice->Get($sheet_id, $sheet_name);
+
+        //dd($sheets);
+        $row_0 = $sheets[0];
+        $num_rows = count($sheets);
+        $init_updated_time = \Carbon\Carbon::parse($sheets[0][0])->format('Y-m-d 00:00:00');
+
+        if ($request->renew == 1 || $num_rows == 1) {
+            $this->gsheetservice->Clear($sheet_id, $sheet_name);
+            $this->gsheetservice->Append($sheet_id, $sheet_name, $row_0);
+            $checkin_new = \DB::table('check_in')
+                ->where('updated_at', '>', $init_updated_time)
+                ->whereIn('applicant_id', $ids)
+                ->orderBy('id','asc')
+                ->get();            
+        } else {
+            $row_last_id = $sheets[$num_rows-3];
+            $last_id = max($row_last_id);
+
+            $checkin_new = \DB::table('check_in')
+                ->where('id', '>', $last_id)
+                ->whereIn('applicant_id', $ids)
+                ->orderBy('id','asc')
+                ->get();
+        }
+        $num_checkin_new = count($checkin_new);
+        echo "num_checkin_new: " . $num_checkin_new . "\n";
+        if ($num_checkin_new > 0) {
+            foreach($checkin_new as $checkin) {
+                array_push($row_id, $checkin->id);
+                array_push($row_applicant_id, $checkin->applicant_id);
+                array_push($row_updated_at, $checkin->updated_at);
+            }
+            $this->gsheetservice->Append($sheet_id, $sheet_name, $row_id);
+            $this->gsheetservice->Append($sheet_id, $sheet_name, $row_applicant_id);
+            $this->gsheetservice->Append($sheet_id, $sheet_name, $row_updated_at);
         }
         echo "done" . "\n";
         return;

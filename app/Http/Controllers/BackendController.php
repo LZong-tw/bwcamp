@@ -1048,13 +1048,9 @@ class BackendController extends Controller
         }*/
         //for ecamp only
         $main_camp = VCamp::find($this->camp_id)->mainCamp;
-        $roles = $main_camp->roles;
-        foreach ($roles as $role) {
-            $role->count = count($role->users);
-            $role->org_id = $role->id;
-        }
+        $orgs = $main_camp->org_layer1;    //大組
         $campFullData = $this->campFullData;
-        return view('backend.registration.sectionList', compact('campFullData', 'roles'));
+        return view('backend.registration.sectionList', compact('campFullData', 'orgs'));
     }
 
     public function showNotAdmitted()
@@ -1289,12 +1285,21 @@ class BackendController extends Controller
         $applicants = array();
         foreach($users as $user) {
             $aps = $user->application_log;
+            
             foreach ($aps as $ap) {
                 if ($ap->batch_id == $batch_id) {
                     array_push($applicants, $ap);
                 }
             }
         }
+
+        //$applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant));
+        /*$applicants = $applicants->sortBy([
+                                    ['groupRelation.alias', 'asc'],
+                                    ['numberRelation.number', 'asc'],
+                                    ['is_paid', 'desc']
+                                ])->values();*/
+
         return view('backend.registration.section', compact('applicants', 'batch', 'org'));
     }
 

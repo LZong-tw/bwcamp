@@ -58,6 +58,22 @@ class Camp extends Model
         return $this->hasMany(CampOrg::class);
     }
 
+    public function org_root() 
+    {
+        return $this->hasMany(CampOrg::class)->firstWhere('prev_id', 0);
+    }
+
+    public function org_layer1() //第一層組織:大組
+    {
+        $prev_id = $this->org_root()->id;
+        return $this->hasMany(CampOrg::class)->where('prev_id', $prev_id);
+    }
+
+    public function org_layerx($prev_id) //第N層組織:小組
+    {
+        return $this->hasMany(CampOrg::class)->where('prev_id', $prev_id);
+    }
+
     public function roles()
     {
         return $this->hasMany(CampOrg::class)->where('position', 'not like', 'root');

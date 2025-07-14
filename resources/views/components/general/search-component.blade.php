@@ -118,10 +118,10 @@
                 $groups->load('batch');
             @endphp
             @forelse($groups->values() ?? [] as $key => $group)
-                @if(!$currentUser->canAccessResource($group, 'read', $camp))
-                    @continue
-                @endif
                 @if($key % 4 == 0)<div class="row">@endif
+                @if(!$currentUser->canAccessResource($group, 'read', $camp))
+                    <!--do nothing-->
+                @else
                     <span class="col-3">
                         @if ($currentBatch && $currentBatch->id == $group->batch->id)
                             {{ $group->alias }}: <span class="text-primary">{{ $applicants->filter(function ($applicant) use ($group) { return
@@ -137,6 +137,7 @@
                             <br>
                         @endif
                     </span>
+                @endif
                 @if($key % 4 == 3 || $loop->last)</div>@endif
             @empty
             @endforelse

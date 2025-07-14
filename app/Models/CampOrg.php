@@ -92,11 +92,17 @@ class CampOrg extends LaratrustRole
         return $this->belongsToMany(User::class, 'org_user', 'org_id', 'user_id');
     }
 
+    public function user_count()
+    {
+        return $this->users->count();
+    }
+
     public function permissions()
     {
         return $this->belongsToMany(Permission::class, 'org_permission', 'org_id', 'permission_id');
     }
 
+    //對應之學員組別
     public function applicant_group() {
         return $this->hasOne(ApplicantsGroup::class, 'id', 'group_id');
     }

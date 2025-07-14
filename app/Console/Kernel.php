@@ -44,9 +44,11 @@ class Kernel extends ConsoleKernel
         $schedule->command('export:Applicant 101')->dailyAt("3:00"); //evcamp_s
         $schedule->command('export:Applicant 107')->dailyAt("3:30"); //evcamp_n
 
-        //$schedule->command('export:CheckIn 77')->everyThreeMinutes(); //ecamp
-        //$schedule->command('export:CheckIn 79')->everyMinute(); //ceocamp
-        //$schedule->command('export:CheckIn 81')->everyMinute(); //ycamp
+        //$schedule->command('export:CheckIn 100')->everyMinutes(); //ecamp_s
+        //$schedule->command('export:CheckIn 96')->everyMinute(); //ceocamp
+        //$schedule->command('export:CheckIn 102')->everyMinutes(); //ecamp_c
+        //$schedule->command('export:CheckIn 106')->everyMinutes(); //ecamp_n
+        //$schedule->command('export:CheckIn 104')->everyMinute(); //ycamp
     }
 
     /**
