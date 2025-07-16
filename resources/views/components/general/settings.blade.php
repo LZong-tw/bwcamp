@@ -85,7 +85,28 @@
 </div>
 
 <script>
+    // 解決 iOS Safari 返回頁面時快取舊資料的問題
+    window.addEventListener('pageshow', function(event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    });
+
     (function() {
+        // 為了解決 iOS 的快取問題，我們在每個 GET 請求中加入一個時間戳記，
+        // 以確保每次都從伺服器獲取最新的資料。
+        axios.interceptors.request.use(function (config) {
+            if (config.method === 'get') {
+                if (!config.params) {
+                    config.params = {};
+                }
+                config.params['_'] = new Date().getTime();
+            }
+            return config;
+        }, function (error) {
+            return Promise.reject(error);
+        });
+
         @if($isShowLearners)
             axios({
                 method: 'get',

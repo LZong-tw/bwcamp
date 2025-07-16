@@ -2071,24 +2071,27 @@ class BackendController extends Controller
 
         $columns_zhtw = config('camps_fields.display.' . $this->campFullData->table);
 
-        return view('backend.integrated_operating_interface.theList')
-                ->with('applicants', $applicants)
-                ->with('batches', $batches)
-                ->with('current_batch', Batch::find($request->batch_id))
-                ->with('isShowVolunteers', 0)
-                ->with('isSetting', $isSetting)
-                ->with('isSettingCarer', $request->isSettingCarer ?? 0)
-                ->with('carers', $carers ?? null)
-                ->with('isShowLearners', 1)
-                ->with('is_ingroup', 0)
-                ->with('groupName', '')
-                ->with('columns_zhtw', $columns_zhtw)
-                ->with('fullName', $this->campFullData->fullName)
-                ->with('queryStr', $queryStr ?? null)
-                ->with('groups', $this->campFullData->groups)
-                ->with('targetGroupIds', $target_group_ids ?? null)
-                ->with('dynamic_stats', $dynamic_stats)
-                ->withInput($request->all());
+        $request->flash();
+        return response()->view('backend.integrated_operating_interface.theList', [
+                'applicants' => $applicants,
+                'batches' => $batches,
+                'current_batch' => Batch::find($request->batch_id),
+                'isShowVolunteers' => 0,
+                'isSetting' => $isSetting,
+                'isSettingCarer' => $request->isSettingCarer ?? 0,
+                'carers' => $carers ?? null,
+                'isShowLearners' => 1,
+                'is_ingroup' => 0,
+                'groupName' => '',
+                'columns_zhtw' => $columns_zhtw,
+                'fullName' => $this->campFullData->fullName,
+                'queryStr' => $queryStr ?? null,
+                'groups' => $this->campFullData->groups,
+                'targetGroupIds' => $target_group_ids ?? null,
+                'dynamic_stats' => $dynamic_stats
+            ])
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+            ->header('Pragma', 'no-cache');
     }
 
     public function showVolunteers(Request $request)
@@ -2319,23 +2322,27 @@ class BackendController extends Controller
         $camp_str = $this->campFullData->vcamp->table;
         $columns_zhtw = config('camps_fields.display.' . $camp_str);
 
-        return view('backend.integrated_operating_interface.theList')
-                ->with('applicants', $applicants)
-                ->with('registeredVolunteers', $registeredUsers)
-                ->with('batches', $batches)
-                ->with('current_batch', Batch::find($request->batch_id))
-                ->with('isShowVolunteers', 1)
-                ->with('isSetting', $isSetting)
-                ->with('isSettingCarer', $request->isSettingCarer ?? 0)
-                ->with('carers', null)
-                ->with('isShowLearners', 0)
-                ->with('is_ingroup', 0)
-                ->with('groupName', '')
-                ->with('columns_zhtw', $columns_zhtw)
-                ->with('fullName', $this->campFullData->fullName)
-                ->with('groups', $this->campFullData->roles)
-                ->with('queryStr', $queryStr ?? '')
-                ->with('queryRoles', $queryRoles ?? '');
+        $request->flash();
+        return response()->view('backend.integrated_operating_interface.theList', [
+                'applicants' => $applicants,
+                'registeredVolunteers' => $registeredUsers,
+                'batches' => $batches,
+                'current_batch' => Batch::find($request->batch_id),
+                'isShowVolunteers' => 1,
+                'isSetting' => $isSetting,
+                'isSettingCarer' => $request->isSettingCarer ?? 0,
+                'carers' => null,
+                'isShowLearners' => 0,
+                'is_ingroup' => 0,
+                'groupName' => '',
+                'columns_zhtw' => $columns_zhtw,
+                'fullName' => $this->campFullData->fullName,
+                'groups' => $this->campFullData->roles,
+                'queryStr' => $queryStr ?? '',
+                'queryRoles' => $queryRoles ?? ''
+            ])
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+            ->header('Pragma', 'no-cache');
     }
 
     public function export(Request $request)
@@ -2430,22 +2437,26 @@ class BackendController extends Controller
         $camp_str = $this->campFullData->vcamp->table;
         $columns_zhtw = config('camps_fields.display.' . $camp_str);
 
-        return view('backend.integrated_operating_interface.theList')
-                ->with('registeredVolunteers', $registeredUsers)
-                ->with('applicants', $applicants)
-                ->with('batches', $batches)
-                ->with('isShowVolunteers', 1)
-                ->with('current_batch', Batch::find($request->batch_id))
-                ->with('isSetting', $isSetting)
-                ->with('isSettingCarer', $request->isSettingCarer ?? 0)
-                ->with('carers', null)
-                ->with('isShowLearners', 1)
-                ->with('is_ingroup', 1)
-                ->with('groupName', '第1組')
-                ->with('columns_zhtw', $columns_zhtw)
-                ->with('fullName', $this->campFullData->fullName)
-                ->with('groups', $this->campFullData->roles)
-                ->with('queryStr', $queryStr ?? '');
+        $request->flash();
+        return response()->view('backend.integrated_operating_interface.theList', [
+                'registeredVolunteers' => $registeredUsers,
+                'applicants' => $applicants,
+                'batches' => $batches,
+                'isShowVolunteers' => 1,
+                'current_batch' => Batch::find($request->batch_id),
+                'isSetting' => $isSetting,
+                'isSettingCarer' => $request->isSettingCarer ?? 0,
+                'carers' => null,
+                'isShowLearners' => 1,
+                'is_ingroup' => 1,
+                'groupName' => '第1組',
+                'columns_zhtw' => $columns_zhtw,
+                'fullName' => $this->campFullData->fullName,
+                'groups' => $this->campFullData->roles,
+                'queryStr' => $queryStr ?? ''
+            ])
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+            ->header('Pragma', 'no-cache');
     }
 
     public function getAvatar($camp_id, $id)
