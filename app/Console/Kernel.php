@@ -72,50 +72,50 @@ class Kernel extends ConsoleKernel
         $day5_end2      = Carbon::parse('2025-07-27 11:59:59');
         $nownow = Carbon::now();
 
-        $schedule->command('export:CheckIn 100 --renew=1')->everyMinutes()->when(function() {
-            $cond1 = $nownow->between($day1_start1,$day1_end1);
-            $cond2 = $nownow->between($day2_start1,$day2_end1);
+        $schedule->command('export:CheckIn 100 --renew=1')->everyMinutes()->when(function () {
+            $cond1 = $nownow->between($day1_start1, $day1_end1);
+            $cond2 = $nownow->between($day2_start1, $day2_end1);
             return ($cond1 || $cond2);
         }); //ecamp_s
-        $schedule->command('export:CheckIn 100 --renew=1')->everyTenMinutes()->when(function() {
-            $condt = $nownow->between($test1_start1,$test1_end1);
-            $cond1 = $nownow->between($day1_start2,$day1_end2);
-            $cond2 = $nownow->between($day2_start2,$day2_end2);
+        $schedule->command('export:CheckIn 100 --renew=1')->everyTenMinutes()->when(function () {
+            $condt = $nownow->between($test1_start1, $test1_end1);
+            $cond1 = $nownow->between($day1_start2, $day1_end2);
+            $cond2 = $nownow->between($day2_start2, $day2_end2);
             return ($condt || $cond1 || $cond2);
         }); //ecamp_s
-        $schedule->command('export:CheckIn 96 --renew=1')->everyMinute()->when(function() {
-            $cond1 = $nownow->between($day4_start1,$day4_end1);
-            $cond2 = $nownow->between($day5_start1,$day5_end1);
+        $schedule->command('export:CheckIn 96 --renew=1')->everyMinute()->when(function () {
+            $cond1 = $nownow->between($day4_start1, $day4_end1);
+            $cond2 = $nownow->between($day5_start1, $day5_end1);
             return ($cond1 || $cond2);
         }); //ceocamp
-        $schedule->command('export:CheckIn 96 --renew=1')->everyTenMinute()->when(function() {
-            $condt = $nownow->between($test1_start1,$test1_end1);
-            $cond1 = $nownow->between($day4_start2,$day4_end2);
-            $cond2 = $nownow->between($day5_start2,$day5_end2);
+        $schedule->command('export:CheckIn 96 --renew=1')->everyTenMinute()->when(function () {
+            $condt = $nownow->between($test1_start1, $test1_end1);
+            $cond1 = $nownow->between($day4_start2, $day4_end2);
+            $cond2 = $nownow->between($day5_start2, $day5_end2);
             return ($condt || $cond1 || $cond2);
         }); //ceocamp
 
-        $schedule->command('export:CheckIn 102 --renew=1')->everyMinutes()->when(function() {
-            $cond1 = $nownow->between($day3_start1,$day3_end1);
-            $cond2 = $nownow->between($day4_start1,$day4_end1);
+        $schedule->command('export:CheckIn 102 --renew=1')->everyMinutes()->when(function () {
+            $cond1 = $nownow->between($day3_start1, $day3_end1);
+            $cond2 = $nownow->between($day4_start1, $day4_end1);
             return ($cond1 || $cond2);
         }); //ecamp_c
-        $schedule->command('export:CheckIn 102 --renew=1')->everyTenMinutes()->when(function() {
-            $condt = $nownow->between($test2_start1,$test2_end1);
-            $cond1 = $nownow->between($day3_start2,$day3_end2);
-            $cond2 = $nownow->between($day4_start2,$day4_end2);
+        $schedule->command('export:CheckIn 102 --renew=1')->everyTenMinutes()->when(function () {
+            $condt = $nownow->between($test2_start1, $test2_end1);
+            $cond1 = $nownow->between($day3_start2, $day3_end2);
+            $cond2 = $nownow->between($day4_start2, $day4_end2);
             return ($condt || $cond1 || $cond2);
         }); //ecamp_c
 
-        $schedule->command('export:CheckIn 106 --renew=1')->everyMinutes()->when(function() {
-            $cond1 = $nownow->between($day3_start1,$day3_end1);
-            $cond2 = $nownow->between($day4_start1,$day4_end1);
+        $schedule->command('export:CheckIn 106 --renew=1')->everyMinutes()->when(function () {
+            $cond1 = $nownow->between($day3_start1, $day3_end1);
+            $cond2 = $nownow->between($day4_start1, $day4_end1);
             return ($cond1 || $cond2);
         }); //ecamp_n
-        $schedule->command('export:CheckIn 106 --renew=1')->everyTenMinutes()->when(function() {
-            $condt = $nownow->between($test2_start1,$test2_end1);
-            $cond1 = $nownow->between($day3_start2,$day3_end2);
-            $cond2 = $nownow->between($day4_start2,$day4_end2);
+        $schedule->command('export:CheckIn 106 --renew=1')->everyTenMinutes()->when(function () {
+            $condt = $nownow->between($test2_start1, $test2_end1);
+            $cond1 = $nownow->between($day3_start2, $day3_end2);
+            $cond2 = $nownow->between($day4_start2, $day4_end2);
             return ($condt || $cond1 || $cond2);
         }); //ecamp_n
     }
