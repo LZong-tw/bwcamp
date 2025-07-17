@@ -25,99 +25,197 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('check:Accounting ycamp')->dailyAt("16:30");
+        // 每日固定排程任務
+        $this->scheduleAccountingChecks($schedule);
+        $this->scheduleMaintenanceTasks($schedule);
+        $this->scheduleCampExports($schedule);
+        
+        // 動態報到匯出排程
+        $this->scheduleCheckInExports($schedule);
+    }
+
+    /**
+     * 排程會計檢查任務
+     */
+    private function scheduleAccountingChecks(Schedule $schedule)
+    {
         $schedule->command('check:Accounting ceocamp')->dailyAt("16:30");
+    }
+
+    /**
+     * 排程系統維護任務
+     */
+    private function scheduleMaintenanceTasks(Schedule $schedule)
+    {
         $schedule->command('media-library:delete-old-temporary-uploads')->daily();
+    }
 
-        $schedule->command('gen:BankSecondBarcode 96')->dailyAt("0:28"); //ceocamp
-        //$schedule->command('import:Form 96')->dailyAt("12:29"); //ceocamp
-        $schedule->command('import:Form 96')->dailyAt("0:29"); //ceocamp
-        //$schedule->command('import:Form 96')->dailyAt("18:29"); //ceocamp
-        //$schedule->command('export:Applicant 96')->dailyAt("12:30"); //ceocamp,1st
-        $schedule->command('export:Applicant 96')->dailyAt("0:30"); //ceocamp,2nd
-        $schedule->command('export:Applicant 97')->dailyAt("0:45"); //ceovcamp
-        $schedule->command('export:Applicant 102')->dailyAt("1:00"); //ecamp_c
-        $schedule->command('export:Applicant 100')->dailyAt("1:30"); //ecamp_s
-        $schedule->command('export:Applicant 106')->dailyAt("2:00"); //ecamp_n
-        $schedule->command('export:Applicant 103')->dailyAt("2:30"); //evcamp_c
-        $schedule->command('export:Applicant 101')->dailyAt("3:00"); //evcamp_s
-        $schedule->command('export:Applicant 107')->dailyAt("3:30"); //evcamp_n
+    /**
+     * 排程營隊資料匯出任務
+     */
+    private function scheduleCampExports(Schedule $schedule)
+    {
+        // CEO Camp 相關排程
+        $schedule->command('gen:BankSecondBarcode 96')->dailyAt("0:28");
+        $schedule->command('import:Form 96')->dailyAt("0:29");
+        $schedule->command('export:Applicant 96')->dailyAt("0:30");
+        
+        // 其他營隊匯出排程
+        $schedule->command('export:Applicant 97')->dailyAt("0:45");  // ceovcamp
+        $schedule->command('export:Applicant 102')->dailyAt("1:00");  // ecamp_c
+        $schedule->command('export:Applicant 100')->dailyAt("1:30");  // ecamp_s
+        $schedule->command('export:Applicant 106')->dailyAt("2:00");  // ecamp_n
+        $schedule->command('export:Applicant 103')->dailyAt("2:30");  // evcamp_c
+        $schedule->command('export:Applicant 101')->dailyAt("3:00");  // evcamp_s
+        $schedule->command('export:Applicant 107')->dailyAt("3:30");  // evcamp_n
+    }
 
-        //08:00-09:00 每一分鐘一次; 09:00-12:00 每十分鐘一次
-        $test1_start1    = Carbon::parse('2025-07-17 18:00:00');
-        $test1_end1      = Carbon::parse('2025-07-17 21:00:00');
-        $test2_start1    = Carbon::parse('2025-07-24 18:00:00');
-        $test2_end1      = Carbon::parse('2025-07-24 21:00:00');
+    /**
+     * 排程報到資料匯出任務
+     * 規則：08:00-09:00 每分鐘執行; 09:00-12:00 每十分鐘執行
+     */
+    private function scheduleCheckInExports(Schedule $schedule)
+    {
+        $timeRanges = $this->getCheckInTimeRanges();
+        
+        // ecamp_s (ID: 100) - 7/18-7/19
+        $this->scheduleCheckInForCamp($schedule, 100, [
+            'everyMinute' => [
+                $timeRanges['day1']['peak'],
+                $timeRanges['day2']['peak'],
+            ],
+            'everyTenMinutes' => [
+                $timeRanges['test1'],
+                $timeRanges['day1']['normal'],
+                $timeRanges['day2']['normal'],
+            ]
+        ]);
 
-        $day1_start1    = Carbon::parse('2025-07-18 08:00:00');
-        $day1_end1      = Carbon::parse('2025-07-18 09:00:00');
-        $day1_start2    = Carbon::parse('2025-07-18 09:00:01');
-        $day1_end2      = Carbon::parse('2025-07-18 11:59:59');
-        $day2_start1    = Carbon::parse('2025-07-19 08:00:00');
-        $day2_end1      = Carbon::parse('2025-07-19 09:00:00');
-        $day2_start2    = Carbon::parse('2025-07-19 09:00:01');
-        $day2_end2      = Carbon::parse('2025-07-19 11:59:59');
+        // ceocamp (ID: 96) - 7/26-7/27
+        $this->scheduleCheckInForCamp($schedule, 96, [
+            'everyMinute' => [
+                $timeRanges['day4']['peak'],
+                $timeRanges['day5']['peak'],
+            ],
+            'everyTenMinutes' => [
+                $timeRanges['test1'],
+                $timeRanges['day4']['normal'],
+                $timeRanges['day5']['normal'],
+            ]
+        ]);
 
-        $day3_start1    = Carbon::parse('2025-07-25 08:00:00');
-        $day3_end1      = Carbon::parse('2025-07-25 09:00:00');
-        $day3_start2    = Carbon::parse('2025-07-25 09:01:00');
-        $day3_end2      = Carbon::parse('2025-07-25 11:59:59');
-        $day4_start1    = Carbon::parse('2025-07-26 08:00:00');
-        $day4_end1      = Carbon::parse('2025-07-26 09:00:00');
-        $day4_start2    = Carbon::parse('2025-07-26 09:01:00');
-        $day4_end2      = Carbon::parse('2025-07-26 11:59:59');
-        $day5_start1    = Carbon::parse('2025-07-27 08:00:00');
-        $day5_end1      = Carbon::parse('2025-07-27 09:00:00');
-        $day5_start2    = Carbon::parse('2025-07-27 09:01:00');
-        $day5_end2      = Carbon::parse('2025-07-27 11:59:59');
-        $nownow = Carbon::now();
+        // ecamp_c (ID: 102) - 7/25-7/26
+        $this->scheduleCheckInForCamp($schedule, 102, [
+            'everyMinute' => [
+                $timeRanges['day3']['peak'],
+                $timeRanges['day4']['peak'],
+            ],
+            'everyTenMinutes' => [
+                $timeRanges['test2'],
+                $timeRanges['day3']['normal'],
+                $timeRanges['day4']['normal'],
+            ]
+        ]);
 
-        $schedule->command('export:CheckIn 100 --renew=1')->everyMinutes()->when(function () {
-            $cond1 = $nownow->between($day1_start1, $day1_end1);
-            $cond2 = $nownow->between($day2_start1, $day2_end1);
-            return ($cond1 || $cond2);
-        }); //ecamp_s
-        $schedule->command('export:CheckIn 100 --renew=1')->everyTenMinutes()->when(function () {
-            $condt = $nownow->between($test1_start1, $test1_end1);
-            $cond1 = $nownow->between($day1_start2, $day1_end2);
-            $cond2 = $nownow->between($day2_start2, $day2_end2);
-            return ($condt || $cond1 || $cond2);
-        }); //ecamp_s
-        $schedule->command('export:CheckIn 96 --renew=1')->everyMinute()->when(function () {
-            $cond1 = $nownow->between($day4_start1, $day4_end1);
-            $cond2 = $nownow->between($day5_start1, $day5_end1);
-            return ($cond1 || $cond2);
-        }); //ceocamp
-        $schedule->command('export:CheckIn 96 --renew=1')->everyTenMinute()->when(function () {
-            $condt = $nownow->between($test1_start1, $test1_end1);
-            $cond1 = $nownow->between($day4_start2, $day4_end2);
-            $cond2 = $nownow->between($day5_start2, $day5_end2);
-            return ($condt || $cond1 || $cond2);
-        }); //ceocamp
+        // ecamp_n (ID: 106) - 7/25-7/26
+        $this->scheduleCheckInForCamp($schedule, 106, [
+            'everyMinute' => [
+                $timeRanges['day3']['peak'],
+                $timeRanges['day4']['peak'],
+            ],
+            'everyTenMinutes' => [
+                $timeRanges['test2'],
+                $timeRanges['day3']['normal'],
+                $timeRanges['day4']['normal'],
+            ]
+        ]);
+    }
 
-        $schedule->command('export:CheckIn 102 --renew=1')->everyMinutes()->when(function () {
-            $cond1 = $nownow->between($day3_start1, $day3_end1);
-            $cond2 = $nownow->between($day4_start1, $day4_end1);
-            return ($cond1 || $cond2);
-        }); //ecamp_c
-        $schedule->command('export:CheckIn 102 --renew=1')->everyTenMinutes()->when(function () {
-            $condt = $nownow->between($test2_start1, $test2_end1);
-            $cond1 = $nownow->between($day3_start2, $day3_end2);
-            $cond2 = $nownow->between($day4_start2, $day4_end2);
-            return ($condt || $cond1 || $cond2);
-        }); //ecamp_c
+    /**
+     * 取得報到時間範圍設定
+     */
+    private function getCheckInTimeRanges(): array
+    {
+        return [
+            // 測試時段
+            'test1' => ['start' => '2025-07-17 18:00:00', 'end' => '2025-07-17 21:00:00'],
+            'test2' => ['start' => '2025-07-24 18:00:00', 'end' => '2025-07-24 21:00:00'],
+            
+            // 第一天 (7/18)
+            'day1' => [
+                'peak'   => ['start' => '2025-07-18 08:00:00', 'end' => '2025-07-18 09:00:00'],
+                'normal' => ['start' => '2025-07-18 09:00:01', 'end' => '2025-07-18 11:59:59'],
+            ],
+            
+            // 第二天 (7/19)
+            'day2' => [
+                'peak'   => ['start' => '2025-07-19 08:00:00', 'end' => '2025-07-19 09:00:00'],
+                'normal' => ['start' => '2025-07-19 09:00:01', 'end' => '2025-07-19 11:59:59'],
+            ],
+            
+            // 第三天 (7/25)
+            'day3' => [
+                'peak'   => ['start' => '2025-07-25 08:00:00', 'end' => '2025-07-25 09:00:00'],
+                'normal' => ['start' => '2025-07-25 09:01:00', 'end' => '2025-07-25 11:59:59'],
+            ],
+            
+            // 第四天 (7/26)
+            'day4' => [
+                'peak'   => ['start' => '2025-07-26 08:00:00', 'end' => '2025-07-26 09:00:00'],
+                'normal' => ['start' => '2025-07-26 09:01:00', 'end' => '2025-07-26 11:59:59'],
+            ],
+            
+            // 第五天 (7/27)
+            'day5' => [
+                'peak'   => ['start' => '2025-07-27 08:00:00', 'end' => '2025-07-27 09:00:00'],
+                'normal' => ['start' => '2025-07-27 09:01:00', 'end' => '2025-07-27 11:59:59'],
+            ],
+        ];
+    }
 
-        $schedule->command('export:CheckIn 106 --renew=1')->everyMinutes()->when(function () {
-            $cond1 = $nownow->between($day3_start1, $day3_end1);
-            $cond2 = $nownow->between($day4_start1, $day4_end1);
-            return ($cond1 || $cond2);
-        }); //ecamp_n
-        $schedule->command('export:CheckIn 106 --renew=1')->everyTenMinutes()->when(function () {
-            $condt = $nownow->between($test2_start1, $test2_end1);
-            $cond1 = $nownow->between($day3_start2, $day3_end2);
-            $cond2 = $nownow->between($day4_start2, $day4_end2);
-            return ($condt || $cond1 || $cond2);
-        }); //ecamp_n
+    /**
+     * 為特定營隊設定報到匯出排程
+     */
+    private function scheduleCheckInForCamp(Schedule $schedule, int $campId, array $timeConfig)
+    {
+        $command = "export:CheckIn {$campId} --renew=1";
+        
+        // 設定每分鐘執行的時段
+        if (isset($timeConfig['everyMinute'])) {
+            $schedule->command($command)
+                ->everyMinute()
+                ->when(function () use ($timeConfig) {
+                    return $this->isInTimeRanges($timeConfig['everyMinute']);
+                });
+        }
+        
+        // 設定每十分鐘執行的時段
+        if (isset($timeConfig['everyTenMinutes'])) {
+            $schedule->command($command)
+                ->everyTenMinutes()
+                ->when(function () use ($timeConfig) {
+                    return $this->isInTimeRanges($timeConfig['everyTenMinutes']);
+                });
+        }
+    }
+
+    /**
+     * 檢查當前時間是否在指定的時間範圍內
+     */
+    private function isInTimeRanges(array $ranges): bool
+    {
+        $now = Carbon::now();
+        
+        foreach ($ranges as $range) {
+            $start = Carbon::parse($range['start']);
+            $end = Carbon::parse($range['end']);
+            
+            if ($now->between($start, $end)) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     /**

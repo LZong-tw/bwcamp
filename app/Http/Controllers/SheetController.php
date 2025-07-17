@@ -223,440 +223,675 @@ class SheetController extends Controller
         //return view('backend.in_camp.gsFeedback', compact('titles','contents','content_count'));
     }
 
+    /**
+     * 匯出申請者資料到 Google Sheets
+     * 
+     * @param Request $request 包含 camp_id 和 app_id 參數
+     * @return void
+     */
     public function exportGSApplicants(Request $request)
     {
+        // 取得營隊相關資訊
         $camp = Camp::find($request->camp_id);
         $table = $camp->table;
-        if ($camp->is_vcamp()) {
-            $vcamp = Vcamp::find($request->camp_id);
-            $main_camp_id = $vcamp->mainCamp->id;
-        } else {
-            $main_camp_id = null;
+        $mainCampId = $this->getMainCampId($camp, $request->camp_id);
+        
+        // 取得 Google Sheets 設定
+        $sheetConfig = $this->getApplicantSheetConfig($request->camp_id);
+        if (!$sheetConfig) {
+            $this->outputError("sheet not found");
+            return;
         }
-
-        $ds = DynamicStat::select('dynamic_stats.*')
-            ->where('urltable_id', $request->camp_id)
+        
+        // 取得申請者資料
+        $applicants = $this->getApplicantsForExport($request->camp_id, $table);
+        
+        // 取得匯出欄位設定
+        $columns = config('camps_fields.export4stat.' . $table) ?? [];
+        
+        // 準備並匯出資料
+        $this->exportApplicantsToSheet(
+            $sheetConfig,
+            $applicants,
+            $columns,
+            $mainCampId,
+            $request->app_id
+        );
+    }
+    
+    /**
+     * 取得主營隊 ID
+     */
+    private function getMainCampId(Camp $camp, int $campId): ?int
+    {
+        if ($camp->is_vcamp()) {
+            $vcamp = Vcamp::find($campId);
+            return $vcamp->mainCamp->id;
+        }
+        return null;
+    }
+    
+    /**
+     * 取得申請者匯出的 Google Sheets 設定
+     */
+    private function getApplicantSheetConfig(int $campId): ?object
+    {
+        return DynamicStat::select('dynamic_stats.*')
+            ->where('urltable_id', $campId)
             ->where('urltable_type', 'App\Models\Camp')
             ->where('purpose', 'exportApplicants')
             ->first();
-
-        if ($ds == null) {
-            echo "sheet not found\n";
-            exit(1);
+    }
+    
+    /**
+     * 取得需要匯出的申請者資料
+     */
+    private function getApplicantsForExport(int $campId, string $table)
+    {
+        return Applicant::select('applicants.*', $table . '.*')
+            ->join($table, 'applicants.id', '=', $table . '.applicant_id')
+            ->join('batchs', 'applicants.batch_id', '=', 'batchs.id')
+            ->join('camps', 'batchs.camp_id', '=', 'camps.id')
+            ->where('camps.id', $campId)
+            ->orderBy('applicants.id')
+            ->get();
+    }
+    
+    /**
+     * 匯出申請者資料到 Google Sheets
+     */
+    private function exportApplicantsToSheet(
+        object $sheetConfig,
+        $applicants,
+        array $columns,
+        ?int $mainCampId,
+        int $startAppId
+    ): void {
+        // 準備標題列
+        $headerRow = array_values($columns);
+        
+        // 如果是從頭開始，先清空並寫入標題
+        if ($startAppId == 0) {
+            $this->gsheetservice->Clear($sheetConfig->spreadsheet_id, $sheetConfig->sheet_name);
+            $this->gsheetservice->Append(
+                $sheetConfig->spreadsheet_id, 
+                $sheetConfig->sheet_name, 
+                $headerRow
+            );
         }
-
-        $sheet_id = $ds->spreadsheet_id;
-        $sheet_name = $ds->sheet_name;
-        $sheets = $this->gsheetservice->Get($sheet_id, $sheet_name);
-
-        $applicants = Applicant::select('applicants.*', $table . '.*')
-        ->join($table, 'applicants.id', '=', $table . '.applicant_id')
-        ->join('batchs', 'applicants.batch_id', '=', 'batchs.id')
-        ->join('camps', 'batchs.camp_id', '=', 'camps.id')
-        ->where('camps.id', $request->camp_id)
-        ->orderBy('applicants.id')
-        ->get();
-
-        $columns = config('camps_fields.export4stat.' . $table) ?? [];
-        foreach ($columns as $key => $v) {
-            $rows[] = $v;
-        }
-
-        if ($request->app_id == 0) {
-            $this->gsheetservice->Clear($sheet_id, $sheet_name);
-            $this->gsheetservice->Append($sheet_id, $sheet_name, $rows);
-        }
-
+        
+        // 匯出每位申請者的資料
         foreach ($applicants as $applicant) {
-            if ($applicant->applicant_id <= $request->app_id) {
+            if ($applicant->applicant_id <= $startAppId) {
                 continue;
             }
-            $applicant->id = $applicant->applicant_id;
-            $rows = array();
-            foreach ($columns as $key => $v) {
-                $data = null;
-                if ($key == "admitted_no") {
-                    $data = $applicant->group . $applicant->number;
-                } elseif ($key == "bName") {
-                    $data = $applicant->batch->name;
-                } elseif ($key == "carers") {
-                    $data = $applicant->carer_names();
-                } elseif ($key == "is_attend") {
-                    match ($applicant->is_attend) {
-                        0 => $data = "不參加",
-                        1 => $data = "參加",
-                        2 => $data = "尚未決定",
-                        3 => $data = "聯絡不上",
-                        4 => $data = "無法全程",
-                        default => $data = "尚未聯絡"
-                    };
-                } elseif ($key == "camporg_section") {
-                    $user = ($applicant->user ?? null);
-                    //$roles = ($user)? $user->roles->where('camp_id', $main_camp_id) : null;
-                    $roles = $user?->roles?->where('camp_id', $main_camp_id) ?? null;
-                    $data = ($roles) ? $roles->flatten()->pluck('section')->implode(',') : "";
-                } elseif ($key == "camporg_position") {
-                    $user = ($applicant->user ?? null);
-                    $roles = ($user) ? $user->roles->where('camp_id', $main_camp_id) : null;
-                    $data = ($roles) ? $roles->flatten()->pluck('position')->implode(',') : "";
-                } elseif ($key == "fare") {
-                    $data = ($applicant->lodging?->fare) ?? "";
-                } elseif ($key == "deposit") {
-                    $data = ($applicant->lodging?->deposit) ?? "";
-                } else {
-                    $data = $applicant->$key;
-                }
-                $rows[] = '"'. $data .'"';
-            }
-            $this->gsheetservice->Append($sheet_id, $sheet_name, $rows);
-            sleep(1);   //1 second
-            usleep(5000);   //5 millisecond
+            
+            $dataRow = $this->prepareApplicantDataRow(
+                $applicant, 
+                $columns, 
+                $mainCampId
+            );
+            
+            $this->gsheetservice->Append(
+                $sheetConfig->spreadsheet_id, 
+                $sheetConfig->sheet_name, 
+                $dataRow
+            );
+            
+            // 避免超過 API 配額限制
+            sleep(1);
+            usleep(5000);
         }
     }
-    /*
-        public function exportGSCheckIn(Request $request)
-        {
-            //將報名報到結果寫回GS
-            $camp = Camp::find($request->camp_id);
-            $table = $camp->table;
-            $ids = $camp->applicants->pluck('id');
-            //dd($ids);
-            $row = array();
-            $row1 = array();
-
-            //ds_id = 387
-            $ds = DynamicStat::select('dynamic_stats.*')
-                ->where('urltable_id',$request->camp_id)
-                ->where('urltable_type','App\Models\Camp')
-                ->where('purpose','exportCheckIn')
-                ->first();
-
-            if ($ds == null) {
-                echo "sheet not found\n";
-                exit(1);
-            }
-
-            $sheet_id = $ds->spreadsheet_id;
-            $sheet_name = $ds->sheet_name;
-            $sheets = $this->gsheetservice->Get($sheet_id, $sheet_name);
-
-            //dd($sheets);
-            $titles = $sheets[0];
-            $dummy = $sheets[1];
-            $num_cols = count($titles);
-            $num_rows = count($sheets);
-
-            $colidx1 = -1;
-            $colidx2 = -1;
-            $colidx3 = -1;
-            $colidx4 = -1;
-
-            //find title
-            for ($i=0; $i<$num_cols; $i++) {
-                if ($titles[$i] == "id") {
-                    $colidx1 = $i;
-                } else if ($titles[$i] == "applicant_id") {
-                    $colidx2 = $i;
-                } else if ($titles[$i] == "updated_at") {
-                    $colidx3 = $i;
-                } else if ($titles[$i] == "status") {
-                    $colidx4 = $i;
-                }
-            }
-
-            if ($colidx1 == -1)
-            {   echo "missing column id\n"; exit(1);}
-            else if ($colidx2 == -1)
-            {   echo "missing column applicant_id\n"; exit(1);}
-            else if ($colidx3 == -1)
-            {   echo "missing column updated_at\n"; exit(1);}
-            else if ($colidx4 == -1)
-            {   echo "missing column status\n"; exit(1);}
-
-            //row=0: titles
-            //row=1: a dummy to set the first_updated_time first_id (use 0)
-            $regex = '/^(\d{4}[-\/]\d{1,2}[-\/]\d{1,2}([T ]\d{1,2}:\d{1,2}(:\d{1,2})?(\.\d+)?(([+-]\d{2}:\d{2})|Z)?)?|\d{1,2}[-\/]\d{1,2}[-\/]\d{4}([T ]\d{1,2}:\d{1,2}(:\d{1,2})?(\.\d+)?(([+-]\d{2}:\d{2})|Z)?)?)$/';
-            if ($sheets[1][$colidx3] && preg_match($regex, $sheets[1][$colidx3])) {
-                $init_updated_time = \Carbon\Carbon::parse($sheets[$num_rows-1][$colidx3]);
-            }
-            else {
-                $init_updated_time = today()->format('Y-m-d 00:00:00');
-            }
-
-            if ($sheets[$num_rows-1][$colidx3] && preg_match($regex, $sheets[$num_rows-1][$colidx3])) {
-                //columns: applicant_id, updated_at, status, id
-                $last_updated_time = \Carbon\Carbon::parse($sheets[$num_rows-1][$colidx3]);
-                $last_id = $sheets[$num_rows-1][$colidx1];
-            }
-            else {
-                $last_updated_time = today()->format('Y-m-d 00:00:00');
-                $last_id = 0;   //dummy
-            }
-
-            if ($request->renew == 1) {
-                $this->gsheetservice->Clear($sheet_id, $sheet_name);
-                $this->gsheetservice->Append($sheet_id, $sheet_name, $titles);
-                $this->gsheetservice->Append($sheet_id, $sheet_name, $dummy);
-                $checkin_renew = \DB::table('check_in')
-                    ->where('updated_at', '>', $init_updated_time)
-                    ->whereIn('applicant_id', $ids)
-                    ->orderBy('updated_at','asc')->get();
-                echo "num_checkin_renew: " . count($checkin_renew) . "\n";
-                $chunked_checkin_renew = array_chunk($checkin_renew->toArray(), 60);
-                $backoff = 1;
-                $max_backoff = 65;
-                foreach($chunked_checkin_renew as $k => $chunk) {
-                    // Exponential backoff algorithm
-                    $processed_indices = [];
-                    while (count($processed_indices) < count($chunk)) {
-                        try {
-                            for ($i = 0; $i < count($chunk); $i++) {
-                                if (!in_array($i, $processed_indices)) {
-                                    $checkin = $chunk[$i];
-                                    echo "writing applicant_id: " . $checkin->applicant_id . "\n";
-                                    $row[$colidx1] = $checkin->id;
-                                    $row[$colidx2] = $checkin->applicant_id;
-                                    $row[$colidx3] = $checkin->updated_at;
-                                    $row[$colidx4] = 1;
-                                    $this->gsheetservice->Append($sheet_id, $sheet_name, $row);
-                                    $processed_indices[] = $i;
-                                }
-                            }
-                            $backoff = 1;  // Reset backoff on success
-                        } catch (\Exception $e) {
-                            if (strpos($e->getMessage(), 'Quota exceeded') !== false) {
-                                echo "Quota exceeded. Backing off for {$backoff} seconds.\n";
-                                for ($i = $backoff; $i > 0; $i--) {
-                                    echo $i . " ";
-                                    sleep(1);
-                                    if (ob_get_level() > 0) {
-                                        ob_flush();
-                                    }
-                                    flush();
-                                }
-                                $backoff = min($backoff * 2, $max_backoff);  // Exponential backoff
-                            } else {
-                                throw $e;  // Re-throw if it's not a quota error
-                            }
-                        }
-                    }
-                    echo $k + 1 . " chunk done, total chunks: " . count($chunked_checkin_renew) . "\n";
-                }
-            }
-            else {
-                $checkin_new = \DB::table('check_in')
-                    ->where('id', '>', $last_id)
-                    ->where('updated_at', '>=', $last_updated_time) //同時間可以有很多筆
-                    ->whereIn('applicant_id', $ids)
-                    ->orderBy('id','asc')->get();
-                echo "num_checkin_new: " . count($checkin_new) . "\n";
-                //dd($checkin_new);
-                $i=0;
-                foreach($checkin_new as $checkin) {
-                    if ($i==60) break;
-                    $row[$colidx1] = $checkin->id;
-                    $row[$colidx2] = $checkin->applicant_id;
-                    $row[$colidx3] = $checkin->updated_at;
-                    $row[$colidx4] = 1;
-                    $this->gsheetservice->Append($sheet_id, $sheet_name, $row);
-                    $i = $i+1;
-                }
-            }
-            echo "done" . "\n";
-            return;
+    
+    /**
+     * 準備單個申請者的資料列
+     */
+    private function prepareApplicantDataRow($applicant, array $columns, ?int $mainCampId): array
+    {
+        $applicant->id = $applicant->applicant_id;
+        $dataRow = [];
+        
+        foreach ($columns as $key => $label) {
+            $value = $this->getApplicantFieldValue($applicant, $key, $mainCampId);
+            $dataRow[] = '"' . $value . '"';
         }
-    */
-
+        
+        return $dataRow;
+    }
+    
+    /**
+     * 取得申請者特定欄位的值
+     */
+    private function getApplicantFieldValue($applicant, string $fieldKey, ?int $mainCampId): string
+    {
+        switch ($fieldKey) {
+            case "admitted_no":
+                return $applicant->group . $applicant->number;
+                
+            case "bName":
+                return $applicant->batch->name;
+                
+            case "carers":
+                return $applicant->carer_names();
+                
+            case "is_attend":
+                return $this->getAttendanceStatus($applicant->is_attend);
+                
+            case "camporg_section":
+                return $this->getCampOrgSection($applicant, $mainCampId);
+                
+            case "camporg_position":
+                return $this->getCampOrgPosition($applicant, $mainCampId);
+                
+            case "fare":
+                return ($applicant->lodging?->fare) ?? "";
+                
+            case "deposit":
+                return ($applicant->lodging?->deposit) ?? "";
+                
+            default:
+                return $applicant->$fieldKey ?? "";
+        }
+    }
+    
+    /**
+     * 取得參加狀態的文字描述
+     */
+    private function getAttendanceStatus(?int $status): string
+    {
+        return match ($status) {
+            0 => "不參加",
+            1 => "參加",
+            2 => "尚未決定",
+            3 => "聯絡不上",
+            4 => "無法全程",
+            default => "尚未聯絡"
+        };
+    }
+    
+    /**
+     * 取得營隊組織部門
+     */
+    private function getCampOrgSection($applicant, ?int $mainCampId): string
+    {
+        $user = $applicant->user ?? null;
+        $roles = $user?->roles?->where('camp_id', $mainCampId) ?? null;
+        return $roles ? $roles->flatten()->pluck('section')->implode(',') : "";
+    }
+    
+    /**
+     * 取得營隊組織職位
+     */
+    private function getCampOrgPosition($applicant, ?int $mainCampId): string
+    {
+        $user = $applicant->user ?? null;
+        $roles = $user?->roles?->where('camp_id', $mainCampId) ?? null;
+        return $roles ? $roles->flatten()->pluck('position')->implode(',') : "";
+    }
+    /**
+     * 將報名報到結果匯出至 Google Sheets
+     * 
+     * @param Request $request 包含 camp_id 和 renew 參數
+     * @return void
+     */
     public function exportGSCheckIn(Request $request)
     {
-        //將報名報到結果寫回GS
+        // 取得營隊相關資料
         $camp = Camp::find($request->camp_id);
-        $table = $camp->table;
-        $ids = $camp->applicants->pluck('id');
-        //dd($ids);
-        $row_id = array();
-        $row_applicant_id = array();
-        $row_updated_at = array();
-
-        //ds_id = 387
-        $ds = DynamicStat::select('dynamic_stats.*')
-            ->where('urltable_id', $request->camp_id)
+        $campApplicantIds = $camp->applicants->pluck('id');
+        
+        // 取得 Google Sheets 設定
+        $sheetConfig = $this->getCheckInSheetConfig($request->camp_id);
+        if (!$sheetConfig) {
+            $this->outputError("sheet not found");
+            return;
+        }
+        
+        // 讀取現有的 Google Sheets 資料
+        $existingData = $this->gsheetservice->Get(
+            $sheetConfig->spreadsheet_id, 
+            $sheetConfig->sheet_name
+        );
+        
+        // 取得需要匯出的報到資料
+        $checkInData = $this->getCheckInDataToExport(
+            $request, 
+            $existingData, 
+            $campApplicantIds
+        );
+        
+        // 匯出資料到 Google Sheets
+        $this->exportCheckInToSheet(
+            $sheetConfig,
+            $existingData,
+            $checkInData,
+            $request->renew == 1
+        );
+        
+        echo "done\n";
+    }
+    
+    /**
+     * 取得報到匯出的 Google Sheets 設定
+     */
+    private function getCheckInSheetConfig(int $campId): ?object
+    {
+        return DynamicStat::select('dynamic_stats.*')
+            ->where('urltable_id', $campId)
             ->where('urltable_type', 'App\Models\Camp')
             ->where('purpose', 'exportCheckIn')
             ->first();
-
-        if ($ds == null) {
-            echo "sheet not found\n";
-            exit(1);
+    }
+    
+    /**
+     * 取得需要匯出的報到資料
+     */
+    private function getCheckInDataToExport(
+        Request $request, 
+        array $existingData, 
+        $campApplicantIds
+    ): \Illuminate\Support\Collection {
+        $numRows = count($existingData);
+        
+        // 取得初始更新時間（從第一列第一欄取得）
+        $initUpdatedTime = \Carbon\Carbon::parse($existingData[0][0])
+            ->format('Y-m-d 00:00:00');
+        
+        // 判斷是否需要重新匯出所有資料
+        if ($request->renew == 1 || $numRows == 1) {
+            return $this->getAllCheckInData($initUpdatedTime, $campApplicantIds);
         }
-
-        $sheet_id = $ds->spreadsheet_id;
-        $sheet_name = $ds->sheet_name;
-        $sheets = $this->gsheetservice->Get($sheet_id, $sheet_name);
-
-        //dd($sheets);
-        $row_0 = $sheets[0];
-        $num_rows = count($sheets);
-        $init_updated_time = \Carbon\Carbon::parse($sheets[0][0])->format('Y-m-d 00:00:00');
-
-        if ($request->renew == 1 || $num_rows == 1) {
-            $this->gsheetservice->Clear($sheet_id, $sheet_name);
-            $this->gsheetservice->Append($sheet_id, $sheet_name, $row_0);
-            $checkin_new = \DB::table('check_in')
-                ->where('updated_at', '>', $init_updated_time)
-                ->whereIn('applicant_id', $ids)
-                ->orderBy('id', 'asc')
-                ->get();
-        } else {
-            $row_last_id = $sheets[$num_rows - 3];
-            $last_id = max($row_last_id);
-
-            $checkin_new = \DB::table('check_in')
-                ->where('id', '>', $last_id)
-                ->whereIn('applicant_id', $ids)
-                ->orderBy('id', 'asc')
-                ->get();
+        
+        // 只取得新增的報到資料
+        return $this->getNewCheckInData($existingData, $numRows, $campApplicantIds);
+    }
+    
+    /**
+     * 取得所有報到資料（用於重新匯出）
+     */
+    private function getAllCheckInData(string $initUpdatedTime, $campApplicantIds)
+    {
+        return \DB::table('check_in')
+            ->where('updated_at', '>', $initUpdatedTime)
+            ->whereIn('applicant_id', $campApplicantIds)
+            ->orderBy('id', 'asc')
+            ->get();
+    }
+    
+    /**
+     * 取得新增的報到資料（增量更新）
+     */
+    private function getNewCheckInData(array $existingData, int $numRows, $campApplicantIds)
+    {
+        // 從倒數第三列取得最後的 ID（資料結構：第一列標題，最後兩列為資料）
+        $lastIdRow = $existingData[$numRows - 3];
+        $lastId = max($lastIdRow);
+        
+        return \DB::table('check_in')
+            ->where('id', '>', $lastId)
+            ->whereIn('applicant_id', $campApplicantIds)
+            ->orderBy('id', 'asc')
+            ->get();
+    }
+    
+    /**
+     * 匯出報到資料到 Google Sheets
+     */
+    private function exportCheckInToSheet(
+        object $sheetConfig,
+        array $existingData,
+        \Illuminate\Support\Collection $checkInData,
+        bool $shouldRenew
+    ): void {
+        $numCheckIn = count($checkInData);
+        echo "num_checkin_new: " . $numCheckIn . "\n";
+        
+        if ($numCheckIn === 0) {
+            return;
         }
-        $num_checkin_new = count($checkin_new);
-        echo "num_checkin_new: " . $num_checkin_new . "\n";
-        if ($num_checkin_new > 0) {
-            foreach ($checkin_new as $checkin) {
-                array_push($row_id, $checkin->id);
-                array_push($row_applicant_id, $checkin->applicant_id);
-                array_push($row_updated_at, $checkin->updated_at);
-            }
-            $this->gsheetservice->Append($sheet_id, $sheet_name, $row_id);
-            $this->gsheetservice->Append($sheet_id, $sheet_name, $row_applicant_id);
-            $this->gsheetservice->Append($sheet_id, $sheet_name, $row_updated_at);
+        
+        // 如果需要重新匯出，先清空並寫入標題
+        if ($shouldRenew || count($existingData) == 1) {
+            $this->gsheetservice->Clear($sheetConfig->spreadsheet_id, $sheetConfig->sheet_name);
+            $this->gsheetservice->Append(
+                $sheetConfig->spreadsheet_id, 
+                $sheetConfig->sheet_name, 
+                $existingData[0]  // 標題列
+            );
         }
-        echo "done" . "\n";
-        return;
+        
+        // 準備資料列
+        $dataRows = $this->prepareCheckInDataRows($checkInData);
+        
+        // 批次寫入資料
+        foreach ($dataRows as $row) {
+            $this->gsheetservice->Append(
+                $sheetConfig->spreadsheet_id, 
+                $sheetConfig->sheet_name, 
+                $row
+            );
+        }
+    }
+    
+    /**
+     * 準備報到資料列（依照 ID、申請者ID、更新時間分列）
+     */
+    private function prepareCheckInDataRows(\Illuminate\Support\Collection $checkInData): array
+    {
+        $rows = [
+            'ids' => [],
+            'applicant_ids' => [],
+            'updated_at' => []
+        ];
+        
+        foreach ($checkInData as $checkIn) {
+            $rows['ids'][] = $checkIn->id;
+            $rows['applicant_ids'][] = $checkIn->applicant_id;
+            $rows['updated_at'][] = $checkIn->updated_at;
+        }
+        
+        return [
+            $rows['ids'],
+            $rows['applicant_ids'],
+            $rows['updated_at']
+        ];
+    }
+    
+    /**
+     * 輸出錯誤訊息並結束程式
+     */
+    private function outputError(string $message): void
+    {
+        echo $message . "\n";
+        exit(1);
     }
 
+    /**
+     * 從 Google Sheets 匯入申請者狀態
+     * 
+     * @param Request $request 包含 camp_id 參數
+     * @return int 更新的記錄數
+     */
     public function importGSStatus(Request $request)
     {
+        // 取得營隊資訊
         $camp = Camp::find($request->camp_id);
         $table = $camp->table;
-        $fare_room = config('camps_payments.fare_room.' . $table) ?? [];
-
-        //maybe more than one
-        $dss = DynamicStat::select('dynamic_stats.*')
-            ->where('urltable_id', $request->camp_id)
+        
+        // 取得所有相關的 Google Sheets 設定
+        $sheetConfigs = $this->getImportFormSheetConfigs($request->camp_id);
+        if ($sheetConfigs->isEmpty()) {
+            $this->outputError("sheet not found");
+            return 0;
+        }
+        
+        $totalUpdateCount = 0;
+        
+        // 處理每個 Google Sheet
+        foreach ($sheetConfigs as $sheetConfig) {
+            $updateCount = $this->processSheetImport($sheetConfig, $table);
+            $totalUpdateCount += $updateCount;
+        }
+        
+        return $totalUpdateCount;
+    }
+    
+    /**
+     * 取得匯入表單的 Google Sheets 設定
+     */
+    private function getImportFormSheetConfigs(int $campId)
+    {
+        return DynamicStat::select('dynamic_stats.*')
+            ->where('urltable_id', $campId)
             ->where('urltable_type', 'App\Models\Camp')
             ->where('purpose', 'importForm')
             ->get();
-
-        if ($dss == null) {
-            echo "sheet not found\n";
-            exit(1);
+    }
+    
+    /**
+     * 處理單個 Google Sheet 的匯入
+     */
+    private function processSheetImport(object $sheetConfig, string $table): int
+    {
+        // 讀取 Google Sheet 資料
+        $sheets = $this->gsheetservice->Get(
+            $sheetConfig->spreadsheet_id, 
+            $sheetConfig->sheet_name
+        );
+        
+        if (empty($sheets)) {
+            return 0;
         }
-
-        foreach ($dss as $ds) {
-            $sheet_id = $ds->spreadsheet_id;
-            $sheet_name = $ds->sheet_name;
-            $sheets = $this->gsheetservice->Get($sheet_id, $sheet_name);
-
-            $titles = $sheets[0];
-            $num_cols = count($titles);
-            $num_rows = count($sheets);
-
-            $title_tg = array("報名序號", "是否參加營隊", "住宿房型", "繳費");
-            $colidx = array(-1, -1, -1, -1);
-            $jcnt = count($title_tg);
-            //find title
-            for ($i = 0; $i < $num_cols; $i++) {
-                for ($j = 0; $j < $jcnt; $j++) {
-                    if (str_contains($titles[$i], $title_tg[$j])) {
-                        $colidx[$j] = $i;
-                        continue;
-                    }
-                }
-            }
-
-            if ($table == 'ceocamp') {
-                //$success_count = 0;
-                //$fail_count = 0;
-                $ids = array();
-                $is_attends = array();
-                $room_types = array();
-                for ($j = 1; $j < $num_rows; $j++) {
-                    $data = $sheets[$j];
-                    if (count($data) > 2) { //已調查
-                        array_push($ids, $data[$colidx[0]]);
-                        //$is_attends[$data[$colidx1]] = ($data[$colidx2]?? "");
-                        if (isset($data[$colidx[1]])) {
-                            if ($data[$colidx[1]] == "是") {
-                                $is_attends[$data[$colidx[0]]] = 1;
-                            } elseif ($data[$colidx[1]] == "否") {
-                                $is_attends[$data[$colidx[0]]] = 0;
-                            } else {
-                                $is_attends[$data[$colidx[0]]] = 2;
-                            }
-                        }
-                        $room_types[$data[$colidx[0]]] = ($data[$colidx[2]] ?? "");
-                    }
-                }
-
-                $applicants = Applicant::select('applicants.*')
-                    ->whereIn('id', $ids)->get();
-                try {
-                    foreach ($applicants as $applicant) {
-                        //dd($applicant->id);
-                        $applicant->is_attend = ($is_attends[$applicant->id] ?? null);
-                        if ($room_types[$applicant->id] == "") {
-                            $applicant->save();
-                        } else {
-                            $lodging = $applicant->lodging;
-                            //尚未登記，建新的Lodging
-                            if (!isset($lodging)) {
-                                $lodging = new Lodging();
-                                $lodging->applicant_id = $applicant->id;
-                            }
-                            //更新房型、天數及應繳車資
-                            $lodging->room_type = $room_types[$applicant->id];
-                            $lodging->nights = 1;
-                            $lodging->fare = ($fare_room[$lodging->room_type] ?? 0) * ($lodging->nights ?? 0);
-                            $lodging->save();
-                            //dd($lodging);
-                            //update barcode
-                            $applicant = $this->applicantService->fillPaymentData($applicant);
-                            $applicant->save();
-                        }
-                    }
-                } catch (\Exception $e) {
-                    logger($e);
-                }
-            } elseif ($table == 'utcamp') {
-                $ids = array();
-                $deposits = array();
-                for ($j = 1; $j < $num_rows; $j++) {
-                    $data = $sheets[$j];
-                    if (count($data) < $num_cols) {
-                        break;
-                    }
-                    $app_id = preg_replace("/[^0-9]/", "", $data[$colidx[0]]);
-                    $deposit = preg_replace("/[^0-9.]/", "", $data[$colidx[3]]);
-                    if ($app_id == "") {
-                        continue;
-                    }
-                    array_push($ids, $app_id);
-                    $deposits[$app_id] = $deposit;
-                }
-                $applicants = Applicant::select('applicants.*')
-                    ->whereIn('id', $ids)->get();
-
-                $update_count = 0;
-                try {
-                    foreach ($applicants as $applicant) {
-                        $applicant->deposit = $deposits[$applicant->id];
-                        $applicant->save();
-                        $update_count++;
-                    }
-                } catch (\Exception $e) {
-                    logger($e);
+        
+        // 根據不同的營隊類型處理匯入
+        return match ($table) {
+            'ceocamp' => $this->importCeocampStatus($sheets),
+            'utcamp' => $this->importUtcampStatus($sheets),
+            default => 0
+        };
+    }
+    
+    /**
+     * 匯入 CEO Camp 狀態
+     */
+    private function importCeocampStatus(array $sheets): int
+    {
+        $titles = $sheets[0];
+        $titleTargets = ['id', '參加', '房型'];
+        
+        // 找出欄位索引
+        $columnIndexes = $this->findColumnIndexes($titles, $titleTargets);
+        if (in_array(-1, $columnIndexes)) {
+            echo "Missing required columns\n";
+            return 0;
+        }
+        
+        // 收集需要更新的資料
+        $updateData = $this->collectCeocampUpdateData($sheets, $columnIndexes);
+        
+        // 執行更新
+        return $this->updateCeocampApplicants($updateData);
+    }
+    
+    /**
+     * 匯入 UT Camp 狀態
+     */
+    private function importUtcampStatus(array $sheets): int
+    {
+        $titles = $sheets[0];
+        $titleTargets = ['報名序號', null, null, '已繳金額'];
+        
+        // 找出欄位索引
+        $columnIndexes = $this->findColumnIndexes($titles, $titleTargets);
+        if ($columnIndexes[0] == -1 || $columnIndexes[3] == -1) {
+            echo "Missing required columns\n";
+            return 0;
+        }
+        
+        // 收集需要更新的資料
+        $updateData = $this->collectUtcampUpdateData($sheets, $columnIndexes);
+        
+        // 執行更新
+        return $this->updateUtcampApplicants($updateData);
+    }
+    
+    /**
+     * 尋找欄位索引
+     */
+    private function findColumnIndexes(array $titles, array $targets): array
+    {
+        $indexes = array_fill(0, count($targets), -1);
+        
+        foreach ($titles as $colIndex => $title) {
+            foreach ($targets as $targetIndex => $target) {
+                if ($target !== null && str_contains($title, $target)) {
+                    $indexes[$targetIndex] = $colIndex;
                 }
             }
         }
-        return($update_count);
+        
+        return $indexes;
+    }
+    
+    /**
+     * 收集 CEO Camp 更新資料
+     */
+    private function collectCeocampUpdateData(array $sheets, array $columnIndexes): array
+    {
+        $data = [
+            'ids' => [],
+            'is_attends' => [],
+            'room_types' => []
+        ];
+        
+        $numRows = count($sheets);
+        
+        for ($rowIndex = 1; $rowIndex < $numRows; $rowIndex++) {
+            $row = $sheets[$rowIndex];
+            
+            if (count($row) <= 2) {
+                continue;
+            }
+            
+            $id = $row[$columnIndexes[0]];
+            $data['ids'][] = $id;
+            
+            // 處理參加狀態
+            if (isset($row[$columnIndexes[1]])) {
+                $data['is_attends'][$id] = $this->parseAttendanceStatus($row[$columnIndexes[1]]);
+            }
+            
+            // 處理房型
+            $data['room_types'][$id] = $row[$columnIndexes[2]] ?? "";
+        }
+        
+        return $data;
+    }
+    
+    /**
+     * 收集 UT Camp 更新資料
+     */
+    private function collectUtcampUpdateData(array $sheets, array $columnIndexes): array
+    {
+        $data = [
+            'ids' => [],
+            'deposits' => []
+        ];
+        
+        $numRows = count($sheets);
+        $numCols = count($sheets[0]);
+        
+        for ($rowIndex = 1; $rowIndex < $numRows; $rowIndex++) {
+            $row = $sheets[$rowIndex];
+            
+            if (count($row) < $numCols) {
+                break;
+            }
+            
+            $appId = preg_replace("/[^0-9]/", "", $row[$columnIndexes[0]]);
+            $deposit = preg_replace("/[^0-9.]/", "", $row[$columnIndexes[3]]);
+            
+            if ($appId === "") {
+                continue;
+            }
+            
+            $data['ids'][] = $appId;
+            $data['deposits'][$appId] = $deposit;
+        }
+        
+        return $data;
+    }
+    
+    /**
+     * 解析參加狀態
+     */
+    private function parseAttendanceStatus(string $status): int
+    {
+        return match ($status) {
+            "是" => 1,
+            "否" => 0,
+            default => 2
+        };
+    }
+    
+    /**
+     * 更新 CEO Camp 申請者資料
+     */
+    private function updateCeocampApplicants(array $updateData): int
+    {
+        $updateCount = 0;
+        $applicants = Applicant::whereIn('id', $updateData['ids'])->get();
+        $fareRoom = config('camps_payments.fare_room.ceocamp') ?? [];
+        
+        try {
+            foreach ($applicants as $applicant) {
+                $applicantId = $applicant->id;
+                
+                // 更新參加狀態
+                $applicant->is_attend = $updateData['is_attends'][$applicantId] ?? null;
+                
+                // 處理房型更新
+                $roomType = $updateData['room_types'][$applicantId];
+                if ($roomType !== "") {
+                    $this->updateApplicantLodging($applicant, $roomType, $fareRoom);
+                }
+                
+                $applicant->save();
+                $updateCount++;
+            }
+        } catch (\Exception $e) {
+            logger($e);
+        }
+        
+        return $updateCount;
+    }
+    
+    /**
+     * 更新 UT Camp 申請者資料
+     */
+    private function updateUtcampApplicants(array $updateData): int
+    {
+        $updateCount = 0;
+        $applicants = Applicant::whereIn('id', $updateData['ids'])->get();
+        
+        try {
+            foreach ($applicants as $applicant) {
+                $applicant->deposit = $updateData['deposits'][$applicant->id];
+                $applicant->save();
+                $updateCount++;
+            }
+        } catch (\Exception $e) {
+            logger($e);
+        }
+        
+        return $updateCount;
+    }
+    
+    /**
+     * 更新申請者住宿資訊
+     */
+    private function updateApplicantLodging(Applicant $applicant, string $roomType, array $fareRoom): void
+    {
+        $lodging = $applicant->lodging;
+        
+        // 如果沒有住宿記錄，建立新的
+        if (!$lodging) {
+            $lodging = new Lodging();
+            $lodging->applicant_id = $applicant->id;
+        }
+        
+        // 更新房型、天數及應繳車資
+        $roomTypeName = key(array_filter($fareRoom, fn($v, $k) => $v[0] == $roomType, ARRAY_FILTER_USE_BOTH));
+        
+        if ($roomTypeName) {
+            $lodging->room_type = $roomTypeName;
+            $lodging->days = $fareRoom[$roomTypeName][1];
+            $lodging->fare = $fareRoom[$roomTypeName][2];
+            $lodging->save();
+            
+            // 更新付款資料
+            $this->applicantService->fillPaymentData($applicant);
+        }
     }
 }
