@@ -659,10 +659,7 @@ class BackendController extends Controller
         if ($request->orderByCreatedAtDesc) {
             $applicants = $applicants->sortByDesc('created_at');
         }
-        
-        // 使用批次權限檢查來提升效能，同時保持 ABAC 權限控制
-        $accessResults = $this->user->batchCanAccessResources($applicants, 'read', $this->campFullData);
-        $applicants = $applicants->filter(fn ($applicant) => $accessResults->get($applicant->id, false));
+        // todo: fcb440ab06a18ae2baa4dc39bad6ed04a9e79455 把原先的權限過濾拿掉了，後續要考慮加回來
         //----- 處理「下載」：開始 -----
         if (isset($request->download)) {
             if ($applicants) {
