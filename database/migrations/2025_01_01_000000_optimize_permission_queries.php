@@ -47,7 +47,7 @@ class OptimizePermissionQueries extends Migration
             }
         });
 
-                // 最佳化 roles 表的索引
+        // 最佳化 roles 表的索引
         Schema::table('roles', function (Blueprint $table) {
             // 索引用於查詢營隊角色
             if (!Schema::hasIndex('roles', 'idx_camp_roles')) {
