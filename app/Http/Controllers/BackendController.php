@@ -659,7 +659,7 @@ class BackendController extends Controller
         if ($request->orderByCreatedAtDesc) {
             $applicants = $applicants->sortByDesc('created_at');
         }
-
+        // todo: fcb440ab06a18ae2baa4dc39bad6ed04a9e79455 把原先的權限過濾拿掉了，後續要考慮加回來
         //----- 處理「下載」：開始 -----
         if (isset($request->download)) {
             if ($applicants) {
