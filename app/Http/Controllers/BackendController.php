@@ -658,10 +658,10 @@ class BackendController extends Controller
         if ($request->orderByCreatedAtDesc) {
             $applicants = $applicants->sortByDesc('created_at');
         }
-        /*
-        $applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant));
 
-        dd($applicants);*/
+        // 使用批次權限檢查來提升效能
+        $accessResults = $this->user->batchCanAccessResources($applicants, 'read', $this->campFullData);
+        $applicants = $applicants->filter(fn ($applicant) => $accessResults->get($applicant->id, false));
 
         //----- 處理「下載」：開始 -----
         if (isset($request->download)) {
