@@ -231,122 +231,36 @@ class User extends Authenticatable
             return collect();
         }
 
-        // 預載入所有需要的權限資料
+        // 使用原本的單一檢查邏輯，但批次處理以減少查詢
+        // 預載入所有需要的資料
         $this->loadMissing(['roles' => function ($query) use ($camp) {
             $query->where('camp_id', $camp->id)->with('permissions');
         }]);
 
-        // 取得第一個資源的類型
+        // 預載入 camp_roles
+        if (!$this->camp_roles) {
+            $this->camp_roles = $this->permissionsRolesParser($camp);
+        }
+
+        // 預載入關懷學員資料（如果需要）
         $resourceClass = get_class($resources->first());
+        if ($resourceClass === 'App\Models\Applicant') {
+            $this->load(['caresLearners' => function ($query) use ($camp) {
+                $query->whereIn('batch_id', $camp->batchs->pluck('id'));
+            }]);
+        }
 
-        // 建立結果集合
-        $results = collect();
-
-        // 根據資源類型進行批次處理
+        // 批次預載入資源的相關資料
         if ($resourceClass === 'App\Models\Applicant' || $resourceClass === 'App\Models\Volunteer') {
-            // 取得所有相關的 batch_id 和 region_id
-            $batchIds = $resources->pluck('batch_id')->unique()->filter();
-            $regionIds = $resources->pluck('region_id')->unique()->filter();
-
-            // 一次查詢所有相關權限
-            $permissions = $this->rolePermissions ?? $this->roles()
-                ->where('camp_id', $camp->id)
-                ->with('permissions')
-                ->get()
-                ->pluck('permissions')
-                ->flatten()
-                ->unique('id');
-
-            $relevantPermission = $permissions
-                ->where('resource', '\\' . $resourceClass)
-                ->where('action', $action)
-                ->first();
-
-            if (!$relevantPermission) {
-                // 沒有相關權限，全部回傳 false
-                return $resources->mapWithKeys(fn ($resource) => [$resource->id => false]);
-            }
-
-            // 根據權限範圍進行批次判斷
-            switch ($relevantPermission->range_parsed) {
-                case 0: // na, all
-                    return $resources->mapWithKeys(fn ($resource) => [$resource->id => true]);
-
-                case 1: // volunteer_large_group
-                    // 預載入所有使用者的 section 資訊
-                    $mySections = $this->roles()->where('camp_id', $camp->id)->pluck('section')->filter();
-
-                    // 批次載入資源相關的使用者角色
-                    $resourceUserIds = $resources->pluck('user_id')->filter();
-                    $resourceRoles = \App\Models\Role::whereIn('user_id', $resourceUserIds)
-                        ->where('camp_id', $camp->id)
-                        ->get()
-                        ->groupBy('user_id');
-
-                    return $resources->mapWithKeys(function ($resource) use ($mySections, $resourceRoles) {
-                        $userRoles = $resourceRoles->get($resource->user_id, collect());
-                        $hasAccess = $userRoles->whereIn('section', $mySections)->isNotEmpty();
-                        return [$resource->id => $hasAccess];
-                    });
-
-                case 2: // learner_group
-                    // 取得我的小組權限
-                    $myGroupIds = $this->roles()
-                        ->where('camp_id', $camp->id)
-                        ->whereNotNull('group_id')
-                        ->pluck('group_id');
-
-                    if ($context === 'onlyCheckAvailability') {
-                        return $resources->mapWithKeys(fn ($resource) => [
-                            $resource->id => $myGroupIds->isNotEmpty()
-                        ]);
-                    }
-
-                    // 檢查是否有關懷服務組的全組權限
-                    $hasAllGroupPermission = $this->roles()
-                        ->where('camp_id', $camp->id)
-                        ->where('all_group', 1)
-                        ->where(function ($query) {
-                            $query->where('position', 'like', '%關懷小組%')
-                                ->orWhere('position', 'like', '%關懷服務組%')
-                                ->orWhere('position', 'like', '%關服組%');
-                        })
-                        ->exists();
-
-                    return $resources->mapWithKeys(function ($resource) use ($myGroupIds, $hasAllGroupPermission) {
-                        if ($hasAllGroupPermission && $resource->group_id) {
-                            return [$resource->id => true];
-                        }
-                        return [$resource->id => $myGroupIds->contains($resource->group_id)];
-                    });
-
-                case 3: // person
-                    if ($context === 'onlyCheckAvailability') {
-                        $hasCaredLearners = $this->caresLearners()
-                            ->whereIn('batch_id', $camp->batchs->pluck('id'))
-                            ->exists();
-                        return $resources->mapWithKeys(fn ($resource) => [
-                            $resource->id => $hasCaredLearners
-                        ]);
-                    }
-
-                    // 取得我關懷的學員 ID
-                    $caredLearnerIds = $this->caresLearners()
-                        ->whereNotNull('group_id')
-                        ->pluck('id');
-
-                    return $resources->mapWithKeys(function ($resource) use ($caredLearnerIds) {
-                        return [$resource->id => $caredLearnerIds->contains($resource->id)];
-                    });
-
-                default:
-                    return $resources->mapWithKeys(fn ($resource) => [$resource->id => false]);
+            if ($resourceClass === 'App\Models\Volunteer') {
+                $resources->load('user.roles');
             }
         }
 
-        // 其他資源類型暫時使用原本的逐筆檢查
+        // 使用原本的邏輯逐一檢查，但利用預載入的資料來提升效能
         return $resources->mapWithKeys(function ($resource) use ($action, $camp, $context) {
-            $canAccess = $this->canAccessResource($resource, $action, $camp, $context, $resource);
+            // 直接使用原本的 canAccessResource 邏輯，但因為資料已經預載入，所以會快很多
+            $canAccess = $this->getAccessibleResult($resource, $action, $camp, $context, $resource);
             return [$resource->id => $canAccess];
         });
     }
