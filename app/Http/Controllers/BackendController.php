@@ -48,6 +48,7 @@ class BackendController extends Controller
     protected $camp_data;
     protected $batch;
     protected $has_attend_data;
+    protected $usePermissionOptimization = false;
 
     /**
      * Create a new controller instance.
@@ -658,10 +659,6 @@ class BackendController extends Controller
         if ($request->orderByCreatedAtDesc) {
             $applicants = $applicants->sortByDesc('created_at');
         }
-
-        // 使用批次權限檢查來提升效能
-        $accessResults = $this->user->batchCanAccessResources($applicants, 'read', $this->campFullData);
-        $applicants = $applicants->filter(fn ($applicant) => $accessResults->get($applicant->id, false));
 
         //----- 處理「下載」：開始 -----
         if (isset($request->download)) {
@@ -2004,8 +2001,12 @@ class BackendController extends Controller
             }
         }
 
-        $accessResults = $this->user->batchCanAccessResources($applicants, 'read', $this->campFullData);
-        $applicants = $applicants->filter(fn ($applicant) => $accessResults->get($applicant->id, false));
+        if ($this->usePermissionOptimization) {
+            $accessResults = $this->user->batchCanAccessResources($applicants, 'read', $this->campFullData);
+            $applicants = $applicants->filter(fn ($applicant) => $accessResults->get($applicant->id, false));
+        } else {
+            $applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant));
+        }
 
         // $applicants = $applicants->filter(function ($applicant) {
         //     // 先檢查快取
@@ -2294,10 +2295,15 @@ class BackendController extends Controller
             }
             $registeredUsers = $registeredUsers->distinct()->get();
         }
-        $accessResults = $this->user->batchCanAccessResources($registeredUsers, 'read', $this->campFullData, 'vcamp');
-        $registeredUsers = $registeredUsers->filter(fn ($user) => $accessResults->get($user->id, false));
-        $accessResults = $this->user->batchCanAccessResources($applicants, 'read', $this->campFullData, 'vcamp');
-        $applicants = $applicants->filter(fn ($applicant) => $accessResults->get($applicant->id, false));
+        if ($this->usePermissionOptimization) {
+            $accessResults = $this->user->batchCanAccessResources($registeredUsers, 'read', $this->campFullData, 'vcamp');
+            $registeredUsers = $registeredUsers->filter(fn ($user) => $accessResults->get($user->id, false));
+            $accessResults = $this->user->batchCanAccessResources($applicants, 'read', $this->campFullData, 'vcamp');
+            $applicants = $applicants->filter(fn ($applicant) => $accessResults->get($applicant->id, false));
+        } else {
+            $registeredUsers = $registeredUsers->filter(fn ($user) => $this->user->canAccessResource($user, 'read', $this->campFullData, target: $user, context: 'vcamp'));
+            $applicants = $applicants->filter(fn ($applicant) => $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant, context: 'vcamp'));
+        }
         // $registeredUsers = $registeredUsers->filter(function ($user) {
         //     // 先檢查快取
         //     $cacheKey = "user_{$this->user->id}_can_access_user_{$user->id}";
