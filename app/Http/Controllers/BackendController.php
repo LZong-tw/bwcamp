@@ -660,10 +660,8 @@ class BackendController extends Controller
         }
         
         // 使用批次權限檢查來提升效能
-        if (!$this->user->hasRole('admin') && !$this->user->hasRole('super_admin')) {
-            $accessResults = $this->user->batchCanAccessResources($applicants, 'read', $this->campFullData);
-            $applicants = $applicants->filter(fn ($applicant) => $accessResults->get($applicant->id, false));
-        }
+        $accessResults = $this->user->batchCanAccessResources($applicants, 'read', $this->campFullData);
+        $applicants = $applicants->filter(fn ($applicant) => $accessResults->get($applicant->id, false));
 
         //----- 處理「下載」：開始 -----
         if (isset($request->download)) {
