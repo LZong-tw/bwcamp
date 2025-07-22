@@ -22,21 +22,23 @@ public function batchCanAccessResources($resources, $action, $camp, $context = n
 ```
 
 **優點**：
+
 - 減少資料庫查詢次數（從 N 次降到固定幾次）
 - 預載入所有相關資料
 - 批次處理相同類型的資源
 - 預估效能提升 **10-50 倍**
 
 **使用方式**：
+
 ```php
 // 原本的逐筆檢查
-$applicants = $applicants->filter(fn ($applicant) => 
+$applicants = $applicants->filter(fn ($applicant) =>
     $this->user->canAccessResource($applicant, 'read', $this->campFullData, target: $applicant)
 );
 
 // 改為批次檢查
 $accessResults = $this->user->batchCanAccessResources($applicants, 'read', $this->campFullData);
-$applicants = $applicants->filter(fn ($applicant) => 
+$applicants = $applicants->filter(fn ($applicant) =>
     $accessResults->get($applicant->id, false)
 );
 ```
@@ -50,6 +52,7 @@ php artisan migrate
 ```
 
 新增的索引：
+
 - `role_user`: 複合索引 `(user_id, camp_id)`
 - `permissions`: 索引 `(resource, action)`, `(batch_id, region_id)`, `camp_id`
 - `permission_role`: 複合索引 `(role_id, permission_id)`
@@ -74,6 +77,7 @@ $cacheService->clearUserPermissions($user, $camp);
 ```
 
 **快取策略**：
+
 - TTL 設定為 5 分鐘（可根據需求調整）
 - 使用 Laravel Cache 支援多種後端（File, Redis, Memcached）
 - 支援批次預熱多個使用者的權限
@@ -97,6 +101,7 @@ CREATE TABLE user_permission_cache (
 ```
 
 使用排程任務定期更新：
+
 ```php
 // 每 10 分鐘更新一次
 $schedule->job(new UpdatePermissionCacheJob)->everyTenMinutes();
@@ -140,6 +145,7 @@ Cache::store('redis')->remember($key, $ttl, $callback);
 ```
 
 **優點**：
+
 - 獨立擴展權限服務
 - 專用的權限資料庫優化
 - 可使用更適合的技術棧（如 Go, Rust）
@@ -151,13 +157,14 @@ Cache::store('redis')->remember($key, $ttl, $callback);
 ```cypher
 // Neo4j 查詢範例
 MATCH (u:User {id: $userId})-[:HAS_ROLE]->(r:Role)-[:HAS_PERMISSION]->(p:Permission)
-WHERE r.camp_id = $campId 
-  AND p.resource = $resource 
+WHERE r.camp_id = $campId
+  AND p.resource = $resource
   AND p.action = $action
 RETURN p
 ```
 
 **優點**：
+
 - 更適合處理複雜的關係查詢
 - 原生支援階層式權限
 - 查詢效能更好
@@ -181,18 +188,21 @@ class UpdatePermissionCache {
 ### 4. 系統架構建議
 
 #### 4.1 短期（1-2 個月）
+
 1. 實施批次權限檢查方法 ✅
 2. 添加資料庫索引 ✅
 3. 部署 Redis 快取
 4. 監控效能改善情況
 
 #### 4.2 中期（3-6 個月）
+
 1. 實作權限預計算表
 2. 建立權限更新排程
 3. 優化資料庫查詢計畫
 4. 考慮讀寫分離
 
 #### 4.3 長期（6-12 個月）
+
 1. 評估微服務架構
 2. 研究圖資料庫方案
 3. 實施事件驅動架構
@@ -203,24 +213,26 @@ class UpdatePermissionCache {
 ### 監控指標
 
 1. **查詢效能**
-   ```php
-   DB::enableQueryLog();
-   // 執行權限檢查
-   $queries = DB::getQueryLog();
-   ```
+
+    ```php
+    DB::enableQueryLog();
+    // 執行權限檢查
+    $queries = DB::getQueryLog();
+    ```
 
 2. **回應時間**
-   ```php
-   $start = microtime(true);
-   // 執行權限檢查
-   $duration = microtime(true) - $start;
-   ```
+
+    ```php
+    $start = microtime(true);
+    // 執行權限檢查
+    $duration = microtime(true) - $start;
+    ```
 
 3. **快取命中率**
-   ```php
-   Cache::increment('permission_cache_hits');
-   Cache::increment('permission_cache_misses');
-   ```
+    ```php
+    Cache::increment('permission_cache_hits');
+    Cache::increment('permission_cache_misses');
+    ```
 
 ### 建議的監控工具
 
@@ -240,7 +252,7 @@ class UpdatePermissionCache {
 透過這些優化方案，預期可達到：
 
 - **短期**：效能提升 10-50 倍
-- **中期**：效能提升 50-100 倍  
+- **中期**：效能提升 50-100 倍
 - **長期**：支援 10 倍以上的使用者規模
 
 建議從短期方案開始實施，根據實際效果逐步推進中長期方案。

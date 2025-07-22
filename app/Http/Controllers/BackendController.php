@@ -658,7 +658,7 @@ class BackendController extends Controller
         if ($request->orderByCreatedAtDesc) {
             $applicants = $applicants->sortByDesc('created_at');
         }
-        
+
         // 使用批次權限檢查來提升效能
         $accessResults = $this->user->batchCanAccessResources($applicants, 'read', $this->campFullData);
         $applicants = $applicants->filter(fn ($applicant) => $accessResults->get($applicant->id, false));

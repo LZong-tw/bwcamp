@@ -27,12 +27,12 @@ class OptimizePermissionQueries extends Migration
             if (!Schema::hasIndex('permissions', 'idx_resource_action')) {
                 $table->index(['resource', 'action'], 'idx_resource_action');
             }
-            
+
             // 索引用於批次和區域的權限查詢
             if (!Schema::hasIndex('permissions', 'idx_batch_region')) {
                 $table->index(['batch_id', 'region_id'], 'idx_batch_region');
             }
-            
+
             // 索引用於營隊權限查詢
             if (!Schema::hasIndex('permissions', 'idx_camp_permissions')) {
                 $table->index('camp_id', 'idx_camp_permissions');
@@ -53,12 +53,12 @@ class OptimizePermissionQueries extends Migration
             if (!Schema::hasIndex('roles', 'idx_camp_roles')) {
                 $table->index('camp_id', 'idx_camp_roles');
             }
-            
+
             // 複合索引用於查詢特定小組或區域的角色
             if (!Schema::hasIndex('roles', 'idx_group_region')) {
                 $table->index(['group_id', 'region_id'], 'idx_group_region');
             }
-            
+
             // 索引用於查詢部門
             if (!Schema::hasIndex('roles', 'idx_section')) {
                 $table->index('section', 'idx_section');
@@ -71,7 +71,7 @@ class OptimizePermissionQueries extends Migration
             if (!Schema::hasIndex('carer_applicant_xrefs', 'idx_user_applicant')) {
                 $table->index(['user_id', 'applicant_id'], 'idx_user_applicant');
             }
-            
+
             // 索引用於查詢特定梯次的關懷關係
             if (!Schema::hasIndex('carer_applicant_xrefs', 'idx_batch_carer')) {
                 $table->index(['batch_id', 'user_id'], 'idx_batch_carer');
