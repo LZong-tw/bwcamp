@@ -11,7 +11,7 @@ class OptimizePermissionQueries extends Migration
      *
      * @return void
      */
-        public function up()
+    public function up()
     {
         // 最佳化 role_user 表的索引
         try {
