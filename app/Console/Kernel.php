@@ -50,14 +50,14 @@ class Kernel extends ConsoleKernel
         $day4_start1    = Carbon::parse('2025-07-27 08:00:00');
         $day4_end1      = Carbon::parse('2025-07-27 11:59:59');
         $nownow = Carbon::now();
-        $cond1 = $nownow->between($day1_start1, $day1_end1) 
-		|| $nownow->between($day2_start1, $day2_end1)
-		|| $nownow->between($day3_start1, $day3_end1)
-		|| $nownow->between($day4_start1, $day4_end1);
+        $cond1 = $nownow->between($day1_start1, $day1_end1)
+        || $nownow->between($day2_start1, $day2_end1)
+        || $nownow->between($day3_start1, $day3_end1)
+        || $nownow->between($day4_start1, $day4_end1);
 
-	$schedule->command('export:CheckIn  96 --renew=1')->everyMinute()->when($cond1);    //ceocamp
-	$schedule->command('export:CheckIn 102 --renew=1')->everyMinute()->when($cond1);    //ecamp_c
-	$schedule->command('export:CheckIn 106 --renew=1')->everyMinute()->when($cond1);    //ecamp_n        
+        $schedule->command('export:CheckIn  96 --renew=1')->everyMinute()->when($cond1);    //ceocamp
+        $schedule->command('export:CheckIn 102 --renew=1')->everyMinute()->when($cond1);    //ecamp_c
+        $schedule->command('export:CheckIn 106 --renew=1')->everyMinute()->when($cond1);    //ecamp_n
     }
 
     /**
