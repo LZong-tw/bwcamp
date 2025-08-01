@@ -189,6 +189,7 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
         // 群組與分組
         Route::get("/groupList", "BackendController@showGroupList")->name("showGroupList");
         Route::get("/sectionList", "BackendController@showSectionList")->name("showSectionList");
+        //Route::get("/sectionList/{org_id}", "BackendController@showSectionList")->name("showSectionList");
         Route::get("/group/{batch_id}/{group}", "BackendController@showGroup")->name("showGroup");
         Route::get("/section/{org_id}", "BackendController@showSection")->name("showSection");
         // 郵件發送
@@ -285,6 +286,14 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
     Route::post("/signUpdate", "SignBackendController@sign_update")->name("sign_update");
 
 });
+
+Route::group(["prefix" => "gadget"], function () {
+    Route::get('/fortuneStick/', "GadgetController@fortuneStick")->name("fortuneStick"); //enter
+    Route::post('/tossBlocks/', "GadgetController@tossBlocks")->name("tossBlocks");
+    Route::post('/drawStick/', "GadgetController@drawStick")->name("drawStick");
+    Route::post('/showStick/', "GadgetController@showStick")->name("showStick");
+});
+
 
 /* GSheet Test
 Route::get('/sheet', 'SheetController@Sheet');
