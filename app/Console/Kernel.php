@@ -59,7 +59,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('gen:BankSecondBarcode 96')->dailyAt("0:28");
         $schedule->command('import:Form 96')->dailyAt("0:29");
         $schedule->command('export:Applicant 96')->dailyAt("0:30");
-        
+
         // 其他營隊匯出排程
         $schedule->command('export:Applicant 97')->dailyAt("0:45");  // ceovcamp
         $schedule->command('export:Applicant 102')->dailyAt("1:00");  // ecamp_c
@@ -165,19 +165,19 @@ class Kernel extends ConsoleKernel
                 'peak'   => ['start' => '2025-08-09 07:00:00', 'end' => '2025-08-09 15:00:00'],
                 'normal' => ['start' => '2025-08-09 15:00:01', 'end' => '2025-08-09 20:59:59'],
             ],
-            
+
             // 第三天 (7/25)
             /*'day3' => [
                 'peak'   => ['start' => '2025-07-25 08:00:00', 'end' => '2025-07-25 09:00:00'],
                 'normal' => ['start' => '2025-07-25 09:01:00', 'end' => '2025-07-25 11:59:59'],
             ],
-            
+
             // 第四天 (7/26)
             'day4' => [
                 'peak'   => ['start' => '2025-07-26 08:00:00', 'end' => '2025-07-26 09:00:00'],
                 'normal' => ['start' => '2025-07-26 09:01:00', 'end' => '2025-07-26 11:59:59'],
             ],
-            
+
             // 第五天 (7/27)
             'day5' => [
                 'peak'   => ['start' => '2025-07-27 08:00:00', 'end' => '2025-07-27 09:00:00'],
@@ -192,7 +192,7 @@ class Kernel extends ConsoleKernel
     private function scheduleCheckInForCamp(Schedule $schedule, int $campId, array $timeConfig)
     {
         $command = "export:CheckIn {$campId} --renew=1";
-        
+
         // 設定每分鐘執行的時段
         if (isset($timeConfig['everyMinute'])) {
             $schedule->command($command)
@@ -201,7 +201,7 @@ class Kernel extends ConsoleKernel
                     return $this->isInTimeRanges($timeConfig['everyMinute']);
                 });
         }
-        
+
         // 設定每十分鐘執行的時段
         if (isset($timeConfig['everyTenMinutes'])) {
             $schedule->command($command)
@@ -218,16 +218,16 @@ class Kernel extends ConsoleKernel
     private function isInTimeRanges(array $ranges): bool
     {
         $now = Carbon::now();
-        
+
         foreach ($ranges as $range) {
             $start = Carbon::parse($range['start']);
             $end = Carbon::parse($range['end']);
-            
+
             if ($now->between($start, $end)) {
                 return true;
             }
         }
-        
+
         return false;
     }
 
@@ -243,4 +243,3 @@ class Kernel extends ConsoleKernel
         require base_path('routes/console.php');
     }
 }
-
