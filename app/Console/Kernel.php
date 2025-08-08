@@ -28,8 +28,8 @@ class Kernel extends ConsoleKernel
         // 每日固定排程任務
         $this->scheduleAccountingChecks($schedule);
         $this->scheduleMaintenanceTasks($schedule);
-        $this->scheduleCampExports($schedule);
-
+        //$this->scheduleCampExports($schedule);
+        
         // 動態報到匯出排程
         $this->scheduleCheckInExports($schedule);
     }
@@ -78,21 +78,8 @@ class Kernel extends ConsoleKernel
     {
         $timeRanges = $this->getCheckInTimeRanges();
 
-        // ecamp_s (ID: 100) - 7/18-7/19
-        $this->scheduleCheckInForCamp($schedule, 100, [
-            'everyMinute' => [
-                $timeRanges['day1']['peak'],
-                $timeRanges['day2']['peak'],
-            ],
-            'everyTenMinutes' => [
-                $timeRanges['test1'],
-                $timeRanges['day1']['normal'],
-                $timeRanges['day2']['normal'],
-            ]
-        ]);
-
         // ceocamp (ID: 96) - 7/26-7/27
-        $this->scheduleCheckInForCamp($schedule, 96, [
+        /*$this->scheduleCheckInForCamp($schedule, 96, [
             'everyMinute' => [
                 $timeRanges['day4']['peak'],
                 $timeRanges['day5']['peak'],
@@ -129,6 +116,32 @@ class Kernel extends ConsoleKernel
                 $timeRanges['day4']['normal'],
             ]
         ]);
+
+        // ecamp_s (ID: 100) - 7/18-7/19
+        $this->scheduleCheckInForCamp($schedule, 100, [
+            'everyMinute' => [
+                $timeRanges['day1']['peak'],
+                $timeRanges['day2']['peak'],
+            ],
+            'everyTenMinutes' => [
+                $timeRanges['test1'],
+                $timeRanges['day1']['normal'],
+                $timeRanges['day2']['normal'],
+            ]
+        ]);*/
+
+        // ycamp (ID: 104) - 8/8-8/9
+        $this->scheduleCheckInForCamp($schedule, 104, [
+            'everyMinute' => [
+                $timeRanges['test1'],
+                $timeRanges['day1']['peak'],
+                $timeRanges['day2']['peak'],
+            ],
+            'everyTenMinutes' => [
+                $timeRanges['day1']['normal'],
+                $timeRanges['day2']['normal'],
+            ]
+        ]);
     }
 
     /**
@@ -140,21 +153,21 @@ class Kernel extends ConsoleKernel
             // 測試時段
             'test1' => ['start' => '2025-07-17 18:00:00', 'end' => '2025-07-17 21:00:00'],
             'test2' => ['start' => '2025-07-24 18:00:00', 'end' => '2025-07-24 21:00:00'],
-
-            // 第一天 (7/18)
+            
+            // 第一天 (8/8)
             'day1' => [
-                'peak'   => ['start' => '2025-07-18 08:00:00', 'end' => '2025-07-18 09:00:00'],
-                'normal' => ['start' => '2025-07-18 09:00:01', 'end' => '2025-07-18 11:59:59'],
+                'peak'   => ['start' => '2025-08-08 07:00:00', 'end' => '2025-08-08 15:00:00'],
+                'normal' => ['start' => '2025-08-08 15:00:01', 'end' => '2025-08-08 20:59:59'],
             ],
-
-            // 第二天 (7/19)
+            
+            // 第二天 (8/9)
             'day2' => [
-                'peak'   => ['start' => '2025-07-19 08:00:00', 'end' => '2025-07-19 09:00:00'],
-                'normal' => ['start' => '2025-07-19 09:00:01', 'end' => '2025-07-19 11:59:59'],
+                'peak'   => ['start' => '2025-08-09 07:00:00', 'end' => '2025-08-09 15:00:00'],
+                'normal' => ['start' => '2025-08-09 15:00:01', 'end' => '2025-08-09 20:59:59'],
             ],
 
             // 第三天 (7/25)
-            'day3' => [
+            /*'day3' => [
                 'peak'   => ['start' => '2025-07-25 08:00:00', 'end' => '2025-07-25 09:00:00'],
                 'normal' => ['start' => '2025-07-25 09:01:00', 'end' => '2025-07-25 11:59:59'],
             ],
@@ -169,7 +182,7 @@ class Kernel extends ConsoleKernel
             'day5' => [
                 'peak'   => ['start' => '2025-07-27 08:00:00', 'end' => '2025-07-27 09:00:00'],
                 'normal' => ['start' => '2025-07-27 09:01:00', 'end' => '2025-07-27 11:59:59'],
-            ],
+            ],*/
         ];
     }
 
