@@ -617,6 +617,7 @@ return [
         "emergency_mobile" => "緊急聯絡人電話",
         "portrait_agree" => "肖像權",
         "profile_agree" => "個人資料允許",
+        "remark" => "備註",
     ],
 
     'yvcamp' => [
@@ -726,6 +727,7 @@ return [
             "department" => "系所",
             "is_attend" => "參加意願",
             "is_checkin" => "是否報到",
+            "remark" => "備註",
         ],
     ],
 
@@ -741,6 +743,7 @@ return [
             "cash" => "現金繳納",
             "is_attend" => "參加意願",
             "is_checkin" => "是否報到",
+            "remark" => "備註(系統)",
             "notes" => "備註",              //非remark
             "applicant_id" => "報名序號",
         ],

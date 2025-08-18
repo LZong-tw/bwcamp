@@ -26,12 +26,12 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // 每日固定排程任務
-        $this->scheduleAccountingChecks($schedule);
+        //$this->scheduleAccountingChecks($schedule);
         $this->scheduleMaintenanceTasks($schedule);
         //$this->scheduleCampExports($schedule);
         
         // 動態報到匯出排程
-        $this->scheduleCheckInExports($schedule);
+        //$this->scheduleCheckInExports($schedule);
     }
 
     /**
