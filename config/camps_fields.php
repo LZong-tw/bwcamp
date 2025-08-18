@@ -468,7 +468,7 @@ return [
         "portrait_agree" => "肖像權",
         "profile_agree" => "個人資料允許",
         "transportation_depart" => "去程交通",
-        "transportation_back" =>"回程交通",
+        "transportation_back" => "回程交通",
         "carers" => "關懷員",
         "care_log" => "關懷記錄",
         "remark" => "備註",
@@ -516,11 +516,11 @@ return [
         "expectation" => "對營隊的期待",
         "emergency_name" => "緊急聯絡人",
         "emergency_mobile" => "緊急聯絡人手機",
-        "fee" =>"住宿需求",
-        "companion_name" =>"同行人姓名",
-        "companion_as_roommate" =>"希望同房",
+        "fee" => "住宿需求",
+        "companion_name" => "同行人姓名",
+        "companion_as_roommate" => "希望同房",
         "transportation_depart" => "去程交通",
-        "transportation_back" =>"回程交通",
+        "transportation_back" => "回程交通",
         "care_log" => "關懷記錄",
     ],
 
@@ -617,6 +617,7 @@ return [
         "emergency_mobile" => "緊急聯絡人電話",
         "portrait_agree" => "肖像權",
         "profile_agree" => "個人資料允許",
+        "remark" => "備註",
     ],
 
     'yvcamp' => [
@@ -726,6 +727,7 @@ return [
             "department" => "系所",
             "is_attend" => "參加意願",
             "is_checkin" => "是否報到",
+            "remark" => "備註",
         ],
     ],
 
@@ -741,6 +743,7 @@ return [
             "cash" => "現金繳納",
             "is_attend" => "參加意願",
             "is_checkin" => "是否報到",
+            "remark" => "備註(系統)",
             "notes" => "備註",              //非remark
             "applicant_id" => "報名序號",
         ],
