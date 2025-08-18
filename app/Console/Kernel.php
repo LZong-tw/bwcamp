@@ -29,7 +29,7 @@ class Kernel extends ConsoleKernel
         //$this->scheduleAccountingChecks($schedule);
         $this->scheduleMaintenanceTasks($schedule);
         //$this->scheduleCampExports($schedule);
-        
+
         // 動態報到匯出排程
         //$this->scheduleCheckInExports($schedule);
     }
@@ -153,13 +153,13 @@ class Kernel extends ConsoleKernel
             // 測試時段
             'test1' => ['start' => '2025-07-17 18:00:00', 'end' => '2025-07-17 21:00:00'],
             'test2' => ['start' => '2025-07-24 18:00:00', 'end' => '2025-07-24 21:00:00'],
-            
+
             // 第一天 (8/8)
             'day1' => [
                 'peak'   => ['start' => '2025-08-08 07:00:00', 'end' => '2025-08-08 15:00:00'],
                 'normal' => ['start' => '2025-08-08 15:00:01', 'end' => '2025-08-08 20:59:59'],
             ],
-            
+
             // 第二天 (8/9)
             'day2' => [
                 'peak'   => ['start' => '2025-08-09 07:00:00', 'end' => '2025-08-09 15:00:00'],
