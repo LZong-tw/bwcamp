@@ -54,6 +54,8 @@ class CampDataService
         // 菁英營：適合聯絡時段
         // 菁英營義工：交通方式、語言
         // 教師營：得知管道、參加過的福智活動(選項)、有興趣的主題(選項)、營隊後方便參加時間
+        // 襌修營：中英文姓名、居住地
+
         if(isset($request->blisswisdom_type) && is_array($request->blisswisdom_type)) {
             $request->merge([
                 'blisswisdom_type' => implode("||/", $request->blisswisdom_type)
@@ -85,7 +87,7 @@ class CampDataService
                 'expertise' => implode("||/", $request->expertise)
             ]);
         }
-        if(isset($request->language)) {
+        if(isset($request->language) && is_array($request->info_source)) {
             $request->merge([
                 'language' => implode("||/", $request->language)
             ]);
@@ -110,7 +112,7 @@ class CampDataService
                 'stay_dates' => implode("||/", $request->stay_dates)
             ]);
         }
-        if(isset($request->motivation)) {
+        if(isset($request->motivation) && is_array($request->motivation)) {
             $request->merge([
                 'motivation' => implode("||/", $request->motivation)
             ]);
@@ -170,7 +172,7 @@ class CampDataService
                 ]);
             }
         }
-        if(isset($request->info_source)) {
+        if(isset($request->info_source) && is_array($request->info_source)) {
             $request->merge([
                 'info_source' => implode("||/", $request->info_source)
             ]);
@@ -180,6 +182,26 @@ class CampDataService
                 'interesting' => implode("||/", $request->interesting)
             ]);
         }
+        
+        //if($camp == "nycamp") {
+            //居住地，欄位合併填入address
+            if(isset($request->addr_city) && isset($request->addr_state)) {
+                $request->merge([
+                    'address' => ($request->addr_city ?? [])." ".($request->addr_state ?? [])." ".($request->addr_country ?? [])
+                ]);
+            }            
+            //如果有中文名字 name=中文名字；否則 name=英文名字
+            //name is not nullable, 所以一定給它值
+            if(isset($request->chinese_first_name) && isset($request->chinese_last_name)) {
+                $request->merge([
+                    'name' => ($request->chinese_last_name ?? []).($request->chinese_first_name ?? [])
+                ]);
+            } else {
+                $request->merge([
+                    'name' => ($request->english_name ?? [])." ".($request->english_last_name ?? [])
+                ]);
+            }
+        //}
 
         return $request;
     }
