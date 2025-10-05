@@ -20,7 +20,7 @@
                 <h2>研習證明下載</h2>
             </div>
             <div class="card-body">
-                <a href="https://bwcamp.bwfoce.org/downloads/ycamp2025/{{ $applicant->group }}{{ $applicant->number }}{{ $applicant->applicant_id }}.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-success">下載</a>
+                <a href="https://bwcamp.bwfoce.org/downloads/{{ $camp_data->table }}{{ $camp_data->year }}/{{ $applicant->group }}{{ $applicant->number }}{{ $applicant->applicant_id }}.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-success">下載</a>
             </div>
             <div class="card-body">
                 如下載顯示錯誤，請聯絡您的帶組老師，謝謝！
@@ -36,8 +36,8 @@
         <div class="card-body">
             @if($applicant->is_admitted && !$applicant->deleted_at)
                 <p class="card-text">親愛的 {{ $applicant->name }} 同學您好</p>
-                <p class="card-text text-indent">非常恭喜您錄取「{{ $camp_data->fullName }}」！</p>竭誠歡迎您的到來！<u>請於6月20日(五) ~ 6月30日(一)回覆交通方式！</u>並請詳閱以下訊息，祝福您營隊收穫滿滿。</p><br>
-
+                <p class="card-text text-indent">非常恭喜您錄取「{{ $camp_data->fullName }}」！竭誠歡迎您的到來！<u>請於6月20日(五) ~ 6月30日(一)回覆交通方式！</u>並請詳閱以下訊息，祝福您營隊收穫滿滿。<br>
+                </p>
                 <p class="card-text text-indent">
                 您的報名序號：{{ $applicant->applicant_id }}<br>
                 您的錄取編號：{{ $applicant->group }}{{ $applicant->number }}<br>
@@ -257,7 +257,7 @@
 
             {{-- 回填交通選項 --}}
             (function() {
-                let traffic_data = JSON.parse('{!! $traffic !!}');
+                let traffic_data = JSON.parse('{!! $traffic ?? '{}' !!}');
                 let selects = document.getElementsByTagName('select');
                 console.log(traffic_data);
                 for (var i = 0; i < selects.length; i++){

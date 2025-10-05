@@ -38,18 +38,18 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-<!--
+
     @if(isset($applicant_data))
-    <div class='row form-group'>
+    <!--div class='row form-group'>
         <label for='inputBatch' class='col-md-2 control-label text-md-right'>營隊梯次</label>
         <div class='col-md-10'>
-                <h3>{{ $applicant_raw_data->batch->name . '梯' }} {{ $applicant_raw_data->batch->batch_start }} ~ {{ $applicant_raw_data->batch->batch_end }} </h3>
-                {{-- <h3>線上 {{ $applicant_raw_data->batch->batch_start }} ~ {{ $applicant_raw_data->batch->batch_end }} </h3> --}}
-                <input type='hidden' name='applicant_id' value='{{ $applicant_id }}'>
+            <h3>{{ $applicant_raw_data->batch->name . '梯' }} {{ $applicant_raw_data->batch->batch_start }} ~ {{ $applicant_raw_data->batch->batch_end }} </h3>
+            {{-- <h3>線上 {{ $applicant_raw_data->batch->batch_start }} ~ {{ $applicant_raw_data->batch->batch_end }} </h3> --}}
         </div>
-    </div>
+    </div-->
+    <input type='hidden' name='applicant_id' value='{{ $applicant_id }}'>
     @endif
--->
+
 
     @if(isset($isModify))
         <div class='row form-group'>
@@ -63,13 +63,13 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputEngName' class='col-md-2 control-label text-md-right'>Name<br>英文姓名</label>
         <div class='col-md-5'>
-            <input required type='text' name='english_name' value='' class='form-control' id='inputEngName' placeholder='First Name 名字'>
+            <input required type='text' name='english_name' value='' class='form-control' id='inputEngFirstName' placeholder='English First Name 英文名字'>
         </div>
         <div class="invalid-feedback">
             This field is required. 請填寫英文名字
         </div>
         <div class='col-md-5'>
-            <input required type='text' name='english_last_name' value='' class='form-control' id='inputEngLastName' placeholder='Last Name 姓氏'>
+            <input required type='text' name='english_last_name' value='' class='form-control' id='inputEngLastName' placeholder='English Last Name 英文姓氏'>
         </div>
         <div class="invalid-feedback">
             This field is required. 請填寫英文姓氏
@@ -83,15 +83,15 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <label class='text-info'>Please fill in your Chinese name if applicable.
             如果您有中文姓名，請填寫，若無則免填。</label>
         </div>
-        <label for='inputName' class='col-md-2 control-label text-md-right'>Chinese Name<br>中文姓名</label>
+        <label for='inputChnName' class='col-md-2 control-label text-md-right'>Chinese Name<br>中文姓名</label>
         <div class='col-md-5'>
-            <input type='text' name='chinese_first_name' value='' class='form-control' id='inputName' placeholder='First Name 名字'>
+            <input type='text' name='chinese_first_name' value='' class='form-control' id='inputChnFirstName' placeholder='Chinese First Name 名字'>
         </div>
         <!--div class="invalid-feedback">
             This field is required. 請填寫中文名字
         </div-->
         <div class='col-md-5'>
-            <input type='text' name='chinese_last_name' value='' class='form-control' id='inputLastName' placeholder='Last Name 姓氏'>
+            <input type='text' name='chinese_last_name' value='' class='form-control' id='inputChnLastName' placeholder='Chinese Last Name 姓氏'>
         </div>
         <!--div class="invalid-feedback">
             This field is required. 請填寫英文姓氏
