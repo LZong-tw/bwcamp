@@ -11,7 +11,7 @@
         <div class="card-body">
             <p class="card-text">
                 Thank you for registering for {{ $applicant->batch->camp->fullName }}.<br>
-                Please keep your registration number <strong>{{ $applicant->id }}</strong> for future reference.<br>
+                Please keep your <span class="text-danger font-weight-bold">《 registration number: {{ $applicant->id }} 》</span>for future reference.<br>
                 Once your registration is accepted, you will receive a confirmation email containing important camp details and payment instructions within 7 days. 
                 Your registration will be considered complete only after your payment has been received.<br>
                 <br>
