@@ -34,7 +34,7 @@
                 線上客服：https://lin.ee/8iOmovI<br>
             </p>
             <br>
-            <form action='{{ route("queryview", $applicant->batch_id) }}' method="post" class="d-inline">
+            <form action="{{ route("queryview", $applicant->batch_id) }}" method="post" class="d-inline">
                 @csrf
                 <input type="hidden" name="sn" value="{{ $applicant->id }}">
                 <button class="btn btn-primary">檢視報名資料</button>
