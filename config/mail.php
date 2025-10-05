@@ -242,6 +242,20 @@ return [
         'name' => env('WVCAMP_MAIL_FROM_NAME'),
     ],
 
+    'nycamp' => [
+        'address' => env('NYCAMP_MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'username' => env('NYCAMP_MAIL_USERNAME'),
+        'password' => env('NYCAMP_MAIL_PASSWORD'),
+        'name' => env('NYCAMP_MAIL_FROM_NAME'),
+    ],
+
+    'nyvcamp' => [
+        'address' => env('NYVCAMP_MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'username' => env('NYVCAMP_MAIL_USERNAME'),
+        'password' => env('NYVCAMP_MAIL_PASSWORD'),
+        'name' => env('NYVCAMP_MAIL_FROM_NAME'),
+    ],
+
     'ycamp' => [
         'address' => env('YCAMP_MAIL_FROM_ADDRESS', 'hello@example.com'),
         'username' => env('YCAMP_MAIL_USERNAME'),

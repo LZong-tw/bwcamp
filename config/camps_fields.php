@@ -568,6 +568,49 @@ return [
         "self_intro" => "我是誰",
     ],
 
+    'nycamp' => [
+        "sn" => "報名序號",
+        "is_attend" => "參加意願",
+        "bName" => "梯次",
+        "group" => "組別",
+        "number" => "座號",
+        "region" => "區域",
+        "applied_at" => "報名日期",
+        "name" => "姓名",
+        "chinese_first_name" => "中文名字",
+        "chinese_last_name" => "中文姓氏",
+        "english_name" => "英文名字",
+        "english_last_name" => "英文姓氏",
+        "gender" => "生理性別",
+        "birthyear" => "出生年",
+        "email" => "電子郵件",
+        "school" => "就讀學校",
+        "department" => "系所",
+        "grade" => "年級",
+        "mobile" => "行動電話",
+        "zipcode" => "郵遞區號",
+        "address" => "通訊地址",
+        "info_source" => "如何得知活動",
+        "introducer_name" => "介紹人姓名",
+        "emergency_name" => "緊急聯絡人姓名",
+        "emergency_relationship" => "緊急聯絡人關係",
+        "emergency_mobile" => "緊急聯絡人電話",
+        "portrait_agree" => "肖像權",
+        "remark" => "備註",
+    ],
+
+    'nyvcamp' => [
+        "name" => "姓名",
+        "gender" => "生理性別",
+        "unit" => "服務單位",
+        "title" => "職稱",
+        "mobile" => "手機",
+        "line" => "LineID",
+        "email" => "Email",
+        "region" => "區域",
+        "self_intro" => "我是誰",
+    ],
+
     'ycamp' => [
         "sn" => "報名序號",
         "is_attend" => "參加意願",
@@ -1815,6 +1858,86 @@ return [
                 "name" => "我是誰",
                 "sort" => 0,
                 "for_query" => 1,
+            ],
+        ],
+        'nycamp' => [
+            "created_at" => [
+                "name" => "報名日期",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "group" => [
+                "name" => "組別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "name" => [
+                "name" => "姓名",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "gender" => [
+                "name" => "性別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "age" => [
+                "name" => "年齡",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "region" => [
+                "name" => "區域",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "school" => [
+                "name" => "學校",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "department" => [
+                "name" => "系別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "grade" => [
+                "name" => "年級",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "way" => [
+                "name" => "如何得知活動",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "contactlog" => [
+                "name" => "關懷記錄",
+                "sort" => 0,
+                "for_query" => 0,
+            ],
+        ],
+
+        'nyvcamp' => [
+            "name" => [
+                "name" => "姓名",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "gender" => [
+                "name" => "性別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "region" => [
+                "name" => "區域",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "self_intro" => [
+                "name" => "我是誰",
+                "sort" => 0,
+                "for_query" => 0,
             ],
         ],
 
