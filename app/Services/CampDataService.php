@@ -184,21 +184,21 @@ class CampDataService
         //residence: nycamp asks city, state, and country separately, merge them to form address
         if(isset($request->addr_city) && isset($request->addr_state) && isset($request->addr_country)) {
             $request->merge([
-                'address' => ($request->addr_city ?? [])." ".($request->addr_state ?? [])." ".($request->addr_country ?? [])
+                'address' => ($request->addr_city ?? '')." ".($request->addr_state ?? '')." ".($request->addr_country ?? '')
             ]);
         }            
         //----- nycamp -----
         //name: nycamp asks english name and chinese name, and separate first and last
         //the name in applicant is the primary name (eng or chn)
-        if(isset($request->chinese_first_name) && isset($request->chinese_last_name)) {
+        if (isset($request->chinese_first_name, $request->chinese_last_name)) {
             $request->merge([
                 //chinese: first + last, no space
-                'name' => ($request->chinese_last_name ?? []).($request->chinese_first_name ?? [])
+                'name' => ($request->chinese_last_name ?? '') . ($request->chinese_first_name ?? '')
             ]);
         } else {
             $request->merge([
                 //english: last + first, with space
-                'name' => ($request->english_name ?? [])." ".($request->english_last_name ?? [])
+                'name' => trim(($request->english_name ?? '') . ' ' . ($request->english_last_name ?? ''))
             ]);
         }
 
