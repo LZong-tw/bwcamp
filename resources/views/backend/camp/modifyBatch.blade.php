@@ -14,12 +14,12 @@
         }
     </style>
     <h2>{{ $camp->abbreviation }} 修改梯次 - {{ $batch->name }}</h2>
-    <form action="{{ route("modifyBatches", [$camp->id, $batch->id]) }}" method="POST">
+    <form action='{{ route("modifyBatches", [$camp->id, $batch->id]) }}' method="POST">
         @csrf
         <div class='row form-group'>
             <label for='inputName' class='col-md-1 control-label'>名稱</label>
             <div class='col-md-6'>
-                <input type="text" name="name" id="" class='form-control' value="{{ $batch->name ?? "" }}">
+                <input type="text" name="name" id="" class='form-control' value='{{ $batch->name ?? "" }}'>
             </div>
         </div>
         <div class='row form-group'>
@@ -31,13 +31,13 @@
         <div class='row form-group'>
             <label for='inputStartDate' class='col-md-1 control-label'>梯次開始日</label>
             <div class='col-md-6'>
-                <input type="date" name="batch_start" id="" class='form-control' value="{{ $batch->batch_start ?? "" }}">
+                <input type="date" name="batch_start" id="" class='form-control' value='{{ $batch->batch_start ?? "" }}'>
             </div>
         </div>
         <div class='row form-group'>
             <label for='inputEndDate' class='col-md-1 control-label'>梯次結束日</label>
             <div class='col-md-6'>
-                <input type="date" name="batch_end" id="" class='form-control' value="{{ $batch->batch_end ?? "" }}">
+                <input type="date" name="batch_end" id="" class='form-control' value='{{ $batch->batch_end ?? "" }}'>
             </div>
         </div>
         <div class='row form-group'>

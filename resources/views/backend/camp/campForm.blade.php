@@ -28,9 +28,11 @@
                     <option value="ceovcamp" @if(isset($camp) && $camp->table == "ceovcamp") selected @endif>菁英營義工</option>
                     <option value="ecamp" @if(isset($camp) && $camp->table == "ecamp") selected @endif>企業營</option>
                     <option value="evcamp" @if(isset($camp) && $camp->table == "evcamp") selected @endif>企業營義工</option>
-                    <option value="hcamp" @if(isset($camp) && $camp->table == "hcamp") selected @endif>快樂營</option>
-                    <option value="icamp" @if(isset($camp) && $camp->table == "icamp") selected @endif>國際事務處營隊</option>
-                    <option value="ivcamp" @if(isset($camp) && $camp->table == "ivcamp") selected @endif>國際事務處營隊義工</option>
+                    <!--option value="hcamp" @if(isset($camp) && $camp->table == "hcamp") selected @endif>快樂營</option-->
+                    <!--option value="icamp" @if(isset($camp) && $camp->table == "icamp") selected @endif>國際事務處營隊</option-->
+                    <!--option value="ivcamp" @if(isset($camp) && $camp->table == "ivcamp") selected @endif>國際事務處營隊義工</option-->
+                    <option value="nycamp" @if(isset($camp) && $camp->table == "nycamp") selected @endif>國際青年營</option>
+                    <option value="nyvcamp" @if(isset($camp) && $camp->table == "nyvcamp") selected @endif>國際青年營義工</option>
                     <option value="tcamp" @if(isset($camp) && $camp->table == "tcamp") selected @endif>教師營</option>
                     <option value="tvcamp" @if(isset($camp) && $camp->table == "tvcamp") selected @endif>教師營義工</option>
                     <option value="utcamp" @if(isset($camp) && $camp->table == "utcamp") selected @endif>大專教師營</option>
@@ -39,13 +41,13 @@
                     <option value="wvcamp" @if(isset($camp) && $camp->table == "wvcamp") selected @endif>講師培訓營義工</option>
                     <option value="ycamp" @if(isset($camp) && $camp->table == "ycamp") selected @endif>大專營</option>
                     <option value="yvcamp" @if(isset($camp) && $camp->table == "yvcamp") selected @endif>大專營義工</option>
-                    <option value="actcamp" @if(isset($camp) && $camp->table == "actcamp") selected @endif>小活動</option>
-                    <option value="actvcamp" @if(isset($camp) && $camp->table == "actvcamp") selected @endif>小活動義工</option>
+                    <!--option value="actcamp" @if(isset($camp) && $camp->table == "actcamp") selected @endif>小活動</option-->
+                    <!--option value="actvcamp" @if(isset($camp) && $camp->table == "actvcamp") selected @endif>小活動義工</option-->
                     <option value="lrcamp" @if(isset($camp) && $camp->table == "lrcamp") selected @endif>研討班</option>
-                    <option value="lrvcamp" @if(isset($camp) && $camp->table == "lrvcamp") selected @endif>研討班護持</option>
+                    <!--option value="lrvcamp" @if(isset($camp) && $camp->table == "lrvcamp") selected @endif>研討班護持</option-->
                     <option value="scamp" @if(isset($camp) && $camp->table == "scamp") selected @endif>永續課程</option>
                     <option value="svcamp" @if(isset($camp) && $camp->table == "svcamp") selected @endif>永續課程義工</option>
-                    <option value="coupon" @if(isset($camp) && $camp->table == "coupon") selected @endif>優惠碼/劵</option>
+                    <!--option value="coupon" @if(isset($camp) && $camp->table == "coupon") selected @endif>優惠碼/劵</option-->
                 </select>
             </div>
         </div>
@@ -70,7 +72,7 @@
         <div class='row form-group required'>
             <label for='inputName' class='col-md-2 control-label'>名稱(簡稱)</label>
             <div class='col-md-6'>
-                <input type="text" name="abbreviation" id="" class='form-control' required value="{{ $camp->abbreviation ?? "" }}">
+                <input type="text" name="abbreviation" id="" class='form-control' required value='{{ $camp->abbreviation ?? "" }}'>
             </div>
         </div>
         @php
@@ -96,13 +98,13 @@
         <div class='row form-group'>
             <label for='inputName' class='col-md-2 control-label'>網站網址</label>
             <div class='col-md-6'>
-                <input type="text" name="site_url" id="" class='form-control' value="{{ $camp->site_url ?? "" }}">
+                <input type="text" name="site_url" id="" class='form-control' value='{{ $camp->site_url ?? "" }}'>
             </div>
         </div>
         <div class='row form-group'>
             <label for='inputName' class='col-md-2 control-label'>圖示</label>
             <div class='col-md-6'>
-                <input type="text" name="icon" id="" class='form-control' value="{{ $camp->icon ?? "" }}">
+                <input type="text" name="icon" id="" class='form-control' value='{{ $camp->icon ?? "" }}'>
             </div>
         </div>
         @if(isset($vcamps) && !str_contains($camp->table, 'vcamp'))
@@ -127,7 +129,7 @@
         <div class='row form-group'>
             <label for='inputName' class='col-md-2 control-label'>Variant</label>
             <div class='col-md-6'>
-                <input type="text" name="variant" id="" class='form-control' value="{{ $camp->variant ?? "" }}">
+                <input type="text" name="variant" id="" class='form-control' value='{{ $camp->variant ?? "" }}'>
             </div>
         </div>
         <div class='row form-group required'>
