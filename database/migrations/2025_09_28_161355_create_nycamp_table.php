@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      *
@@ -25,14 +24,14 @@ return new class extends Migration
             $table->string('addr_country')->nullable();
             $table->string('school')->nullable();
             $table->string('department')->nullable();
-            $table->string('grade')->nullable();   
+            $table->string('grade')->nullable();
             $table->string('unit')->nullable();
             $table->string('title')->nullable();
-            $table->text('dietary_needs')->nullable();   
-            $table->text('other_needs')->nullable();   
-            $table->text('accommodation_needs')->nullable();   
+            $table->text('dietary_needs')->nullable();
+            $table->text('other_needs')->nullable();
+            $table->text('accommodation_needs')->nullable();
             $table->text('motivation')->nullable();
-            $table->string('info_source')->nullable();   
+            $table->string('info_source')->nullable();
             $table->timestamps();
         });
     }
