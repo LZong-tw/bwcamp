@@ -105,12 +105,12 @@
                     西元
                 </div>
                 <div class="col-md-3">
-                    <input type='number' required class='form-control' name='birthyear' min=1985 max='{{ \Carbon\Carbon::now()->subYears(16)->year }}' value='' placeholder=''>
+                    <input type='number' required class='form-control' name='birthyear' min='{{ \Carbon\Carbon::now()->subYears(36)->year }}' max='{{ \Carbon\Carbon::now()->subYears(18)->year }}' value='' placeholder=''>
                 </div>
                 <div class="col-md-1">
                     年
                 </div>
-                <div class="col-md-2">
+                <!--div class="col-md-2">
                     <input type='number' required class='form-control' name='birthmonth' min=1 max=12 value='' placeholder=''>
                 </div>
                 <div class="col-md-1">
@@ -121,7 +121,7 @@
                 </div>
                 <div class="col-md-1">
                     日
-                </div>
+                </div-->
             </div>
             <div class='help-block with-errors'></div>
         </div>

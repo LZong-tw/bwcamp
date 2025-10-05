@@ -88,9 +88,15 @@
                     </li>
                     @if(\Carbon\Carbon::now() >= \Carbon\Carbon::createFromFormat("Y-m-d", $camp_data->admission_announcing_date))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route("queryadmitGET", $batch_id) }}">錄取查詢</a>
+                            <a class="nav-link" href="{{ route('queryadmitGET', $batch_id) }}">錄取查詢</a>
                         </li>
                     @endif
+                    @if(\Carbon\Carbon::now() >= \Carbon\Carbon::createFromFormat("Y-m-d", $camp_data->admission_announcing_date))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('queryadmitGET', $batch_id) }}">下載研習證明</a>
+                        </li>
+                    @endif
+
                     {{--
                     <li class="nav-item">
                         <a class="nav-link" href="#">課程表</a>
