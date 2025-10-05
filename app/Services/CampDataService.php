@@ -201,7 +201,7 @@ class CampDataService
                 'name' => implode(' ', array_filter([$request->english_name, $request->english_last_name]))
             ]);
         }
-                
+
         return $request;
     }
 
