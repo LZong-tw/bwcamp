@@ -184,7 +184,7 @@ class CampDataService
         //residence: nycamp asks city, state, and country separately, merge them to form address
         if (isset($request->addr_city, $request->addr_state, $request->addr_country)) {
             $request->merge([
-                'address' => ($request->addr_city ?? '')." ".($request->addr_state ?? '')." ".($request->addr_country ?? '')
+                'address' => implode(' ', array_filter([$request->addr_city, $request->addr_state, $request->addr_country]))
             ]);
         }
         //----- nycamp -----
@@ -198,10 +198,10 @@ class CampDataService
         } else {
             $request->merge([
                 //english: last + first, with space
-                'name' => trim(($request->english_name ?? '') . ' ' . ($request->english_last_name ?? ''))
+                'name' => implode(' ', array_filter([$request->english_name, $request->english_last_name]))
             ]);
         }
-
+                
         return $request;
     }
 
