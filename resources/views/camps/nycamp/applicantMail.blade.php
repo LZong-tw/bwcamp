@@ -1,4 +1,4 @@
-Dear {{ $applicant->eng_name }}{{ $applicant->eng_last_name }}, <br>
+Dear {{ $applicant->eng_name }} {{ $applicant->eng_last_name }}, <br>
 <br>
     Thank you for registering for {{ $applicant->batch->camp->fullName }}.<br>
     Please keep your registration number <strong>{{ $applicant->id }}</strong> for future reference.<br>
