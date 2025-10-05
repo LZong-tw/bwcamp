@@ -202,7 +202,7 @@ class CampDataService
                     'name' => implode(' ', array_filter([$request->english_name ?? '', $request->english_last_name ?? '']))
                 ]);
             }
-        } else if (isset($request->english_name, $request->english_last_name)) {
+        } elseif (isset($request->english_name, $request->english_last_name)) {
             $request->merge([
                 //english: last + first, with space
                 'name' => implode(' ', array_filter([$request->english_name, $request->english_last_name]))
