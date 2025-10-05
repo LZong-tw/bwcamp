@@ -179,50 +179,28 @@ class CampDataService
                 'interesting' => implode("||/", $request->interesting)
             ]);
         }
-<<<<<<< HEAD
-        
+
         //----- nycamp -----
         //residence: nycamp asks city, state, and country separately, merge them to form address
-        if(isset($request->addr_city) && isset($request->addr_state) && isset($request->addr_country)) {
+        if (isset($request->addr_city, $request->addr_state, $request->addr_country)) {
             $request->merge([
-                'address' => ($request->addr_city ?? [])." ".($request->addr_state ?? [])." ".($request->addr_country ?? [])
+                'address' => implode(' ', array_filter([$request->addr_city, $request->addr_state, $request->addr_country]))
             ]);
-        }            
+        }
         //----- nycamp -----
         //name: nycamp asks english name and chinese name, and separate first and last
         //the name in applicant is the primary name (eng or chn)
-        if(isset($request->chinese_first_name) && isset($request->chinese_last_name)) {
+        if (isset($request->chinese_first_name, $request->chinese_last_name)) {
             $request->merge([
                 //chinese: first + last, no space
-=======
-
-        //if($camp == "nycamp") {
-        //居住地，欄位合併填入address
-        if (isset($request->addr_city) && isset($request->addr_state)) {
-            $request->merge([
-                'address' => ($request->addr_city ?? [])." ".($request->addr_state ?? [])." ".($request->addr_country ?? [])
-            ]);
-        }
-        //如果有中文名字 name=中文名字；否則 name=英文名字
-        //name is not nullable, 所以一定給它值
-        if (isset($request->chinese_first_name) && isset($request->chinese_last_name)) {
-            $request->merge([
->>>>>>> a3130907d7d2fc416000ef652bf5fbbbf08370c1
-                'name' => ($request->chinese_last_name ?? []).($request->chinese_first_name ?? [])
+                'name' => ($request->chinese_last_name ?? '') . ($request->chinese_first_name ?? '')
             ]);
         } else {
             $request->merge([
-<<<<<<< HEAD
                 //english: last + first, with space
-                'name' => ($request->english_name ?? [])." ".($request->english_last_name ?? [])
+                'name' => implode(' ', array_filter([$request->english_name, $request->english_last_name]))
             ]);
         }
-=======
-                'name' => ($request->english_name ?? [])." ".($request->english_last_name ?? [])
-            ]);
-        }
-        //}
->>>>>>> a3130907d7d2fc416000ef652bf5fbbbf08370c1
 
         return $request;
     }
