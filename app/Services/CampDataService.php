@@ -182,7 +182,7 @@ class CampDataService
 
         //----- nycamp -----
         //residence: nycamp asks city, state, and country separately, merge them to form address
-        if (isset($request->addr_city, $request->addr_state, $request->addr_country)) {
+        if (isset($request->addr_city, $request->addr_country) && !isset($request->address)) {
             $request->merge([
                 'address' => implode(' ', array_filter([$request->addr_city, $request->addr_state, $request->addr_country]))
             ]);
@@ -190,19 +190,15 @@ class CampDataService
         //----- nycamp -----
         //name: nycamp asks english name and chinese name, and separate first and last
         //the following codes try to fill in appllicant.name
-        if (isset($request->chinese_first_name, $request->chinese_last_name)) { //exist
-            if (!empty($request->chinese_first_name) && !empty($request->chinese_last_name)) {  //not empty
-                $request->merge([
+        if (!isset($request->name)
+            && isset($request->chinese_first_name, $request->chinese_last_name)
+            && !empty($request->chinese_first_name)
+            && !empty($request->chinese_last_name)) { //chinese name exists and not empty
+            $request->merge([
                     //chinese: first + last, no space
                     'name' => ($request->chinese_last_name) . ($request->chinese_first_name)
                 ]);
-            } else {    //exist but empty, use english; nycamp: english
-                $request->merge([
-                    //english: last + first, with space
-                    'name' => implode(' ', array_filter([$request->english_name ?? '', $request->english_last_name ?? '']))
-                ]);
-            }
-        } elseif (isset($request->english_name, $request->english_last_name)) {
+        } elseif (!isset($request->name) && isset($request->english_name, $request->english_last_name)) {
             $request->merge([
                 //english: last + first, with space
                 'name' => implode(' ', array_filter([$request->english_name, $request->english_last_name]))
