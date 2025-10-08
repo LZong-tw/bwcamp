@@ -18,8 +18,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     @endif
 
     <div class='page-header form-group'>
-        <h4>REGISTRATION</h4>
-        <h4>{{ $camp_data->fullName }}線上報名表</h4>
+        <h4>{{ $camp_data->fullName }}&nbsp;&nbsp;REGISTRATION</h4>
     </div>
 
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
@@ -180,10 +179,10 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
         <div class='col-md-2'>
-            <input required type=text name='addr_state' value='' class='form-control' id='inputState' placeholder='State 州'>
-            <div class="invalid-feedback crumb">
+            <input type=text name='addr_state' value='' class='form-control' id='inputState' placeholder='State 州'>
+            <!--div class="invalid-feedback crumb">
                 This field is required. 請填寫居住州
-            </div>
+            </div-->
         </div>
         <div class='col-md-2'>
             <input required type=text name='zipcode' value='' class='form-control' id='inputZipcode' placeholder='Zipcode 郵遞區號'>
