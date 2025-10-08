@@ -190,18 +190,15 @@ class CampDataService
         //----- nycamp -----
         //name: nycamp asks english name and chinese name, and separate first and last
         //the following codes try to fill in appllicant.name
-        if (!isset($request->name) 
-            && isset($request->chinese_first_name, $request->chinese_last_name) 
-            && !empty($request->chinese_first_name) 
-            && !empty($request->chinese_last_name)) //chinese name exists and not empty
-        {
+        if (!isset($request->name)
+            && isset($request->chinese_first_name, $request->chinese_last_name)
+            && !empty($request->chinese_first_name)
+            && !empty($request->chinese_last_name)) { //chinese name exists and not empty
             $request->merge([
-                //chinese: first + last, no space
-                'name' => ($request->chinese_last_name) . ($request->chinese_first_name)
-            ]);
-        }
-        elseif (!isset($request->name) && isset($request->english_name, $request->english_last_name)) 
-        {
+                    //chinese: first + last, no space
+                    'name' => ($request->chinese_last_name) . ($request->chinese_first_name)
+                ]);
+        } elseif (!isset($request->name) && isset($request->english_name, $request->english_last_name)) {
             $request->merge([
                 //english: last + first, with space
                 'name' => implode(' ', array_filter([$request->english_name, $request->english_last_name]))
