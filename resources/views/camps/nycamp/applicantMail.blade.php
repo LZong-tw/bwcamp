@@ -13,7 +13,7 @@ Dear {{ $applicant->eng_name }} {{ $applicant->eng_last_name }}, <br>
 
 <blockquote>
     Best Regards,<br>
-    Bliss & Wisdom Foundation of Culture and Education
+    The Oneness Truth Foundation
 </blockquote>
 
 {{ $applicant->name }} 您好：<br>
@@ -31,4 +31,4 @@ Dear {{ $applicant->eng_name }} {{ $applicant->eng_last_name }}, <br>
 
 <br>    
 <br>
-<blockquote>財團法人福智文教基金會  敬啟</blockquote>
+<blockquote>The Oneness Truth Foundation  敬啟</blockquote>
