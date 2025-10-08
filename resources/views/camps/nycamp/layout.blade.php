@@ -6,7 +6,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name='description' content='向生命更深的維度啟航，成為帶給世界溫暖與希望的人。' />
     <meta name='author' content='福智文教基金會'>
-    <meta property='og:url' content='http://bwfoce.org/nycamp/'/>
+    <meta property='og:url' content='http://bwyouth.org/2026nycamp/'/>
     <meta property='og:title' content='{{ $camp_data->abbreviation }}'/>
     <meta property='og:description' content='向生命更深的維度啟航，成為帶給世界溫暖與希望的人。' />
     {{-- <meta property='og:image' content='http://youth.blisswisdom.org/camp/media/2016Wbanner.png'/> --}}
@@ -78,17 +78,17 @@
                     {{-- <li class="nav-item active"> --}}
                     {{-- <span class="sr-only">(current)</span> --}}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ $camp_data->site_url }}">營隊資訊</a>
+                        <a class="nav-link" href="{{ $camp_data->site_url }}">About the Camp 營隊資訊&nbsp;&nbsp;</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('registration', $batch_id) }}">報名表單</a>
+                        <a class="nav-link" href="{{ route('registration', $batch_id) }}">Registration 報名&nbsp;&nbsp;</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('query', $batch_id) }}">報名查詢/修改</a>
+                        <a class="nav-link" href="{{ route('query', $batch_id) }}">Modify Registrastion 報名查詢/修改&nbsp;&nbsp;</a>
                     </li>
                     @if(\Carbon\Carbon::now() >= \Carbon\Carbon::createFromFormat("Y-m-d", $camp_data->admission_announcing_date))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route("queryadmitGET", $batch_id) }}">錄取查詢</a>
+                            <a class="nav-link" href="{{ route("queryadmitGET", $batch_id) }}">Admission 錄取查詢</a>
                         </li>
                     @endif
                     {{--
@@ -108,7 +108,7 @@
     @yield('content')
     <!-- Site footer -->
     <footer class='footer'>
-        <p class=text-center>&copy; 財團法人福智文教基金會</p>
+        <p class=text-center>&copy; The Oneness Truth Foundation</p>
     </footer>
 </div>
 </body></html>

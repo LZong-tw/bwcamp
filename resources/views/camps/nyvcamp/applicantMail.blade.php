@@ -17,4 +17,4 @@
     電子郵件：youth@blisswisdom.org <br>
 <br>
 <br>
-<blockquote>財團法人福智文教基金會  敬啟</blockquote>
+<blockquote>The Oneness Truth Foundation  敬啟</blockquote>
