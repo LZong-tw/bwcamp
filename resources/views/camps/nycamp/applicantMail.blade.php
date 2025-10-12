@@ -5,7 +5,7 @@ Dear {{ $applicant->eng_name }} {{ $applicant->eng_last_name }}, <br>
     Once your registration is accepted, you will receive a confirmation email containing important camp details and payment instructions within 7 days. 
     Your registration will be considered complete only after your payment has been received.<br>
     <br>
-    If you have any question, feel free the contact<br>
+    If you have any question, feel free to contact<br>
     Jasmine Hu<br>
     Email: chunhu@blisswisdom.org<br>
     Phone: (902)808-0069<br>
@@ -28,7 +28,6 @@ Dear {{ $applicant->eng_name }} {{ $applicant->eng_last_name }}, <br>
     Email: chunhu@blisswisdom.org<br>
     洽詢電話(北美地區)：(902)808-0069<br>
     線上客服：https://lin.ee/8iOmovI<br>
-
 <br>    
 <br>
 <blockquote>The Oneness Truth Foundation  敬啟</blockquote>

@@ -31,25 +31,26 @@
 --}}
     <div class="card">
         <div class="card-header">
-            錄取查詢
+            Admission 錄取查詢
         </div>
         <div class="card-body">
             @if($applicant->is_admitted && !$applicant->deleted_at)
-                <p class="card-text">親愛的 {{ $applicant->name }} 同學您好</p>
-                <p class="card-text text-indent">非常恭喜您錄取「{{ $camp_data->fullName }}」！竭誠歡迎您的到來！<u>請於6月20日(五) ~ 6月30日(一)回覆交通方式！</u>並請詳閱以下訊息，祝福您營隊收穫滿滿。<br>
+                <p class="card-text">Dear {{ $applicant->name }} </p>
+                <p class="card-text text-indent">It is our honor to welcome you to 「{{ $camp_data->fullName }}」！We hope you will have a great time in the camp.
+                    The following are informaion you need to know before you come. Please read carefully.
                 </p>
                 <p class="card-text text-indent">
-                您的報名序號：{{ $applicant->applicant_id }}<br>
-                您的錄取編號：{{ $applicant->group }}{{ $applicant->number }}<br>
-                營隊期間：{{ $applicant->batch->batch_start }}({{ $applicant->batch_start_Weekday }}) ~ {{ $applicant->batch->batch_end }}({{ $applicant->batch_end_Weekday }})，共4天<br>
-                營隊地點：{{ $applicant->batch->locationName }}({{ $applicant->batch->location }})<br>
+                Your Application Number 您的報名序號：{{ $applicant->applicant_id }}<br>
+                Your Admission Number 您的錄取編號：{{ $applicant->group }}{{ $applicant->number }}<br>
+                Datas 營隊期間：{{ $applicant->batch->batch_start }} ({{ $applicant->batch_start_Weekday }}) ~ {{ $applicant->batch->batch_end }} ({{ $applicant->batch_end_Weekday }})，共4天<br>
+                Location 營隊地點：{{ $applicant->batch->locationName }} ({{ $applicant->batch->location }})<br>
                 </p>
 
-                <h5>錄取/報到通知</h5>
+                <h5>Before you come 錄取/報到通知</h5>
                 <div class="ml-2 mb-2">請詳閱<a href="{{ url('downloads/ycamp2025/【2025第58屆大專青年生命成長營】錄取通知單.pdf') }}">錄取/報到通知</a>，內含報到資訊、必帶物品，及交通資訊等等。</div>
                 <div class="ml-2 mb-2"><a href="{{ url('downloads/ycamp2025/【2025第58屆大專青年生命成長營】錄取通知單.pdf') }}" download class="btn btn-primary" target="_blank" style="margin-top: 10px">下載錄取/報到通知</a></div><br>
 
-                <h5>放棄參加</h5>
+                <h5>Cancellation 放棄參加</h5> (這裡要有cancellation policy)
                 <form class="ml-2 mb-2" action="{{ route('toggleAttend', $batch_id) }}" method="POST" id="attendcancel">
                     @csrf
                     <input type="hidden" name="id" value="{{ $applicant->applicant_id ?? $applicant->id }}">
@@ -68,9 +69,9 @@
                         </div>
                     @endif
                 </form><br>
-{{--
+
                 @if(!isset($applicant->is_attend) || $applicant->is_attend)
-                    <h5>選擇交通方式</h5>
+                    <h5>Shuttle Bus Service 接駁服務</h5>(這裡要有cancellation policy,其它交通要放網頁，這裡是登記而已)
                     <!--
                     ***** 準備中 ***** <br>
                     預計6/27(二)後開放登記。登記截止時間順延至7/5(三)
@@ -79,8 +80,20 @@
                     -->
                     <form class="ml-2 mb-2" action="{{ route('modifyTraffic', $batch_id) }}" method="POST" id="selecttraffic">
                         @csrf
-                        <div class="ml-0 mb-2">交通方式預設為自往及自回</div>
-                        <div class="ml-0 mb-2">交通資訊請參閱<a href="{{ url('downloads/ycamp2025/【2025第58屆大專青年生命成長營】錄取通知單.pdf') }}">錄取/報到通知</a>之附件</div>
+                        <div class="ml-0 mb-2">
+                        Shuttle bus servcie is available for $35 one way per person between Bliss and Wisdom New York Center and Honor's Haven.  Please make payment in advance with your registration fee.<br>
+                        1/1 (Thu) @2:00pm Departs BW NY Center to Honor's Haven<br>
+                        1/4 (Sun) @3:20PM Departs Honor's Haven to BW NY Center<br>
+                        Bliss and Wisdom New York Center（25-10 Ulmer Street, Flushing, NY 11354）<br>
+                        Honor's Haven Retreat & Conference（1195 Arrowhead Rd, Ellenville, NY 12428 USA）<br>
+                        <br>
+                        若需要搭乘紐約市區接駁至禪修莊園的遊覽車，費用每趟USD$35/人。<br>
+                        1/1 (四) @2:00PM 巴士：紐約中心 → 禪修莊園<br>
+                        1/4 (日) @3:20PM 巴士：禪修莊園 → 紐約中心<br>
+                        紐約中心（25-10 Ulmer Street, Flushing, NY 11354）<br>
+                        紐約禪修莊園 （1195 Arrowhead Rd, Ellenville, NY 12428 USA）<br>
+                        </div>
+                        <br>
                         <input type="hidden" name="id" value="{{ $applicant->applicant_id ?? $applicant->id }}">
                         <input type="hidden" name="camp" value="nycamp">
                         <div class='row form-group required'>
@@ -113,7 +126,9 @@
                         </div>
                         <input class="btn btn-success" type="submit" value="確認修改" id="confirmtraffic" name="confirmtraffic">
                     </form><br>
-                    <div class="ml-2 mb-2">應交費用：{{ $traffic?->fare ?? '未定' }}；已交費用：{{ $traffic?->sum ?? 0 }}</div>
+                    <div class="ml-2 mb-2"><b>Payment Due 應交費用：{{ $traffic?->fare ?? '未定' }}；<br>
+                        Payment Received 已交費用：{{ $traffic?->sum ?? 0 }}</b></div>
+{{--                    
                     @if($traffic?->fare > 0)
                         <form action="{{ route('downloadPaymentForm', $batch_id) }}" method="POST">
                             @csrf
@@ -121,40 +136,36 @@
                             <input type="submit" class="btn btn-primary" value="下載繳費單">
                         </form>
                     @endif
-                @endif
 --}}
+                @endif
+                <br>
+                <h5>Contact 聯絡我們</h5>
+                <div class="ml-0 mb-2">If you have any question, feel free to contact</div>
+                <div class="ml-2 mb-2">Jasmine Hu</div>
+                <div class="ml-2 mb-2">Email: chunhu@blisswisdom.org</div>
+                <div class="ml-2 mb-2">Phone: (902)808-0069</div>
+                <div class="ml-2 mb-2">Online Service: https://lin.ee/8iOmovI</div>
+                <br>
+                <div class="ml-0 mb-2">如果您有任何問題，請聯絡</div>
+                <div class="ml-2 mb-2">胡純</div>
+                <div class="ml-2 mb-2">Email: chunhu@blisswisdom.org</div>
+                <div class="ml-2 mb-2">洽詢電話(北美地區)：(902)808-0069</div>
+                <div class="ml-2 mb-2">線上客服：https://lin.ee/8iOmovI</div>
 
-
-                <h5>聯絡我們</h5>
-                <div class="ml-0 mb-2">若有任何問題，歡迎</div>
-                <div class="ml-2 mb-2">1. 洽各組輔導員</div>
-                <div class="ml-2 mb-2">2. 與『福智文教基金會』各區窗口聯絡</div>
-                <div class="ml-4 mb-2">台北／姚子麒 0986-090-623</div>
-                <div class="ml-4 mb-2">台北／阮暄丰 0921-857-901</div>
-                <div class="ml-4 mb-2">桃園／蔡欣芮 0981-558-582</div>
-                <div class="ml-4 mb-2">桃園／王元亨 0975-698-256</div>
-                <div class="ml-4 mb-2">新竹／黃貞瑜 0929-926-773</div>
-                <div class="ml-4 mb-2">台中／林佳瑩 0975-769-937</div>
-                <div class="ml-4 mb-2">雲嘉／徐逸芳 0930-456-233</div>
-                <div class="ml-4 mb-2">台南／王觀珳 0936-398-203</div>
-                <div class="ml-4 mb-2">高雄／尤筱文 0916-627-665</div>
-                <div class="ml-2 mb-2">3. Email福智青年：<a href="mailto:youth@blisswisdom.org">youth@blisswisdom.org</a></div>
-                <div class="ml-2 mb-2">4.留言給福智青年：<a href="https://www.facebook.com/bwyouth" target="_blank" rel="noopener noreferrer">福智青年粉專</a></div>
-
-                <p class="card-text text-right">主辦單位：財團法人福智文教基金會／國立雲林科技大學　敬啟</p>
+                <p class="card-text text-right">The Oneness Truth Foundation</p>
                 <p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
             @elseif($applicant->created_at->gte(\Carbon\Carbon::parse('2025-06-11 00:00:00')))
                 <!-----錄取中----->
                 <p class="card-text">親愛的 {{ $applicant->name }} 同學您好</p>
                 <p class="card-text indent">感謝您報名「{{ $camp_data->fullName }}」，錄取作業正在進行中，請稍後再進行錄取查詢。感謝您的耐心等待！</p>
-                <p class="card-text text-right">財團法人福智文教基金會 敬啟</p>
+                <p class="card-text text-right">The Oneness Truth Foundation 敬啟</p>
                 <p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
             @elseif($applicant->deleted_at)
             @else
 <!--
                 <p class="card-text">親愛的 {{ $applicant->name }} 同學您好</p>
                 <p class="card-text indent">感謝您報名「{{ $camp_data->fullName }}」，錄取作業正在進行中，請稍後再進行錄取查詢。感謝您的耐心等待！</p>
-                <p class="card-text text-right">財團法人福智文教基金會 敬啟</p>
+                <p class="card-text text-right">The Oneness Truth Foundation 敬啟</p>
                 <p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
 -->
                 <!-----備取=不錄取----->
@@ -214,7 +225,7 @@
                 <p class="card-text indent"><a href="http://bwfoce.org/web" target="_blank" rel="noopener noreferrer">http://bwfoce.org/web</a></p>
                 <p class="card-text indent">祝福您身心健康，吉祥如意！</p>
                 -->
-                <p class="card-text text-right">財團法人福智文教基金會 敬啟</p>
+                <p class="card-text text-right">The Oneness Truth Foundation 敬啟</p>
                 <p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
                 </p>
             @endif

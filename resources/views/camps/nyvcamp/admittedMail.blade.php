@@ -23,5 +23,5 @@
 <p>https://bwcamp.bwfoce.org/camp/19/queryadmit</p>
 -->
 <br>
-<p class="card-text text-right">財團法人福智文教基金會 敬啟</p>
+<p class="card-text text-right">The Oneness Truth Foundation 敬啟</p>
 <p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
