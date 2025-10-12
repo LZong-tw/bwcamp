@@ -66,17 +66,17 @@
                     </form>
 -->
                 </p>
-                <p class="card-text text-right">財團法人福智文教基金會 敬啟</p>
+                <p class="card-text text-right">The Oneness Truth Foundation 敬啟</p>
                 <p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
             @elseif($applicant->created_at->gte(\Carbon\Carbon::parse('2022-05-31 00:00:00')))
                 <p class="card-text">親愛的 {{ $applicant->name }} 同學您好</p>
                 <p class="card-text indent">感謝您報名「{{ $camp_data->fullName }}」，錄取作業正在進行中，請稍後再進行錄取查詢。感謝您的耐心等待！</p>
-                <p class="card-text text-right">財團法人福智文教基金會 敬啟</p>
+                <p class="card-text text-right">The Oneness Truth Foundation 敬啟</p>
                 <p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
             @else
                 <p class="card-text">親愛的 {{ $applicant->name }} 同學您好</p>
                 <p class="card-text indent">感謝您報名「{{ $camp_data->fullName }}」，錄取作業正在進行中，請稍後再進行錄取查詢。感謝您的耐心等待！</p>
-                <p class="card-text text-right">財團法人福智文教基金會 敬啟</p>
+                <p class="card-text text-right">The Oneness Truth Foundation 敬啟</p>
                 <p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
                 </p>
 <!--
@@ -85,7 +85,7 @@
                 <p class="card-text indent">福智文教基金會尚有各項精彩活動與課程，竭誠歡迎您的參與！</p>
                 <p class="card-text indent"><a href="http://bwfoce.org/web" target="_blank" rel="noopener noreferrer">http://bwfoce.org/web</a></p>
                 <p class="card-text indent">祝福您身心健康，吉祥如意！</p>
-                <p class="card-text text-right">財團法人福智文教基金會 敬啟</p>
+                <p class="card-text text-right">The Oneness Truth Foundation 敬啟</p>
                 <p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
                 </p>
 -->

@@ -102,6 +102,11 @@ return [
             "親友接送" => "0",
             "自往" => "0",
         ],
+        "nycamp" => [
+            "Shuttle Bus 接駁服務" => "USD35",
+            "Drive 開車" => "USD0",
+            "Drop off 自往" => "USD0",
+        ],
     ],
 
     'fare_back_to' => [
@@ -116,6 +121,12 @@ return [
             "親友接送" => "0",
             "自回" => "0",
         ],
+        "nycamp" => [
+            "Shuttle Bus 接駁服務" => "USD35",
+            "Drive 開車" => "USD0",
+            "Pick up 自回" => "USD0",
+        ],
+
     ],
 
     'fare_room' => [
