@@ -645,7 +645,11 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         textareas[i].value = applicant_data[textareas[i].name]; 
                     }
                 }
-
+                // After populating form fields...
+                const isStudentRadio = document.querySelector('input[name="is_student"]:checked');
+                if (isStudentRadio) {
+                    isStudent(isStudentRadio);
+                }
                 @if(!$isModify)
                     for (var i = 0; i < inputs.length; i++){
                         if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox"){
