@@ -81,7 +81,7 @@
                     <form class="ml-2 mb-2" action="{{ route('modifyTraffic', $batch_id) }}" method="POST" id="selecttraffic">
                         @csrf
                         <div class="ml-0 mb-2">
-                        Shuttle bus servcie is available for $35 one way per person between Bliss and Wisdom New York Center and Honor's Haven.  Please make payment in advance with your registration fee.<br>
+                        Shuttle bus service is available for $35 one way per person between Bliss and Wisdom New York Center and Honor's Haven.  Please make payment in advance with your registration fee.<br>
                         1/1 (Thu) @2:00pm Departs BW NY Center to Honor's Haven<br>
                         1/4 (Sun) @3:20PM Departs Honor's Haven to BW NY Center<br>
                         Bliss and Wisdom New York Center（25-10 Ulmer Street, Flushing, NY 11354）<br>
