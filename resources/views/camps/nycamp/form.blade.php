@@ -677,18 +677,15 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             // 檢查 radio_ele 被勾選是哪項
             var tgs;
             var i;
-            console.log(radio_ele);
             if (radio_ele.value==1) {
                 // 是學生
                 tgs = document.getElementsByClassName('school-sec');
                 for (var i=0; i<tgs.length; i++) {
                     tgs[i].classList.add('required');
-                    console.log(tgs[i]);
                 }
                 tgs = document.getElementsByClassName('work-sec');
                 for (var i=0; i<tgs.length; i++) {
                     tgs[i].classList.remove('required');
-                    console.log(tgs[i]);
                 }
                 setSchoolReq(true);
                 setWorkReq(false);
@@ -698,12 +695,10 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 tgs = document.getElementsByClassName('work-sec');
                 for (var i=0; i<tgs.length; i++) {
                     tgs[i].classList.add('required');
-                    console.log(tgs[i]);
                 }
                 tgs = document.getElementsByClassName('school-sec');
                 for (var i=0; i<tgs.length; i++) {
                     tgs[i].classList.remove('required');
-                    console.log(tgs[i]);
                 }
                 setSchoolReq(false);
                 setWorkReq(true);
