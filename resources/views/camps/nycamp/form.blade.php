@@ -98,7 +98,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class="row form-group required">
-        <label for='inputGender' class='col-md-2 control-label text-md-right'>Gender<br>生理性別</label>
+        <label for='inputGender' class='col-md-2 control-label text-md-right'>Biological Sex<br>性別</label>
         <div class='col-md-10'>
             <div class="form-check form-check-inline">
                 <label class="form-check-label" for="M">
@@ -231,7 +231,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <label for='inputEmail' class='col-md-2 control-label text-md-right'>Confirm Email<br>確認電子郵件</label>
         <div class='col-md-10'>
             <!--
-            <input type='email' required  name='emailConfirm' value='' class='form-control' id='inputEmailConfirm' placeholder='請再次填寫(勿複製貼上)，確認電子信箱正確' @if(isset($isModify) && $isModify) disabled @endif>
+            <input type='email' required  name='emailConfirm' value='' class='form-control' id='inputEmailConfirm' placeholder='Please retype your email.  (Do not use copy, paste function) 請再次填寫(勿複製貼上)，確認電子信箱正確' @if(isset($isModify) && $isModify) disabled @endif>
             -->
             <input type='email' required name='emailConfirm' value='' class='form-control' id='inputEmailConfirm' placeholder='Please type email again (no copy-past). 請再次填寫(勿複製貼上)'>
             {{-- data-match='#inputEmail' data-match-error='郵件不符合' placeholder='請再次填寫確認郵件填寫正確' --}}
@@ -241,41 +241,46 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-    <!--div class='row form-group required'>
+    <div class='row form-group required'>
         <label for='inputIsStudent' class='col-md-2 control-label text-md-right'>Status 身分</label>
         <div class='col-md-10'>
             <label class=radio-inline>
-                <input type=radio required name='is_student' value='0' > 已就業或待業中&nbsp;&nbsp;&nbsp;
+                <input type=radio required name='is_student' value='0' onclick='isStudent(this)'> Graduate 已就業或待業中&nbsp;&nbsp;&nbsp;
                 <div class="invalid-feedback">
                     請選擇身分
                 </div>
             </label>
             <label class=radio-inline>
-                <input type=radio required name='is_student' value='1' > 在學中
+                <input type=radio required name='is_student' value='1' onclick='isStudent(this)'> Student 在學中
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
             </label>
         </div>
-    </div-->
+    </div>
 
-    <div class='row form-group required'>
+    <div class='row form-group school-sec required'>
         <div class='col-md-2'>
         </div>
         <div class='col-md-10'>
-            <label class='text-info'>If you have graduated, please fill in the highest level of education, including the school and department from which you graduated. 若已畢業，請填寫最高學歷；年級請填寫「畢」</label>
+            <label class='text-info'>
+                If you have graduated, please fill in the highest level of education. Enter 'G' in Year. <br>
+                If you do not have major for any reason, you may fill in 'NA' in Major.<br>
+                若您已畢業，請填寫最高學歷；年級請填寫「畢」<br>
+                若您是高中生，系所科請填「無」
+            </label>
         </div>
 
-        <label for='inputSchoolName' class='col-md-2 control-label text-md-right'>School<br>學校</label>
+        <label for='inputSchool' class='col-md-2 control-label text-md-right'>School<br>學校</label>
         <div class='col-md-10'>
-            <input type=text required name='school' value='' class='form-control' id='inputSchoolName' placeholder='School 學校名稱'>
+            <input type=text required name='school' value='' class='form-control' id='inputSchool' placeholder='School 學校名稱'>
             <div class="invalid-feedback crumb">
                 This field is required. 請填寫學校
             </div>
         </div>
     </div>
 
-    <div class='row form-group required'>
+    <div class='row form-group school-sec required'>
         <label for='inputDeptGrade' class='col-md-2 control-label text-md-right'>Major and year<br>系所年級</label>
         <div class='col-md-6'>
             <input type=text required name='department' value='' class='form-control' id='inputDept' placeholder='Major 系所科'>
@@ -291,7 +296,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-    <div class='row form-group'>
+    <div class='row form-group work-sec'>
         <div class='col-md-2'>
         </div>
         <div class='col-md-10'>
@@ -302,19 +307,19 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <label for='inputUnit' class='col-md-2 control-label text-md-right'>Company<br>公司名稱</label>
         <div class='col-md-10'>
             <input type=text name='unit' value='' class='form-control' id='inputUnit'>
-            <!--div class="invalid-feedback crumb">
+            <div class="invalid-feedback crumb">
                 請填寫公司名稱
-            </div-->
+            </div>
         </div>
     </div>
 
-    <div class='row form-group'>
+    <div class='row form-group work-sec'>
     <label for='inputTitle' class='col-md-2 control-label text-md-right'>Job Title<br>職稱</label>
         <div class='col-md-10'>
             <input type=text name='title' value='' class='form-control' id='inputTitle'>
-            <!--div class="invalid-feedback">
+            <div class="invalid-feedback">
                 請填寫職稱
-            </div-->
+            </div>
         </div>
     </div>
     <br>
@@ -640,26 +645,11 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         textareas[i].value = applicant_data[textareas[i].name]; 
                     }
                 }
-                //{{-- 填完資料，檢查是否有父母或介紹人資料，若無則關閉 --}}
-                //let father_name = document.getElementsByName("father_name")[0].value;
-                //let father_lamrim = document.getElementsByName("father_lamrim")[0].value;
-                //let father_phone = document.getElementsByName("father_phone")[0].value;
-                //let mother_name = document.getElementsByName("mother_name")[0].value;
-                //let mother_lamrim = document.getElementsByName("mother_lamrim")[0].value;
-                //let mother_phone = document.getElementsByName("mother_phone")[0].value;
-                //let parents = [father_name, father_lamrim, father_phone, mother_name, mother_lamrim, mother_phone];
-                //if(parents.every(checkIfNull)){
-                //    parent_field(0);
-                //}
-                //let introducer_name = document.getElementsByName("introducer_name")[0].value;
-                //let introducer_relationship = document.getElementsByName("introducer_relationship")[0].value;
-                //let introducer_participated = document.getElementsByName("introducer_participated")[0].value;
-                //let introducer_phone = document.getElementsByName("introducer_phone")[0].value;
-                //let introducer = [introducer_name, introducer_relationship, introducer_participated, introducer_phone];
-                //if(introducer.every(checkIfNull)){
-                //   referer_field(0);
-                //}
-
+                // After populating form fields...
+                const isStudentRadio = document.querySelector('input[name="is_student"]:checked');
+                if (isStudentRadio) {
+                    isStudent(isStudentRadio);
+                }
                 @if(!$isModify)
                     for (var i = 0; i < inputs.length; i++){
                         if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox"){
@@ -682,6 +672,54 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 return val == "";
             }
         @endif
+
+        function isStudent(radio_ele) {
+            // 檢查 radio_ele 被勾選是哪項
+            var tgs;
+            var i;
+            if (radio_ele.value==1) {
+                // 是學生
+                tgs = document.getElementsByClassName('school-sec');
+                for (var i=0; i<tgs.length; i++) {
+                    tgs[i].classList.add('required');
+                }
+                tgs = document.getElementsByClassName('work-sec');
+                for (var i=0; i<tgs.length; i++) {
+                    tgs[i].classList.remove('required');
+                }
+                setSchoolReq(true);
+                setWorkReq(false);
+            }
+            else {
+                // 不是學生
+                tgs = document.getElementsByClassName('work-sec');
+                for (var i=0; i<tgs.length; i++) {
+                    tgs[i].classList.add('required');
+                }
+                tgs = document.getElementsByClassName('school-sec');
+                for (var i=0; i<tgs.length; i++) {
+                    tgs[i].classList.remove('required');
+                }
+                setSchoolReq(false);
+                setWorkReq(true);
+            }
+        };
+        function setWorkReq(true_or_false) {
+            document.getElementById('inputUnit').required = true_or_false;
+            document.getElementById('inputTitle').required = true_or_false;
+        };
+        function setSchoolReq(true_or_false) {
+            document.getElementById('inputSchool').required = true_or_false;
+            document.getElementById('inputDept').required = true_or_false;
+            document.getElementById('inputGrade').required = true_or_false;
+        };
+        function clearIntroducer() {
+            document.getElementById('introducer_name').value='';
+            document.getElementById('introducer_phone').value='';
+            document.getElementById('introducer_relationship').value='';
+            document.getElementById('introducer_participated').value='';
+        };
+
     </script>
     <style>
         .required .control-label::after {
