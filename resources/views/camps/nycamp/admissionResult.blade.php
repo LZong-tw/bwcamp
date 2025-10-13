@@ -247,7 +247,6 @@
         @else
             let confirmattend = document.getElementById('confirmattend');
             confirmattend.addEventListener('click', function(event) {
-                console.log("confirmattend");
                 if(confirm('確認恢復參加？')){
                         return true;
                 }
@@ -258,7 +257,6 @@
         @if(!isset($applicant->is_attend) || $applicant->is_attend)
             let confirmtraffic = document.getElementById('confirmtraffic');
             confirmtraffic.addEventListener('click', function(event) {
-                console.log("confirmtraffic");
                 if(confirm('確認修改交通？')){
                         return true;
                 }
@@ -270,7 +268,6 @@
             (function() {
                 let traffic_data = JSON.parse('{!! $traffic ?? '{}' !!}');
                 let selects = document.getElementsByTagName('select');
-                console.log(traffic_data);
                 for (var i = 0; i < selects.length; i++){
                     if(typeof traffic_data[selects[i].name] !== "undefined"){
                         selects[i].value = traffic_data[selects[i].name];
