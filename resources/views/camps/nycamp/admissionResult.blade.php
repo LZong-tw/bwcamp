@@ -50,7 +50,7 @@
                 <div class="ml-2 mb-2">請詳閱<a href="{{ url('downloads/ycamp2025/【2025第58屆大專青年生命成長營】錄取通知單.pdf') }}">錄取/報到通知</a>，內含報到資訊、必帶物品，及交通資訊等等。</div>
                 <div class="ml-2 mb-2"><a href="{{ url('downloads/ycamp2025/【2025第58屆大專青年生命成長營】錄取通知單.pdf') }}" download class="btn btn-primary" target="_blank" style="margin-top: 10px">下載錄取/報到通知</a></div><br>
 
-                <h5>Cancellation 放棄參加</h5> (這裡要有cancellation policy)
+                <h5>Cancellation 放棄參加</h5>
                 <form class="ml-2 mb-2" action="{{ route('toggleAttend', $batch_id) }}" method="POST" id="attendcancel">
                     @csrf
                     <input type="hidden" name="id" value="{{ $applicant->applicant_id ?? $applicant->id }}">
@@ -71,7 +71,7 @@
                 </form><br>
 
                 @if(!isset($applicant->is_attend) || $applicant->is_attend)
-                    <h5>Shuttle Bus Service 接駁服務</h5>(這裡要有cancellation policy,其它交通要放網頁，這裡是登記而已)
+                    <h5>Shuttle Bus Service 接駁服務</h5>
                     <!--
                     ***** 準備中 ***** <br>
                     預計6/27(二)後開放登記。登記截止時間順延至7/5(三)
