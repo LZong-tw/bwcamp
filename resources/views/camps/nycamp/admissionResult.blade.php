@@ -37,7 +37,7 @@
             @if($applicant->is_admitted && !$applicant->deleted_at)
                 <p class="card-text">Dear {{ $applicant->name }} </p>
                 <p class="card-text text-indent">It is our honor to welcome you to 「{{ $camp_data->fullName }}」！We hope you will have a great time in the camp.
-                    The following are informaion you need to know before you come. Please read carefully.
+                    The following are information you need to know before you come. Please read carefully.
                 </p>
                 <p class="card-text text-indent">
                 Your Application Number 您的報名序號：{{ $applicant->applicant_id }}<br>
