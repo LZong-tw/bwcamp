@@ -24,9 +24,9 @@ class CampDataService
         $admission_confirming_end = $camp_data->admission_confirming_end ? Carbon::createFromFormat('Y-m-d', $camp_data->admission_confirming_end) : null;
         $admission_confirming_end_Weekday = $admission_confirming_end ? Carbon::create($admission_confirming_end)->locale(App::getLocale())->isoFormat("dddd") : null;
 
-        $registration_start= Carbon::createFromFormat('Y-m-d', $camp_data->registration_start);
+        $registration_start = Carbon::createFromFormat('Y-m-d', $camp_data->registration_start);
         $registration_start_Weekday = Carbon::create($registration_start)->locale(App::getLocale())->isoFormat("dddd");
-        $registration_end= Carbon::createFromFormat('Y-m-d', $camp_data->registration_end);
+        $registration_end = Carbon::createFromFormat('Y-m-d', $camp_data->registration_end);
         $registration_end_Weekday = Carbon::create($registration_end)->locale(App::getLocale())->isoFormat("dddd");
 
         //從梯次取得正行開始及結束日期
