@@ -28,7 +28,7 @@ class CampDataService
         $registration_start_Weekday = $registration_start ? Carbon::create($registration_start)->locale(App::getLocale())->isoFormat("dddd") : null;
         $registration_end = $camp_data->registration_end ? Carbon::createFromFormat('Y-m-d', $camp_data->registration_end) : null;
         $registration_end_Weekday = $registration_end ? Carbon::create($registration_end)->locale(App::getLocale())->isoFormat("dddd") : null;
-        
+
         //從梯次取得正行開始及結束日期
         $batch_data = Batch::find($batch_id) ?? [];
         if (!$batch_data) {
