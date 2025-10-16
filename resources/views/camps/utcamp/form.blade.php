@@ -560,6 +560,42 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 --}}
+    <div class='row form-group'>
+        <label class='col-md-2 control-label text-md-right'>交通需求</label>
+        <div class='col-md-10'>
+            <div class='row form-group'>
+                <div class='col-md-12 text-primary'>
+                    ＊＊＊僅供大會接駁規劃用，活動前另有義工個別聯繫確認＊＊＊
+                </div>
+            </div>
+            <div class='row form-group required'>
+                <label for='inputTransportationDepart' class='col-md-2 control-label'>
+                    去程
+                </label>
+                <div class='col-md-10'>
+                    <select required class='form-control' name='transportation_depart' onChange=''>
+                        <option value='' selected>- 請選擇 -</option>
+                        <option value='屏東火車站專車接駁' >屏東火車站專車接駁</option>
+                        <option value='左營高鐵站專車接駁' >左營高鐵站專車接駁</option>
+                        <option value='自行前往無以上需求' >自行前往無以上需求</option>
+                    </select>
+                </div>
+            </div>
+            <div class='row form-group required'>
+                <label for='inputTransportationBack' class='col-md-2 control-label'>
+                    回程
+                </label>
+                <div class='col-md-10'>
+                    <select required class='form-control' name='transportation_back' onChange=''>
+                        <option value='' selected>- 請選擇 -</option>
+                        <option value='專車接駁至屏東火車站' >專車接駁至屏東火車站</option>
+                        <option value='專車接駁至左營高鐵站' >專車接駁至左營高鐵站</option>
+                        <option value='自行返回無以上需求' >自行返回無以上需求</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
 {{-- 
     <!--- 同意書 -->
     <div class='row form-group required'>

@@ -1,4 +1,4 @@
-<?
+<?php
 header("Cache-Control: no-cache, no-store, must-revalidate, post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
@@ -9,11 +9,11 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     @include('partials.schools_script')
     @include('partials.counties_areas_script')
         <div class="alert alert-warning">
-            <h5>報名期間：113年10月19日(六)起至113年12月20日(日)止</h5>
-            <h5>研習時間：114年01月23日(四)起至114年01月26日(日)止</h5>
+            <h5>報名期間：{{ $camp_data -> registration_start }} ({{ $camp_data -> registration_start_Weekday }}) 起至 {{ $camp_data -> registration_end }} ({{ $camp_data -> registration_end_Weekday }}) 止</h5>
+            <h5>研習時間：{{ $camp_data -> batch_start }} ({{ $camp_data -> batch_start_Weekday }}) 起至 {{ $camp_data -> batch_end }} ({{ $camp_data -> batch_end_Weekday }}) 止</h5>
             <h5>研習時數：凡參加研習者依規定核發研習時數或數位研習證書</h5>
             <h6>指導單位：教育部生命教育中心</h6>
-            <h6>主辦單位：財團法人福智文教基金會、大仁科技大學</h6>
+            <h6>主辦單位：財團法人福智文教基金會、國立屏東大學</h6>
             <h6>協辦單位：福智學校財團法人、基隆市立瑪陵國民小學、屏東縣立大路關國民小學</h6>
         </div>
     <div class='alert alert-info' role='alert'>
@@ -411,7 +411,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputEmail' class='col-md-2 control-label text-md-right'>電子郵件</label>
         <div class='col-md-10'>
-            <input type='email' required name='email' value='' class='form-control' id='inputEmail' placeholder='請務必填寫正確，以便寄發錄取通知單、報到通知單等'>
+            <input type='email' required name='email' value='' class='form-control' id='inputEmail' placeholder='寄發錄取通知用，請務必正確填寫'>
             <div class="invalid-feedback">
                 未填寫電子郵件，或格式不正確
             </div>
@@ -602,8 +602,8 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <div class='col-md-10'>
                     <select required class='form-control' name='transportation_depart' onChange=''>
                         <option value='' selected>- 請選擇 -</option>
-                        <option value='屏東火車站至大仁科大接駁' >屏東火車站至大仁科大接駁</option>
-                        <option value='左營高鐵站至大仁科大接駁' >左營高鐵站至大仁科大接駁</option>
+                        <option value='屏東火車站專車接駁' >屏東火車站專車接駁</option>
+                        <option value='左營高鐵站專車接駁' >左營高鐵站專車接駁</option>
                         <option value='自行前往無以上需求' >自行前往無以上需求</option>
                     </select>
                 </div>
@@ -615,8 +615,8 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <div class='col-md-10'>
                     <select required class='form-control' name='transportation_back' onChange=''>
                         <option value='' selected>- 請選擇 -</option>
-                        <option value='大仁科大至屏東火車站接駁' >大仁科大至屏東火車站接駁</option>
-                        <option value='大仁科大至左營高鐵站接駁' >大仁科大至左營高鐵站接駁</option>
+                        <option value='專車接駁至屏東火車站' >專車接駁至屏東火車站</option>
+                        <option value='專車接駁至左營高鐵站' >專車接駁至左營高鐵站</option>                        
                         <option value='自行返回無以上需求' >自行返回無以上需求</option>
                     </select>
                 </div>
@@ -779,7 +779,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <label><input type="checkbox" name=interesting[] value='情緒管理' > 情緒管理</label> <br/>
                 <label><input type="checkbox" name=interesting[] value='環保淨灘' > 環保淨灘</label> <br/>
                 <label><input type="checkbox" name=interesting[] value='農場體驗' > 農場體驗</label> <br/>
-                <label><input type="checkbox" name=interesting[] value='樂齡活動' > 樂齡活動</label> <br/>
+                <label><input type="checkbox" name=interesting[] value='正念禪修' > 正念禪修</label> <br/>
                 <label><input type="checkbox" name=interesting[] value='儒學與生活' > 儒學與生活</label> <br/>
                 <label><input type="checkbox" name=interesting[] value='其它' onchange="toggleICrequired()"> 其它</label> <br>
                 <input type=text class='form-control' name="interesting_complement" value='' id="interesting_complement">
@@ -838,7 +838,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     @endif
 
     <div class='row form-group'>
-        <label for='inputExpect' class='col-md-2 control-label text-md-right'>我對這次活動的期望</label>
+        <label for='inputExpect' class='col-md-2 control-label text-md-right'>我對這次營隊的期望</label>
         <div class='col-md-10'>
             <textarea class='form-control' rows=2 name='expectation' id=inputExpect></textarea>
             {{-- <div class="invalid-feedback">
