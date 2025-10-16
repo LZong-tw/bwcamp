@@ -615,8 +615,8 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 <div class='col-md-10'>
                     <select required class='form-control' name='transportation_back' onChange=''>
                         <option value='' selected>- 請選擇 -</option>
-                        <option value='屏東火車站專車接駁' >屏東火車站專車接駁</option>
-                        <option value='左營高鐵站專車接駁' >左營高鐵站專車接駁</option>
+                        <option value='專車接駁至屏東火車站' >專車接駁至屏東火車站</option>
+                        <option value='專車接駁至左營高鐵站' >專車接駁至左營高鐵站</option>                        
                         <option value='自行返回無以上需求' >自行返回無以上需求</option>
                     </select>
                 </div>
