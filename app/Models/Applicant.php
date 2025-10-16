@@ -196,7 +196,6 @@ class Applicant extends Model
         return $this->hasOne(Nyvcamp::class, 'applicant_id', 'id');
     }
 
-
     public function signData($orderBy = "desc")
     {
         return $this->hasMany(SignInSignOut::class)->orderBy('id', $orderBy);
