@@ -1,4 +1,4 @@
-<?
+<?php
 header("Cache-Control: no-cache, no-store, must-revalidate, post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
@@ -429,7 +429,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     </div>
-
+{{--
     <div class='row form-group required'>
         <label class='col-md-2 control-label text-md-right'>住宿需求</label>
         <div class='col-md-10'>
@@ -559,7 +559,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     </div>
-
+--}}
 {{-- 
     <!--- 同意書 -->
     <div class='row form-group required'>
@@ -847,7 +847,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         }
     }
 
-    function showCompanion(radio_ele) {
+/*     function showCompanion(radio_ele) {
         // 檢查 radio_ele 被勾選是哪項
         if(radio_ele.value==5000) {
             // 兩人同行優惠
@@ -866,7 +866,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             document.getElementById('as_roommate_n').required = false;
         }
     }
-    @if(isset($applicant_data))
+ */    @if(isset($applicant_data))
         {{-- 回填報名資料 --}}
         (function() {
             window.applicant_id = '{{ $applicant_id }}';
