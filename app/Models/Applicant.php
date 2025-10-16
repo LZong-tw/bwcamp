@@ -157,6 +157,14 @@ class Applicant extends Model {
         return $this->hasOne(Yvcamp::class, 'applicant_id', 'id');
     }
 
+    public function nycamp() {
+        return $this->hasOne(Nycamp::class, 'applicant_id', 'id');
+    }
+    public function nyvcamp() {
+        return $this->hasOne(Nyvcamp::class, 'applicant_id', 'id');
+    }
+
+
     public function signData($orderBy = "desc") {
         return $this->hasMany(SignInSignOut::class)->orderBy('id', $orderBy);
     }
