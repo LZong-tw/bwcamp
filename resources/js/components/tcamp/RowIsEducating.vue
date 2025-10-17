@@ -160,7 +160,14 @@
     </span>
 </template>
 <script type="module">
-import { watch, ref, onMounted, provide, inject, getCurrentInstance } from "vue";
+import {
+    watch,
+    ref,
+    onMounted,
+    provide,
+    inject,
+    getCurrentInstance,
+} from "vue";
 
 export default {
     setup() {
@@ -178,25 +185,25 @@ export default {
         });
 
         provide("setEnabled", function (ele) {
-                if (window.doThing && window.inputEnabled === false && ele) {
-                    ele.disabled = true;
-                }
-            });
+            if (window.doThing && window.inputEnabled === false && ele) {
+                ele.disabled = true;
+            }
+        });
 
         provide("allDescendants", function (node, setEnabled, callback) {
-                if(node && node.childNodes) {
-                    // console.log(node.childNodes);
-                    for (var i = 0; i < node.childNodes.length; i++) {
-                        var child = node.childNodes[i];
-                        if(callback) {
-                            callback(child, setEnabled, callback);
-                        }
-                        if(setEnabled) {
-                            setEnabled(child);
-                        }
+            if (node && node.childNodes) {
+                // console.log(node.childNodes);
+                for (var i = 0; i < node.childNodes.length; i++) {
+                    var child = node.childNodes[i];
+                    if (callback) {
+                        callback(child, setEnabled, callback);
+                    }
+                    if (setEnabled) {
+                        setEnabled(child);
                     }
                 }
-            });
+            }
+        });
 
         return {
             school_or_course,
@@ -226,9 +233,13 @@ export default {
                                 title_s.value = first;
                             }
                             console.log("detected:", first, second);
-                        }
+                        },
                     );
-                    allDescendants(getCurrentInstance().refs.titleEle, setEnabled, allDescendants);
+                    allDescendants(
+                        getCurrentInstance().refs.titleEle,
+                        setEnabled,
+                        allDescendants,
+                    );
                 });
                 return { titleEle, title_s };
             },
@@ -296,9 +307,13 @@ export default {
                                 title_s.value = first;
                             }
                             console.log("detected:", first, second);
-                        }
+                        },
                     );
-                    allDescendants(getCurrentInstance().refs.titleEle, setEnabled, allDescendants);
+                    allDescendants(
+                        getCurrentInstance().refs.titleEle,
+                        setEnabled,
+                        allDescendants,
+                    );
                 });
                 return { titleEle, title_s };
             },
