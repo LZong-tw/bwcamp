@@ -2,7 +2,7 @@
 <br>
 　　恭喜您已完成{{ $campData->fullName }}網路報名程序。請記下您的報名序號： <strong>{{ $applicant->id }}</strong> 作為日後查詢使用。<br>
 <br>
-　　如您需修改報名表內容，可憑報名序號至 <a href="https://bwcamp.bwfoce.org/camp/{{ $applicant->batch->id }}/query"> https://bwcamp.bwfoce.org/camp/{{ $applicant->batch->id }}/query </a>頁面修改<br>
+　　如您需修改報名表內容，可憑報名序號至 <a href="https://bwcamp.bwfoce.org/camp/{{ $applicant->batch->id }}/query"> https://bwcamp.bwfoce.org/camp/{{ $applicant->batch->id }}/query</a> 頁面修改<br>
 <br>
 　　我們將於 {{ \Carbon\Carbon::parse($campData->admission_announcing_date)->translatedFormat("Y年m月d日(l)") }} 寄發錄取與否通知信件至您的電子信箱，或您可至活動網站 {{ $campData->site_url }} 查詢。<br>
 　　<br>
