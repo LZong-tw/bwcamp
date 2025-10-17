@@ -36,8 +36,8 @@ eslint-disable prettier/prettier */
                     <option value="花蓮縣">花蓮縣</option>
                     <option value="臺東縣">臺東縣</option>
                     <option value="金門縣">金門縣</option>
-                    <option value="澎湖縣">澎湖縣</option-->
-                    <option value="其他">其他</option>
+                    <option value="澎湖縣">澎湖縣</option>
+                    <option value="其他">其他</option-->
                 </select>
                 <select
                     v-if="unit_area != '其他'"
