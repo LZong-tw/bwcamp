@@ -9,8 +9,8 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     @include('partials.schools_script')
     @include('partials.counties_areas_script')
         <div class="alert alert-warning">
-            <h5>報名期間：{{ $camp_data -> registration_start }} ({{ $camp_data -> registration_start_Weekday }}) 起至 {{ $camp_data -> registration_end }} ({{ $camp_data -> registration_end_Weekday }}) 止</h5>
-            <h5>研習時間：{{ $camp_data -> batch_start }} ({{ $camp_data -> batch_start_Weekday }}) 起至 {{ $camp_data -> batch_end }} ({{ $camp_data -> batch_end_Weekday }}) 止</h5>
+            <h5>報名期間：{{ \Carbon\Carbon::parse($camp_data->registration_start)->translatedFormat("Y年m月d日(l)") }} 起至 {{ \Carbon\Carbon::parse($camp_data->registration_end)->translatedFormat("Y年m月d日(l)") }} 止</h5>
+            <h5>研習時間：{{ \Carbon\Carbon::parse($camp_data->batch_start)->translatedFormat("Y年m月d日(l)") }} 起至 {{ \Carbon\Carbon::parse($camp_data->batch_end)->translatedFormat("Y年m月d日(l)") }} 止</h5>
             <h5>研習時數：凡參加研習者依規定核發研習時數或數位研習證書</h5>
             <h6>指導單位：教育部生命教育中心</h6>
             <h6>主辦單位：財團法人福智文教基金會、國立屏東大學</h6>
@@ -241,7 +241,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
 --}}
-        <div class='row form-group'>
+        <div class='row form-group required'>
             <label for='inputNationName' class='col-md-2 control-label text-md-right required'>國籍</label>
             <div class='col-md-10'>
                 <div class='row form-group'>

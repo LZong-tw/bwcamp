@@ -9,7 +9,7 @@
             >
             <div class="col-md-10">
                 <label class="radio-inline mr-2">
-                    <input
+                    <!--input
                         type="radio"
                         required
                         name="school_or_course"
@@ -29,7 +29,7 @@
                     :disabled="this.inputEnabled === false"> 教育局/處
                     <div class="invalid-feedback crumb">&nbsp;</div>
                 </label>
-                <label class="radio-inline mx-2">
+                <label class="radio-inline mx-2"-->
                     <input
                         type="radio"
                         required
@@ -40,7 +40,10 @@
                         :disabled="this.inputEnabled === false"
                     />
                     高中職
-                    <div class="invalid-feedback crumb">&nbsp;</div>
+                    <!--div class="invalid-feedback crumb">&nbsp;</div-->
+                    <div class="invalid-feedback crumb">
+                        請勾選任職機關/任教學程
+                    </div>
                 </label>
                 <label class="radio-inline mx-2">
                     <input
