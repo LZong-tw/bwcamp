@@ -1,7 +1,7 @@
 {{-- 
     參考頁面：https://youth.blisswisdom.org/camp/winter/form/index_addto.php
     --}}
-<?
+<?php
 header("Cache-Control: no-cache, no-store, must-revalidate, post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
