@@ -323,13 +323,16 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
     <br>
+
+    <!-- 下面題目移至錄取查詢頁面 -->
+<!--
     <div class='row form-group'>
         <label for='inputDietaryNeeds' class='col-md-2 control-label text-md-right'>Dietary Needs<br>飲食特殊需求</label>
         <div class='col-md-10'>
             <textarea class=form-control rows=2 name='dietary_needs' id=inputDietaryNeeds placeholder=''></textarea>
-            <!--div class="invalid-feedback">
+            <div class="invalid-feedback">
                 請填寫本欄位
-            </div-->
+            </div>
         </div>
     </div>
 
@@ -337,9 +340,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <label for='inputOtherNeeds' class='col-md-2 control-label text-md-right'>Other Needs<br>其它特殊需求</label>
         <div class='col-md-10'>
             <textarea class=form-control rows=2 name='other_needs' id=inputAccessNeeds placeholder='For example: access needs, allergy information, and so on. 如：無障礙需求，過敏反應等。請簡要說明。'></textarea>
-            <!--div class="invalid-feedback">
+            <div class="invalid-feedback">
                 請填寫本欄位
-            </div-->
+            </div>
         </div>
     </div>
 
@@ -355,12 +358,12 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 我沒有偏好：(請分配一個室友給我)<br>
             </label>
             <textarea class=form-control rows=2 name='accommodation_needs' id=inputAcommodationNeeds ></textarea>
-            <!--div class="invalid-feedback">
+            <div class="invalid-feedback">
                 請填寫本欄位
-            </div-->
+            </div>
         </div>
     </div>
-
+-->
     <br>
 
     <div class='row form-group required'>
@@ -405,9 +408,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <label for='inputIntroducerName' class='col-md-2 control-label text-md-right'>Name of Relative/Friend<br>介紹人姓名</label>
         <div class='col-md-10'>
             <input type='text'class='form-control' name="introducer_name" value=''>
-            <!--div class="invalid-feedback">
-                This field is required. 請填寫本欄位
-            </div-->
         </div>
     </div>
 
@@ -471,18 +471,19 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     Please check. 請圈選本欄位
                 </div>
             </label>
-            <!--label class=radio-inline>
+            <!--
+            <label class=radio-inline>
                 <input type=radio required name="portrait_agree" value='0' > 我不同意
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
-            </label-->
+            </label>
+            -->
         </div>
     </div>
-    
+
+    <!-- 預設為參加 -->
     <input type=hidden name='is_attend' value='1' class='form-control'>
-
-
 
     <script language='javascript'>
 

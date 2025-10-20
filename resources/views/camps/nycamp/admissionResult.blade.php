@@ -46,38 +46,62 @@
                 Location 營隊地點：{{ $applicant->batch->locationName }} ({{ $applicant->batch->location }})<br>
                 </p>
 
-                <h5>Before you come 錄取/報到通知</h5>
-                <div class="ml-2 mb-2">請詳閱<a href="{{ url('downloads/ycamp2025/【2025第58屆大專青年生命成長營】錄取通知單.pdf') }}">錄取/報到通知</a>，內含報到資訊、必帶物品，及交通資訊等等。</div>
-                <div class="ml-2 mb-2"><a href="{{ url('downloads/ycamp2025/【2025第58屆大專青年生命成長營】錄取通知單.pdf') }}" download class="btn btn-primary" target="_blank" style="margin-top: 10px">下載錄取/報到通知</a></div><br>
-
-                <h5>Cancellation 放棄參加</h5>
-                <form class="ml-2 mb-2" action="{{ route('toggleAttend', $batch_id) }}" method="POST" id="attendcancel">
-                    @csrf
-                    <input type="hidden" name="id" value="{{ $applicant->applicant_id ?? $applicant->id }}">
-                    <input type="hidden" name="camp" value="nycamp">
-                    @if(!isset($applicant->is_attend) || $applicant->is_attend )
-                        <div class="ml-0 mb-2 text-primary">您目前的狀態是「參加」。</div>
-                        <div class="ml-0 mb-2">如您因故無法參加，請按放棄參加通知我們，謝謝！</div>
-                        <div>
-                        <input class="btn btn-danger" type="submit" value="放棄參加" id="cancel" name="cancel">
-                        </div>
-                    @else
-                        <div class="ml-0 mb-2 text-danger">您目前的狀態是「放棄參加」。</div>
-                        <div class="ml-0 mb-2">如您可以參加了，請按恢復參加，謝謝！</div>
-                        <div>
-                        <input class="btn btn-success" type="submit" value="恢復參加" id="confirmattend" name="confirmattend">
-                        </div>
-                    @endif
-                </form><br>
+                <h4>Before you come 錄取/報到通知</h4>
+                <div class="ml-0 mb-2">
+                請詳閱<a href="https://docs.google.com/document/d/1t56h4BsWBqC_r38rtGekn24GQDW8_2oA/edit">錄取通知</a>，內含報到資訊、必帶物品，及交通資訊等等。<br>
+                </div>
+                <div class="ml-0 mb-2">
+                Please read carefully the <a href="https://docs.google.com/document/d/1DK2mQK6beqShyK82Jigyt1z7PJv_MwWa2yEadLCrsR8/edit?tab=t.0">Admission Notice</a>.<br><br>
+                </div>
+                <!--
+                <div class="ml-2 mb-2">請詳閱<a href="{{ url('downloads/$applicant->camp->table.$applicant->camp->year/【2025第58屆大專青年生命成長營】錄取通知單.pdf') }}">錄取/報到通知</a>，內含報到資訊、必帶物品，及交通資訊等等。</div>
+                <div class="ml-2 mb-2"><a href="{{ url('downloads/$applicant->camp->table.$applicant->camp->year/【2025第58屆大專青年生命成長營】錄取通知單.pdf') }}" download class="btn btn-primary" target="_blank" style="margin-top: 10px">下載錄取/報到通知</a></div><br>
+                -->
 
                 @if(!isset($applicant->is_attend) || $applicant->is_attend)
-                    <h5>Shuttle Bus Service 接駁服務</h5>
-                    <!--
-                    ***** 準備中 ***** <br>
-                    預計6/27(二)後開放登記。登記截止時間順延至7/5(三)
-                    <br>
-                    <br>
-                    -->
+                    <h4>Registration 活動費用</h4>
+                    <form class="ml-2 mb-2" action="{{ route('modifyLodging', $batch_id) }}" method="POST" id="selectLodging">
+                        @csrf
+                        <div class="ml-0 mb-2">
+                            Refer to <a href="{{ $camp_data->site_url }}">camp offical site</a>
+                            for the Registration fee options.
+                        <br>
+                            活動費用，請參閱<a href="{{ $camp_data->site_url }}">營隊官網</a>說明。
+                        </div>
+                        <br>
+                        <input type="hidden" name="id" value="{{ $applicant->applicant_id ?? $applicant->id }}">
+                        <input type="hidden" name="camp" value="nycamp">
+                        <input type="hidden" name="nights" value="{{ $applicant->lodging?->nights ?? 0}}">
+                        <div class='row form-group required'>
+                            <label for='inputRoomType' class='col-md-2 control-label text-md-right'>活動費用</label>
+                            <div class="col-md-4">
+                                <select required class='form-control' name='room_type' id='inputRoomType' onchange='changeRoom(this)'>
+                                    <option value=' ' selected>- 請選擇 -</option>
+                                    @foreach($fare_room as $key => $value)
+                                    <option value='{{ $key }}' >{{ $key }}(USD{{ $value }})</option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback">
+                                    請選擇活動費用
+                                </div>
+                            </div>
+                        </div>
+                        <div class='row form-group companion-sec required' style='display:none'>
+                            <label for='inputCompanion' class='col-md-2 control-label text-md-right'>Friend's name 同行者姓名</label>
+                            <div class="col-md-4">
+                                @if(isset($applicant->companion_name))
+                                <input type='text' class='form-control' name="companion_name" id='inputCompanion' value='{{ $applicant->companion_name }}' >
+                                @else
+                                <input type='text' class='form-control' name="companion_name" id='inputCompanion' value='' >
+                                @endif
+                                <div class="invalid-feedback">
+                                    請提供同行者姓名
+                                </div>
+                            </div>
+                        </div>
+                        <input class="btn btn-success" type="submit" value="確認修改活動費用" id="confirmlodging" name="confirmlodging">
+                    </form><br>
+                    <h4>Shuttle Bus Service 接駁服務</h4>
                     <form class="ml-2 mb-2" action="{{ route('modifyTraffic', $batch_id) }}" method="POST" id="selecttraffic">
                         @csrf
                         <div class="ml-0 mb-2">
@@ -100,9 +124,9 @@
                             <label for='inputDepartFrom' class='col-md-2 control-label text-md-right'>去程交通</label>
                             <div class="col-md-4">
                                 <select required class='form-control' name='depart_from' id='inputDepartFrom'>
-                                    <option value=''>- 請選擇 -</option>
+                                    <option value=' ' selected>- 請選擇 -</option>
                                     @foreach($fare_depart_from as $key => $value)
-                                    <option value='{{ $key }}' >{{ $key }}({{ $value }})</option>
+                                    <option value='{{ $key }}' >{{ $key }}(USD{{ $value }})</option>
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback">
@@ -114,9 +138,9 @@
                             <label for='inputBackTo' class='col-md-2 control-label text-md-right'>回程交通</label>
                             <div class="col-md-4">
                                 <select required class='form-control' name='back_to' id='inputBackTo'>
-                                    <option value=''>- 請選擇 -</option>
+                                    <option value=' ' selected>- 請選擇 -</option>
                                     @foreach($fare_back_to as $key => $value)
-                                    <option value='{{ $key }}' >{{ $key }}({{ $value }})</option>
+                                    <option value='{{ $key }}' >{{ $key }}(USD{{ $value }})</option>
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback">
@@ -124,10 +148,14 @@
                                 </div>
                             </div>
                         </div>
-                        <input class="btn btn-success" type="submit" value="確認修改" id="confirmtraffic" name="confirmtraffic">
+                        <input class="btn btn-success" type="submit" value="確認修改交通" id="confirmtraffic" name="confirmtraffic">
                     </form><br>
-                    <div class="ml-2 mb-2"><b>Payment Due 應交費用：{{ $traffic?->fare ?? '未定' }}；<br>
-                        Payment Received 已交費用：{{ $traffic?->sum ?? 0 }}</b></div>
+                    @php
+                        $fare_total = ($traffic?->fare ?? 0) + ($lodging?->fare ?? 0);
+                        $sum_total = ($traffic?->sum ?? 0) + ($lodging?->sum ?? 0);
+                    @endphp
+                    <div class="ml-2 mb-2"><b>Payment Due 應交費用：USD{{ $fare_total }}<br>
+                        Payment Received 已交費用：USD{{ $sum_total }}</b></div>
 {{--                    
                     @if($traffic?->fare > 0)
                         <form action="{{ route('downloadPaymentForm', $batch_id) }}" method="POST">
@@ -138,8 +166,27 @@
                     @endif
 --}}
                 @endif
+                    <h4>Cancellation 放棄參加</h4>
+                    <form class="ml-2 mb-2" action="{{ route('toggleAttend', $batch_id) }}" method="POST" id="attendcancel">
+                        @csrf
+                        <input type="hidden" name="id" value="{{ $applicant->applicant_id ?? $applicant->id }}">
+                        <input type="hidden" name="camp" value="nycamp">
+                        @if(!isset($applicant->is_attend) || $applicant->is_attend )
+                            <div class="ml-0 mb-2 text-primary">您目前的狀態是「參加」。</div>
+                            <div class="ml-0 mb-2">如您因故無法參加，請按放棄參加通知我們，謝謝！</div>
+                            <div>
+                            <input class="btn btn-danger" type="submit" value="放棄參加" id="cancel" name="cancel">
+                            </div>
+                        @else
+                            <div class="ml-0 mb-2 text-danger">您目前的狀態是「放棄參加」。</div>
+                            <div class="ml-0 mb-2">如您可以參加了，請按恢復參加，謝謝！</div>
+                            <div>
+                            <input class="btn btn-success" type="submit" value="恢復參加" id="confirmattend" name="confirmattend">
+                            </div>
+                        @endif
+                    </form><br>
                 <br>
-                <h5>Contact 聯絡我們</h5>
+                <h4>Contact 聯絡我們</h4>
                 <div class="ml-0 mb-2">If you have any question, feel free to contact</div>
                 <div class="ml-2 mb-2">Jasmine Hu</div>
                 <div class="ml-2 mb-2">Email: chunhu@blisswisdom.org</div>
@@ -162,17 +209,17 @@
                 <p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
             @elseif($applicant->deleted_at)
             @else
-<!--
+                <!--
                 <p class="card-text">親愛的 {{ $applicant->name }} 同學您好</p>
                 <p class="card-text indent">感謝您報名「{{ $camp_data->fullName }}」，錄取作業正在進行中，請稍後再進行錄取查詢。感謝您的耐心等待！</p>
                 <p class="card-text text-right">The Oneness Truth Foundation 敬啟</p>
                 <p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
--->
+                -->
                 <!-----備取=不錄取----->
                 <p class="card-text">親愛的 {{ $applicant->name }} 同學您好</p>
                 <p class="card-text indent">非常感謝您報名參加「{{ $camp_data->fullName }}」，由於本活動報名人數踴躍，且場地有限，非常抱歉未能在第一階段錄取您。我們已將您列入優先備取名單，若有遞補機會，基金會將儘速通知您!</p>
                 <p class="card-text indent">開學後，各區福青學堂定期都有精彩的課程活動，竭誠歡迎您的參與!也祝福您學業順利，吉祥如意！</p>
-                <h5>各區福青學堂資訊</h5>
+                <h4>各區福青學堂資訊</h4>
                 <div class="container">
                     <div class="row">
                         <div class="col-md-6">
@@ -248,7 +295,7 @@
             let confirmattend = document.getElementById('confirmattend');
             confirmattend.addEventListener('click', function(event) {
                 if(confirm('確認恢復參加？')){
-                        return true;
+                    return true;
                 }
                 event.preventDefault();
                 return false;
@@ -275,5 +322,44 @@
                 }
             })();
         @endif
+        @if(!isset($applicant->is_attend) || $applicant->is_attend)
+            let confirmlodging = document.getElementById('confirmlodging');
+            confirmlodging.addEventListener('click', function(event) {
+                if(confirm('確認修改活動費？')){
+                        return true;
+                }
+                event.preventDefault();
+                return false;
+            });
+
+            {{-- 回填活動費選項 --}}
+            (function() {
+                let lodging_data = JSON.parse('{!! $lodging ?? '{}' !!}');
+                let selects = document.getElementsByTagName('select');
+                for (var i = 0; i < selects.length; i++){
+                    if(typeof lodging_data[selects[i].name] !== "undefined"){
+                        selects[i].value = lodging_data[selects[i].name];
+                        changeRoom(selects[i]);
+                    }
+                }
+            })();
+        @endif
+        function changeRoom(select_ele) {
+            // 檢查 select_ele 被勾選是哪項
+            var tgs;
+            var i;
+            if (select_ele.value.includes("兩人同行")) {
+                // 有同行者
+                tg = document.getElementsByClassName('companion-sec');
+                tg[0].style.display = '';
+                document.getElementById('inputCompanion').required = true;
+            }
+            else {
+                // 一人報名
+                tg = document.getElementsByClassName('companion-sec');
+                tg[0].style.display = 'none';
+                document.getElementById('inputCompanion').required = false;
+            }
+        };
     </script>
 @stop

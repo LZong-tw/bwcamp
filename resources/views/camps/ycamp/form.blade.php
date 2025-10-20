@@ -759,6 +759,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
+    <!-- 預設為參加 -->
+    <input type=hidden name='is_attend' value='1' class='form-control'>
+
     <div class="row form-group text-danger tips d-none">
         <div class='col-md-2'></div>
         <div class='col-md-10'>
