@@ -7,6 +7,7 @@ use App\Models\Camp;
 use App\Models\Batch;
 use App\Models\Applicant;
 use App\Models\Traffic;
+use App\Models\Lodging;
 use App\Services\CampDataService;
 use App\Services\ApplicantService;
 use Carbon\Carbon;
@@ -537,16 +538,16 @@ class CampController extends Controller
                 ->where('name', $request->name)
                 ->withTrashed()->first();
         }
-
         if($applicant && $applicant->camp->id == $camp->id) {
             $traffic = null;
+            $lodging = null;
             $applicant->id = $applicant->applicant_id;
-            if($campTable == "ycamp" && $applicant->traffic == null) {
-                //for ycamp, if null, create one
+            if( ($campTable == "ycamp" || $campTable == "nycamp") && $applicant->traffic == null) {
+                //for ycamp and nycamp, if null, create one
                 $newTraffic = array();
                 $newTraffic['applicant_id'] = $applicant->id;
-                $newTraffic['depart_from'] = "自往";
-                $newTraffic['back_to'] = "自回";
+                $newTraffic['depart_from'] = ' ';
+                $newTraffic['back_to'] = ' ';
                 $newTraffic['fare'] = "0";
                 $newTraffic['deposit'] = "0";
                 Traffic::create($newTraffic);
@@ -560,8 +561,39 @@ class CampController extends Controller
                 //if not null, retrieve it
                 $traffic = $applicant->traffic;
             }
+
+            if($campTable == "nycamp" && $applicant->lodging == null) {
+                //for nycamp, if null, create one
+                $newLodging = array();
+                $newLodging['applicant_id'] = $applicant->id;
+                $newLodging['room_type'] = ' ';
+                $date1 = Carbon::parse($applicant->batch->batch_start);
+                $date2 = Carbon::parse($applicant->batch->batch_end);
+                $newLodging['nights'] =  $date1->diffInDays($date2);
+                $newLodging['fare'] = "0";
+                $newLodging['deposit'] = "0";
+                Lodging::create($newLodging);
+                //relink applicant1 and newly created lodging??
+                $applicant1 = Applicant::find($request->sn);
+                //update barcode
+                $applicant1 = $this->applicantService->fillPaymentData($applicant1);
+                $applicant1->save();
+                $lodging = $applicant1->lodging;
+            } else {
+                //if not null, retrieve it
+                $lodging = $applicant->lodging;
+            }
+
             $fare_depart_from = config('camps_payments.fare_depart_from.' . $campTable) ?? [];
             $fare_back_to = config('camps_payments.fare_back_to.' . $campTable) ?? [];
+            $fare_room = config('camps_payments.fare_room.' . $campTable) ?? [];
+            if($applicant->camp->early_bird_last_day != null) {
+                $is_earlybird = $applicant->created_at->lte(\Carbon\Carbon::parse($applicant->camp->early_bird_last_day));
+                if($is_earlybird) {
+                    $fare_room = config('camps_payments.fare_room.' . $campTable . '_earlybird') ?? [];
+                }
+            }
+
             $applicant = $this->applicantService->checkPaymentStatus($applicant);
 
             $applicant->batch_start_Weekday = \Carbon\Carbon::create($applicant->batch->batch_start)->locale(\App::getLocale())->isoFormat("dddd");
@@ -594,7 +626,7 @@ class CampController extends Controller
                 }
             }
             //dd($camp_data);
-            return view('camps.' . $campTable . ".admissionResult", compact('applicant','traffic','fare_depart_from','fare_back_to'));
+            return view('camps.' . $campTable . ".admissionResult", compact('applicant','traffic','lodging','fare_depart_from','fare_back_to','fare_room'));
         } else{
             return back()->withInput()->withErrors(["找不到報名資料，請確認是否已成功報名，或是輸入了錯誤的查詢資料。"]);
         }
@@ -682,6 +714,40 @@ class CampController extends Controller
         $applicant = $this->applicantService->fillPaymentData($applicant);
         $applicant->save();
 
+        return redirect(route('showadmit', ['batch_id' => $applicant->batch_id, 'sn' => $applicant->id, 'name' => $applicant->name]));
+    }
+    public function modifyLodging(Request $request) {
+        $applicant = Applicant::find($request->id);
+        $lodging = $applicant->lodging;
+        $camp_table = $this->camp_data->table;
+        $fare_early = config('camps_payments.fare_room.' . $camp_table . '_earlybird') ?? [];
+        $fare_regular = config('camps_payments.fare_room.' . $camp_table) ?? [];
+        $fare = array_merge($fare_early, $fare_regular);
+
+        if (!$lodging) {
+            $lodging = new Lodging;
+            $lodging->applicant_id = $applicant->id;
+        }
+        $lodging->room_type = $request->room_type;
+        $lodging->nights = $request->nights;
+        $lodging->fare = ($fare[$lodging->room_type] ?? 0);
+        $lodging->save();
+        //update barcode
+        $applicant = $this->applicantService->fillPaymentData($applicant);
+        $applicant->save();
+
+        //write companion iff 兩人同行
+        if ($this->camp_data->table == 'nycamp') {
+            $model = '\\App\\Models\\' . ucfirst($this->camp_data->table);
+            $applicant_camp = $model::where('applicant_id', $request->id)->first();
+            if (Str::contains($request->room_type, '兩人同行')) {
+                $applicant_camp->companion_name = $request->companion_name;
+            } else {
+                $applicant_camp->companion_name = null;
+            }
+            //$applicant_camp->companion_as_roommate = $request->companion_as_roommate;
+            $applicant_camp->save();
+        } 
         return redirect(route('showadmit', ['batch_id' => $applicant->batch_id, 'sn' => $applicant->id, 'name' => $applicant->name]));
     }
 
