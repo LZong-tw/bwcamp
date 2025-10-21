@@ -345,18 +345,17 @@
             })();
         @endif
         function changeRoom(select_ele) {
-            // 檢查 select_ele 被勾選是哪項
-            var tgs;
-                tgs = document.getElementsByClassName('companion-sec');
+            const companionSection = document.getElementsByClassName('companion-sec')[0];
+            const companionInput = document.getElementById('inputCompanion');
+
             if (select_ele.value.includes("兩人同行")) {
                 // 有同行者
-                document.getElementById('inputCompanion').required = true;
-                tgs[0].style.display = '';
-            }
-            else {
+                companionSection.style.display = '';
+                companionInput.required = true;
+            } else {
                 // 一人報名
-                tgs[0].style.display = 'none';
-                document.getElementById('inputCompanion').required = false;
+                companionSection.style.display = 'none';
+                companionInput.required = false;
             }
         };
     </script>
