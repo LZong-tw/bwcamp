@@ -73,9 +73,10 @@ Route::group(["prefix" => "camp/{batch_id}"], function () {
     Route::post("/toggleAttend", [CampController::class, "toggleAttend"])->name("toggleAttend");
     Route::post("/toggleAttendBackend", [CampController::class, "toggleAttendBackend"])->name("toggleAttendBackend");
     Route::post("/modifyTraffic", [CampController::class, "modifyTraffic"])->name("modifyTraffic");
-    Route::post("/downloadPaymentForm", "CampController@downloadPaymentForm")->name("downloadPaymentForm");
-    Route::post("/downloadCheckInNotification", "CampController@downloadCheckInNotification")->name("downloadCheckInNotification");
-    Route::post("/downloadCheckInQRcode", "CampController@downloadCheckInQRcode")->name("downloadCheckInQRcode");
+    Route::post("/modifyLodging", [CampController::class, "modifyLodging"])->name("modifyLodging");
+    Route::post("/downloadPaymentForm", [\App\Http\Controllers\CampController::class, "downloadPaymentForm"])->name("downloadPaymentForm");
+    Route::post("/downloadCheckInNotification", [\App\Http\Controllers\CampController::class, "downloadCheckInNotification"])->name("downloadCheckInNotification");
+    Route::post("/downloadCheckInQRcode", [\App\Http\Controllers\CampController::class, "downloadCheckInQRcode"])->name("downloadCheckInQRcode");
     Route::post("/submit", "CampController@campRegistrationFormSubmitted")->name("formSubmit");
     Route::post("/copy", "CampController@campRegistrationFormCopy")->name("formCopy");
     Route::get("/downloads", "CampController@showDownloads")->name("showDownloads");
@@ -112,7 +113,7 @@ Route::group(["prefix" => "checkin", ], function () {
     Route::get("/detailedStat", [CheckInController::class, "detailedStatOptimized"]);
 });
 
-Route::group(["prefix" => "backend/campManage"], function(){
+Route::group(["prefix" => "backend/campManage"], function () {
     // 營隊基本管理
     Route::group(['prefix' => 'list'], function () {
         Route::get("/", [AdminController::class, "campManagement"])->name("campManagement");
@@ -274,7 +275,7 @@ Route::group(["prefix" => "backend/{camp_id}", ], function () {
     Route::post("/customMail/send", "BackendController@sendCustomMail")->name("sendMail");
     Route::get("/customMail/selectMailTarget", "BackendController@selectMailTarget")->name("selectMailTarget");
     Route::get("/permissionScopes", [PermissionController::class, "showPermissionScope"])->name("permissionScopes");
-//    Route::get("/roles", [PermissionController::class, "showRoles"])->name("roles");
+    //    Route::get("/roles", [PermissionController::class, "showRoles"])->name("roles");
     Route::resource("sign", SignBackendController::class)
             ->names([
                 "index" => "sign_back",

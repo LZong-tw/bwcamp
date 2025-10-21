@@ -1886,11 +1886,6 @@ return [
                 "sort" => 1,
                 "for_query" => 1,
             ],
-            "region" => [
-                "name" => "區域",
-                "sort" => 1,
-                "for_query" => 1,
-            ],
             "school" => [
                 "name" => "學校",
                 "sort" => 1,
@@ -1906,15 +1901,15 @@ return [
                 "sort" => 1,
                 "for_query" => 1,
             ],
-            "way" => [
-                "name" => "如何得知活動",
+            "unit" => [
+                "name" => "服務單位",
                 "sort" => 1,
                 "for_query" => 1,
             ],
-            "contactlog" => [
-                "name" => "關懷記錄",
-                "sort" => 0,
-                "for_query" => 0,
+            "title" => [
+                "name" => "職稱",
+                "sort" => 1,
+                "for_query" => 1,
             ],
         ],
 
