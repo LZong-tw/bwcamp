@@ -347,17 +347,15 @@
         function changeRoom(select_ele) {
             // 檢查 select_ele 被勾選是哪項
             var tgs;
-            var i;
+                tgs = document.getElementsByClassName('companion-sec');
             if (select_ele.value.includes("兩人同行")) {
                 // 有同行者
-                tg = document.getElementsByClassName('companion-sec');
-                tg[0].style.display = '';
                 document.getElementById('inputCompanion').required = true;
+                tgs[0].style.display = '';
             }
             else {
                 // 一人報名
-                tg = document.getElementsByClassName('companion-sec');
-                tg[0].style.display = 'none';
+                tgs[0].style.display = 'none';
                 document.getElementById('inputCompanion').required = false;
             }
         };
