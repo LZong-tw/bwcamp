@@ -76,7 +76,7 @@
                             <label for='inputRoomType' class='col-md-2 control-label text-md-right'>活動費用</label>
                             <div class="col-md-4">
                                 <select required class='form-control' name='room_type' id='inputRoomType' onchange='changeRoom(this)'>
-                                    <option value=' ' selected>- 請選擇 -</option>
+                                    <option value='' selected>- 請選擇 -</option>
                                     @foreach($fare_room as $key => $value)
                                     <option value='{{ $key }}' >{{ $key }}(USD{{ $value }})</option>
                                     @endforeach
@@ -124,7 +124,7 @@
                             <label for='inputDepartFrom' class='col-md-2 control-label text-md-right'>去程交通</label>
                             <div class="col-md-4">
                                 <select required class='form-control' name='depart_from' id='inputDepartFrom'>
-                                    <option value=' ' selected>- 請選擇 -</option>
+                                    <option value='' selected>- 請選擇 -</option>
                                     @foreach($fare_depart_from as $key => $value)
                                     <option value='{{ $key }}' >{{ $key }}(USD{{ $value }})</option>
                                     @endforeach
@@ -138,7 +138,7 @@
                             <label for='inputBackTo' class='col-md-2 control-label text-md-right'>回程交通</label>
                             <div class="col-md-4">
                                 <select required class='form-control' name='back_to' id='inputBackTo'>
-                                    <option value=' ' selected>- 請選擇 -</option>
+                                    <option value='' selected>- 請選擇 -</option>
                                     @foreach($fare_back_to as $key => $value)
                                     <option value='{{ $key }}' >{{ $key }}(USD{{ $value }})</option>
                                     @endforeach
