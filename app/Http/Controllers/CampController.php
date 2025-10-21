@@ -549,8 +549,8 @@ class CampController extends Controller
                 //for ycamp and nycamp, if null, create one
                 $newTraffic = array();
                 $newTraffic['applicant_id'] = $applicant->id;
-                $newTraffic['depart_from'] = ' ';
-                $newTraffic['back_to'] = ' ';
+                $newTraffic['depart_from'] = '';
+                $newTraffic['back_to'] = '';
                 $newTraffic['fare'] = "0";
                 $newTraffic['deposit'] = "0";
                 Traffic::create($newTraffic);
@@ -569,7 +569,7 @@ class CampController extends Controller
                 //for nycamp, if null, create one
                 $newLodging = array();
                 $newLodging['applicant_id'] = $applicant->id;
-                $newLodging['room_type'] = ' ';
+                $newLodging['room_type'] = '';
                 $date1 = Carbon::parse($applicant->batch->batch_start);
                 $date2 = Carbon::parse($applicant->batch->batch_end);
                 $newLodging['nights'] =  $date1->diffInDays($date2);
