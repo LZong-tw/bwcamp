@@ -1,7 +1,7 @@
 {{-- 
     參考頁面：https://youth.blisswisdom.org/camp/winter/form/index_addto.php
     --}}
-<?
+<?php
 header("Cache-Control: no-cache, no-store, must-revalidate, post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
@@ -758,6 +758,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <br/>
         </div>
     </div>
+
+    <!-- 預設為參加 -->
+    <input type=hidden name='is_attend' value='1' class='form-control'>
 
     <div class="row form-group text-danger tips d-none">
         <div class='col-md-2'></div>
