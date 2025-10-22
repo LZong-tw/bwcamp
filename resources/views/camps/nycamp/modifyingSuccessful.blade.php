@@ -22,9 +22,9 @@
             <form action="{{ route("queryview", $applicant->batch_id) }}" method="post" class="d-inline">
                 @csrf
                 <input type="hidden" name="sn" value="{{ $applicant->id }}">
-                <button class="btn btn-primary">Review your registration 檢視報名資料</button>
+                <button class="btn btn-primary">review form 檢視報名資料</button>
             </form>
-            <a href="{{ $camp_data->site_url }}" class="btn btn-primary">Return to home 回營隊首頁</a>
+            <a href="{{ $camp_data->site_url }}" class="btn btn-primary">home 回營隊首頁</a>
         </div>
     </div>
 @stop

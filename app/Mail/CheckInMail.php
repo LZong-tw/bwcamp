@@ -39,8 +39,8 @@ class CheckInMail extends Mailable
             $headers->addTextHeader('time', time());
         });
 
-        $this->applicant->batch_start_Weekday = \Carbon\Carbon::create($this->applicant->batch->batch_start)->locale(\App::getLocale())->isoFormat("dddd");
-        $this->applicant->batch_end_Weekday = \Carbon\Carbon::create($this->applicant->batch->batch_end)->locale(\App::getLocale())->isoFormat("dddd");
+        $this->batch_start_Weekday = \Carbon\Carbon::create($this->applicant->batch->batch_start)->locale(\App::getLocale())->isoFormat("dddd");
+        $this->batch_end_Weekday = \Carbon\Carbon::create($this->applicant->batch->batch_end)->locale(\App::getLocale())->isoFormat("dddd");
 
         $subject1 = '報到通知';
         if ($this->applicant->batch->camp->fullName == "心之呼吸｜2025大專教師生命成長營")

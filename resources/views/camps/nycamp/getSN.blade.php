@@ -18,7 +18,7 @@
                 <div class="alert alert-danger">{{ $error }}</div>
             @endif
             <input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>
-            <a href="{{ $camp_data->site_url }}" class="btn btn-primary">Back to Home 回營隊首頁</a>
+            <a href="{{ $camp_data->site_url }}" class="btn btn-primary">home 回營隊首頁</a>
         </div>
     </div>
 @stop
