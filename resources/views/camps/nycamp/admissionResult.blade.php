@@ -48,10 +48,11 @@
 
                 <h4>Before you come 錄取/報到通知</h4>
                 <div class="ml-0 mb-2">
-                請詳閱<a href="https://docs.google.com/document/d/1t56h4BsWBqC_r38rtGekn24GQDW8_2oA/edit">錄取通知</a>，內含報到資訊、必帶物品，及交通資訊等等。<br>
+                Please read carefully the <a href="https://docs.google.com/document/d/1DK2mQK6beqShyK82Jigyt1z7PJv_MwWa2yEadLCrsR8/edit?tab=t.0">Acceptance Letter</a>. 
+                You will find important camp details and payment instructions in the document.<br><br>
                 </div>
                 <div class="ml-0 mb-2">
-                Please read carefully the <a href="https://docs.google.com/document/d/1DK2mQK6beqShyK82Jigyt1z7PJv_MwWa2yEadLCrsR8/edit?tab=t.0">Admission Notice</a>.<br><br>
+                請詳閱<a href="https://docs.google.com/document/d/1t56h4BsWBqC_r38rtGekn24GQDW8_2oA/edit">錄取通知</a>，內含報到資訊、必帶物品，及交通資訊等等。<br>
                 </div>
                 <!--
                 <div class="ml-2 mb-2">請詳閱<a href="{{ url('downloads/$applicant->camp->table.$applicant->camp->year/【2025第58屆大專青年生命成長營】錄取通知單.pdf') }}">錄取/報到通知</a>，內含報到資訊、必帶物品，及交通資訊等等。</div>
@@ -277,7 +278,7 @@
                 </p>
             @endif
             <input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>
-            <a href="{{ $camp_data->site_url }}" class="btn btn-primary">回營隊首頁</a>
+            <a href="{{ $camp_data->site_url }}" class="btn btn-primary">home 回營隊首頁</a>
         </div>
     </div>
 

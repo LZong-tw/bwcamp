@@ -20,7 +20,6 @@ Dear {{ $applicant->eng_name }} {{ $applicant->eng_last_name }}, <br>
 <br>
     感謝您報名{{ $applicant->batch->camp->fullName }}。<br>
     請記下您的報名序號： <strong>{{ $applicant->id }}</strong> 作為日後查詢使用。<br>
-
     經審核報名資格後，將於七日內email您錄取通知，含營隊注意事項及繳費資訊。收到您的繳費後才算正式報名完成！<br>
     <br>
     如果您有任何問題，請聯絡<br>

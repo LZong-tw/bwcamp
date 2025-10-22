@@ -1,1 +1,2 @@
+Dear {{ $applicant->name }}, your registration number is <span class="text-danger font-weight-bold">《 {{ $applicant->id }} 》</span>。
 {{ $applicant->name }}您好，您的報名序號為<span class="text-danger font-weight-bold">《 {{ $applicant->id }} 》</span>。
