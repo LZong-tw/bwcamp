@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Camp;
 use App\Models\Applicant;
+use App\Mail\AdmittedMail;
 use App\Mail\ApplicantMail;
 use App\Mail\CheckInMail;
 use App\Traits\EmailConfiguration;
@@ -63,7 +64,6 @@ class sendApplicantMail extends Command
                 }
                 break;
             case "admittedMail":
-                $applicant = Applicant::find($this->argument('applicant_id'));
                 if ($applicant->batch->camp->id == $camp->id) {
                     Mail::to($applicant)->send(new AdmittedMail($applicant, $camp));
                     $this->info("成功寄送錄取郵件。");
