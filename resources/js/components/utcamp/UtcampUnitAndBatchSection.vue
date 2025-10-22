@@ -33,7 +33,9 @@ eslint-disable prettier/prettier */
                     <option value="嘉義縣">嘉義縣</option>
                     <option value="臺南市">臺南市</option>
                     <option value="高雄市">高雄市</option>
+                    -->
                     <option value="屏東市">屏東市</option>
+                    <!--
                     <option value="屏東縣">屏東縣</option>
                     <option value="宜蘭縣">宜蘭縣</option>
                     <option value="花蓮縣">花蓮縣</option>
