@@ -47,8 +47,8 @@
     <div class=row>
         <div class='col-md-4'></div>
         <div class='col-md-8'>
-            <INPUT type=submit name=sub class='btn btn-primary' value='Submit 查詢資料'>
-            <INPUT type=reset  class='btn btn-danger' value='Clear 清除重來'>
+            <INPUT type=submit name=sub class='btn btn-primary' value='submit 查詢資料'>
+            <INPUT type=reset  class='btn btn-danger' value='clear 清除重來'>
         </div>
     </div>
 </form>
@@ -67,7 +67,7 @@
     </div>
 
     <div class="row form-group">
-        <label for='inputSN' class='col-md-2'>Registration Number<br>報名序號</label>
+        <label for='inputSN' class='col-md-2'>Registration no<br>報名序號</label>
         <div class='col-md-10'>
             <input type='text' name='sn' class='form-control' id='inputSN' maxlength=5 placeholder='' value='{{ old('sn') }}' required>
         </div>
@@ -86,8 +86,8 @@
     <div class=row>
         <div class='col-md-4'></div>
         <div class='col-md-8'>
-            <INPUT type=submit name=sub class='btn btn-success' value='Submit 修改資料'>
-            <INPUT type=reset  class='btn btn-danger' value='Clear 清除重來'>
+            <INPUT type=submit name=sub class='btn btn-success' value='submit 修改資料'>
+            <INPUT type=reset  class='btn btn-danger' value='clear 清除重來'>
         </div>
     </div>
 </form>
@@ -95,7 +95,7 @@
 <form method="post" name="QuerySN" action="{{ route("querysn", $batch_id) }}" class="form-horizontal">
     @csrf
     <div class="page-header form-group">
-        <h4>報名序號查詢</h4>
+        <h4>Query Registration No 報名序號查詢</h4>
     </div>
     <label class='text-info'>
         The registration number will be sent to the email address you provide.<br>
@@ -144,7 +144,7 @@
     <div class=row>
         <div class='col-md-4'></div>
         <div class='col-md-8'>
-        <INPUT type=submit name=sub class='btn btn-info' value='Submit 查詢序號'>
+        <INPUT type=submit name=sub class='btn btn-info' value='submit 查詢序號'>
         </div>
     </div>
 </form>

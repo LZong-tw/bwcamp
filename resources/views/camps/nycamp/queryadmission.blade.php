@@ -26,7 +26,7 @@
     </div>
 
     <div class="row form-group">
-        <label for='inputSN' class='col-md-2'>Registration Number<br>報名序號</label>
+        <label for='inputSN' class='col-md-2'>Registration no<br>報名序號</label>
         <div class='col-md-10'>
             <input type='text' name='sn' class='form-control' id='inputSN' maxlength=5 placeholder='' value='{{ old('sn') }}' required>
         </div>
@@ -45,8 +45,8 @@
     <div class=row>
         <div class='col-md-4'></div>
         <div class='col-md-8'>
-            <INPUT type=submit name=sub class='btn btn-success' value='Submit 錄取查詢'>
-            <INPUT type=reset  class='btn btn-danger' value='Clear 清除重來'>
+            <INPUT type=submit name=sub class='btn btn-success' value='submit 錄取查詢'>
+            <INPUT type=reset  class='btn btn-danger' value='clear 清除重來'>
         </div>
     </div>
 </form>
