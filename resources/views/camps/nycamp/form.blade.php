@@ -11,12 +11,12 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 @section('content')
     @include('partials.counties_areas_script')
     @if(!isset($isBackend))
+        <br>
         <div class='alert alert-info' role='alert'>
             The information you provide in this page is only for the registration and contact of this camp.<br>
             您在本網站所填寫的個人資料，僅用於此次大專營的報名及活動聯絡之用。
         </div>
     @endif
-
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }}&nbsp;&nbsp;REGISTRATION</h4>
     </div>
@@ -283,7 +283,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group school-sec required'>
         <label for='inputDeptGrade' class='col-md-2 control-label text-md-right'>Major and year<br>系所年級</label>
         <div class='col-md-6'>
-            <input type=text required name='department' value='' class='form-control' id='inputDept' placeholder='Major 系所科'>
+            <input type=text required name='department' value='' class='form-control' id='inputDept' placeholder=''>
             <div class="invalid-feedback">
                 This field is required. 請填寫系所科
             </div>
@@ -322,7 +322,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     </div>
-    <br>
 
     <!-- 下面題目移至錄取查詢頁面 -->
 <!--
@@ -364,7 +363,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 -->
-    <br>
 
     <div class='row form-group required'>
         <label for='inputMotivation' class='col-md-2 control-label text-md-right'>Why do you want to attend?<br>為何想報名此營隊</label>
@@ -517,14 +515,14 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <div class='col-md-10'>
             {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態--}}
             @if(!isset($isModify) || $isModify)
-                <input type='button' class='btn btn-success' value='確認送出' data-toggle="confirmation">
-                <input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>
-                <input type='reset' class='btn btn-danger' value='清除再來'>
+                <input type='button' class='btn btn-success' value='submit 確認送出' data-toggle="confirmation">
+                <input type='button' class='btn btn-warning' value='back 回上一頁' onclick=self.history.back()>
+                <input type='reset' class='btn btn-danger' value='clear 清除再來'>
             {{-- 以上皆非: 檢視資料狀態 --}}
             @elseif(!isset($isBackend))
                 <input type="hidden" name="sn" value="{{ $applicant_id }}">
                 <input type="hidden" name="isModify" value="1">
-                <button class="btn btn-primary">修改報名資料</button>
+                <button class="btn btn-primary">modify form 修改報名資料</button>
             @endif
         </div>
     </div>
@@ -680,36 +678,42 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             var i;
             if (radio_ele.value==1) {
                 // 是學生
-                tgs = document.getElementsByClassName('school-sec');
-                for (var i=0; i<tgs.length; i++) {
-                    tgs[i].classList.add('required');
-                }
-                tgs = document.getElementsByClassName('work-sec');
-                for (var i=0; i<tgs.length; i++) {
-                    tgs[i].classList.remove('required');
-                }
                 setSchoolReq(true);
                 setWorkReq(false);
             }
             else {
                 // 不是學生
-                tgs = document.getElementsByClassName('work-sec');
-                for (var i=0; i<tgs.length; i++) {
-                    tgs[i].classList.add('required');
-                }
-                tgs = document.getElementsByClassName('school-sec');
-                for (var i=0; i<tgs.length; i++) {
-                    tgs[i].classList.remove('required');
-                }
                 setSchoolReq(false);
                 setWorkReq(true);
             }
         };
+
         function setWorkReq(true_or_false) {
+            var tgs = document.getElementsByClassName('work-sec');
+            if (true_or_false) {
+                for (var i=0; i<tgs.length; i++) {
+                    tgs[i].classList.add('required');
+                }
+            } else {
+                tgs = document.getElementsByClassName('work-sec');
+                for (var i=0; i<tgs.length; i++) {
+                    tgs[i].classList.remove('required');
+                }
+            }
             document.getElementById('inputUnit').required = true_or_false;
             document.getElementById('inputTitle').required = true_or_false;
         };
         function setSchoolReq(true_or_false) {
+            var tgs = document.getElementsByClassName('school-sec');
+            if (true_or_false) {
+                for (var i=0; i<tgs.length; i++) {
+                    tgs[i].classList.add('required');
+                }
+            } else {
+                for (var i=0; i<tgs.length; i++) {
+                    tgs[i].classList.remove('required');
+                }
+            }
             document.getElementById('inputSchool').required = true_or_false;
             document.getElementById('inputDept').required = true_or_false;
             document.getElementById('inputGrade').required = true_or_false;
