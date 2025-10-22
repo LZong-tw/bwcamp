@@ -46,8 +46,8 @@ class AdmittedMail extends Mailable
             $headers->addTextHeader('time', time());
         });
 
-        $this->applicant->batch_start_Weekday = \Carbon\Carbon::create($this->applicant->batch->batch_start)->locale(\App::getLocale())->isoFormat("dddd");
-        $this->applicant->batch_end_Weekday = \Carbon\Carbon::create($this->applicant->batch->batch_end)->locale(\App::getLocale())->isoFormat("dddd");
+        $this->batch_start_Weekday = \Carbon\Carbon::create($this->applicant->batch->batch_start)->locale(\App::getLocale())->isoFormat("dddd");
+        $this->batch_end_Weekday = \Carbon\Carbon::create($this->applicant->batch->batch_end)->locale(\App::getLocale())->isoFormat("dddd");
 
         if ($this->campFullData->table == 'ceocamp' || $this->campFullData->table == 'ecamp') {
             return $this->subject($this->campFullData->abbreviation . '錄取通知')
