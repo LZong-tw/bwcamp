@@ -62,6 +62,20 @@ class sendApplicantMail extends Command
                     $this->error("收件者營隊與指定營隊不一致。");
                 }
                 break;
+            case "admittedMail":
+                if (is_numeric($this->argument('camp'))) {
+                    $camp = Camp::find($this->argument('camp'));
+                } else {
+                    $camp = Camp::where('table', $this->argument('camp'))->orderBy('id', 'desc')->first();
+                }
+                $applicant = Applicant::find($this->argument('applicant_id'));
+                if ($applicant->batch->camp->id == $camp->id) {
+                    Mail::to($applicant)->send(new AdmittedMail($applicant, $camp));
+                    $this->info("成功寄送錄取郵件。");
+                } else {
+                    $this->error("收件者營隊與指定營隊不一致。");
+                }
+                break;
             case "checkInMail":
                 if (is_numeric($this->argument('camp'))) {
                     $camp = Camp::find($this->argument('camp'));

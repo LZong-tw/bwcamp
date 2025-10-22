@@ -11,12 +11,12 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 @section('content')
     @include('partials.counties_areas_script')
     @if(!isset($isBackend))
+        <br>
         <div class='alert alert-info' role='alert'>
             The information you provide in this page is only for the registration and contact of this camp.<br>
             您在本網站所填寫的個人資料，僅用於此次大專營的報名及活動聯絡之用。
         </div>
     @endif
-
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }}&nbsp;&nbsp;REGISTRATION</h4>
     </div>
@@ -283,7 +283,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group school-sec required'>
         <label for='inputDeptGrade' class='col-md-2 control-label text-md-right'>Major and year<br>系所年級</label>
         <div class='col-md-6'>
-            <input type=text required name='department' value='' class='form-control' id='inputDept' placeholder='Major 系所科'>
+            <input type=text required name='department' value='' class='form-control' id='inputDept' placeholder=''>
             <div class="invalid-feedback">
                 This field is required. 請填寫系所科
             </div>
