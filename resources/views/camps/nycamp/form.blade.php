@@ -322,7 +322,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     </div>
-    <br>
 
     <!-- 下面題目移至錄取查詢頁面 -->
 <!--
@@ -364,7 +363,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 -->
-    <br>
 
     <div class='row form-group required'>
         <label for='inputMotivation' class='col-md-2 control-label text-md-right'>Why do you want to attend?<br>為何想報名此營隊</label>
@@ -680,36 +678,42 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             var i;
             if (radio_ele.value==1) {
                 // 是學生
-                tgs = document.getElementsByClassName('school-sec');
-                for (var i=0; i<tgs.length; i++) {
-                    tgs[i].classList.add('required');
-                }
-                tgs = document.getElementsByClassName('work-sec');
-                for (var i=0; i<tgs.length; i++) {
-                    tgs[i].classList.remove('required');
-                }
                 setSchoolReq(true);
                 setWorkReq(false);
             }
             else {
                 // 不是學生
-                tgs = document.getElementsByClassName('work-sec');
-                for (var i=0; i<tgs.length; i++) {
-                    tgs[i].classList.add('required');
-                }
-                tgs = document.getElementsByClassName('school-sec');
-                for (var i=0; i<tgs.length; i++) {
-                    tgs[i].classList.remove('required');
-                }
                 setSchoolReq(false);
                 setWorkReq(true);
             }
         };
+
         function setWorkReq(true_or_false) {
+            var tgs = document.getElementsByClassName('work-sec');
+            if (true_or_false) {
+                for (var i=0; i<tgs.length; i++) {
+                    tgs[i].classList.add('required');
+                }
+            } else {
+                tgs = document.getElementsByClassName('work-sec');
+                for (var i=0; i<tgs.length; i++) {
+                    tgs[i].classList.remove('required');
+                }
+            }
             document.getElementById('inputUnit').required = true_or_false;
             document.getElementById('inputTitle').required = true_or_false;
         };
         function setSchoolReq(true_or_false) {
+            var tgs = document.getElementsByClassName('school-sec');
+            if (true_or_false) {
+                for (var i=0; i<tgs.length; i++) {
+                    tgs[i].classList.add('required');
+                }
+            } else {
+                for (var i=0; i<tgs.length; i++) {
+                    tgs[i].classList.remove('required');
+                }
+            }
             document.getElementById('inputSchool').required = true_or_false;
             document.getElementById('inputDept').required = true_or_false;
             document.getElementById('inputGrade').required = true_or_false;
