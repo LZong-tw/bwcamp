@@ -10,15 +10,14 @@
         <div class="card-body">
             <p class="card-text">
                 You have successfully modify your registration for {{ $camp_data->fullName }} .<br>
-                Please keep your <span class="text-danger font-weight-bold">《 registration number: {{ $applicant->id }} 》</span><br>
-                You will receive your acceptance letter as soon as possible. Please <a href="{{ $camp_data->site_url }}">營隊官網</a>公佈，請自行上網查詢。<br>
+                Please keep your <span class="text-danger font-weight-bold">《 registration number: {{ $applicant->id }} 》</span>for future reference.<br>
+                Once your registration is accepted, you will receive a confirmation email containing important camp details and payment instructions within 7 days. 
+                Your registration will be considered complete only after your payment has been received.<br>
             </p>
             <p class="card-text">
-                您成功修改報名 {{ $camp_data->fullName }}（簡稱本營隊）的個人資料。<br>
+                您成功修改報名 {{ $camp_data->fullName }} 的個人資料。<br>
                 請記下您的<span class="text-danger font-weight-bold">《 報名序號：{{ $applicant->id }} 》</span>作為日後查詢使用。<br>
-                錄取名單將於 6/20 於<a href="{{ $camp_data->site_url }}">營隊官網</a>公佈，請自行上網查詢。<br>
-                {{-- 錄取結果將在 <u>{{ $camp_data->admission_announcing_date }} ({{ $admission_announcing_date_Weekday }})</u> 起於網上公佈，請自行上網查詢，<br>
-                並於 <u>{{ $camp_data->admission_confirming_end }} ({{ $admission_confirming_end_Weekday }})</u> 前上網回覆確認參加，倘未回覆，視同放棄。 --}}
+                經審核報名資格後，將於七日內email您錄取通知，含營隊注意事項及繳費資訊。收到您的繳費後才算正式報名完成！<br>
             </p>
             <form action="{{ route("queryview", $applicant->batch_id) }}" method="post" class="d-inline">
                 @csrf
