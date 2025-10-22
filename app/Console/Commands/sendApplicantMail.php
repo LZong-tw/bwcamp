@@ -47,14 +47,14 @@ class sendApplicantMail extends Command
     {
         // 動態載入電子郵件設定
         $this->setEmail($this->argument('camp'));
+        if (is_numeric($this->argument('camp'))) {
+            $camp = Camp::find($this->argument('camp'));
+        } else {
+            $camp = Camp::where('table', $this->argument('camp'))->orderBy('id', 'desc')->first();
+        }
+        $applicant = Applicant::find($this->argument('applicant_id'));
         switch ($this->argument('mailType')) {
             case "applicantMail":
-                if (is_numeric($this->argument('camp'))) {
-                    $camp = Camp::find($this->argument('camp'));
-                } else {
-                    $camp = Camp::where('table', $this->argument('camp'))->orderBy('id', 'desc')->first();
-                }
-                $applicant = Applicant::find($this->argument('applicant_id'));
                 if ($applicant->batch->camp->id == $camp->id) {
                     Mail::to($applicant)->send(new ApplicantMail($applicant, $camp));
                     $this->info("成功寄送報名成功郵件。");
@@ -63,11 +63,6 @@ class sendApplicantMail extends Command
                 }
                 break;
             case "admittedMail":
-                if (is_numeric($this->argument('camp'))) {
-                    $camp = Camp::find($this->argument('camp'));
-                } else {
-                    $camp = Camp::where('table', $this->argument('camp'))->orderBy('id', 'desc')->first();
-                }
                 $applicant = Applicant::find($this->argument('applicant_id'));
                 if ($applicant->batch->camp->id == $camp->id) {
                     Mail::to($applicant)->send(new AdmittedMail($applicant, $camp));
@@ -77,12 +72,6 @@ class sendApplicantMail extends Command
                 }
                 break;
             case "checkInMail":
-                if (is_numeric($this->argument('camp'))) {
-                    $camp = Camp::find($this->argument('camp'));
-                } else {
-                    $camp = Camp::where('table', $this->argument('camp'))->orderBy('id', 'desc')->first();
-                }
-                $applicant = Applicant::find($this->argument('applicant_id'));
                 if ($applicant->batch->camp->id == $camp->id) {
                     Mail::to($applicant)->send(new CheckInMail($applicant));
                     $this->info("成功寄送報到郵件。");
@@ -90,7 +79,6 @@ class sendApplicantMail extends Command
                     $this->error("收件者營隊與指定營隊不一致。");
                 }
                 break;
-
         }
         return 0;
     }
