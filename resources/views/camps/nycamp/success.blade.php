@@ -6,7 +6,7 @@
     @if(isset($isRepeat))<div class="alert alert-warning">{{ $isRepeat }}</div>@endif
     <div class="card">
         <div class="card-header">
-            報名成功
+            Your registration is complete. 報名成功
         </div>
         <div class="card-body">
             <p class="card-text">

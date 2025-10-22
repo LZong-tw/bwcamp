@@ -78,17 +78,17 @@
                     {{-- <li class="nav-item active"> --}}
                     {{-- <span class="sr-only">(current)</span> --}}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ $camp_data->site_url }}">About the Camp 營隊資訊&nbsp;&nbsp;</a>
+                        <a class="nav-link" href="{{ $camp_data->site_url }}">About the Camp<br>營隊資訊&nbsp;&nbsp;</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('registration', $batch_id) }}">Registration 報名&nbsp;&nbsp;</a>
+                        <a class="nav-link" href="{{ route('registration', $batch_id) }}">Registration<br>報名&nbsp;&nbsp;</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('query', $batch_id) }}">Modify Registrastion 報名查詢/修改&nbsp;&nbsp;</a>
+                        <a class="nav-link" href="{{ route('query', $batch_id) }}">Modify Registrastion<br>報名查詢/修改&nbsp;&nbsp;</a>
                     </li>
                     @if(\Carbon\Carbon::now() >= \Carbon\Carbon::createFromFormat("Y-m-d", $camp_data->admission_announcing_date))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route("queryadmitGET", $batch_id) }}">Admission 錄取查詢</a>
+                            <a class="nav-link" href="{{ route("queryadmitGET", $batch_id) }}">Admission<br>錄取查詢</a>
                         </li>
                     @endif
                     {{--
