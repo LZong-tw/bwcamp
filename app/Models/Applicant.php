@@ -299,7 +299,7 @@ class Applicant extends Model
 
     public function getGenderZhTwAttribute()
     {
-        switch($this->gender){
+        switch ($this->gender) {
             case "M":
                 $gender_cn = '男';
                 break;
@@ -313,7 +313,7 @@ class Applicant extends Model
                 $gender_cn = '不提供';
                 break;
         }
-        return $gender_cn;       
+        return $gender_cn;
     }
 
     public function contactlogHTML($isShowVolunteers = false, $applicant, $camp = null)
