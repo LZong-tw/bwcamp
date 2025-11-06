@@ -279,7 +279,10 @@ class Applicant extends Model
                 false => match ($this->birthyear && 1) {
                     // 單獨使用年為參數，要注意 1959 以前（包含 1959）的年份，也可被視為時間，因而造成誤判
                     // https://github.com/php/php-src/issues/15945
-                    true => Carbon::parse(mktime(0, year: "{$this->birthyear}"))->format('Y'),
+                    // true => Carbon::parse(mktime(0, year: "{$this->birthyear}",))->format('Y'),
+
+                    // 如果只有一個year參數(1)補齊month,day(2)再create完整日期('Y-m-d')，而非'Y'，不然有可能出現奇怪數字。
+                    true => Carbon::parse(mktime(0, year: "{$this->birthyear}", month: "7", day: "1"))->format('Y-m-d'),
                     false => null,
                 },
             },
@@ -296,7 +299,21 @@ class Applicant extends Model
 
     public function getGenderZhTwAttribute()
     {
-        return $this->gender == 'M' ? '男' : '女';
+        switch ($this->gender) {
+            case "M":
+                $gender_cn = '男';
+                break;
+            case "F":
+                $gender_cn = '女';
+                break;
+            case "NC":
+                $gender_cn = '非常規';
+                break;
+            default:
+                $gender_cn = '不提供';
+                break;
+        }
+        return $gender_cn;
     }
 
     public function contactlogHTML($isShowVolunteers = false, $applicant, $camp = null)
