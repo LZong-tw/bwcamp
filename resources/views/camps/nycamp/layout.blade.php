@@ -81,7 +81,7 @@
                         <a class="nav-link" href="{{ $camp_data->site_url }}">About the Camp<br>營隊資訊&nbsp;&nbsp;</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('registration', $batch_id) }}">Registration<br>報名&nbsp;&nbsp;</a>
+                        <a class="nav-link" href="{{ route('registration', $batch_id) }}">Register Now<br>報名&nbsp;&nbsp;</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('query', $batch_id) }}">Modify Registrastion<br>報名查詢/修改&nbsp;&nbsp;</a>

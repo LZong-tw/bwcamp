@@ -13,7 +13,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     @if(!isset($isBackend))
         <br>
         <div class='alert alert-info' role='alert'>
-            The information you provide in this page is only for the registration and contact of this camp.<br>
+            The information you provide will be kept confidential and used solely for registration and communication related to this camp.<br>
             您在本網站所填寫的個人資料，僅用於此次大專營的報名及活動聯絡之用。
         </div>
     @endif
@@ -79,7 +79,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <div class='col-md-2'>
         </div>
         <div class='col-md-10'>
-            <label class='text-info'>Please fill in your Chinese name if applicable.
+            <label class='text-info'>If you have a Chinese name, please enter it below.
             如果您有中文姓名，請填寫，若無則免填。</label>
         </div>
         <label for='inputChnName' class='col-md-2 control-label text-md-right'>Chinese Name<br>中文姓名</label>
@@ -98,8 +98,29 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class="row form-group required">
-        <label for='inputGender' class='col-md-2 control-label text-md-right'>Biological Sex<br>性別</label>
+        <div class='col-md-2'>
+        </div>
         <div class='col-md-10'>
+            <label class='text-info'>
+                This gender information will be used only to make appropriate room assignments. We respect everyone's privacy and gender identity.
+                此性別資訊僅為安排住宿之用。我們尊重您的隱私及性別認同。<br>
+            </label>
+        </div>
+
+        <label for='inputGender' class='col-md-2 control-label text-md-right'>Gender(for rooming purposes)<br>性別</label>
+        <div class='col-md-10'>
+            <div class="form-check form-check-inline">
+                <label class="form-check-label" for="F">
+                    <!--
+                    <input class="form-check-input" type="radio" name="gender" value="F" required @if(isset($isModify) && $isModify) disabled @endif>
+                    -->
+                    <input required class="form-check-input" type="radio" name="gender" value="F" > Female 女&nbsp;&nbsp;&nbsp;
+                    <div class="invalid-feedback">
+                        This field is required. 請選擇性別
+                    </div>
+                </label>
+            </div>
+            <br>
             <div class="form-check form-check-inline">
                 <label class="form-check-label" for="M">
                     <!--
@@ -107,16 +128,29 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     -->
                     <input required class="form-check-input" type="radio" name="gender" value="M" > Male 男&nbsp;&nbsp;&nbsp;
                     <div class="invalid-feedback">
-                        This field is required. 請選擇生理性別
+                        &nbsp;
                     </div>
                 </label>
             </div>
+            <br>
             <div class="form-check form-check-inline">
-                <label class="form-check-label" for="F">
+                <label class="form-check-label" for="NC">
                     <!--
-                    <input class="form-check-input" type="radio" name="gender" value="F" required @if(isset($isModify) && $isModify) disabled @endif>
+                    <input class="form-check-input" type="radio" name="gender" value="M" required @if(isset($isModify) && $isModify) disabled @endif>
                     -->
-                    <input required class="form-check-input" type="radio" name="gender" value="F" > Female 女
+                    <input required class="form-check-input" type="radio" name="gender" value="NC" > Non-binary / intersex / gender non-conforming 非常規性別&nbsp;&nbsp;&nbsp;
+                    <div class="invalid-feedback">
+                        &nbsp;
+                    </div>
+                </label>
+            </div>
+            <br>
+            <div class="form-check form-check-inline">
+                <label class="form-check-label" for="NP">
+                    <!--
+                    <input class="form-check-input" type="radio" name="gender" value="M" required @if(isset($isModify) && $isModify) disabled @endif>
+                    -->
+                    <input required class="form-check-input" type="radio" name="gender" value="NS" > Prefer not to specify / prefer to self-describe 不提供&nbsp;&nbsp;&nbsp;
                     <div class="invalid-feedback">
                         &nbsp;
                     </div>
@@ -148,19 +182,19 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputLanguage' class='col-md-2 control-label text-md-right'>Language Preference<br>語言偏好</label>
         <div class='col-md-10'>
-            <label class=radio-inline>
+            <label class='radio-inline'>
                 <input type=radio required name='language' value=Mandarin > Mandarin 中文&nbsp;&nbsp;&nbsp;
                 <div class="invalid-feedback">
                     This field is required. 請選擇語言偏好
                 </div>
             </label> 
-            <label class=radio-inline>
+            <label class='radio-inline'>
                 <input type=radio required name='language' value=English > English 英文&nbsp;&nbsp;&nbsp;
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
             </label> 
-            <label class=radio-inline>
+            <label class='radio-inline'>
                 <input type=radio required name='language' value=Both > Both 中英皆可
                 <div class="invalid-feedback">
                     &nbsp;
@@ -233,7 +267,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <!--
             <input type='email' required  name='emailConfirm' value='' class='form-control' id='inputEmailConfirm' placeholder='Please retype your email.  (Do not use copy, paste function) 請再次填寫(勿複製貼上)，確認電子信箱正確' @if(isset($isModify) && $isModify) disabled @endif>
             -->
-            <input type='email' required name='emailConfirm' value='' class='form-control' id='inputEmailConfirm' placeholder='Please type email again (no copy-past). 請再次填寫(勿複製貼上)'>
+            <input type='email' required name='emailConfirm' value='' class='form-control' id='inputEmailConfirm' placeholder='Please retype (do not copy and paste). 請再次填寫(勿複製貼上)'>
             {{-- data-match='#inputEmail' data-match-error='郵件不符合' placeholder='請再次填寫確認郵件填寫正確' --}}
             <div class="invalid-feedback">
                 This field is blank or the format is incorrect. 未填電子信箱或格式不正確
@@ -244,13 +278,13 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputIsStudent' class='col-md-2 control-label text-md-right'>Status 身分</label>
         <div class='col-md-10'>
-            <label class=radio-inline>
+            <label class='radio-inline'>
                 <input type=radio required name='is_student' value='0' onclick='isStudent(this)'> Graduate 已就業或待業中&nbsp;&nbsp;&nbsp;
                 <div class="invalid-feedback">
                     請選擇身分
                 </div>
             </label>
-            <label class=radio-inline>
+            <label class='radio-inline'>
                 <input type=radio required name='is_student' value='1' onclick='isStudent(this)'> Student 在學中
                 <div class="invalid-feedback">
                     &nbsp;
@@ -365,7 +399,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 -->
 
     <div class='row form-group required'>
-        <label for='inputMotivation' class='col-md-2 control-label text-md-right'>Why do you want to attend?<br>為何想報名此營隊</label>
+        <label for='inputMotivation' class='col-md-2 control-label text-md-right'>Please tell us what brings you to this event.<br>為何想報名此營隊</label>
         <div class='col-md-10'>
             <textarea required class='form-control' rows=2 name='motivation' id=inputMotivation></textarea>
             <div class="invalid-feedback">
@@ -381,20 +415,26 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <label class='text-info'>Single Choice. Choose the major source.<br>
             單選，請選最主要管道。</label>
             <br>
-            <label class=radio-inline>
+            <label class='radio-inline'>
                 <input type=radio required name='info_source' value=網站 > Website 網站&nbsp;&nbsp;&nbsp;
                 <div class="invalid-feedback">
                     This field is required. 請選擇得知管道
                 </div>
             </label> 
-            <label class=radio-inline>
-                <input type=radio required name='info_source' value=Email > Email&nbsp;&nbsp;&nbsp;
+            <label class='radio-inline'>
+                <input type=radio required name='info_source' value=Email > Email 電子郵件&nbsp;&nbsp;&nbsp;
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
             </label>
-            <label class=radio-inline>
-                <input type=radio required name='info_source' value=親友師長 > Relatives and Friends 親友介紹
+            <label class='radio-inline'>
+                <input type=radio required name='info_source' value=Flyer > Flyer 傳單&nbsp;&nbsp;&nbsp;
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
+            </label>
+            <label class='radio-inline'>
+                <input type=radio required name='info_source' value=親友師長 > Relative/Friend 親友介紹
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
@@ -412,7 +452,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <h5 class='form-control-static'>＊EMERGENCY CONTACT 緊急聯絡人資料＊</h5><br>
 
     <div class='row form-group required'>
-        <label for='inputEmergencyName' class='col-md-2 control-label text-md-right'>Name Contact<br>緊急聯絡人姓名</label>
+        <label for='inputEmergencyName' class='col-md-2 control-label text-md-right'>Name of Contact<br>緊急聯絡人姓名</label>
         <div class='col-md-10'>
             <input type='text' required class='form-control' name="emergency_name" value='' >
             <div class="invalid-feedback">
@@ -456,21 +496,21 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
         <div class='col-md-10'>
             <p class='form-control-static text-danger'>
-            We will be capturing photos and videos throughout the camp for educational and informational purposes that highlight our commitment to humanitarian initiatives and community involvement. By attending, you acknowledge that you may appear in these images and videos. Please give your consent for the Bliss & Wisdom Foundation of Culture and Education to use and share these materials.<br>
+            Photos and videos will be taken during the camp for educational and informational purposes. By participating, you acknowledge that you may appear in these materials and consent to the Bliss & Wisdom Foundation of Culture and Education using these materials in publications and media.<br>
             活動中將有針對大眾的攝影或錄影，以作記錄與報導之用。您有可能被鏡頭所攝取，敬請同意與授權福智文教基金會使用與傳播，感恩您的護持參與。
             </p>
         </div>
 
-        <label for='inputTerm' class='col-md-2 control-label text-md-right'>同意聲明</label>
+        <label for='inputTerm' class='col-md-2 control-label text-md-right'>Consent 同意聲明</label>
         <div class='col-md-10 form-check'>
-            <label class=radio-inline>
-                <input type='radio' required name="portrait_agree" value='1' > 我同意
+            <label class='radio-inline'>
+                <input type='radio' required name="portrait_agree" value='1' > I consent 我同意
                 <div class="invalid-feedback">
                     Please check. 請圈選本欄位
                 </div>
             </label>
             <!--
-            <label class=radio-inline>
+            <label class='radio-inline'>
                 <input type=radio required name="portrait_agree" value='0' > 我不同意
                 <div class="invalid-feedback">
                     &nbsp;
