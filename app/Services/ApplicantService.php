@@ -30,6 +30,12 @@ class ApplicantService
                     case "女":
                         $title_data[$key] = "F";
                         break;
+                    case "非常規":
+                        $title_data[$key] = "NC";
+                        break;
+                    default:
+                        $title_data[$key] = "NS";
+                        break;
                 }        
             }
             if ($key == 'portrait_agree' || $key == 'profile_agree') {
