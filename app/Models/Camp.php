@@ -74,7 +74,7 @@ class Camp extends Model
 
     public function org_layer1() //第一層組織:大組
     {
-        $prev_id = $this->org_root()->id;
+        $prev_id = $this->org_root()?->id;
         return $this->hasMany(CampOrg::class)->where('prev_id', $prev_id);
     }
 
