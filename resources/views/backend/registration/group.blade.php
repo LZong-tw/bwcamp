@@ -60,7 +60,7 @@
                 @endif
                 <th>分區</th>
                 <th>參加意願</th>
-                @if($camp_data->table != "ycamp" && $camp_data->table != "nycamp")
+                @if(($camp_data->table != "ycamp") && ($camp_data->table != "nycamp"))
                 <th>已繳費</th>
                 @endif
                 <th>選取<br>全選<input type="checkbox" name="selectAll" onclick="toggler()"></th>
