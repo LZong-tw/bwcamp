@@ -8,6 +8,10 @@ use Carbon\Carbon;
 
 class Camp extends Model
 {
+    protected $table = 'camps';
+    public $resourceNameInMandarin = '學員營隊資料';
+    public $resourceDescriptionInMandarin = '每年學員營隊有關的資料，包括營隊名稱、簡稱、舉辦年、報名日期、錄取日期……等資料。';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -16,10 +20,6 @@ class Camp extends Model
     protected $fillable = [
         'fullName', 'test', 'abbreviation', 'site_url', 'icon', 'table', 'year', 'variant', 'mode', 'registration_start', 'registration_end', 'admission_announcing_date', 'admission_confirming_end', 'rejection_showing_date','needed_to_reply_attend' , 'final_registration_end', 'payment_startdate', 'payment_deadline', 'fee', 'has_early_bird', 'early_bird_fee', 'early_bird_last_day', 'modifying_deadline', 'cancellation_deadline', 'access_start', 'access_end'
     ];
-
-    public $resourceNameInMandarin = '學員營隊資料';
-
-    public $resourceDescriptionInMandarin = '每年學員營隊有關的資料，包括營隊名稱、簡稱、舉辦年、報名日期、錄取日期……等資料。';
 
     protected $guarded = [];
 
@@ -46,6 +46,10 @@ class Camp extends Model
         return $this->hasMany('App\Models\Batch');
     }
 
+    public function currencies() {
+        return $this->belongsToMany(Currency::class, 'currency_camp_xref', 'camp_id', 'currency_id');
+    }
+
     public function regions() {
         return $this->belongsToMany(Region::class, 'region_camp_xref', 'camp_id', 'region_id');
     }
@@ -56,6 +60,22 @@ class Camp extends Model
 
     public function organizations() {
         return $this->hasMany(CampOrg::class);
+    }
+
+    public function org_root() 
+    {
+        return $this->hasMany(CampOrg::class)->firstWhere('prev_id', 0);
+    }
+
+    public function org_layer1() //第一層組織:大組
+    {
+        $prev_id = $this->org_root()->id;
+        return $this->hasMany(CampOrg::class)->where('prev_id', $prev_id);
+    }
+
+    public function org_layerx($prev_id) //第N層組織:小組
+    {
+        return $this->hasMany(CampOrg::class)->where('prev_id', $prev_id);
     }
 
     public function roles()
