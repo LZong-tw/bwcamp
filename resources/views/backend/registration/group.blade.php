@@ -42,7 +42,17 @@
                     <th>就讀學校</th>
                     <th>就讀科系所 / 年級</th>
                     <th>行動電話</th>
-                    <!--<th>家中電話</th>-->
+                    <th>去程交通</th>
+                    <th>回程交通</th>
+                    <th>應交</th>
+                    <th>已交</th>
+                @endif
+                @if($camp_data->table == "nycamp")
+                    <th>就讀學校</th>
+                    <th>就讀科系所 / 年級</th>
+                    <th>服務單位 / 職稱</th>
+                    <th>行動電話</th>
+                    <th>住宿選項</th>
                     <th>去程交通</th>
                     <th>回程交通</th>
                     <th>應交</th>
@@ -50,7 +60,7 @@
                 @endif
                 <th>分區</th>
                 <th>參加意願</th>
-                @if($camp_data->table != "ycamp")
+                @if($camp_data->table != "ycamp" && $camp_data->table != "nycamp")
                 <th>已繳費</th>
                 @endif
                 <th>選取<br>全選<input type="checkbox" name="selectAll" onclick="toggler()"></th>
@@ -71,11 +81,21 @@
                     <td>{{ $applicant->school }}</td>
                     <td>{{ $applicant->department }} / {{ $applicant->grade }}</td>
                     <td>{{ $applicant->mobile }}</td>
-                    <!--<td>{{ $applicant->phone_home }}</td>-->
                     <td>{{ $applicant->traffic?->depart_from?? 0 }}</td>
                     <td>{{ $applicant->traffic?->back_to?? 0 }}</td>
                     <td>{{ $applicant->traffic?->fare?? 0 }}</td>
                     <td>{{ $applicant->traffic?->sum?? 0 }}</td>
+                @endif
+                @if($camp_data->table == "nycamp")
+                    <td>{{ $applicant->school }}</td>
+                    <td>{{ $applicant->department }} / {{ $applicant->grade }}</td>
+                    <td>{{ $applicant->unit }} / {{ $applicant->title }}</td>
+                    <td>{{ $applicant->mobile }}</td>
+                    <td>{{ $applicant->lodging?->room_type?? 0 }}</td>
+                    <td>{{ $applicant->traffic?->depart_from?? 0 }}</td>
+                    <td>{{ $applicant->traffic?->back_to?? 0 }}</td>
+                    <td>{{ $applicant->lodging?->fare?? 0.0 }} + {{ $applicant->traffic?->fare?? 0 }}</td>
+                    <td>{{ $applicant->lodging?->sum?? 0 }} + {{ $applicant->traffic?->sum?? 0 }}</td>
                 @endif
                 <td>{{ $applicant->region }}</td>
                 @if($applicant->is_attend === 1)
@@ -91,7 +111,7 @@
                 @else
                     <td style='color: rgb(0, 132, 255);'>尚未聯絡</td>
                 @endif
-                @if($camp_data->table != "ycamp")
+                @if($camp_data->table != "ycamp" && $camp_data->table == "nycamp")
                 <td>{!! $applicant->is_paid == "是" ? "<a style='color: green;'>是</a>" : "<a style='color: red;'>否</a>" !!}</td>
                 @endif
                 <td>
