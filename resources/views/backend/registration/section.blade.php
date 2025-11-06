@@ -23,7 +23,7 @@
         @foreach ($applicants as $applicant)
             <tr>
                 <td>{{ $applicant->id }}</td>
-                <td>{{ $org->section }}{{ $org->position }}</td>
+                <td>{{ $org->section }}.{{ $org->position }}</td>
                 <td>{{ $applicant->name }}</td>
                 <td>{{ $applicant->gender }}</td>
                 <td>

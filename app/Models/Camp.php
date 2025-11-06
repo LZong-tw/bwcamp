@@ -8,6 +8,10 @@ use Carbon\Carbon;
 
 class Camp extends Model
 {
+    protected $table = 'camps';
+    public $resourceNameInMandarin = '學員營隊資料';
+    public $resourceDescriptionInMandarin = '每年學員營隊有關的資料，包括營隊名稱、簡稱、舉辦年、報名日期、錄取日期……等資料。';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -16,10 +20,6 @@ class Camp extends Model
     protected $fillable = [
         'fullName', 'test', 'abbreviation', 'site_url', 'icon', 'table', 'year', 'variant', 'mode', 'registration_start', 'registration_end', 'admission_announcing_date', 'admission_confirming_end', 'rejection_showing_date','needed_to_reply_attend' , 'final_registration_end', 'payment_startdate', 'payment_deadline', 'fee', 'has_early_bird', 'early_bird_fee', 'early_bird_last_day', 'modifying_deadline', 'cancellation_deadline', 'access_start', 'access_end'
     ];
-
-    public $resourceNameInMandarin = '學員營隊資料';
-
-    public $resourceDescriptionInMandarin = '每年學員營隊有關的資料，包括營隊名稱、簡稱、舉辦年、報名日期、錄取日期……等資料。';
 
     protected $guarded = [];
 
@@ -42,20 +42,45 @@ class Camp extends Model
         'cancellation_deadline' => 'date'
     ];
 
-    public function batchs() {
+    public function batchs()
+    {
         return $this->hasMany('App\Models\Batch');
     }
 
-    public function regions() {
+    public function currencies()
+    {
+        return $this->belongsToMany(Currency::class, 'currency_camp_xref', 'camp_id', 'currency_id');
+    }
+
+    public function regions()
+    {
         return $this->belongsToMany(Region::class, 'region_camp_xref', 'camp_id', 'region_id');
     }
 
-    public function applicants() {
+    public function applicants()
+    {
         return $this->hasManyThrough(Applicant::class, Batch::class);
     }
 
-    public function organizations() {
+    public function organizations()
+    {
         return $this->hasMany(CampOrg::class);
+    }
+
+    public function org_root()
+    {
+        return $this->hasMany(CampOrg::class)->firstWhere('prev_id', 0);
+    }
+
+    public function org_layer1() //第一層組織:大組
+    {
+        $prev_id = $this->org_root()?->id;
+        return $this->hasMany(CampOrg::class)->where('prev_id', $prev_id);
+    }
+
+    public function org_layerx($prev_id) //第N層組織:小組
+    {
+        return $this->hasMany(CampOrg::class)->where('prev_id', $prev_id);
     }
 
     public function roles()
@@ -86,21 +111,22 @@ class Camp extends Model
 
     public function is_vcamp(): bool
     {
-        return (str_contains($this->attributes['table'],'vcamp')? true:false);
+        return (str_contains($this->attributes['table'], 'vcamp') ? true : false);
     }
 
-    public function allSignAvailabilities() {
+    public function allSignAvailabilities()
+    {
         return $this->hasManyThrough(BatchSignInAvailibility::class, Batch::class);
     }
 
     // 決定當下的費用是原價或早鳥價
-    public function getSetFeeAttribute(){
-        if($this->early_bird_last_day){
+    public function getSetFeeAttribute()
+    {
+        if ($this->early_bird_last_day) {
             $early_bird_last_day = Carbon::createFromFormat('Y-m-d', $this->early_bird_last_day);
-            if($this->has_early_bird && Carbon::today()->lte($early_bird_last_day)){
+            if ($this->has_early_bird && Carbon::today()->lte($early_bird_last_day)) {
                 return $this->early_bird_fee;
-            }
-            else{
+            } else {
                 return $this->fee;
             }
         }
@@ -109,18 +135,17 @@ class Camp extends Model
     }
 
     // 決定當下的繳費期限是最終繳費期限或早鳥繳費期限
-    public function getSetPaymentDeadlineAttribute(){
-        if($this->has_early_bird){
+    public function getSetPaymentDeadlineAttribute()
+    {
+        if ($this->has_early_bird) {
             $early_bird_last_day = Carbon::createFromFormat('Y-m-d', $this->early_bird_last_day);
-            if(Carbon::today()->lte($early_bird_last_day) &&
-                ($this->attributes['table'] == 'tcamp' || $this->attributes['table'] == 'hcamp')){
+            if (Carbon::today()->lte($early_bird_last_day) &&
+                ($this->attributes['table'] == 'tcamp' || $this->attributes['table'] == 'hcamp')) {
                 return $early_bird_last_day->subYears(1911)->format('ymd');
-            }
-            else{
+            } else {
                 return $this->payment_deadline;
             }
-        }
-        else{
+        } else {
             return $this->payment_deadline;
         }
     }
