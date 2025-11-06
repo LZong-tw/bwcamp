@@ -12,7 +12,7 @@ class Currency extends Model
     public $resourceDescriptionInMandarin = '幣別資訊，用來處跨國營隊的金流';
 
     protected $fillable = ['code', 'symbol', 'name'];
-    
+
     protected $casts = [
         'id' => 'integer',
         'code' => 'string',     //-- ISO 4217 貨幣代碼，例如 'TWD', 'USD'

@@ -12,11 +12,11 @@ class Lodging extends Model
     public $resourceDescriptionInMandarin = '住宿資料，含房型、天數、費用、繳費金額等';
 
     protected $fillable = ['applicant_id', 'room_type', 'nights',
-        'fare', 'fare_currency_id', 'fare_xrate_to_std','fare_std', 
-        'deposit', 'deposit_currency_id', 'deposit_xrate_to_std', 'deposit_std', 
+        'fare', 'fare_currency_id', 'fare_xrate_to_std','fare_std',
+        'deposit', 'deposit_currency_id', 'deposit_xrate_to_std', 'deposit_std',
         'cash','cash_currency_id', 'cash_xrate_to_std', 'cash_std', 'sum'
     ];
-    
+
     protected $casts = [
         'id' => 'integer',
         'applicant_id' => 'integer',
@@ -37,7 +37,8 @@ class Lodging extends Model
         'sum' => 'integer'      //to beremoved
     ];
 
-    public function applicant() {
+    public function applicant()
+    {
         return $this->belongsTo(Applicant::class, 'applicant_id', 'id');
     }
 
