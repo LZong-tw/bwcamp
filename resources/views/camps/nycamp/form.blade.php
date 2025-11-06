@@ -182,19 +182,19 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputLanguage' class='col-md-2 control-label text-md-right'>Language Preference<br>語言偏好</label>
         <div class='col-md-10'>
-            <label class=radio-inline>
+            <label class='radio-inline'>
                 <input type=radio required name='language' value=Mandarin > Mandarin 中文&nbsp;&nbsp;&nbsp;
                 <div class="invalid-feedback">
                     This field is required. 請選擇語言偏好
                 </div>
             </label> 
-            <label class=radio-inline>
+            <label class='radio-inline'>
                 <input type=radio required name='language' value=English > English 英文&nbsp;&nbsp;&nbsp;
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
             </label> 
-            <label class=radio-inline>
+            <label class='radio-inline'>
                 <input type=radio required name='language' value=Both > Both 中英皆可
                 <div class="invalid-feedback">
                     &nbsp;
@@ -278,13 +278,13 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputIsStudent' class='col-md-2 control-label text-md-right'>Status 身分</label>
         <div class='col-md-10'>
-            <label class=radio-inline>
+            <label class='radio-inline'>
                 <input type=radio required name='is_student' value='0' onclick='isStudent(this)'> Graduate 已就業或待業中&nbsp;&nbsp;&nbsp;
                 <div class="invalid-feedback">
                     請選擇身分
                 </div>
             </label>
-            <label class=radio-inline>
+            <label class='radio-inline'>
                 <input type=radio required name='is_student' value='1' onclick='isStudent(this)'> Student 在學中
                 <div class="invalid-feedback">
                     &nbsp;
@@ -415,25 +415,25 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <label class='text-info'>Single Choice. Choose the major source.<br>
             單選，請選最主要管道。</label>
             <br>
-            <label class=radio-inline>
+            <label class='radio-inline'>
                 <input type=radio required name='info_source' value=網站 > Website 網站&nbsp;&nbsp;&nbsp;
                 <div class="invalid-feedback">
                     This field is required. 請選擇得知管道
                 </div>
             </label> 
-            <label class=radio-inline>
+            <label class='radio-inline'>
                 <input type=radio required name='info_source' value=Email > Email 電子郵件&nbsp;&nbsp;&nbsp;
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
             </label>
-            <label class=radio-inline>
+            <label class='radio-inline'>
                 <input type=radio required name='info_source' value=Flyer > Flyer 傳單&nbsp;&nbsp;&nbsp;
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
             </label>
-            <label class=radio-inline>
+            <label class='radio-inline'>
                 <input type=radio required name='info_source' value=親友師長 > Relative/Friend 親友介紹
                 <div class="invalid-feedback">
                     &nbsp;
@@ -503,14 +503,14 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 
         <label for='inputTerm' class='col-md-2 control-label text-md-right'>Consent 同意聲明</label>
         <div class='col-md-10 form-check'>
-            <label class=radio-inline>
+            <label class='radio-inline'>
                 <input type='radio' required name="portrait_agree" value='1' > I consent 我同意
                 <div class="invalid-feedback">
                     Please check. 請圈選本欄位
                 </div>
             </label>
             <!--
-            <label class=radio-inline>
+            <label class='radio-inline'>
                 <input type=radio required name="portrait_agree" value='0' > 我不同意
                 <div class="invalid-feedback">
                     &nbsp;
