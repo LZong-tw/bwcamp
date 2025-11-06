@@ -1,10 +1,12 @@
 <?php
+
 namespace App\Services;
 
 class MailService
 {
-    public function send(){
-        switch($applicant->gender){
+    public function send()
+    {
+        switch ($applicant->gender) {
             case "M":
                 $applicant->gender = "男";
                 break;
