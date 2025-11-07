@@ -167,7 +167,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                     西元
                 </div-->
                 <div class="col-md-3">
-                    <input type='number' required class='form-control' name='birthyear' min='{{ \Carbon\Carbon::now()->subYears(36)->year }}' max='{{ \Carbon\Carbon::now()->subYears(18)->year }}' value='' placeholder=''>
+                    <input type='number' required class='form-control' name='birthyear' min='{{ \Carbon\Carbon::now()->subYears(45)->year }}' max='{{ \Carbon\Carbon::now()->subYears(15)->year }}' value='' placeholder=''>
                     <div class="invalid-feedback">
                         This field is blank or the format is incorrect. 未填寫或日期不正確
                     </div>
