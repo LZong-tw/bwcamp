@@ -1018,7 +1018,7 @@ class BackendController extends Controller
         return view('backend.registration.groupList')->with(['batches' => $batches, 'user' => $this->user]);
     }
 
-    public function showSectionList()
+    public function showSectionList(Request $request)
     {
         if (!$this->isVcamp && !$this->user->canAccessResource(new \App\Models\Applicant(), 'read', $this->campFullData, 'onlyCheckAvailability') && $this->user->id > 2) {
             return "<h3>沒有權限：瀏覽任何學員</h3>";
@@ -1036,15 +1036,20 @@ class BackendController extends Controller
                 return "<h3>大專營：只有輔導組幹部有權限。</h3>";
             }
         }*/
+        $camp_id = $request->route()->parameter('camp_id'); //vcamp_id
+        $org_id = $request->route()->parameter('org_id');
+    
         //for ecamp only
         $main_camp = VCamp::find($this->camp_id)->mainCamp;
-        $roles = $main_camp->roles;
-        foreach ($roles as $role) {
-            $role->count = count($role->users);
-            $role->org_id = $role->id;
+        if ($request->org_id == 0) {
+            $org_parent = $main_camp->org_root();
+            $orgs = $main_camp->org_layer1;    //第一層；大組
+        } else {
+            $org_parent = CampOrg::find($request->org_id);
+            $orgs = $org_parent->children;
         }
         $campFullData = $this->campFullData;
-        return view('backend.registration.sectionList', compact('campFullData', 'roles'));
+        return view('backend.registration.sectionList', compact('campFullData', 'orgs', 'org_parent'));
     }
 
     public function showNotAdmitted()
