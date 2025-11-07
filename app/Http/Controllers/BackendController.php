@@ -1036,16 +1036,24 @@ class BackendController extends Controller
                 return "<h3>大專營：只有輔導組幹部有權限。</h3>";
             }
         }*/
-        $camp_id = $request->route()->parameter('camp_id'); //vcamp_id
+
         $org_id = $request->route()->parameter('org_id');
 
-        //for ecamp only
-        $main_camp = VCamp::find($this->camp_id)->mainCamp;
-        if ($request->org_id == 0) {
+        // This logic is for vcamps to display organization structure.
+        $vcamp = VCamp::find($this->camp_id);
+        if (!$vcamp || !$vcamp->mainCamp) {
+            return "<h3>錯誤：找不到對應的主營隊資料。</h3>";
+        }
+        $main_camp = $vcamp->mainCamp;
+
+        if ($org_id == 0) {
             $org_parent = $main_camp->org_root();
             $orgs = $main_camp->org_layer1;    //第一層；大組
         } else {
-            $org_parent = CampOrg::find($request->org_id);
+            $org_parent = CampOrg::find($org_id);
+            if (!$org_parent) {
+                return "<h3>錯誤：找不到指定的組織資料。</h3>";
+            }
             $orgs = $org_parent->children;
         }
         $campFullData = $this->campFullData;
