@@ -1038,7 +1038,7 @@ class BackendController extends Controller
         }*/
         $camp_id = $request->route()->parameter('camp_id'); //vcamp_id
         $org_id = $request->route()->parameter('org_id');
-    
+
         //for ecamp only
         $main_camp = VCamp::find($this->camp_id)->mainCamp;
         if ($request->org_id == 0) {
