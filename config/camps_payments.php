@@ -149,16 +149,16 @@ return [
             "優惠價" => "5000",
         ],
         "nycamp_earlybird" => [
-            "Early Bird 早鳥價" => "650",
-            "Duo Special 兩人同行" => "600",
-            "Early Bird_Single Room 早鳥價_單人房" => "950",
-            "Duo Special_Single Room 兩人同行_單人房" => "900",
+            "Early Bird 早鳥價" => "450",
+            "Early Bird_Single Room 早鳥價_單人房" => "750",
+        ],
+        "nycamp_discount" => [
+            "Discount 優惠價" => "499",
+            "Discount_Single Room 價惠價_單人房" => "799",
         ],
         "nycamp" => [
-            "Regular 活動費" => "800",
-            "Duo Special 兩人同行" => "600",
-            "Regular_Single Room 活動費_單人房" => "1100",
-            "Duo Special_Single Room 兩人同行_單人房" => "900",
+            "Regular 活動費" => "720",
+            "Regular_Single Room 活動費_單人房" => "1020",
         ],
     ],
 
