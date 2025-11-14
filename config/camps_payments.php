@@ -154,7 +154,7 @@ return [
         ],
         "nycamp_discount" => [
             "Discount 優惠價" => "499",
-            "Discount_Single Room 價惠價_單人房" => "799",
+            "Discount_Single Room 優惠價_單人房" => "799",
         ],
         "nycamp" => [
             "Regular 活動費" => "720",
