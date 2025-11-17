@@ -142,6 +142,122 @@ class SheetController extends Controller
 
     public function importGSApplicants(Request $request)
     {
+        // 取得營隊相關資訊
+        $camp = Camp::find($request->camp_id);
+        $table = $camp->table;
+        $mainCampId = $this->getMainCampId($camp, $request->camp_id);
+
+        // 取得 Google Sheets 設定
+        $type = '\App\Models\Camp';
+        $purpose = 'exportApplicants';
+        $sheetConfig = $this->getApplicantSheetConfig($request->camp_id, type, purpose);
+        if (!$sheetConfig) {
+            $this->outputError("sheet not found");
+            return;
+        }
+
+        // 取得申請者資料
+        $applicants = $this->getApplicantsForExport($request->camp_id, $table);
+        // 取得匯出欄位設定
+        $columns = config('camps_fields.export4stat.' . $table) ?? [];
+
+        // 準備並匯出資料
+        $this->exportApplicantsToSheet(
+            $sheetConfig,
+            $applicants,
+            $columns,
+            $mainCampId,
+            $request->app_id
+        );
+    }
+
+    /**
+     * 取得主營隊 ID
+     */
+    private function getMainCampId(Camp $camp, int $campId): ?int
+    {
+        if ($camp->is_vcamp()) {
+            $vcamp = Vcamp::find($campId);
+            return $vcamp->mainCamp->id;
+        } else {
+            return $campId;
+        }
+    }
+
+    /**
+     * 取得申請者匯出的 Google Sheets 設定
+     */
+    private function getApplicantSheetConfig(int $id, string $type, string $pupose): ?object
+    {
+        return DynamicStat::select('dynamic_stats.*')
+            ->where('urltable_id', $id)
+            ->where('urltable_type', $type)
+            ->where('purpose', $purpose)
+            ->first();
+    }
+
+    /**
+     * 取得需要匯出的申請者資料
+     */
+    private function getApplicantsForExport(int $campId, string $table)
+    {
+        return Applicant::select('applicants.*', $table . '.*')
+            ->join($table, 'applicants.id', '=', $table . '.applicant_id')
+            ->join('batchs', 'applicants.batch_id', '=', 'batchs.id')
+            ->join('camps', 'batchs.camp_id', '=', 'camps.id')
+            ->where('camps.id', $campId)
+            ->orderBy('applicants.id')
+            ->get();
+    }
+
+
+    /**
+     * 匯出申請者資料到 Google Sheets
+     */
+    private function exportApplicantsToSheet(
+        object $sheetConfig,
+        $applicants,
+        array $columns,
+        ?int $mainCampId,
+        int $startAppId
+    ): void {
+        // 準備標題列
+        $headerRow = array_values($columns);
+
+        // 如果是從頭開始，先清空並寫入標題
+        if ($startAppId == 0) {
+            $this->gsheetservice->Clear($sheetConfig->spreadsheet_id, $sheetConfig->sheet_name);
+            $this->gsheetservice->Append(
+                $sheetConfig->spreadsheet_id,
+                $sheetConfig->sheet_name,
+                $headerRow
+            );
+        }
+
+        // 匯出每位申請者的資料
+        foreach ($applicants as $applicant) {
+            if ($applicant->applicant_id <= $startAppId) {
+                continue;
+            }
+            $dataRow = $this->prepareApplicantDataRow(
+                $applicant,
+                $columns,
+                $mainCampId
+            );
+
+            $this->gsheetservice->Append(
+                $sheetConfig->spreadsheet_id,
+                $sheetConfig->sheet_name,
+                $dataRow
+            );
+
+            // 避免超過 API 配額限制
+            sleep(1);
+            usleep(5000);
+        }
+    }
+/*
+        =======
         //camp_id = 78 & ds_id = 384
         //php artisan import:Applicant 78 384 --is_org=1
         $camp = Camp::find($request->camp_id);
@@ -202,7 +318,8 @@ class SheetController extends Controller
                 $user = \App\Models\User::where('name', 'like', "%". $applicant->name . "%")
                 //->orWhere('mobile', 'like', "%". $applicant->mobile . "%")
                 ->orderByDesc('id')->first();
-            }*/
+            }*/ 
+/*
             if ($request->is_org) {
                 $candidates = array();
                 $candidates[0]["type"] = "applicant";
@@ -222,7 +339,7 @@ class SheetController extends Controller
         dd($stat);
         //return view('backend.in_camp.gsFeedback', compact('titles','contents','content_count'));
     }
-
+*/
     public function exportGSApplicants(Request $request)
     {
         $camp = Camp::find($request->camp_id);
@@ -261,7 +378,7 @@ class SheetController extends Controller
         foreach ($columns as $key => $v) {
             $rows[] = $v;
         }
-
+        
         if ($request->app_id == 0) {
             $this->gsheetservice->Clear($sheet_id, $sheet_name);
             $this->gsheetservice->Append($sheet_id, $sheet_name, $rows);
