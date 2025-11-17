@@ -1760,7 +1760,7 @@ class BackendController extends Controller
                 \Sentry\captureException($e);
             }
         }
-
+        
         $lodgings = config('camps_payments.fare_room.' . $camp->table) ?? [];
         $departfroms = config('camps_payments.fare_depart_from.' . $camp->table) ?? [];
         $backtos = config('camps_payments.fare_back_to.' . $camp->table) ?? [];
@@ -1779,7 +1779,7 @@ class BackendController extends Controller
         } elseif ($camp->table == "ycamp") {
             return view('backend.in_camp.attendeeInfoYcamp', compact('camp', 'batch', 'applicant', 'contactlog', 'qrcode', 'departfroms', 'backtos'));
         } else {
-            return view('backend.in_camp.attendeeInfo', compact('camp', 'batch', 'applicant', 'contactlog', 'qrcode'));
+            return view('backend.in_camp.attendeeInfo', compact('camp', 'batch', 'applicant', 'contactlog', 'dynamic_stat_urls', 'qrcode'));
         }
     }
 
