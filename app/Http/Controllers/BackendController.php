@@ -1760,7 +1760,7 @@ class BackendController extends Controller
                 \Sentry\captureException($e);
             }
         }
-        
+
         $lodgings = config('camps_payments.fare_room.' . $camp->table) ?? [];
         $departfroms = config('camps_payments.fare_depart_from.' . $camp->table) ?? [];
         $backtos = config('camps_payments.fare_back_to.' . $camp->table) ?? [];

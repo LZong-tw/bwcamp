@@ -256,90 +256,90 @@ class SheetController extends Controller
             usleep(5000);
         }
     }
-/*
-        =======
-        //camp_id = 78 & ds_id = 384
-        //php artisan import:Applicant 78 384 --is_org=1
-        $camp = Camp::find($request->camp_id);
-        $table = $camp->table;
+    /*
+            =======
+            //camp_id = 78 & ds_id = 384
+            //php artisan import:Applicant 78 384 --is_org=1
+            $camp = Camp::find($request->camp_id);
+            $table = $camp->table;
 
-        $ds = DynamicStat::find($request->ds_id);
-        $ss_id = $ds->spreadsheet_id;
-        $sheet_name = $ds->sheet_name;
+            $ds = DynamicStat::find($request->ds_id);
+            $ss_id = $ds->spreadsheet_id;
+            $sheet_name = $ds->sheet_name;
 
-        $sheets = $this->gsheetservice->Get($ss_id, $sheet_name);
-        $titles = $sheets[0];
-        $num_cols = count($titles);
-        $num_rows = count($sheets);
+            $sheets = $this->gsheetservice->Get($ss_id, $sheet_name);
+            $titles = $sheets[0];
+            $num_cols = count($titles);
+            $num_rows = count($sheets);
 
-        $create_count = 0;
-        $update_count = 0;
-        for ($i = 1; $i < $num_rows; $i++) {
-            $data = $sheets[$i];
-            for ($j = 0; $j < $num_cols; $j++) {
-                $title_data[$titles[$j]] = $data[$j];
-            }
-            $applicant = Applicant::select('applicants.*')
-                ->where('batch_id', $title_data['batch_id'])
-                ->where('name', $title_data['name'])
-                //->where('email', $title_data['email'])
-                ->first();
-
-            if ($applicant) {   //if exist, update
-                //$applicant->group_id = $title_data['group_id'];
-                //$applicant->region = $title_data['region'];
-                $applicant->update($title_data);
-                $applicant->save();
-                $model = '\\App\\Models\\' . ucfirst($table);
-                //extended data
-                $xcamp = $model::select($table.'.*')
-                    ->where('applicant_id', $applicant->id)
+            $create_count = 0;
+            $update_count = 0;
+            for ($i = 1; $i < $num_rows; $i++) {
+                $data = $sheets[$i];
+                for ($j = 0; $j < $num_cols; $j++) {
+                    $title_data[$titles[$j]] = $data[$j];
+                }
+                $applicant = Applicant::select('applicants.*')
+                    ->where('batch_id', $title_data['batch_id'])
+                    ->where('name', $title_data['name'])
+                    //->where('email', $title_data['email'])
                     ->first();
-                $xcamp->update($title_data);
-                $xcamp->save();
-                $update_count++;
-            } else {            //create new
-                $applicant = \DB::transaction(function () use ($title_data, $table) {
-                    $applicant = Applicant::create($title_data);
-                    $title_data['applicant_id'] = $applicant->id;
+
+                if ($applicant) {   //if exist, update
+                    //$applicant->group_id = $title_data['group_id'];
+                    //$applicant->region = $title_data['region'];
+                    $applicant->update($title_data);
+                    $applicant->save();
                     $model = '\\App\\Models\\' . ucfirst($table);
-                    $model::create($title_data);
-                    return $applicant;
-                });
-                $create_count++;
+                    //extended data
+                    $xcamp = $model::select($table.'.*')
+                        ->where('applicant_id', $applicant->id)
+                        ->first();
+                    $xcamp->update($title_data);
+                    $xcamp->save();
+                    $update_count++;
+                } else {            //create new
+                    $applicant = \DB::transaction(function () use ($title_data, $table) {
+                        $applicant = Applicant::create($title_data);
+                        $title_data['applicant_id'] = $applicant->id;
+                        $model = '\\App\\Models\\' . ucfirst($table);
+                        $model::create($title_data);
+                        return $applicant;
+                    });
+                    $create_count++;
+                }
+                //dd($applicant);
+                /*if ($applicant->email <> null) {
+                    $user = \App\Models\User::where('name', 'like', "%". $applicant->name . "%")
+                    ->orWhere('email', 'like', "%". $applicant->email . "%")
+                    //->orWhere('mobile', 'like', "%". $applicant->mobile . "%")
+                    ->orderByDesc('id')->first();
+                } else {
+                    $user = \App\Models\User::where('name', 'like', "%". $applicant->name . "%")
+                    //->orWhere('mobile', 'like', "%". $applicant->mobile . "%")
+                    ->orderByDesc('id')->first();
+                }*/
+    /*
+                if ($request->is_org) {
+                    $candidates = array();
+                    $candidates[0]["type"] = "applicant";
+                    $candidates[0]["id"] = $applicant->id;
+                    $candidates[0]["uses_user_id"] = "generation_needed";
+                    $org_id = $title_data['org_id'];
+                    //dd($candidates);
+                    $this->backendService->setGroupOrg($candidates, $org_id);
+                }
+                if ($i % 500 == 0) {
+                    sleep(5);
+                    //dd($fail_count);
+                }
             }
-            //dd($applicant);
-            /*if ($applicant->email <> null) {
-                $user = \App\Models\User::where('name', 'like', "%". $applicant->name . "%")
-                ->orWhere('email', 'like', "%". $applicant->email . "%")
-                //->orWhere('mobile', 'like', "%". $applicant->mobile . "%")
-                ->orderByDesc('id')->first();
-            } else {
-                $user = \App\Models\User::where('name', 'like', "%". $applicant->name . "%")
-                //->orWhere('mobile', 'like', "%". $applicant->mobile . "%")
-                ->orderByDesc('id')->first();
-            }*/ 
-/*
-            if ($request->is_org) {
-                $candidates = array();
-                $candidates[0]["type"] = "applicant";
-                $candidates[0]["id"] = $applicant->id;
-                $candidates[0]["uses_user_id"] = "generation_needed";
-                $org_id = $title_data['org_id'];
-                //dd($candidates);
-                $this->backendService->setGroupOrg($candidates, $org_id);
-            }
-            if ($i % 500 == 0) {
-                sleep(5);
-                //dd($fail_count);
-            }
+            $stat['create'] = $create_count;
+            $stat['update'] = $update_count;
+            dd($stat);
+            //return view('backend.in_camp.gsFeedback', compact('titles','contents','content_count'));
         }
-        $stat['create'] = $create_count;
-        $stat['update'] = $update_count;
-        dd($stat);
-        //return view('backend.in_camp.gsFeedback', compact('titles','contents','content_count'));
-    }
-*/
+    */
     public function exportGSApplicants(Request $request)
     {
         $camp = Camp::find($request->camp_id);
@@ -378,7 +378,7 @@ class SheetController extends Controller
         foreach ($columns as $key => $v) {
             $rows[] = $v;
         }
-        
+
         if ($request->app_id == 0) {
             $this->gsheetservice->Clear($sheet_id, $sheet_name);
             $this->gsheetservice->Append($sheet_id, $sheet_name, $rows);
