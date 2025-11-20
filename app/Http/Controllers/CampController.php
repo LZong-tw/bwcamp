@@ -596,13 +596,7 @@ class CampController extends Controller
                     $fare_room = config('camps_payments.fare_room.' . $campTable . '_earlybird') ?? [];
                 }
             }
-            if ($applicant->camp->early_bird_last_day != null) {
-                $is_earlybird = $applicant->created_at->lte(\Carbon\Carbon::parse($applicant->camp->early_bird_last_day));
-                if ($is_earlybird) {
-                    $fare_room = config('camps_payments.fare_room.' . $campTable . '_earlybird') ?? [];
-                }
-            }
-
+            
             $applicant = $this->applicantService->checkPaymentStatus($applicant);
 
             $applicant->batch_start_Weekday = \Carbon\Carbon::create($applicant->batch->batch_start)->locale(\App::getLocale())->isoFormat("dddd");
