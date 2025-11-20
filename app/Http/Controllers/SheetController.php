@@ -150,7 +150,7 @@ class SheetController extends Controller
         // 取得 Google Sheets 設定
         $type = '\App\Models\Camp';
         $purpose = 'exportApplicants';
-        $sheetConfig = $this->getApplicantSheetConfig($request->camp_id, type, purpose);
+        $sheetConfig = $this->getApplicantSheetConfig($request->camp_id, $type, $purpose);
         if (!$sheetConfig) {
             $this->outputError("sheet not found");
             return;
