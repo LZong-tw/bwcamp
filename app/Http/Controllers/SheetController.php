@@ -139,38 +139,38 @@ class SheetController extends Controller
 
         return view('backend.in_camp.gsFeedback', compact('titles', 'contents', 'content_count'));
     }
-/*
-    public function importGSApplicants(Request $request)
-    {
-        // 取得營隊相關資訊
-        $camp = Camp::find($request->camp_id);
-        $table = $camp->table;
-        $mainCampId = $this->getMainCampId($camp, $request->camp_id);
+    /*
+        public function importGSApplicants(Request $request)
+        {
+            // 取得營隊相關資訊
+            $camp = Camp::find($request->camp_id);
+            $table = $camp->table;
+            $mainCampId = $this->getMainCampId($camp, $request->camp_id);
 
-        // 取得 Google Sheets 設定
-        $type = '\App\Models\Camp';
-        $purpose = 'exportApplicants';
-        $sheetConfig = $this->getApplicantSheetConfig($request->camp_id, $type, $purpose);
-        if (!$sheetConfig) {
-            $this->outputError("sheet not found");
-            return;
+            // 取得 Google Sheets 設定
+            $type = '\App\Models\Camp';
+            $purpose = 'exportApplicants';
+            $sheetConfig = $this->getApplicantSheetConfig($request->camp_id, $type, $purpose);
+            if (!$sheetConfig) {
+                $this->outputError("sheet not found");
+                return;
+            }
+
+            // 取得申請者資料
+            $applicants = $this->getApplicantsForExport($request->camp_id, $table);
+            // 取得匯出欄位設定
+            $columns = config('camps_fields.export4stat.' . $table) ?? [];
+
+            // 準備並匯出資料
+            $this->exportApplicantsToSheet(
+                $sheetConfig,
+                $applicants,
+                $columns,
+                $mainCampId,
+                $request->app_id
+            );
         }
-
-        // 取得申請者資料
-        $applicants = $this->getApplicantsForExport($request->camp_id, $table);
-        // 取得匯出欄位設定
-        $columns = config('camps_fields.export4stat.' . $table) ?? [];
-
-        // 準備並匯出資料
-        $this->exportApplicantsToSheet(
-            $sheetConfig,
-            $applicants,
-            $columns,
-            $mainCampId,
-            $request->app_id
-        );
-    }
-*/
+    */
     /**
      * 取得主營隊 ID
      */
