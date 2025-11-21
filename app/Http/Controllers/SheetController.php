@@ -187,7 +187,7 @@ class SheetController extends Controller
     /**
      * 取得申請者匯出的 Google Sheets 設定
      */
-    private function getApplicantSheetConfig(int $id, string $type, string $pupose): ?object
+    private function getApplicantSheetConfig(int $id, string $type, string $purpose): ?object
     {
         return DynamicStat::select('dynamic_stats.*')
             ->where('urltable_id', $id)
