@@ -139,7 +139,7 @@ class SheetController extends Controller
 
         return view('backend.in_camp.gsFeedback', compact('titles', 'contents', 'content_count'));
     }
-
+/*
     public function importGSApplicants(Request $request)
     {
         // 取得營隊相關資訊
@@ -170,7 +170,7 @@ class SheetController extends Controller
             $request->app_id
         );
     }
-
+*/
     /**
      * 取得主營隊 ID
      */
