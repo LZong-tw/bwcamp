@@ -12,7 +12,7 @@ class GSheetService
      */
     public function Sheet($sheet_id, $sheet_name)
     {
-        return Sheets::spreadsheet($sheet_id)->sheet($sheet_name); 
+        return Sheets::spreadsheet($sheet_id)->sheet($sheet_name);
     }
 
     /**
@@ -67,19 +67,19 @@ class GSheetService
     {
         //ds_id = 385/386 (男/女)
         $ds = DynamicStat::select('dynamic_stats.*')
-        ->where('urltable_id',$camp_id)
-        ->where('urltable_type','App\Models\Camp')
-        ->where('purpose','Accomodation')
-        ->where('sheet_name',$sheet_name)
-        ->first();
+            ->where('urltable_id', $camp_id)
+            ->where('urltable_type', 'App\Models\Camp')
+            ->where('purpose', 'Accomodation')
+            ->where('sheet_name', $sheet_name)
+            ->first();
 
         if ($ds == null) {
             $accomodations = null;
             return $accomodations;
         }
-        
+
         $sheet_id = $ds->spreadsheet_id;
-        //$sheet_name = $ds->sheet_name;
+        $sheet_name = $ds->sheet_name;
         $cells = $this->Sheet($sheet_id, $sheet_name)->get();
 
         $titles = $cells[0];
@@ -90,26 +90,26 @@ class GSheetService
         $title_tg2 = "棟別_戶別";
         $title_tg3 = "房號";
         $title_tg4 = "提供床位數";
-        $colidx1 = 0;
-        $colidx2 = 0;
-        $colidx3 = 0;
-        $colidx4 = 0;
+        $colidx1 = -1;
+        $colidx2 = -1;
+        $colidx3 = -1;
+        $colidx4 = -1;
 
         //find title
-        for ($i=1; $i<$num_cols; $i++) {
+        for ($i = 0; $i < $num_cols; $i++) {
             if (str_contains($titles[$i], $title_tg1)) {
                 $colidx1 = $i;
-            } else if (str_contains($titles[$i], $title_tg2)) {
+            } elseif (str_contains($titles[$i], $title_tg2)) {
                 $colidx2 = $i;
-            } else if (str_contains($titles[$i], $title_tg3)) {
+            } elseif (str_contains($titles[$i], $title_tg3)) {
                 $colidx3 = $i;
-            } else if (str_contains($titles[$i], $title_tg4)) {
+            } elseif (str_contains($titles[$i], $title_tg4)) {
                 $colidx4 = $i;
             }
         }
 
         $accomodations = array();
-        for ($j=1; $j<$num_rows; $j++) {
+        for ($j = 1; $j < $num_rows; $j++) {
             $data = $cells[$j];
             if ($data[$colidx1] == $group_name) {
                 $accomodation['apartment'] = $data[$colidx2];
