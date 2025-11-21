@@ -49,9 +49,12 @@ class Camp extends Model
 
     public function currencies()
     {
+        /*
         return $this->hasMany(CurrencyCampXref::class)
             ->join('currencies', 'currencies.id', '=', 'currency_camp_xref.currency_id')
             ->get();
+        */
+        return $this->belongsToMany(Currency::class, 'currency_camp_xref', 'camp_id', 'currency_id');
     }
 
     public function regions()
