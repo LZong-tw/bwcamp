@@ -295,7 +295,7 @@ class SheetController extends Controller
         foreach ($columns as $key => $v) {
             $rows[] = $v;
         }
-   
+
         if ($request->app_id == 0) {
             $this->gsheetservice->Clear($sheet_id, $sheet_name);
             $this->gsheetservice->Append($sheet_id, $sheet_name, $rows);
