@@ -119,6 +119,5 @@ class GSheetService
             }
         }
         return $accomodations;
-        dd($accomodations);
     }
 }
