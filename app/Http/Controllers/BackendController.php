@@ -1767,7 +1767,6 @@ class BackendController extends Controller
 
         $qrcode = $this->generateQrCodeWithText($applicant);
 
-        //dd($dynamic_stat_urls);
         if (str_contains($camp->table, "vcamp")) {
             return view('backend.in_camp.volunteerInfo', compact('camp', 'batch', 'applicant', 'contactlog', 'qrcode'));
         } elseif ($camp->table == "acamp") {

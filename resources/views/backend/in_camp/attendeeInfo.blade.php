@@ -259,16 +259,32 @@
             @endif
         </div>
     </div>
-    @if ($applicant->dynamic_stats)
+    @if($applicant->dynamic_stats)
         <div class="container">
             @foreach($applicant->dynamic_stats as $stat)
-                <br>
                 <div class="row mt-3">
                     <a href="{{ $stat->google_sheet_url }}" target="_blank" class="btn btn-primary mb-3">電訪調查表連結</a>
                     <br>
                     <iframe src="{{ $stat->google_sheet_url }}">Your browser isn't compatible</iframe>
                 </div>
             @endforeach
+        </div>
+    @endif
+    @if($dynamic_stat_urls && $dynamic_stat_urls != "FAILED.")
+        <div class="container">
+            @foreach($dynamic_stat_urls as $key => $url)
+                <div class="row mt-3">
+                    <a href="{{ $url }}" target="_blank" class="btn btn-primary mb-3">{{ $key }}</a>
+                    <br>
+                    <iframe src="{{ $url }}">Your browser isn't compatible</iframe>
+                </div>
+            @endforeach
+        </div>
+    @elseif ($dynamic_stat_urls != "FAILED.")
+        <div class="container">
+            <div class="row mt-3">
+                Google 服務異常，請重新整理或稍後再試。
+            </div>
         </div>
     @endif
 @endif
