@@ -1760,14 +1760,13 @@ class BackendController extends Controller
                 \Sentry\captureException($e);
             }
         }
-
+        
         $lodgings = config('camps_payments.fare_room.' . $camp->table) ?? [];
         $departfroms = config('camps_payments.fare_depart_from.' . $camp->table) ?? [];
         $backtos = config('camps_payments.fare_back_to.' . $camp->table) ?? [];
 
         $qrcode = $this->generateQrCodeWithText($applicant);
 
-        //dd($dynamic_stat_urls);
         if (str_contains($camp->table, "vcamp")) {
             return view('backend.in_camp.volunteerInfo', compact('camp', 'batch', 'applicant', 'contactlog', 'qrcode'));
         } elseif ($camp->table == "acamp") {
