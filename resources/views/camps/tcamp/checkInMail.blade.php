@@ -25,7 +25,7 @@
         <li>詳細報到注意事項，含攜帶物品、餐飲、住宿與交通方式等，請點選<a href="http://bwcamp.bwfoce.org/downloads/tcamp{{ $applicant->batch->camp->year }}/{{ $applicant->batch->camp->year }}教師營報到通知單_email版.pdf">「完整報到通知單」</a></li>
         <li>有任何問題，歡迎與{{ $applicant->batch->camp->fullName }}報名報到組聯絡：<br>
         王淑靜&emsp;小姐<br>
-	電話：07-9769341#413<br>
+        電話：07-9769341#413<br>
         Email：shu-chin.wang@blisswisdom.org</li>
     </ol>
 </td></tr>
