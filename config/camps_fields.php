@@ -858,7 +858,6 @@ return [
                 "for_query" => 0,
             ],
         ],
-
         'avcamp' => [
             "name" => [
                 "name" => "姓名",
@@ -871,7 +870,6 @@ return [
                 "for_query" => 1,
             ],
         ],
-
         'actcamp' => [
             "name" => [
                 "name" => "姓名",
@@ -934,7 +932,6 @@ return [
                 "for_query" => 1,
             ],
         ],
-
         'actvcamp' => [
             "name" => [
                 "name" => "姓名",
@@ -952,7 +949,6 @@ return [
                 "for_query" => 1,
             ],
         ],
-
         'ceocamp' => [
             "batch" => [
                 "name" => "梯次",
@@ -1025,7 +1021,6 @@ return [
                 "for_query" => 0,
             ],
         ],
-
         'ceovcamp' => [
             "batch" => [
                 "name" => "報名梯次",
@@ -1113,7 +1108,6 @@ return [
                 "for_query" => 0,
             ],
         ],
-
         'ecamp' => [
             "id" => [
                 "name" => "報名序號",
@@ -1150,11 +1144,6 @@ return [
                 "sort" => 1,
                 "for_query" => 1,
             ],
-            //            "age" => [
-            //                "name" => "年齡",
-            //                "sort" => 1,
-            //                "for_query" => 0,
-            //            ],
             "files" => [
                 "name" => "上傳的檔案",
                 "sort" => 0,
@@ -1221,7 +1210,6 @@ return [
                 "for_query" => 0,
             ],
         ],
-
         'evcamp' => [
             "batch" => [
                 "name" => "報名梯次",
@@ -1319,7 +1307,6 @@ return [
                 "for_query" => 0,
             ],
         ],
-
         'icamp' => [
             "id" => [
                 "name" => "報名序號",
@@ -1377,7 +1364,6 @@ return [
                 "for_query" => 0,
             ],
         ],
-
         'ivcamp' => [
             "id" => [
                 "name" => "報名序號",
@@ -1420,7 +1406,6 @@ return [
                 "for_query" => 1,
             ],
         ],
-
         'scamp' => [
             "id" => [
                 "name" => "報名序號",
@@ -1478,7 +1463,6 @@ return [
                 "for_query" => 1,
             ],
         ],
-
         'svcamp' => [
             "name" => [
                 "name" => "姓名",
@@ -1511,7 +1495,6 @@ return [
                 "for_query" => 1,
             ],
         ],
-
         'tcamp' => [
             "batch" => [
                 "name" => "梯次",
@@ -1584,7 +1567,6 @@ return [
                 "for_query" => 0,
             ],
         ],
-
         'tvcamp' => [
             "id" => [
                 "name" => "報名序號",
@@ -1632,7 +1614,6 @@ return [
                 "for_query" => 1,
             ]
         ],
-
         'utcamp' => [
             "applied_at" => [
                 "name" => "報名日期",
@@ -1735,7 +1716,6 @@ return [
                 "for_query" => 0,
             ],
         ],
-
         'utvcamp' => [
             "name" => [
                 "name" => "姓名",
@@ -1778,7 +1758,6 @@ return [
                 "for_query" => 1,
             ]
         ],
-
         'wcamp' => [
             "name" => [
                 "name" => "姓名",
@@ -1820,9 +1799,7 @@ return [
                 "sort" => 1,
                 "for_query" => 1,
             ],
-
         ],
-
         'wvcamp' => [
             "name" => [
                 "name" => "姓名",
@@ -1912,7 +1889,6 @@ return [
                 "for_query" => 1,
             ],
         ],
-
         'nyvcamp' => [
             "name" => [
                 "name" => "姓名",
@@ -1935,7 +1911,6 @@ return [
                 "for_query" => 0,
             ],
         ],
-
         'ycamp' => [
             "created_at" => [
                 "name" => "報名日期",
@@ -1993,7 +1968,6 @@ return [
                 "for_query" => 0,
             ],
         ],
-
         'yvcamp' => [
             "name" => [
                 "name" => "姓名",
@@ -2016,122 +1990,7 @@ return [
                 "for_query" => 0,
             ],
         ],
-
-        'wcamp' => [
-            "group" => [
-                "name" => "組別",
-                "sort" => 1,
-                "for_query" => 1,
-            ],
-            "region" => [
-                "name" => "區域",
-                "sort" => 1,
-                "for_query" => 1,
-            ],
-            "nationality" => [
-                "name" => "國籍",
-                "sort" => 1,
-                "for_query" => 1,
-            ],
-            "name" => [
-                "name" => "姓名",
-                "sort" => 1,
-                "for_query" => 1,
-            ],
-            "gender" => [
-                "name" => "性別",
-                "sort" => 1,
-                "for_query" => 1,
-            ],
-            "lrclass" => [
-                "name" => "廣論班別",
-                "sort" => 1,
-                "for_query" => 1,
-            ],
-            "mobile" => [
-                "name" => "行動電話",
-                "sort" => 0,
-                "for_query" => 1,
-            ],
-            "email" => [
-                "name" => "電子郵件",
-                "sort" => 0,
-                "for_query" => 1,
-            ],
-            "line" => [
-                "name" => "Line ID",
-                "sort" => 0,
-                "for_query" => 1,
-            ],
-            "unit" => [
-                "name" => "服務單位",
-                "sort" => 1,
-                "for_query" => 1,
-            ],
-            "title" => [
-                "name" => "職稱",
-                "sort" => 0,
-                "for_query" => 1,
-            ],
-            "learning_experiences" => [
-                "name" => "學習狀況",
-                "sort" => 0,
-                "for_query" => 1,
-            ],
-            "volunteer_experiences" => [
-                "name" => "護持狀況",
-                "sort" => 0,
-                "for_query" => 1,
-            ],
-            "speak_experiences" => [
-                "name" => "講說經驗",
-                "sort" => 0,
-                "for_query" => 1,
-            ],
-            "character" => [
-                "name" => "講說特質",
-                "sort" => 0,
-                "for_query" => 1,
-            ],
-            "potential" => [
-                "name" => "潛力特質",
-                "sort" => 0,
-                "for_query" => 1,
-            ],
-            "comments" => [
-                "name" => "備註說明",
-                "sort" => 0,
-                "for_query" => 1,
-            ],
-            "introducer_name" => [
-                "name" => "推薦人",
-                "sort" => 1,
-                "for_query" => 1,
-            ],
-            "introducer_participated" => [
-                "name" => "推薦人相關訊息",
-                "sort" => 0,
-                "for_query" => 1,
-            ],
-            "introducer_phone" => [
-                "name" => "推薦人電話",
-                "sort" => 0,
-                "for_query" => 1,
-            ],
-            "introducer_email" => [
-                "name" => "推薦人電子信箱",
-                "sort" => 0,
-                "for_query" => 1,
-            ],
-            "created_at" => [
-                "name" => "報名日期",
-                "sort" => 1,
-                "for_query" => 1,
-            ],
-        ],
-
     ],
-
     'export4stat' => [
         'ceocamp' => [
             "deleted_at" => "取消時間",
@@ -2251,6 +2110,103 @@ return [
             "profile_agree" => "個人資料允許",
             "portrait_agree" => "肖像權",
             "introducer_name" => "邀請人",
+        ],
+        'tcamp' => [
+            "applicant_id" => "報名序號",
+            "created_at" => "報名日期",
+            //"bName" => "梯次",
+            "group" => "組別",
+            "number" => "座號",
+            "is_admitted" => "錄取",
+            "is_attend" => "參加意願",
+            "region" => "區域",
+            "name" => "姓名",
+            "gender" => "生理性別",
+            "birthyear" => "出生年",
+            //"education" => "最高學歷",
+            "has_license" => "教師證",
+            "workshop_credit_type" => "研習時數類型",
+            "idno" => "身分證字號",
+            "is_educating" => "現任職於學校或教育單位",
+            "school_or_course" => "任職機關/學程",
+            "subject_teaches" => "任教科系/科目",
+            "title" => "職稱",
+            "unit" => "服務單位名稱/校名",
+            "unit_county" => "服務單位所在縣市",
+            "nationality" => "國籍",
+            "mobile" => "行動電話",
+            "phone_home" => "家中電話",
+            "line" => "LineID",
+            //"zipcode" => "郵遞區號",
+            //"address" => "地址",
+            "email" => "Email",
+            "is_allow_notified" => "願意收到電子報",
+            "emergency_name" => "緊急聯絡人",
+            "emergency_relationship" => "緊急聯絡人關係",
+            "emergency_mobile" => "緊急聯絡人電話1",
+            "emergency_phone_home" => "緊急聯絡人電話2",
+            "introducer_name" => "介紹人/推薦人",
+            "introducer_relationship" => "介紹人/推薦人關係",
+            "introducer_phone" => "介紹人/推薦人電話",
+            "introducer_participated" => "介紹人/推薦人福智班別",
+            //"never_attend_any_stay_over_tcamps" => "未曾參加過住宿型福智教師生命成長營",
+            "is_attend_tcamp" => "參加過教師營",
+            "tcamp_year" => "參加教師營年度",
+            "is_blisswisdom" => "是否參加過福智其它活動/是否為廣論學員",
+            //"blisswisdom_type" => "參加過的福智活動(選項)",
+            //"blisswisdom_type_complement" => "參加過的福智活動(其它)",
+            "lrclass" => "廣論班別",
+            "info_source" => "得知管道",
+            "interesting" => "有興趣的主題(選項)",
+            "interesting_complement" => "有興趣的主題(其它)",
+            //"after_camp_available_day" => "營隊後方便參加時間",
+            "expectation" => "對活動的期望",
+            "portrait_agree" => "肖像權",
+            "profile_agree" => "個人資料允許",
+            "transportation_depart" => "去程交通",
+            "transportation_back" => "回程交通",
+            "carers" => "關懷員",
+            "care_log" => "關懷記錄",
+            "remark" => "備註",
+        ],
+        'utcamp' => [
+            "applicant_id" => "報名序號",
+            "created_at" => "報名日期",
+            //"bName" => "梯次",
+            "group" => "組別",
+            "number" => "座號",
+            "is_admitted" => "錄取",
+            "is_attend" => "參加意願",
+            "name" => "姓名",
+            "avatar" => "大頭照",
+            "gender" => "性別",
+            "birthyear" => "出生年",
+            //"workshop_credit_type" => "研習時數類型",
+            //"idno" => "身分證字號",
+            "unit" => "服務學校/單位",
+            "unit_county" => "服務單位所在縣市",
+            "department" => "服務系所/部門",
+            "position" => "身分別",
+            "title" => "職稱",
+            "mobile" => "聯絡電話(手機)",
+            "phone_home" => "聯絡電話(H)",
+            "phone_work" => "聯絡電話(O)",
+            "address" => "居住縣市",
+            "line" => "lineID",
+            "email" => "電子信箱",
+            "info_source" => "得知管道",
+            "introducer_name" => "介紹人",
+            //"introducer_relationship" => "推薦人關係",
+            //"is_allow_notified" => "願意收到電子報",
+            "expectation" => "對營隊的期待",
+            "emergency_name" => "緊急聯絡人",
+            "emergency_mobile" => "緊急聯絡人手機",
+            //"fee" => "住宿需求",
+            //"companion_name" => "同行人姓名",
+            //"companion_as_roommate" => "希望同房",
+            "transportation_depart" => "去程交通",
+            "transportation_back" => "回程交通",
+            "care_log" => "關懷記錄",
         ],
     ],
 ];
