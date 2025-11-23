@@ -31,6 +31,8 @@ class AdmittedMail extends Mailable
         $this->applicant = $applicant;
         $this->campFullData = $campFullData;
         $this->attachment = $attachment;
+        $this->batch_start_Weekday = \Carbon\Carbon::create($this->applicant->batch->batch_start)->locale(\App::getLocale())->isoFormat("dddd");
+        $this->batch_end_Weekday = \Carbon\Carbon::create($this->applicant->batch->batch_end)->locale(\App::getLocale())->isoFormat("dddd");
         $this->etc = $this->applicant->user?->roles?->where("camp_id", \App\Models\Vcamp::find($this->applicant->camp->id)->mainCamp->id)->first()?->section;
     }
 
@@ -45,9 +47,6 @@ class AdmittedMail extends Mailable
             $headers = $message->getHeaders();
             $headers->addTextHeader('time', time());
         });
-
-        $this->batch_start_Weekday = \Carbon\Carbon::create($this->applicant->batch->batch_start)->locale(\App::getLocale())->isoFormat("dddd");
-        $this->batch_end_Weekday = \Carbon\Carbon::create($this->applicant->batch->batch_end)->locale(\App::getLocale())->isoFormat("dddd");
 
         if ($this->campFullData->table == 'ceocamp' || $this->campFullData->table == 'ecamp') {
             return $this->subject($this->campFullData->abbreviation . '錄取通知')
