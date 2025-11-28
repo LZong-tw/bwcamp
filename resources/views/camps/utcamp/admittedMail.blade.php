@@ -11,31 +11,42 @@
         text-align: right;
     }
 </style>
-@php
-    $group = $applicant->group;
-    if (str_contains($group,'B') !== false) {
-        $applicant->xsession = '桃園場';
-        $applicant->xaddr = '桃園市中壢區成章四街120號';
-    } elseif (str_contains($group,'C') !== false) {
-        $applicant->xsession = '新竹場';
-        $applicant->xaddr = '新竹縣新豐鄉新興路1號';
-    } elseif (str_contains($group,'D') !== false) {
-        $applicant->xsession = '台中場';
-        $applicant->xaddr = '台中市西區民生路227號';
-    } elseif (str_contains($group,'E') !== false) {
-        $applicant->xsession = '雲林場';
-        $applicant->xaddr = '雲林縣斗六市慶生路6號';
-    } elseif (str_contains($group,'F') !== false) {
-        $applicant->xsession = '台南場';
-        $applicant->xaddr = '台南市東區大學路1號';
-    } elseif (str_contains($group,'G') !== false) {
-        $applicant->xsession = '高雄場';
-        $applicant->xaddr = '高雄市新興區中正四路53號12樓之7';
-    } else {
-        $applicant->xsession = '台北場';
-        $applicant->xaddr = '台北市南京東路四段165號九樓 福智學堂';
-    }
-@endphp
+    <h2 class="center">{{ $applicant->batch->camp->fullName }}&emsp;錄取通知</h2>
+<table width="100%" style="table-layout:fixed; border: 0;">
+    <tr>
+        <td>地點：{{ $applicant->batch->locationName }}</td>
+        <td>時間：{{ $applicant->batch->batch_start }}({{ $batch_start_Weekday }})至{{ $applicant->batch->batch_end }}({{ $batch_end_Weekday }})</td>
+    </tr>
+    <tr>
+        <td>姓名：{{ $applicant->name }}</td>
+        <td>錄取編號：<u>{{ $applicant->group }}{{ $applicant->number }}</u></td>
+        <td>組別：<u>{{ $applicant->group }}</u></td>
+    </tr>
+</table>
+    &emsp;&emsp;恭喜您錄取「{{ $applicant->batch->camp->fullName }}」，竭誠歡迎您的到來。<br>
+    &emsp;&emsp;相關營隊訊息，將於營隊三周前寄發「報到通知單」，請記得到電子信箱收信。<br>
+    &emsp;&emsp;也歡迎加入[幸福心學堂online]臉書社團，收取營隊訊息和教育新知。<br>
+    &emsp;&emsp;很期待與您共享這場心靈的饗宴，預祝您歡喜學習，收穫滿滿。<br>
+    &emsp;&emsp;敬祝&emsp;教安<br><br>
+    <ul>
+        <li>
+            請加入幸福心學堂online臉書社團：<br>
+            <a href="https://www.facebook.com/groups/bwfoce.happiness.new" target="_blank" rel="noopener noreferrer">https://www.facebook.com/groups/bwfoce.happiness.new</a>
+        </li>
+        <li>
+            關注「福智文教基金會」網站：<a href="https://bwfoce.org">https://bwfoce.org</a>
+        </li>
+        <li>
+            報名報到諮詢窗口<span class="font-bold">（周一至周五 10:00~17:30）：</span><br>
+            王淑靜&emsp;小姐<br>
+            電話：07-9769341#413<br>
+            Email：shu-chin.wang@blisswisdom.org<br>
+        </li>
+    </ul>
+<a class="right">財團法人福智文教基金會&emsp;謹此</a><br>
+<a class="right">{{ \Carbon\Carbon::now()->year }}&emsp;年&emsp;{{ \Carbon\Carbon::now()->month }}&emsp;月&emsp;{{ \Carbon\Carbon::now()->day }}&emsp;日</a>
+
+<!--
 <h2 class="center">{{ $applicant->batch->camp->fullName }}</h2>
 <h2 class="center">錄取通知單</h2>
 <br>
@@ -82,5 +93,7 @@
 </ol>
 &emsp;&emsp;若有任何問題，歡迎來電(02)7714-6066 分機20317 陳小姐。或 email: bwfaculty@blisswisdom.org<br>
 <br><br>
-<a class="right">財團法人福智文教基金會　敬上</a><br>
-<a class="right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</a>
+
+<a class="right">財團法人福智文教基金會&emsp;敬上</a><br>
+<a class="right">{{ \Carbon\Carbon::now()->year }}&emsp;年&emsp;{{ \Carbon\Carbon::now()->month }}&emsp;月&emsp;{{ \Carbon\Carbon::now()->day }}&emsp;日</a>
+-->
