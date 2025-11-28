@@ -228,13 +228,13 @@
             </div>
         </div>
         <div class='row form-group'>
-            <label for='inputName' class='col-md-2 control-label'>營隊費用</label>
+            <label for='inputFee' class='col-md-2 control-label'>營隊費用</label>
             <div class='col-md-6'>
                 <input type="number" name="fee" id="" class='form-control' value="{{ $camp->fee ?? "" }}">
             </div>
         </div>
         <div class='row form-group'>
-            <label for='inputName' class='col-md-2 control-label'>是否有早鳥優惠</label>
+            <label for='inputHasEarlyBird' class='col-md-2 control-label'>是否有早鳥優惠</label>
             <div class='col-md-6'>
                 <select name="has_early_bird" id="" class='form-control' required>
                     <option value="0" @if(isset($camp) && !$camp->has_early_bird) selected @endif>否</option>
@@ -243,16 +243,29 @@
             </div>
         </div>
         <div class='row form-group'>
-            <label for='inputName' class='col-md-2 control-label'>營隊早鳥費用</label>
+            <label for='inputEarlyBirdFee' class='col-md-2 control-label'>營隊早鳥費用</label>
             <div class='col-md-6'>
                 <input type="number" name="early_bird_fee" id="" class='form-control' value="{{ $camp->early_bird_fee ?? "0" }}">
             </div>
         </div>
 
         <div class='row form-group'>
-            <label for='inputName' class='col-md-2 control-label'>早鳥最後一日</label>
+            <label for='inputEarlyBirdLastDat' class='col-md-2 control-label'>早鳥最後一日</label>
             <div class='col-md-6'>
                 <input type="date" name="early_bird_last_day" id="" class='form-control' value="{{ $camp->early_bird_last_day ?? "" }}">
+            </div>
+        </div>
+        <div class='row form-group'>
+            <label for='inputDiscountFee' class='col-md-2 control-label'>營隊優惠費用</label>
+            <div class='col-md-6'>
+                <input type="number" name="discount_fee" id="" class='form-control' value="{{ $camp->discount_fee ?? "0" }}">
+            </div>
+        </div>
+
+        <div class='row form-group'>
+            <label for='inputDiscountLastDay' class='col-md-2 control-label'>優惠最後一日</label>
+            <div class='col-md-6'>
+                <input type="date" name="discount_last_day" id="" class='form-control' value="{{ $camp->discount_last_day ?? "" }}">
             </div>
         </div>
         @if($action == "建立")
