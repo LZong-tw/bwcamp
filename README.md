@@ -1,71 +1,136 @@
-# 福智綜合資料庫（formerly known as 福智營隊統計報名管理系統）
+# BWCamp (福智綜合資料庫)
 
-## Introduction
-This repository contains the source code for the bwcamp project, written primarily in Laravel, Vue, Bootstrap, Tailwind and jQuery.
+![PHP](https://img.shields.io/badge/PHP-8.0+-777BB4?style=flat-square&logo=php&logoColor=white)
+![Laravel](https://img.shields.io/badge/Laravel-9.x-FF2D20?style=flat-square&logo=laravel&logoColor=white)
+![Vue.js](https://img.shields.io/badge/Vue.js-3.x-4FC08D?style=flat-square&logo=vue.js&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.x-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-4.x-563D7C?style=flat-square&logo=bootstrap&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-8.0+-4479A1?style=flat-square&logo=mysql&logoColor=white)
+
+BWCamp is a comprehensive camp management system designed to handle the complex logistics of organizing large-scale events. It streamlines volunteer management, student registration, and on-site operations.
 
 ## Table of Contents
-- [Initialization](#initialization)
-- [Volunteer Management](#volunteer-management)
-- [Student Registration](#student-registration)
-- [Authorization and Permissions](#authorization-and-permissions)
-- [Interface Issues](#interface-issues)
-- [Future Enhancements](#future-enhancements)
-- [Usage Instructions](#usage-instructions)
-- [Completed Features](#completed-features)
+- [Key Features](#key-features)
+  - [Volunteer Management](#-volunteer-management)
+  - [Student Registration](#-student-registration)
+  - [System Administration](#-system-administration)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Docker Development](#docker-development)
+- [Usage](#usage)
+  - [Common Commands](#common-commands)
+- [License](#license)
 
-## Initialization
-1. Establish the camp.
-2. Organize the structure and related positions (volunteer groups, job groups).
-3. Set permissions for each position.
+## Key Features
 
-## Volunteer Management
-1. Registration
-2. Confirmation email
-3. Backend record retrieval and checks for registration status, displaying options (linking existing accounts or generating new ones) and grouping (job groups).
-4. On-site sign-in / course sign-in.
+### 👥 Volunteer Management
+- **Registration & Recruitment**: Streamlined process for volunteer sign-ups.
+- **Group Management**: Organize volunteers into specific job groups.
+- **Check-in System**: On-site and course-specific check-in capabilities.
 
-## Student Registration
-1. Registration (general channel), backend registration (special channel, invitation system).
-2. Confirmation email.
-3. Backend record retrieval and grouping (student groups).
-4. Send record retrieval notification email.
-5. Response to participation intention.
-6. On-site sign-in / course sign-in.
+### 📝 Student Registration
+- **Multi-channel Registration**: Supports general public registration and special invitation channels.
+- **Automated Notifications**: Confirmation emails and participation tracking.
+- **Grouping**: Automatic and manual grouping of students.
 
-## Authorization and Permissions
-- Different permissions for each interface need to be determined.
+### ⚙️ System Administration
+- **Camp Management**: Create and configure different types of camps (e.g., Teacher Camp, Youth Camp).
+- **Permissions**: Role-based access control for different staff levels.
+- **Reporting**: Real-time statistics on registration and attendance.
 
-## Interface Issues
-- Comprehensive interface issues to be corrected.
+## Tech Stack
 
-## Future Enhancements
-1. Display teacher names in the list and enter batch record retrieval list after selecting personnel.
-2. Adjust the framework for transportation data.
-3. Backend changes to registration payer information.
-4. Backend data that cannot be changed dynamically.
-5. Countdown timer: https://motionmailapp.com
+- **Backend**: Laravel 9 (PHP 8.0+)
+- **Frontend**: Vue.js 3, Bootstrap 4, Tailwind CSS, jQuery
+- **Database**: MySQL
+- **Build Tool**: Vite
 
-## Usage Instructions
-- Commands to be executed after each update:
-  - `php artisan migrate`
-  - `php artisan config:cache`
-  - `php artisan queue:restart` (this command should be executed as `su`)
+## Getting Started
 
-## Completed Features
-- Display sales account data.
-- Registration system.
-- Immediate registration statistics showing the number of attendees/absentees for each session on the day.
-- Dynamic email configuration.
-- Custom email notification settings.
-- Development of teacher camps.
-- Various other completed tasks.
+### Prerequisites
+- PHP >= 8.0
+- Composer
+- Node.js & NPM
+- MySQL
 
-## Additional Information
-- Repository: [bwcamp](https://github.com/LZong-tw/bwcamp)
-- Created: August 5, 2020
-- Default Branch: master
-- Primary Language: PHP
-- Public Repository
-- Open Issues: 636
+### Installation
 
-For more information, visit the [GitHub repository](https://github.com/LZong-tw/bwcamp).
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/LZong-tw/bwcamp.git
+   cd bwcamp
+   ```
+
+2. **Install PHP dependencies**
+   ```bash
+   composer install
+   ```
+
+3. **Install JavaScript dependencies**
+   ```bash
+   npm install
+   ```
+
+4. **Environment Setup**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+   *Configure your database settings in `.env`*
+
+5. **Run Migrations**
+   ```bash
+   php artisan migrate
+   ```
+
+6. **Start Development Server**
+   ```bash
+   npm run dev
+   php artisan serve
+   ```
+
+### Docker Development
+
+If you prefer using Docker, you can use the provided `docker-compose.yml` file.
+
+1. **Setup Environment**
+   ```bash
+   cp .env.example .env
+   # Configure .env settings (DB_HOST=db, REDIS_HOST=redis, etc.)
+   ```
+
+2. **Start Containers**
+   ```bash
+   docker-compose up -d
+   ```
+
+3. **Install Dependencies & Setup**
+   ```bash
+   docker-compose exec app composer install
+   docker-compose exec app npm install
+   docker-compose exec app php artisan key:generate
+   docker-compose exec app php artisan migrate
+   ```
+
+4. **Access Application**
+   The application will be available at `http://localhost`.
+
+## Usage
+
+### Common Commands
+
+- **Clear Cache**:
+  ```bash
+  php artisan config:cache
+  ```
+
+- **Restart Queue Worker** (Required after code changes affecting queues):
+  ```bash
+  php artisan queue:restart
+  ```
+
+## License
+
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
