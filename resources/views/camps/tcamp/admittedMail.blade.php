@@ -1,8 +1,6 @@
 <style>
     u{
-        @if($applicant->batch->camp->variant == "utcamp")
-            color: red;
-        @endif
+        color: red;
     }
 
     .center{
