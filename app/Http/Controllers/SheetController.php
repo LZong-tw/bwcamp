@@ -139,88 +139,122 @@ class SheetController extends Controller
 
         return view('backend.in_camp.gsFeedback', compact('titles', 'contents', 'content_count'));
     }
+    /*
+        public function importGSApplicants(Request $request)
+        {
+            // 取得營隊相關資訊
+            $camp = Camp::find($request->camp_id);
+            $table = $camp->table;
+            $mainCampId = $this->getMainCampId($camp, $request->camp_id);
 
-    public function importGSApplicants(Request $request)
-    {
-        //camp_id = 78 & ds_id = 384
-        //php artisan import:Applicant 78 384 --is_org=1
-        $camp = Camp::find($request->camp_id);
-        $table = $camp->table;
-
-        $ds = DynamicStat::find($request->ds_id);
-        $ss_id = $ds->spreadsheet_id;
-        $sheet_name = $ds->sheet_name;
-
-        $sheets = $this->gsheetservice->Get($ss_id, $sheet_name);
-        $titles = $sheets[0];
-        $num_cols = count($titles);
-        $num_rows = count($sheets);
-
-        $create_count = 0;
-        $update_count = 0;
-        for ($i = 1; $i < $num_rows; $i++) {
-            $data = $sheets[$i];
-            for ($j = 0; $j < $num_cols; $j++) {
-                $title_data[$titles[$j]] = $data[$j];
+            // 取得 Google Sheets 設定
+            $type = '\App\Models\Camp';
+            $purpose = 'exportApplicants';
+            $sheetConfig = $this->getApplicantSheetConfig($request->camp_id, $type, $purpose);
+            if (!$sheetConfig) {
+                $this->outputError("sheet not found");
+                return;
             }
-            $applicant = Applicant::select('applicants.*')
-                ->where('batch_id', $title_data['batch_id'])
-                ->where('name', $title_data['name'])
-                //->where('email', $title_data['email'])
-                ->first();
 
-            if ($applicant) {   //if exist, update
-                //$applicant->group_id = $title_data['group_id'];
-                //$applicant->region = $title_data['region'];
-                $applicant->update($title_data);
-                $applicant->save();
-                $model = '\\App\\Models\\' . ucfirst($table);
-                //extended data
-                $xcamp = $model::select($table.'.*')
-                    ->where('applicant_id', $applicant->id)
-                    ->first();
-                $xcamp->update($title_data);
-                $xcamp->save();
-                $update_count++;
-            } else {            //create new
-                $applicant = \DB::transaction(function () use ($title_data, $table) {
-                    $applicant = Applicant::create($title_data);
-                    $title_data['applicant_id'] = $applicant->id;
-                    $model = '\\App\\Models\\' . ucfirst($table);
-                    $model::create($title_data);
-                    return $applicant;
-                });
-                $create_count++;
-            }
-            //dd($applicant);
-            /*if ($applicant->email <> null) {
-                $user = \App\Models\User::where('name', 'like', "%". $applicant->name . "%")
-                ->orWhere('email', 'like', "%". $applicant->email . "%")
-                //->orWhere('mobile', 'like', "%". $applicant->mobile . "%")
-                ->orderByDesc('id')->first();
-            } else {
-                $user = \App\Models\User::where('name', 'like', "%". $applicant->name . "%")
-                //->orWhere('mobile', 'like', "%". $applicant->mobile . "%")
-                ->orderByDesc('id')->first();
-            }*/
-            if ($request->is_org) {
-                $candidates = array();
-                $candidates[0]["type"] = "applicant";
-                $candidates[0]["id"] = $applicant->id;
-                $candidates[0]["uses_user_id"] = "generation_needed";
-                $org_id = $title_data['org_id'];
-                //dd($candidates);
-                $this->backendService->setGroupOrg($candidates, $org_id);
-            }
-            if ($i % 500 == 0) {
-                sleep(5);
-                //dd($fail_count);
-            }
+            // 取得申請者資料
+            $applicants = $this->getApplicantsForExport($request->camp_id, $table);
+            // 取得匯出欄位設定
+            $columns = config('camps_fields.export4stat.' . $table) ?? [];
+
+            // 準備並匯出資料
+            $this->exportApplicantsToSheet(
+                $sheetConfig,
+                $applicants,
+                $columns,
+                $mainCampId,
+                $request->app_id
+            );
         }
-        $stat['create'] = $create_count;
-        $stat['update'] = $update_count;
-        dd($stat);
-        //return view('backend.in_camp.gsFeedback', compact('titles','contents','content_count'));
+    */
+    /**
+     * 取得主營隊 ID
+     */
+    private function getMainCampId(Camp $camp, int $campId): ?int
+    {
+        if ($camp->is_vcamp()) {
+            $vcamp = Vcamp::find($campId);
+            return $vcamp->mainCamp->id;
+        } else {
+            return $campId;
+        }
+    }
+
+    /**
+     * 取得申請者匯出的 Google Sheets 設定
+     */
+    private function getApplicantSheetConfig(int $id, string $type, string $purpose): ?object
+    {
+        return DynamicStat::select('dynamic_stats.*')
+            ->where('urltable_id', $id)
+            ->where('urltable_type', $type)
+            ->where('purpose', $purpose)
+            ->first();
+    }
+
+    /**
+     * 取得需要匯出的申請者資料
+     */
+    private function getApplicantsForExport(int $campId, string $table)
+    {
+        return Applicant::select('applicants.*', $table . '.*')
+            ->join($table, 'applicants.id', '=', $table . '.applicant_id')
+            ->join('batchs', 'applicants.batch_id', '=', 'batchs.id')
+            ->join('camps', 'batchs.camp_id', '=', 'camps.id')
+            ->where('camps.id', $campId)
+            ->orderBy('applicants.id')
+            ->get();
+    }
+
+
+    /**
+     * 匯出申請者資料到 Google Sheets
+     */
+    private function exportApplicantsToSheet(
+        object $sheetConfig,
+        $applicants,
+        array $columns,
+        ?int $mainCampId,
+        int $startAppId
+    ): void {
+        // 準備標題列
+        $headerRow = array_values($columns);
+
+        // 如果是從頭開始，先清空並寫入標題
+        if ($startAppId == 0) {
+            $this->gsheetservice->Clear($sheetConfig->spreadsheet_id, $sheetConfig->sheet_name);
+            $this->gsheetservice->Append(
+                $sheetConfig->spreadsheet_id,
+                $sheetConfig->sheet_name,
+                $headerRow
+            );
+        }
+
+        // 匯出每位申請者的資料
+        foreach ($applicants as $applicant) {
+            if ($applicant->applicant_id <= $startAppId) {
+                continue;
+            }
+            $dataRow = $this->prepareApplicantDataRow(
+                $applicant,
+                $columns,
+                $mainCampId
+            );
+
+            $this->gsheetservice->Append(
+                $sheetConfig->spreadsheet_id,
+                $sheetConfig->sheet_name,
+                $dataRow
+            );
+
+            // 避免超過 API 配額限制
+            sleep(1);
+            usleep(5000);
+        }
     }
 
     public function exportGSApplicants(Request $request)
@@ -312,160 +346,8 @@ class SheetController extends Controller
             sleep(1);   //1 second
             usleep(5000);   //5 millisecond
         }
+        return;
     }
-    /*
-        public function exportGSCheckIn(Request $request)
-        {
-            //將報名報到結果寫回GS
-            $camp = Camp::find($request->camp_id);
-            $table = $camp->table;
-            $ids = $camp->applicants->pluck('id');
-            //dd($ids);
-            $row = array();
-            $row1 = array();
-
-            //ds_id = 387
-            $ds = DynamicStat::select('dynamic_stats.*')
-                ->where('urltable_id',$request->camp_id)
-                ->where('urltable_type','App\Models\Camp')
-                ->where('purpose','exportCheckIn')
-                ->first();
-
-            if ($ds == null) {
-                echo "sheet not found\n";
-                exit(1);
-            }
-
-            $sheet_id = $ds->spreadsheet_id;
-            $sheet_name = $ds->sheet_name;
-            $sheets = $this->gsheetservice->Get($sheet_id, $sheet_name);
-
-            //dd($sheets);
-            $titles = $sheets[0];
-            $dummy = $sheets[1];
-            $num_cols = count($titles);
-            $num_rows = count($sheets);
-
-            $colidx1 = -1;
-            $colidx2 = -1;
-            $colidx3 = -1;
-            $colidx4 = -1;
-
-            //find title
-            for ($i=0; $i<$num_cols; $i++) {
-                if ($titles[$i] == "id") {
-                    $colidx1 = $i;
-                } else if ($titles[$i] == "applicant_id") {
-                    $colidx2 = $i;
-                } else if ($titles[$i] == "updated_at") {
-                    $colidx3 = $i;
-                } else if ($titles[$i] == "status") {
-                    $colidx4 = $i;
-                }
-            }
-
-            if ($colidx1 == -1)
-            {   echo "missing column id\n"; exit(1);}
-            else if ($colidx2 == -1)
-            {   echo "missing column applicant_id\n"; exit(1);}
-            else if ($colidx3 == -1)
-            {   echo "missing column updated_at\n"; exit(1);}
-            else if ($colidx4 == -1)
-            {   echo "missing column status\n"; exit(1);}
-
-            //row=0: titles
-            //row=1: a dummy to set the first_updated_time first_id (use 0)
-            $regex = '/^(\d{4}[-\/]\d{1,2}[-\/]\d{1,2}([T ]\d{1,2}:\d{1,2}(:\d{1,2})?(\.\d+)?(([+-]\d{2}:\d{2})|Z)?)?|\d{1,2}[-\/]\d{1,2}[-\/]\d{4}([T ]\d{1,2}:\d{1,2}(:\d{1,2})?(\.\d+)?(([+-]\d{2}:\d{2})|Z)?)?)$/';
-            if ($sheets[1][$colidx3] && preg_match($regex, $sheets[1][$colidx3])) {
-                $init_updated_time = \Carbon\Carbon::parse($sheets[$num_rows-1][$colidx3]);
-            }
-            else {
-                $init_updated_time = today()->format('Y-m-d 00:00:00');
-            }
-
-            if ($sheets[$num_rows-1][$colidx3] && preg_match($regex, $sheets[$num_rows-1][$colidx3])) {
-                //columns: applicant_id, updated_at, status, id
-                $last_updated_time = \Carbon\Carbon::parse($sheets[$num_rows-1][$colidx3]);
-                $last_id = $sheets[$num_rows-1][$colidx1];
-            }
-            else {
-                $last_updated_time = today()->format('Y-m-d 00:00:00');
-                $last_id = 0;   //dummy
-            }
-
-            if ($request->renew == 1) {
-                $this->gsheetservice->Clear($sheet_id, $sheet_name);
-                $this->gsheetservice->Append($sheet_id, $sheet_name, $titles);
-                $this->gsheetservice->Append($sheet_id, $sheet_name, $dummy);
-                $checkin_renew = \DB::table('check_in')
-                    ->where('updated_at', '>', $init_updated_time)
-                    ->whereIn('applicant_id', $ids)
-                    ->orderBy('updated_at','asc')->get();
-                echo "num_checkin_renew: " . count($checkin_renew) . "\n";
-                $chunked_checkin_renew = array_chunk($checkin_renew->toArray(), 60);
-                $backoff = 1;
-                $max_backoff = 65;
-                foreach($chunked_checkin_renew as $k => $chunk) {
-                    // Exponential backoff algorithm
-                    $processed_indices = [];
-                    while (count($processed_indices) < count($chunk)) {
-                        try {
-                            for ($i = 0; $i < count($chunk); $i++) {
-                                if (!in_array($i, $processed_indices)) {
-                                    $checkin = $chunk[$i];
-                                    echo "writing applicant_id: " . $checkin->applicant_id . "\n";
-                                    $row[$colidx1] = $checkin->id;
-                                    $row[$colidx2] = $checkin->applicant_id;
-                                    $row[$colidx3] = $checkin->updated_at;
-                                    $row[$colidx4] = 1;
-                                    $this->gsheetservice->Append($sheet_id, $sheet_name, $row);
-                                    $processed_indices[] = $i;
-                                }
-                            }
-                            $backoff = 1;  // Reset backoff on success
-                        } catch (\Exception $e) {
-                            if (strpos($e->getMessage(), 'Quota exceeded') !== false) {
-                                echo "Quota exceeded. Backing off for {$backoff} seconds.\n";
-                                for ($i = $backoff; $i > 0; $i--) {
-                                    echo $i . " ";
-                                    sleep(1);
-                                    if (ob_get_level() > 0) {
-                                        ob_flush();
-                                    }
-                                    flush();
-                                }
-                                $backoff = min($backoff * 2, $max_backoff);  // Exponential backoff
-                            } else {
-                                throw $e;  // Re-throw if it's not a quota error
-                            }
-                        }
-                    }
-                    echo $k + 1 . " chunk done, total chunks: " . count($chunked_checkin_renew) . "\n";
-                }
-            }
-            else {
-                $checkin_new = \DB::table('check_in')
-                    ->where('id', '>', $last_id)
-                    ->where('updated_at', '>=', $last_updated_time) //同時間可以有很多筆
-                    ->whereIn('applicant_id', $ids)
-                    ->orderBy('id','asc')->get();
-                echo "num_checkin_new: " . count($checkin_new) . "\n";
-                //dd($checkin_new);
-                $i=0;
-                foreach($checkin_new as $checkin) {
-                    if ($i==60) break;
-                    $row[$colidx1] = $checkin->id;
-                    $row[$colidx2] = $checkin->applicant_id;
-                    $row[$colidx3] = $checkin->updated_at;
-                    $row[$colidx4] = 1;
-                    $this->gsheetservice->Append($sheet_id, $sheet_name, $row);
-                    $i = $i+1;
-                }
-            }
-            echo "done" . "\n";
-            return;
-        }
-    */
 
     public function exportGSCheckIn(Request $request)
     {

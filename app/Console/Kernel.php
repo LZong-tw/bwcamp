@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
         // 每日固定排程任務
         //$this->scheduleAccountingChecks($schedule);
         $this->scheduleMaintenanceTasks($schedule);
-        //$this->scheduleCampExports($schedule);
+        $this->scheduleCampExports($schedule);
 
         // 動態報到匯出排程
         //$this->scheduleCheckInExports($schedule);
@@ -56,18 +56,20 @@ class Kernel extends ConsoleKernel
     private function scheduleCampExports(Schedule $schedule)
     {
         // CEO Camp 相關排程
-        $schedule->command('gen:BankSecondBarcode 96')->dailyAt("0:28");
-        $schedule->command('import:Form 96')->dailyAt("0:29");
-        $schedule->command('export:Applicant 96')->dailyAt("0:30");
+        // $schedule->command('gen:BankSecondBarcode 96')->dailyAt("0:28");
+        // $schedule->command('import:Form 96')->dailyAt("0:29");
+        // $schedule->command('export:Applicant 96')->dailyAt("0:30");
 
         // 其他營隊匯出排程
-        $schedule->command('export:Applicant 97')->dailyAt("0:45");  // ceovcamp
-        $schedule->command('export:Applicant 102')->dailyAt("1:00");  // ecamp_c
-        $schedule->command('export:Applicant 100')->dailyAt("1:30");  // ecamp_s
-        $schedule->command('export:Applicant 106')->dailyAt("2:00");  // ecamp_n
-        $schedule->command('export:Applicant 103')->dailyAt("2:30");  // evcamp_c
-        $schedule->command('export:Applicant 101')->dailyAt("3:00");  // evcamp_s
-        $schedule->command('export:Applicant 107')->dailyAt("3:30");  // evcamp_n
+        // $schedule->command('export:Applicant 97')->dailyAt("0:45");  // ceovcamp
+        // $schedule->command('export:Applicant 102')->dailyAt("1:00");  // ecamp_c
+        // $schedule->command('export:Applicant 100')->dailyAt("1:30");  // ecamp_s
+        // $schedule->command('export:Applicant 106')->dailyAt("2:00");  // ecamp_n
+        // $schedule->command('export:Applicant 103')->dailyAt("2:30");  // evcamp_c
+        // $schedule->command('export:Applicant 101')->dailyAt("3:00");  // evcamp_s
+        // $schedule->command('export:Applicant 107')->dailyAt("3:30");  // evcamp_n
+        $schedule->command('export:Applicant 108')->dailyAt("0:30");  // tcamp
+        $schedule->command('export:Applicant 112')->dailyAt("1:00");  // utcamp
     }
 
     /**
