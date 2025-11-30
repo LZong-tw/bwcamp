@@ -590,10 +590,15 @@ class CampController extends Controller
             $fare_depart_from = config('camps_payments.fare_depart_from.' . $campTable) ?? [];
             $fare_back_to = config('camps_payments.fare_back_to.' . $campTable) ?? [];
             $fare_room = config('camps_payments.fare_room.' . $campTable) ?? [];
-            if ($applicant->camp->early_bird_last_day != null) {
+            if ($applicant->camp->has_early_bird == true) {
                 $is_earlybird = $applicant->created_at->lte(\Carbon\Carbon::parse($applicant->camp->early_bird_last_day));
+                $is_discount = $applicant->created_at->lte(\Carbon\Carbon::parse($applicant->camp->discount_last_day));
                 if ($is_earlybird) {
                     $fare_room = config('camps_payments.fare_room.' . $campTable . '_earlybird') ?? [];
+                } else if ($is_discount) {
+                    $fare_room = config('camps_payments.fare_room.' . $campTable . '_discount') ?? [];
+                } else {
+                    $fare_room = config('camps_payments.fare_room.' . $campTable) ?? [];
                 }
             }
 
@@ -602,7 +607,7 @@ class CampController extends Controller
             $applicant->batch_start_Weekday = \Carbon\Carbon::create($applicant->batch->batch_start)->locale(\App::getLocale())->isoFormat("dddd");
             $applicant->batch_end_Weekday = \Carbon\Carbon::create($applicant->batch->batch_end)->locale(\App::getLocale())->isoFormat("dddd");
 
-            //for 2023大專教師營
+            /*//for 2023大專教師營
             if ($applicant->camp->table == 'utcamp') {
                 $group = $applicant->group;
                 if (str_contains($group, 'B')) {
@@ -627,8 +632,7 @@ class CampController extends Controller
                     $applicant->xsession = '台北場';
                     $applicant->xaddr = '台北市南京東路四段165號九樓 福智學堂';
                 }
-            }
-            //dd($camp_data);
+            }*/
             return view('camps.' . $campTable . ".admissionResult", compact('applicant', 'traffic', 'lodging', 'fare_depart_from', 'fare_back_to', 'fare_room'));
         } else {
             return back()->withInput()->withErrors(["找不到報名資料，請確認是否已成功報名，或是輸入了錯誤的查詢資料。"]);
@@ -729,8 +733,9 @@ class CampController extends Controller
         $lodging = $applicant->lodging;
         $camp_table = $this->camp_data->table;
         $fare_early = config('camps_payments.fare_room.' . $camp_table . '_earlybird') ?? [];
+        $fare_discount = config('camps_payments.fare_room.' . $camp_table . '_discount') ?? [];
         $fare_regular = config('camps_payments.fare_room.' . $camp_table) ?? [];
-        $fare = array_merge($fare_early, $fare_regular);
+        $fare = array_merge($fare_early, $fare_discount, $fare_regular);
 
         if (!$lodging) {
             $lodging = new Lodging();
