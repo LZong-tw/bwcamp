@@ -595,7 +595,7 @@ class CampController extends Controller
                 $is_discount = $applicant->created_at->lte(\Carbon\Carbon::parse($applicant->camp->discount_last_day));
                 if ($is_earlybird) {
                     $fare_room = config('camps_payments.fare_room.' . $campTable . '_earlybird') ?? [];
-                } else if ($is_discount) {
+                } elseif ($is_discount) {
                     $fare_room = config('camps_payments.fare_room.' . $campTable . '_discount') ?? [];
                 } else {
                     $fare_room = config('camps_payments.fare_room.' . $campTable) ?? [];
