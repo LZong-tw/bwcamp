@@ -739,7 +739,7 @@ class CampController extends Controller
                 $fare_room = config('camps_payments.fare_room.' . $campTable . '_discount') ?? [];
             }
         }
-        
+
         if (!$lodging) {
             $lodging = new Lodging();
             $lodging->applicant_id = $applicant->id;
