@@ -590,18 +590,15 @@ class CampController extends Controller
             $fare_depart_from = config('camps_payments.fare_depart_from.' . $campTable) ?? [];
             $fare_back_to = config('camps_payments.fare_back_to.' . $campTable) ?? [];
             $fare_room = config('camps_payments.fare_room.' . $campTable) ?? [];
-            if ($applicant->camp->has_early_bird == true) {
-                $is_earlybird = $applicant->created_at->lte(\Carbon\Carbon::parse($applicant->camp->early_bird_last_day));
-                $is_discount = $applicant->created_at->lte(\Carbon\Carbon::parse($applicant->camp->discount_last_day));
-                if ($is_earlybird) {
+            
+            if ($applicant->camp->has_early_bird) {
+                $createdAt = $applicant->created_at;
+                if ($applicant->camp->early_bird_last_day && $createdAt->lte(\Carbon\Carbon::parse($applicant->camp->early_bird_last_day))) {
                     $fare_room = config('camps_payments.fare_room.' . $campTable . '_earlybird') ?? [];
-                } elseif ($is_discount) {
+                } elseif ($applicant->camp->discount_last_day && $createdAt->lte(\Carbon\Carbon::parse($applicant->camp->discount_last_day))) {
                     $fare_room = config('camps_payments.fare_room.' . $campTable . '_discount') ?? [];
-                } else {
-                    $fare_room = config('camps_payments.fare_room.' . $campTable) ?? [];
                 }
             }
-
             $applicant = $this->applicantService->checkPaymentStatus($applicant);
 
             $applicant->batch_start_Weekday = \Carbon\Carbon::create($applicant->batch->batch_start)->locale(\App::getLocale())->isoFormat("dddd");
