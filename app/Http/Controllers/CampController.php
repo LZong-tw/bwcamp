@@ -590,7 +590,7 @@ class CampController extends Controller
             $fare_depart_from = config('camps_payments.fare_depart_from.' . $campTable) ?? [];
             $fare_back_to = config('camps_payments.fare_back_to.' . $campTable) ?? [];
             $fare_room = config('camps_payments.fare_room.' . $campTable) ?? [];
-            
+
             if ($applicant->camp->has_early_bird) {
                 $createdAt = $applicant->created_at;
                 if ($applicant->camp->early_bird_last_day && $createdAt->lte(\Carbon\Carbon::parse($applicant->camp->early_bird_last_day))) {
