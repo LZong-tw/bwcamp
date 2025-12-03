@@ -728,12 +728,18 @@ class CampController extends Controller
     {
         $applicant = Applicant::find($request->id);
         $lodging = $applicant->lodging;
-        $camp_table = $this->camp_data->table;
-        $fare_early = config('camps_payments.fare_room.' . $camp_table . '_earlybird') ?? [];
-        $fare_discount = config('camps_payments.fare_room.' . $camp_table . '_discount') ?? [];
-        $fare_regular = config('camps_payments.fare_room.' . $camp_table) ?? [];
-        $fare = array_merge($fare_early, $fare_discount, $fare_regular);
+        $campTable = $this->camp_data->table;
+        $fare_room = config('camps_payments.fare_room.' . $campTable) ?? [];
 
+        if ($applicant->camp->has_early_bird) {
+            $createdAt = $applicant->created_at;
+            if ($applicant->camp->early_bird_last_day && $createdAt->lte(\Carbon\Carbon::parse($applicant->camp->early_bird_last_day))) {
+                $fare_room = config('camps_payments.fare_room.' . $campTable . '_earlybird') ?? [];
+            } elseif ($applicant->camp->discount_last_day && $createdAt->lte(\Carbon\Carbon::parse($applicant->camp->discount_last_day))) {
+                $fare_room = config('camps_payments.fare_room.' . $campTable . '_discount') ?? [];
+            }
+        }
+        
         if (!$lodging) {
             $lodging = new Lodging();
             $lodging->applicant_id = $applicant->id;
@@ -746,18 +752,6 @@ class CampController extends Controller
         $applicant = $this->applicantService->fillPaymentData($applicant);
         $applicant->save();
 
-        //write companion iff 兩人同行
-        if ($this->camp_data->table == 'nycamp') {
-            $model = '\\App\\Models\\' . ucfirst($this->camp_data->table);
-            $applicant_camp = $model::where('applicant_id', $request->id)->first();
-            if (Str::contains($request->room_type, '兩人同行')) {
-                $applicant_camp->companion_name = $request->companion_name;
-            } else {
-                $applicant_camp->companion_name = null;
-            }
-            //$applicant_camp->companion_as_roommate = $request->companion_as_roommate;
-            $applicant_camp->save();
-        }
         return redirect(route('showadmit', ['batch_id' => $applicant->batch_id, 'sn' => $applicant->id, 'name' => $applicant->name]));
     }
 
