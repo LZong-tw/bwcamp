@@ -590,19 +590,21 @@ class CampController extends Controller
             $fare_depart_from = config('camps_payments.fare_depart_from.' . $campTable) ?? [];
             $fare_back_to = config('camps_payments.fare_back_to.' . $campTable) ?? [];
             $fare_room = config('camps_payments.fare_room.' . $campTable) ?? [];
-            if ($applicant->camp->early_bird_last_day != null) {
-                $is_earlybird = $applicant->created_at->lte(\Carbon\Carbon::parse($applicant->camp->early_bird_last_day));
-                if ($is_earlybird) {
+
+            if ($applicant->camp->has_early_bird) {
+                $createdAt = $applicant->created_at;
+                if ($applicant->camp->early_bird_last_day && $createdAt->lte(\Carbon\Carbon::parse($applicant->camp->early_bird_last_day))) {
                     $fare_room = config('camps_payments.fare_room.' . $campTable . '_earlybird') ?? [];
+                } elseif ($applicant->camp->discount_last_day && $createdAt->lte(\Carbon\Carbon::parse($applicant->camp->discount_last_day))) {
+                    $fare_room = config('camps_payments.fare_room.' . $campTable . '_discount') ?? [];
                 }
             }
-
             $applicant = $this->applicantService->checkPaymentStatus($applicant);
 
             $applicant->batch_start_Weekday = \Carbon\Carbon::create($applicant->batch->batch_start)->locale(\App::getLocale())->isoFormat("dddd");
             $applicant->batch_end_Weekday = \Carbon\Carbon::create($applicant->batch->batch_end)->locale(\App::getLocale())->isoFormat("dddd");
 
-            //for 2023大專教師營
+            /*//for 2023大專教師營
             if ($applicant->camp->table == 'utcamp') {
                 $group = $applicant->group;
                 if (str_contains($group, 'B')) {
@@ -627,8 +629,7 @@ class CampController extends Controller
                     $applicant->xsession = '台北場';
                     $applicant->xaddr = '台北市南京東路四段165號九樓 福智學堂';
                 }
-            }
-            //dd($camp_data);
+            }*/
             return view('camps.' . $campTable . ".admissionResult", compact('applicant', 'traffic', 'lodging', 'fare_depart_from', 'fare_back_to', 'fare_room'));
         } else {
             return back()->withInput()->withErrors(["找不到報名資料，請確認是否已成功報名，或是輸入了錯誤的查詢資料。"]);
@@ -727,10 +728,17 @@ class CampController extends Controller
     {
         $applicant = Applicant::find($request->id);
         $lodging = $applicant->lodging;
-        $camp_table = $this->camp_data->table;
-        $fare_early = config('camps_payments.fare_room.' . $camp_table . '_earlybird') ?? [];
-        $fare_regular = config('camps_payments.fare_room.' . $camp_table) ?? [];
-        $fare = array_merge($fare_early, $fare_regular);
+        $campTable = $this->camp_data->table;
+        $fare_room = config('camps_payments.fare_room.' . $campTable) ?? [];
+
+        if ($applicant->camp->has_early_bird) {
+            $createdAt = $applicant->created_at;
+            if ($applicant->camp->early_bird_last_day && $createdAt->lte(\Carbon\Carbon::parse($applicant->camp->early_bird_last_day))) {
+                $fare_room = config('camps_payments.fare_room.' . $campTable . '_earlybird') ?? [];
+            } elseif ($applicant->camp->discount_last_day && $createdAt->lte(\Carbon\Carbon::parse($applicant->camp->discount_last_day))) {
+                $fare_room = config('camps_payments.fare_room.' . $campTable . '_discount') ?? [];
+            }
+        }
 
         if (!$lodging) {
             $lodging = new Lodging();
@@ -744,18 +752,6 @@ class CampController extends Controller
         $applicant = $this->applicantService->fillPaymentData($applicant);
         $applicant->save();
 
-        //write companion iff 兩人同行
-        if ($this->camp_data->table == 'nycamp') {
-            $model = '\\App\\Models\\' . ucfirst($this->camp_data->table);
-            $applicant_camp = $model::where('applicant_id', $request->id)->first();
-            if (Str::contains($request->room_type, '兩人同行')) {
-                $applicant_camp->companion_name = $request->companion_name;
-            } else {
-                $applicant_camp->companion_name = null;
-            }
-            //$applicant_camp->companion_as_roommate = $request->companion_as_roommate;
-            $applicant_camp->save();
-        }
         return redirect(route('showadmit', ['batch_id' => $applicant->batch_id, 'sn' => $applicant->id, 'name' => $applicant->name]));
     }
 
