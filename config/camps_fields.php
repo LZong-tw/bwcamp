@@ -14,7 +14,7 @@ return [
         //"bank_second_barcode" => "銷帳帳號",
         //"tax_id_no" => "統一編號",
         //"region" => "區域",
-        //"applied_at" => "報名日期",
+        //"created_at" => "報名日期",
         //"name" => "姓名",
         //"english_name" => "英文慣用名",
         //"gender" => "生理性別",
@@ -52,7 +52,7 @@ return [
         "group" => "組別",
         "number" => "座號",
         "region" => "區域",
-        "applied_at" => "報名日期",
+        "created_at" => "報名日期",
         "is_attend" => "回覆參加",
         "name" => "姓名",
         "gender" => "性別",
@@ -99,7 +99,7 @@ return [
 
     'actcamp' => [
         "sn" => "報名序號",
-        "applied_at" => "報名日期",
+        "created_at" => "報名日期",
         "name" => "姓名",
         "category" => "身份別",
         "lrclass_year" => "廣論班年份",
@@ -118,7 +118,7 @@ return [
 
     'actvcamp' => [
         "sn" => "報名序號",
-        "applied_at" => "報名日期",
+        "created_at" => "報名日期",
         "name" => "姓名",
         "mobile" => "行動電話",
         "email" => "電子郵件",
@@ -129,7 +129,7 @@ return [
         "bName" => "梯次",
         "group" => "組別",
         "region" => "區域",
-        "applied_at" => "報名日期",
+        "created_at" => "報名日期",
         "name" => "姓名",
         "files" => "上傳的檔案",
         "english_name" => "英文慣用名",
@@ -184,7 +184,7 @@ return [
         "bName" => "梯次",
         "group" => "組別",
         "region" => "區域",
-        "applied_at" => "報名日期",
+        "created_at" => "報名日期",
         "name" => "姓名",
         "english_name" => "英文慣用名",
         "avatar" => "大頭照",
@@ -224,7 +224,7 @@ return [
         "bName" => "梯次",
         "group" => "組別",
         "region" => "區域",
-        "applied_at" => "報名日期",
+        "created_at" => "報名日期",
         "name" => "姓名",
         "gender" => "生理性別",
         "birthyear" => "出生年",
@@ -272,7 +272,7 @@ return [
         "role_section" => "功能組別",
         "role_position" => "職務",
         "region" => "區域",
-        "applied_at" => "報名日期",
+        "created_at" => "報名日期",
         "name" => "姓名",
         "english_name" => "英文慣用名",
         "avatar" => "大頭照",
@@ -329,7 +329,7 @@ return [
     'icamp' => [
         "sn" => "報名序號",
         "bName" => "梯次",
-        "applied_at" => "報名日期",
+        "created_at" => "報名日期",
         "nationality" => "區域",
         "lrclass" => "廣論研討班別",
         "name" => "姓名",
@@ -375,7 +375,7 @@ return [
 
     'scamp' => [
         "sn" => "報名序號",
-        "applied_at" => "報名日期",
+        "created_at" => "報名日期",
         "bName" => "梯次",
         "name" => "姓名",
         "english_name" => "英文姓名",
@@ -406,10 +406,12 @@ return [
 
     'svcamp' => [
         "sn" => "報名序號",
-        "applied_at" => "報名日期",
+        "created_at" => "報名日期",
         "name" => "姓名",
-        "mobile" => "行動電話",
+        "gender" => "生理性別",
         "email" => "電子郵件",
+        "mobile" => "行動電話",
+        "region" => "區域",
         "line" => "LineID",
         "self_intro" => "我是誰",
     ],
@@ -417,7 +419,7 @@ return [
 
     'tcamp' => [
         "sn" => "報名序號",
-        "applied_at" => "報名日期",
+        "created_at" => "報名日期",
         "bName" => "梯次",
         "group" => "組別",
         "number" => "座號",
@@ -475,18 +477,19 @@ return [
     ],
 
     'tvcamp' => [
+        "sn" => "報名序號",
+        "created_at" => "報名日期",
         "name" => "姓名",
         "gender" => "生理性別",
-        "unit" => "服務單位",
-        "title" => "職稱",
-        "mobile" => "手機",
-        "line" => "LineID",
-        "email" => "Email",
+        "email" => "電子郵件",
+        "mobile" => "行動電話",
+        "region" => "區域",
+        "self_intro" => "我是誰",
     ],
 
     'utcamp' => [
         "sn" => "報名序號",
-        "applied_at" => "報名日期",
+        "created_at" => "報名日期",
         //"bName" => "梯次",
         "group" => "組別",
         "number" => "座號",
@@ -525,18 +528,19 @@ return [
     ],
 
     'utvcamp' => [
+        "sn" => "報名序號",
+        "created_at" => "報名日期",
         "name" => "姓名",
         "gender" => "生理性別",
-        "unit" => "服務單位",
-        "title" => "職稱",
-        "mobile" => "手機",
-        "line" => "LineID",
-        "email" => "Email",
+        "email" => "電子郵件",
+        "mobile" => "行動電話",
+        "region" => "區域",
+        "self_intro" => "我是誰",
     ],
 
     'wcamp' => [
         "sn" => "報名序號",
-        "applied_at" => "報名日期",
+        "created_at" => "報名日期",
         "region" => "區域",
         "nationality" => "國家",
         "introducer_name" => "推薦人姓名",
@@ -560,11 +564,13 @@ return [
 
     'wvcamp' => [
         "sn" => "報名序號",
-        "applied_at" => "報名日期",
+        "created_at" => "報名日期",
         "name" => "姓名",
+        "gender" => "生理性別",
         "mobile" => "行動電話",
         "email" => "電子郵件",
         "line" => "LineID",
+        "region" => "區域",
         "self_intro" => "我是誰",
     ],
 
@@ -575,7 +581,7 @@ return [
         "group" => "組別",
         "number" => "座號",
         "region" => "區域",
-        "applied_at" => "報名日期",
+        "created_at" => "報名日期",
         "name" => "姓名",
         "chinese_first_name" => "中文名字",
         "chinese_last_name" => "中文姓氏",
@@ -600,13 +606,13 @@ return [
     ],
 
     'nyvcamp' => [
+        "sn" => "報名序號",
+        "created_at" => "報名日期",
         "name" => "姓名",
         "gender" => "生理性別",
-        "unit" => "服務單位",
-        "title" => "職稱",
-        "mobile" => "手機",
+        "mobile" => "行動電話",
+        "email" => "電子郵件",
         "line" => "LineID",
-        "email" => "Email",
         "region" => "區域",
         "self_intro" => "我是誰",
     ],
@@ -618,7 +624,7 @@ return [
         "group" => "組別",
         "number" => "座號",
         "region" => "區域",
-        "applied_at" => "報名日期",
+        "created_at" => "報名日期",
         "name" => "姓名",
         "gender" => "生理性別",
         "nationality" => "國籍",
@@ -664,13 +670,13 @@ return [
     ],
 
     'yvcamp' => [
+        "sn" => "報名序號",
+        "created_at" => "報名日期",
         "name" => "姓名",
         "gender" => "生理性別",
-        "unit" => "服務單位",
-        "title" => "職稱",
-        "mobile" => "手機",
+        "mobile" => "行動電話",
+        "email" => "電子郵件",
         "line" => "LineID",
-        "email" => "Email",
         "region" => "區域",
         "self_intro" => "我是誰",
     ],
@@ -680,7 +686,7 @@ return [
         "bName" => "梯次",
         "group" => "組別",
         "region" => "區域",
-        "applied_at" => "報名日期",
+        "created_at" => "報名日期",
         "name" => "姓名",
         "gender" => "生理性別",
         "birthyear" => "出生年",
@@ -706,13 +712,15 @@ return [
     ],
 
     'lrvcamp' => [
+        "sn" => "報名序號",
+        "created_at" => "報名日期",
         "name" => "姓名",
         "gender" => "生理性別",
-        "unit" => "服務單位",
-        "title" => "職稱",
-        "mobile" => "手機",
+        "mobile" => "行動電話",
+        "email" => "電子郵件",
         "line" => "LineID",
-        "email" => "Email",
+        "region" => "區域",
+        "self_intro" => "我是誰",
     ],
 
     'regions' => [
@@ -1615,7 +1623,7 @@ return [
             ]
         ],
         'utcamp' => [
-            "applied_at" => [
+            "created_at" => [
                 "name" => "報名日期",
                 "sort" => 1,
                 "for_query" => 1,
@@ -2113,12 +2121,14 @@ return [
         ],
         'nycamp' => [
             "applicant_id" => "報名序號",
-            "applied_at" => "報名日期",
+            "created_at" => "報名日期",
             "deleted_at" => "取消日期",
             "english_name" => "英文名字",
             "english_last_name" => "英文姓氏",
             "chinese_first_name" => "中文名字",
             "chinese_last_name" => "中文姓氏",
+            "is_admitted" => "是否錄取",
+            "admitted_at" => "錄取日期",
             "is_attend" => "參加意願",
             "group" => "組別",
             "number" => "座號",
