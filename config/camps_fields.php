@@ -1621,6 +1621,11 @@ return [
                 "sort" => 0,
                 "for_query" => 1,
             ]
+            "self_intro" => [
+                "name" => "我是誰",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
         ],
         'utcamp' => [
             "created_at" => [
@@ -1762,7 +1767,7 @@ return [
             ],
             "self_intro" => [
                 "name" => "我是誰",
-                "sort" => 0,
+                "sort" => 1,
                 "for_query" => 1,
             ]
         ],
