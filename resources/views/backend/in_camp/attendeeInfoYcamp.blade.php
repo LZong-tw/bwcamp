@@ -25,15 +25,17 @@
     <h4>{{ $camp->fullName }}>>個人詳細資料>>{{ $applicant->name }}</h4>
 
     <!-- 修改學員資料,使用報名網頁 -->
-    <form target="_blank" action="{{ route('queryupdate', $batch->id) }}" method="post">
-        @csrf
-        <input type="hidden" name="sn" value="{{ $applicant->applicant_id }}">
-        <input type="hidden" name="name" value="{{ $applicant->name }}">
-        <!-- input type="hidden" name="isBackend" value="目前為後台檢視狀態。"-->
-        <input type="hidden" name="isModify" value="1">
-        <button class="btn btn-primary float-right">修改學員(報名)資料</button>
-        <br>
-    </form>
+    @if($currentUser->canAccessResource($applicant, 'update', $applicant->camp, target: $applicant))
+        <form target="_blank" action="{{ route('queryupdate', $batch->id) }}" method="post">
+            @csrf
+            <input type="hidden" name="sn" value="{{ $applicant->applicant_id }}">
+            <input type="hidden" name="name" value="{{ $applicant->name }}">
+            <!-- input type="hidden" name="isBackend" value="目前為後台檢視狀態。"-->
+            <input type="hidden" name="isModify" value="1">
+            <button class="btn btn-primary float-right">修改學員(報名)資料</button>
+            <br>
+        </form>
+    @endif
     <br>
     <div class="container alert alert-warning">
         <div class="row">
@@ -72,7 +74,7 @@
                 @endforelse<br>
             </div>
             <div class="row d-flex justify-content-end">
-                @if ($applicant->deleted_at)                    
+                @if ($applicant->deleted_at)
                     <div class="text-danger">
                         本學員已取消報名。
                     </div>
@@ -104,7 +106,7 @@
         </div>
 -->
     <div class="container alert alert-info">
-        <div class="row d-flex justify-content-start">        
+        <div class="row d-flex justify-content-start">
             <div class="mr-4 mb-2 font-weight-bold">參加意願</div>
                 @if(!isset($applicant->is_attend))
                     狀態：<div class="mr-4 text-primary">尚未聯絡。</div>
@@ -123,7 +125,7 @@
         @if ($applicant->deleted_at)
             <div class="text-danger">
                 本學員已取消報名。
-            </div>            
+            </div>
         @else
             <div class="row d-flex justify-content-start">
                 <form class="mr-4 mb-2" action="{{ route('toggleAttendBackend', $applicant->batch->id) }}" method="POST">
@@ -168,7 +170,7 @@
                     <input class="btn btn-success" type="submit" value="修改交通選項">
                 </form>
             </div>
-        @endif           
+        @endif
     </div>
 
 {{--    <div class="container alert alert-primary">--}}
@@ -206,19 +208,19 @@
                 <b>父親姓名</b>：{{$applicant->father_name}}<br>
                 <b>廣論班別</b>：{{$applicant->father_lamrim}}<br>
                 <b>聯絡電話</b>：<a href="tel:{{$applicant->father_phone}}">{{$applicant->father_phone}}</a><br>
-                --<br>              
+                --<br>
                 <b>母親姓名</b>：{{$applicant->mother_name}}<br>
                 <b>廣論班別</b>：{{$applicant->mother_lamrim}}<br>
                 <b>聯絡電話</b>：<a href="tel:{{$applicant->mother_phone}}">{{$applicant->mother_phone}}</a><br>
-                --<br>              
+                --<br>
                 <b>介紹人</b>：{{$applicant->introducer_name}}<br>
                 <b>關係</b>：{{$applicant->introducer_relationship}}<br>
                 <b>福智活動</b>：{{$applicant->introducer_participated}}<br>
                 <b>聯絡電話</b>：<a href="tel:{{$applicant->introducer_phone}}">{{$applicant->introducer_phone}}</a><br>
-                --<br>              
+                --<br>
                 <b>代填人</b>：{{$applicant->agent_name}}<br>
                 <b>聯絡電話</b>：<a href="tel:{{$applicant->agent_phone}}">{{$applicant->agent_phone}}</a><br>
-                --<br>              
+                --<br>
                 <b>緊急聯絡人</b>：{{$applicant->emergency_name}}<br>
                 <b>關係</b>：{{$applicant->emergency_relationship}}<br>
                 <b>聯絡電話</b>：<a href="tel:{{$applicant->emergency_phone}}">{{$applicant->emergency_mobile}}</a><br>
