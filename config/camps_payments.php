@@ -150,15 +150,15 @@ return [
         ],
         "nycamp_earlybird" => [
             "Early Bird 早鳥價" => "450",
-            "Early Bird_Single Room 早鳥價_單人房" => "750",
+            "Early Bird_Single Room 早鳥價_單人房" => "660",
         ],
         "nycamp_discount" => [
             "Discount 優惠價" => "499",
-            "Discount_Single Room 優惠價_單人房" => "799",
+            "Discount_Single Room 優惠價_單人房" => "709",
         ],
         "nycamp" => [
             "Regular 活動費" => "720",
-            "Regular_Single Room 活動費_單人房" => "1020",
+            "Regular_Single Room 活動費_單人房" => "950",
         ],
     ],
 
