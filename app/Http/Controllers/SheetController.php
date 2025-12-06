@@ -342,7 +342,7 @@ class SheetController extends Controller
                 } elseif ($key == "lodging_deposit") {
                     $data = ($applicant->lodging?->deposit) ?? "";
                 } elseif ($key == "lodging_deposit_currency") {
-                    $data = ($applicant->lodging?->getDepositCurrency?->code) ?? "";                    
+                    $data = ($applicant->lodging?->getDepositCurrency?->code) ?? "";
                 } elseif ($key == "depart_from") {
                     $data = ($applicant->traffic?->depart_from) ?? "";
                 } elseif ($key == "back_to") {
@@ -350,11 +350,11 @@ class SheetController extends Controller
                 } elseif ($key == "traffic_fare") {
                     $data = ($applicant->traffic?->fare) ?? "";
                 } elseif ($key == "traffic_fare_currency") {
-                    $data = ($applicant->traffic?->getFareCurrency?->code) ?? "";                    
+                    $data = ($applicant->traffic?->getFareCurrency?->code) ?? "";
                 } elseif ($key == "traffic_deposit") {
                     $data = ($applicant->traffic?->deposit) ?? "";
                 } elseif ($key == "traffic_deposit_currency") {
-                    $data = ($applicant->traffic?->getDepositCurrency?->code) ?? "";                    
+                    $data = ($applicant->traffic?->getDepositCurrency?->code) ?? "";
                 } else {
                     $data = $applicant->$key;
                 }
