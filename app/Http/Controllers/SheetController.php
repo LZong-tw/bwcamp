@@ -333,10 +333,28 @@ class SheetController extends Controller
                     $user = ($applicant->user ?? null);
                     $roles = ($user) ? $user->roles->where('camp_id', $main_camp_id) : null;
                     $data = ($roles) ? $roles->flatten()->pluck('position')->implode(',') : "";
-                } elseif ($key == "fare") {
+                } elseif ($key == "room_type") {
+                    $data = ($applicant->lodging?->room_type) ?? "";
+                } elseif ($key == "lodging_fare") {
                     $data = ($applicant->lodging?->fare) ?? "";
-                } elseif ($key == "deposit") {
+                } elseif ($key == "lodging_fare_currency") {
+                    $data = ($applicant->lodging?->getFareCurrency?->code) ?? "";
+                } elseif ($key == "lodging_deposit") {
                     $data = ($applicant->lodging?->deposit) ?? "";
+                } elseif ($key == "lodging_deposit_currency") {
+                    $data = ($applicant->lodging?->getDepositCurrency?->code) ?? "";                    
+                } elseif ($key == "depart_from") {
+                    $data = ($applicant->traffic?->depart_from) ?? "";
+                } elseif ($key == "back_to") {
+                    $data = ($applicant->traffic?->back_to) ?? "";
+                } elseif ($key == "traffic_fare") {
+                    $data = ($applicant->traffic?->fare) ?? "";
+                } elseif ($key == "traffic_fare_currency") {
+                    $data = ($applicant->traffic?->getFareCurrency?->code) ?? "";                    
+                } elseif ($key == "traffic_deposit") {
+                    $data = ($applicant->traffic?->deposit) ?? "";
+                } elseif ($key == "traffic_deposit_currency") {
+                    $data = ($applicant->traffic?->getDepositCurrency?->code) ?? "";                    
                 } else {
                     $data = $applicant->$key;
                 }
