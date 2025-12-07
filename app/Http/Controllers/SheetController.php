@@ -309,19 +309,19 @@ class SheetController extends Controller
             $rows = array();
 
             $propertyMap = [
-                'bName' => fn($app)                     => $app->batch->name,
-                'carers' => fn($app)                    => $app->carer_names(),
-                'room_type' => fn($app)                 => $app->lodging?->room_type,
-                'lodging_fare' => fn($app)              => $app->lodging?->fare,
-                'lodging_fare_currency' => fn($app)     => $app->lodging?->fareCurrency?->code,
-                'lodging_deposit' => fn($app)           => $app->lodging?->deposit,
-                'lodging_deposit_currency' => fn($app)  => $app->lodging?->depositCurrency?->code,
-                'depart_from' => fn($app)               => $app->traffic?->depart_from,
-                'back_to' => fn($app)                   => $app->traffic?->back_to,
-                'traffic_fare' => fn($app)              => $app->traffic?->fare,
-                'traffic_fare_currency' => fn($app)     => $app->traffic?->fareCurrency?->code,
-                'traffic_deposit' => fn($app)           => $app->traffic?->deposit,
-                'traffic_deposit_currency' => fn($app)  => $app->traffic?->depositCurrency?->code,
+                'bName' => fn ($app) => $app->batch->name,
+                'carers' => fn ($app) => $app->carer_names(),
+                'room_type' => fn ($app) => $app->lodging?->room_type,
+                'lodging_fare' => fn ($app) => $app->lodging?->fare,
+                'lodging_fare_currency' => fn ($app) => $app->lodging?->fareCurrency?->code,
+                'lodging_deposit' => fn ($app) => $app->lodging?->deposit,
+                'lodging_deposit_currency' => fn ($app) => $app->lodging?->depositCurrency?->code,
+                'depart_from' => fn ($app) => $app->traffic?->depart_from,
+                'back_to' => fn ($app) => $app->traffic?->back_to,
+                'traffic_fare' => fn ($app) => $app->traffic?->fare,
+                'traffic_fare_currency' => fn ($app) => $app->traffic?->fareCurrency?->code,
+                'traffic_deposit' => fn ($app) => $app->traffic?->deposit,
+                'traffic_deposit_currency' => fn ($app) => $app->traffic?->depositCurrency?->code,
             ];
 
             foreach ($columns as $key => $v) {
