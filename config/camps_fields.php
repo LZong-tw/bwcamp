@@ -1620,7 +1620,7 @@ return [
                 "name" => "Email",
                 "sort" => 0,
                 "for_query" => 1,
-            ]
+            ],
             "self_intro" => [
                 "name" => "我是誰",
                 "sort" => 1,
@@ -2041,8 +2041,8 @@ return [
             "is_attend" => "參加意願",
             "reasons_online" => "選擇上述參加形式的原因",
             "bank_second_barcode" => "繳費虛擬帳號",
-            "fare" => "應繳金額",
-            "deposit" => "已繳金額",
+            "lodging_fare" => "應繳金額",
+            "lodging_deposit" => "已繳金額",
         ],
         'ceovcamp' => [
             "deleted_at" => "取消時間",
@@ -2160,6 +2160,13 @@ return [
             "emergency_mobile" => "緊急聯絡人行動電話",
             "emergency_phone" => "緊急聯絡人室內電話",
             "portrait_agree" => "同意聲明",
+            "room_type" => "住宿選項",
+            "lodging_fare" => "活動費",
+            "lodging_fare_currency" => "活動費幣別",
+            "depart_from" => "去程選項",
+            "back_to" => "回程選項",
+            "traffic_fare" => "交通費",
+            "traffic_fare_currency" => "交通費幣別",
             "remark" => "備註",
             "contact_log" => "電訪記錄",
         ],
