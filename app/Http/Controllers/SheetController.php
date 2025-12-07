@@ -307,14 +307,27 @@ class SheetController extends Controller
             }
             $applicant->id = $applicant->applicant_id;
             $rows = array();
+
+            $propertyMap = [
+                'bName' => fn($app)                     => $app->batch->name,
+                'carers' => fn($app)                    => $app->carer_names(),
+                'room_type' => fn($app)                 => $app->lodging?->room_type,
+                'lodging_fare' => fn($app)              => $app->lodging?->fare,
+                'lodging_fare_currency' => fn($app)     => $app->lodging?->fareCurrency?->code,
+                'lodging_deposit' => fn($app)           => $app->lodging?->deposit,
+                'lodging_deposit_currency' => fn($app)  => $app->lodging?->depositCurrency?->code,
+                'depart_from' => fn($app)               => $app->traffic?->depart_from,
+                'back_to' => fn($app)                   => $app->traffic?->back_to,
+                'traffic_fare' => fn($app)              => $app->traffic?->fare,
+                'traffic_fare_currency' => fn($app)     => $app->traffic?->fareCurrency?->code,
+                'traffic_deposit' => fn($app)           => $app->traffic?->deposit,
+                'traffic_deposit_currency' => fn($app)  => $app->traffic?->depositCurrency?->code,
+            ];
+
             foreach ($columns as $key => $v) {
                 $data = null;
                 if ($key == "admitted_no") {
                     $data = $applicant->group . $applicant->number;
-                } elseif ($key == "bName") {
-                    $data = $applicant->batch->name;
-                } elseif ($key == "carers") {
-                    $data = $applicant->carer_names();
                 } elseif ($key == "is_attend") {
                     match ($applicant->is_attend) {
                         0 => $data = "不參加",
@@ -333,28 +346,8 @@ class SheetController extends Controller
                     $user = ($applicant->user ?? null);
                     $roles = ($user) ? $user->roles->where('camp_id', $main_camp_id) : null;
                     $data = ($roles) ? $roles->flatten()->pluck('position')->implode(',') : "";
-                } elseif ($key == "room_type") {
-                    $data = ($applicant->lodging?->room_type) ?? "";
-                } elseif ($key == "lodging_fare") {
-                    $data = ($applicant->lodging?->fare) ?? "";
-                } elseif ($key == "lodging_fare_currency") {
-                    $data = ($applicant->lodging?->getFareCurrency?->code) ?? "";
-                } elseif ($key == "lodging_deposit") {
-                    $data = ($applicant->lodging?->deposit) ?? "";
-                } elseif ($key == "lodging_deposit_currency") {
-                    $data = ($applicant->lodging?->getDepositCurrency?->code) ?? "";
-                } elseif ($key == "depart_from") {
-                    $data = ($applicant->traffic?->depart_from) ?? "";
-                } elseif ($key == "back_to") {
-                    $data = ($applicant->traffic?->back_to) ?? "";
-                } elseif ($key == "traffic_fare") {
-                    $data = ($applicant->traffic?->fare) ?? "";
-                } elseif ($key == "traffic_fare_currency") {
-                    $data = ($applicant->traffic?->getFareCurrency?->code) ?? "";
-                } elseif ($key == "traffic_deposit") {
-                    $data = ($applicant->traffic?->deposit) ?? "";
-                } elseif ($key == "traffic_deposit_currency") {
-                    $data = ($applicant->traffic?->getDepositCurrency?->code) ?? "";
+                } elseif (array_key_exists($key, $propertyMap)) {
+                    $data = $propertyMap[$key]($applicant) ?? '';
                 } else {
                     $data = $applicant->$key;
                 }
