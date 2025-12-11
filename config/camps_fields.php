@@ -1519,6 +1519,11 @@ return [
                 "sort" => 1,
                 "for_query" => 1,
             ],
+            "carer" => [
+                "name" => "關懷員",
+                "sort" => 1,
+                "for_query" => 0,
+            ],
             "name" => [
                 "name" => "姓名",
                 "sort" => 0,
