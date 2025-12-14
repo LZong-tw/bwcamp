@@ -13,7 +13,7 @@
 </div>
 <div class="row">
     <!--研習證明可供下載後，就隱藏錄取查詢-->
-    @if(\Carbon\Carbon::now()->gte($camp_data->certificate_available_date))
+    @if($camp_data->certificate_available_date && \Carbon\Carbon::now()->gte($camp_data->certificate_available_date))    
         @if($applicant->is_admitted && $applicant->workshop_credit_type=="基金會研習數位證明書")
             <div class="card col-sm-12">
                 <div class="card-header">
