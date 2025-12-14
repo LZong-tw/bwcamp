@@ -600,7 +600,6 @@ class CampController extends Controller
                 }
             }
             $applicant = $this->applicantService->checkPaymentStatus($applicant);
-
             $applicant->batch_start_Weekday = \Carbon\Carbon::create($applicant->batch->batch_start)->locale(\App::getLocale())->isoFormat("dddd");
             $applicant->batch_end_Weekday = \Carbon\Carbon::create($applicant->batch->batch_end)->locale(\App::getLocale())->isoFormat("dddd");
 
@@ -746,7 +745,7 @@ class CampController extends Controller
         }
         $lodging->room_type = $request->room_type;
         $lodging->nights = $request->nights;
-        $lodging->fare = ($fare[$lodging->room_type] ?? 0);
+        $lodging->fare = ($fare_room[$lodging->room_type] ?? 0);
         $lodging->save();
         //update barcode
         $applicant = $this->applicantService->fillPaymentData($applicant);
