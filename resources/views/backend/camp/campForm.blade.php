@@ -160,6 +160,8 @@
                 <input type="date" name="access_end" id="" class='form-control' required value="{{ $camp->access_end ?? "" }}">
             </div>
         </div>
+        <hr>
+        <h5 class='form-control-static'>報名/錄取/下載</h5>
         <div class='row form-group required'>
             <label for='inputName' class='col-md-2 control-label'>報名開始日</label>
             <div class='col-md-6'>
@@ -178,28 +180,34 @@
                 <input type="date" name="final_registration_end" id="" class='form-control' value="{{ $camp->final_registration_end ?? "" }}">
             </div>
         </div>
-        <div class='row form-group'>
-            <label for='inputName' class='col-md-2 control-label'>報名資料修改截止日</label>
-            <div class='col-md-6'>
-                <input type="date" name="modifying_deadline" id="" class='form-control' value="{{ $camp->modifying_deadline ?? "" }}">
-            </div>
-        </div>
-        <div class='row form-group'>
-            <label for='inputName' class='col-md-2 control-label'>取消截止日</label>
-            <div class='col-md-6'>
-                <input type="date" name="cancellation_deadline" id="" class='form-control' value="{{ isset($camp->cancellation_deadline) ? $camp->cancellation_deadline->format('Y-m-d') : "" }}">
-            </div>
-        </div>
         <div class='row form-group required'>
             <label for='inputName' class='col-md-2 control-label'>錄取公佈日</label>
             <div class='col-md-6'>
                 <input type="date" name="admission_announcing_date" id="" class='form-control' required value="{{ $camp->admission_announcing_date ?? "" }}">
             </div>
         </div>
-        <div class='row form-group required'>
+        <label class='text-info'>
+            未錄取公佈日：在此日期前，未錄取皆顯示「錄取作業進行中。」<br>
+        </label>
+        <div class='row form-group'>
             <label for='inputName' class='col-md-2 control-label'>未錄取公佈日</label>
             <div class='col-md-6'>
-                <input type="date" name="rejection_showing_date" id="" class='form-control' required value="{{ $camp->rejection_showing_date ?? "" }}">
+                <input type="date" name="rejection_showing_date" id="" class='form-control' value="{{ $camp->rejection_showing_date ?? "" }}">
+            </div>
+        </div>
+        <div class='row form-group'>
+            <label for='inputName' class='col-md-2 control-label'>研習證明提供下載日</label>
+            <div class='col-md-6'>
+                <input type="date" name="certificate_available_date" id="" class='form-control' value="{{ $camp->certificate_available_date ?? "" }}">
+            </div>
+        </div>
+        <hr>
+        <h5 class=''>學員：修改/回覆/取消</h5>
+        <br>
+        <div class='row form-group'>
+            <label for='inputName' class='col-md-2 control-label'>報名資料修改截止日</label>
+            <div class='col-md-6'>
+                <input type="date" name="modifying_deadline" id="" class='form-control' value="{{ $camp->modifying_deadline ?? "" }}">
             </div>
         </div>
         <div class='row form-group'>
@@ -216,6 +224,21 @@
             </div>
         </div>
         <div class='row form-group'>
+            <label for='inputName' class='col-md-2 control-label'>取消截止日</label>
+            <div class='col-md-6'>
+                <input type="date" name="cancellation_deadline" id="" class='form-control' value="{{ isset($camp->cancellation_deadline) ? $camp->cancellation_deadline->format('Y-m-d') : "" }}">
+            </div>
+        </div>
+        <hr>
+        <h5 class='form-control-static'>費用</h5>
+        <br>
+        <div class='row form-group'>
+            <label for='inputFee' class='col-md-2 control-label'>營隊費用（正常價）</label>
+            <div class='col-md-6'>
+                <input type="number" name="fee" id="" class='form-control' value="{{ $camp->fee ?? "" }}">
+            </div>
+        </div>
+        <div class='row form-group'>
             <label for='inputPaymentStartDate' class='col-md-2 control-label'>繳費開始日</label>
             <div class='col-md-6'>
                 <input type="date" name="payment_startdate" id="" class='form-control' value="{{ $camp->payment_startdate ?? "" }}">
@@ -227,14 +250,13 @@
                 <input type="date" name="payment_deadline" id="" class='form-control' value="{{ $camp->payment_deadline ?? "" }}">
             </div>
         </div>
+        <label class='text-info'>
+            若有任何優惠，「是否有早鳥價and/or優惠價」請選「是」<br>
+            系統預設：「早鳥費用」少於「優惠費用」少於「營隊費用」<br>
+            系統預設：「早鳥最後一日」早於「優惠最後一日」。依「報名日期」判定<br>
+        </label>
         <div class='row form-group'>
-            <label for='inputFee' class='col-md-2 control-label'>營隊費用</label>
-            <div class='col-md-6'>
-                <input type="number" name="fee" id="" class='form-control' value="{{ $camp->fee ?? "" }}">
-            </div>
-        </div>
-        <div class='row form-group'>
-            <label for='inputHasEarlyBird' class='col-md-2 control-label'>是否有早鳥優惠</label>
+            <label for='inputHasEarlyBird' class='col-md-2 control-label'>是否有早鳥價and/or優惠價</label>
             <div class='col-md-6'>
                 <select name="has_early_bird" id="" class='form-control' required>
                     <option value="0" @if(isset($camp) && !$camp->has_early_bird) selected @endif>否</option>
@@ -248,7 +270,6 @@
                 <input type="number" name="early_bird_fee" id="" class='form-control' value="{{ $camp->early_bird_fee ?? "0" }}">
             </div>
         </div>
-
         <div class='row form-group'>
             <label for='inputEarlyBirdLastDat' class='col-md-2 control-label'>早鳥最後一日</label>
             <div class='col-md-6'>
