@@ -161,7 +161,7 @@
             </div>
         </div>
         <hr>
-        <h5 class='form-control-static'>報名/錄取/下載</h5>
+        <h5 class='mb-3 form-control-static'>報名/錄取/下載</h5>
         <div class='row form-group required'>
             <label for='inputName' class='col-md-2 control-label'>報名開始日</label>
             <div class='col-md-6'>
@@ -202,8 +202,7 @@
             </div>
         </div>
         <hr>
-        <h5 class=''>學員：修改/回覆/取消</h5>
-        <br>
+        <h5 class='mb-3 form-control-static'>學員：修改/回覆/取消</h5>
         <div class='row form-group'>
             <label for='inputName' class='col-md-2 control-label'>報名資料修改截止日</label>
             <div class='col-md-6'>
@@ -230,8 +229,7 @@
             </div>
         </div>
         <hr>
-        <h5 class='form-control-static'>費用</h5>
-        <br>
+        <h5 class='mb-3 form-control-static'>費用</h5>
         <div class='row form-group'>
             <label for='inputFee' class='col-md-2 control-label'>營隊費用（正常價）</label>
             <div class='col-md-6'>
