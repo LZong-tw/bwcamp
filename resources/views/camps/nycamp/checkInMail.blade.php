@@ -22,7 +22,7 @@ Camp Location: {{ $applicant->batch->locationName }}({{ $applicant->batch->locat
 <br>
 <p class="card-text text-right">Warm regards, </p>
 <p class="card-text text-right">The Oneness Truth Foundation</p>
-<p class="card-text text-right">{{ \Carbon\Carbon::now()->month }}/{{ \Carbon\Carbon::now()->day }}/{{ \Carbon\Carbon::now()->year }}</p>
+<p class="card-text text-right">{{ \Carbon\Carbon::now()->format('n/j/Y') }}</p>
 <br>
 <br>
 <br>
@@ -46,4 +46,4 @@ Camp Location: {{ $applicant->batch->locationName }}({{ $applicant->batch->locat
 </ul>
 <br>
 <p class="card-text text-right">The Oneness Truth Foundation 敬啟</p>
-<p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
+<p class="card-text text-right">{{ {{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</p>
