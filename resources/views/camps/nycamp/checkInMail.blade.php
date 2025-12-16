@@ -13,7 +13,7 @@ Camp Dates: {{ $applicant->batch->batch_start }}({{ $batch_start_Weekday }}) ~ {
 Camp Location: {{ $applicant->batch->locationName }}({{ $applicant->batch->location }})<br>
 </p>
 <ul>
-    <li><p class="card-text indent">For more detailed information, please read <a href="https://docs.google.com/document/d/1GXIkRBS_aSpb0UhdxmdAfa1qIKSHVnB0/edit?usp=sharing&ouid=101057869243246366481&rtpof=true&sd=true">Pre-Departure Guide</a></p></li>
+    <li><p class="card-text indent">For more detailed information, please read <a href="{{ $content_link_eng }}">Pre-Departure Guide</a></p></li>
     <li><p class="card-text indent"><a href="{{ route('showadmit', ['batch_id' => $applicant->batch->id, 'sn' => $applicant->id, 'name' => $applicant->name]) }}">Click this link to make your lodging and transportation options</a> and pay to complete the registration process.</p>
     <p>If you have problem with the above link, you may copy the following url and paste to the your browser to enter the page.</p>
     <p>{{ route('queryadmitGET', ['batch_id' => $applicant->batch->id]) }}</p>
@@ -38,7 +38,7 @@ Camp Location: {{ $applicant->batch->locationName }}({{ $applicant->batch->locat
 營隊地點：{{ $applicant->batch->locationName }}({{ $applicant->batch->location }})<br>
 </p>
 <ul>
-    <li><p class="card-text indent"><a href="https://docs.google.com/document/d/14-FGJqNz5Ss0pm8jHdoTfTdnsi-MGKkQ/edit?usp=sharing&ouid=101057869243246366481&rtpof=true&sd=true">行前通知連結</a></p></li>
+    <li><p class="card-text indent"><a href="{{ $content_link_chn }}">行前通知連結</a></p></li>
     <li><p class="card-text indent"><a href="{{ route('showadmit', ['batch_id' => $applicant->batch->id, 'sn' => $applicant->id, 'name' => $applicant->name]) }}">您可按此連結，確認住宿及交通服務選項</a>及繳交費用。</p>
     <p>若以上連結無法點選，請複製下方文字後，再由瀏覽器進入頁面做回覆：</p>
     <p>{{ route('queryadmitGET', ['batch_id' => $applicant->batch->id]) }}</p>
@@ -46,4 +46,4 @@ Camp Location: {{ $applicant->batch->locationName }}({{ $applicant->batch->locat
 </ul>
 <br>
 <p class="card-text text-right">The Oneness Truth Foundation 敬啟</p>
-<p class="card-text text-right">{{ {{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</p>
+<p class="card-text text-right">{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</p>
