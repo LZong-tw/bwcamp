@@ -18,8 +18,6 @@ class CheckInMail extends Mailable
     public $org;
     public $attachment;
     public $etc;
-    public $batch_start_Weekday;
-    public $batch_end_Weekday;
     public $content_link_chn;
     public $content_link_eng;
 
@@ -35,8 +33,6 @@ class CheckInMail extends Mailable
         $this->org = $org;
         $this->attachment = $attachment;
         $this->etc = $this->applicant->user?->roles?->where("camp_id", \App\Models\Vcamp::find($this->applicant->camp->id)->mainCamp->id)->first()?->section;
-        $this->batch_start_Weekday = \Carbon\Carbon::create($this->applicant->batch->batch_start)->locale(\App::getLocale())->isoFormat("dddd");
-        $this->batch_end_Weekday = \Carbon\Carbon::create($this->applicant->batch->batch_end)->locale(\App::getLocale())->isoFormat("dddd");
         $this->content_link_chn = $this->applicant->camp->dynamic_stats?->where('purpose', 'checkInMail_chn')?->first()?->google_sheet_url ?? [];
         $this->content_link_eng = $this->applicant->camp->dynamic_stats?->where('purpose', 'checkInMail_eng')?->first()?->google_sheet_url ?? [];
     }
