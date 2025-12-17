@@ -26,7 +26,7 @@ class Batch extends Model
         'late_registration_end' => 'date:Y-m-d',
         'check_in_day' => 'date:Y-m-d',
     ];
-    
+
     /*
         put attribute in $appends，這樣當把 Model 轉成 JSON 時，這些欄位才會出現
     */
@@ -54,7 +54,8 @@ class Batch extends Model
         return $this->hasMany(Applicant::class);
     }
 
-    public function sign_info($date = null) {
+    public function sign_info($date = null)
+    {
         $relation = $this->hasMany(BatchSignInAvailibility::class, 'batch_id')->orderBy('start', 'asc');
         if ($date) {
             $relation = $relation->where('start', 'like', "%{$date}%")->get();
@@ -62,7 +63,8 @@ class Batch extends Model
         return $relation;
     }
 
-    public function canSignNow() {
+    public function canSignNow()
+    {
         return $this->hasOne(BatchSignInAvailibility::class, 'batch_id')
                 ->where([['start', '<=', now()], ['end', '>=', now()]])->first();
     }
