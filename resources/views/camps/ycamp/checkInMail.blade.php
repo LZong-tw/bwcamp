@@ -9,7 +9,7 @@
 <p class="card-text text-indent">
 您的報名序號：{{ $applicant->id }}<br>
 您的錄取編號：{{ $applicant->group }}{{ $applicant->number }}<br>
-營隊日期：{{ $applicant->batch->batch_start }}({{ $applicant->batch_start_Weekday }}) ~ {{ $applicant->batch->batch_end }}({{ $applicant->batch_end_Weekday }})，共4天<br>
+營隊日期：{{ $applicant->batch->batch_start->format('Y-m-d') }}({{ $applicant->batch->batch_start_weekday }}) ~ {{ $applicant->batch->batch_end->format('Y-m-d') }}({{ $applicant->batch->batch_end_weekday }})，共4天<br>
 營隊地點：{{ $applicant->batch->locationName }}({{ $applicant->batch->location }})<br>
 </p>
 <ul>

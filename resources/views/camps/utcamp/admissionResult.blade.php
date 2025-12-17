@@ -74,7 +74,7 @@
                 @endif
                 <br>
                 <p class="right">財團法人福智文教基金會　謹此<br>
-                {{ \Carbon\Carbon::now()->year }}  年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
+                {{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</p>
                 <b>「福智文教基金會」網站：</b>
                 <a href="https://bwfoce.org" target="_blank" rel="noopener noreferrer">https://bwfoce.org</a><br>
                 <b>「幸福心學堂online」臉書社團：</b>
