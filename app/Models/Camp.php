@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Carbon\Carbon;
 
@@ -20,7 +21,7 @@ class Camp extends Model
     protected $fillable = [
         'fullName', 'test', 'abbreviation', 'site_url', 'icon', 'table', 'year', 'variant', 'mode',
         'registration_start', 'registration_end', 'admission_announcing_date', 'admission_confirming_end',
-        'rejection_showing_date','needed_to_reply_attend', 'final_registration_end',
+        'rejection_showing_date', 'certificate_available_date', 'needed_to_reply_attend', 'final_registration_end',
         'payment_startdate', 'payment_deadline', 'fee', 'has_early_bird', 'early_bird_fee', 'early_bird_last_day',
         'discount_fee', 'discount_last_day', 'modifying_deadline', 'cancellation_deadline',
         'access_start', 'access_end'
@@ -43,9 +44,43 @@ class Camp extends Model
      * @var array
      */
     protected $casts = [
+        //在blade中仍要手動指定格式，$batch->batch_start->format('Y-m-d')
         'email_verified_at' => 'datetime',
-        'cancellation_deadline' => 'date'
+        'registration_start' => 'date:Y-m-d',
+        'registration_end' => 'date:Y-m-d',
+        'final_registration_end' => 'date:Y-m-d',
+        'admission_announcing_date' => 'date:Y-m-d',
+        'final_registration_end' => 'date:Y-m-d',
+        'rejection_showing_date' => 'date:Y-m-d',
+        'certificate_available_date' => 'date:Y-m-d',
+        'admission_confirming_end' => 'date:Y-m-d',
+        'modifying_deadline' => 'date:Y-m-d',
+        'cancellation_deadline' => 'date:Y-m-d',
+        'payment_startdate' => 'date:Y-m-d',
+        'payment_deadline' => 'date:Y-m-d',
+        'early_bird_last_day' => 'date:Y-m-d',
+        'discount_last_day' => 'date:Y-m-d',
     ];
+
+    /*
+        put attribute in $appends，這樣當把 Model 轉成 JSON 時，這些欄位才會出現
+    */
+    protected $appends = [
+        //先轉幾個會用到的，其它之後再加？
+        'registration_start_weekday',
+        'registration_start_weekday_eng',
+        'registration_start_weekday_short',
+        'registration_end_weekday',
+        'registration_end_weekday_eng',
+        'registration_end_weekday_short',
+        'admission_announcing_date_weekday_eng',
+        'admission_announcing_date_weekday',
+        'admission_announcing_date_weekday_short',
+        'admission_confirming_end_weekday',
+        'admission_confirming_end_weekday_eng',
+        'admission_confirming_end_weekday_short',
+    ];
+
 
     public function batchs()
     {
@@ -169,5 +204,101 @@ class Camp extends Model
     public function dynamic_stats(): MorphMany
     {
         return $this->morphMany(DynamicStat::class, 'urltable');
+    }
+
+    /*
+     * 取得 registration_start 日期的星期幾
+     */
+    protected function registrationStartWeekday(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->registration_start?->locale('zh_TW')->dayName, // 星期一
+        );
+    }
+
+    protected function registrationStartWeekdayEng(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->registration_start?->format('l'), // Monday
+        );
+    }
+
+    protected function registrationStartWeekdayShort(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->registration_start?->format('D'), // Mon
+        );
+    }
+
+    /*
+     * 取得 registration_end 日期的星期幾
+     */
+    protected function registrationEndWeekday(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->registration_end?->locale('zh_TW')->dayName, // 星期一
+        );
+    }
+
+    protected function registrationEndWeekdayEng(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->registration_end?->format('l'), // Monday
+        );
+    }
+
+    protected function registrationEndWeekdayShort(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->registration_end?->format('D'), // Mon
+        );
+    }
+
+    /*
+     * 取得 admission_announcing_date 日期的星期幾
+     */
+    protected function admissionAnnouncingDateWeekday(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->admission_announcing_date?->locale('zh_TW')->dayName, // 星期一
+        );
+    }
+
+    protected function admissionAnnouncingDateWeekdayEng(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->admission_announcing_date?->format('l'), // Monday
+        );
+    }
+
+    protected function admissionAnnouncingDateWeekdayShort(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->admission_announcing_date?->format('D'), // Mon
+        );
+    }
+
+    /*
+     * 取得 admission_confirming_end 日期的星期幾
+     */
+    protected function admissionConfirmingEndWeekday(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->admission_confirming_end?->locale('zh_TW')->dayName, // 星期一
+        );
+    }
+
+    protected function admissionConfirmingEndWeekdayEng(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->admission_confirming_end?->format('l'), // Monday
+        );
+    }
+
+    protected function admissionConfirmingEndWeekdayShort(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->admission_confirming_end?->format('D'), // Mon
+        );
     }
 }
