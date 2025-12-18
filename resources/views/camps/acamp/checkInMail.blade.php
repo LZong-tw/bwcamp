@@ -23,8 +23,8 @@
 </p>
 <h4>&#10023;報到及交通：</h4>
 <p><ol>
-    <li>研習日期：{{ $applicant->batch->batch_start->format('Y-m-d') }}({{ $applicant->batch->batch_start_weekday }})至{{ $applicant->batch->batch_end->format('Y-m-d') }}(({{ $applicant->batch->batch_end_weekday }}))</li>
-    <li><b>報到時間：{{ $applicant->batch->batch_start->format('Y-m-d') }}({{ $applicant->batch->batch_start_weekday }}) <u>09:30~10:10</u></b><br>
+    <li>研習日期：{{ $applicant->batch->batch_start }}({{ $applicant->batch->batch_start_weekday }})至{{ $applicant->batch->batch_end }}({{ $applicant->batch->batch_end_weekday }})</li>
+    <li><b>報到時間：{{ $applicant->batch->batch_start }}({{ $applicant->batch->batch_start_weekday }}) <u>09:30~10:10</u></b><br>
         敬請準時報到，若有特殊情形請告知關懷員。</li>            
     <li>報到地點：開南大學。地址：桃園市開南路一號。</li>
     <li>報到方式：報到時請先準備好個人專屬QR code (印出來或手機直接顯示皆可) ，掃完QR Code確認報到後，請至所屬組別桌辦理住宿及領取個人名牌</li>
@@ -37,7 +37,7 @@
                 (下車步行到搭車處，約10分鐘)<br>
                 (2)桃園<b>高鐵車站<u>5號</u></b>出口處。<br>
                 (下車步行到搭車處，約5分鐘)<br></li>
-            <li>接駁服務時間：{{ $applicant->batch->batch_start->format('Y-m-d') }}({{ $applicant->batch->batch_start_weekday }}) 08:50~09:35。<br>
+            <li>接駁服務時間：{{ $applicant->batch->batch_start }}({{ $applicant->batch->batch_start_weekday }}) 08:50~09:35。<br>
                 逾時請自行搭計程車前往開南大學。</li>
             <li><u>現場有「福智」字樣之黃色背心義工協助引導。</u><br></li>
         </ul>
@@ -88,7 +88,7 @@
 <br>
 <br>
 <p style="text-align:right;">主辦單位：財團法人福智文教基金會　敬啟<br>
-{{ \Carbon\Carbon::now()->year }}年 {{ \Carbon\Carbon::now()->month }}月 {{ \Carbon\Carbon::now()->day }}日</p>
+{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</p>
 <p>
     --<br>
     Facebook卓越青年 <a href="https://www.facebook.com/YoungOneCamp" target="_blank" rel="noopener noreferrer">https://www.facebook.com/YoungOneCamp</a> <br>
