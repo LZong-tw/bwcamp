@@ -30,12 +30,12 @@
                                         親愛的企業主管您好 : <br><br>
                                         &emsp;&emsp;歡迎您參加「{{ $applicant->batch->camp->fullName }}」，我們誠摯期待您的到來，希望您能獲得豐盛的收穫。〈<u>請於報到時攜帶電子郵件中，附件內含之QR&nbsp;Code報到。</u>〉<br><br>
                                         &emsp;&emsp;為使這三天研習進行順利，請詳閱下列須知。 <br><br>
-                                        一、研習日期：{{ $applicant->batch->batch_start->format('Y-m-d') }}&nbsp;({{ $applicant->batch->batch_start_weekday }})&nbsp;至&nbsp;{{ $applicant->batch->batch_end->format('Y-m-d') }}&nbsp;({{ $applicant->batch->batch_end_weekday }})。<br>
-                                        二、報到時間：{{ $applicant->batch->batch_start->format('Y-m-d') }}&nbsp;({{ $applicant->batch->batch_start_weekday }})&nbsp;<a style="color: red;">09:30~10:30。</a><br>
+                                        一、研習日期：{{ $applicant->batch->batch_start }}&nbsp;({{ $applicant->batch->batch_start_weekday }})&nbsp;至&nbsp;{{ $applicant->batch->batch_end }}&nbsp;({{ $applicant->batch->batch_end_weekday }})。<br>
+                                        二、報到時間：{{ $applicant->batch->batch_start }}&nbsp;({{ $applicant->batch->batch_start_weekday }})&nbsp;<a style="color: red;">09:30~10:30。</a><br>
                                         三、報到地點：{{ $applicant->batch->locationName }}&nbsp;學生餐廳及宿舍門前〈{{ $applicant->batch->location }}〉。<br>
                                         四、交通方式：<br>
                                         <ol>
-                                        <li>本基金會將於&nbsp;{{ $applicant->batch->batch_start->format('Y-m-d') }}&nbsp;上午&nbsp;09:10~10:10&nbsp;在屏東火車站出口處大廳提供交通接駁服務。現場有穿黃色背心義工協助引導。逾&nbsp;10:10&nbsp;抵達者請自行搭計程車前往屏東大學民生校區〈不是屏商校區〉。</li>
+                                        <li>本基金會將於&nbsp;{{ $applicant->batch->batch_start }}&nbsp;上午&nbsp;09:10~10:10&nbsp;在屏東火車站出口處大廳提供交通接駁服務。現場有穿黃色背心義工協助引導。逾&nbsp;10:10&nbsp;抵達者請自行搭計程車前往屏東大學民生校區〈不是屏商校區〉。</li>
                                         <li>自行前往者請導航：&nbsp;{{ $applicant->batch->locationName }}〈{{ $applicant->batch->location }}〉。</li>
                                         <li>開車自往者請將電子版停車證印出放在副駕駛座前擋風玻璃下方，以利進入校園。</li>
                                         </ol><br>
@@ -70,7 +70,7 @@
                                         二、報到時間：{{ $applicant->batch->batch_start->format('Y-m-d') }}&nbsp;({{ $applicant->batch->batch_start_weekday }})&nbsp;<a style="color: red;">09:30~10:30</a><br>
                                         三、報到地點：{{ $applicant->batch->locationName }}&nbsp;養浩學舍&nbsp;({{ $applicant->batch->location }})<br>
                                         四、交通：<br>
-                                        本基金會將於&nbsp;{{ $applicant->batch->batch_start->format('Y-m-d') }}&nbsp;上午&nbsp;09:00~10:00在以下地點提供交通接駁服務，現場安排穿黃色背心義工協助引導(逾10:00請自行搭計程車前往{{ $applicant->batch->locationName }})。<br>
+                                        本基金會將於&nbsp;{{ $applicant->batch->batch_start }}&nbsp;上午&nbsp;09:00~10:00在以下地點提供交通接駁服務，現場安排穿黃色背心義工協助引導(逾10:00請自行搭計程車前往{{ $applicant->batch->locationName }})。<br>
                                         (1)&nbsp;台中火車站出口處大廳(3號出口)<br>
                                         (2)&nbsp;台中高鐵車站出口處大廳(4A出口)<br>
                                         (3)&nbsp;自行前往者請導航：&nbsp;{{ $applicant->batch->locationName }}&nbsp;{{ $applicant->batch->location }}<br>
@@ -106,8 +106,8 @@
                                         親愛的企業主管您好 : <br><br>
                                         &emsp;&emsp;歡迎您參加「{{ $applicant->batch->camp->fullName }}」，我們誠摯期待您的到來，希望您能獲得豐盛的收穫。〈<u>請於報到時攜帶電子郵件中，附件內含之QR&nbsp;Code報到。</u>〉<br><br>
                                         &emsp;&emsp;為使這三天研習進行順利，請詳閱下列須知。 <br><br>
-                                        一、研習日期：{{ $applicant->batch->batch_start->format('Y-m-d') }}&nbsp;({{ $applicant->batch->batch_start_weekday }})&nbsp;至&nbsp;{{ $applicant->batch->batch_end }}&nbsp;({{ $applicant->batch->batch_end_weekday }})。<br>
-                                        二、報到時間：{{ $applicant->batch->batch_start->format('Y-m-d') }}&nbsp;({{ $applicant->batch->batch_start_weekday }})&nbsp;<a style="color: red;">10:00~10:40。</a><br>
+                                        一、研習日期：{{ $applicant->batch->batch_start }}&nbsp;({{ $applicant->batch->batch_start_weekday }})&nbsp;至&nbsp;{{ $applicant->batch->batch_end }}&nbsp;({{ $applicant->batch->batch_end_weekday }})。<br>
+                                        二、報到時間：{{ $applicant->batch->batch_start }}&nbsp;({{ $applicant->batch->batch_start_weekday }})&nbsp;<a style="color: red;">10:00~10:40。</a><br>
                                         三、報到地點：福智文教基金會{{ $applicant->batch->locationName }}<br>
                                         {{ $applicant->batch->location }}<br>
                                         (https://maps.app.goo.gl/12WLJ2MdiHmJp37T6)<br>
@@ -134,7 +134,7 @@
                                     <td align="right">
                                         <br><br>
                                         主辦單位：財團法人福智文教基金會　敬啟<br>
-                                        {{ \Carbon\Carbon::now()->year }}&nbsp;年&nbsp;{{ \Carbon\Carbon::now()->month }}&nbsp;月&nbsp;{{ \Carbon\Carbon::now()->day }}&nbsp;日
+                                        {{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}    
                                     </td>
                                 </tr>
                             </table>
