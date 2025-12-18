@@ -23,7 +23,7 @@ class CampDataService
         //$admission_announcing_date_Weekday = Carbon::create($admission_announcing_date)->locale(App::getLocale())->isoFormat("dddd");
         //$admission_confirming_end = $camp_data->admission_confirming_end ? Carbon::createFromFormat('Y-m-d', $camp_data->admission_confirming_end) : null;
         //$admission_confirming_end_Weekday = $admission_confirming_end? Carbon::create($admission_confirming_end)->locale(App::getLocale())->isoFormat("dddd") : null;
-        
+
         //$registration_start = $camp_data->registration_start ? Carbon::createFromFormat('Y-m-d', $camp_data->registration_start) : null;
         //$registration_end = $camp_data->registration_end ? Carbon::createFromFormat('Y-m-d', $camp_data->registration_end) : null;
         //$registration_start_Weekday = $registration_start ? Carbon::create($registration_start)->locale(App::getLocale())->isoFormat("dddd") : null;
