@@ -100,7 +100,7 @@ class CampController extends Controller
             "Y-m-d",
             $this->camp_data->final_registration_end
         )->endOfDay() : \Carbon\Carbon::today();*/
-	$final_registration_end = $this->camp_data->final_registration_end?->endOfDay()?? \Carbon\Carbon::today();
+        $final_registration_end = $this->camp_data->final_registration_end?->endOfDay() ?? \Carbon\Carbon::today();
 
         if ($today > $registration_end && !isset($request->isBackend)) {
             //超過前台報名期限
