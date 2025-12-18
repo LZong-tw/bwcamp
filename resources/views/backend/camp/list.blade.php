@@ -21,9 +21,9 @@
             <th scope="col" class="text-nowrap">營隊全名</th>
             <th scope="col" class="text-nowrap">營隊簡稱</th>
             <!-- <th>網站網址</th> -->
-            <th scope="col" class="text-nowrap">圖示</th>
+            <!-- <th scope="col" class="text-nowrap">圖示</th> -->
             <th scope="col" class="text-nowrap">資料表<br>名稱</th>
-            <th scope="col" class="text-nowrap">Variant</th>
+            <!-- <th scope="col" class="text-nowrap">Variant</th> -->
             <th scope="col" class="text-nowrap">報名<br>開始日</th>
             <th scope="col" class="text-nowrap">報名<br>結束日</th>
             <th scope="col" class="text-nowrap">錄取<br>公佈日</th>
@@ -48,25 +48,25 @@
                 <td>{{ $camp->fullName }}</td>
                 <td>{{ $camp->abbreviation }}</td>
                 <!-- <td><a href="{{ $camp->site_url }}" target="_blank">{{ $camp->site_url }}</a></td> -->
-                <td>{{ $camp->icon }}</td>
+                <!-- <td>{{ $camp->icon }}</td> -->
                 <td>{{ $camp->table }}</td>
-                <td>{{ $camp->variant }}</td>
-                <td>{{ $camp->registration_start }}</td>
-                <td>{{ $camp->registration_end }}</td>
-                <td>{{ $camp->admission_announcing_date }}</td>
-                <td>{{ $camp->admission_confirming_end }}</td>
+                <!-- <td>{{ $camp->variant }}</td> -->
+                <td>{{ $camp->registration_start?? "" }}</td>
+                <td>{{ $camp->registration_end?? "" }}</td>
+                <td>{{ $camp->admission_announcing_date?? ""  }}</td>
+                <td>{{ $camp->admission_confirming_end?? ""}}</td>
                 <td>{{ $camp->needed_to_reply_attend }}</td>
-                <td>{{ $camp->final_registration_end }}</td>
-                <td>{{ $camp->payment_startdate }}</td>
-                <td>{{ $camp->payment_deadline }}</td>
+                <td>{{ $camp->final_registration_end?? "" }}</td>
+                <td>{{ $camp->payment_startdate?? "" }}</td>
+                <td>{{ $camp->payment_deadline?? "" }}</td>
                 <td>{{ $camp->fee }}</td>
                 <td>{{ $camp->has_early_bird }}</td>
                 <td>{{ $camp->early_bird_fee }}</td>
-                <td>{{ $camp->early_bird_last_day }}</td>
-                <td>{{ $camp->modifying_deadline }}</td>
-                <td>{{ $camp->cancellation_deadline ? $camp->cancellation_deadline->format('Y-m-d') : "" }}</td>
-                <td>{{ $camp->created_at }}</td>
-                <td>{{ $camp->updated_at }}</td>
+                <td>{{ $camp->early_bird_last_day?? "" }}</td>
+                <td>{{ $camp->modifying_deadline?? "" }}</td>
+                <td>{{ $camp->cancellation_deadline?? "" }}</td>
+                <td>{{ $camp->created_at?? "" }}</td>
+                <td>{{ $camp->updated_at?? "" }}</td>
                 <td>
                     <a href="{{ route("showModifyCamp", $camp->id) }}" class="btn btn-primary">編輯營隊</a>
                     <a href="{{ route("showBatch", $camp->id) }}" class="btn btn-success" target="_blank">梯次列表</a>

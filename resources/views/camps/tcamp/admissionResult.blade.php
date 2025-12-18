@@ -52,7 +52,7 @@
                         錄取編號：<u>{{ $applicant->group }}{{ $applicant->number }}</u><br>
                         組別：<u>{{ $applicant->group }}</u><br>
                         --<br>
-                        營隊日期：{{ $applicant->batch->batch_start }}({{ $applicant->batch_start_Weekday }})～{{ $applicant->batch->batch_end }}({{ $applicant->batch_end_Weekday }})<br>
+                        營隊日期：{{ $applicant->batch->batch_start }}({{ $applicant->batch->batch_start_weekday }})～{{ $applicant->batch->batch_end }}({{ $applicant->batch->batch_end_weekday }})<br>
                         營隊地點：{{ $applicant->batch->location }} {{ $applicant->batch->locationName }}<br>
                         --<br>
                         <b>報名報到諮詢窗口</b>（周一至周五10:00~17:30）<br>
@@ -93,7 +93,7 @@
                     @endif
                     <br>
                     <p class="right">財團法人福智文教基金會　謹此<br>
-                    {{ \Carbon\Carbon::now()->year }}  年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
+                    {{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</p>
                     <b>「福智文教基金會」網站：</b>
                     <a href="https://bwfoce.org" target="_blank" rel="noopener noreferrer">https://bwfoce.org</a><br>
                     <b>「幸福心學堂online」臉書社團：</b>
