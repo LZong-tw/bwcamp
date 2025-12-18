@@ -33,13 +33,13 @@ class AppServiceProvider extends ServiceProvider
             $this->app['queue']->failing(function (\Illuminate\Queue\Events\JobFailed $event) {
                 if (strpos($event->exception, 'response code 250')) {
                     report(new \Exception('Got swift 250 error, restarting queue.'));
-        
+
                     sleep(5);
                     \Artisan::call('queue:restart');
                 }
             });
         }
-        // In a Model (for example, see Camp/Batch), 
+        // In a Model (for example, see Camp/Batch),
         // if a field is casted to [date],
         // its default print format is format('Y-m-d H:i:s')
         // the following line changes the default to format('Y-m-d')
