@@ -17,7 +17,7 @@
 <table width="100%" style="table-layout:fixed; border: 0; word-wrap: break-word;">
 <tr><td>
     <ol>
-        <li>報到時間：{{ $applicant->batch->batch_start }}({{ $applicant->batch->batch_start_weekday }}) 10:20~10:50</li>
+        <li>報到時間：{{ $applicant->batch->batch_start }}({{ $applicant->batch->batch_start_weekday }}) 10:00~10:50</li>
         <li>報到地點：<br>{{ $applicant->batch->locationName }}({{ $applicant->batch->location }})
         {{ $applicant->batch->camp->fullName }}報到處。</li>
         <li>研習時間：{{ $applicant->batch->batch_start }}({{ $applicant->batch->batch_start_weekday }})至{{ $applicant->batch->batch_end }}({{ $applicant->batch->batch_end_weekday }})止。</li>

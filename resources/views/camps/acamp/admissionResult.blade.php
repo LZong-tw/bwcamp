@@ -23,8 +23,8 @@
                         <p class="card-text">我們誠摯歡迎您來共享這場心靈饗宴。三天研習務必全程參加，請參閱下列說明。</p>
                         <p class="card-text">
                             <h4>營隊資訊</h4>
-                                <div class="ml-4 mb-2">研習日期：{{ $camp_data->batch_start }}({{ $camp_data->batch_start_Weekday }})至{{ $camp_data->batch_end }}({{ $camp_data->batch_end_Weekday }})，請務必<u>全程參加</u>。</div>
-                                <div class="ml-4 mb-2">報到時間：{{ $camp_data->batch_start }}({{ $camp_data->batch_start_Weekday }})</div>
+                                <div class="ml-4 mb-2">研習日期：{{ $camp_data->batch_start }}({{ $camp_data->batch_start_weekday }})至{{ $camp_data->batch_end }}({{ $camp_data->batch_end_weekday }})，請務必<u>全程參加</u>。</div>
+                                <div class="ml-4 mb-2">報到時間：{{ $camp_data->batch_start }}({{ $camp_data->batch_start_weekday }})</div>
                                 <div class="ml-4 mb-2">報到地點：{{ $camp_data->locationName }}({{ $camp_data->location }})(詳見報到通知單，預計7/14寄出Email)</div>
                             <h4>確認參加</h4>
                             <div class="ml-4 mb-2">請回覆確認參加。</div>
@@ -78,7 +78,7 @@
                         <p class="card-text">洽詢時間：週一～週五 10:00～20:00、週六 10:00～16:00</p>
                         <br><br>
                         <p class="card-text text-right">主辦單位：財團法人福智文教基金會 敬啟</p>
-                        <p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
+                        <p class="card-text text-right">{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</p>
                         <p class="card-text">Facebook 卓越青年 <a href="https://www.facebook.com/YoungOneCamp" target="_blank" rel="noopener noreferrer">https://www.facebook.com/YoungOneCamp</a></p>
                         <p class="card-text">{{ $camp_data->fullName }}官方網站 <a href="http://www.youngone.org.tw/camp/" target="_blank" rel="noopener noreferrer">http://www.youngone.org.tw/camp/</a></p>
                         <input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>
@@ -150,7 +150,7 @@
                         　　高屏(含台東)：07-974-3280#68104</p>
                         <p class="card-text indent">（洽詢時間：週一～週五 10:00～ 20:00、週六 10:00～16:00）</p>
                         <p class="card-text text-right">主辦單位：財團法人福智文教基金會 敬啟</p>
-                        <p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
+                        <p class="card-text text-right">{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</p>
                         <input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>
                         <a href="{{ $camp_data->site_url }}" class="btn btn-primary">回營隊首頁</a>
                     </div>
