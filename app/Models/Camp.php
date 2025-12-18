@@ -44,22 +44,21 @@ class Camp extends Model
      * @var array
      */
     protected $casts = [
-        //在blade中仍要手動指定格式，$batch->batch_start->format('Y-m-d')
         'email_verified_at' => 'datetime',
-        'registration_start' => 'date:Y-m-d',
-        'registration_end' => 'date:Y-m-d',
-        'final_registration_end' => 'date:Y-m-d',
-        'admission_announcing_date' => 'date:Y-m-d',
-        'final_registration_end' => 'date:Y-m-d',
-        'rejection_showing_date' => 'date:Y-m-d',
-        'certificate_available_date' => 'date:Y-m-d',
-        'admission_confirming_end' => 'date:Y-m-d',
-        'modifying_deadline' => 'date:Y-m-d',
-        'cancellation_deadline' => 'date:Y-m-d',
-        'payment_startdate' => 'date:Y-m-d',
-        'payment_deadline' => 'date:Y-m-d',
-        'early_bird_last_day' => 'date:Y-m-d',
-        'discount_last_day' => 'date:Y-m-d',
+        'registration_start' => 'date',
+        'registration_end' => 'date',
+        'final_registration_end' => 'date',
+        'admission_announcing_date' => 'date',
+        'final_registration_end' => 'date',
+        'rejection_showing_date' => 'date',
+        'certificate_available_date' => 'date',
+        'admission_confirming_end' => 'date',
+        'modifying_deadline' => 'date',
+        'cancellation_deadline' => 'date',
+        'payment_startdate' => 'date',
+        'payment_deadline' => 'date',
+        'early_bird_last_day' => 'date',
+        'discount_last_day' => 'date',
     ];
 
     /*

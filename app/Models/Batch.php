@@ -20,11 +20,10 @@ class Batch extends Model
     protected $fillable = ['camp_id', 'name', 'admission_suffix', 'batch_start', 'batch_end', 'is_appliable', 'is_late_registration_end', 'late_registration_end', 'locationName', 'location', 'check_in_day', 'tel', 'num_groups'];
 
     protected $casts = [
-        //在blade中仍要手動指定格式，$batch->batch_start->format('Y-m-d')
-        'batch_start' => 'date:Y-m-d',
-        'batch_end' => 'date:Y-m-d',
-        'late_registration_end' => 'date:Y-m-d',
-        'check_in_day' => 'date:Y-m-d',
+        'batch_start' => 'date',
+        'batch_end' => 'date',
+        'late_registration_end' => 'date',
+        'check_in_day' => 'date',
     ];
 
     /*
