@@ -50,13 +50,13 @@
     <ol style="list-style-type: cjk-ideographic">
         <li>營隊資訊：
             <ul>
-            <li>活動期間：{{ $applicant->batch->batch_start->format('Y-m-d') }}({{ $applicant->batch->batch_start_weekday }}) ~ {{ $applicant->batch->batch_end->format('Y-m-d') }}({{ $applicant->applicant->batch->batch_end_weekday }})</li>
+            <li>活動期間：{{ $applicant->batch->batch_start }}({{ $applicant->batch->batch_start_weekday }}) ~ {{ $applicant->batch->batch_end }}({{ $applicant->applicant->batch->batch_end_weekday }})</li>
             <li>地點：{{ $applicant->batch->locationName }}({{ $applicant->batch->location }})</li>
             </ul>
         </li>
         <li>報到資訊：
             <ul>
-            <li><b>報到時間：{{ $applicant->batch->batch_start->format('Y-m-d') }}({{ $applicant->batch->batch_start_weekday }}) 13:00～13:50</b></li>
+            <li><b>報到時間：{{ $applicant->batch->batch_start }}({{ $applicant->batch->batch_start_weekday }}) 13:00～13:50</b></li>
             <li>報到地點：詠山館一樓</li>
             <li>上課地點：詠山館三樓 M31</li>
             </ul>
