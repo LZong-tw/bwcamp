@@ -17,8 +17,6 @@ class AdmittedMail extends Mailable
     public $campFullData;
     public $attachment;
     public $etc;
-    public $batch_start_Weekday;
-    public $batch_end_Weekday;
 
     /**
      * Create a new message instance.
@@ -32,8 +30,6 @@ class AdmittedMail extends Mailable
         $this->campFullData = $campFullData;
         $this->attachment = $attachment;
         $this->etc = $this->applicant->user?->roles?->where("camp_id", \App\Models\Vcamp::find($this->applicant->camp->id)->mainCamp->id)->first()?->section;
-        $this->batch_start_Weekday = \Carbon\Carbon::create($this->applicant->batch->batch_start)->locale(\App::getLocale())->isoFormat("dddd");
-        $this->batch_end_Weekday = \Carbon\Carbon::create($this->applicant->batch->batch_end)->locale(\App::getLocale())->isoFormat("dddd");
     }
 
     /**

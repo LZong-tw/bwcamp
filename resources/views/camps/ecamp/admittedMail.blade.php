@@ -38,9 +38,9 @@
 為使研習進行順利，請詳閱下列須知：
 <ol>
     <li>上課時間：
-            {{ $applicant->batch->batch_start }}({{ $batch_start_Weekday }})至{{ $applicant->batch->batch_end }}({{ $batch_end_Weekday }}) </li>
+            {{ $applicant->batch->batch_start }}({{ $applicant->batch->batch_start_weekday }})至{{ $applicant->batch->batch_end }}({{ $applicant->batch->batch_end_weekday }}) </li>
     <li>報到時間：
-            {{ $applicant->batch->batch_start }}({{ $batch_start_Weekday }})&nbsp;<a style="color: red;">
+            {{ $applicant->batch->batch_start }}({{ $applicant->batch->batch_start_weekday }})&nbsp;<a style="color: red;">
                 @if (str_contains($applicant->batch->name, "北區")) 
                 10:00~10:40 
                 @else

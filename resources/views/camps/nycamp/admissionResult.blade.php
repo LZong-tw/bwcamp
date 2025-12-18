@@ -43,7 +43,7 @@
                 <p class="card-text text-indent">
                 Your Application Number 您的報名序號：{{ $applicant->applicant_id }}<br>
                 Your Admission Number 您的錄取編號：{{ $applicant->group }}{{ $applicant->number }}<br>
-                Datas 營隊期間：{{ $applicant->batch->batch_start }} ({{ $applicant->batch_start_Weekday }}) ~ {{ $applicant->batch->batch_end }} ({{ $applicant->batch_end_Weekday }})，共4天<br>
+                Datas 營隊期間：{{ $applicant->batch->batch_start }} ({{ $applicant->batch->batch_start_weekday }}) ~ {{ $applicant->batch->batch_end }} ({{ $applicant->batch->batch_end_weekday }})，共4天<br>
                 Location 營隊地點：{{ $applicant->batch->locationName }} ({{ $applicant->batch->location }})<br>
                 </p>
 
@@ -195,13 +195,13 @@
                 <div class="ml-2 mb-2">線上客服：https://lin.ee/8iOmovI</div>
 
                 <p class="card-text text-right">The Oneness Truth Foundation</p>
-                <p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
+                <p class="card-text text-right">{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</p>
             @elseif($applicant->created_at->gte(\Carbon\Carbon::parse('2025-06-11 00:00:00')))
                 <!-----錄取中----->
                 <p class="card-text">親愛的 {{ $applicant->name }} 同學您好</p>
                 <p class="card-text indent">感謝您報名「{{ $camp_data->fullName }}」，錄取作業正在進行中，請稍後再進行錄取查詢。感謝您的耐心等待！</p>
                 <p class="card-text text-right">The Oneness Truth Foundation 敬啟</p>
-                <p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
+                <p class="card-text text-right">{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</p>
             @elseif($applicant->deleted_at)
             @else
                 <!-----備取=不錄取----->
@@ -262,7 +262,7 @@
                 <p class="card-text indent">祝福您身心健康，吉祥如意！</p>
                 -->
                 <p class="card-text text-right">The Oneness Truth Foundation 敬啟</p>
-                <p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
+                <p class="card-text text-right">{{ \Carbon\Carbon::now()->format('Y 年 n 日 j 日')</p>
                 </p>
             @endif
             <input type='button' class='btn btn-warning' value='back 回上一頁' onclick=self.history.back()>

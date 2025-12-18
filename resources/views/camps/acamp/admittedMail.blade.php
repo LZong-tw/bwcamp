@@ -10,8 +10,8 @@
 <p class="card-text">我們誠摯歡迎您來共享這場心靈饗宴。三天研習務必全程參加，請參閱下列說明。</p>
 <p class="card-text">
     <h4>【營隊資訊】</h4>
-        <div class="ml-4 mb-2">1.研習日期：{{ $applicant->batch->batch_start }} ({{ $batch_start_Weekday }}) 至 {{ $applicant->batch->batch_end }} ({{ $batch_end_Weekday }})，請務必<u>全程參加</u>。</div>
-        <div class="ml-4 mb-2">2.報到時間：{{ $applicant->batch->batch_start }} ({{ $batch_start_Weekday }})</div>
+        <div class="ml-4 mb-2">1.研習日期：{{ $applicant->batch->batch_start }} ({{ $applicant->batch->batch_start_weekday }}) 至 {{ $applicant->batch->batch_end }} ({{ $applicant->batch->batch_end_weekday }})，請務必<u>全程參加</u>。</div>
+        <div class="ml-4 mb-2">2.報到時間：{{ $applicant->batch->batch_start }} ({{ $applicant->batch->batch_start_weekday }})</div>
         <div class="ml-4 mb-2">3.報到地點：{{ $applicant->batch->locationName }}({{ $applicant->batch->location }})(詳見報到通知單，預計7/14寄出Email)</div>
     <h4>【參加確認回條】</h4>
         <div class="ml-4 mb-2">請點擊以下連結由瀏覽器進入頁面做回覆<a href="https://bwcamp.bwfoce.org/camp/{{ $applicant->batch->id }}/showadmit?sn={{ $applicant->id }}&name={{ $applicant->name }}">確認參加</a></div>
