@@ -9,7 +9,7 @@
 <p class="card-text text-indent">
 您的報名序號：{{ $applicant->id }}<br>
 您的錄取編號：{{ $applicant->group }}{{ $applicant->number }}<br>
-營隊日期：{{ $applicant->batch->batch_start->format('Y-m-d') }}({{ $applicant->batch->batch_start_weekday }}) ~ {{ $applicant->batch->batch_end->format('Y-m-d') }}({{ $applicant->batch->batch_end_weekday }})，共4天<br>
+營隊日期：{{ $applicant->batch->batch_start }}({{ $applicant->batch->batch_start_weekday }}) ~ {{ $applicant->batch->batch_end }}({{ $applicant->batch->batch_end_weekday }})，共4天<br>
 營隊地點：{{ $applicant->batch->locationName }}({{ $applicant->batch->location }})<br>
 </p>
 <ul>
@@ -21,4 +21,4 @@
 </ul>
 <br>
 <p class="card-text text-right">財團法人福智文教基金會 敬啟</p>
-<p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
+<p class="card-text text-right">{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</p>
