@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Carbon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -38,5 +39,11 @@ class AppServiceProvider extends ServiceProvider
                 }
             });
         }
+        // In a Model (for example, see Camp/Batch), 
+        // if a field is casted to [date],
+        // its default print format is format('Y-m-d H:i:s')
+        // the following line changes the default to format('Y-m-d')
+        // 讓所有的日期物件在印出來時都預設不顯示時間
+        Carbon::setToStringFormat('Y-m-d');
     }
 }
