@@ -30,8 +30,8 @@ class CampController extends Controller
     protected $applicantService;
     protected $batch_id;
     protected $camp_data;
-    protected $admission_announcing_date_Weekday;
-    protected $admission_confirming_end_Weekday;
+    //protected $admission_announcing_date_Weekday;
+    //protected $admission_confirming_end_Weekday;
     /**
      * Create a new controller instance.
      *
@@ -49,14 +49,14 @@ class CampController extends Controller
             echo "查無營隊資料，請確認網址是否正確。" . "<br>";
             die();
         }
-        $this->admission_announcing_date_Weekday = $this->camp_data['admission_announcing_date_Weekday'];
-        $this->admission_confirming_end_Weekday = $this->camp_data['admission_confirming_end_Weekday'];
+        //$this->admission_announcing_date_Weekday = $this->camp_data['admission_announcing_date_Weekday'];
+        //$this->admission_confirming_end_Weekday = $this->camp_data['admission_confirming_end_Weekday'];
 
         $this->camp_data = $this->camp_data['camp_data'];
         View::share('batch_id', $this->batch_id);
         View::share('camp_data', $this->camp_data);
-        View::share('admission_announcing_date_Weekday', $this->admission_announcing_date_Weekday);
-        View::share('admission_confirming_end_Weekday', $this->admission_confirming_end_Weekday);
+        //View::share('admission_announcing_date_Weekday', $this->admission_announcing_date_Weekday);
+        //View::share('admission_confirming_end_Weekday', $this->admission_confirming_end_Weekday);
         // 動態載入電子郵件設定
         $this->setEmail($this->camp_data->table, $this->camp_data->variant);
     }
@@ -88,15 +88,19 @@ class CampController extends Controller
             $batch = Batch::find($this->batch_id);
         }
         if ($batch->is_late_registration_end) {
-            $registration_end = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $batch->late_registration_end . "23:59:59");
+            //$registration_end = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $batch->late_registration_end . "23:59:59");
+            $registration_end = $batch->late_registration_end->endOfDay();
         } else {
-            $registration_end = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $this->camp_data->registration_end . "23:59:59");
+            //$registration_end = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $this->camp_data->registration_end . "23:59:59");
+            $registration_end = $this->camp_data->registration_end->endOfDay();
         }
-        $registration_start = \Carbon\Carbon::createFromFormat("Y-m-d", $this->camp_data->registration_start)->startOfDay();
-        $final_registration_end = $this->camp_data->final_registration_end ? \Carbon\Carbon::createFromFormat(
+        //$registration_start = \Carbon\Carbon::createFromFormat("Y-m-d", $this->camp_data->registration_start)->startOfDay();
+        $registration_start = $this->camp_data->registration_start->startOfDay();
+        /*$final_registration_end = $this->camp_data->final_registration_end ? \Carbon\Carbon::createFromFormat(
             "Y-m-d",
             $this->camp_data->final_registration_end
-        )->endOfDay() : \Carbon\Carbon::today();
+        )->endOfDay() : \Carbon\Carbon::today();*/
+	$final_registration_end = $this->camp_data->final_registration_end?->endOfDay()?? \Carbon\Carbon::today();
 
         if ($today > $registration_end && !isset($request->isBackend)) {
             //超過前台報名期限

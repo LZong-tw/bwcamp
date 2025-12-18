@@ -54,10 +54,10 @@
     <tr>
         <td>報名序號：{{ $applicant->id }}</td>
         <td>姓名：{{ $applicant->name }}</td>
-        <!--
+        
         <td>錄取編號：<u>{{ $applicant->group }}{{ $applicant->number }}</u></td>
         <td>組別：<u>{{ $applicant->group }}</u></td>
-        -->
+    
     </tr>
 </table>
 <br>
