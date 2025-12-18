@@ -66,8 +66,8 @@
                                         親愛的企業主管您好:：<br><br>
                                         &emsp;&emsp;歡迎您參加「{{ $applicant->batch->camp->fullName }}」，我們誠摯期待您的到來，希望您能獲得豐盛的收穫。〈<u>請於報到時攜帶電子郵件中，附件內含之QR&nbsp;Code報到。</u>〉<br><br>
                                         &emsp;&emsp;為使這三天研習進行順利，請詳閱下列須知。 <br><br>
-                                        一、研習日期：{{ $applicant->batch->batch_start->format('Y-m-d') }}&nbsp;({{ $applicant->batch->batch_start_weekday }})&nbsp;至&nbsp;{{ $applicant->batch->batch_end->format('Y-m-d') }}&nbsp;({{ $applicant->batch->batch_end_weekday }})<br>
-                                        二、報到時間：{{ $applicant->batch->batch_start->format('Y-m-d') }}&nbsp;({{ $applicant->batch->batch_start_weekday }})&nbsp;<a style="color: red;">09:30~10:30</a><br>
+                                        一、研習日期：{{ $applicant->batch->batch_start }}&nbsp;({{ $applicant->batch->batch_start_weekday }})&nbsp;至&nbsp;{{ $applicant->batch->batch_end }}&nbsp;({{ $applicant->batch->batch_end_weekday }})<br>
+                                        二、報到時間：{{ $applicant->batch->batch_start }}&nbsp;({{ $applicant->batch->batch_start_weekday }})&nbsp;<a style="color: red;">09:30~10:30</a><br>
                                         三、報到地點：{{ $applicant->batch->locationName }}&nbsp;養浩學舍&nbsp;({{ $applicant->batch->location }})<br>
                                         四、交通：<br>
                                         本基金會將於&nbsp;{{ $applicant->batch->batch_start }}&nbsp;上午&nbsp;09:00~10:00在以下地點提供交通接駁服務，現場安排穿黃色背心義工協助引導(逾10:00請自行搭計程車前往{{ $applicant->batch->locationName }})。<br>
