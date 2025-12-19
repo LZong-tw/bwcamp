@@ -31,7 +31,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
         libxml_use_internal_errors(true);
         $this->allData = $allData;
         $this->user = \App\Models\User::find(auth()->id());
-        if($this->camp->applicants()) {
+        if ($this->camp->applicants()) {
             // 參加者報到日期
             $checkInDates = CheckIn::select('check_in_date')->whereIn('applicant_id', $this->camp->applicants()->pluck('applicants.id'))->groupBy('check_in_date')->get();
             if ($checkInDates) {
@@ -100,14 +100,14 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
         if (str_contains($this->camp->table, 'vcamp')) {
             $this->columns = array_merge($this->columns, ["role_section" => '職務組別', "role_position" => '職務']);
         }
-        if((!isset($signData) || count($signData) == 0)) {
-            if(!isset($checkInDates)) {
+        if ((!isset($signData) || count($signData) == 0)) {
+            if (!isset($checkInDates)) {
                 $this->columns = array_merge($this->columns, config('camps_fields.general'), config('camps_fields.' . $this->camp->table) ?? []);
             } else {
                 $this->columns = array_merge($this->columns, config('camps_fields.general'), config('camps_fields.' . $this->camp->table) ?? [], $checkInDates);
             }
         } else {
-            if(!isset($checkInDates)) {
+            if (!isset($checkInDates)) {
                 $this->columns = array_merge($this->columns, config('camps_fields.general'), config('camps_fields.' . $this->camp->table) ?? [], $signDateTimesCols);
             } else {
                 $this->columns = array_merge($this->columns, config('camps_fields.general'), config('camps_fields.' . $this->camp->table) ?? [], $checkInDates, $signDateTimesCols);
@@ -121,10 +121,10 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
             ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
             ->where('camps.id', $this->camp->id)
             ->withTrashed()->get();
-        foreach($applicants as $applicant) {
+        foreach ($applicants as $applicant) {
             $applicant->id = $applicant->sn;
-            if($applicant->fee > 0) {
-                if($applicant->fee - $applicant->deposit <= 0) {
+            if ($applicant->fee > 0) {
+                if ($applicant->fee - $applicant->deposit <= 0) {
                     $applicant->is_paid = "是";
                 } else {
                     $applicant->is_paid = "否";
@@ -132,7 +132,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
             } else {
                 $applicant->is_paid = "無費用";
             }
-            if($applicant->trashed()) {
+            if ($applicant->trashed()) {
                 $applicant->is_cancelled = "是";
             } else {
                 $applicant->is_cancelled = "否";
@@ -144,12 +144,13 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
                 'read',
                 $this->camp,
                 context: str_contains($this->camp->table, "vcamp") ? "vcampExport" : null,
-                target: $applicant)
+                target: $applicant
+            )
             ) {
                 $applicants->forget($a_key);
                 continue;
             }
-            foreach($this->columns as $key => $v) {
+            foreach ($this->columns as $key => $v) {
                 if ($key == "avatar") {
                     if ($applicant->avatar == null) {
                         $applicant->$key = "無";
@@ -182,7 +183,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
                     $applicant->$key = $applicant->user->roles->pluck('applicant_group.alias')->implode('、');
                     continue;
                 }
-                if($key == "is_attend") {
+                if ($key == "is_attend") {
                     match ($applicant->$key) {
                         0 => $applicant->$key = "不參加",
                         1 => $applicant->$key = "參加",
@@ -195,15 +196,14 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
                 }
                 if ($v == "關懷員") {
                     if ($this->allData || $this->user->canAccessResource(
-                        new CarerApplicantXref,
+                        new CarerApplicantXref(),
                         'read',
                         $this->camp,
                         target: $applicant
                     )) {
                         if ($applicant->carers) {
                             $applicant->$key = $applicant->carers->flatten()->pluck('name')->implode('、');
-                        }
-                        else {
+                        } else {
                             $applicant->$key = "無";
                         }
                     } else {
@@ -213,7 +213,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
                     continue;
                 }
                 if ($key == "care_log") {
-                    if ($this->allData || $this->user->canAccessResource(new ContactLog, 'read', $this->camp, target: $applicant)) {
+                    if ($this->allData || $this->user->canAccessResource(new ContactLog(), 'read', $this->camp, target: $applicant)) {
                         if ($applicant->contactlogs) {
                             $applicant->$key = "";
                             foreach ($applicant->contactlogs as $count => $contactlog) {
@@ -222,8 +222,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
                                     $applicant->$key .= PHP_EOL;
                                 }
                             }
-                        }
-                        else {
+                        } else {
                             $applicant->$key = "無";
                         }
                     } else {
@@ -232,10 +231,10 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
                     }
                 }
                 // 使用正規表示式抓出日期欄
-                if(preg_match('/\d\d\d\d-\d\d-\d\d/', $key)) {
-                    if ($this->allData || $this->user->canAccessResource(new CheckIn, 'read', $this->camp, target: $applicant)) {
+                if (preg_match('/\d\d\d\d-\d\d-\d\d/', $key)) {
+                    if ($this->allData || $this->user->canAccessResource(new CheckIn(), 'read', $this->camp, target: $applicant)) {
                         // 填充報到資料
-                        if(in_array($applicant->id, $checkInData[$key])) {
+                        if (in_array($applicant->id, $checkInData[$key])) {
                             $applicant->$key = "⭕";
                         } else {
                             $applicant->$key = "➖";
@@ -244,10 +243,10 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
                         unset($this->columns[$key]);
                         continue;
                     }
-                } elseif(str_contains($key, "SIGN_")) {
-                    if ($this->allData || $this->user->canAccessResource(new SignInSignOut, 'read', $this->camp, target: $applicant)) {
+                } elseif (str_contains($key, "SIGN_")) {
+                    if ($this->allData || $this->user->canAccessResource(new SignInSignOut(), 'read', $this->camp, target: $applicant)) {
                         // 填充簽到資料
-                        if($signData[substr($key, 5)]['applicants']->contains($applicant->id)) {
+                        if ($signData[substr($key, 5)]['applicants']->contains($applicant->id)) {
                             $applicant->$key = "✔️";
                         } else {
                             $applicant->$key = "❌";
@@ -256,8 +255,8 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
                         unset($this->columns[$key]);
                         continue;
                     }
-                } elseif($key == "role_section") {
-                    if ($this->allData || $this->user->canAccessResource(new CampOrg, 'read', $this->camp, context: str_contains($this->camp->table, "vcamp") ? "vcampExport" : null, target: $applicant)) {
+                } elseif ($key == "role_section") {
+                    if ($this->allData || $this->user->canAccessResource(new CampOrg(), 'read', $this->camp, context: str_contains($this->camp->table, "vcamp") ? "vcampExport" : null, target: $applicant)) {
                         $roles = "";
                         $aRoles = $applicant->user?->roles()->where('camp_id', $applicant->vcamp->mainCamp->id)->get() ?? [];
                         foreach ($aRoles as $k => $role) {
@@ -271,8 +270,8 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
                         unset($this->columns[$key]);
                         continue;
                     }
-                } elseif($key == "role_position") {
-                    if ($this->allData || $this->user->canAccessResource(new CampOrg, 'read', $this->camp, context: str_contains($this->camp->table, "vcamp") ? "vcampExport" : null, target: $applicant)) {
+                } elseif ($key == "role_position") {
+                    if ($this->allData || $this->user->canAccessResource(new CampOrg(), 'read', $this->camp, context: str_contains($this->camp->table, "vcamp") ? "vcampExport" : null, target: $applicant)) {
                         $roles = "";
                         $aRoles = $applicant->user?->roles()->where('camp_id', $applicant->vcamp->mainCamp->id)->get() ?? [];
                         foreach ($aRoles as $k => $role) {
@@ -312,7 +311,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
         ]);
     }
 
-    public function map($applicant) : array
+    public function map($applicant): array
     {
         $result = [];
         foreach ($this->columns as $key => $value) {
@@ -321,7 +320,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
         return $result;
     }
 
-    public function headings() : array
+    public function headings(): array
     {
         $result = [];
         foreach ($this->columns as $key => $value) {
@@ -363,8 +362,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
                         $colName = $this->getNameFromNumber($colPosition);
                         $drawing->setCoordinates($colName . $rowPosition);
                         $drawings[] = $drawing;
-                    }
-                    catch (\Exception $e) {
+                    } catch (\Exception $e) {
                     }
                 }
                 if ($key == "files") {
@@ -382,8 +380,7 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
                                 $drawings[] = $drawing;
                                 $applicant->$key = "";
                             }
-                        }
-                        catch (\Exception $e) {
+                        } catch (\Exception $e) {
                         }
                     }
                 }
