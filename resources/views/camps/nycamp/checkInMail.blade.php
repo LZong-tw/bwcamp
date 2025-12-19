@@ -10,7 +10,7 @@
 Your Registration Number: {{ $applicant->id }}<br>
 Your Group: <span style="color: red;">{{ $applicant->group }}</span><br>
 Your Admission Number: {{ $applicant->group }}{{ $applicant->number }}<br></span>
-Camp Dates: {{ $applicant->batch->batch_start}} ({{ $applicant->batch->batch_start_weekday_short }}) ~ {{ $applicant->batch->batch_end}} ({{ $applicant->batch->batch_end_weekday_short }}) (4 days, 3 nights)<br>
+Camp Dates: {{ $applicant->batch->batch_start->format('Y-m-d') }} ({{ $applicant->batch->batch_start_weekday_short }}) ~ {{ $applicant->batch->batch_end->format('Y-m-d') }} ({{ $applicant->batch->batch_end_weekday_short }}) (4 days, 3 nights)<br>
 Camp Location: {{ $applicant->batch->locationName }} ({{ $applicant->batch->location }})<br>
 </p>
 <ul>
@@ -23,12 +23,11 @@ Camp Location: {{ $applicant->batch->locationName }} ({{ $applicant->batch->loca
 <br>
 <p class="card-text text-right">Warm regards, </p>
 <p class="card-text text-right">The Oneness Truth Foundation</p>
-<p class="card-text text-right">{{ \Carbon\Carbon::now()->format('n/j/Y') }}</p>
+<p class="card-text text-right">{{ \Carbon\Carbon::now()->format('Y-m-d') }}</p>
 <br>
 <br>
 <br>
 <h2 class="center">{{ $applicant->batch->camp->fullName }}<br>【行前通知】</h2>
-
 <p class="card-text">親愛的 {{ $applicant->name }} 同學您好：</p>
 <p class="card-text text-indent">歡迎您參加「{{ $applicant->batch->camp->fullName }}」，共享這場心靈饗宴。在您出發前，請詳閱下列須知。</p>
 
@@ -36,7 +35,7 @@ Camp Location: {{ $applicant->batch->locationName }} ({{ $applicant->batch->loca
 您的報名序號：{{ $applicant->id }}<br>
 您的組別：<span style="color: red;">{{ $applicant->group }}</span><br>
 您的錄取編號：{{ $applicant->group }}{{ $applicant->number }}<br>
-營隊日期：{{ $applicant->batch->batch_start }} ({{ $applicant->batch->batch_start_weekday }}) ~ {{ $applicant->batch->batch_end }} ({{ $applicant->batch->batch_end_weekday }})，共4天<br>
+營隊日期：{{ $applicant->batch->batch_start->format('Y-m-d') }} ({{ $applicant->batch->batch_start_weekday }}) ~ {{ $applicant->batch->batch_end->format('Y-m-d') }} ({{ $applicant->batch->batch_end_weekday }})，共4天<br>
 營隊地點：{{ $applicant->batch->locationName }} ({{ $applicant->batch->location }})<br>
 </p>
 <ul>
