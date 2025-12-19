@@ -143,7 +143,7 @@ class CampController extends Controller
             "Y-m-d",
             $this->camp_data->final_registration_end
         )->endOfDay() : \Carbon\Carbon::today();*/
-        $final_registration_end = $this->camp_data->final_registration_end?->endOfDay()?? \Carbon\Carbon::today();
+        $final_registration_end = $this->camp_data->final_registration_end?->endOfDay() ?? \Carbon\Carbon::today();
 
         return view('camps.' . $this->camp_data->table . '.form_mockup')
                 ->with('isBackend', $request->isBackend)
