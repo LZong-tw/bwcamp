@@ -47,8 +47,10 @@ class ApplicantsExport implements WithHeadings, WithMapping, WithDrawings, FromV
             // 各梯次報到日期填充
             $batches = Batch::whereIn('id', $this->camp->applicants()->pluck('batch_id'))->get();
             foreach ($batches as $batch) {
-                $date = Carbon::createFromFormat('Y-m-d', $batch->batch_start);
-                $endDate = Carbon::createFromFormat('Y-m-d', $batch->batch_end);
+                //$date = Carbon::createFromFormat('Y-m-d', $batch->batch_start);
+                //$endDate = Carbon::createFromFormat('Y-m-d', $batch->batch_end);
+                $date = $batch->batch_start;
+                $endDate = $batch->batch_end;
                 while (1) {
                     if ($date > $endDate) {
                         break;
