@@ -53,10 +53,11 @@ class CheckInMail extends Mailable
         if ($this->applicant->batch->camp->fullName == "心之呼吸｜2025大專教師生命成長營") {
             $subject1 = '行前通知單';
         } elseif ($this->applicant->batch->camp->table == "nycamp") {
-            if ($this->applicant->nycamp->language === "Mandarin")
+            if ($this->applicant->nycamp->language === "Mandarin") {
                 $subject1 = ' 【行前通知】';
-            else 
+            } else {
                 $subject1 = ' Pre-Departure Guide';
+            }
         }
 
         if ($this->applicant->batch->camp->table == 'coupon') {
