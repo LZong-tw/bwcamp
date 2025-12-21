@@ -47,6 +47,6 @@
 <p class="card-text">洽詢時間：週一～週五 10:00～20:00、週六 10:00～16:00</p>
 <br><br>
 <p class="card-text text-right">主辦單位：財團法人福智文教基金會 敬啟</p>
-<p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
+<p class="card-text text-right">{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</p>
 <p class="card-text">Facebook 卓越青年 <a href="https://www.facebook.com/YoungOneCamp" target="_blank" rel="noopener noreferrer">https://www.facebook.com/YoungOneCamp</a></p>
 <p class="card-text">{{ $applicant->batch->camp->fullName }}官方網站 <a href="http://www.youngone.org.tw/camp/" target="_blank" rel="noopener noreferrer">http://www.youngone.org.tw/camp/</a></p>

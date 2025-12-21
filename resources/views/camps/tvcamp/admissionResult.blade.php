@@ -123,7 +123,7 @@
                                 祝福　教安，健康平安！
                             </p>
                             <a class="right">財團法人福智文教基金會　敬啟</a><br>
-                            <a class="right">{{ \Carbon\Carbon::now()->year }}  年　{{ \Carbon\Carbon::now()->month }}  月  {{ \Carbon\Carbon::now()->day }}  日</a>
+                            <a class="right">{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</a>
                             <br><br>
                             <input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>
                             <a href="{{ $camp_data->site_url }}" class="btn btn-primary">回營隊首頁</a>

@@ -72,7 +72,8 @@ class CampController extends Controller
             return redirect()->to($this->camp_data->site_url);
         }
         $now = Carbon::now();
-        $registration_start = Carbon::createFromFormat('Y-m-d', $this->camp_data->registration_start);
+        //$registration_start = Carbon::createFromFormat('Y-m-d', $this->camp_data->registration_start);
+        $registration_start = $this->camp_data->registration_start;
         if ($now->lt($registration_start)) {
             return '<div style="margin: atuo;">距離開始報名日，還有 <br><img src="http://s.mmgo.io/t/B7Aj" alt="motionmailapp.com" /></div>';
         }
@@ -129,15 +130,20 @@ class CampController extends Controller
             $batch = Batch::find($this->batch_id);
         }
         if ($batch->is_late_registration_end) {
-            $registration_end = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $batch->late_registration_end . "23:59:59");
+            //$registration_end = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $batch->late_registration_end . "23:59:59");
+            $registration_end = $batch->late_registration_end->endOfDay();
         } else {
-            $registration_end = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $this->camp_data->registration_end . "23:59:59");
+            //$registration_end = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $this->camp_data->registration_end . "23:59:59");
+            $registration_end = $this->camp_data->registration_end->endOfDay();
         }
-        $registration_start = \Carbon\Carbon::createFromFormat("Y-m-d", $this->camp_data->registration_start)->startOfDay();
+        //$registration_start = \Carbon\Carbon::createFromFormat("Y-m-d", $this->camp_data->registration_start)->startOfDay();
+        $registration_start = $this->camp_data->registration_start->startOfDay();
+        /*
         $final_registration_end = $this->camp_data->final_registration_end ? \Carbon\Carbon::createFromFormat(
             "Y-m-d",
             $this->camp_data->final_registration_end
-        )->endOfDay() : \Carbon\Carbon::today();
+        )->endOfDay() : \Carbon\Carbon::today();*/
+        $final_registration_end = $this->camp_data->final_registration_end?->endOfDay() ?? \Carbon\Carbon::today();
 
         return view('camps.' . $this->camp_data->table . '.form_mockup')
                 ->with('isBackend', $request->isBackend)
@@ -402,7 +408,8 @@ class CampController extends Controller
             $applicant_data = str_replace("\\t", "", $applicant_data);
             $applicant_data = str_replace("'", "\\'", $applicant_data);
             if ($camp->modifying_deadline) {
-                $modifying_deadline = Carbon::createFromFormat('Y-m-d', $camp->modifying_deadline);
+                //$modifying_deadline = Carbon::createFromFormat('Y-m-d', $camp->modifying_deadline);
+                $modifying_deadline = $camp->modifying_deadline;
             } else {
                 $modifying_deadline = Carbon::now();
             }
@@ -574,8 +581,8 @@ class CampController extends Controller
                 $newLodging = array();
                 $newLodging['applicant_id'] = $applicant->id;
                 $newLodging['room_type'] = '';
-                $date1 = Carbon::parse($applicant->batch->batch_start);
-                $date2 = Carbon::parse($applicant->batch->batch_end);
+                $date1 = $applicant->batch->batch_start;
+                $date2 = $applicant->batch->batch_end;
                 $newLodging['nights'] =  $date1->diffInDays($date2);
                 $newLodging['fare'] = "0";
                 $newLodging['deposit'] = "0";
@@ -597,15 +604,15 @@ class CampController extends Controller
 
             if ($applicant->camp->has_early_bird) {
                 $createdAt = $applicant->created_at;
-                if ($applicant->camp->early_bird_last_day && $createdAt->lte(\Carbon\Carbon::parse($applicant->camp->early_bird_last_day))) {
+                if ($applicant->camp->early_bird_last_day && $createdAt->lte($applicant->camp->early_bird_last_day)) {
                     $fare_room = config('camps_payments.fare_room.' . $campTable . '_earlybird') ?? [];
-                } elseif ($applicant->camp->discount_last_day && $createdAt->lte(\Carbon\Carbon::parse($applicant->camp->discount_last_day))) {
+                } elseif ($applicant->camp->discount_last_day && $createdAt->lte($applicant->camp->discount_last_day)) {
                     $fare_room = config('camps_payments.fare_room.' . $campTable . '_discount') ?? [];
                 }
             }
             $applicant = $this->applicantService->checkPaymentStatus($applicant);
-            $applicant->batch_start_Weekday = \Carbon\Carbon::create($applicant->batch->batch_start)->locale(\App::getLocale())->isoFormat("dddd");
-            $applicant->batch_end_Weekday = \Carbon\Carbon::create($applicant->batch->batch_end)->locale(\App::getLocale())->isoFormat("dddd");
+            //$applicant->batch_start_Weekday = \Carbon\Carbon::create($applicant->batch->batch_start)->locale(\App::getLocale())->isoFormat("dddd");
+            //$applicant->batch_end_Weekday = \Carbon\Carbon::create($applicant->batch->batch_end)->locale(\App::getLocale())->isoFormat("dddd");
 
             /*//for 2023大專教師營
             if ($applicant->camp->table == 'utcamp') {
