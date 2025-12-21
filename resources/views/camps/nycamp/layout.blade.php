@@ -86,7 +86,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('query', $batch_id) }}">Modify Registrastion<br>報名查詢/修改&nbsp;&nbsp;</a>
                     </li>
-                    @if(\Carbon\Carbon::now() >= \Carbon\Carbon::createFromFormat("Y-m-d", $camp_data->admission_announcing_date))
+                    @if(\Carbon\Carbon::now() >= $camp_data->admission_announcing_date)
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route("queryadmitGET", $batch_id) }}">Admission<br>錄取查詢</a>
                         </li>
