@@ -2418,7 +2418,7 @@ return [
             "報名序號" => "applicant_id",
             "報名費繳交" => "lodging_fare",
             "報名費幣別" => "lodging_fare_currency",
-            "報名費匯率" => "fare_xrate_to_std",	
+            "報名費匯率" => "fare_xrate_to_std",
             "車資繳交" => "traffic_fare",
             "車資幣別" => "traffic_fare_currency",
             "車資匯率" => "traffic_xrate_to_std",

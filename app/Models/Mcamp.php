@@ -12,9 +12,8 @@ class Mcamp extends Model
     public $resourceNameInMandarin = '醫事人員營特殊欄位';
 
     protected $fillable = [
-        'applicant_id', 'unit', 'title', 'status', 'medical_specialty', 'work_category', 
+        'applicant_id', 'unit', 'title', 'status', 'medical_specialty', 'work_category',
     ];
 
     protected $guarded = [];
 }
-
