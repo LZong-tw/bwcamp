@@ -43,13 +43,13 @@
                     <option value="wvcamp" @if(isset($camp) && $camp->table == "wvcamp") selected @endif>講師培訓營義工</option>
                     <option value="ycamp" @if(isset($camp) && $camp->table == "ycamp") selected @endif>大專營</option>
                     <option value="yvcamp" @if(isset($camp) && $camp->table == "yvcamp") selected @endif>大專營義工</option>
-                    <!--option value="actcamp" @if(isset($camp) && $camp->table == "actcamp") selected @endif>小活動</option-->
-                    <!--option value="actvcamp" @if(isset($camp) && $camp->table == "actvcamp") selected @endif>小活動義工</option-->
+                    <!-- <option value="actcamp" @if(isset($camp) && $camp->table == "actcamp") selected @endif>小活動</option> -->
+                    <!-- <option value="actvcamp" @if(isset($camp) && $camp->table == "actvcamp") selected @endif>小活動義工</option> -->
                     <option value="lrcamp" @if(isset($camp) && $camp->table == "lrcamp") selected @endif>研討班</option>
-                    <!--option value="lrvcamp" @if(isset($camp) && $camp->table == "lrvcamp") selected @endif>研討班護持</option-->
+                    <!-- <option value="lrvcamp" @if(isset($camp) && $camp->table == "lrvcamp") selected @endif>研討班護持</option> -->
                     <option value="scamp" @if(isset($camp) && $camp->table == "scamp") selected @endif>永續課程</option>
                     <option value="svcamp" @if(isset($camp) && $camp->table == "svcamp") selected @endif>永續課程義工</option>
-                    <!--option value="coupon" @if(isset($camp) && $camp->table == "coupon") selected @endif>優惠碼/劵</option-->
+                    <!-- <option value="coupon" @if(isset($camp) && $camp->table == "coupon") selected @endif>優惠碼/劵</option> -->
                 </select>
             </div>
         </div>
