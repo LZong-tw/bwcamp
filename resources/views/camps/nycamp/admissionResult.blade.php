@@ -262,8 +262,7 @@
                 <p class="card-text indent">祝福您身心健康，吉祥如意！</p>
                 -->
                 <p class="card-text text-right">The Oneness Truth Foundation 敬啟</p>
-                <p class="card-text text-right">{{ \Carbon\Carbon::now()->format('Y 年 n 日 j 日')</p>
-                </p>
+                <p class="card-text text-right">{{ \Carbon\Carbon::now()->format('Y 年 n 日 j 日') }}</p>
             @endif
             <input type='button' class='btn btn-warning' value='back 回上一頁' onclick=self.history.back()>
             <a href="{{ $camp_data->site_url }}" class="btn btn-primary">home 回營隊首頁</a>

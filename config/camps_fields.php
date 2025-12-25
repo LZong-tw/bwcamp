@@ -762,6 +762,17 @@ return [
     ],
 
     'form_accomodation' => [
+        "general" => [
+            "admitted_no" => "錄取編號",
+            "name" => "姓名",
+            "gender" => "性別",
+            "mobile" => "手機號碼",
+            //底下為空格欄位
+            "empty1" => "報到",
+            "empty2" => "床位",
+            "empty3" => "預排",
+            "empty4" => "備註(遲到)",
+        ],
         "ycamp" => [
             "admitted_no" => "錄取編號",
             "name" => "姓名",
@@ -776,6 +787,17 @@ return [
     ],
 
     'form_contact' => [
+        "general" => [
+            "empty" => "確認",
+            "admitted_no" => "錄取編號",
+            "name" => "姓名",
+            "gender" => "性別",
+            "school" => "學校",
+            "department" => "系所",
+            "grade" => "年級",
+            "mobile" => "手機號碼",
+            "email" => "電子郵件",
+        ],
         "ycamp" => [
             "empty" => "確認",
             "admitted_no" => "錄取編號",
@@ -791,6 +813,15 @@ return [
 
     //交通確認表(各組)
     'form_traffic_confirm' => [
+        "general" => [
+            "empty" => "確認",
+            "admitted_no" => "錄取編號",
+            "name" => "姓名",
+            "depart_from" => "去程交通",
+            "back_to" => "回程交通",
+            "fare" => "應交車資",
+            "deposit" => "已交車資",
+        ],
         "ycamp" => [
             "empty" => "確認",
             "admitted_no" => "錄取編號",
@@ -803,6 +834,16 @@ return [
     ],
 
     'form_checkin' => [
+        "general" => [
+            "admitted_no" => "錄取編號",
+            "sn" => "報名序號",
+            "name" => "姓名",
+            "school" => "學校",
+            "department" => "系所",
+            "is_attend" => "參加意願",
+            "is_checkin" => "是否報到",
+            "remark" => "備註",
+        ],
         "ycamp" => [
             "admitted_no" => "錄取編號",
             "sn" => "報名序號",
@@ -817,6 +858,20 @@ return [
 
     //交通總表
     'form_traffic' => [
+        "general" => [
+            "admitted_no" => "錄取編號",
+            "name" => "姓名",
+            "depart_from" => "去程交通",
+            "back_to" => "回程交通",
+            "fare" => "應交車資",
+            "deposit" => "已交車資",
+            "cash" => "現金繳納",
+            "is_attend" => "參加意願",
+            "is_checkin" => "是否報到",
+            "remark" => "備註(系統)",
+            "notes" => "備註",              //非remark
+            "applicant_id" => "報名序號",
+        ],
         "ycamp" => [
             "admitted_no" => "錄取編號",
             "name" => "姓名",
@@ -835,6 +890,15 @@ return [
 
     //搭車表(各上車處)
     'form_traffic_loc' => [
+        "general" => [
+            "no" => "編號",
+            "empty" => "簽到",
+            "admitted_no" => "錄取編號",
+            "name" => "姓名",
+            "gender" => "性別",
+            "mobile" => "手機",
+            "deposit" => "已交車資",
+        ],
         "ycamp" => [
             "no" => "編號",
             "empty" => "簽到",
