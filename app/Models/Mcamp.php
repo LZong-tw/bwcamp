@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Mcamp extends Model
 {
-    //
     protected $table = 'mcamp';
 
     public $resourceNameInMandarin = '醫事人員營特殊欄位';
