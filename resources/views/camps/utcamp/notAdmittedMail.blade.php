@@ -25,4 +25,4 @@
     &emsp;&emsp;若有疑問，歡迎來訊：<a href="mailto:bwfaculty@blisswisdom.org">bwfaculty@blisswisdom.org</a><br><br>
     敬祝　教安！<br><br>
 <a class="right">財團法人福智文教基金會　敬上</a><br> 
-<a class="right">{{ \Carbon\Carbon::now()->year }}  年　{{ \Carbon\Carbon::now()->month }}  月 　 {{ \Carbon\Carbon::now()->day }}  日</a>
+<a class="right">{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</a>

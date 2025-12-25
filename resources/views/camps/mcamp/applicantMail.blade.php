@@ -1,6 +1,6 @@
 {{ $applicant->name }} 您好：<br>
 <br>
-　　恭喜您已完成{{ $campData->fullName }}網路報名程序。請記下您的報名序號： <strong>{{ $applicant->id }}</strong> 作為日後查詢使用。<br>
+　　恭喜您已完成{{ $applicant->batch->camp->fullName }}網路報名程序。請記下您的《 報名序號：{{ $applicant->id }} 》作為日後查詢使用。<br>
 <br>
 　　如您需修改報名表內容，可憑報名序號至 <a href="https://bwcamp.bwfoce.org/camp/{{ $applicant->batch->id }}/query"> https://bwcamp.bwfoce.org/camp/{{ $applicant->batch->id }}/query</a> 頁面修改<br>
 <br>
