@@ -84,8 +84,7 @@
                             {{--全程參與者，發給研習證明文件。--}}
                         </div>
                     @else
-                        敬愛的教育夥伴 {{ $applicant->name }} ，您好！ <br>
-                        　　「教師生命成長營」自舉辦以來，每年都得到教育夥伴們的支持和肯定，思及社會上仍有這麼多人共同關心莘莘學子們的學習成長，令人深感振奮！每一位老師的報名都是鼓舞我們的一分力量，激勵基金會全體人員持續不懈，與大家共同攜手為教育盡心盡力。 <br>
+                        敬愛的 {{ $applicant->name }} ，您好！ <br>
                         　　非常感謝您的報名，由於我們的場地容量的侷限性，不克錄取，造成您的不便，敬請見諒包涵。 福智文教基金會在全省各縣市的分支機構，平日都設有適合各年齡層的多元心靈提升課程，誠摯歡迎您的參與！<br>
                         　　敬祝<br>
                         教安<br>
@@ -95,11 +94,8 @@
                     {{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</p>
                     <b>「福智文教基金會」網站：</b>
                     <a href="https://bwfoce.org" target="_blank" rel="noopener noreferrer">https://bwfoce.org</a><br>
-                    <b>「幸福心學堂online」臉書社團：</b>
-                    <a href="https://www.facebook.com/groups/bwfoce.happiness.new" target="_blank" rel="noopener noreferrer">https://www.facebook.com/groups/bwfoce.happiness.new</a><br>
                     <br>
                     <input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>
-                    <a href="{{ $camp_data->site_url }}" class="btn btn-primary">回營隊首頁</a>
                     </p>
                 </div>
             </div>
