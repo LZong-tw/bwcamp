@@ -20,7 +20,7 @@
                     <h2>研習證明下載</h2>
                 </div>
                 <div class="card-body">
-                    <a href="https://bwcamp.bwfoce.org/downloads/tcamp{{ $applicant->batch->camp->year }}/{{ $applicant->group }}{{ $applicant->number }}{{ $applicant->applicant_id }}.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-success">下載</a>
+                    <a href="https://bwcamp.bwfoce.org/downloads/{{ $applicant->batch->camp->table }}{{ $applicant->batch->camp->year }}/{{ $applicant->group }}{{ $applicant->number }}{{ $applicant->applicant_id }}.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-success">下載</a>
                 </div>
                 <div class="card-body">
                     如下載顯示錯誤，請聯絡您的小組關懷員，謝謝！
