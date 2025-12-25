@@ -20,7 +20,7 @@
                     <h2>研習證明下載</h2>
                 </div>
                 <div class="card-body">
-                    <a href="https://bwcamp.bwfoce.org/downloads/tcamp{{ $applicant->batch->camp->year }}/{{ $applicant->group }}{{ $applicant->number }}{{ $applicant->applicant_id }}.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-success">下載</a>
+                    <a href="https://bwcamp.bwfoce.org/downloads/{{ $applicant->batch->camp->table }}{{ $applicant->batch->camp->year }}/{{ $applicant->group }}{{ $applicant->number }}{{ $applicant->applicant_id }}.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-success">下載</a>
                 </div>
                 <div class="card-body">
                     如下載顯示錯誤，請聯絡您的小組關懷員，謝謝！
@@ -40,7 +40,6 @@
                         {{ $applicant->name }} 您好！<br>
                         　　恭喜您錄取「{{ $applicant->batch->camp->fullName }}」，竭誠歡迎您的到來。<br>
                         我們將於營隊三周前寄發「報到通知單」，提供營隊相關訊息，請記得到電子信箱收信。<br>
-                        營隊之前，歡迎您加入「<a href="https://www.facebook.com/groups/bwfoce.happiness.new" target="_blank" rel="noopener noreferrer">幸福心學堂online</a>」臉書社團，收取營隊訊息和教育新知。<br>
                         期待與您共享這場心靈的饗宴，預祝您歡喜學習，收穫滿滿。<br>
                         　　敬祝<br>
                         教安<br>
@@ -85,8 +84,7 @@
                             {{--全程參與者，發給研習證明文件。--}}
                         </div>
                     @else
-                        敬愛的教育夥伴 {{ $applicant->name }} ，您好！ <br>
-                        　　「教師生命成長營」自舉辦以來，每年都得到教育夥伴們的支持和肯定，思及社會上仍有這麼多人共同關心莘莘學子們的學習成長，令人深感振奮！每一位老師的報名都是鼓舞我們的一分力量，激勵基金會全體人員持續不懈，與大家共同攜手為教育盡心盡力。 <br>
+                        敬愛的 {{ $applicant->name }} ，您好！ <br>
                         　　非常感謝您的報名，由於我們的場地容量的侷限性，不克錄取，造成您的不便，敬請見諒包涵。 福智文教基金會在全省各縣市的分支機構，平日都設有適合各年齡層的多元心靈提升課程，誠摯歡迎您的參與！<br>
                         　　敬祝<br>
                         教安<br>
@@ -96,11 +94,8 @@
                     {{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</p>
                     <b>「福智文教基金會」網站：</b>
                     <a href="https://bwfoce.org" target="_blank" rel="noopener noreferrer">https://bwfoce.org</a><br>
-                    <b>「幸福心學堂online」臉書社團：</b>
-                    <a href="https://www.facebook.com/groups/bwfoce.happiness.new" target="_blank" rel="noopener noreferrer">https://www.facebook.com/groups/bwfoce.happiness.new</a><br>
                     <br>
                     <input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>
-                    <a href="{{ $camp_data->site_url }}" class="btn btn-primary">回營隊首頁</a>
                     </p>
                 </div>
             </div>
