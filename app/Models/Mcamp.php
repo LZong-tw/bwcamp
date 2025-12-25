@@ -13,6 +13,4 @@ class Mcamp extends Model
     protected $fillable = [
         'applicant_id', 'unit', 'title', 'status', 'medical_specialty', 'work_category',
     ];
-
-    protected $guarded = [];
 }
