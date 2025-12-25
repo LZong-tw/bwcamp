@@ -1164,8 +1164,8 @@ class BackendController extends Controller
         if (isset($request->download) && $template == 2) {
             $form_title = "報名報到暨宿舍安排單";
             $form_width = "740px";  //portrait
-            $columns = 
-                config('camps_fields.form_accomodation.' . $this->campFullData->table) ?? 
+            $columns =
+                config('camps_fields.form_accomodation.' . $this->campFullData->table) ??
                 config('camps_fields.form_accomodation.general') ?? [];
             $accomodation_m = $this->gsheetService->importAccomodation($camp->id, '男', $group);
             $accomodation_f = $this->gsheetService->importAccomodation($camp->id, '女', $group);
@@ -1180,16 +1180,16 @@ class BackendController extends Controller
         } elseif (isset($request->download) && $template == 4) {
             $form_title = "回程交通確認表";
             $form_width = "740px";  //portrait
-            $columns = 
-                config('camps_fields.form_traffic_confirm.' . $this->campFullData->table) ?? 
+            $columns =
+                config('camps_fields.form_traffic_confirm.' . $this->campFullData->table) ??
                 config('camps_fields.form_traffic_confirm.general') ?? [];
             //return view('camps.' . $this->campFullData->table . '.formTraffic', compact('form_title','form_width','columns','camp','group','applicants'));
             return \PDF::loadView('camps.' . $this->campFullData->table . '.formGroup', compact('form_title', 'form_width', 'columns', 'camp', 'group', 'applicants'))->setPaper('a3')->download($this->campFullData->abbreviation . $group . $form_title . Carbon::now()->format('YmdHis') .'.pdf');
         } elseif (isset($request->download) && $template == 50) {
             $form_title = "報到學員名單";
             $form_width = "1046px";  //landscape
-            $columns = 
-                config('camps_fields.form_checkin.' . $this->campFullData->table) ?? 
+            $columns =
+                config('camps_fields.form_checkin.' . $this->campFullData->table) ??
                 config('camps_fields.form_checkin.general') ?? [];
             //return view('camps.' . $this->campFullData->table . '.formGroup', compact('form_title','form_width','columns','camp','group','applicants'));
             return \PDF::loadView('camps.' . $this->campFullData->table . '.formGroup', compact('form_title', 'form_width', 'columns', 'camp', 'group', 'applicants'))->setPaper('a3', 'landscape')->download($this->campFullData->abbreviation . $group . $form_title . Carbon::now()->format('YmdHis') .'.pdf');
