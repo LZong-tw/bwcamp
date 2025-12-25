@@ -13,6 +13,4 @@ class Mvcamp extends Model
     protected $fillable = [
         'applicant_id', 'lrclass', 'self_intro'
     ];
-
-    protected $guarded = [];
 }
