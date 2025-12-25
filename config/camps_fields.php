@@ -373,6 +373,39 @@ return [
         "introducer_name" => "介紹人姓名",
     ],
 
+    'mcamp' => [
+        "sn" => "報名序號",
+        "created_at" => "報名日期",
+        "name" => "姓名",
+        "gender" => "生理性別",
+        "age" => "年齡",
+        "group" => "組別",
+        "is_attend" => "參加意願",
+        "carers" => "關懷員",
+        "care_log" => "關懷記錄",
+        "email" => "Email",
+        "mobile" => "手機號碼",
+        "unit" => "服務機構",
+        "title" => "職稱",
+        "status" => "身分別",
+        "medical_specialty" => "醫事人員職種類別",
+        "work_category" => "長照人員職種類別",
+        "profile_agree" => "個人資料允許",
+        "portrait_agree" => "肖像權",
+    ],
+
+    'mvcamp' => [
+        "sn" => "報名序號",
+        "created_at" => "報名日期",
+        "name" => "姓名",
+        "gender" => "生理性別",
+        "lrclass" => "廣論研討班別",
+        "role_section" => "功能組別",
+        "role_position" => "職務",
+        "email" => "Email",
+        "mobile" => "手機號碼",
+    ],
+
     'scamp' => [
         "sn" => "報名序號",
         "created_at" => "報名日期",
@@ -1414,6 +1447,106 @@ return [
                 "for_query" => 1,
             ],
         ],
+
+        'mcamp' => [
+            "id" => [
+                "name" => "報名序號",
+                "sort" => 1,
+                "for_query" => 0,
+            ],
+            "batch" => [
+                "name" => "梯次",
+                "sort" => 1,
+                "for_query" => 0,
+            ],
+            "group" => [
+                "name" => "組別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "carer" => [
+                "name" => "關懷員",
+                "sort" => 1,
+                "for_query" => 0,
+            ],
+            "name" => [
+                "name" => "姓名",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "gender" => [
+                "name" => "性別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "age" => [
+                "name" => "年齡",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "unit" => [
+                "name" => "服務單位",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "title" => [
+                "name" => "職稱",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "mobile" => [
+                "name" => "手機",
+                "sort" => 0,
+                "for_query" => 0,
+            ],
+            "email" => [
+                "name" => "Email",
+                "sort" => 1,
+                "for_query" => 0,
+            ],
+            "is_attend" => [
+                "name" => "參加意願",
+                "sort" => 1,
+                "for_query" => 0,
+            ],
+            "contactlog" => [
+                "name" => "關懷記錄",
+                "sort" => 0,
+                "for_query" => 0,
+            ],
+        ],
+        'mvcamp' => [
+            "roles" => [
+                "name" => "職務組別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "position" => [
+                "name" => "職務",
+                "sort" => 1,
+                "for_query" => 0,
+            ],
+            "name" => [
+                "name" => "姓名",
+                "sort" => 0,
+                "for_query" => 1,
+            ],
+            "gender" => [
+                "name" => "性別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "age" => [
+                "name" => "年齡",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+            "lrclass" => [
+                "name" => "班別",
+                "sort" => 1,
+                "for_query" => 1,
+            ],
+        ],
         'scamp' => [
             "id" => [
                 "name" => "報名序號",
@@ -2271,6 +2404,30 @@ return [
             "transportation_depart" => "去程交通",
             "transportation_back" => "回程交通",
             "care_log" => "關懷記錄",
+        ],
+    ],
+    //please put the identifier (normally applicant_id) the first one
+    'import' => [
+        'ceocamp' => [
+            "報名序號" => "applicant_id",
+            "是否參加營隊" => "is_attend",
+            "住宿房型" => "room_type",
+            "繳費" => "lodging_deposit",
+        ],
+        'nycamp' => [
+            "報名序號" => "applicant_id",
+            "報名費繳交" => "lodging_fare",
+            "報名費幣別" => "lodging_fare_currency",
+            "報名費匯率" => "fare_xrate_to_std",
+            "車資繳交" => "traffic_fare",
+            "車資幣別" => "traffic_fare_currency",
+            "車資匯率" => "traffic_xrate_to_std",
+        ],
+        'utcamp' => [
+            "報名序號" => "applicant_id",
+            "是否參加營隊" => "is_attend",
+            "住宿房型" => "room_type",
+            "繳費" => "lodging_deposit",
         ],
     ],
 ];

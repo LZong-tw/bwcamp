@@ -142,6 +142,15 @@ class Applicant extends Model
         return $this->hasOne(Lrvcamp::class, 'applicant_id', 'id');
     }
 
+    public function mcamp()
+    {
+        return $this->hasOne(Mcamp::class, 'applicant_id', 'id');
+    }
+    public function mvcamp()
+    {
+        return $this->hasOne(Mvcamp::class, 'applicant_id', 'id');
+    }
+
     public function scamp()
     {
         return $this->hasOne(Scamp::class, 'applicant_id', 'id');
