@@ -1228,7 +1228,7 @@ class BackendController extends Controller
                         $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table) ?? []);
                     }
                 } elseif ($template == 51) {  //報到學員名單
-                    $columns = $columns = getFormColumns('form_checkin');
+                    $columns = $this->getFormColumns('form_checkin');
                 } else {    //名單
                     $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table) ?? []);
                 }
