@@ -1089,6 +1089,14 @@ class BackendController extends Controller
         return view('backend.registration.notAdmitted')->with('batches', $batches);
     }
 
+    private function getFormColumns(string $formType): array
+    {
+        //如果沒有特別需求，就使用general
+        $campTable = $this->campFullData->table;
+        return config("camps_fields.{$formType}.{$campTable}")    
+            ?? config("camps_fields.{$formType}.general")
+            ?? [];
+    }
     public function showGroup(Request $request)
     {
         if (!$this->isVcamp && !$this->user->canAccessResource(new \App\Models\Applicant(), 'read', $this->campFullData, 'onlyCheckAvailability') && $this->user->id > 2) {
@@ -1164,9 +1172,7 @@ class BackendController extends Controller
         if (isset($request->download) && $template == 2) {
             $form_title = "報名報到暨宿舍安排單";
             $form_width = "740px";  //portrait
-            $columns =
-                config('camps_fields.form_accomodation.' . $this->campFullData->table) ??
-                config('camps_fields.form_accomodation.general') ?? [];
+            $columns = getFormColumns('form_accomodation');
             $accomodation_m = $this->gsheetService->importAccomodation($camp->id, '男', $group);
             $accomodation_f = $this->gsheetService->importAccomodation($camp->id, '女', $group);
             //return view('camps.' . $this->campFullData->table . '.formAccomodation', compact( 'form_title','form_width','columns','camp','group','applicants'));
@@ -1174,23 +1180,19 @@ class BackendController extends Controller
         } elseif (isset($request->download) && $template == 3) {
             $form_title = "通訊資料確認表";
             $form_width = "1046px"; //landscape
-            $columns = config('camps_fields.form_contact.' . $this->campFullData->table) ?? [];
+            $columns = getFormColumns('form_contact');
             //return view('camps.' . $this->campFullData->table . '.formContact', compact('form_title','form_width','columns','camp','group','applicants'));
             return \PDF::loadView('camps.' . $this->campFullData->table . '.formGroup', compact('form_title', 'form_width', 'columns', 'camp', 'group', 'applicants'))->setPaper('a3', 'landscape')->download($this->campFullData->abbreviation . $group . $form_title . Carbon::now()->format('YmdHis') .'.pdf');
         } elseif (isset($request->download) && $template == 4) {
             $form_title = "回程交通確認表";
             $form_width = "740px";  //portrait
-            $columns =
-                config('camps_fields.form_traffic_confirm.' . $this->campFullData->table) ??
-                config('camps_fields.form_traffic_confirm.general') ?? [];
+            $columns = getFormColumns('form_traffic_confirm');
             //return view('camps.' . $this->campFullData->table . '.formTraffic', compact('form_title','form_width','columns','camp','group','applicants'));
             return \PDF::loadView('camps.' . $this->campFullData->table . '.formGroup', compact('form_title', 'form_width', 'columns', 'camp', 'group', 'applicants'))->setPaper('a3')->download($this->campFullData->abbreviation . $group . $form_title . Carbon::now()->format('YmdHis') .'.pdf');
         } elseif (isset($request->download) && $template == 50) {
             $form_title = "報到學員名單";
             $form_width = "1046px";  //landscape
-            $columns =
-                config('camps_fields.form_checkin.' . $this->campFullData->table) ??
-                config('camps_fields.form_checkin.general') ?? [];
+            $columns = getFormColumns('form_checkin');
             //return view('camps.' . $this->campFullData->table . '.formGroup', compact('form_title','form_width','columns','camp','group','applicants'));
             return \PDF::loadView('camps.' . $this->campFullData->table . '.formGroup', compact('form_title', 'form_width', 'columns', 'camp', 'group', 'applicants'))->setPaper('a3', 'landscape')->download($this->campFullData->abbreviation . $group . $form_title . Carbon::now()->format('YmdHis') .'.pdf');
         }
@@ -1226,7 +1228,7 @@ class BackendController extends Controller
                         $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table) ?? []);
                     }
                 } elseif ($template == 51) {  //報到學員名單
-                    $columns = config('camps_fields.form_checkin.' . $this->campFullData->table) ?? [];
+                    $columns = $columns = getFormColumns('form_checkin');
                 } else {    //名單
                     $columns = array_merge(config('camps_fields.general'), config('camps_fields.' . $this->campFullData->table) ?? []);
                 }
