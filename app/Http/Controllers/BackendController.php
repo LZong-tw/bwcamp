@@ -1093,7 +1093,7 @@ class BackendController extends Controller
     {
         //如果沒有特別需求，就使用general
         $campTable = $this->campFullData->table;
-        return config("camps_fields.{$formType}.{$campTable}")    
+        return config("camps_fields.{$formType}.{$campTable}")
             ?? config("camps_fields.{$formType}.general")
             ?? [];
     }
