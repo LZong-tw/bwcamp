@@ -24,7 +24,7 @@
         <li>報到時，請出示附件之【QR code】（或列印出紙本）辦理報到。</li>
         <li>詳細報到注意事項，含攜帶物品、餐飲、住宿與交通方式等，請點選<a href="http://bwcamp.bwfoce.org/downloads/{{ $applicant->batch->camp->table }}{{ $applicant->batch->camp->year }}/{{ $applicant->batch->camp->year }}報到通知單_email版.pdf">「完整報到通知單」</a></li>
         <li>有任何問題，歡迎與{{ $applicant->batch->camp->fullName }}報名報到組聯絡：<br>
-        <div style="white-space: pre-line;">{{ str_replace('\n', "\n", $applicant->batch->contact_card) }}</div>
+        {!! nl2br(e(str_replace('\n', "\n", $applicant->batch->contact_card))) !!}</li>
     </ol>
 </td></tr>
 </table>

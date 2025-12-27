@@ -8,7 +8,7 @@
 &emsp;&emsp;我們將於 {{ $campData->admission_announcing_date }}({{ $campData->admission_announcing_date_weekday }}) 寄發錄取與否通知信件至您的電子信箱，或您可至活動網站 {{ $campData->site_url }} 查詢。<br>
 <br>
 洽詢窗口<span class="font-bold">（週一至週五 10:00~17:30）：</span><br>
-<div style="white-space: pre-line;">{{ str_replace('\n', "\n", $applicant->batch->contact_card) }}</div>
+{!! nl2br(e(str_replace('\n', "\n", $applicant->batch->contact_card))) !!}
 LINE@：http://bwfoce.org/line <br>
 LINE ID：@bwfoce <br>
 {{-- 電子郵件：bwmedu@blisswisdom.org<br> --}}

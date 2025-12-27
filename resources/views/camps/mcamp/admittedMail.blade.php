@@ -40,7 +40,7 @@
         </li>
         <li>
             報名報到諮詢窗口<span class="font-bold">（周一至周五 10:00~17:30）：</span><br>
-            <div style="white-space: pre-line;">{{ str_replace('\n', "\n", $applicant->batch->contact_card) }}</div>
+            {!! nl2br(e(str_replace('\n', "\n", $applicant->batch->contact_card))) !!}
         </li>
     </ul>
 <br>
