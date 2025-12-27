@@ -17,7 +17,9 @@ class Batch extends Model
 
     public $resourceDescriptionInMandarin = '營隊中的梯次。';
 
-    protected $fillable = ['camp_id', 'name', 'admission_suffix', 'batch_start', 'batch_end', 'is_appliable', 'is_late_registration_end', 'late_registration_end', 'locationName', 'location', 'check_in_day', 'tel', 'num_groups'];
+    protected $fillable = ['camp_id', 'name', 'admission_suffix', 'batch_start', 'batch_end',
+    'is_appliable', 'is_late_registration_end', 'late_registration_end', 'locationName', 'location',
+    'check_in_day', 'tel', 'num_groups', 'contact_card'];
 
     protected $casts = [
         'batch_start' => 'date',
