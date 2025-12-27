@@ -55,7 +55,7 @@
                         營隊地點：{{ $applicant->batch->location }} {{ $applicant->batch->locationName }}<br>
                         --<br>
                         <b>報名報到諮詢窗口</b>（周一至周五10:00~17:30）<br>
-                        <div style="white-space: pre-line;">{{ str_replace('\n', "\n", $applicant->batch->contact_card) }}</div>
+                        {!! nl2br(e(str_replace('\n', "\n", $applicant->batch->contact_card))) !!}
                         </div>
                         <br>
                         <h5>您的參加狀態</h5>

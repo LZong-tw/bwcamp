@@ -44,4 +44,4 @@
 </ol>
 <a>敬祝～闔家平安、健康喜樂！</a><br>
 <a class="right">2023企業主管生命成長營關懷大組</a><br>
-<a class="right">{{ \Carbon\Carbon::now()->year }}  年　{{ \Carbon\Carbon::now()->month }}  月 　 {{ \Carbon\Carbon::now()->day }}  日</a>
+<a class="right">{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</a>
