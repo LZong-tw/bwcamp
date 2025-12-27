@@ -24,4 +24,4 @@
     <br>
     敬祝&emsp;教安！
 <a class="right">財團法人福智文教基金會&emsp;謹此</a><br>
-<a class="right">{{ now()->year }}&emsp;年&emsp;{{ now()->month }}&emsp;月&emsp;{{ now()->day }}&emsp;日</a>
+<a class="right">{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</a>

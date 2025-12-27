@@ -44,7 +44,7 @@
         </li>
     </ul>
 <a class="right">財團法人福智文教基金會&emsp;謹此</a><br>
-<a class="right">{{ \Carbon\Carbon::now()->year }}&emsp;年&emsp;{{ \Carbon\Carbon::now()->month }}&emsp;月&emsp;{{ \Carbon\Carbon::now()->day }}&emsp;日</a>
+<a class="right">{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</a>
 
 <!--
 <h2 class="center">{{ $applicant->batch->camp->fullName }}</h2>
@@ -95,5 +95,5 @@
 <br><br>
 
 <a class="right">財團法人福智文教基金會&emsp;敬上</a><br>
-<a class="right">{{ \Carbon\Carbon::now()->year }}&emsp;年&emsp;{{ \Carbon\Carbon::now()->month }}&emsp;月&emsp;{{ \Carbon\Carbon::now()->day }}&emsp;日</a>
+<a class="right">{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</a>
 -->
