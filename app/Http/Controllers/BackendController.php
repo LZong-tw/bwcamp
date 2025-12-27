@@ -1405,7 +1405,7 @@ class BackendController extends Controller
                                         //['is_paid', 'desc']
                                     ])->values();
             $batch = Batch::find($batch_id);
-            $columns = config('camps_fields.form_traffic.' . $this->campFullData->table) ?? [];
+            $columns = $this->getFormColumns('form_traffic');
 
             //$applicant1 = Applicant::find('19374');
             //$applicant1 = Applicant::find('16973');
@@ -1522,7 +1522,7 @@ class BackendController extends Controller
             $direction = "回程";
             $location = $back_to;
         }
-        $columns = config('camps_fields.form_traffic_loc.' . $this->campFullData->table) ?? [];
+        $columns = $this->getFormColumns('form_traffic_loc');
 
         if ($download) {
             $fileName = $this->campFullData->abbreviation . $batch->name . "梯" . $direction .$location . Carbon::now()->format('YmdHis') . '.csv';
