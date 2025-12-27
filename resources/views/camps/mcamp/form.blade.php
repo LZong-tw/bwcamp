@@ -162,7 +162,7 @@
             </div>
         </div>
     </div>
-
+{{--
     <div class='row form-group required'>
         <label for='inputStatus' class='col-md-2 control-label text-md-right'>身分別</label>
         <div class='col-md-10'>
@@ -186,7 +186,7 @@
             </label>
         </div>
     </div>
-
+--}}
     <div class='row form-group'>
         <label for='inputID' class='col-md-2 control-label text-md-right'>身份證字號</label>
         <div class='col-md-10'>

@@ -55,9 +55,7 @@
                         營隊地點：{{ $applicant->batch->location }} {{ $applicant->batch->locationName }}<br>
                         --<br>
                         <b>報名報到諮詢窗口</b>（周一至周五10:00~17:30）<br>
-                        　　王淑靜 小姐<br>
-                        　　電話：07-9769341#413<br>
-                        　　Email：shu-chin.wang@blisswisdom.org<br>
+                        <div style="white-space: pre-line;">{{ str_replace('\n', "\n", $applicant->batch->contact_card) }}</div>
                         </div>
                         <br>
                         <h5>您的參加狀態</h5>
