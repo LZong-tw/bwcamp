@@ -91,7 +91,7 @@
                         </li>
                     @endif
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url("downloads/mcamp/2026醫事人員生命成長營.png") }}">課程表</a>
+                        <a class="nav-link" href="{{ $camp_data->site_url }}">課程表</a>
                     </li>
                 </ul>
             </div>
