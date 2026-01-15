@@ -74,9 +74,11 @@
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                     {{-- <li class="nav-item active"> --}}
                     {{-- <span class="sr-only">(current)</span> --}}
+                    {{--
                     <li class="nav-item">
                         <a class="nav-link" href="{{ $camp_data->site_url }}">營隊資訊</a>
                     </li>
+                    --}}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('registration', $batch_id) }}">報名表單</a>
                     </li>
@@ -90,9 +92,6 @@
                     @endif
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url("downloads/mcamp/2026醫事人員生命成長營.png") }}">課程表</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ $camp_data->site_url }}">報名須知</a>
                     </li>
                 </ul>
             </div>

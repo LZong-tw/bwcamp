@@ -7,6 +7,15 @@
 @endphp
 @extends('camps.mcamp.layout')
 @section('content')
+    <div class="alert alert-warning">
+        <h5>【醫事人員生命成長營】</h5>
+        <h6>報名期間：{{ $camp_data->registration_start }}({{ $camp_data->registration_start_weekday }})~{{ $camp_data->registration_end }}({{ $camp_data->registration_end_weekday }})</h6>
+        <h6>活動時間：{{ $camp_data->batch_start }}({{ $camp_data->batch_start_weekday }}) 09:00~17:40</h6>
+        <h6>活動地點：福智學堂(台北市松山區南京東路四段165號9F)</h6>
+        <h6>報名資格：醫事、醫療人員、醫療相關行政人員及長照人員  (參加對象為福友)</h6>
+        <h6>主辦單位：福智文教基金會台北企業課</h6>
+    </div>
+
     <div class='alert alert-info' role='alert'>
         您在本網站所填寫的個人資料，僅用於此次「{{ $camp_data->fullName }}」的報名及活動聯絡之用。
     </div>
@@ -162,31 +171,23 @@
             </div>
         </div>
     </div>
-{{--
     <div class='row form-group required'>
         <label for='inputStatus' class='col-md-2 control-label text-md-right'>身分別</label>
         <div class='col-md-10'>
             <label class='radio-inline'>
-                <input type=radio required name='status' value='第一次參加'> 第一次參加　
+                <input type=radio required name='status' value='福智學員'> 福智學員
                 <div class="invalid-feedback">
                     請選擇身分
                 </div>
             </label>
             <label class='radio-inline'>
-                <input type=radio required name='status' value='已參加過'> 已參加過　
-                <div class="invalid-feedback">
-                    &nbsp;
-                </div>
-            </label>
-            <label class='radio-inline'>
-                <input type=radio required name='status' value='福智學員'> 福智學員(福智學員請一律點選此項)
+                <input type=radio required name='status' value='非福智學員'> 非福智學員
                 <div class="invalid-feedback">
                     &nbsp;
                 </div>
             </label>
         </div>
     </div>
---}}
     <div class='row form-group'>
         <label for='inputID' class='col-md-2 control-label text-md-right'>身份證字號</label>
         <div class='col-md-10'>
