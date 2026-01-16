@@ -31,6 +31,6 @@
 </td></tr><tr><td align="right">
 <br>
 <a class="right">主辦單位：財團法人福智文教基金會&nbsp;敬啟</a><br>
-<a class="right">{{ \Carbon\Carbon::now()->year }}  年　{{ \Carbon\Carbon::now()->month }}  月 　 {{ \Carbon\Carbon::now()->day }}  日</a>
+<a class="right">{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</a>
 </td></tr></table></td></tr>
 </body>

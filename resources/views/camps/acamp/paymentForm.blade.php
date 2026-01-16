@@ -113,4 +113,4 @@
 	</li>
 </ul>
 <a class="right">財團法人福智文教基金會　謹此</a><br> 
-<a class="right">{{ \Carbon\Carbon::now()->year }}  年　{{ \Carbon\Carbon::now()->month }}  月 　 {{ \Carbon\Carbon::now()->day }}  日</a>
+<a class="right">{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</a>
