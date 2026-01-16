@@ -68,7 +68,7 @@
 </p>
 <br>
 <a class="right">主辦單位：財團法人福智文教基金會　敬啟</a><br> 
-<a class="right">{{ \Carbon\Carbon::now()->year }}年 {{ \Carbon\Carbon::now()->month }}月 {{ \Carbon\Carbon::now()->day }}日</a>
+<a class="right">{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</a>
 <p>
     聯絡電話：02-7751-6788分機：610408、613091、610301 <br>
     洽詢時間：週一～週五 10:00 ~ 20:00、週六 10:00～16:00 <br>

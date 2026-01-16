@@ -299,7 +299,7 @@
 </td></tr>
 <tr><td align="right">
 主辦單位：財團法人福智文教基金會　敬邀<br>
-{{ \Carbon\Carbon::now()->year }}  年　{{ \Carbon\Carbon::now()->month }}  月 　 {{ \Carbon\Carbon::now()->day }}  日
+{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}
 </td></tr>
 </table>
 </body>

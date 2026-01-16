@@ -594,8 +594,8 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <label for='inputNotice' class='col-md-2 control-label text-md-right'>錄取通知方式</label>
         <div class='col-md-10'>
         <p class='form-control-static text-danger'>
-        請於 {{ $camp_data->admission_announcing_date }} ({{ $admission_announcing_date_Weekday }}) 起自行上網查詢。<br>
-        並於 {{ $camp_data->admission_confirming_end }} ({{ $admission_confirming_end_Weekday }}) 前上網回覆確認參加，倘未回覆，視同放棄。
+        請於 {{ $camp_data->admission_announcing_date }} ({{ $camp_data->admission_announcing_date_weekday }}) 起自行上網查詢。<br>
+        並於 {{ $camp_data->admission_confirming_end }} ({{ $camp_data->admission_confirming_end_weekday }}) 前上網回覆確認參加，倘未回覆，視同放棄。
         </p>
         </div>
     </div>

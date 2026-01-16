@@ -117,7 +117,7 @@
     <td align="right">
         @if ($applicant->batch->name != "高雄")
             秘書組義工小組　合十<br>
-            {{ \Carbon\Carbon::now()->year }}  年　{{ \Carbon\Carbon::now()->month }}  月 　 {{ \Carbon\Carbon::now()->day }}  日
+            {{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}
         @else
             2023企業營秘書大組 義工小組 合十
         @endif
