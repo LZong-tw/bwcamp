@@ -32,7 +32,7 @@
 <p class="card-text">若您對營隊有任何問題，歡迎您透過以下方式聯絡本基金會，我們將盡速為您服務。</p>
 <p class="card-text">感謝您的支持！</p>
 <p class="card-text text-right">主辦單位：財團法人福智文教基金會 敬啟</p>
-<p class="card-text text-right">{{ \Carbon\Carbon::now()->year }} 年 {{ \Carbon\Carbon::now()->month }} 月 {{ \Carbon\Carbon::now()->day }} 日</p>
+<p class="card-text text-right">{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</p>
 <p class="card-text">聯絡電話：02-7751-6788 分機：610408、613091、610301</p>
 <p class="card-text">洽詢時間：週一～週五 10:00～20:00、週六 10:00～16:00</p>
 <p class="card-text">Facebook 卓越青年 <a href="https://www.facebook.com/YoungOneCamp" target="_blank" rel="noopener noreferrer">https://www.facebook.com/YoungOneCamp</a></p>
