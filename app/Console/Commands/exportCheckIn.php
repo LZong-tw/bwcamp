@@ -10,10 +10,11 @@ class exportCheckIn extends Command
 {
     /**
      * The name and signature of the console command.
+     * exportType: "checkIn" or "signIn"
      *
      * @var string
      */
-    protected $signature = 'export:CheckIn {camp_id} {--renew=0}';
+    protected $signature = 'export:CheckIn {exportType} {camp_id} {--renew=1}';
 
     /**
      * The console command description.
@@ -46,6 +47,8 @@ class exportCheckIn extends Command
     {
         $this->request->camp_id = $this->argument('camp_id');
         $this->request->renew = $this->option('renew');
+        $this->request->export_type = $this->argument('exportType');
+        //process checkIn or signIn in exportGSCheckIn()
         $this->sheetControl->exportGSCheckIn($this->request);
         return 0;
     }

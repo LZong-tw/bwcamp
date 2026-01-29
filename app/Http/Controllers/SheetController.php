@@ -10,8 +10,9 @@ use App\Models\Applicant;
 use App\Models\Camp;
 use App\Models\CheckIn;
 use App\Models\DynamicStat;
-use App\Models\Vcamp;
 use App\Models\Lodging;
+use App\Models\SignInSignOut;
+use App\Models\Vcamp;
 
 class SheetController extends Controller
 {
@@ -275,7 +276,7 @@ class SheetController extends Controller
             ->first();
 
         if ($ds == null) {
-            echo "sheet not found\n";
+            \Log::info("sheet not found\n");
             exit(1);
         }
 
@@ -360,26 +361,41 @@ class SheetController extends Controller
         return;
     }
 
+    /*
+        將報到結果(from check_in or sign_in_sign_out 寫到GS)
+    */
+
     public function exportGSCheckIn(Request $request)
     {
-        //將報名報到結果寫回GS
-        $camp = Camp::find($request->camp_id);
-        $table = $camp->table;
+        //which camp, which applicants
+        $camp = Camp::findOrFail($request->camp_id);
         $ids = $camp->applicants->pluck('id');
-        //dd($ids);
-        $row_id = array();
-        $row_applicant_id = array();
-        $row_updated_at = array();
 
-        //ds_id = 387
+        //check_in or sign_in_sign_out
+        if ($request->export_type == "signIn") {
+            //require!! 1st field = id
+            $fields = ['id', 'applicant_id', 'updated_at', 'availability_id', 'deleted_at'];
+            $purpose = "exportSignIn";
+            $table = "sign_in_sign_out";
+        } elseif ($request->export_type == "checkIn") {
+            //require!! 1st field = id
+            $fields = ['id', 'applicant_id', 'updated_at'];
+            $purpose = "exportCheckIn";
+            $table = "check_in";
+        } else {
+            abort(400, 'Invalid export type');
+        }
+        $num_fields = count($fields);
+
+        //which gs link (to write)
         $ds = DynamicStat::select('dynamic_stats.*')
             ->where('urltable_id', $request->camp_id)
             ->where('urltable_type', 'App\Models\Camp')
-            ->where('purpose', 'exportCheckIn')
+            ->where('purpose', $purpose)
             ->first();
 
         if ($ds == null) {
-            echo "sheet not found\n";
+            \Log::info("sheet not found\n");
             exit(1);
         }
 
@@ -387,42 +403,56 @@ class SheetController extends Controller
         $sheet_name = $ds->sheet_name;
         $sheets = $this->gsheetservice->Get($sheet_id, $sheet_name);
 
-        //dd($sheets);
+        //read 1st row, should be "init_update_time"
         $row_0 = $sheets[0];
         $num_rows = count($sheets);
         $init_updated_time = \Carbon\Carbon::parse($sheets[0][0])->format('Y-m-d 00:00:00');
 
+        //renew or update
         if ($request->renew == 1 || $num_rows == 1) {
             $this->gsheetservice->Clear($sheet_id, $sheet_name);
             $this->gsheetservice->Append($sheet_id, $sheet_name, $row_0);
-            $checkin_new = \DB::table('check_in')
+            //renew
+            $entries2write = \DB::table($table)
                 ->where('updated_at', '>', $init_updated_time)
                 ->whereIn('applicant_id', $ids)
                 ->orderBy('id', 'asc')
                 ->get();
         } else {
-            $row_last_id = $sheets[$num_rows - 3];
-            $last_id = max($row_last_id);
+            //update
+            if ($num_rows > $num_fields) {
+                $row_last_id = $sheets[$num_rows - $num_fields];
+                $last_id = max($row_last_id);
+            } else {
+                $last_id = 0;   //the same as renew
+            }
 
-            $checkin_new = \DB::table('check_in')
+            $entries2write = \DB::table($table)
                 ->where('id', '>', $last_id)
                 ->whereIn('applicant_id', $ids)
                 ->orderBy('id', 'asc')
                 ->get();
         }
-        $num_checkin_new = count($checkin_new);
-        echo "num_checkin_new: " . $num_checkin_new . "\n";
-        if ($num_checkin_new > 0) {
-            foreach ($checkin_new as $checkin) {
-                array_push($row_id, $checkin->id);
-                array_push($row_applicant_id, $checkin->applicant_id);
-                array_push($row_updated_at, $checkin->updated_at);
-            }
-            $this->gsheetservice->Append($sheet_id, $sheet_name, $row_id);
-            $this->gsheetservice->Append($sheet_id, $sheet_name, $row_applicant_id);
-            $this->gsheetservice->Append($sheet_id, $sheet_name, $row_updated_at);
+
+        $rows = []; //2D array
+        for ($j = 0; $j < $num_fields; $j = $j + 1) {
+            $rows[$j] = [];
         }
-        echo "done" . "\n";
+        $num_entries2write = count($entries2write);
+        \Log::info("num_entries2write: " . $num_entries2write . "\n");
+        if ($num_entries2write > 0) {
+            foreach ($entries2write as $entry) {
+                $arrayEntry = json_decode(json_encode($entry), true);
+                for ($j = 0; $j < $num_fields; $j = $j + 1) {
+                    //field[$j] -> rows[$j]
+                    array_push($rows[$j], ($arrayEntry[$fields[$j]] ?? null));
+                }
+            }
+            for ($j = 0; $j < $num_fields; $j = $j + 1) {
+                $this->gsheetservice->Append($sheet_id, $sheet_name, $rows[$j]);
+            }
+        }
+        \Log::info("done\n");
         return;
     }
 
@@ -440,7 +470,7 @@ class SheetController extends Controller
             ->get();
 
         if ($dss == null) {
-            echo "sheet not found\n";
+            \Log::info("sheet not found\n");
             exit(1);
         }
 

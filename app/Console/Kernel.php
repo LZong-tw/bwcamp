@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Models\Batch;
 use Carbon\Carbon;
 
 class Kernel extends ConsoleKernel
@@ -31,7 +32,7 @@ class Kernel extends ConsoleKernel
         $this->scheduleCampExports($schedule);
 
         // 動態報到匯出排程
-        //$this->scheduleCheckInExports($schedule);
+        $this->scheduleCheckInExports($schedule);
     }
 
     /**
@@ -79,113 +80,78 @@ class Kernel extends ConsoleKernel
      */
     private function scheduleCheckInExports(Schedule $schedule)
     {
-        $timeRanges = $this->getCheckInTimeRanges();
+        //to do: create an interface for user instead of hard-code
+        //tcamp
+        $camp_id1 = 108;
+        $batch_id1 = 217;
 
-        // ceocamp (ID: 96) - 7/26-7/27
-        /*$this->scheduleCheckInForCamp($schedule, 96, [
+        $timeRanges1 = $this->getCheckInTimeRanges($batch_id1);
+
+        $this->scheduleCheckInForCamp($schedule, $camp_id1, [
             'everyMinute' => [
-                $timeRanges['day4']['peak'],
-                $timeRanges['day5']['peak'],
+                $timeRanges1['test1'],
+                $timeRanges1['day1']['peak'],
+                $timeRanges1['day2']['peak'],
             ],
             'everyTenMinutes' => [
-                $timeRanges['test1'],
-                $timeRanges['day4']['normal'],
-                $timeRanges['day5']['normal'],
+                $timeRanges1['day1']['normal'],
+                $timeRanges1['day2']['normal'],
             ]
         ]);
 
-        // ecamp_c (ID: 102) - 7/25-7/26
-        $this->scheduleCheckInForCamp($schedule, 102, [
+        //utcamp
+        $camp_id2 = 112;
+        $batch_id2 = 221;
+
+        $timeRanges2 = $this->getCheckInTimeRanges($batch_id2);
+
+        $this->scheduleCheckInForCamp($schedule, $camp_id2, [
             'everyMinute' => [
-                $timeRanges['day3']['peak'],
-                $timeRanges['day4']['peak'],
+                $timeRanges2['test1'],
+                $timeRanges2['day1']['peak'],
+                $timeRanges2['day2']['peak'],
             ],
             'everyTenMinutes' => [
-                $timeRanges['test2'],
-                $timeRanges['day3']['normal'],
-                $timeRanges['day4']['normal'],
+                $timeRanges2['day1']['normal'],
+                $timeRanges2['day2']['normal'],
             ]
         ]);
 
-        // ecamp_n (ID: 106) - 7/25-7/26
-        $this->scheduleCheckInForCamp($schedule, 106, [
-            'everyMinute' => [
-                $timeRanges['day3']['peak'],
-                $timeRanges['day4']['peak'],
-            ],
-            'everyTenMinutes' => [
-                $timeRanges['test2'],
-                $timeRanges['day3']['normal'],
-                $timeRanges['day4']['normal'],
-            ]
-        ]);
-
-        // ecamp_s (ID: 100) - 7/18-7/19
-        $this->scheduleCheckInForCamp($schedule, 100, [
-            'everyMinute' => [
-                $timeRanges['day1']['peak'],
-                $timeRanges['day2']['peak'],
-            ],
-            'everyTenMinutes' => [
-                $timeRanges['test1'],
-                $timeRanges['day1']['normal'],
-                $timeRanges['day2']['normal'],
-            ]
-        ]);*/
-
-        // ycamp (ID: 104) - 8/8-8/9
-        $this->scheduleCheckInForCamp($schedule, 104, [
-            'everyMinute' => [
-                $timeRanges['test1'],
-                $timeRanges['day1']['peak'],
-                $timeRanges['day2']['peak'],
-            ],
-            'everyTenMinutes' => [
-                $timeRanges['day1']['normal'],
-                $timeRanges['day2']['normal'],
-            ]
-        ]);
     }
 
     /**
      * 取得報到時間範圍設定
      */
-    private function getCheckInTimeRanges(): array
+    private function getCheckInTimeRanges($batch_id): array
     {
+        $batch = Batch::find($batch_id);
+        $str_day1 = $batch->batch_start->format('Y-m-d');
+        $str_prevDay = Carbon::parse($str_day1)->subDay()->format('Y-m-d');
+        $str_nextDay = Carbon::parse($str_day1)->addDay()->format('Y-m-d');
+
+        $peak_start = ' 07:00:00';
+        $peak_end = ' 15:00:00';
+        $normal_start = ' 15:00:01';
+        $normal_end = ' 20:59:59';
+
         return [
             // 測試時段
-            'test1' => ['start' => '2025-07-17 18:00:00', 'end' => '2025-07-17 21:00:00'],
-            'test2' => ['start' => '2025-07-24 18:00:00', 'end' => '2025-07-24 21:00:00'],
+            'test1' => [
+                'peak'   => ['start' => $str_prevDay.$peak_start,   'end' => $str_prevDay.$peak_end],
+                'normal' => ['start' => $str_prevDay.$normal_start, 'end' => $str_prevDay.$normal_end],
+            ],
 
-            // 第一天 (8/8)
+            // 第一天
             'day1' => [
-                'peak'   => ['start' => '2025-08-08 07:00:00', 'end' => '2025-08-08 15:00:00'],
-                'normal' => ['start' => '2025-08-08 15:00:01', 'end' => '2025-08-08 20:59:59'],
+                'peak'   => ['start' => $str_day1.$peak_start,   'end' => $str_day1.$peak_end],
+                'normal' => ['start' => $str_day1.$normal_start, 'end' => $str_day1.$normal_end],
             ],
 
-            // 第二天 (8/9)
+            // 第二天
             'day2' => [
-                'peak'   => ['start' => '2025-08-09 07:00:00', 'end' => '2025-08-09 15:00:00'],
-                'normal' => ['start' => '2025-08-09 15:00:01', 'end' => '2025-08-09 20:59:59'],
+                'peak'   => ['start' => $str_nextDay.$peak_start,   'end' => $str_nextDay.$peak_end],
+                'normal' => ['start' => $str_nextDay.$normal_start, 'end' => $str_nextDay.$normal_end],
             ],
-
-            // 第三天 (7/25)
-            /*'day3' => [
-                'peak'   => ['start' => '2025-07-25 08:00:00', 'end' => '2025-07-25 09:00:00'],
-                'normal' => ['start' => '2025-07-25 09:01:00', 'end' => '2025-07-25 11:59:59'],
-            ],
-
-            // 第四天 (7/26)
-            'day4' => [
-                'peak'   => ['start' => '2025-07-26 08:00:00', 'end' => '2025-07-26 09:00:00'],
-                'normal' => ['start' => '2025-07-26 09:01:00', 'end' => '2025-07-26 11:59:59'],
-            ],
-
-            // 第五天 (7/27)
-            'day5' => [
-                'peak'   => ['start' => '2025-07-27 08:00:00', 'end' => '2025-07-27 09:00:00'],
-                'normal' => ['start' => '2025-07-27 09:01:00', 'end' => '2025-07-27 11:59:59'],
-            ],*/
         ];
     }
 
@@ -194,7 +160,8 @@ class Kernel extends ConsoleKernel
      */
     private function scheduleCheckInForCamp(Schedule $schedule, int $campId, array $timeConfig)
     {
-        $command = "export:CheckIn {$campId} --renew=1";
+        //$command = "export:CheckIn checkIn {$campId} --renew=1";
+        $command = "export:CheckIn signIn {$campId} --renew=1";
 
         // 設定每分鐘執行的時段
         if (isset($timeConfig['everyMinute'])) {
