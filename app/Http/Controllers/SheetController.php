@@ -10,8 +10,9 @@ use App\Models\Applicant;
 use App\Models\Camp;
 use App\Models\CheckIn;
 use App\Models\DynamicStat;
-use App\Models\Vcamp;
 use App\Models\Lodging;
+use App\Models\SignInSignOut;
+use App\Models\Vcamp;
 
 class SheetController extends Controller
 {
@@ -275,7 +276,7 @@ class SheetController extends Controller
             ->first();
 
         if ($ds == null) {
-            echo "sheet not found\n";
+            \Log::info("sheet not found\n");
             exit(1);
         }
 
@@ -367,8 +368,7 @@ class SheetController extends Controller
     public function exportGSCheckIn(Request $request)
     {
         //which camp, which applicants
-        $camp = Camp::find($request->camp_id);
-        //$camp_table = $camp->table;
+        $camp = Camp::findOrFail($request->camp_id);
         $ids = $camp->applicants->pluck('id');
 
         //check_in or sign_in_sign_out
@@ -382,6 +382,8 @@ class SheetController extends Controller
             $fields = ['id', 'applicant_id', 'updated_at'];
             $purpose = "exportCheckIn";
             $table = "check_in";
+        } else {
+            abort(400, 'Invalid export type');
         }
         $num_fields = count($fields);
 
@@ -393,7 +395,7 @@ class SheetController extends Controller
             ->first();
 
         if ($ds == null) {
-            echo "sheet not found\n";
+            \Log::info("sheet not found\n");
             exit(1);
         }
 
@@ -418,8 +420,12 @@ class SheetController extends Controller
                 ->get();
         } else {
             //update
-            $row_last_id = $sheets[$num_rows - $num_fields];
-            $last_id = max($row_last_id);
+            if ($num_rows > $num_fields) {
+                $row_last_id = $sheets[$num_rows - $num_fields];
+                $last_id = max($row_last_id);
+            } else {
+                $last_id = 0;   //the same as renew
+            }
 
             $entries2write = \DB::table($table)
                 ->where('id', '>', $last_id)
@@ -427,13 +433,13 @@ class SheetController extends Controller
                 ->orderBy('id', 'asc')
                 ->get();
         }
-        //dd($ids);
+
         $rows = []; //2D array
         for ($j = 0; $j < $num_fields; $j = $j + 1) {
             $rows[$j] = [];
         }
         $num_entries2write = count($entries2write);
-        echo "num_entries2write: " . $num_entries2write . "\n";
+        \Log::info("num_entries2write: " . $num_entries2write . "\n");
         if ($num_entries2write > 0) {
             foreach ($entries2write as $entry) {
                 $arrayEntry = json_decode(json_encode($entry), true);
@@ -446,7 +452,7 @@ class SheetController extends Controller
                 $this->gsheetservice->Append($sheet_id, $sheet_name, $rows[$j]);
             }
         }
-        echo "done" . "\n";
+        \Log::info("done\n");
         return;
     }
 
@@ -464,7 +470,7 @@ class SheetController extends Controller
             ->get();
 
         if ($dss == null) {
-            echo "sheet not found\n";
+            \Log::info("sheet not found\n");
             exit(1);
         }
 

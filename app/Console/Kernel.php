@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Models\Batch;
 use Carbon\Carbon;
 
 class Kernel extends ConsoleKernel
@@ -79,6 +80,7 @@ class Kernel extends ConsoleKernel
      */
     private function scheduleCheckInExports(Schedule $schedule)
     {
+        //to do: create an interface for user instead of hard-code
         //tcamp
         $camp_id = 108;
         $batch_id = 217;
