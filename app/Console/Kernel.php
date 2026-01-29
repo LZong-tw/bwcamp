@@ -82,38 +82,38 @@ class Kernel extends ConsoleKernel
     {
         //to do: create an interface for user instead of hard-code
         //tcamp
-        $camp_id = 108;
-        $batch_id = 217;
+        $camp_id1 = 108;
+        $batch_id1 = 217;
 
-        $timeRanges = $this->getCheckInTimeRanges($batch_id);
+        $timeRanges1 = $this->getCheckInTimeRanges($batch_id1);
 
-        $this->scheduleCheckInForCamp($schedule, $camp_id, [
+        $this->scheduleCheckInForCamp($schedule, $camp_id1, [
             'everyMinute' => [
-                $timeRanges['test1'],
-                $timeRanges['day1']['peak'],
-                $timeRanges['day2']['peak'],
+                $timeRanges1['test1'],
+                $timeRanges1['day1']['peak'],
+                $timeRanges1['day2']['peak'],
             ],
             'everyTenMinutes' => [
-                $timeRanges['day1']['normal'],
-                $timeRanges['day2']['normal'],
+                $timeRanges1['day1']['normal'],
+                $timeRanges1['day2']['normal'],
             ]
         ]);
 
         //utcamp
-        $camp_id = 112;
-        $batch_id = 221;
+        $camp_id2 = 112;
+        $batch_id2 = 221;
 
-        $timeRanges = $this->getCheckInTimeRanges($batch_id);
+        $timeRanges2 = $this->getCheckInTimeRanges($batch_id2);
 
-        $this->scheduleCheckInForCamp($schedule, $camp_id, [
+        $this->scheduleCheckInForCamp($schedule, $camp_id2, [
             'everyMinute' => [
-                $timeRanges['test1'],
-                $timeRanges['day1']['peak'],
-                $timeRanges['day2']['peak'],
+                $timeRanges2['test1'],
+                $timeRanges2['day1']['peak'],
+                $timeRanges2['day2']['peak'],
             ],
             'everyTenMinutes' => [
-                $timeRanges['day1']['normal'],
-                $timeRanges['day2']['normal'],
+                $timeRanges2['day1']['normal'],
+                $timeRanges2['day2']['normal'],
             ]
         ]);
 
