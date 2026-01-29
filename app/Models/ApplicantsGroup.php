@@ -29,4 +29,8 @@ class ApplicantsGroup extends Model
     public function numbers() {
         return $this->hasMany(GroupNumber::class, 'group_id', 'id');
     }
+
+    public function camp_orgs() {
+        return $this->hasMany(CampOrg::class, 'group_id', 'id');
+    }
 }
