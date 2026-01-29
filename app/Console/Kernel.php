@@ -125,10 +125,9 @@ class Kernel extends ConsoleKernel
     private function getCheckInTimeRanges($batch_id): array
     {
         $batch = Batch::find($batch_id);
-
-        $str_day1 = $camp->batchs->batch_start;
-        $str_test1 = Carbon::parse($str_day1)->subDay()->format('Y-m-d');
-        $str_day2 = Carbon::parse($str_day1)->addDay()->format('Y-m-d');
+        $str_day1 = $batch->batch_start->format('Y-m-d');
+        $str_prevDay = Carbon::parse($str_day1)->subDay()->format('Y-m-d');
+        $str_nextDay = Carbon::parse($str_day1)->addDay()->format('Y-m-d');
 
         $peak_start = ' 07:00:00';
         $peak_end = ' 15:00:00';
@@ -138,8 +137,8 @@ class Kernel extends ConsoleKernel
         return [
             // 測試時段
             'test1' => [
-                'peak'   => ['start' => $str_test1.$peak_start,   'end' => $str_test1.$peak_end],
-                'normal' => ['start' => $str_test1.$normal_start, 'end' => $str_test1.$normal_end],
+                'peak'   => ['start' => $str_prevDay.$peak_start,   'end' => $str_prevDay.$peak_end],
+                'normal' => ['start' => $str_prevDay.$normal_start, 'end' => $str_prevDay.$normal_end],
             ],
 
             // 第一天
@@ -150,8 +149,8 @@ class Kernel extends ConsoleKernel
 
             // 第二天
             'day2' => [
-                'peak'   => ['start' => $str_day2.$peak_start,   'end' => $str_day2.$peak_end],
-                'normal' => ['start' => $str_day2.$normal_start, 'end' => $str_day2.$normal_end],
+                'peak'   => ['start' => $str_nextDay.$peak_start,   'end' => $str_nextDay.$peak_end],
+                'normal' => ['start' => $str_nextDay.$normal_start, 'end' => $str_nextDay.$normal_end],
             ],
         ];
     }
