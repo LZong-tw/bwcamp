@@ -374,12 +374,12 @@ class SheetController extends Controller
         //check_in or sign_in_sign_out
         if ($request->export_type == "signIn") {
             //require!! 1st field = id
-            $fields = ['id', 'applicant_id', 'updated_at', 'availability_id', 'deleted_at']; 
+            $fields = ['id', 'applicant_id', 'updated_at', 'availability_id', 'deleted_at'];
             $purpose = "exportSignIn";
             $table = "sign_in_sign_out";
         } elseif ($request->export_type == "checkIn") {
             //require!! 1st field = id
-            $fields = ['id', 'applicant_id', 'updated_at']; 
+            $fields = ['id', 'applicant_id', 'updated_at'];
             $purpose = "exportCheckIn";
             $table = "check_in";
         }
@@ -429,7 +429,7 @@ class SheetController extends Controller
         }
         //dd($ids);
         $rows = []; //2D array
-        for ($j = 0; $j<$num_fields; $j=$j+1) {
+        for ($j = 0; $j < $num_fields; $j = $j + 1) {
             $rows[$j] = [];
         }
         $num_entries2write = count($entries2write);
@@ -437,12 +437,12 @@ class SheetController extends Controller
         if ($num_entries2write > 0) {
             foreach ($entries2write as $entry) {
                 $arrayEntry = json_decode(json_encode($entry), true);
-                for ($j = 0; $j<$num_fields; $j=$j+1) {
+                for ($j = 0; $j < $num_fields; $j = $j + 1) {
                     //field[$j] -> rows[$j]
                     array_push($rows[$j], ($arrayEntry[$fields[$j]] ?? null));
                 }
             }
-            for ($j = 0; $j<$num_fields; $j=$j+1) {
+            for ($j = 0; $j < $num_fields; $j = $j + 1) {
                 $this->gsheetservice->Append($sheet_id, $sheet_name, $rows[$j]);
             }
         }
