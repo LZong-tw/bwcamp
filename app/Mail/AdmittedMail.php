@@ -36,8 +36,8 @@ class AdmittedMail extends Mailable
         $this->carers = [];
 
         if ($this->campFullData->table == 'mcamp') {
-            $vbatch = $this->applicant->batch->vbatch;
-            $vcamp = $this->applicant->camp->vcamp;
+            $vbatch = $this->applicant->batch->vbatch ?? null;
+            $vcamp = $this->applicant->camp->vcamp ?? null;
 
             if ($vbatch) {
                 $this->carers_unified =
