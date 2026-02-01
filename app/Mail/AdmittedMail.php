@@ -17,6 +17,8 @@ class AdmittedMail extends Mailable
     public $campFullData;
     public $attachment;
     public $etc;
+    public $carers_unified;
+    public $carers;
 
     /**
      * Create a new message instance.
@@ -30,23 +32,26 @@ class AdmittedMail extends Mailable
         $this->campFullData = $campFullData;
         $this->attachment = $attachment;
         $this->etc = $this->applicant->user?->roles?->where("camp_id", \App\Models\Vcamp::find($this->applicant->camp->id)->mainCamp->id)->first()?->section;
+        $this->carers_unified = [];
+        $this->carers = [];
 
-        //找尋小組長及他的電話
-        //找到group
-        // ->找到相關camp_orgs
-        // ->找到被assign此職務的 carers(users)
-        // ->找到applicant(vcamp_id)
-        // ->mobile
-        $this->group = $applicant->group;
-        $this->camp_orgs = $group->camp_orgs->sortby('order');
-        $this->group_carers = collect();    //empty
-        foreach($this->camp_orgs as $org) {
-            $this->group_carers->push($org->users);
+        if ($this->campFullData->table == 'mcamp') {
+            $vbatch = $this->applicant->batch->vbatch ?? null;
+            $vcamp = $this->applicant->camp->vcamp ?? null;
+            $this->carers_unified =
+                \App\Models\Applicant::where('batch_id', $vbatch->id)
+                ->join('mvcamp','mvcamp.applicant_id', '=' , 'applicants.id')
+                ->where('self_intro', '第5組義工窗口')
+                ->get();
+            $orgs = \App\Models\CampOrg::where('group_id', $this->applicant->group_id)->get();
+            $carers = $orgs->pluck("users")->flatten();
+            $carers = $carers->map(function ($carer) use ($vcamp) {
+                $carer["mobile"] = $carer->application_log->whereIn('batch_id', $vcamp->batchs->pluck('id'))->first()?->mobile?? "";
+                return $carer;
+            });
+            $this->carers = $carers;
         }
-        $this->carers = $this->group_carers;
-        foreach($this->group_carers as $carer) {
-            $carer->mobile = $carer->applicant($campFullData->camp_id)->mobile;
-        }
+
     }
 
     /**
