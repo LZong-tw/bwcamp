@@ -42,7 +42,7 @@ class AdmittedMail extends Mailable
             if ($vbatch) {
                 $this->carers_unified =
                     \App\Models\Applicant::where('batch_id', $vbatch->id)
-                    ->join('mvcamp','mvcamp.applicant_id', '=' , 'applicants.id')
+                    ->join('mvcamp', 'mvcamp.applicant_id', '=', 'applicants.id')
                     ->where('self_intro', '第5組義工窗口')
                     ->get();
             }
@@ -51,7 +51,7 @@ class AdmittedMail extends Mailable
                 $orgs = \App\Models\CampOrg::with('users.application_log')
                     ->where('group_id', $this->applicant->group_id)
                     ->get();
-                
+
                 $carers = $orgs->pluck("users")->flatten();
                 $vcampBatchIds = $vcamp->batchs->pluck('id');
 
