@@ -36,22 +36,32 @@ class AdmittedMail extends Mailable
         $this->carers = [];
 
         if ($this->campFullData->table == 'mcamp') {
-            $vbatch = $this->applicant->batch->vbatch ?? null;
-            $vcamp = $this->applicant->camp->vcamp ?? null;
-            $this->carers_unified =
-                \App\Models\Applicant::where('batch_id', $vbatch->id)
-                ->join('mvcamp','mvcamp.applicant_id', '=' , 'applicants.id')
-                ->where('self_intro', '第5組義工窗口')
-                ->get();
-            $orgs = \App\Models\CampOrg::where('group_id', $this->applicant->group_id)->get();
-            $carers = $orgs->pluck("users")->flatten();
-            $carers = $carers->map(function ($carer) use ($vcamp) {
-                $carer["mobile"] = $carer->application_log->whereIn('batch_id', $vcamp->batchs->pluck('id'))->first()?->mobile?? "";
-                return $carer;
-            });
-            $this->carers = $carers;
-        }
+            $vbatch = $this->applicant->batch->vbatch;
+            $vcamp = $this->applicant->camp->vcamp;
 
+            if ($vbatch) {
+                $this->carers_unified =
+                    \App\Models\Applicant::where('batch_id', $vbatch->id)
+                    ->join('mvcamp','mvcamp.applicant_id', '=' , 'applicants.id')
+                    ->where('self_intro', '第5組義工窗口')
+                    ->get();
+            }
+
+            if ($vcamp) {
+                $orgs = \App\Models\CampOrg::with('users.application_log')
+                    ->where('group_id', $this->applicant->group_id)
+                    ->get();
+                
+                $carers = $orgs->pluck("users")->flatten();
+                $vcampBatchIds = $vcamp->batchs->pluck('id');
+
+                $carers = $carers->map(function ($carer) use ($vcampBatchIds) {
+                    $carer["mobile"] = $carer->application_log->whereIn('batch_id', $vcampBatchIds)->first()?->mobile ?? "";
+                    return $carer;
+                });
+                $this->carers = $carers;
+            }
+        }
     }
 
     /**
