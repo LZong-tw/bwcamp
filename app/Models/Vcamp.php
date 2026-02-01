@@ -31,7 +31,8 @@ class Vcamp extends Camp
     {
         return $this->hasOneThrough(Camp::class, CampVcampXref::class, 'vcamp_id', 'id', 'id', 'camp_id');
     }
-    public function batchs() {
-        return $this->hasMany('App\Models\Batch','camp_id');
+    public function batchs()
+    {
+        return $this->hasMany('App\Models\Batch', 'camp_id');
     }
 }
