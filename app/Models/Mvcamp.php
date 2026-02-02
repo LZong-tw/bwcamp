@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Mvcamp extends Model
 {
-    const DESCRIPTION_UNIFIED_CONTACT = '第5組義工窗口';
+    public const DESCRIPTION_UNIFIED_CONTACT = '第5組義工窗口';
 
     protected $table = 'mvcamp';
 
