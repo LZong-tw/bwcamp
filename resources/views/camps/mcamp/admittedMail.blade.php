@@ -21,7 +21,7 @@
             </td>
         </tr>
     </table>
-    @if($applicant->groupRelation?->alias == "第5組" || $applicant->groupRelation?->alias == "第6組")
+    @if($applicant->groupRelation?->category == 2)
     <br>
     親愛的福智學員您好：<br>
     <br>
@@ -30,8 +30,8 @@
     <ol>
         <li>上課時間：{{ $applicant->batch->batch_start }}({{ $applicant->batch->batch_start_weekday }})</li>
         <li>報到時間：{{ $applicant->batch->batch_start }}({{ $applicant->batch->batch_start_weekday }}) <span style="color: red">08:30 ~ 09:00</span></li>
-        <li>舉辦地點：{{ $applicant->batch->vbatch->locationName }}<br>
-        ({{ $applicant->batch->vbatch->location }})</li>
+        <li>舉辦地點：{{ ($applicant->batch->vbatch?->locationName?? []) }}<br>
+        ({{ ($applicant->batch->vbatch?->location?? []) }})</li>
         <li>交通：會場位於市區內，交通便捷，您可以<br>
         (1) 搭乘台北捷運<span style="color: green">綠線</span>至「<span style="color: green">小巨蛋站</span>」，由5號出口往南京東路5段方向直行即可到達(步行約5分鐘)，或<br>
         (2) 搭乘公車至附近站牌「<span style="color: red">南京寧安街口</span>」(步行約2分鐘)、或「<span style="color: red">南京三民路口站</span>」(步行約5分鐘)</li>
@@ -42,7 +42,6 @@
                 <li>{{ $carer->name }} {{ $carer->mobile }}</li>
             @endforeach
         </ul>
-
     </ol>
     @else
     <br>
