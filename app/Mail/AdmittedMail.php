@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\Applicant;
+use App\Models\Mvcamp;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -43,10 +44,9 @@ class AdmittedMail extends Mailable
                 $this->carers_unified =
                     \App\Models\Applicant::where('batch_id', $vbatch->id)
                     ->join('mvcamp', 'mvcamp.applicant_id', '=', 'applicants.id')
-                    ->where('self_intro', '第5組義工窗口')
+                    ->where('self_intro', \App\Models\Mvcamp::DESCRIPTION_UNIFIED_CONTACT)
                     ->get();
             }
-
             if ($vcamp) {
                 $orgs = \App\Models\CampOrg::with('users.application_log')
                     ->where('group_id', $this->applicant->group_id)
