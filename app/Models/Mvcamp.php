@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Mvcamp extends Model
 {
+    const DESCRIPTION_UNIFIED_CONTACT = '第5組義工窗口';
+
     protected $table = 'mvcamp';
 
     public $resourceNameInMandarin = '醫事人員營義工特殊欄位';
