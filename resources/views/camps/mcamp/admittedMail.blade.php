@@ -22,6 +22,7 @@
         </tr>
     </table>
     @if($applicant->groupRelation?->category == 2)
+    <!-- 廣論學員 -->
     <br>
     親愛的福智學員您好：<br>
     <br>
@@ -44,6 +45,7 @@
         </ul>
     </ol>
     @else
+    <!-- 非廣論學員 -->
     <br>
     親愛的醫事人員您好：<br>
     <br>
