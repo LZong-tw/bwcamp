@@ -178,6 +178,20 @@ return [
         'name' => env('SES_IVCAMP_MAIL_FROM_NAME'),
     ],
 
+    'mcamp' => [
+        'address' => env('MCAMP_MAIL_USERNAME', 'hello@example.com'),
+        'username' => env('MCAMP_MAIL_USERNAME'),
+        'password' => env('MCAMP_MAIL_PASSWORD'),
+        'name' => env('MCAMP_MAIL_FROM_NAME'),
+    ],
+
+    'mvcamp' => [
+        'address' => env('MVCAMP_MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'username' => env('MVCAMP_MAIL_USERNAME'),
+        'password' => env('MVCAMP_MAIL_PASSWORD'),
+        'name' => env('MVCAMP_MAIL_FROM_NAME'),
+    ],
+
     'scamp' => [
         'address' => env('SCAMP_MAIL_FROM_ADDRESS', 'hello@example.com'),
         'username' => env('SCAMP_MAIL_USERNAME'),
