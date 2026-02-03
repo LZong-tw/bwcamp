@@ -18,15 +18,23 @@ class ApplicantsGroup extends Model
 
     public $resourceDescriptionInMandarin = '營隊中的學員組別，附屬在梯次下。';
 
-    public function applicants() {
+    public function applicants()
+    {
         return $this->hasMany(Applicant::class, 'group_id', 'id');
     }
 
-    public function batch() {
+    public function batch()
+    {
         return $this->belongsTo(Batch::class, 'batch_id', 'id');
     }
 
-    public function numbers() {
+    public function numbers()
+    {
         return $this->hasMany(GroupNumber::class, 'group_id', 'id');
+    }
+
+    public function camp_orgs()
+    {
+        return $this->hasMany(CampOrg::class, 'group_id', 'id');
     }
 }
