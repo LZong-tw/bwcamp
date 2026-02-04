@@ -52,5 +52,5 @@ class ApplicantsGroup extends Model
                 $query->where('group_id', $groupId);
             })
             ->get();
-        }
+    }
 }

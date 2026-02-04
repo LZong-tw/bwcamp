@@ -41,7 +41,7 @@ class AdmittedMail extends Mailable
             if ($vbatchId) {
                 $this->carers_unified = \App\Models\Applicant::where('batch_id', $vbatchId)
                 // 1. 預加載：把 mvcamp 資料一次抓進記憶體，避免 N+1
-                ->with('mvcamp') 
+                ->with('mvcamp')
                 // 2. 篩選：只抓出符合特定自我介紹內容的 Applicant
                 ->whereRelation('mvcamp', 'self_intro', \App\Models\Mvcamp::DESCRIPTION_UNIFIED_CONTACT)
                 ->get();

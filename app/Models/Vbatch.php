@@ -14,7 +14,7 @@ class Vbatch extends Model
     public $resourceNameInMandarin = '義工梯次資料';
 
     public $resourceDescriptionInMandarin = '在義工營隊裡的皆是義工梯次，它和主營隊的梯次理論上是一對一';
-    
+
     protected $fillable = ['camp_id', 'name', 'admission_suffix', 'batch_start', 'batch_end',
     'is_appliable', 'is_late_registration_end', 'late_registration_end', 'locationName', 'location',
     'check_in_day', 'tel', 'num_groups', 'contact_card'];
