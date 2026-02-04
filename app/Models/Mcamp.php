@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+
 
 class Mcamp extends Model
 {
@@ -13,4 +15,17 @@ class Mcamp extends Model
     protected $fillable = [
         'applicant_id', 'unit', 'title', 'status', 'medical_specialty', 'work_category',
     ];
+
+    public function applicant()
+    {
+        //若使用預設 applicant_id & id，可不寫
+        return $this->belongsTo(Applicant::class,'applicant_id','id');
+    }
+
+    protected function batch(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->applicant?->batch,
+        );
+    }
 }

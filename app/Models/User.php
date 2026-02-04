@@ -74,6 +74,11 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\Role', 'role_user', 'user_id', 'role_id');
     }
 
+    public function camp_orgs()
+    {
+        return $this->belongsToMany(CampOrg::class, 'org_user', 'user_id', 'org_id');
+    }
+
     public function getPermission($top = false, $camp_id = null, $function_id = null)
     {
         if (!$top) {

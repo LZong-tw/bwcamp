@@ -34,32 +34,17 @@ class AdmittedMail extends Mailable
         $this->attachment = $attachment;
         $this->etc = $this->applicant->user?->roles?->where("camp_id", \App\Models\Vcamp::find($this->applicant->camp->id)->mainCamp->id)->first()?->section;
         $this->carers_unified = [];
-        $this->carers = [];
+        $this->carers = \App\Models\ApplicantsGroup::find($this->applicant->group_id)->carers();
 
         if ($this->campFullData->table == 'mcamp') {
-            $vbatch = $this->applicant->batch->vbatch ?? null;
-            $vcamp = $this->applicant->camp->vcamp ?? null;
-
-            if ($vbatch) {
-                $this->carers_unified =
-                    \App\Models\Applicant::where('batch_id', $vbatch->id)
-                    ->join('mvcamp', 'mvcamp.applicant_id', '=', 'applicants.id')
-                    ->where('self_intro', \App\Models\Mvcamp::DESCRIPTION_UNIFIED_CONTACT)
-                    ->get();
-            }
-            if ($vcamp) {
-                $orgs = \App\Models\CampOrg::with('users.application_log')
-                    ->where('group_id', $this->applicant->group_id)
-                    ->get();
-
-                $carers = $orgs->pluck("users")->flatten();
-                $vcampBatchIds = $vcamp->batchs->pluck('id');
-
-                $carers = $carers->map(function ($carer) use ($vcampBatchIds) {
-                    $carer["mobile"] = $carer->application_log->whereIn('batch_id', $vcampBatchIds)->first()?->mobile ?? "";
-                    return $carer;
-                });
-                $this->carers = $carers;
+            $vbatchId = $this->applicant->batch->vbatch?->id;
+            if ($vbatchId) {
+                $this->carers_unified = \App\Models\Applicant::where('batch_id', $vbatchId)
+                // 1. 預加載：把 mvcamp 資料一次抓進記憶體，避免 N+1
+                ->with('mvcamp') 
+                // 2. 篩選：只抓出符合特定自我介紹內容的 Applicant
+                ->whereRelation('mvcamp', 'self_intro', \App\Models\Mvcamp::DESCRIPTION_UNIFIED_CONTACT)
+                ->get();
             }
         }
     }

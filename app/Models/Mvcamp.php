@@ -17,4 +17,17 @@ class Mvcamp extends Model
     protected $fillable = [
         'applicant_id', 'lrclass', 'self_intro'
     ];
+    
+    public function applicant()
+    {
+        //若使用預設 applicant_id & id，可不寫
+        return $this->belongsTo(Applicant::class,'applicant_id','id');
+    }
+
+    protected function batch(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->applicant?->batch,
+        );
+    }
 }
