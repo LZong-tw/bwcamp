@@ -33,7 +33,7 @@
                     錄取編號：<u>{{ $applicant->group }}{{ $applicant->number }}</u><br>
                     組別：<u>{{ $applicant->group }}</u><br>
                     --<br>
-                    營隊日期：{{ $applicant->batch->batch_start }}({{ $applicant->batch_start_Weekday }})～{{ $applicant->batch->batch_end }}({{ $applicant->batch_end_Weekday }})<br>
+                    營隊日期：{{ $applicant->batch->batch_start }}({{ $applicant->batch_start_weekday }})～{{ $applicant->batch->batch_end }}({{ $applicant->batch_end_weekday }})<br>
                     營隊地點：{{ $applicant->batch->location }} {{ $applicant->batch->locationName }}<br>
                     --<br>
                     <b>報名報到諮詢窗口</b>（周一至周五10:00~17:30）<br>

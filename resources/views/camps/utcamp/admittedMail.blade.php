@@ -15,7 +15,7 @@
 <table width="100%" style="table-layout:fixed; border: 0;">
     <tr>
         <td>地點：{{ $applicant->batch->locationName }}</td>
-        <td>時間：{{ $applicant->batch->batch_start }}({{ $batch_start_Weekday }})至{{ $applicant->batch->batch_end }}({{ $batch_end_Weekday }})</td>
+        <td>時間：{{ $applicant->batch->batch_start }}({{ $applicant->batch->batch_start_weekday }})至{{ $applicant->batch->batch_end }}({{ $applicant->batch->batch_end_weekday }})</td>
     </tr>
     <tr>
         <td>姓名：{{ $applicant->name }}</td>
@@ -72,7 +72,7 @@
 <ol>
     <li>營隊資訊<br>
         <ul>
-            <li>活動期間：{{ $applicant->batch->batch_start }}({{ $batch_start_Weekday }})～{{ $applicant->batch->batch_end }}({{ $batch_end_Weekday }})</li>
+            <li>活動期間：{{ $applicant->batch->batch_start }}({{ $applicant->batch->batch_start_weekday }})～{{ $applicant->batch->batch_end }}({{ $applicant->batch->batch_end_weekday }})</li>
             <li>地點：{{ $applicant->batch->locationName }}（{{ $applicant->batch->location }}）</li>
         </ul>
     </li>

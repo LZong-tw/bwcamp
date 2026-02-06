@@ -130,33 +130,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 -->
-{{--
-    <div class='row form-group required'>
-        <label for='inputBirth' class='col-md-2 control-label text-md-right'>研習時數申請</label>
-        <div class='col-md-10'>
-            <select required class='form-control' name='workshop_credit_type' placeholder='' onchange="id_setRequired(this)">
-                <option value="">- 請選擇 -</option>
-                <option value="不申請">不申請</option>
-                <!--<option value="一般教師研習時數">一般教師研習時數</option>-->
-                <option value="公務員研習時數">公務員研習時數</option>
-                <option value="基金會研習數位證明書">基金會研習數位證明書</option>
-            </select>
-            <div class="invalid-feedback">
-                未選擇研習時數申請
-            </div>
-        </div>
-    </div>
 
-    <div class='row form-group required' style="display: none;">
-        <label for='inputID' class='col-md-2 control-label text-md-right'>身份證字號</label>
-        <div class='col-md-10'>
-            <input type='text' name='idno' value='' class='form-control' id='inputID' placeholder='僅作為申請研習時數或研習證明用' @if(isset($isModify) && $isModify) disabled @endif>
-            <div class="invalid-feedback">
-                未填寫身份證字號（申請時數或研習證明用）
-            </div>
-        </div>
-    </div>
---}}
     <div class='row form-group'>
         <label class = 'col-md-2'></label>
         <label class = 'col-md-10 text-primary'>若您的服務學校/單位不在下面選單中，請在「行政區」選「其他」，即可自填服務學校/單位。</label>
@@ -429,7 +403,67 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     </div>
-{{--
+    <div class='row form-group required'>
+        <label for='inputCreditType' class='col-md-2 control-label text-md-right'>研習時數申請</label>
+        <div class='col-md-10'>
+            <select required class='form-control' name='workshop_credit_type' placeholder='' onchange="id_setRequired(this)">
+                <option value="">- 請選擇 -</option>
+                <option value="不申請">不申請</option>
+                <!--<option value="一般教師研習時數">一般教師研習時數</option>-->
+                <option value="公務員研習時數">公務員研習時數</option>
+                <option value="基金會研習數位證明書">基金會研習數位證明書</option>
+            </select>
+            <div class="invalid-feedback">
+                未選擇研習時數申請
+            </div>
+        </div>
+    </div>
+
+    <div class='row form-group required' style="display: none;">
+        <label for='inputID' class='col-md-2 control-label text-md-right'>身份證字號</label>
+        <div class='col-md-10'>
+            <input type='text' name='idno' value='' class='form-control' id='inputID' placeholder='僅作為申請研習時數或研習證明用'>
+            <div class="invalid-feedback">
+                未填寫身份證字號（申請時數或研習證明用）
+            </div>
+        </div>
+    </div>
+
+    <div class='row form-group required'>
+        <label for='inputInvoiceType' class='col-md-2 control-label text-md-right'>活動費發票開立</label>
+        <div class='col-md-10'>
+            <select required class='form-control' name='invoice_type' placeholder='' onchange="taxid_setRequired(this)">
+                <option value="">- 請選擇 -</option>
+                <option value="單位發票">單位發票</option>
+                <option value="個人發票">個人發票</option>
+                <option value="捐贈福智文教基金會">捐贈福智文教基金會</option>
+            </select>
+            <div class="invalid-feedback">
+                未選擇活動費發票開立
+            </div>
+        </div>
+    </div>
+
+    <div class='row form-group required' style="display: none;">
+        <label for='inputTaxID' class='col-md-2 control-label text-md-right'>統一編號</label>
+        <div class='col-md-10'>
+            <input type='text' name='taxid' value='' class='form-control' id='inputTaxID' placeholder='開立活動費發票用'>
+            <div class="invalid-feedback">
+                未填寫統一編號
+            </div>
+        </div>
+    </div>
+
+    <div class='row form-group required' style="display: none;">
+        <label for='inputInvoiceTitle' class='col-md-2 control-label text-md-right'>抬頭</label>
+        <div class='col-md-10'>
+            <input type='text' name='invoice_title' value='' class='form-control' id='inputInvoiceTitle' placeholder='開立活動費發票用'>
+            <div class="invalid-feedback">
+                未填寫抬頭
+            </div>
+        </div>
+    </div>
+
     <div class='row form-group required'>
         <label class='col-md-2 control-label text-md-right'>住宿需求</label>
         <div class='col-md-10'>
@@ -559,43 +593,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     </div>
---}}
-    <div class='row form-group'>
-        <label class='col-md-2 control-label text-md-right'>交通需求</label>
-        <div class='col-md-10'>
-            <div class='row form-group'>
-                <div class='col-md-12 text-primary'>
-                    ＊＊＊僅供大會接駁規劃用，活動前另有義工個別聯繫確認＊＊＊
-                </div>
-            </div>
-            <div class='row form-group required'>
-                <label for='inputTransportationDepart' class='col-md-2 control-label'>
-                    去程
-                </label>
-                <div class='col-md-10'>
-                    <select required class='form-control' name='transportation_depart' onChange=''>
-                        <option value='' selected>- 請選擇 -</option>
-                        <option value='屏東火車站專車接駁' >屏東火車站專車接駁</option>
-                        <option value='左營高鐵站專車接駁' >左營高鐵站專車接駁</option>
-                        <option value='自行前往無以上需求' >自行前往無以上需求</option>
-                    </select>
-                </div>
-            </div>
-            <div class='row form-group required'>
-                <label for='inputTransportationBack' class='col-md-2 control-label'>
-                    回程
-                </label>
-                <div class='col-md-10'>
-                    <select required class='form-control' name='transportation_back' onChange=''>
-                        <option value='' selected>- 請選擇 -</option>
-                        <option value='專車接駁至屏東火車站' >專車接駁至屏東火車站</option>
-                        <option value='專車接駁至左營高鐵站' >專車接駁至左營高鐵站</option>
-                        <option value='自行返回無以上需求' >自行返回無以上需求</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div>
+
 {{-- 
     <!--- 同意書 -->
     <div class='row form-group required'>
@@ -866,6 +864,20 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         }
     }
 
+    function taxid_setRequired(ele) {
+        if(ele.value == "單位發票") {
+            $("#inputTaxID").parent().parent().show();
+            $("#inputTaxID").prop('required',true);
+            $("#inputInvoiceTitle").parent().parent().show();
+            $("#inputInvoiceTitle").prop('required',true);
+        }
+        else {
+            $("#inputTaxID").parent().parent().hide();
+            $("#inputTaxID").prop('required',false);
+            $("#inputInvoiceTitle").parent().parent().hide();
+            $("#inputInvoiceTitle").prop('required',false);
+        }
+    }
     function id_setRequired(ele) {
         if(ele.value == "一般教師研習時數" || ele.value == "公務員研習時數") {
             $("#inputID").parent().parent().show();
@@ -883,7 +895,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         }
     }
 
-/*     function showCompanion(radio_ele) {
+    function showCompanion(radio_ele) {
         // 檢查 radio_ele 被勾選是哪項
         if(radio_ele.value==5000) {
             // 兩人同行優惠
@@ -902,7 +914,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             document.getElementById('as_roommate_n').required = false;
         }
     }
- */    @if(isset($applicant_data))
+    @if(isset($applicant_data))
         {{-- 回填報名資料 --}}
         (function() {
             window.applicant_id = '{{ $applicant_id }}';
