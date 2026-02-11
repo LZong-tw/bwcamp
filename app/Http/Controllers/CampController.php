@@ -576,7 +576,7 @@ class CampController extends Controller
                 $traffic = $applicant->traffic;
             }
 
-            if ( ($campTable == "nycamp" || $campTable == "utcamp") && $applicant->lodging == null) {
+            if (($campTable == "nycamp" || $campTable == "utcamp") && $applicant->lodging == null) {
                 //for nycamp, if null, create one
                 $newLodging = array();
                 $newLodging['applicant_id'] = $applicant->id;
