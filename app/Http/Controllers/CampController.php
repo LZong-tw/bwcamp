@@ -556,7 +556,7 @@ class CampController extends Controller
             $traffic = null;
             $lodging = null;
             $applicant->id = $applicant->applicant_id;
-            if (($campTable == "ycamp" || $campTable == "nycamp") && $applicant->traffic == null) {
+            if (($campTable == "ycamp" || $campTable == "nycamp" || $campTable == "utcamp") && $applicant->traffic == null) {
                 //for ycamp and nycamp, if null, create one
                 $newTraffic = array();
                 $newTraffic['applicant_id'] = $applicant->id;
@@ -576,7 +576,7 @@ class CampController extends Controller
                 $traffic = $applicant->traffic;
             }
 
-            if ($campTable == "nycamp" && $applicant->lodging == null) {
+            if ( ($campTable == "nycamp" || $campTable == "utcamp") && $applicant->lodging == null) {
                 //for nycamp, if null, create one
                 $newLodging = array();
                 $newLodging['applicant_id'] = $applicant->id;
@@ -602,44 +602,25 @@ class CampController extends Controller
             $fare_back_to = config('camps_payments.fare_back_to.' . $campTable) ?? [];
             $fare_room = config('camps_payments.fare_room.' . $campTable) ?? [];
 
-            if ($applicant->camp->has_early_bird) {
-                $createdAt = $applicant->created_at;
+            $fare_room_early_bird = config('camps_payments.fare_room.' . $campTable . '_early_bird') ?? [];
+            $fare_room_discount = config('camps_payments.fare_room.' . $campTable . '_discount') ?? [];
+            $createdAt = $applicant->created_at;
+
+            if ($campTable == "nycamp") {
                 if ($applicant->camp->early_bird_last_day && $createdAt->lte($applicant->camp->early_bird_last_day)) {
-                    $fare_room = config('camps_payments.fare_room.' . $campTable . '_earlybird') ?? [];
+                    $fare_room = $fare_room_early_bird;
                 } elseif ($applicant->camp->discount_last_day && $createdAt->lte($applicant->camp->discount_last_day)) {
-                    $fare_room = config('camps_payments.fare_room.' . $campTable . '_discount') ?? [];
+                    $fare_room = $fare_room_discount;
+                }
+            }
+            if ($campTable == "utcamp") {
+                if ($applicant->camp->early_bird_last_day && $createdAt->lte($applicant->camp->early_bird_last_day)) {
+                    $fare_room = $fare_room_early_bird + $fare_room_discount;
+                } elseif ($applicant->camp->discount_last_day && $createdAt->lte($applicant->camp->discount_last_day)) {
+                    $fare_room = $fare_room + $fare_room_discount;
                 }
             }
             $applicant = $this->applicantService->checkPaymentStatus($applicant);
-            //$applicant->batch_start_Weekday = \Carbon\Carbon::create($applicant->batch->batch_start)->locale(\App::getLocale())->isoFormat("dddd");
-            //$applicant->batch_end_Weekday = \Carbon\Carbon::create($applicant->batch->batch_end)->locale(\App::getLocale())->isoFormat("dddd");
-
-            /*//for 2023大專教師營
-            if ($applicant->camp->table == 'utcamp') {
-                $group = $applicant->group;
-                if (str_contains($group, 'B')) {
-                    $applicant->xsession = '桃園場';
-                    $applicant->xaddr = '桃園市中壢區成章四街120號';
-                } elseif (str_contains($group, 'C')) {
-                    $applicant->xsession = '新竹場';
-                    $applicant->xaddr = '新竹縣新豐鄉新興路1號';
-                } elseif (str_contains($group, 'D')) {
-                    $applicant->xsession = '台中場';
-                    $applicant->xaddr = '台中市西區民生路227號';
-                } elseif (str_contains($group, 'E')) {
-                    $applicant->xsession = '雲林場';
-                    $applicant->xaddr = '雲林縣斗六市慶生路6號';
-                } elseif (str_contains($group, 'F')) {
-                    $applicant->xsession = '台南場';
-                    $applicant->xaddr = '台南市東區大學路1號';
-                } elseif (str_contains($group, 'G')) {
-                    $applicant->xsession = '高雄場';
-                    $applicant->xaddr = '高雄市新興區中正四路53號12樓之7';
-                } else {
-                    $applicant->xsession = '台北場';
-                    $applicant->xaddr = '台北市南京東路四段165號九樓 福智學堂';
-                }
-            }*/
             return view('camps.' . $campTable . ".admissionResult", compact('applicant', 'traffic', 'lodging', 'fare_depart_from', 'fare_back_to', 'fare_room'));
         } else {
             return back()->withInput()->withErrors(["找不到報名資料，請確認是否已成功報名，或是輸入了錯誤的查詢資料。"]);
@@ -731,8 +712,11 @@ class CampController extends Controller
         //update barcode
         $applicant = $this->applicantService->fillPaymentData($applicant);
         $applicant->save();
-
-        return redirect(route('showadmit', ['batch_id' => $applicant->batch_id, 'sn' => $applicant->id, 'name' => $applicant->name]));
+        if ($request->return2func) {
+            return;
+        } else {
+            return redirect(route('showadmit', ['batch_id' => $applicant->batch_id, 'sn' => $applicant->id, 'name' => $applicant->name]));
+        }
     }
     public function modifyLodging(Request $request)
     {
@@ -741,13 +725,24 @@ class CampController extends Controller
         $campTable = $this->camp_data->table;
         $fare_room = config('camps_payments.fare_room.' . $campTable) ?? [];
 
-        if ($applicant->camp->has_early_bird) {
-            $createdAt = $applicant->created_at;
-            if ($applicant->camp->early_bird_last_day && $createdAt->lte(\Carbon\Carbon::parse($applicant->camp->early_bird_last_day))) {
-                $fare_room = config('camps_payments.fare_room.' . $campTable . '_earlybird') ?? [];
-            } elseif ($applicant->camp->discount_last_day && $createdAt->lte(\Carbon\Carbon::parse($applicant->camp->discount_last_day))) {
-                $fare_room = config('camps_payments.fare_room.' . $campTable . '_discount') ?? [];
+        $fare_room_early_bird = config('camps_payments.fare_room.' . $campTable . '_early_bird') ?? [];
+        $fare_room_discount = config('camps_payments.fare_room.' . $campTable . '_discount') ?? [];
+        $createdAt = $applicant->created_at;
+
+        if ($campTable == "nycamp") {
+            if ($applicant->camp->early_bird_last_day && $createdAt->lte($applicant->camp->early_bird_last_day)) {
+                $fare_room = $fare_room_early_bird;
+            } elseif ($applicant->camp->discount_last_day && $createdAt->lte($applicant->camp->discount_last_day)) {
+                $fare_room = $fare_room_discount;
             }
+        }
+        if ($campTable == "utcamp") {
+            if ($applicant->camp->early_bird_last_day && $createdAt->lte($applicant->camp->early_bird_last_day)) {
+                $fare_room = $fare_room_early_bird + $fare_room_discount;
+            } elseif ($applicant->camp->discount_last_day && $createdAt->lte($applicant->camp->discount_last_day)) {
+                $fare_room = $fare_room + $fare_room_discount;
+            }
+            dd($fare_room);
         }
 
         if (!$lodging) {
@@ -762,9 +757,22 @@ class CampController extends Controller
         $applicant = $this->applicantService->fillPaymentData($applicant);
         $applicant->save();
 
+        if ($request->return2func) {
+            return;
+        } else {
+            return redirect(route('showadmit', ['batch_id' => $applicant->batch_id, 'sn' => $applicant->id, 'name' => $applicant->name]));
+        }
+    }
+    public function modifyAfterAdmitted(Request $request)
+    {
+        /* working
+        $request->return2func = true;
+        $this->modifyLodging($request);
+        $this->modifyTraffic($request);
+        $this->campRegistrationFormSubmitted($request);*/
+
         return redirect(route('showadmit', ['batch_id' => $applicant->batch_id, 'sn' => $applicant->id, 'name' => $applicant->name]));
     }
-
     public function showCampPayment()
     {
         return view('camps.' . $this->camp_data->table . '.payment');

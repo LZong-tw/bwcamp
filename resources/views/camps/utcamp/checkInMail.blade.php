@@ -4,6 +4,7 @@
     }
 </style>
 <body style="font-size:16px;">
+{{-- 
 <h2 class="center">{{ $applicant->batch->camp->fullName }}&emsp;學員報到通知單</h2>
 <table width="100%" style="table-layout:fixed; border: 0;">
     <tr>
@@ -33,8 +34,7 @@
 <a class="right">財團法人福智文教基金會&emsp;謹此</a><br>
 <a class="right">{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</a>
 </body>
-
-{{--
+--}}
 <h2 class="center">{{ $applicant->batch->camp->fullName }}&emsp;行前通知單</h2>
 <table width="100%" style="table-layout:fixed; border: 0;">
     <tr>
@@ -105,4 +105,3 @@
 </ol>
 </p>
 </body>
---}}
