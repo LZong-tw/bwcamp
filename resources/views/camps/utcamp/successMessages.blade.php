@@ -1,7 +1,6 @@
 
 請記下您的<span class="text-danger font-weight-bold">《 報名序號：{{ $applicant->id }} 》</span>作為日後查詢使用。
 <br>
-<!--
 錄取方式​​​：經審核報名資格，將於七日內以email 通知錄取與繳費資訊。請於期限內完成繳費，即正式完成報名！<br>
 ​<br>
 取消參加退費原則：<br>
@@ -14,6 +13,6 @@ LINE@：http://bwfoce.org/line<br>
 LINE ID：@bwfoce<br>
 電子郵件：bwfaculty@blisswisdom.org<br> 
 ​<br>
--->
-
-我們將於 <u>{{ \Carbon\Carbon::parse($camp_data->admission_announcing_date)->translatedFormat("Y年m月d日(l)") }}</u> 寄發錄取與否通知信件至您的電子信箱，或您可至活動網站 <a href="{{ $camp_data->site_url }}">{{ $camp_data->site_url }}</a> 查詢。
+{{--
+我們將於 <u>{{ $camp_data->admission_announcing_date }}</u> 寄發錄取與否通知信件至您的電子信箱，或您可至活動網站 <a href="{{ $camp_data->site_url }}">{{ $camp_data->site_url }}</a> 查詢。
+--}}

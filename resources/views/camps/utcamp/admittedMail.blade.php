@@ -11,6 +11,7 @@
         text-align: right;
     }
 </style>
+<!-- 一般教師營
     <h2 class="center">{{ $applicant->batch->camp->fullName }}&emsp;錄取通知</h2>
 <table width="100%" style="table-layout:fixed; border: 0;">
     <tr>
@@ -45,8 +46,7 @@
     </ul>
 <a class="right">財團法人福智文教基金會&emsp;謹此</a><br>
 <a class="right">{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</a>
-
-<!--
+-->
 <h2 class="center">{{ $applicant->batch->camp->fullName }}</h2>
 <h2 class="center">錄取通知單</h2>
 <br>
@@ -93,7 +93,6 @@
 </ol>
 &emsp;&emsp;若有任何問題，歡迎來電(02)7714-6066 分機20317 陳小姐。或 email: bwfaculty@blisswisdom.org<br>
 <br><br>
-
 <a class="right">財團法人福智文教基金會&emsp;敬上</a><br>
 <a class="right">{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</a>
--->
+

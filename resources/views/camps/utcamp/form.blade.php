@@ -403,32 +403,63 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     </div>
+
+<!-- 底下調查移至錄取查詢-->
     <div class='row form-group required'>
-        <label for='inputCreditType' class='col-md-2 control-label text-md-right'>研習時數申請</label>
-        <div class='col-md-10'>
-            <select required class='form-control' name='workshop_credit_type' placeholder='' onchange="id_setRequired(this)">
-                <option value="">- 請選擇 -</option>
-                <option value="不申請">不申請</option>
-                <!--<option value="一般教師研習時數">一般教師研習時數</option>-->
-                <option value="公務員研習時數">公務員研習時數</option>
-                <option value="基金會研習數位證明書">基金會研習數位證明書</option>
-            </select>
-            <div class="invalid-feedback">
-                未選擇研習時數申請
+        <label for='inputIsCivilCertificate' class='col-md-2 control-label text-md-right'>是否申請公務員研習時數</label>
+        <div class="col-md-10">
+            <div class="form-check form-check-inline">
+                <label class="form-check-label">
+                    <input type="radio" name="is_civil_certificate" value="1" required onchange="id_setRequired(this)">
+                    是
+                    <div class="invalid-feedback">
+                        請選擇一項
+                    </div>
+                </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <label class="form-check-label">
+                    <input type="radio" name="is_civil_certificate" value="0" required onchange="id_setRequired(this)">
+                    否
+                    <div class="invalid-feedback">
+                        &nbsp;
+                    </div>
+                </label>
             </div>
         </div>
     </div>
-
     <div class='row form-group required' style="display: none;">
         <label for='inputID' class='col-md-2 control-label text-md-right'>身份證字號</label>
         <div class='col-md-10'>
-            <input type='text' name='idno' value='' class='form-control' id='inputID' placeholder='僅作為申請研習時數或研習證明用'>
+            <input type='text' name='idno' value='' class='form-control' id='inputID' placeholder='僅作為申請研習時數用'>
             <div class="invalid-feedback">
                 未填寫身份證字號（申請時數或研習證明用）
             </div>
         </div>
     </div>
-
+    <div class='row form-group required'>
+        <label for='inputIsBwfoceCertificate' class='col-md-2 control-label text-md-right'>是否申請基金會研習數位證明書</label>
+        <div class="col-md-10">
+            <div class="form-check form-check-inline">
+                <label class="form-check-label">
+                    <input type="radio" name="is_bwfoce_certificate" value="1" required>
+                    是
+                    <div class="invalid-feedback">
+                        請選擇一項
+                    </div>
+                </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <label class="form-check-label">
+                    <input type="radio" name="is_bwfoce_certificate" value="0" required>
+                    否
+                    <div class="invalid-feedback">
+                        &nbsp;
+                    </div>
+                </label>
+            </div>
+        </div>
+    </div>
     <div class='row form-group required'>
         <label for='inputInvoiceType' class='col-md-2 control-label text-md-right'>活動費發票開立</label>
         <div class='col-md-10'>
@@ -593,6 +624,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     </div>
+<!-- 底下調查移至錄取查詢-->
 
 {{-- 
     <!--- 同意書 -->
@@ -879,7 +911,8 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         }
     }
     function id_setRequired(ele) {
-        if(ele.value == "一般教師研習時數" || ele.value == "公務員研習時數") {
+        //if(ele.value == "一般教師研習時數" || ele.value == "公務員研習時數") {
+        if(ele.value == "1") {
             $("#inputID").parent().parent().show();
             $("#inputID").prop('required',true);
         }

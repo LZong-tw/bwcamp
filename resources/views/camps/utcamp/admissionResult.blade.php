@@ -1,90 +1,440 @@
-@extends('camps.utcamp.layout')
-@section('content')
 <style>
     u{
         color: red;
     }
-    .indent{
-        text-indent: 22px;
-    }
 </style>
-<div class='page-header form-group'>
-    <h4>{{ $camp_data->fullName }}</h4>
-</div>
-<div class="row">
-    <div class="col-sm-12">
+@extends('camps.utcamp.layout')
+@section('content')
+    @if(Session::has('error'))
+        <div class="alert alert-danger" role="alert">
+            {{ Session::get("error") }}
+        </div>
+    @endif
+    <br>
+    <div class='page-header form-group'>
+        <h4>{{ $camp_data->fullName }}</h4>
+    </div>
+{{--
+    @if($applicant->is_admitted)
         <div class="card">
             <div class="card-header">
-                <h5>{{ $applicant->batch->camp->fullName }} 錄取查詢結果</h5>
+                <h2>研習證明下載</h2>
             </div>
             <div class="card-body">
-                <p class="card-text">
-                @if($applicant->is_admitted)
-                    {{ $applicant->name }} 您好！<br>
-                    　　恭喜您錄取「{{ $applicant->batch->camp->fullName }}」，竭誠歡迎您的到來。<br>
-                    我們將於營隊三周前寄發「報到通知單」，提供營隊相關訊息，請記得到電子信箱收信。<br>
-                    期待與您共享這場心靈的饗宴，預祝您歡喜學習，收穫滿滿。<br>
-                    　　敬祝<br>
-                    教安<br>
-                    <h5>報名/錄取/營隊資訊</h5>
-                    <div class="ml-4 mb-2">
-                    您的姓名：{{ $applicant->name }}<br>
-                    報名序號：{{ $applicant->applicant_id }}<br>
-                    錄取編號：<u>{{ $applicant->group }}{{ $applicant->number }}</u><br>
-                    組別：<u>{{ $applicant->group }}</u><br>
-                    --<br>
-                    營隊日期：{{ $applicant->batch->batch_start }}({{ $applicant->batch_start_weekday }})～{{ $applicant->batch->batch_end }}({{ $applicant->batch_end_weekday }})<br>
-                    營隊地點：{{ $applicant->batch->location }} {{ $applicant->batch->locationName }}<br>
-                    --<br>
-                    <b>報名報到諮詢窗口</b>（周一至周五10:00~17:30）<br>
-                    　　王淑靜 小姐<br>
-                    　　電話：07-9769341#413<br>
-                    　　Email：shu-chin.wang@blisswisdom.org<br>
-                    </div>
-                    <br>
-                    <h5>您的參加狀態</h5>
-                    <div class="ml-4 mb-2">
-                        @if(!isset($applicant->is_attend))
-                            <div class="text-primary">狀態：未回覆參加。</div>
-                        @elseif($applicant->is_attend)
-                            <div class="text-success">狀態：已確認參加。如欲取消請按取消參加。</div>
-                        @else
-                            <div class="text-danger">狀態：取消參加。如欲恢復參加請按確認參加。</div>
-                        @endif
-                        <form class="" action="{{ route('toggleAttend', $batch_id) }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="id" value="{{ $applicant->applicant_id ?? $applicant->id }}">
-                            @if(!isset($applicant->is_attend))
-                                <input class="btn btn-success" type="submit" value="確認參加">
-                                <input class="btn btn-danger" type="submit" value="不參加" id="cancel" name="confirmation_no">
-                            @elseif($applicant->is_attend)
-                                <input class="btn btn-danger" type="submit" value="取消參加" id="cancel">
-                            @else
-                                <input class="btn btn-success" type="submit" value="確認參加">
-                            @endif
-                        </form>
-                    </div>
-                @else
-                    敬愛的教育夥伴 {{ $applicant->name }} ，您好！ <br>
-                    　　非常感謝您的報名，但是很遺憾，因資格問題，您此次未獲錄取「{{ $applicant->batch->camp->fullName }}」。
-                    期盼未來仍能在福智文教基金會舉辦之心靈提升、教育活動見到您的身影。<br>
-                    　　另外，福智文教基金會在各縣市的分支機構，平日都設有適合各年齡層的多元心靈提升課程，誠摯歡迎您的參與！<br>
-                    　　敬祝<br>
-                    教安<br>
-                @endif
-                <br>
-                <p class="right">財團法人福智文教基金會　謹此<br>
-                {{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</p>
-                <b>「福智文教基金會」網站：</b>
-                <a href="https://bwfoce.org" target="_blank" rel="noopener noreferrer">https://bwfoce.org</a><br>
-                <b>「幸福心學堂online」臉書社團：</b>
-                <a href="https://www.facebook.com/groups/bwfoce.happiness.new" target="_blank" rel="noopener noreferrer">https://www.facebook.com/groups/bwfoce.happiness.new</a><br>
-                <br>
-                <input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>
-                <a href="{{ $camp_data->site_url }}" class="btn btn-primary">回營隊首頁</a>
-                </p>
+                <a href="https://bwcamp.bwfoce.org/downloads/{{ $camp_data->table }}{{ $camp_data->year }}/{{ $applicant->group }}{{ $applicant->number }}{{ $applicant->applicant_id }}.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-success">下載</a>
+            </div>
+            <div class="card-body">
+                如下載顯示錯誤，請聯絡您的帶組老師，謝謝！
             </div>
         </div>
-    </div>
+        <br>
+    @endif
+--}}
+    <div class="card">
+        <div class="card-header">
+            Admission 錄取查詢
+        </div>
+        <div class="card-body">
+            @if($applicant->is_admitted && !$applicant->deleted_at)
+                <p class="card-text">{{ $applicant->name }} 您好！</p>
+				<p class="card-text text-indent">恭喜您錄取「{{ $camp_data->fullName }}」，竭誠歡迎您的到來。<br>
+				我們將於營隊三周前寄發「報到通知單」，提供營隊相關訊息，請記得到電子信箱收信。<br>
+				期待與您共享這場心靈的饗宴，預祝您歡喜學習，收穫滿滿。<br>
+				&emsp;&emsp;敬祝<br>
+				教安<br>
+                </p>
+                <p class="card-text text-indent">
+                您的報名序號：{{ $applicant->applicant_id }}<br>
+                您的錄取編號：{{ $applicant->group }}{{ $applicant->number }}<br>
+                營隊期間：{{ $applicant->batch->batch_start }} ({{ $applicant->batch->batch_start_weekday }}) ~ {{ $applicant->batch->batch_end }} ({{ $applicant->batch->batch_end_weekday }})，共4天<br>
+                營隊地點：{{ $applicant->batch->locationName }} ({{ $applicant->batch->location }})<br>
+                </p>
+
+                <h4>錄取/報到通知</h4>
+                <div class="ml-0 mb-2">
+                請詳閱 <a href="https://docs.google.com/document/d/1t56h4BsWBqC_r38rtGekn24GQDW8_2oA/edit" target="_blank">錄取通知</a>，內含報到資訊、必帶物品，及交通資訊等等。<br>
+                </div>
+                <br>
+@if(!isset($applicant->is_attend) || $applicant->is_attend)
+<div class="container alert alert-warning">
+                <form class="ml-2 mb-2" action="{{ route('modifyAfterAdmitted', $batch_id) }}" method="POST" id="selectLodging">
+                    @csrf
+                    <input type="hidden" name="id" value="{{ $applicant->applicant_id ?? $applicant->id }}">
+                    <input type="hidden" name="camp" value="utcamp">
+                    <input type="hidden" name="nights" value="{{ $applicant->lodging?->nights ?? 0}}">
+
+                    <h4>活動費用/住宿選項</h4>
+                        <div class="ml-0 mb-2">
+                        請參閱您的 <a href="https://docs.google.com/document/d/1t56h4BsWBqC_r38rtGekn24GQDW8_2oA/edit" target="_blank">錄取通知</a>。其中有關於活動費用的詳細說明。
+                        </div>
+                        <br>
+                        <div class='row form-group required'>
+                            <label for='inputRoomType' class='col-md-2 control-label text-md-right'>活動費用</label>
+                            <div class="col-md-4">
+                                <select required class='form-control' name='room_type' id='inputRoomType' onchange='changeRoom(this)'>
+                                    <option value='' selected>- 請選擇 -</option>
+                                    @foreach($fare_room as $key => $value)
+                                    <option value='{{ $key }}' >{{ $key }}({{ $value }})</option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback">
+                                    請選擇活動費用
+                                </div>
+                            </div>
+                        </div>
+                        <div class='row form-group companion-sec required' style='display:none'>
+                            <label for='inputCompanion' class='col-md-2 control-label text-md-right'>Friend's name 同行者姓名</label>
+                            <div class="col-md-4">
+                                @if(isset($applicant->companion_name))
+                                <input type='text' class='form-control' name="companion_name" id='inputCompanion' value='{{ $applicant->companion_name }}' >
+                                @else
+                                <input type='text' class='form-control' name="companion_name" id='inputCompanion' value='' >
+                                @endif
+                                <div class="invalid-feedback">
+                                    Please provide your companion's name. 請提供同行者姓名
+                                </div>
+                            </div>
+                        </div>
+                    <h4>接駁服務</h4>
+                        <div class="ml-0 mb-2">
+                        若需要 {{ $applicant->batch->batch_start }} 新竹高鐵接駁，接駁車會由12:30發車
+                        </div>
+                        <br>
+                        <div class='row form-group required'>
+                            <label for='inputDepartFrom' class='col-md-2 control-label text-md-right'>去程交通</label>
+                            <div class="col-md-4">
+                                <select required class='form-control' name='depart_from' id='inputDepartFrom'>
+                                    <option value='' selected>- 請選擇 -</option>
+                                    @foreach($fare_depart_from as $key => $value)
+                                    <option value='{{ $key }}' >{{ $key }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback">
+                                    請選擇去程交通
+                                </div>
+                            </div>
+                        </div>
+                        <div class='row form-group required'>
+                            <label for='inputBackTo' class='col-md-2 control-label text-md-right'>回程交通</label>
+                            <div class="col-md-4">
+                                <select required class='form-control' name='back_to' id='inputBackTo'>
+                                    <option value='' selected>- 請選擇 -</option>
+                                    @foreach($fare_back_to as $key => $value)
+                                    <option value='{{ $key }}' >{{ $key }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback">
+                                    請選擇回程交通
+                                </div>
+                            </div>
+                        </div>
+                    @php
+                        $fare_total = ($traffic?->fare ?? 0) + ($lodging?->fare ?? 0);
+                        $sum_total = ($traffic?->sum ?? 0) + ($lodging?->sum ?? 0);
+                    @endphp
+                    <div class="ml-2 mb-2 alert alert-info" role='alert'>
+                        <b>
+                        =====&nbsp;&nbsp;&nbsp;Payment Due {{ $fare_total }}&nbsp;&nbsp;&nbsp;=====<br>
+                        =====&nbsp;&nbsp;&nbsp;Payment Received 已交費用：{{ $sum_total }}&nbsp;&nbsp;&nbsp;=====<br>
+                        </b>
+                    </div><br>
+                    <h4>研習證明&活動發票</h4>
+                        <div class='row form-group required'>
+                            <label for='inputIsCivilCertificate' class='col-md-2 control-label text-md-right'>是否申請公務員研習時數</label>
+                            <div class="col-md-10">
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        <input type="radio" name="is_civil_certificate" value="1" required onchange="id_setRequired(this)">
+                                        是
+                                        <div class="invalid-feedback">
+                                            請選擇一項
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        <input type="radio" name="is_civil_certificate" value="0" required onchange="id_setRequired(this)">
+                                        否
+                                        <div class="invalid-feedback">
+                                            &nbsp;
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='row form-group required' style="display: none;">
+                            <label for='inputID' class='col-md-2 control-label text-md-right'>身份證字號</label>
+                            <div class='col-md-10'>
+                                <input type='text' name='idno' value='' class='form-control' id='inputID' placeholder='僅作為申請研習時數用'>
+                                <div class="invalid-feedback">
+                                    未填寫身份證字號（申請時數或研習證明用）
+                                </div>
+                            </div>
+                        </div>
+                        <div class='row form-group required'>
+                            <label for='inputIsBwfoceCertificate' class='col-md-2 control-label text-md-right'>是否申請基金會研習數位證明書</label>
+                            <div class="col-md-10">
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        <input type="radio" name="is_bwfoce_certificate" value="1" required>
+                                        是
+                                        <div class="invalid-feedback">
+                                            請選擇一項
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <label class="form-check-label">
+                                        <input type="radio" name="is_bwfoce_certificate" value="0" required>
+                                        否
+                                        <div class="invalid-feedback">
+                                            &nbsp;
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='row form-group required'>
+                            <label for='inputInvoiceType' class='col-md-2 control-label text-md-right'>活動費發票開立</label>
+                            <div class='col-md-10'>
+                                <select required class='form-control' name='invoice_type' placeholder='' onchange="taxid_setRequired(this)">
+                                    <option value="">- 請選擇 -</option>
+                                    <option value="單位發票">單位發票</option>
+                                    <option value="個人發票">個人發票</option>
+                                    <option value="捐贈福智文教基金會">捐贈福智文教基金會</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    未選擇活動費發票開立
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class='row form-group required' style="display: none;">
+                            <label for='inputTaxID' class='col-md-2 control-label text-md-right'>統一編號</label>
+                            <div class='col-md-10'>
+                                <input type='text' name='taxid' value='' class='form-control' id='inputTaxID' placeholder='開立活動費發票用'>
+                                <div class="invalid-feedback">
+                                    未填寫統一編號
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class='row form-group required' style="display: none;">
+                            <label for='inputInvoiceTitle' class='col-md-2 control-label text-md-right'>抬頭</label>
+                            <div class='col-md-10'>
+                                <input type='text' name='invoice_title' value='' class='form-control' id='inputInvoiceTitle' placeholder='開立活動費發票用'>
+                                <div class="invalid-feedback">
+                                    未填寫抬頭
+                                </div>
+                            </div>
+                        </div>
+
+                    <input class="btn btn-success" type="submit" value="確認修改" id="confirmafteradmitted" name="confirmafteradmitted">
+                    </form>
 </div>
+@endif
+
+                    <h4>確認參加</h4>
+                    <form class="ml-2 mb-2" action="{{ route('toggleAttend', $batch_id) }}" method="POST" id="attendcancel">
+                        @csrf
+                        <input type="hidden" name="id" value="{{ $applicant->applicant_id ?? $applicant->id }}">
+                        <input type="hidden" name="camp" value="utcamp">
+                        @if(!isset($applicant->is_attend) || $applicant->is_attend )
+                            <div class="ml-0 mb-2 text-primary">您目前的狀態是「參加」。</div>
+                            <div class="ml-0 mb-2">如您因故無法參加，請按下面「放棄參加」通知我們，謝謝！</div>
+                            <div>
+                            <input class="btn btn-danger" type="submit" value="放棄參加" id="cancel" name="cancel">
+                            </div>
+                        @else
+                            <div class="ml-0 mb-2 text-danger">您目前的狀態是「放棄參加」。</div>
+                            <div class="ml-0 mb-2">如您可以參加了，請按恢復參加，謝謝！</div>
+                            <div>
+                            <input class="btn btn-success" type="submit" value="恢復參加" id="confirmattend" name="confirmattend">
+                            </div>
+                        @endif
+                    </form><br>
+                <h4>Contact 聯絡我們</h4>
+                <div class="ml-0 mb-2">洽詢專線<br>
++               {!! nl2br(e(str_replace('\n', "\n", $applicant->batch->contact_card))) !!}</div>
+                </div>
+                <p class="card-text text-right">財團法人福智文教基金會　謹此&emsp;&emsp;<br>
+                {{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}&emsp;&emsp;</p>
+            @elseif($applicant->created_at->gte($pplicant->batch->camp->admission_announcing_date)))
+                <!-----錄取中----->
+                <p class="card-text">親愛的 {{ $applicant->name }} 同學您好</p>
+                <p class="card-text indent">感謝您報名「{{ $camp_data->fullName }}」，錄取作業正在進行中，請稍後再進行錄取查詢。感謝您的耐心等待！</p>
+                <p class="card-text text-right">財團法人福智文教基金會　謹此<br>
+                {{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</p>
+            @elseif($applicant->deleted_at)
+            @else
+                <!-----備取=不錄取----->
+                <p class="card-text">親愛的 {{ $applicant->name }} 同學您好</p>
+                <p class="card-text indent">非常感謝您報名參加「{{ $camp_data->fullName }}」，由於本活動報名人數踴躍，且場地有限，非常抱歉未能在第一階段錄取您。我們已將您列入優先備取名單，若有遞補機會，基金會將儘速通知您!</p>
+                <p class="card-text indent">開學後，各區福青學堂定期都有精彩的課程活動，竭誠歡迎您的參與!也祝福您學業順利，吉祥如意！</p>
+                <h4>各區福青學堂資訊</h4>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="card-text">
+                            台北福青學堂<br>
+                            02-2545-3788 #546<br>
+                            台北市松山區南京東路四段161號9樓<br>
+                            </p>
+                            <p class="card-text">
+                            桃園福青學堂<br>
+                            03-275-6133 #1314<br>
+                            桃園市中壢區強國路121號2樓<br>
+                            </p>
+                            <p class="card-text">
+                            新竹福青學堂<br>
+                            03-571-0968<br>
+                            新竹市東區忠孝路43號2樓<br>
+                            </p>
+                            <p class="card-text">
+                            台中福青學堂<br>
+                            04-37069300 #621101<br>
+                            台中市西屯區臺灣大道二段669號2樓<br>
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="card-text">
+                            雲嘉福青學堂<br>
+                            05-5370133 #125<br>
+                            雲林縣斗六市慶生路6號<br>
+                            </p>
+                            <p class="card-text">
+                            台南福青學堂<br>
+                            06-289-6558<br>
+                            台南市東區崇明路405號4樓<br>
+                            </p>
+                            <p class="card-text">
+                            高雄福青學堂<br>
+                            07-974-1170<br>
+                            高雄市新興區中正四路53號12樓之7<br>
+                            </p>
+                            <p class="card-text">
+                            花蓮大專班籌備處<br>
+                            03-831-6307<br>
+                            花蓮市中華路243號2樓<br>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!--
+                <p class="card-text indent"><a href="http://bwfoce.org/web" target="_blank" rel="noopener noreferrer">http://bwfoce.org/web</a></p>
+                <p class="card-text indent">祝福您身心健康，吉祥如意！</p>
+                -->
+                <p class="card-text text-right">The Oneness Truth Foundation 敬啟</p>
+                <p class="card-text text-right">{{ \Carbon\Carbon::now()->format('Y 年 n 日 j 日') }}</p>
+            @endif
+            <input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>
+            <a href="{{ $camp_data->site_url }}" class="btn btn-primary">home 回營隊首頁</a>
+        </div>
+    </div>
+
+    <script>
+
+    function taxid_setRequired(ele) {
+        if(ele.value == "單位發票") {
+            $("#inputTaxID").parent().parent().show();
+            $("#inputTaxID").prop('required',true);
+            $("#inputInvoiceTitle").parent().parent().show();
+            $("#inputInvoiceTitle").prop('required',true);
+        }
+        else {
+            $("#inputTaxID").parent().parent().hide();
+            $("#inputTaxID").prop('required',false);
+            $("#inputInvoiceTitle").parent().parent().hide();
+            $("#inputInvoiceTitle").prop('required',false);
+        }
+    }
+    function id_setRequired(ele) {
+        //if(ele.value == "一般教師研習時數" || ele.value == "公務員研習時數") {
+        if(ele.value == "1") {
+            $("#inputID").parent().parent().show();
+            $("#inputID").prop('required',true);
+        }
+        else {
+            $("#inputID").prop('required',false);
+            $("#inputID").parent().parent().hide();
+        }
+    }
+
+        @if(!isset($applicant->is_attend) || $applicant->is_attend)
+            let cancel = document.getElementById('cancel');
+            cancel.addEventListener('click', function(event) {
+                if(confirm('confirm cancellation 確認放棄參加？')){
+                        return true;
+                }
+                event.preventDefault();
+                return false;
+            });
+        @else
+            let confirmattend = document.getElementById('confirmattend');
+            confirmattend.addEventListener('click', function(event) {
+                if(confirm('confirm 確認恢復參加？')){
+                    return true;
+                }
+                event.preventDefault();
+                return false;
+            });
+        @endif
+        @if(!isset($applicant->is_attend) || $applicant->is_attend)
+            let confirmtraffic = document.getElementById('confirmtraffic');
+            confirmtraffic.addEventListener('click', function(event) {
+                if(confirm('confirm 確認修改交通？')){
+                        return true;
+                }
+                event.preventDefault();
+                return false;
+            });
+
+            {{-- 回填交通選項 --}}
+            (function() {
+                let traffic_data = JSON.parse('{!! $traffic ?? '{}' !!}');
+                let selects = document.getElementsByTagName('select');
+                for (var i = 0; i < selects.length; i++){
+                    if(typeof traffic_data[selects[i].name] !== "undefined"){
+                        selects[i].value = traffic_data[selects[i].name];
+                    }
+                }
+            })();
+        @endif
+        @if(!isset($applicant->is_attend) || $applicant->is_attend)
+            let confirmlodging = document.getElementById('confirmlodging');
+            confirmlodging.addEventListener('click', function(event) {
+                if(confirm('confirm 確認修改活動費？')){
+                        return true;
+                }
+                event.preventDefault();
+                return false;
+            });
+
+            {{-- 回填活動費選項 --}}
+            (function() {
+                let lodging_data = JSON.parse('{!! $lodging ?? '{}' !!}');
+                let selects = document.getElementsByTagName('select');
+                for (var i = 0; i < selects.length; i++){
+                    if(typeof lodging_data[selects[i].name] !== "undefined"){
+                        selects[i].value = lodging_data[selects[i].name];
+                        changeRoom(selects[i]);
+                    }
+                }
+            })();
+        @endif
+        function changeRoom(select_ele) {
+            const companionSection = document.getElementsByClassName('companion-sec')[0];
+            const companionInput = document.getElementById('inputCompanion');
+
+            if (select_ele.value.includes("兩人同行")) {
+                // 有同行者
+                companionSection.style.display = '';
+                companionInput.required = true;
+            } else {
+                // 一人報名
+                companionSection.style.display = 'none';
+                companionInput.required = false;
+            }
+        };
+    </script>
 @stop
