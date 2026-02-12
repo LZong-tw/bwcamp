@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services;
+
 use App\Models\Applicant;
 use App\Models\Lodging;
 
@@ -9,17 +10,18 @@ class LodgingService
     private ApplicantService $applicantService;
     private CampDataService $campDataService;
 
-    public function __construct(ApplicantService $applicantService, CampDataService $campDataService) {
-		$this->applicantService = $applicantService;
-		$this->campDataService = $campDataService;
+    public function __construct(ApplicantService $applicantService, CampDataService $campDataService)
+    {
+        $this->applicantService = $applicantService;
+        $this->campDataService = $campDataService;
         return;
     }
 
-	// LodgingService.php 或 ApplicantService.php
+    // LodgingService.php 或 ApplicantService.php
     public function updateApplicantLodging(Applicant $applicant, $campTable, $roomType, $nights)
     {
         $lodging = $applicant->lodging ?: new Lodging(['applicant_id' => $applicant->id]);
-        
+
         // 取得費率設定 (這部分邏輯建議也可以封裝)
         $fare_room = config('camps_payments.fare_room.' . $campTable) ?? [];
         $fare_room_early_bird = config('camps_payments.fare_room.' . $campTable . '_early_bird') ?? [];

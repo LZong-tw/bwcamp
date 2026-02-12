@@ -12,8 +12,9 @@ class ApplicantService
 {
     private CampDataService $campDataService;
 
-    public function __construct(CampDataService $campDataService) {
-		$this->campDataService = $campDataService;
+    public function __construct(CampDataService $campDataService)
+    {
+        $this->campDataService = $campDataService;
         return;
     }
 

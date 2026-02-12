@@ -583,7 +583,7 @@ class CampController extends Controller
                 $traffic = $applicant->traffic;
             }
 
-            if ( ($campTable == "nycamp" || $campTable == "utcamp") && $applicant->lodging == null) {
+            if (($campTable == "nycamp" || $campTable == "utcamp") && $applicant->lodging == null) {
                 //for nycamp, if null, create one
                 $newLodging = array();
                 $newLodging['applicant_id'] = $applicant->id;
@@ -705,19 +705,19 @@ class CampController extends Controller
     {
         $applicant = Applicant::findOrFail($request->applicant_id);
         $camp_table = $this->camp_data->table;
-    
+
         // 呼叫 Service
         $updatedApplicant = $this->trafficService->updateApplicantTraffic(
             $applicant,
             $camp_table,
-            $request->depart_from, 
+            $request->depart_from,
             $request->back_to
         );
 
         // 這裡處理 Controller 該做的「跳轉」責任
         return redirect(route('showadmit', [
-            'batch_id' => $updatedApplicant->batch_id, 
-            'sn' => $updatedApplicant->id, 
+            'batch_id' => $updatedApplicant->batch_id,
+            'sn' => $updatedApplicant->id,
             'name' => $updatedApplicant->name
         ]));
     }
@@ -731,14 +731,14 @@ class CampController extends Controller
         $updatedApplicant = $this->lodgingService->updateApplicantLodging(
             $applicant,
             $camp_table,
-            $request->room_type, 
+            $request->room_type,
             $request->nights
         );
 
         // 這裡處理 Controller 該做的「跳轉」責任
         return redirect(route('showadmit', [
-            'batch_id' => $updatedApplicant->batch_id, 
-            'sn' => $updatedApplicant->id, 
+            'batch_id' => $updatedApplicant->batch_id,
+            'sn' => $updatedApplicant->id,
             'name' => $updatedApplicant->name
         ]));
     }
@@ -750,9 +750,9 @@ class CampController extends Controller
 
         // 呼叫 Service
         $updatedApplicantL = $this->lodgingService->updateApplicantLodging(
-            $applicant, 
+            $applicant,
             $campTable,    //string, e.g. "ycamp"
-            $request->room_type, 
+            $request->room_type,
             $request->nights
         );
 
@@ -760,7 +760,7 @@ class CampController extends Controller
         $updatedApplicantT = $this->trafficService->updateApplicantTraffic(
             $updatedApplicantL,
             $campTable,    //string, e.g. "ycamp"
-            $request->depart_from, 
+            $request->depart_from,
             $request->back_to
         );
 
@@ -778,8 +778,8 @@ class CampController extends Controller
 
         // 這裡處理 Controller 該做的「跳轉」責任
         return redirect(route('showadmit', [
-            'batch_id' => $updatedApplicant->batch_id, 
-            'sn' => $updatedApplicant->id, 
+            'batch_id' => $updatedApplicant->batch_id,
+            'sn' => $updatedApplicant->id,
             'name' => $updatedApplicant->name
         ]));
     }
