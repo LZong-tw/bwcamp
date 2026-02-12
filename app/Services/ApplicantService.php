@@ -4,9 +4,19 @@ namespace App\Services;
 
 use App\Models\Applicant;
 use Carbon\Carbon;
+use App\Services\CampDataService;
+use App\Services\LodgingService;
+use App\Services\TrafficService;
 
 class ApplicantService
 {
+    private CampDataService $campDataService;
+
+    public function __construct(CampDataService $campDataService) {
+		$this->campDataService = $campDataService;
+        return;
+    }
+
     public function Mandarization($applicant)
     {
         switch ($applicant->gender) {
@@ -249,5 +259,62 @@ class ApplicantService
         }
 
         return [$message, $signInSignOutObject];
+    }
+
+    public function updateApplicantXcamp(Applicant $applicant, $campTable, $formData)
+    {
+        $xcamp = $applicant->$campTable;    //applicant's associated camp data
+        //處理檔案及圖片
+        try {
+            $disk = \Storage::disk('local');
+            $path = 'avatars/';
+            if (request()->hasFile('avatar')) {
+                $file = request()->file('avatar');
+                $name = $file->hashName();
+            }
+            if (request()->hasFile('avatar_re')) {
+                $file = request()->file('avatar_re');
+                $name = $file->hashName();
+            }
+
+            if ($file ?? false) {
+                $disk->put($path, $file);
+                $image = Image::make(storage_path($path . $name))->resize(800, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+                $image->save(storage_path($path . $name));
+                $formData['avatar'] = $path . $name;
+            }
+        } catch (\Throwable $e) {
+            logger($e);
+        }
+
+        $updatedApplicant = \DB::transaction(function () use ($applicant, $xcamp, $formData) {
+            if (isset($formData['is_educating'])) {
+                if ($formData['is_educating'] == 0) {
+                    $formData['school_or_course'] = '';
+                    $formData['subject_teaches'] = '';
+                }
+            }
+            $applicantFillable = $applicant->getFillable();
+            $campFillable = $xcamp->getFillable();
+            $applicantData = array();
+            $campData = array();
+            foreach ($formData as $key => $value) {
+                if (in_array($key, $applicantFillable)) {
+                    $applicantData[$key] = $value;
+                }
+                if (in_array($key, $campFillable)) {
+                    $campData[$key] = $value;
+                }
+            }
+            $applicant->fill($applicantData);
+            $applicant->save();
+            $xcamp->fill($campData);
+            $xcamp->save();
+
+            return $applicant; // 回傳更新後的物件
+        });
+        return $updatedApplicant; // 回傳更新後的物件
     }
 }
