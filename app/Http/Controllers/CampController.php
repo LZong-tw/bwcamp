@@ -10,6 +10,8 @@ use App\Models\Traffic;
 use App\Models\Lodging;
 use App\Services\CampDataService;
 use App\Services\ApplicantService;
+use App\Services\LodgingService;
+use App\Services\TrafficService;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Mail;
@@ -32,15 +34,20 @@ class CampController extends Controller
     protected $camp_data;
     //protected $admission_announcing_date_Weekday;
     //protected $admission_confirming_end_Weekday;
+    protected $lodgingService;
+    protected $trafficService;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(CampDataService $campDataService, ApplicantService $applicantService, Request $request)
+    public function __construct(CampDataService $campDataService, ApplicantService $applicantService, Request $request, LodgingService $lodgingService, TrafficService $trafficService)
     {
         $this->applicantService = $applicantService;
         $this->campDataService = $campDataService;
+        $this->lodgingService = $lodgingService;
+        $this->trafficService = $trafficService;
         // 營隊資料，存入 view 全域
         $this->batch_id = $request->route()->parameter('batch_id');
         $this->camp_data = $this->campDataService->getCampData($this->batch_id);
@@ -576,7 +583,7 @@ class CampController extends Controller
                 $traffic = $applicant->traffic;
             }
 
-            if (($campTable == "nycamp" || $campTable == "utcamp") && $applicant->lodging == null) {
+            if ( ($campTable == "nycamp" || $campTable == "utcamp") && $applicant->lodging == null) {
                 //for nycamp, if null, create one
                 $newLodging = array();
                 $newLodging['applicant_id'] = $applicant->id;
@@ -696,82 +703,85 @@ class CampController extends Controller
 
     public function modifyTraffic(Request $request)
     {
-        $applicant = Applicant::find($request->id);
-        $traffic = $applicant->traffic;
+        $applicant = Applicant::findOrFail($request->applicant_id);
         $camp_table = $this->camp_data->table;
-        $fare_depart_from = config('camps_payments.fare_depart_from.' . $camp_table) ?? [];
-        $fare_back_to = config('camps_payments.fare_back_to.' . $camp_table) ?? [];
-        if (!$traffic) {
-            $traffic = new Traffic();
-            $traffic->applicant_id = $applicant->id;
-        }
-        $traffic->depart_from = $request->depart_from;
-        $traffic->back_to = $request->back_to;
-        $traffic->fare = ($fare_depart_from[$traffic->depart_from] ?? 0) + ($fare_back_to[$traffic->back_to] ?? 0);
-        $traffic->save();
-        //update barcode
-        $applicant = $this->applicantService->fillPaymentData($applicant);
-        $applicant->save();
-        if ($request->return2func) {
-            return;
-        } else {
-            return redirect(route('showadmit', ['batch_id' => $applicant->batch_id, 'sn' => $applicant->id, 'name' => $applicant->name]));
-        }
+    
+        // 呼叫 Service
+        $updatedApplicant = $this->trafficService->updateApplicantTraffic(
+            $applicant,
+            $camp_table,
+            $request->depart_from, 
+            $request->back_to
+        );
+
+        // 這裡處理 Controller 該做的「跳轉」責任
+        return redirect(route('showadmit', [
+            'batch_id' => $updatedApplicant->batch_id, 
+            'sn' => $updatedApplicant->id, 
+            'name' => $updatedApplicant->name
+        ]));
     }
+
     public function modifyLodging(Request $request)
     {
-        $applicant = Applicant::find($request->id);
-        $lodging = $applicant->lodging;
-        $campTable = $this->camp_data->table;
-        $fare_room = config('camps_payments.fare_room.' . $campTable) ?? [];
+        $applicant = Applicant::findOrFail($request->applicant_id);
+        $camp_table = $this->camp_data->table;
 
-        $fare_room_early_bird = config('camps_payments.fare_room.' . $campTable . '_early_bird') ?? [];
-        $fare_room_discount = config('camps_payments.fare_room.' . $campTable . '_discount') ?? [];
-        $createdAt = $applicant->created_at;
+        // 呼叫 Service
+        $updatedApplicant = $this->lodgingService->updateApplicantLodging(
+            $applicant,
+            $camp_table,
+            $request->room_type, 
+            $request->nights
+        );
 
-        if ($campTable == "nycamp") {
-            if ($applicant->camp->early_bird_last_day && $createdAt->lte($applicant->camp->early_bird_last_day)) {
-                $fare_room = $fare_room_early_bird;
-            } elseif ($applicant->camp->discount_last_day && $createdAt->lte($applicant->camp->discount_last_day)) {
-                $fare_room = $fare_room_discount;
-            }
-        }
-        if ($campTable == "utcamp") {
-            if ($applicant->camp->early_bird_last_day && $createdAt->lte($applicant->camp->early_bird_last_day)) {
-                $fare_room = $fare_room_early_bird + $fare_room_discount;
-            } elseif ($applicant->camp->discount_last_day && $createdAt->lte($applicant->camp->discount_last_day)) {
-                $fare_room = $fare_room + $fare_room_discount;
-            }
-            dd($fare_room);
-        }
-
-        if (!$lodging) {
-            $lodging = new Lodging();
-            $lodging->applicant_id = $applicant->id;
-        }
-        $lodging->room_type = $request->room_type;
-        $lodging->nights = $request->nights;
-        $lodging->fare = ($fare_room[$lodging->room_type] ?? 0);
-        $lodging->save();
-        //update barcode
-        $applicant = $this->applicantService->fillPaymentData($applicant);
-        $applicant->save();
-
-        if ($request->return2func) {
-            return;
-        } else {
-            return redirect(route('showadmit', ['batch_id' => $applicant->batch_id, 'sn' => $applicant->id, 'name' => $applicant->name]));
-        }
+        // 這裡處理 Controller 該做的「跳轉」責任
+        return redirect(route('showadmit', [
+            'batch_id' => $updatedApplicant->batch_id, 
+            'sn' => $updatedApplicant->id, 
+            'name' => $updatedApplicant->name
+        ]));
     }
     public function modifyAfterAdmitted(Request $request)
     {
-        /* working
-        $request->return2func = true;
-        $this->modifyLodging($request);
-        $this->modifyTraffic($request);
-        $this->campRegistrationFormSubmitted($request);*/
+        $applicant = Applicant::findOrFail($request->applicant_id);
+        $campTable = $this->camp_data->table;
+        $campId = $this->camp_data->id;
 
-        return redirect(route('showadmit', ['batch_id' => $applicant->batch_id, 'sn' => $applicant->id, 'name' => $applicant->name]));
+        // 呼叫 Service
+        $updatedApplicantL = $this->lodgingService->updateApplicantLodging(
+            $applicant, 
+            $campTable,    //string, e.g. "ycamp"
+            $request->room_type, 
+            $request->nights
+        );
+
+        // 呼叫 Service
+        $updatedApplicantT = $this->trafficService->updateApplicantTraffic(
+            $updatedApplicantL,
+            $campTable,    //string, e.g. "ycamp"
+            $request->depart_from, 
+            $request->back_to
+        );
+
+        $request = $this->campDataService->checkBoxToArray($request);
+        $formData = $request->toArray();
+        $formData = $this->campDataService->handleRegion($formData, $campTable, $campId);
+
+        // 呼叫 Service
+        $updatedApplicant = $this->applicantService->updateApplicantXCamp(
+            $updatedApplicantT,
+            $campTable,    //string, e.g. "ycamp"
+            $formData
+        );
+
+
+        // 這裡處理 Controller 該做的「跳轉」責任
+        return redirect(route('showadmit', [
+            'batch_id' => $updatedApplicant->batch_id, 
+            'sn' => $updatedApplicant->id, 
+            'name' => $updatedApplicant->name
+        ]));
     }
     public function showCampPayment()
     {

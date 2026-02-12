@@ -18,7 +18,7 @@
     @if($applicant->is_admitted)
         <div class="card">
             <div class="card-header">
-                <h2>研習證明下載</h2>
+                <h5>研習證明下載</h5>
             </div>
             <div class="card-body">
                 <a href="https://bwcamp.bwfoce.org/downloads/{{ $camp_data->table }}{{ $camp_data->year }}/{{ $applicant->group }}{{ $applicant->number }}{{ $applicant->applicant_id }}.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-success">下載</a>
@@ -32,7 +32,7 @@
 --}}
     <div class="card">
         <div class="card-header">
-            Admission 錄取查詢
+            <h5>錄取查詢</h5>
         </div>
         <div class="card-body">
             @if($applicant->is_admitted && !$applicant->deleted_at)
@@ -50,20 +50,20 @@
                 營隊地點：{{ $applicant->batch->locationName }} ({{ $applicant->batch->location }})<br>
                 </p>
 
-                <h4>錄取/報到通知</h4>
+                <h5>錄取/報到通知</h5>
                 <div class="ml-0 mb-2">
                 請詳閱 <a href="https://docs.google.com/document/d/1t56h4BsWBqC_r38rtGekn24GQDW8_2oA/edit" target="_blank">錄取通知</a>，內含報到資訊、必帶物品，及交通資訊等等。<br>
                 </div>
                 <br>
 @if(!isset($applicant->is_attend) || $applicant->is_attend)
 <div class="container alert alert-warning">
-                <form class="ml-2 mb-2" action="{{ route('modifyAfterAdmitted', $batch_id) }}" method="POST" id="selectLodging">
+                <form class="ml-2 mb-2" action="{{ route('modifyAfterAdmitted', $batch_id) }}" method="POST" id="modifyafteradmitted">
                     @csrf
-                    <input type="hidden" name="id" value="{{ $applicant->applicant_id ?? $applicant->id }}">
-                    <input type="hidden" name="camp" value="utcamp">
+                    <input type="hidden" name="applicant_id" value="{{ $applicant->applicant_id ?? $applicant->id }}">
+                    <input type="hidden" name="camp_table" value="utcamp">
                     <input type="hidden" name="nights" value="{{ $applicant->lodging?->nights ?? 0}}">
 
-                    <h4>活動費用/住宿選項</h4>
+                    <h5>活動費用/住宿選項</h5>
                         <div class="ml-0 mb-2">
                         請參閱您的 <a href="https://docs.google.com/document/d/1t56h4BsWBqC_r38rtGekn24GQDW8_2oA/edit" target="_blank">錄取通知</a>。其中有關於活動費用的詳細說明。
                         </div>
@@ -95,7 +95,7 @@
                                 </div>
                             </div>
                         </div>
-                    <h4>接駁服務</h4>
+                    <h5>接駁服務</h5>
                         <div class="ml-0 mb-2">
                         若需要 {{ $applicant->batch->batch_start }} 新竹高鐵接駁，接駁車會由12:30發車
                         </div>
@@ -134,17 +134,17 @@
                     @endphp
                     <div class="ml-2 mb-2 alert alert-info" role='alert'>
                         <b>
-                        =====&nbsp;&nbsp;&nbsp;Payment Due {{ $fare_total }}&nbsp;&nbsp;&nbsp;=====<br>
-                        =====&nbsp;&nbsp;&nbsp;Payment Received 已交費用：{{ $sum_total }}&nbsp;&nbsp;&nbsp;=====<br>
+                        =====&nbsp;&nbsp;&nbsp;應交費用：{{ $fare_total }}&nbsp;&nbsp;&nbsp;=====<br>
+                        =====&nbsp;&nbsp;&nbsp;已交費用：{{ $sum_total }}&nbsp;&nbsp;&nbsp;=====<br>
                         </b>
                     </div><br>
-                    <h4>研習證明&活動發票</h4>
+                    <h5>研習證明&活動發票</h5>
                         <div class='row form-group required'>
                             <label for='inputIsCivilCertificate' class='col-md-2 control-label text-md-right'>是否申請公務員研習時數</label>
                             <div class="col-md-10">
                                 <div class="form-check form-check-inline">
                                     <label class="form-check-label">
-                                        <input type="radio" name="is_civil_certificate" value="1" required onchange="id_setRequired(this)">
+                                        <input type="radio" name="is_civil_certificate" value="1" required id='inputIsCivilCertificate' onchange="id_setRequired(this)">
                                         是
                                         <div class="invalid-feedback">
                                             請選擇一項
@@ -153,7 +153,7 @@
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <label class="form-check-label">
-                                        <input type="radio" name="is_civil_certificate" value="0" required onchange="id_setRequired(this)">
+                                        <input type="radio" name="is_civil_certificate" value="0" required id='inputIsNotCivilCertificate' onchange="id_setRequired(this)">
                                         否
                                         <div class="invalid-feedback">
                                             &nbsp;
@@ -162,7 +162,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class='row form-group required' style="display: none;">
+                        <div class='row form-group idno-sec required' style="display: none;">
                             <label for='inputID' class='col-md-2 control-label text-md-right'>身份證字號</label>
                             <div class='col-md-10'>
                                 <input type='text' name='idno' value='' class='form-control' id='inputID' placeholder='僅作為申請研習時數用'>
@@ -197,7 +197,7 @@
                         <div class='row form-group required'>
                             <label for='inputInvoiceType' class='col-md-2 control-label text-md-right'>活動費發票開立</label>
                             <div class='col-md-10'>
-                                <select required class='form-control' name='invoice_type' placeholder='' onchange="taxid_setRequired(this)">
+                                <select required class='form-control' name='invoice_type' id='inputInvoiceType' onchange="taxid_setRequired(this)">
                                     <option value="">- 請選擇 -</option>
                                     <option value="單位發票">單位發票</option>
                                     <option value="個人發票">個人發票</option>
@@ -209,7 +209,7 @@
                             </div>
                         </div>
 
-                        <div class='row form-group required' style="display: none;">
+                        <div class='row form-group taxid-sec required' style="display: none;">
                             <label for='inputTaxID' class='col-md-2 control-label text-md-right'>統一編號</label>
                             <div class='col-md-10'>
                                 <input type='text' name='taxid' value='' class='form-control' id='inputTaxID' placeholder='開立活動費發票用'>
@@ -219,7 +219,7 @@
                             </div>
                         </div>
 
-                        <div class='row form-group required' style="display: none;">
+                        <div class='row form-group invoice-title-sec required' style="display: none;">
                             <label for='inputInvoiceTitle' class='col-md-2 control-label text-md-right'>抬頭</label>
                             <div class='col-md-10'>
                                 <input type='text' name='invoice_title' value='' class='form-control' id='inputInvoiceTitle' placeholder='開立活動費發票用'>
@@ -234,7 +234,7 @@
 </div>
 @endif
 
-                    <h4>確認參加</h4>
+                    <h5>確認參加</h5>
                     <form class="ml-2 mb-2" action="{{ route('toggleAttend', $batch_id) }}" method="POST" id="attendcancel">
                         @csrf
                         <input type="hidden" name="id" value="{{ $applicant->applicant_id ?? $applicant->id }}">
@@ -253,9 +253,9 @@
                             </div>
                         @endif
                     </form><br>
-                <h4>Contact 聯絡我們</h4>
+                <h5>Contact 聯絡我們</h5>
                 <div class="ml-0 mb-2">洽詢專線<br>
-+               {!! nl2br(e(str_replace('\n', "\n", $applicant->batch->contact_card))) !!}</div>
++               {!! nl2br(e(str_replace('\n', "\n", $applicant->batch->contact_card))) !!}
                 </div>
                 <p class="card-text text-right">財團法人福智文教基金會　謹此&emsp;&emsp;<br>
                 {{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}&emsp;&emsp;</p>
@@ -271,7 +271,7 @@
                 <p class="card-text">親愛的 {{ $applicant->name }} 同學您好</p>
                 <p class="card-text indent">非常感謝您報名參加「{{ $camp_data->fullName }}」，由於本活動報名人數踴躍，且場地有限，非常抱歉未能在第一階段錄取您。我們已將您列入優先備取名單，若有遞補機會，基金會將儘速通知您!</p>
                 <p class="card-text indent">開學後，各區福青學堂定期都有精彩的課程活動，竭誠歡迎您的參與!也祝福您學業順利，吉祥如意！</p>
-                <h4>各區福青學堂資訊</h4>
+                <h5>各區福青學堂資訊</h5>
                 <div class="container">
                     <div class="row">
                         <div class="col-md-6">
@@ -333,95 +333,97 @@
     </div>
 
     <script>
-
-    function taxid_setRequired(ele) {
-        if(ele.value == "單位發票") {
-            $("#inputTaxID").parent().parent().show();
-            $("#inputTaxID").prop('required',true);
-            $("#inputInvoiceTitle").parent().parent().show();
-            $("#inputInvoiceTitle").prop('required',true);
-        }
-        else {
-            $("#inputTaxID").parent().parent().hide();
-            $("#inputTaxID").prop('required',false);
-            $("#inputInvoiceTitle").parent().parent().hide();
-            $("#inputInvoiceTitle").prop('required',false);
-        }
-    }
-    function id_setRequired(ele) {
-        //if(ele.value == "一般教師研習時數" || ele.value == "公務員研習時數") {
-        if(ele.value == "1") {
-            $("#inputID").parent().parent().show();
-            $("#inputID").prop('required',true);
-        }
-        else {
-            $("#inputID").prop('required',false);
-            $("#inputID").parent().parent().hide();
-        }
-    }
-
         @if(!isset($applicant->is_attend) || $applicant->is_attend)
+            {{-- 修改確認 --}}
             let cancel = document.getElementById('cancel');
-            cancel.addEventListener('click', function(event) {
-                if(confirm('confirm cancellation 確認放棄參加？')){
+            if (cancel)
+                cancel.addEventListener('click', function(event) {
+                    if(confirm('confirm cancellation 確認放棄參加？')){
                         return true;
-                }
-                event.preventDefault();
-                return false;
-            });
-        @else
-            let confirmattend = document.getElementById('confirmattend');
-            confirmattend.addEventListener('click', function(event) {
-                if(confirm('confirm 確認恢復參加？')){
-                    return true;
-                }
-                event.preventDefault();
-                return false;
-            });
-        @endif
-        @if(!isset($applicant->is_attend) || $applicant->is_attend)
+                    }
+                    event.preventDefault();
+                    return false;
+                });
             let confirmtraffic = document.getElementById('confirmtraffic');
-            confirmtraffic.addEventListener('click', function(event) {
-                if(confirm('confirm 確認修改交通？')){
-                        return true;
-                }
-                event.preventDefault();
-                return false;
-            });
-
-            {{-- 回填交通選項 --}}
+            if (confirmtraffic) {
+                confirmtraffic.addEventListener('click', function(event) {
+                    if(confirm('confirm 確認修改交通？')){
+                            return true;
+                    }
+                    event.preventDefault();
+                    return false;
+                });
+            }
+            let confirmlodging = document.getElementById('confirmlodging');
+            if (confirmlodging) {
+                confirmlodging.addEventListener('click', function(event) {
+                    if(confirm('confirm 確認修改活動費？')){
+                            return true;
+                    }
+                    event.preventDefault();
+                    return false;
+                });
+            }
+            {{-- 回填 --}}
             (function() {
                 let traffic_data = JSON.parse('{!! $traffic ?? '{}' !!}');
-                let selects = document.getElementsByTagName('select');
-                for (var i = 0; i < selects.length; i++){
-                    if(typeof traffic_data[selects[i].name] !== "undefined"){
-                        selects[i].value = traffic_data[selects[i].name];
-                    }
-                }
-            })();
-        @endif
-        @if(!isset($applicant->is_attend) || $applicant->is_attend)
-            let confirmlodging = document.getElementById('confirmlodging');
-            confirmlodging.addEventListener('click', function(event) {
-                if(confirm('confirm 確認修改活動費？')){
-                        return true;
-                }
-                event.preventDefault();
-                return false;
-            });
-
-            {{-- 回填活動費選項 --}}
-            (function() {
                 let lodging_data = JSON.parse('{!! $lodging ?? '{}' !!}');
+                let applicant_data = JSON.parse('{!! $applicant ?? '{}' !!}');
+
+                let inputs = document.getElementsByTagName('input');
                 let selects = document.getElementsByTagName('select');
-                for (var i = 0; i < selects.length; i++){
-                    if(typeof lodging_data[selects[i].name] !== "undefined"){
-                        selects[i].value = lodging_data[selects[i].name];
-                        changeRoom(selects[i]);
+                if (selects) {
+                    for (var i = 0; i < selects.length; i++) {
+                        if(typeof lodging_data[selects[i].name] !== "undefined"){
+                            selects[i].value = lodging_data[selects[i].name];
+                            changeRoom(selects[i]);
+                        } else if (typeof traffic_data[selects[i].name] !== "undefined"){
+                            selects[i].value = traffic_data[selects[i].name];
+                        } else if (typeof applicant_data[selects[i].name] !== "undefined"){
+                            selects[i].value = applicant_data[selects[i].name];
+                            selects[i].dispatchEvent(new Event('change'));
+                            //if (selects[i].id == "inputInvoiceType") {
+                            //    taxid_setRequired(selects[i]);
+                            //}
+                        }   
+                    }
+                }
+                if (inputs) {
+                    for (var i = 0; i < inputs.length; i++) {
+                        if(typeof applicant_data[inputs[i].name] !== "undefined"){
+                            if(inputs[i].type == "radio"){
+                                let radios = document.getElementsByName(inputs[i].name);
+                                for( j = 0; j < radios.length; j++ ) {
+                                    if( radios[j].value == applicant_data[inputs[i].name] ) {
+                                        radios[j].checked = true;
+                                        radios[j].dispatchEvent(new Event('change'));
+                                        //if (radios[j].id == "inputIsCivilCertificate" || radios[j].id == "inputIsNotCivilCertificate") {
+                                        //    id_setRequired(radios[j]);
+                                        //}
+                                    }
+                                }
+                            }
+                            else if(inputs[i].type == "text"){
+                                inputs[i].value = applicant_data[inputs[i].name];
+                            }
+                        }
                     }
                 }
             })();
+        @else
+            let confirmattend = document.getElementById('confirmattend');
+            if (confirmattend) {
+                confirmattend.addEventListener('click', function(event) {
+                    if(confirm('confirm 確認恢復參加？')){
+                        return true;
+                    }
+                    event.preventDefault();
+                    return false;
+                });
+        }
         @endif
+
+        //----- 處理欄位出現與否 -----
         function changeRoom(select_ele) {
             const companionSection = document.getElementsByClassName('companion-sec')[0];
             const companionInput = document.getElementById('inputCompanion');
@@ -436,5 +438,38 @@
                 companionInput.required = false;
             }
         };
+        function taxid_setRequired(ele) {
+            const taxidSection = document.getElementsByClassName('taxid-sec')[0];
+            const invoiceTitleSection = document.getElementsByClassName('invoice-title-sec')[0];
+            const taxidInput = document.getElementById('inputTaxID');
+            const invoiceTitleInput = document.getElementById('inputInvoiceTitle');
+
+            if(ele.value == "單位發票") {
+                taxidSection.style.display = '';
+                invoiceTitleSection.style.display = '';
+                taxidInput.required = true;
+                invoiceTitleInput.required = true;
+            }
+            else {
+                taxidSection.style.display = 'none';
+                invoiceTitleSection.style.display = 'none';
+                taxidInput.required = false;
+                invoiceTitleInput.required = false;
+            }
+        }
+        function id_setRequired(ele) {
+            const idnoSection = document.getElementsByClassName('idno-sec')[0];
+            const idnoInput = document.getElementById('inputID');
+
+            //if(ele.value == "一般教師研習時數" || ele.value == "公務員研習時數") {
+            if(ele.value == "1") {
+                idnoSection.style.display = '';
+                idnoInput.required = true;
+            }
+            else {
+                idnoSection.style.display = 'none';
+                idnoInput.required = false;
+            }
+        }
     </script>
 @stop
