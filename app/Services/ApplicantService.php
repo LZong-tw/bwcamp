@@ -123,6 +123,42 @@ class ApplicantService
         return $applicant;
     }
 
+    /* another version of fetchApplicantData, using eager loading to get related data, and then flatten the array
+     *
+     * @param 營隊 ID
+     * @param 營隊類型 xccamp
+     * @param 交通
+     * @param 住宿
+     * @return array
+     */
+    public function getApplicantData($campId, $campTable) 
+    {
+        // 一次性加載多個關聯
+
+        $applicant = Applicant::with([$campTable, 'lodging', 'traffic'])->findOrFail($campId);
+        $applicant->offsetUnset('files'); // files 僅供後台備註使用，同時，現在 files 的記錄方式若轉為 Json，在前端會出錯
+
+        // 將主表與關聯表打平合併
+        $mergedData = array_merge(
+            $applicant->toArray(),
+            $applicant->$campTable ? $applicant->$campTable->toArray() : [],
+            $applicant->lodging ? $applicant->lodging->toArray() : [],
+            $applicant->traffic ? $applicant->traffic->toArray() : []
+        );
+        $mergedData ['applicant_id']= $applicant->id; 
+        $mergedData [$campTable.'_id']= $applicant->$campTable ? $applicant->$campTable->id : null; 
+        $mergedData ['lodging_id']= $applicant->lodging ? $applicant->lodging->id : null;   
+        $mergedData ['traffic_id']= $applicant->traffic ? $applicant->traffic->id : null; 
+
+        // 移除掉原本嵌套的物件，避免傳輸冗餘資料
+        unset($mergedData[$campTable], $mergedData['lodging'], $mergedData['traffic']);
+        $applicant_data = json_encode($mergedData, JSON_UNESCAPED_UNICODE);
+         $applicant_data = str_replace("\\r", "", $applicant_data);
+         $applicant_data = str_replace("\\n", "", $applicant_data);
+         $applicant_data = str_replace("\\t", "", $applicant_data);
+         $applicant_data = str_replace("'", "\\'", $applicant_data);
+        return [$applicant, $applicant_data];
+    }
     public function checkIfPaidEarlyBird($applicant)
     {
         // 須為已錄取
