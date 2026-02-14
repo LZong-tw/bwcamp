@@ -8,26 +8,29 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 @section('content')
     @include('partials.schools_script')
     @include('partials.counties_areas_script')
+    @if(!isset($isBackend))
     <div class='alert alert-info' role='alert'>
         您在本網站所填寫的個人資料，僅用於此次教師營的報名及活動聯絡之用。
     </div>
+    @endif
 
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }} 報名表</h4>
     </div>
 
-<span id="utcamp-layout">
-{{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
-@if((!isset($isModify) && $batch->is_appliable) || (isset($isModify) && $isModify))
+    <span id="utcamp-layout">
+    {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
+    @if((!isset($isModify) && $batch->is_appliable) || (isset($isModify) && $isModify))
     <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form'>
-{{-- 禁止前台報名 --}}
-@elseif(!$batch->is_appliable)
+    {{-- 禁止前台報名 --}}
+    @elseif(!$batch->is_appliable)
     <script>window.location = "/";</script>
-    @exit
-{{-- 以上皆非: 檢視資料狀態 --}}
-@else
-    <form action="{{ route("queryupdate", $applicant_batch_id) }}" method="post" class="d-inline">
-@endif
+        @exit
+    {{-- 以上皆非: 檢視資料狀態 --}}
+    @else
+    <form action="{{ route('queryupdate', $batch_id) }}" method="post" class="d-inline">
+    @endif
+
     @csrf
     <div class='row form-group'>
         <div class='col-md-2'></div>
@@ -35,22 +38,23 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <span class='text-danger'>＊必填</span>
         </div>
     </div>
+
     @if(isset($applicant_data))
-        <div class='row form-group'>
-            <label for='inputBatch' class='col-md-2 control-label text-md-right'>營隊梯次</label>
-            <div class='col-md-10'>
-                <h4>{{ $batch->name }} ({{ $batch->batch_start }} ~ {{ $batch->batch_end }})</h4>
-                <input type='hidden' name='applicant_id' value='{{ $applicant_id }}'>
-            </div>
+    <div class='row form-group'>
+        <label for='inputBatch' class='col-md-2 control-label text-md-right'>營隊梯次</label>
+        <div class='col-md-10'>
+            <h4>{{ $batch->name }} ({{ $batch->batch_start }} ~ {{ $batch->batch_end }})</h4>
+            <input type='hidden' name='applicant_id' value='{{ $applicant_id }}'>
         </div>
+    </div>
     @endif
     @if(isset($isModify))
-        <div class='row form-group'>
-            <label for='inputBatch' class='col-md-2 control-label text-md-right'>報名日期</label>
-            <div class='col-md-10'>
-                {{ $applicant_raw_data->created_at }}
-            </div>
+    <div class='row form-group'>
+        <label for='inputBatch' class='col-md-2 control-label text-md-right'>報名日期</label>
+        <div class='col-md-10'>
+            {{ $applicant_raw_data->created_at }}
         </div>
+    </div>
     @endif
 
     <div class='row form-group required'>
@@ -137,28 +141,30 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     {{-- 大專教師營 --}}
-        <div id="utcamp-unit-and-batch-section" class="m-0 p-0">
-            <utcamp-unit-and-batch-section></utcamp-unit-and-batch-section>
-        </div>
-
-        <div class="row form-group required">
-            <label for="inputSchoolOrCourse" class="col-md-2 control-label text-md-right">
-                服務系所/部門
-            </label>
-            <div class="col-md-10">
-                <input type="text" required name="department" class='form-control' value="">
-                <div class="invalid-feedback crumb">
-                    請輸入服務系所/部門
-                </div>
+    <div id="utcamp-unit-and-batch-section" class="m-0 p-0">
+        <utcamp-unit-and-batch-section>
+            :initial-data="{{ $applicant_data?? 'null' }}">
+        </utcamp-unit-and-batch-section>
+    </div>
+    <div class="row form-group required">
+        <label for="inputSchoolOrCourse" class="col-md-2 control-label text-md-right">
+            服務系所/部門
+        </label>
+        <div class="col-md-10">
+            <input type="text" required name="department" class='form-control' value="">
+            <div class="invalid-feedback crumb">
+                請輸入服務系所/部門
             </div>
         </div>
-        <span id="utcamp-title" class="m-0 p-0">
-            <utcamp-title></utcamp-title>
-        </span>
+    </div>
+    <span id="utcamp-title" class="m-0 p-0">
+        <utcamp-title></utcamp-title>
+    </span>
     {{-- 大專教師營 --}}
 
+    <!--
     <h5 class='form-control-static text-primary'>聯絡方式</h5>
-    <!--<p class="form-control-static text-danger">＊因需寄發教材資料及通知，請務必填寫正確</p>-->
+    -->
     <div class='row form-group required'>
         <label for='inputCell' class='col-md-2 control-label text-md-right'>聯絡電話(手機)</label>
         <div class='col-md-10'>
@@ -184,38 +190,38 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class='row form-group required'>
-            <label for='inputAddress' class='col-md-2 control-label text-md-right'>居住縣市</label>
-            <div class='col-md-10'>
-                <select required class='form-control' name='address'>
-                    <option value='' selected>- 請選縣市 -</option>
-                    <option value='臺北市' >臺北市</option>
-                    <option value='新北市' >新北市</option>
-                    <option value='基隆市' >基隆市</option>
-                    <option value='宜蘭縣' >宜蘭縣</option>
-                    <option value='花蓮縣' >花蓮縣</option>
-                    <option value='桃園市' >桃園市</option>
-                    <option value='新竹市' >新竹市</option>
-                    <option value='新竹縣' >新竹縣</option>
-                    <option value='苗栗縣' >苗栗縣</option>
-                    <option value='臺中市' >臺中市</option>
-                    <option value='彰化縣' >彰化縣</option>
-                    <option value='南投縣' >南投縣</option>
-                    <option value='雲林縣' >雲林縣</option>
-                    <option value='嘉義市' >嘉義市</option>
-                    <option value='嘉義縣' >嘉義縣</option>
-                    <option value='臺南市' >臺南市</option>
-                    <option value='高雄市' >高雄市</option>
-                    <option value='屏東縣' >屏東縣</option>
-                    <option value='臺東縣' >臺東縣</option>
-                    <option value='澎湖縣' >澎湖縣</option>
-                    <option value='金門縣' >金門縣</option>
-                    <option value='連江縣' >連江縣</option>
-                    <option value='其它' >其它</option>
-                </select>
-                <div class="invalid-feedback crumb">
-                    未選擇居住縣市
-                </div>
+        <label for='inputAddress' class='col-md-2 control-label text-md-right'>居住縣市</label>
+        <div class='col-md-10'>
+            <select required class='form-control' name='address'>
+                <option value='' selected>- 請選縣市 -</option>
+                <option value='臺北市' >臺北市</option>
+                <option value='新北市' >新北市</option>
+                <option value='基隆市' >基隆市</option>
+                <option value='宜蘭縣' >宜蘭縣</option>
+                <option value='花蓮縣' >花蓮縣</option>
+                <option value='桃園市' >桃園市</option>
+                <option value='新竹市' >新竹市</option>
+                <option value='新竹縣' >新竹縣</option>
+                <option value='苗栗縣' >苗栗縣</option>
+                <option value='臺中市' >臺中市</option>
+                <option value='彰化縣' >彰化縣</option>
+                <option value='南投縣' >南投縣</option>
+                <option value='雲林縣' >雲林縣</option>
+                <option value='嘉義市' >嘉義市</option>
+                <option value='嘉義縣' >嘉義縣</option>
+                <option value='臺南市' >臺南市</option>
+                <option value='高雄市' >高雄市</option>
+                <option value='屏東縣' >屏東縣</option>
+                <option value='臺東縣' >臺東縣</option>
+                <option value='澎湖縣' >澎湖縣</option>
+                <option value='金門縣' >金門縣</option>
+                <option value='連江縣' >連江縣</option>
+                <option value='其它' >其它</option>
+            </select>
+            <div class="invalid-feedback crumb">
+                未選擇居住縣市
             </div>
+        </div>
     </div>
 
     <div class='row form-group'>
@@ -244,7 +250,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </script>
 
     <div class='row form-group required'>
-        <label for='inputEmail' class='col-md-2 control-label text-md-right'>確認電子信箱</label>
+        <label for='inputEmailConfirm' class='col-md-2 control-label text-md-right'>確認電子信箱</label>
         <div class='col-md-10'>
             <input type='email' required name='emailConfirm' value='' class='form-control' id='inputEmailConfirm' placeholder='請再次填寫，確認郵件正確'>
             {{-- data-match='#inputEmail' data-match-error='郵件不符合' placeholder='請再次填寫確認郵件填寫正確' --}}
@@ -259,27 +265,27 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <div class="col-md-10">
             <div class="form-check form-check-inline">
                 <label class="form-check-label">
-                    <input type="radio" name="is_allow_notified" value="1" required>
-                    是
-                    <div class="invalid-feedback">
-                        請選擇一項
-                    </div>
+                <input type="radio" name="is_allow_notified" value="1" required>
+                是
+                <div class="invalid-feedback">
+                    請選擇一項
+                </div>
                 </label>
             </div>
             <div class="form-check form-check-inline">
                 <label class="form-check-label">
-                    <input type="radio" name="is_allow_notified" value="0" required>
-                    否
-                    <div class="invalid-feedback">
-                        &nbsp;
-                    </div>
+                <input type="radio" name="is_allow_notified" value="0" required>
+                否
+                <div class="invalid-feedback">
+                    &nbsp;
+                </div>
                 </label>
             </div>
         </div>
     </div>
 -->
     <div class='row form-group'>
-        <label for='inputFuzhi' class='col-md-2 control-label text-md-right'>如何得知報名訊息(可複選)</label>
+        <label for='inputInfoSource' class='col-md-2 control-label text-md-right'>如何得知報名訊息(可複選)</label>
         <div class='col-md-10'>
             <label><input type="checkbox" name=info_source[] value='親友推薦' > 親友推薦</label> <br/>
             <label><input type="checkbox" name=info_source[] value='同事推薦' > 同事推薦</label> <br/>
@@ -288,10 +294,10 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <label><input type="checkbox" name=info_source[] value='福智文教基金會官網' > 福智文教基金會官網</label> <br/>
             <label><input type="checkbox" name=info_source[] value='自行搜尋' > 自行搜尋</label> <br/>
             <label><input type="checkbox" name=info_source[] value='其他' onchange="toggleISOrequired()"> 其它</label> <br>
-                <input type=text class='form-control' name="info_source_other" value='' id="info_source_other">
-                <div class="invalid-feedback">
-                    請填寫其它管道
-                </div>
+            <input type=text class='form-control' name="info_source_other" value='' id="info_source_other">
+            <div class="invalid-feedback">
+                請填寫其它管道
+            </div>
         </div>
     </div>
 
@@ -299,21 +305,14 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <label class='col-md-2 control-label text-md-right'>介紹人</label>
         <div class='col-md-10'>
             <div class='row form-group'>
-                <div class='col-md-2'>
-                    姓名：
-                </div>
+                <label class='col-md-2 control-label text-md-right'>姓名</label>
                 <div class='col-md-10'>
                     <input type='text'class='form-control' name="introducer_name" value=''>
                 </div>
-                {{-- <div class="invalid-feedback">
-                    請填寫本欄位
-                </div> --}}
             </div>
             <!--
             <div class='row form-group'>
-                <div class='col-md-2'>
-                    關係：
-                </div>
+                <label class='col-md-2 control-label'>關係</label>
                 <div class='col-md-10'>
                     <select name="introducer_relationship" class="form-control">
                         <option value=''>- 請選擇 -</option>
@@ -331,34 +330,27 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-    <!-----是否參加過福智舉辦活動-----
+    <!-- 是否參加過福智舉辦活動
     <span id="utcamp-is-blisswisdom">
-            <utcamp-is-blisswisdom></utcamp-is-blisswisdom>
+        <utcamp-is-blisswisdom></utcamp-is-blisswisdom>
     </span>
-    -----是否參加過福智舉辦活動----->
+    -->
 
     <div class='row form-group'>
-        <label for='inputExpect' class='col-md-2 control-label text-md-right'>您對營隊的期待</label>
+        <label for='inputExpection' class='col-md-2 control-label text-md-right'>您對營隊的期待</label>
         <div class='col-md-10'>
-            <textarea class='form-control' rows=2 name='expectation' id=inputExpect></textarea>
-            {{-- <div class="invalid-feedback">
-                請填寫本欄位
-            </div> --}}
+            <textarea class='form-control' rows=2 name='expectation' id=inputExpection></textarea>
         </div>
     </div>
 
     <div class='row form-group'>
         <label class='col-md-2 control-label text-md-right'>緊急聯絡人</label>
         <div class='col-md-10'>
-            <div class='row form-group'>
-                <div class='col-md-12 text-primary'>
-                    ＊＊＊緊急聯絡人資訊僅作營隊活動中緊急聯絡所需＊＊＊
-                </div>
-            </div>
-            <div class='row form-group'>
-                <div class='col-md-2'>
-                    姓名<label class='text-danger'>＊</label>
-                </div>
+            <label class='form-control-static text-primary'>
+                ＊＊＊緊急聯絡人資訊僅作營隊活動中緊急聯絡所需＊＊＊
+            </label>
+            <div class='row form-group required'>
+                <label class='col-md-2 control-label text-md-right'>姓名</label>
                 <div class='col-md-10'>
                     <input type='text' class='form-control' name="emergency_name" value='' required>
                     <div class="invalid-feedback">
@@ -390,10 +382,8 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 </div>
             </div>
             -->
-            <div class='row form-group'>
-                <div class='col-md-2 required'>
-                    手機<label class='text-danger'>＊</label>
-                </div>
+            <div class='row form-group required'>
+                <label class='col-md-2 control-label text-md-right'>手機</label>
                 <div class='col-md-10'>
                     <input type='tel' class='form-control' name="emergency_mobile" value='' required>
                     <div class="invalid-feedback">
@@ -404,58 +394,41 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-<!-- 底下調查移至錄取查詢-->
     <div class='row form-group required'>
         <label for='inputIsCivilCertificate' class='col-md-2 control-label text-md-right'>是否申請公務員研習時數</label>
         <div class="col-md-10">
             <div class="form-check form-check-inline">
-                <label class="form-check-label">
-                    <input type="radio" name="is_civil_certificate" value="1" required onchange="id_setRequired(this)">
-                    是
-                    <div class="invalid-feedback">
-                        請選擇一項
-                    </div>
-                </label>
-            </div>
-            <div class="form-check form-check-inline">
-                <label class="form-check-label">
-                    <input type="radio" name="is_civil_certificate" value="0" required onchange="id_setRequired(this)">
-                    否
-                    <div class="invalid-feedback">
-                        &nbsp;
-                    </div>
+                <label class="form-check-label">          
+                    <input type="radio" name="is_civil_certificate" value="1" required onclick="id_setRequired(this)">&nbsp;是&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="is_civil_certificate" value="0" required onclick="id_setRequired(this)">&nbsp;否&nbsp;&nbsp;&nbsp;
+                    <div class="invalid-feedback">請選擇一項</div>
                 </label>
             </div>
         </div>
     </div>
-    <div class='row form-group required' style="display: none;">
-        <label for='inputID' class='col-md-2 control-label text-md-right'>身份證字號</label>
+    <div class='row form-group idno-sec' style="display: none;">
+        <label class='col-md-2 text-md-right'></label>
         <div class='col-md-10'>
-            <input type='text' name='idno' value='' class='form-control' id='inputID' placeholder='僅作為申請研習時數用'>
-            <div class="invalid-feedback">
-                未填寫身份證字號（申請時數或研習證明用）
+            <div class='row form-group required'>
+                <label for='inputID' class='col-md-2 control-label text-md-right'>身份證字號</label>
+                <div class='col-md-10'>
+                    <input type='text' name='idno' value='' class='form-control' id='inputID' placeholder='僅作為申請研習時數用'>
+                    <div class="invalid-feedback">
+                        未填寫身份證字號（申請時數或研習證明用）
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
     <div class='row form-group required'>
         <label for='inputIsBwfoceCertificate' class='col-md-2 control-label text-md-right'>是否申請基金會研習數位證明書</label>
         <div class="col-md-10">
             <div class="form-check form-check-inline">
                 <label class="form-check-label">
-                    <input type="radio" name="is_bwfoce_certificate" value="1" required>
-                    是
-                    <div class="invalid-feedback">
-                        請選擇一項
-                    </div>
-                </label>
-            </div>
-            <div class="form-check form-check-inline">
-                <label class="form-check-label">
-                    <input type="radio" name="is_bwfoce_certificate" value="0" required>
-                    否
-                    <div class="invalid-feedback">
-                        &nbsp;
-                    </div>
+                    <input type="radio" name="is_bwfoce_certificate" value="1" required>&nbsp;是&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="is_bwfoce_certificate" value="0" required>&nbsp;否&nbsp;&nbsp;&nbsp;
+                    <div class="invalid-feedback">請選擇一項</div>
                 </label>
             </div>
         </div>
@@ -463,65 +436,62 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputInvoiceType' class='col-md-2 control-label text-md-right'>活動費發票開立</label>
         <div class='col-md-10'>
-            <select required class='form-control' name='invoice_type' placeholder='' onchange="taxid_setRequired(this)">
-                <option value="">- 請選擇 -</option>
-                <option value="單位發票">單位發票</option>
-                <option value="個人發票">個人發票</option>
-                <option value="捐贈福智文教基金會">捐贈福智文教基金會</option>
-            </select>
-            <div class="invalid-feedback">
-                未選擇活動費發票開立
+            <div class="form-check form-check-inline"> 
+                <label class="form-check-label">         
+                    <input required type="radio" name="invoice_type" value="單位發票"  onclick="taxid_setRequired(this)">
+                    &nbsp;單位發票&nbsp;&nbsp;&nbsp;
+                    <input required type="radio" name="invoice_type" value="個人發票" onclick="taxid_setRequired(this)">
+                    &nbsp;個人發票&nbsp;&nbsp;&nbsp;
+                    <input required type="radio" name="invoice_type" value="捐贈福智文教基金會" onclick="taxid_setRequired(this)">
+                    &nbsp;捐贈福智文教基金會&nbsp;&nbsp;&nbsp;
+                    <div class="invalid-feedback">未選擇活動費發票開立</div>
+                </label>
             </div>
         </div>
     </div>
-
-    <div class='row form-group required' style="display: none;">
-        <label for='inputTaxID' class='col-md-2 control-label text-md-right'>統一編號</label>
+    <div class='row form-group taxid-sec' style="display: none;">
+        <label class='col-md-2 text-md-right'></label>
         <div class='col-md-10'>
-            <input type='text' name='taxid' value='' class='form-control' id='inputTaxID' placeholder='開立活動費發票用'>
-            <div class="invalid-feedback">
-                未填寫統一編號
+            <div class='row form-group required'>
+                <label for='inputTaxID' class='col-md-2 control-label text-md-right'>統一編號</label>
+                <div class='col-md-10'>
+                    <input type='text' name='taxid' value='' class='form-control' id='inputTaxID' placeholder='開立活動費發票用'>
+                    <div class="invalid-feedback">
+                        未填寫統一編號
+                    </div>
+                </div>
+            </div>
+            <div class='row form-group required'>
+                <label for='inputInvoiceTitle' class='col-md-2 control-label text-md-right'>抬頭</label>
+                <div class='col-md-10'>
+                    <input type='text' name='invoice_title' value='' class='form-control' id='inputInvoiceTitle' placeholder='開立活動費發票用'>
+                    <div class="invalid-feedback">
+                        未填寫抬頭
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-    <div class='row form-group required' style="display: none;">
-        <label for='inputInvoiceTitle' class='col-md-2 control-label text-md-right'>抬頭</label>
-        <div class='col-md-10'>
-            <input type='text' name='invoice_title' value='' class='form-control' id='inputInvoiceTitle' placeholder='開立活動費發票用'>
-            <div class="invalid-feedback">
-                未填寫抬頭
-            </div>
-        </div>
-    </div>
-
     <div class='row form-group required'>
-        <label class='col-md-2 control-label text-md-right'>住宿需求</label>
+        <label for='inputRoomType' class='col-md-2 control-label text-md-right'>住宿選項</label>
         <div class='col-md-10'>
             <div class='row form-group'>
                 <div class='col-md-12 text-primary'>
-                    依房型不同，每人活動費用如下：
+                    依房型不同，*每人活動費*如下：<br>
+                    1.單人房(1大床)：早鳥優惠NT$9,800元／原價NT$14,000元<br>
+                    2.雙人房(1大床或2床)：早鳥優惠NT$6,600元／原價 NT$9,000元<br>
+                    3.兩人同行優惠(僅能選雙人房)：優惠價NT$5,000元<br>
+                    *早鳥優惠截止日期：{{ $camp_data->early_bird_last_day }}<br>
+                    *兩人同行優惠截止日期：{{ $camp_data->discount_last_day }}<br>
+                    <a href="https://bwfoce.wixsite.com/ufscamp#comp-kvff5c8s" target="_blank"><u>活動費用詳細說明請按此</u></a>
                 </div>
             </div>
             <div class="row form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="fee" value="6000" required onclick='showCompanion(this)'>
-                    活動費 NT$6,000元：雙人2床房 或 雙人1張雙人床房（每房2人）
-                </label>
-            </div>
-            <div class="row form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="fee" value="8000" required onclick='showCompanion(this)'>
-                    活動費 NT$8,000元：單人房（床型為一張雙人床，每房1人）
-                </label>
-            </div>
-            <label class='form-check-label text-primary'> 
-                    【特別優惠】兩人以上同行享優惠：
-            </label>
-            <div class="row form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" type="radio" name="fee" value="5000" required onclick='showCompanion(this)'>
-                    每人活動費 NT$5,000元：標準雙人雙床房（單人特大床房不適用此優惠）
+                    @foreach($fare_room as $key => $value)
+                    <input required class="form-check-input" type="radio" name="room_type" value={{ $key }} onclick='changeRoom(this)'>
+                    &nbsp;{{ $key }}({{ $value }})&nbsp;&nbsp;&nbsp;<br>
+                    @endforeach
                     <div class="invalid-feedback">
                         未選擇住宿需求
                     </div>
@@ -530,39 +500,28 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-    <div class='row form-group companion_sec' style='display:none'>
-        <label class='col-md-2 control-label text-md-right'>同行人</label>
+    <div class='row form-group companion-sec' style='display:none'>
+        <label class='col-md-2 text-md-right'></label>
         <div class='col-md-10'>
-            <div class='row form-group'>
-                <div class='col-md-2'>
-                    姓名<label class='text-danger'>＊</label>
-                </div>
+            <div class='row form-group required'>
+                <label class='col-md-2 control-label text-md-right'>同行人姓名</label>
                 <div class='col-md-10'>
-                    <input type='text' class='form-control' name='companion_name' id='companion_name' value=''>
+                    <input type='text' class='form-control' name='companion_name' id='inputCompanionName' value=''>
                     <div class="invalid-feedback">
                         未填寫同行人姓名
                     </div>
                 </div>
             </div>
-            <div class='row form-group'>
-                <div class='col-md-2'>
-                    希望同房<label class='text-danger'>＊</label>
-                </div>
+            <div class='row form-group required'>
+                <label class='col-md-2 control-label text-md-right'>希望同房</label>
                 <div class='col-md-10'>
                     <div class="form-check form-check-inline">
                         <label class="form-check-label">
-                            <input type="radio" name="companion_as_roommate" id="as_roommate_y" value="1">是
-                            <div class="invalid-feedback">
-                                請選擇一項
-                            </div>
-                        </label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <label class="form-check-label">
-                            <input type="radio" name="companion_as_roommate" id="as_roommate_n" value="0">否
-                            <div class="invalid-feedback">
-                                &nbsp;
-                            </div>
+                            <input type="radio" name="companion_as_roommate" id="inputRoommateY" value="1">
+                            &nbsp;是&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="companion_as_roommate" id="inputRoommateN" value="0">
+                            &nbsp;否&nbsp;&nbsp;&nbsp;
+                            <div class="invalid-feedback">請選擇一項</div>
                         </label>
                     </div>
                 </div>
@@ -571,60 +530,49 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <div class='row form-group'>
-        <label class='col-md-2 control-label text-md-right'>是否需要高鐵站接駁</label>
+        <label class='col-md-2 control-label text-md-right'>接駁服務</label>
         <div class='col-md-10'>
             <div class='row form-group'>
                 <div class='col-md-12 text-primary'>
-                    若需要 2025/6/22 新竹高鐵接駁，接駁車會由12:30發車
+                【新竹高鐵站接駁車資訊】<br>
+                {{$camp_data->batch_start}}({{$camp_data->batch_start_weekday}}) 往麻布山林：新竹高鐵站出口4，12:30發車。<br>
+                {{$camp_data->batch_end}}({{$camp_data->batch_end_weekday}}) 往新竹高鐵站：麻布山林山，17:10發車。
                 </div>
             </div>
             <div class='row form-group required'>
-                <label for='inputTransportationDepart' class='col-md-2 control-label'>
-                    去程
+                <label for='inputDepartFrom' class='col-md-2 control-label'>
+                    去程選項
                 </label>
                 <div class='col-md-10'>
                     <div class="form-check form-check-inline">
                         <label class="form-check-label">
-                            <input type="radio" name="transportation_depart" value="高鐵接駁" required> 是
-                            <div class="invalid-feedback">
-                                請選擇一項
-                            </div>
-                        </label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <label class="form-check-label">
-                            <input type="radio" name="transportation_depart" value="自往" required> 否
-                            <div class="invalid-feedback">
-                                &nbsp;
-                            </div>
+                            @foreach($fare_depart_from as $key => $value)
+                            <input type="radio" name="depart_from" value={{ $key }} required>
+                            &nbsp;{{ $key }}&nbsp;&nbsp;&nbsp;
+                            @endforeach
+                            <div class="invalid-feedback">未選擇去程接駁需求</div>
                         </label>
                     </div>
                 </div>
-                <label for='inputTransportationBack' class='col-md-2 control-label'>
-                    回程
+                <br>
+                <label for='inputBackTo' class='col-md-2 control-label'>
+                    回程選項
                 </label>
                 <div class='col-md-10'>
                     <div class="form-check form-check-inline">
                         <label class="form-check-label">
-                            <input type="radio" name="transportation_back" value="高鐵接駁" required> 是
-                            <div class="invalid-feedback">
-                                請選擇一項
-                            </div>
+                            @foreach($fare_depart_from as $key => $value)
+                            <input required type="radio" name="back_to" value={{ $key }} >
+                            &nbsp;{{ $key }}&nbsp;&nbsp;&nbsp;
+                            @endforeach
+                            <div class="invalid-feedback">未選擇回程接駁需求</div>
                         </label>
                     </div>
-                    <div class="form-check form-check-inline">
-                        <label class="form-check-label">
-                            <input type="radio" name="transportation_back" value="自回" required> 否
-                            <div class="invalid-feedback">
-                                &nbsp;
-                            </div>
-                        </label>
-                    </div>
+                    
                 </div>
             </div>
         </div>
     </div>
-<!-- 底下調查移至錄取查詢-->
 
 {{-- 
     <!--- 同意書 -->
@@ -693,43 +641,51 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputTerm' class='col-md-2 control-label text-md-right'>肖像權</label>
         <div class='col-md-10 form-check'>
-            <p class='form-control-static text-danger'>
+            <p style="color: #F37021;" class='form-control-static'>
             主辦單位在營隊期間拍照、錄影之活動記錄，可使用於營隊及主辦單位的非營利教育推廣使用，並以網路方式推播。
             </p>
-            <label class=radio-inline>
-                <input type='radio' required name="portrait_agree" value='1' checked> 我同意
-                <div class="invalid-feedback">
-                    請圈選本欄位
-                </div>
-            </label>
-            <label class=radio-inline>
-                <input type=radio required name="portrait_agree" value='0' > 我不同意
-                <div class="invalid-feedback">
-                    &nbsp;
-                </div>
-            </label>
+            <div class="form-check form-check-inline">
+                <label class=radio-inline>
+                    <input type='radio' required name="portrait_agree" value='1' checked> 我同意
+                    <div class="invalid-feedback">
+                        請圈選本欄位
+                    </div>
+                </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <label class=radio-inline>
+                    <input type=radio required name="portrait_agree" value='0' > 我不同意
+                    <div class="invalid-feedback">
+                        &nbsp;
+                    </div>
+                </label>
+            </div>
         </div>
     </div>
 
     <div class='row form-group required'>
         <label for='inputTerm' class='col-md-2 control-label text-md-right'>個人資料</label>
         <div class='col-md-10 form-check'>
-            <p class='form-control-static text-danger'>
+            <p style="color: #F37021;" class='form-control-static'>
             為落實個人資料之保護，於本次營隊活動及活動結束後，福智文教基金會（簡稱本基金會）將利用被推薦人所提供之個人資料通知被推薦人本次營隊活動相關訊息，及日後本基金會相關課程、活動訊息通知之非營利目的使用。同意期間自被推薦人同意參加活動之日起，至被推薦人提出刪除日止。營隊活動期間由本基金會保存被推薦人的個人資料，以作為被推薦人、本基金會查詢、確認證明之用。<br>
             除上述情形外，本基金會於本次營隊取得之個人資料，不會未經被推薦人以言詞、書面、電話、簡訊、電子郵件、傳真、電子文件等方式同意提供給第三單位使用。
             </p>
-            <label class=radio-inline>
-                <input type='radio' required name="profile_agree" value='1' checked> 我同意
-                <div class="invalid-feedback">
-                    請圈選本欄位
-                </div>
-            </label>
-            <label class=radio-inline>
-                <input type=radio required name="profile_agree" value='0' > 我不同意
-                <div class="invalid-feedback">
-                    &nbsp;
-                </div>
-            </label>
+            <div class="form-check form-check-inline">
+                <label class=radio-inline>
+                    <input type='radio' required name="profile_agree" value='1' checked> 我同意
+                    <div class="invalid-feedback">
+                        請圈選本欄位
+                    </div>
+                </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <label class=radio-inline>
+                    <input type=radio required name="profile_agree" value='0' > 我不同意
+                    <div class="invalid-feedback">
+                        &nbsp;
+                    </div>
+                </label>
+            </div>
         </div>
     </div>
 
@@ -758,7 +714,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
     </form>
-</span>
+    </span> <!--span id="utcamp-layout"-->
 
 <script>
     window.addEventListener("load", function() {
@@ -895,30 +851,36 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             document.getElementById('inputTcampYear').required = false;
         }
     }
-
-    function taxid_setRequired(ele) {
-        if(ele.value == "單位發票") {
-            $("#inputTaxID").parent().parent().show();
-            $("#inputTaxID").prop('required',true);
-            $("#inputInvoiceTitle").parent().parent().show();
-            $("#inputInvoiceTitle").prop('required',true);
-        }
-        else {
-            $("#inputTaxID").parent().parent().hide();
-            $("#inputTaxID").prop('required',false);
-            $("#inputInvoiceTitle").parent().parent().hide();
-            $("#inputInvoiceTitle").prop('required',false);
-        }
-    }
+    //身份證字號欄位必填與否
     function id_setRequired(ele) {
+        const idnoSection = document.getElementsByClassName('idno-sec')[0];
+        const idnoInput = document.getElementById('inputID');
+
         //if(ele.value == "一般教師研習時數" || ele.value == "公務員研習時數") {
         if(ele.value == "1") {
-            $("#inputID").parent().parent().show();
-            $("#inputID").prop('required',true);
+            idnoSection.style.display = '';
+            idnoInput.required = true;
         }
         else {
-            $("#inputID").prop('required',false);
-            $("#inputID").parent().parent().hide();
+            idnoSection.style.display = 'none';
+            idnoInput.required = false;
+        }
+    }
+    //統編與抬頭欄位必填與否
+    function taxid_setRequired(ele) {
+        const taxidSection = document.getElementsByClassName('taxid-sec')[0];
+        const taxidInput = document.getElementById('inputTaxID');
+        const invoiceTitleInput = document.getElementById('inputInvoiceTitle');
+
+        if(ele.value == "單位發票") {
+            taxidSection.style.display = '';
+            taxidInput.required = true;
+            invoiceTitleInput.required = true;
+        }
+        else {
+            taxidSection.style.display = 'none';
+            taxidInput.required = false;
+            invoiceTitleInput.required = false;
         }
     }
 
@@ -928,43 +890,32 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         }
     }
 
-    function showCompanion(radio_ele) {
-        // 檢查 radio_ele 被勾選是哪項
-        if(radio_ele.value==5000) {
-            // 兩人同行優惠
-            tg = document.getElementsByClassName('companion_sec');
-            tg[0].style.display = ''; 
-            document.getElementById('companion_name').required = true;
-            document.getElementById('as_roommate_y').required = true;
-            document.getElementById('as_roommate_n').required = true;
+    function changeRoom(select_ele) {
+        const companionSection = document.getElementsByClassName('companion-sec')[0];
+        const companionName = document.getElementById('inputCompanionName');
+        const roommateY = document.getElementById('inputRoommateY');
+        const roommateN = document.getElementById('inputRoommateN');
+
+        if (select_ele.value.includes("兩人同行")) {
+            // 有同行者
+            companionSection.style.display = '';
+            companionName.required = true;
+            roommateY.required = true;
+            roommateN.required = true;
+        } else {
+            // 一人報名
+            companionSection.style.display = 'none';
+            companionName.required = false;
+            roommateY.required = false;
+            roommateN.required = false;
         }
-        else {
-            // 無優惠
-            tg = document.getElementsByClassName('companion_sec');
-            tg[0].style.display = 'none'; 
-            document.getElementById('companion_name').required = false;
-            document.getElementById('as_roommate_y').required = false;
-            document.getElementById('as_roommate_n').required = false;
-        }
-    }
+    };
+    
     @if(isset($applicant_data))
         {{-- 回填報名資料 --}}
         (function() {
             window.applicant_id = '{{ $applicant_id }}';
             let applicant_data = JSON.parse('{!! $applicant_data !!}');
-
-            //兩人同行優惠則顯示同行人
-            tg = document.getElementsByName('fee');
-            if (typeof applicant_data['fee'] !== "undefined") {
-                if (applicant_data['fee'] == 5000) {
-                    console.log(tg);
-                    tg = document.getElementsByClassName('companion_sec');
-                        tg[0].style.display = ''; 
-                        document.getElementById('companion_name').required = true;
-                        document.getElementById('as_roommate_y').required = true;
-                        document.getElementById('as_roommate_n').required = true;
-                }
-            }
 
             let inputs = document.getElementsByTagName('input');
             let selects = document.getElementsByTagName('select');
@@ -979,6 +930,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                         for( j = 0; j < radios.length; j++ ) {
                             if( radios[j].value == applicant_data[inputs[i].name] ) {
                                 radios[j].checked = true;
+                                radios[j].dispatchEvent(new Event('click'));
                             }
                         }
                     }

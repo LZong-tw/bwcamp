@@ -19,11 +19,7 @@ class TrafficService
     public function updateApplicantTraffic(Applicant $applicant, $camp_table, $departFrom, $backTo)
     {
         $traffic = $applicant->traffic ?: new Traffic(['applicant_id' => $applicant->id]);
-        
-        // 取得費率設定 (這部分邏輯建議也可以封裝)
-        $fare_depart_from = config('camps_payments.fare_depart_from.' . $camp_table) ?? [];
-        $fare_back_to = config('camps_payments.fare_back_to.' . $camp_table) ?? [];
-
+        [$fare_depart_from, $fare_back_to] = $this->getTrafficFare($camp_table);
         $traffic->depart_from = $departFrom;
         $traffic->back_to = $backTo;
         $traffic->fare = ($fare_depart_from[$departFrom] ?? 0) + ($fare_back_to[$backTo] ?? 0);
@@ -33,6 +29,15 @@ class TrafficService
         $applicant = $this->applicantService->fillPaymentData($applicant);
         $applicant->save();
 
-        return $applicant; // 回傳更新後的物件
+        return [$applicant, $fare_depart_from, $fare_back_to]; // 回傳更新後的物件及費率設定
+    }
+
+    public function getTrafficFare($campTable)
+    {
+        // 取得費率設定 (這部分邏輯建議也可以封裝)
+        $fare_depart_from = config('camps_payments.fare_depart_from.' . $campTable) ?? [];
+        $fare_back_to = config('camps_payments.fare_back_to.' . $campTable) ?? [];
+
+        return [$fare_depart_from, $fare_back_to];
     }
 }
