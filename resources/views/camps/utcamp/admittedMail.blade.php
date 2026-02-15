@@ -47,8 +47,7 @@
         $rate = "原價";
     }
 @endphp
-<h3 style="text-align: center">{{ $applicant->batch->camp->fullName }}</h3>
-<h3 style="text-align: center">【錄取繳費通知單]</h3>
+<h3 style="text-align: center">{{ $applicant->batch->camp->fullName }}【錄取繳費通知單]</h3>
 親愛的 {{ $applicant->name }} 老師您好：<br>
 <br>
 &emsp;&emsp;恭喜您錄取「{{ $applicant->batch->camp->fullName }}」，我們竭誠歡迎您的到來，請留意以下資訊，期望您能留下最美好的回憶。<br>
@@ -74,10 +73,10 @@
 <br>
 <b>【繳費資訊】</b><br>
 <ul>
-    <li>您的報名日期為：{{ $applicant->created_at->format('Y-m-d') }}</li>
-    <li>您適用的費率為：{{ $rate }}</li>
-    <li>您選擇的房型為：{{ $applicant->lodging->room_type }}</li>
-    <li>您的費用為：NT$<span class="text-danger">{{ $applicant->lodging->fare }}</span>&emsp;</li>
+    <li>您的報名日期：{{ $applicant->created_at->format('Y-m-d') }}</li>
+    <li>您適用的費率：{{ $rate }}</li>
+    <li>您選擇的房型：{{ $applicant->lodging->room_type }}</li>
+    <li>您的應繳費用：NT$<span class="text-danger">{{ $applicant->lodging->fare }}</span>&emsp;</li>
     <li>匯款帳號：<br>
         &emsp;邱孟懿 中國信託 板新分行<br>
         &emsp;帳號：417540291289<br>
@@ -94,6 +93,6 @@
     <li>{!! nl2br(e(str_replace('\n', "\n", $applicant->batch->contact_card))) !!}</li>
 </ul>
 <br>
-<a style="text-align: right">財團法人福智文教基金會&emsp;敬上&emsp;</a><br>
-<a style="text-align: right">{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}&emsp;</a>
+<p style="text-align: right">財團法人福智文教基金會&emsp;敬上&emsp;<br>
+{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}&emsp;</p>
 </body>

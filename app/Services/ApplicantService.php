@@ -135,7 +135,7 @@ class ApplicantService
     {
         // 一次性加載多個關聯
 
-        $applicant = Applicant::with([$campTable, 'lodging', 'traffic'])->findOrFail($campId);
+        $applicant = Applicant::with([$campTable, 'lodging', 'traffic'])->withTrashed()->findOrFail($campId);
         $applicant->offsetUnset('files'); // files 僅供後台備註使用，同時，現在 files 的記錄方式若轉為 Json，在前端會出錯
 
         // 將主表與關聯表打平合併
