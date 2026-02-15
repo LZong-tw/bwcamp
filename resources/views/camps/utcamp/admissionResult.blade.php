@@ -52,7 +52,7 @@
 
                 <h5>錄取/報到通知</h5>
                 <div class="ml-0 mb-2">
-                請詳閱 <a href="https://docs.google.com/document/d/1t56h4BsWBqC_r38rtGekn24GQDW8_2oA/edit" target="_blank">錄取通知</a>，內含報到資訊、必帶物品，及交通資訊等等。<br>
+                請詳閱 <a href="{{ $camp_data->content_link_chn }}" target="_blank">錄取通知</a>，內含報到資訊、必帶物品，及交通資訊等等。<br>
                 </div>
                 <br>
 @if(!isset($applicant->is_attend) || $applicant->is_attend)

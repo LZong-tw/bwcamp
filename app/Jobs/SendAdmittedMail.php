@@ -11,6 +11,7 @@ use App\Services\ApplicantService;
 use App\Traits\EmailConfiguration;
 use Illuminate\Queue\Middleware\WithoutOverlapping;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
+use App\Models\Applicant;
 
 class SendAdmittedMail implements ShouldQueue, ShouldBeUnique
 {
@@ -25,10 +26,14 @@ class SendAdmittedMail implements ShouldQueue, ShouldBeUnique
      *
      * @return void
      */
-    public function __construct($applicant_id)
+    public function __construct($applicantId, $campTable)
     {
-        //
-        $this->applicant = \App\Models\Applicant::find($applicant_id);
+        //eager load lodging and traffic, which is might be needed in the email view
+        if ($campTable == null) {
+            $this->applicant = Applicant::with(['lodging', 'traffic'])->findOrFail($applicantId);
+        } else {
+            $this->applicant = Applicant::with([$campTable, 'lodging', 'traffic'])->findOrFail($applicantId);
+        }
     }
 
     /**

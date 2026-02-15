@@ -4,8 +4,9 @@
     <a href="{{ route("showGroup", [$campFullData->id, $batch->id, request()->group]) }}?download=1" class="btn btn-primary d-inline-block" style="margin-bottom: 14px">下載名單</a>
     </div>
     <form action="{{ route("sendAdmittedMail", $camp_data->id) }}" method="post" name="sendEmailByGroup">
-    <table class="table table-bordered">
-        @csrf
+    @csrf
+    <input type=hidden name='campTable' value='{{ $camp_data->table }}'>
+    <table class="table table-bordered">  
         <thead>
             <tr class="">
                 <th>報名序號</th>

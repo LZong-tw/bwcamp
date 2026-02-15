@@ -35,6 +35,10 @@ class AdmittedMail extends Mailable
         $this->etc = $this->applicant->user?->roles?->where("camp_id", \App\Models\Vcamp::find($this->applicant->camp->id)->mainCamp->id)->first()?->section;
         $this->carers_unified = [];
         $this->carers = [];
+        
+        $this->content_link_chn = $this->applicant->camp->dynamic_stats?->where('purpose', 'admittedMail_chn')?->first()?->google_sheet_url ?? [];
+        $this->content_link_eng = $this->applicant->camp->dynamic_stats?->where('purpose', 'admittedMail_eng')?->first()?->google_sheet_url ?? [];
+
 
         if ($this->campFullData->table == 'mcamp') {
             $vbatch = $this->applicant->batch->vbatch ?? null;

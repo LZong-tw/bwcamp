@@ -1,16 +1,5 @@
-<style>
-    u{
-        color: red;
-    }
+<body style="font-size:16px;">
 
-    .center{
-        text-align: center;
-    }
-
-    .right{
-        text-align: right;
-    }
-</style>
 <!-- 一般教師營
     <h2 class="center">{{ $applicant->batch->camp->fullName }}&emsp;錄取通知</h2>
 <table width="100%" style="table-layout:fixed; border: 0;">
@@ -47,52 +36,64 @@
 <a class="right">財團法人福智文教基金會&emsp;謹此</a><br>
 <a class="right">{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</a>
 -->
-<h2 class="center">{{ $applicant->batch->camp->fullName }}</h2>
-<h2 class="center">錄取通知單</h2>
+
+@php
+    $cancellation_add1_with_weekday = \Carbon\Carbon::parse($applicant->batch->camp->cancellation_deadline)->addDays(1)->isoFormat('YYYY-MM-DD(dd)');
+    if ($applicant->created_at->lte($applicant->batch->camp->early_bird_last_day)) {
+        $rate = "早鳥優惠、兩人同行優惠";
+    } elseif ($applicant->created_at->lte($applicant->batch->camp->discount_last_day)) {
+        $rate = "原價、兩人同行優惠";
+    } else {
+        $rate = "原價";
+    }
+@endphp
+<h3 style="text-align: center">{{ $applicant->batch->camp->fullName }}</h3>
+<h3 style="text-align: center">【錄取繳費通知單]</h3>
+親愛的 {{ $applicant->name }} 老師您好：<br>
 <br>
-<table width="100%" style="table-layout:fixed; border: 0;">
-    <tr>
-        <td>報名序號：{{ $applicant->id }}</td>
-        <td>姓名：{{ $applicant->name }}</td>
-        
-        <td>錄取編號：<u>{{ $applicant->group }}{{ $applicant->number }}</u></td>
-        <td>組別：<u>{{ $applicant->group }}</u></td>
-    
-    </tr>
-</table>
-<br>
-&emsp;&emsp;歡迎參加「{{ $applicant->batch->camp->fullName }}」，誠摯地期待與您共享這場心靈饗宴，希望您能獲得豐盛的收穫。請詳閱以下相關訊息，祝福您營隊收穫滿滿。<br>
-<br>
-&emsp;&emsp;請於收到錄取通知單七日內（{{ \Carbon\Carbon::now()->addDays(7)->year }}年{{ \Carbon\Carbon::now()->addDays(7)->month }}月{{ \Carbon\Carbon::now()->addDays(7)->day }}日前）完成轉帳 {{ $applicant->fee }}元整。確認款項後，您的報名才正式生效。匯款帳號如下：<br>
-<br>
-&emsp;&emsp;邱孟懿 中國信託 板新分行<br>
-&emsp;&emsp;帳號：417540291289<br>
-&emsp;&emsp;匯款時，請註記：{{ $applicant->name }}大專教師營<br>
-<br>
+&emsp;&emsp;恭喜您錄取「{{ $applicant->batch->camp->fullName }}」，我們竭誠歡迎您的到來，請留意以下資訊，期望您能留下最美好的回憶。<br>
 <ol>
-    <li>營隊資訊<br>
-        <ul>
-            <li>活動期間：{{ $applicant->batch->batch_start }}({{ $applicant->batch->batch_start_weekday }})～{{ $applicant->batch->batch_end }}({{ $applicant->batch->batch_end_weekday }})</li>
-            <li>地點：{{ $applicant->batch->locationName }}（{{ $applicant->batch->location }}）</li>
-        </ul>
+    <li>營隊期間：{{ $applicant->batch->batch_start }}({{ $applicant->batch->batch_start_weekday }})～{{ $applicant->batch->batch_end }}({{ $applicant->batch->batch_end_weekday }})，共三天兩夜</li>
+    <li>報到時間：{{ $applicant->batch->batch_start }}({{ $applicant->batch->batch_start_weekday }})13:00～13:50</li>
+    <li>報到地點：{{ $applicant->batch->locationName }}（{{ $applicant->batch->location }}）</li>
+    <li>賦歸時間：{{ $applicant->batch->batch_end }}({{ $applicant->batch->batch_end_weekday }})17:00 (接駁車發車時間17:10)<br>
+    <li>繳費：<b><span style="color: #DC3545;">請於收到錄取通知後7個工作天之內繳費</span></b>，繳費完成方視為完成報名。各房型費用詳見<a href="https://bwfoce.wixsite.com/ufscamp#comp-kvff5c8s" target="_blank"><span style="color: #0dcaf0;"><u>活動官網說明</u></span></a>。</li>
+    <li>交通方式：<br>
+    (1)自行前往：<br>
+    (2)搭乘接駁車：新竹高鐵站來回接駁<br>
+    &emsp;&emsp;{{ $applicant->batch->batch_start }}({{ $applicant->batch->batch_start_weekday }})前往麻布山林接駁車：將於新竹高鐵站出口4，12:30發車<br>
+    &emsp;&emsp;{{ $applicant->batch->batch_end }}({{ $applicant->batch->batch_end_weekday }})前往新竹高鐵站接駁車：由麻布山林山居外P1停車場，17:00發車<br> 
     </li>
-
-    <li>研習費用<br>
-        含三天兩夜住宿、全程蔬食餐點、新竹高鐵站接駁。<br>
-        ＊全程參與者，發給研習證明文件。<br>
-    </li>
-    <li>交通接駁<br>
-    {{ $applicant->batch->batch_start }} 前往麻布山林接駁車：將於新竹高鐵站出口4，12:30發車<br>
-    {{ $applicant->batch->batch_end }} 前往新竹高鐵站接駁車：由麻布山林山居外P1停車場，17:00發車<br> 
-    </li>
-
-    <li>取消參加退費原則<br>
-    若您因故不克參與，2025-06-12(含)前可全額退費(需扣除5%手續費)；<br>
-    2025-06-13(含)以後恕不退費。<br>
+    <li>退費：<br>
+    {{ $applicant->batch->camp->cancellation_deadline }}({{ $applicant->batch->camp->cancellation_deadline_weekday }})(含)前可全額退費(需扣除5%手續費)；<br>
+    {{ $cancellation_add1_with_weekday }}(含)以後恕不退費。
     </li>
 </ol>
-&emsp;&emsp;若有任何問題，歡迎來電(02)7714-6066 分機20317 陳小姐。或 email: bwfaculty@blisswisdom.org<br>
-<br><br>
-<a class="right">財團法人福智文教基金會&emsp;敬上</a><br>
-<a class="right">{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</a>
-
+<b>＊＊營隊仍可持續報名，歡迎您邀請好朋友一起來參加！＊＊<br>
+&emsp;&emsp;報名網址：<a href="https://bwfoce.wixsite.com/ufscamp" target="_blank">https://bwfoce.wixsite.com/ufscamp</a><br></b>
+<br>
+<b>【繳費資訊】</b><br>
+<ul>
+    <li>您的報名日期為：{{ $applicant->created_at->format('Y-m-d') }}</li>
+    <li>您適用的費率為：{{ $rate }}</li>
+    <li>您選擇的房型為：{{ $applicant->lodging->room_type }}</li>
+    <li>您的費用為：NT$<span class="text-danger">{{ $applicant->lodging->fare }}</span>&emsp;</li>
+    <li>匯款帳號：<br>
+        &emsp;邱孟懿 中國信託 板新分行<br>
+        &emsp;帳號：417540291289<br>
+        &emsp;匯款時，請註記：{{ $applicant->name }}大專教師營<br>
+        &emsp;匯款後，請回覆此信告知匯款銀行及尾數5碼。<br>    
+    <li><a href="{{ route('showadmit', ['batch_id' => $applicant->batch->id, 'sn' => $applicant->id, 'name' => $applicant->name]) }}">按此更改住宿及交通服務選項</a><br>
+        若以上連結無法點選，請複製下方文字後，再由瀏覽器進入頁面做回覆：<br>
+        {{ route('queryadmitGET', ['batch_id' => $applicant->batch->id]) }}
+    </li>
+</ul>
+<br>
+<b>【聯絡我們】</b><br>
+<ul>
+    <li>{!! nl2br(e(str_replace('\n', "\n", $applicant->batch->contact_card))) !!}</li>
+</ul>
+<br>
+<a style="text-align: right">財團法人福智文教基金會&emsp;敬上&emsp;</a><br>
+<a style="text-align: right">{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}&emsp;</a>
+</body>

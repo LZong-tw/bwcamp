@@ -6,8 +6,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 ?>
 @extends('camps.utcamp.layout')
 @section('content')
-    @include('partials.schools_script')
-    @include('partials.counties_areas_script')
     @if(!isset($isBackend))
     <div class='alert alert-info' role='alert'>
         您在本網站所填寫的個人資料，僅用於此次教師營的報名及活動聯絡之用。
@@ -22,6 +20,8 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
     @if((!isset($isModify) && $batch->is_appliable) || (isset($isModify) && $isModify))
     <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form'>
+        
+        
     {{-- 禁止前台報名 --}}
     @elseif(!$batch->is_appliable)
     <script>window.location = "/";</script>
@@ -47,14 +47,15 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <input type='hidden' name='applicant_id' value='{{ $applicant_id }}'>
         </div>
     </div>
-    @endif
-    @if(isset($isModify))
     <div class='row form-group'>
         <label for='inputBatch' class='col-md-2 control-label text-md-right'>報名日期</label>
         <div class='col-md-10'>
             {{ $applicant_raw_data->created_at }}
         </div>
     </div>
+    @else
+    {{-- $applicant_data不存在，表示是報名狀態。報名時預設會參加。 --}}
+    <input type="hidden" name="is_attend" value=1>
     @endif
 
     <div class='row form-group required'>

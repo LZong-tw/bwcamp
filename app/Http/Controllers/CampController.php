@@ -74,12 +74,11 @@ class CampController extends Controller
         if ($this->camp_data->site_url) {
             return redirect()->to($this->camp_data->site_url);
         }
-        $now = Carbon::now();
-        $registration_start = $this->camp_data->registration_start;
-        if ($now->lt($registration_start)) {
+        $today = \Carbon\Carbon::today();
+        $registration_start = $this->camp_data->registration_start->startOfDay();
+        if ($today->lt($registration_start)) {
             return '<div style="margin: atuo;">距離開始報名日，還有 <br><img src="http://s.mmgo.io/t/B7Aj" alt="motionmailapp.com" /></div>';
         }
-
     }
 
     public function campRegistration(Request $request)
@@ -560,9 +559,6 @@ class CampController extends Controller
     public function campQueryAdmission(Request $request)
     {
         $campTable = $this->camp_data->table;
-        $camp = $this->camp_data;
-        $camp_data = $this->camp_data;
-        $applicant = null;
 
         $request->validate([
             'name' => 'required',
@@ -570,83 +566,28 @@ class CampController extends Controller
         ]);
 
         if ($request->name != null && $request->sn != null) {
-            $applicant = Applicant::with('batch', 'camp')
+            /*$applicant = Applicant::with('batch', 'camp')
                 ->select('applicants.*', $campTable . '.*', 'applicants.id as applicant_id')
                 ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
                 ->where('applicants.id', $request->sn)
                 ->where('name', $request->name)
-                ->withTrashed()->first();
+                ->withTrashed()->first();*/
+
+            //只用序號去找，後面會看名字是否相符
+            $applicant = Applicant::with([$campTable, 'lodging', 'traffic'])->withTrashed()->findOrFail($request->sn);
         }
-        if ($applicant && $applicant->camp->id == $camp->id) {
-            $traffic = null;
-            $lodging = null;
-            $applicant->id = $applicant->applicant_id;
-            if (($campTable == "ycamp" || $campTable == "nycamp" || $campTable == "utcamp") && $applicant->traffic == null) {
-                //for ycamp and nycamp, if null, create one
-                $newTraffic = array();
-                $newTraffic['applicant_id'] = $applicant->id;
-                $newTraffic['depart_from'] = '';
-                $newTraffic['back_to'] = '';
-                $newTraffic['fare'] = "0";
-                $newTraffic['deposit'] = "0";
-                Traffic::create($newTraffic);
-                //relink applicant1 and newly created traffic??
-                $applicant1 = Applicant::find($request->sn);
-                //update barcode
-                $applicant1 = $this->applicantService->fillPaymentData($applicant1);
-                $applicant1->save();
-                $traffic = $applicant1->traffic;
-            } else {
-                //if not null, retrieve it
-                $traffic = $applicant->traffic;
-            }
+        //檢查條件：applicant存在；查詢到的名字與序號相符；找到的人是報名本營隊
+        if ($applicant && $applicant->name == $request->name &&
+            $applicant->camp->id == $this->camp_data->id )
+        {
+            //使用報名者的報名日期來計算費率，避免修改資料後費率變動的問題
+            $fare_room = $this->lodgingService->getLodgingFare($this->camp_data, $applicant->created_at);
+            [$fare_depart_from, $fare_back_to] = $this->trafficService->getTrafficFare($campTable);
 
-            if ( ($campTable == "nycamp" || $campTable == "utcamp") && $applicant->lodging == null) {
-                //for nycamp, if null, create one
-                $newLodging = array();
-                $newLodging['applicant_id'] = $applicant->id;
-                $newLodging['room_type'] = '';
-                $date1 = $applicant->batch->batch_start;
-                $date2 = $applicant->batch->batch_end;
-                $newLodging['nights'] =  $date1->diffInDays($date2);
-                $newLodging['fare'] = "0";
-                $newLodging['deposit'] = "0";
-                Lodging::create($newLodging);
-                //relink applicant1 and newly created lodging??
-                $applicant1 = Applicant::find($request->sn);
-                //update barcode
-                $applicant1 = $this->applicantService->fillPaymentData($applicant1);
-                $applicant1->save();
-                $lodging = $applicant1->lodging;
-            } else {
-                //if not null, retrieve it
-                $lodging = $applicant->lodging;
-            }
-
-            $fare_depart_from = config('camps_payments.fare_depart_from.' . $campTable) ?? [];
-            $fare_back_to = config('camps_payments.fare_back_to.' . $campTable) ?? [];
-            $fare_room = config('camps_payments.fare_room.' . $campTable) ?? [];
-
-            $fare_room_early_bird = config('camps_payments.fare_room.' . $campTable . '_early_bird') ?? [];
-            $fare_room_discount = config('camps_payments.fare_room.' . $campTable . '_discount') ?? [];
-            $createdAt = $applicant->created_at;
-
-            if ($campTable == "nycamp") {
-                if ($applicant->camp->early_bird_last_day && $createdAt->lte($applicant->camp->early_bird_last_day)) {
-                    $fare_room = $fare_room_early_bird;
-                } elseif ($applicant->camp->discount_last_day && $createdAt->lte($applicant->camp->discount_last_day)) {
-                    $fare_room = $fare_room_discount;
-                }
-            }
-            if ($campTable == "utcamp") {
-                if ($applicant->camp->early_bird_last_day && $createdAt->lte($applicant->camp->early_bird_last_day)) {
-                    $fare_room = $fare_room_early_bird + $fare_room_discount;
-                } elseif ($applicant->camp->discount_last_day && $createdAt->lte($applicant->camp->discount_last_day)) {
-                    $fare_room = $fare_room + $fare_room_discount;
-                }
-            }
             $applicant = $this->applicantService->checkPaymentStatus($applicant);
-            return view('camps.' . $campTable . ".admissionResult", compact('applicant', 'traffic', 'lodging', 'fare_depart_from', 'fare_back_to', 'fare_room'));
+            $this->camp_data->content_link_chn = $this->camp_data->dynamic_stats?->where('purpose', 'admittedMail_chn')?->first()?->google_sheet_url ?? [];
+
+            return view('camps.' . $campTable . ".admissionResult", compact('applicant', 'fare_depart_from', 'fare_back_to', 'fare_room'));
         } else {
             return back()->withInput()->withErrors(["找不到報名資料，請確認是否已成功報名，或是輸入了錯誤的查詢資料。"]);
         }
