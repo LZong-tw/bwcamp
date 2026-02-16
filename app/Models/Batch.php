@@ -98,7 +98,7 @@ class Batch extends Model
     protected function batchStartWeekday(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->batch_start?->locale('zh_TW')->dayName, // 星期一
+            get: fn () => $this->batch_start?->locale('zh_TW')->minDayName, // 一
         );
     }
 
@@ -122,7 +122,7 @@ class Batch extends Model
     protected function batchEndWeekday(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->batch_end?->locale('zh_TW')->dayName, // 星期一
+            get: fn () => $this->batch_end?->locale('zh_TW')->minDayName, // 一
         );
     }
 

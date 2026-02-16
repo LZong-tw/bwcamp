@@ -652,12 +652,12 @@ export default {
                     full_name: "敏實科技大學",
                     is_taichung: 0,
                 },
-                {
+                /*{
                     area: "嘉義市",
                     abbreviation: "大同學院",
                     full_name: "大同技術學院",
                     is_taichung: 0,
-                },
+                },*/
                 {
                     area: "嘉義市",
                     abbreviation: "嘉義大學",

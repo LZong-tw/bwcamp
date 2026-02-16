@@ -18,7 +18,7 @@ class LodgingService
     }
 
 	// LodgingService.php 或 ApplicantService.php
-    public function updateApplicantLodging(Applicant $applicant, Camp $camp, $roomType, $nights)
+    public function updateApplicantLodging(Applicant $applicant, Camp $camp, $roomType, $nights = 1)
     {
         $lodging = $applicant->lodging ?: new Lodging(['applicant_id' => $applicant->id]);
         
@@ -31,10 +31,11 @@ class LodgingService
         $lodging->save();
 
         // 更新付款資料
-        $applicant = $this->applicantService->fillPaymentData($applicant);
-        $applicant->save();
+        //$applicant = $this->applicantService->fillPaymentData($applicant);
+        //$applicant->save();
 
-        return [$applicant, $fare_room]; // 回傳更新後的物件
+        //return [$applicant, $fare_room]; // 回傳更新後的物件
+        return $lodging;
     }
 
     public function getLodgingFare(Camp $camp, Carbon $date)

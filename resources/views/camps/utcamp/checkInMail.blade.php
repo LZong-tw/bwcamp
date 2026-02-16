@@ -1,10 +1,5 @@
-<style>
-    u{
-        color: red;
-    }
-</style>
 <body style="font-size:16px;">
-{{-- 
+<!-- 一般教師營
 <h2 class="center">{{ $applicant->batch->camp->fullName }}&emsp;學員報到通知單</h2>
 <table width="100%" style="table-layout:fixed; border: 0;">
     <tr>
@@ -34,60 +29,43 @@
 <a class="right">財團法人福智文教基金會&emsp;謹此</a><br>
 <a class="right">{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</a>
 </body>
---}}
-<h2 class="center">{{ $applicant->batch->camp->fullName }}&emsp;行前通知單</h2>
-<table width="100%" style="table-layout:fixed; border: 0;">
-    <tr>
-        <td>報名序號：{{ $applicant->id }}</td>
-        <td>組別編號：{{ $applicant->group }}{{ $applicant->number }}</td>
-        <td>姓名：{{ $applicant->name }}</td>
-    </tr>
-</table>
-<p>{{ $applicant->name }}老師，您好！<br><br>
-&emsp;&emsp;歡迎參加「{{ $applicant->batch->camp->fullName }}」，誠摯地期待與您共享這場心靈饗宴，希望您能獲得豐盛的收穫。請詳閱以下相關訊息，祝福您營隊收穫滿滿。</p>
-<table width="100%" style="table-layout:fixed; border: 0; word-wrap: break-word;">
-<tr><td>
-    <ol style="list-style-type: cjk-ideographic">
-        <li>營隊資訊：
-            <ul>
-            <li>活動期間：{{ $applicant->batch->batch_start }}({{ $applicant->batch->batch_start_weekday }}) ~ {{ $applicant->batch->batch_end }}({{ $applicant->batch->batch_end_weekday }})</li>
-            <li>地點：{{ $applicant->batch->locationName }}({{ $applicant->batch->location }})</li>
-            </ul>
-        </li>
-        <li>報到資訊：
-            <ul>
-            <li><b>報到時間：{{ $applicant->batch->batch_start }}({{ $applicant->batch->batch_start_weekday }}) 13:00～13:50</b></li>
-            <li>報到地點：詠山館一樓</li>
-            <li>上課地點：詠山館三樓 M31</li>
-            </ul>
-        </li>
-        <li>自備物品：
-            <ul>
-            <li>換洗衣物、薄外套（冷氣教室用）、雨具</li>
-            <li>牙膏、牙刷、刮鬍刀、梳子、環保杯（因落實節能減碳政策及衛生考量，團體住房不提供以上之拋棄式用品，請自備。客房內有提供洗髮精、沐浴精、浴巾、毛巾。）</li>
-            <li>文具用品、筆記本、身分證、健保卡、個人藥品</li>
-            </ul>
-        </li>
-        <li>自行前往：請依義工引導將汽車停放於麻布山林停車場P2和P3中。詳附件。</li>
-        <li>新竹高鐵交通接駁
-            <ul>
-            <li>2025-06-22 前往麻布山林接駁車：於<b><u>新竹高鐵站出口4，12:30發車。</b></u></li>
-            <li>2025-06-24 前往新竹高鐵站接駁車：由麻布山林山居外P1停車場，<b><u>17:10發車</b></u>。建議訂購<b><u>18:00以後於新竹高鐵發車的車次</b></u>。</li>
-            </ul>
-        </li>
-        <li>附件：麻布山林入園注意事項</li>
-    </ol>
-</td></tr>
-</table>
-<p>&emsp;&emsp;若有任何問題，歡迎來電(02)7714-6066 分機20317 陳小姐。或 email: bwfaculty@blisswisdom.org。或聯繫您的關懷員。</p>
-<br><br>
-<a class="right">財團法人福智文教基金會　敬上</a><br>
-<a class="right">{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}</a>
+-->
+<h3 style="text-align: center">{{ $applicant->batch->camp->fullName }}【行前通知】</h3>
 
-<p>附件：</p>
-<p>
+親愛的 {{ $applicant->name }} 老師您好：<br>
+<br>
+&emsp;&emsp;在忙碌的教導與奉獻之中，您辛苦了。很高興即將與您在「{{ $applicant->batch->camp->fullName }}」相遇，開啟一場心靈與生命的對話。<br>
+&emsp;&emsp;在出發之前，請您撥冗詳閱以下訊息，幫助您提前做好各項準備，帶著輕鬆且全然的心情來到營隊。<br>
+<br>
+<b>【營隊/報到資訊】</b><br>
+<ul>
+    <li>營隊期間：{{ $applicant->batch->batch_start }}({{ $applicant->batch->batch_start_weekday }})～{{ $applicant->batch->batch_end }}({{ $applicant->batch->batch_end_weekday }})，共三天兩夜</li>
+    <li>營隊地點：{{ $applicant->batch->locationName }}({{ $applicant->batch->location }})</li>
+    <li>報到時間：{{ $applicant->batch->batch_start }}({{ $applicant->batch->batch_start_weekday }})13:00～13:50</li>
+    <li>您的大名：{{ $applicant->name }}</li>
+    <li>您的報名序號：{{ $applicant->id }}</li>
+    <li>您的組別編號：{{ $applicant->group }}{{ $applicant->number }}</li>    
+</ul>
+
+<b>【重要提醒事項】</b><br>
+<br>
+&emsp;&emsp;其它重要提醒事項，如：攜帶物品，住宿環境介紹，交通資訊等等，請詳閱<br>
+<a href="{{ $content_link_chn }}" target="_blank">
+<h2 style="text-align:center;"><span style="background-color: #ffc107;">點我看行前通知</span></h2>
+</a>
+<br>
+<b>【聯絡我們】</b><br>
+<ul>
+    <li>{!! nl2br(e(str_replace('\n', "\n", $applicant->batch->contact_card))) !!}</li>
+</ul>
+<br>
+<p style="text-align: right">財團法人福智文教基金會&emsp;敬上&emsp;<br>
+{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}&emsp;</p>
+<br><br>
+<b>【附件：麻布山林入園注意事項】</b><br>
+<br>
 <ol style="list-style-type: cjk-ideographic">
-    <li>開車自往相關：</li>
+    <li>開車自往：</li>
         <img width="100%" src="{{ $message->embed(public_path() . '/img/utcamp2025_mabuville.jpg') }}" />
     <li>麻布山林入園注意事項:</li>
     <ol style="list-style-type: decimal">
@@ -103,5 +81,5 @@
         <li>山林小舖營業時間：08:00-21:00 (依現場狀況彈性調整營業時間)</li>
     </ol>
 </ol>
-</p>
+
 </body>

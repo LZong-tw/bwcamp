@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::table('utcamp', function (Blueprint $table) {
             //
-            $table->boolean('is_civil_certificate')->nullable()->after('workshop_credit_type');;      //發票類型
-            $table->boolean('is_bwfoce_certificate')->nullable()->after('is_civil_certificate');;      //發票類型
-            $table->string('invoice_type')->nullable()->after('is_bwfoce_certificate');;      //發票類型
-            $table->string('invoice_title')->nullable()->after('invoice_type');  //發票抬頭
-            $table->string('taxid')->nullable()->after('invoice_title');      //統編
+            $table->boolean('is_civil_certificate')->nullable()->after('workshop_credit_type'); //研習時數
+            $table->boolean('is_bwfoce_certificate')->nullable()->after('is_civil_certificate');    //福智文教
+            $table->string('invoice_type')->nullable()->after('is_bwfoce_certificate'); //發票類型
+            $table->string('invoice_title')->nullable()->after('invoice_type'); //發票抬頭
+            $table->string('taxid')->nullable()->after('invoice_title');    //統編
             $table->renameColumn('workshop_credit_type', 'certificate_type');
         });
     }
