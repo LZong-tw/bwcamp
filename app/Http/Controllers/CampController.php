@@ -597,7 +597,7 @@ class CampController extends Controller
         }
         // try-catch已處理applicant是否存在
         // 但仍需確認找到的applicant是否報名本營隊
-        if ($applicant && $applicant->batch->camp_id == $this->camp_data->id ) {
+        if ($applicant && $applicant->batch->camp_id == $this->camp_data->id) {
             //使用報名者的報名日期來計算費率，避免修改資料後費率變動的問題
             $fare_room = $this->lodgingService->getLodgingFare($this->camp_data, $applicant->created_at);
             [$fare_depart_from, $fare_back_to] = $this->trafficService->getTrafficFare($this->camp_data);
