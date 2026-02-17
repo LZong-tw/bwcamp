@@ -726,42 +726,45 @@ class CampController extends Controller
         $applicant = Applicant::findOrFail($request->applicant_id);
         $campTable = $this->camp_data->table;
         $campId = $this->camp_data->id;
-
-        // 呼叫 Service
-        $lodging = $this->lodgingService->updateApplicantLodging(
-            $applicant,
-            $this->camp_data,    //string, e.g. "ycamp"
-            $request->room_type,
-            $request->nights
-        );
-
-        // 呼叫 Service
-        $traffic = $this->trafficService->updateApplicantTraffic(
-            $applicant,
-            $this->camp_data,    //string, e.g. "ycamp"
-            $request->depart_from,
-            $request->back_to
-        );
-
-        $applicant = $this->applicantService->fillPaymentData($applicant);
-        $request = $this->campDataService->checkBoxToArray($request);
-        $formData = $request->toArray();
-        $formData = $this->campDataService->handleRegion($formData, $campTable, $campId);
-
-        // 呼叫 Service
-        $applicant = $this->applicantService->updateApplicantXCamp(
-            $applicant,
-            $campTable,    //string, e.g. "ycamp"
-            $formData
-        );
-
+    
+        \DB::transaction(function () use ($applicant, $request, $campTable, $campId) {
+            // 呼叫 Service
+            $this->lodgingService->updateApplicantLodging(
+                $applicant, 
+                $this->camp_data,    //string, e.g. "ycamp"
+                $request->room_type, 
+                $request->nights
+            );
+    
+            // 呼叫 Service
+            $this->trafficService->updateApplicantTraffic(
+                $applicant,
+                $this->camp_data,    //string, e.g. "ycamp"
+                $request->depart_from, 
+                $request->back_to
+            );
+            
+            $this->applicantService->fillPaymentData($applicant);
+            $request = $this->campDataService->checkBoxToArray($request);
+            $formData = $request->toArray();
+            $formData = $this->campDataService->handleRegion($formData, $campTable, $campId);
+    
+            // 呼叫 Service
+            $this->applicantService->updateApplicantXCamp(
+                $applicant,
+                $campTable,    //string, e.g. "ycamp"
+                $formData
+            );
+        });
+    
         // 這裡處理 Controller 該做的「跳轉」責任
         return redirect(route('showadmit', [
-            'batch_id' => $applicant->batch_id,
-            'sn' => $applicant->id,
+            'batch_id' => $applicant->batch_id, 
+            'sn' => $applicant->id, 
             'name' => $applicant->name
         ]));
     }
+
     public function showCampPayment()
     {
         return view('camps.' . $this->camp_data->table . '.payment');
