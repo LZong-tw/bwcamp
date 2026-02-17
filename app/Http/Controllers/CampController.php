@@ -394,10 +394,6 @@ class CampController extends Controller
 
         $form_str = $campTable == "ecamp" || $campTable == "ceocamp" ? ".form_bak" : ".form";
         if ($request->name != null && $request->sn != null) {
-            /*$applicant = Applicant::select('applicants.*', $campTable . '.*')
-                ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
-                ->where('applicants.id', $request->sn)
-                ->where('name', $request->name)->withTrashed()->first();*/
             try {
                 [$applicant, $applicant_data] = $this->applicantService->getApplicantData($request->sn, $campTable, $request->name);
             } catch (ModelNotFoundException $e) {
@@ -411,9 +407,6 @@ class CampController extends Controller
         elseif (Str::contains(request()->headers->get('referer'), 'submit') ||
                 Str::contains(request()->headers->get('referer'), 'queryupdate') ||
                 Str::contains(request()->headers->get('referer'), 'queryview')) {
-            /*$applicant = Applicant::select('applicants.*', $campTable . '.*')
-                ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
-                ->where('applicants.id', $request->sn)->withTrashed()->first();*/
             try {
                 [$applicant, $applicant_data] = $this->applicantService->getApplicantData($request->sn, $campTable);
             } catch (ModelNotFoundException $e) {
@@ -427,15 +420,6 @@ class CampController extends Controller
             $isModify = true;
         }
         if ($applicant) {
-            // 取得報名者梯次資料
-            //$camp = $applicant->batch->camp;
-            //$applicant->offsetUnset('files'); // files 僅供後台備註使用，同時，現在 files 的記錄方式若轉為 Json，在前端會出錯
-            //$applicant_data = $applicant->toJson();
-            //$applicant_data = str_replace("\\r", "", $applicant_data);
-            //$applicant_data = str_replace("\\n", "", $applicant_data);
-            //$applicant_data = str_replace("\\t", "", $applicant_data);
-            //$applicant_data = str_replace("'", "\\'", $applicant_data);
-
             //使用報名者的報名日期來計算費率，避免修改資料後費率變動的問題
             $fare_room = $this->lodgingService->getLodgingFare($this->camp_data, $applicant->created_at);
             [$fare_depart_from, $fare_back_to] = $this->trafficService->getTrafficFare($this->camp_data);
@@ -581,12 +565,6 @@ class CampController extends Controller
         ]);
 
         if ($request->name != null && $request->sn != null) {
-            /*$applicant = Applicant::with('batch', 'camp')
-                ->select('applicants.*', $campTable . '.*', 'applicants.id as applicant_id')
-                ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
-                ->where('applicants.id', $request->sn)
-                ->where('name', $request->name)
-                ->withTrashed()->first();*/
             try {
                 [$applicant, $applicant_data] = $this->applicantService->getApplicantData($request->sn, $campTable, $request->name);
             } catch (ModelNotFoundException $e) {
