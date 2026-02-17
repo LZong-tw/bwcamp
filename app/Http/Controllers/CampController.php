@@ -23,6 +23,7 @@ use View;
 use App\Traits\EmailConfiguration;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CampController extends Controller
 {
@@ -236,12 +237,11 @@ class CampController extends Controller
             });
             if (isset($formData['depart_from']) || isset($formData['back_to'])) {
                 $this->trafficService->updateApplicantTraffic($applicant, $this->camp_data, $formData['depart_from'] ?? null, $formData['back_to'] ?? null);
-                $applicant = $this->applicantService->fillPaymentData($applicant);
             }
             if (isset($formData['room_type'])) {
                 $this->lodgingService->updateApplicantLodging($applicant, $this->camp_data, $formData['room_type'], ($formData['nights'] ?? 1));
-                $applicant = $this->applicantService->fillPaymentData($applicant);
             }
+            $applicant = $this->applicantService->fillPaymentData($applicant);
             $applicant->save();
 
             return view('camps.' . $this->camp_data->table . '.modifyingSuccessful', ['applicant' => $applicant]);
@@ -375,7 +375,9 @@ class CampController extends Controller
 
     public function campQueryRegistrationDataPage(Request $request)
     {
-        return view('camps.' . $this->camp_data->table . '.query')->with('batch_id_from', $request->batch_id_from);
+        //$request->batch_id_from can be null
+        return view('camps.' . $this->camp_data->table . '.query')
+            ->with('batch_id_from', $request->batch_id_from);
     }
 
     /**
@@ -389,15 +391,17 @@ class CampController extends Controller
         $applicant = null;
         $isModify = false;
         $campTable = $this->camp_data->table;
+
         $form_str = $campTable == "ecamp" || $campTable == "ceocamp" ? ".form_bak" : ".form";
         if ($request->name != null && $request->sn != null) {
             /*$applicant = Applicant::select('applicants.*', $campTable . '.*')
                 ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
                 ->where('applicants.id', $request->sn)
                 ->where('name', $request->name)->withTrashed()->first();*/
-            [$applicant, $applicant_data] = $this->applicantService->getApplicantData($request->sn, $campTable);
-            if ($request->name != $applicant->name) {
-                return '<h2>找不到報名資料，請再次確認是否填寫錯誤。</h2>';
+            try {
+                [$applicant, $applicant_data] = $this->applicantService->getApplicantData($request->sn, $campTable, $request->name);
+            } catch (ModelNotFoundException $e) {
+                return redirect()->back()->withErrors(['找不到報名資料，請確認欄位是否填寫正確。']);
             }
         }
         // 只使用報名 ID（報名序號）查詢資料，僅開放有限的存取
@@ -410,12 +414,16 @@ class CampController extends Controller
             /*$applicant = Applicant::select('applicants.*', $campTable . '.*')
                 ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
                 ->where('applicants.id', $request->sn)->withTrashed()->first();*/
-            [$applicant, $applicant_data] = $this->applicantService->getApplicantData($request->sn, $campTable);
+            try {
+                [$applicant, $applicant_data] = $this->applicantService->getApplicantData($request->sn, $campTable);
+            } catch (ModelNotFoundException $e) {
+                return redirect()->back()->withErrors(['找不到報名資料，請確認欄位是否填寫正確。']);
+            }
         }
         if ($request->isModify) {
             $isModify = true;
         }
-        if ($applicant) {
+        //if ($applicant) {
             // 取得報名者梯次資料
             //$camp = $applicant->batch->camp;
             //$applicant->offsetUnset('files'); // files 僅供後台備註使用，同時，現在 files 的記錄方式若轉為 Json，在前端會出錯
@@ -482,9 +490,9 @@ class CampController extends Controller
                 ->with('fare_depart_from', $fare_depart_from)
                 ->with('fare_back_to', $fare_back_to);
             }
-        } else {
-            return '<h2>找不到報名資料，請再次確認是否填寫錯誤。</h2>';
-        }
+        //} else {
+        //    return '<h2>找不到報名資料，請再次確認是否填寫錯誤。</h2>';
+        //}
     }
 
     public function campGetApplicantSN(Request $request)
@@ -521,7 +529,8 @@ class CampController extends Controller
 
     public function campViewAdmission()
     {
-        return view('camps.' . $this->camp_data->table . ".queryadmission", ["camp" => $this->camp_data]);
+        $camp = $this->camp_data;
+        return view('camps.' . $this->camp_data->table . ".queryadmission", compact('camp'));
     }
 
     public function campConfirmCancel(Request $request)
@@ -575,22 +584,20 @@ class CampController extends Controller
                 ->where('applicants.id', $request->sn)
                 ->where('name', $request->name)
                 ->withTrashed()->first();*/
-
-            $applicant = Applicant::with([$campTable, 'lodging', 'traffic'])
-                ->where('name', $request->name)
-                ->withTrashed()->findOrFail($request->sn);
+            [$applicant, $applicant_data] = $this->applicantService->getApplicantData($request->sn, $campTable, $request->name);
         }
         //檢查條件：applicant存在 & 找到的人是報名本營隊
-        if ($applicant && $applicant->camp->id == $this->camp_data->id )
+
+        if ($applicant && $applicant->batch->camp_id == $this->camp_data->id )
         {
-            $applicant->applicant_id = $applicant->id;
+            //$applicant->applicant_id = $request->sn;
             //使用報名者的報名日期來計算費率，避免修改資料後費率變動的問題
             $fare_room = $this->lodgingService->getLodgingFare($this->camp_data, $applicant->created_at);
             [$fare_depart_from, $fare_back_to] = $this->trafficService->getTrafficFare($this->camp_data);
 
             $applicant = $this->applicantService->checkPaymentStatus($applicant);
             $this->camp_data->content_link_chn = $this->camp_data->dynamic_stats?->where('purpose', 'admittedMail_chn')?->first()?->google_sheet_url ?? [];
-            return view('camps.' . $campTable . ".admissionResult", compact('applicant', 'fare_depart_from', 'fare_back_to', 'fare_room'));
+            return view('camps.' . $campTable . ".admissionResult", compact('applicant', 'applicant_data', 'fare_depart_from', 'fare_back_to', 'fare_room'));
         } else {
             return back()->withInput()->withErrors(["找不到報名資料，請確認是否已成功報名，或是輸入了錯誤的查詢資料。"]);
         }
@@ -725,24 +732,24 @@ class CampController extends Controller
             $request->depart_from, 
             $request->back_to
         );
-
+        
+        $applicant = $this->applicantService->fillPaymentData($applicant);
         $request = $this->campDataService->checkBoxToArray($request);
         $formData = $request->toArray();
         $formData = $this->campDataService->handleRegion($formData, $campTable, $campId);
 
         // 呼叫 Service
         $applicant = $this->applicantService->updateApplicantXCamp(
-            $updatedApplicantT,
+            $applicant,
             $campTable,    //string, e.g. "ycamp"
             $formData
         );
 
-
         // 這裡處理 Controller 該做的「跳轉」責任
         return redirect(route('showadmit', [
-            'batch_id' => $updatedApplicant->batch_id, 
-            'sn' => $updatedApplicant->id, 
-            'name' => $updatedApplicant->name
+            'batch_id' => $applicant->batch_id, 
+            'sn' => $applicant->id, 
+            'name' => $applicant->name
         ]));
     }
     public function showCampPayment()
