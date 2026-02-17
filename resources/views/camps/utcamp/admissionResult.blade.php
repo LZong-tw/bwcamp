@@ -216,9 +216,11 @@
             {{-- 回填 --}}
             (function() {
                 let applicant_data = JSON.parse('{!! $applicant_data ?? '{}' !!}');  //includes xcamp, lodging, traffic
-
-                let inputs = document.getElementsByTagName('input');
-                let selects = document.getElementsByTagName('select');
+                
+                const form = document.getElementById('modifyafteradmitted');
+                let inputs = form.getElementsByTagName('input');
+                let selects = form.getElementsByTagName('select');
+                
                 if (selects) {
                     for (var i = 0; i < selects.length; i++) {
                         if (typeof applicant_data[selects[i].name] !== "undefined"){
