@@ -604,8 +604,10 @@ class CampController extends Controller
 
             $applicant = $this->applicantService->checkPaymentStatus($applicant);
             $this->camp_data->content_link_chn = $this->camp_data->dynamic_stats?->where('purpose', 'admittedMail_chn')?->first()?->google_sheet_url ?? [];
-            return view('camps.' . $campTable . ".admissionResult", 
-                compact('applicant', 'applicant_data', 'fare_room', 'fare_depart_from', 'fare_back_to'));
+            return view(
+                'camps.' . $campTable . ".admissionResult",
+                compact('applicant', 'applicant_data', 'fare_room', 'fare_depart_from', 'fare_back_to')
+            );
         } else {
             return back()->withInput()->withErrors(["找不到報名資料，請確認查詢欄位是否填寫正確，或者是否已成功報名。"]);
         }
