@@ -426,76 +426,76 @@ class CampController extends Controller
         if ($request->isModify) {
             $isModify = true;
         }
-        //if ($applicant) {
-        // 取得報名者梯次資料
-        //$camp = $applicant->batch->camp;
-        //$applicant->offsetUnset('files'); // files 僅供後台備註使用，同時，現在 files 的記錄方式若轉為 Json，在前端會出錯
-        //$applicant_data = $applicant->toJson();
-        //$applicant_data = str_replace("\\r", "", $applicant_data);
-        //$applicant_data = str_replace("\\n", "", $applicant_data);
-        //$applicant_data = str_replace("\\t", "", $applicant_data);
-        //$applicant_data = str_replace("'", "\\'", $applicant_data);
+        if ($applicant) {
+            // 取得報名者梯次資料
+            //$camp = $applicant->batch->camp;
+            //$applicant->offsetUnset('files'); // files 僅供後台備註使用，同時，現在 files 的記錄方式若轉為 Json，在前端會出錯
+            //$applicant_data = $applicant->toJson();
+            //$applicant_data = str_replace("\\r", "", $applicant_data);
+            //$applicant_data = str_replace("\\n", "", $applicant_data);
+            //$applicant_data = str_replace("\\t", "", $applicant_data);
+            //$applicant_data = str_replace("'", "\\'", $applicant_data);
 
-        //使用報名者的報名日期來計算費率，避免修改資料後費率變動的問題
-        $fare_room = $this->lodgingService->getLodgingFare($this->camp_data, $applicant->created_at);
-        [$fare_depart_from, $fare_back_to] = $this->trafficService->getTrafficFare($this->camp_data);
+            //使用報名者的報名日期來計算費率，避免修改資料後費率變動的問題
+            $fare_room = $this->lodgingService->getLodgingFare($this->camp_data, $applicant->created_at);
+            [$fare_depart_from, $fare_back_to] = $this->trafficService->getTrafficFare($this->camp_data);
 
-        if ($this->camp_data->modifying_deadline) {
-            $modifying_deadline = $this->camp_data->modifying_deadline;
-        } else {
-            $modifying_deadline = Carbon::now();
-        }
-        if ($isModify && $modifying_deadline->lt(Carbon::today())) {
-            if (!Str::contains(request()->headers->get('referer'), 'queryview')) {
-                return back()->withInput()->withErrors(['很抱歉，報名資料修改期限已過。']);
+            if ($this->camp_data->modifying_deadline) {
+                $modifying_deadline = $this->camp_data->modifying_deadline;
+            } else {
+                $modifying_deadline = Carbon::now();
+            }
+            if ($isModify && $modifying_deadline->lt(Carbon::today())) {
+                if (!Str::contains(request()->headers->get('referer'), 'queryview')) {
+                    return back()->withInput()->withErrors(['很抱歉，報名資料修改期限已過。']);
+                } else {
+                    return view('camps.' . $campTable . $form_str)
+                            ->with('applicant_id', $applicant->applicant_id)
+                            ->with('batch_id', $applicant->batch_id)
+                            ->with('applicant_data', $applicant_data)
+                            ->with('applicant_raw_data', $applicant)
+                            ->with('isModify', false)
+                            ->with('isBackend', $request->isBackend)
+                            ->with('batch', Batch::find($request->batch_id))
+                            ->with('camp_data', $this->camp_data)
+                            ->with('fare_room', $fare_room)
+                            ->with('fare_depart_from', $fare_depart_from)
+                            ->with('fare_back_to', $fare_back_to)
+                            ->withErrors(['很抱歉，報名資料修改期限已過。']);
+                }
+            }
+            if ($request->batch_id_from) {
+                $batchFrom = Batch::find($request->batch_id_from);
+                $campFrom = $batchFrom->camp;
+                $campAbbrFrom = $campFrom->abbreviation;   //查詢營隊名
+                return view('camps.' . $campTable . $form_str)
+                ->with('applicant_id', $applicant->applicant_id)
+                ->with('batch_id', $applicant->batch_id)
+                ->with('applicant_data', $applicant_data)
+                ->with('applicant_raw_data', $applicant)
+                ->with('isModify', $isModify)
+                ->with('isBackend', $request->isBackend)
+                ->with('batch', Batch::find($request->batch_id))
+                ->with('camp_data', $camp)
+                ->with('batch_id_from', $request->batch_id_from)
+                ->with('camp_abbr_from', $campAbbrFrom);
             } else {
                 return view('camps.' . $campTable . $form_str)
-                        ->with('applicant_id', $applicant->applicant_id)
-                        ->with('batch_id', $applicant->batch_id)
-                        ->with('applicant_data', $applicant_data)
-                        ->with('applicant_raw_data', $applicant)
-                        ->with('isModify', false)
-                        ->with('isBackend', $request->isBackend)
-                        ->with('batch', Batch::find($request->batch_id))
-                        ->with('camp_data', $this->camp_data)
-                        ->with('fare_room', $fare_room)
-                        ->with('fare_depart_from', $fare_depart_from)
-                        ->with('fare_back_to', $fare_back_to)
-                        ->withErrors(['很抱歉，報名資料修改期限已過。']);
+                ->with('applicant_id', $applicant->applicant_id)
+                ->with('batch_id', $applicant->batch_id)
+                ->with('applicant_data', $applicant_data)
+                ->with('applicant_raw_data', $applicant)
+                ->with('isModify', $isModify)
+                ->with('isBackend', $request->isBackend)
+                ->with('batch', Batch::find($request->batch_id))
+                ->with('camp_data', $this->camp_data)
+                ->with('fare_room', $fare_room)
+                ->with('fare_depart_from', $fare_depart_from)
+                ->with('fare_back_to', $fare_back_to);
             }
-        }
-        if ($request->batch_id_from) {
-            $batchFrom = Batch::find($request->batch_id_from);
-            $campFrom = $batchFrom->camp;
-            $campAbbrFrom = $campFrom->abbreviation;   //查詢營隊名
-            return view('camps.' . $campTable . $form_str)
-            ->with('applicant_id', $applicant->applicant_id)
-            ->with('batch_id', $applicant->batch_id)
-            ->with('applicant_data', $applicant_data)
-            ->with('applicant_raw_data', $applicant)
-            ->with('isModify', $isModify)
-            ->with('isBackend', $request->isBackend)
-            ->with('batch', Batch::find($request->batch_id))
-            ->with('camp_data', $camp)
-            ->with('batch_id_from', $request->batch_id_from)
-            ->with('camp_abbr_from', $campAbbrFrom);
         } else {
-            return view('camps.' . $campTable . $form_str)
-            ->with('applicant_id', $applicant->applicant_id)
-            ->with('batch_id', $applicant->batch_id)
-            ->with('applicant_data', $applicant_data)
-            ->with('applicant_raw_data', $applicant)
-            ->with('isModify', $isModify)
-            ->with('isBackend', $request->isBackend)
-            ->with('batch', Batch::find($request->batch_id))
-            ->with('camp_data', $this->camp_data)
-            ->with('fare_room', $fare_room)
-            ->with('fare_depart_from', $fare_depart_from)
-            ->with('fare_back_to', $fare_back_to);
+            return redirect()->back()->withErrors(['找不到報名資料，請確認查詢欄位是否填寫正確，或者是否已成功報名。']);
         }
-        //} else {
-        //    return '<h2>找不到報名資料，請再次確認是否填寫錯誤。</h2>';
-        //}
     }
 
     public function campGetApplicantSN(Request $request)
@@ -597,7 +597,7 @@ class CampController extends Controller
         }
         // try-catch已處理applicant是否存在
         // 但仍需確認找到的applicant是否報名本營隊
-        if ($applicant & $applicant->batch->camp_id == $this->camp_data->id ) {
+        if ($applicant && $applicant->batch->camp_id == $this->camp_data->id ) {
             //使用報名者的報名日期來計算費率，避免修改資料後費率變動的問題
             $fare_room = $this->lodgingService->getLodgingFare($this->camp_data, $applicant->created_at);
             [$fare_depart_from, $fare_back_to] = $this->trafficService->getTrafficFare($this->camp_data);
