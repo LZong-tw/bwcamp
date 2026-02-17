@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services;
+
 use App\Models\Applicant;
 use App\Models\Camp;
 use App\Models\Traffic;
@@ -10,13 +11,14 @@ class TrafficService
     private ApplicantService $applicantService;
     private CampDataService $campDataService;
 
-    public function __construct(ApplicantService $applicantService, CampDataService $campDataService) {
-		$this->applicantService = $applicantService;
-		$this->campDataService = $campDataService;
+    public function __construct(ApplicantService $applicantService, CampDataService $campDataService)
+    {
+        $this->applicantService = $applicantService;
+        $this->campDataService = $campDataService;
         return;
     }
 
-	// TrafficService.php 或 ApplicantService.php
+    // TrafficService.php 或 ApplicantService.php
     public function updateApplicantTraffic(Applicant $applicant, Camp $camp, $departFrom, $backTo)
     {
         $campTable = $camp->table;

@@ -12,8 +12,9 @@ class ApplicantService
 {
     private CampDataService $campDataService;
 
-    public function __construct(CampDataService $campDataService) {
-		$this->campDataService = $campDataService;
+    public function __construct(CampDataService $campDataService)
+    {
+        $this->campDataService = $campDataService;
         return;
     }
 
@@ -131,7 +132,7 @@ class ApplicantService
      * @param 住宿
      * @return array
      */
-    public function getApplicantData($applicantId, $campTable, $name = null) 
+    public function getApplicantData($applicantId, $campTable, $name = null)
     {
         // 一次性加載多個關聯
         if ($name) {
@@ -143,7 +144,7 @@ class ApplicantService
             ->withTrashed()->findOrFail($applicantId);
         }
         $applicant->offsetUnset('files'); // files 僅供後台備註使用，同時，現在 files 的記錄方式若轉為 Json，在前端會出錯
-        $applicant->applicant_id = $applicantId; 
+        $applicant->applicant_id = $applicantId;
 
         // 將主表與關聯表打平合併
         $mergedData = array_merge(
@@ -152,10 +153,10 @@ class ApplicantService
             $applicant->lodging ? $applicant->lodging->toArray() : [],
             $applicant->traffic ? $applicant->traffic->toArray() : []
         );
-        $mergedData ['applicant_id']= $applicantId; 
-        $mergedData [$campTable.'_id']= $applicant->$campTable ? $applicant->$campTable->id : null; 
-        $mergedData ['lodging_id']= $applicant->lodging ? $applicant->lodging->id : null;   
-        $mergedData ['traffic_id']= $applicant->traffic ? $applicant->traffic->id : null; 
+        $mergedData ['applicant_id'] = $applicantId;
+        $mergedData [$campTable.'_id'] = $applicant->$campTable ? $applicant->$campTable->id : null;
+        $mergedData ['lodging_id'] = $applicant->lodging ? $applicant->lodging->id : null;
+        $mergedData ['traffic_id'] = $applicant->traffic ? $applicant->traffic->id : null;
 
         // 移除掉原本嵌套的物件，避免傳輸冗餘資料
         unset($mergedData[$campTable], $mergedData['lodging'], $mergedData['traffic']);
@@ -164,7 +165,7 @@ class ApplicantService
         $applicant_data = str_replace("\\n", "", $applicant_data);
         $applicant_data = str_replace("\\t", "", $applicant_data);
         $applicant_data = str_replace("'", "\\'", $applicant_data);
-        
+
         return [$applicant, $applicant_data];
     }
     public function checkIfPaidEarlyBird($applicant)
