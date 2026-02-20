@@ -3,14 +3,15 @@
 namespace App\Traits;
 
 trait EmailConfiguration {
-    public static function setEmail($camp, $variant = null) {
-        if($variant){ $camp = $variant; }
-        $config = \Config::get('mail.ses_' . $camp);    //get mail.ses_$camp version
+    public static function setEmail($campTable, $variantTable = null) {
+        if($variantTable){ $campTable = $variantTable; }
+
+        $config = \Config::get('mail.ses_' . $campTable);    //get mail.ses_$campTable version
         if (!$config || !$config['username']) {
-            $config = \Config::get('mail.' . $camp);    //if null, get mail.$camp version
+            $config = \Config::get('mail.' . $campTable);    //if null, get mail.$campTable version
         }
         else {
-            config(['mail.mailers.smtp.host' => $config['host']]);  //mail.ses_$camp uses AWS SES
+            config(['mail.mailers.smtp.host' => $config['host']]);  //mail.ses_$campTable uses AWS SES
         }
         if($config && $config['username']){     //override
             config([

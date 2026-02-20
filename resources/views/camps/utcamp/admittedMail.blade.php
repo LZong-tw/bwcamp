@@ -61,7 +61,7 @@
     (1)自行前往：<br>
     (2)搭乘接駁車：新竹高鐵站來回接駁<br>
     &emsp;&emsp;{{ $applicant->batch->batch_start }}({{ $applicant->batch->batch_start_weekday }})前往麻布山林接駁車：將於新竹高鐵站出口4，12:30發車<br>
-    &emsp;&emsp;{{ $applicant->batch->batch_end }}({{ $applicant->batch->batch_end_weekday }})前往新竹高鐵站接駁車：由麻布山林山居外P1停車場，17:00發車<br> 
+    &emsp;&emsp;{{ $applicant->batch->batch_end }}({{ $applicant->batch->batch_end_weekday }})前往新竹高鐵站接駁車：由麻布山林山居外P1停車場，17:10發車<br> 
     </li>
     <li>退費：<br>
     {{ $applicant->batch->camp->cancellation_deadline }}({{ $applicant->batch->camp->cancellation_deadline_weekday }})(含)前可全額退費(需扣除5%手續費)；<br>

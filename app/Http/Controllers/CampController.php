@@ -15,11 +15,11 @@ use App\Services\TrafficService;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use App\Mail\ApplicantMail;
 use App\Mail\QueuedApplicantMail;
 use App\Jobs\SendApplicantMail;
-use View;
 use App\Traits\EmailConfiguration;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
@@ -32,6 +32,7 @@ class CampController extends Controller
     protected $campDataService;
     protected $applicantService;
     protected $batch_id;
+    protected $camp_info;
     protected $camp_data;
     //protected $admission_announcing_date_Weekday;
     //protected $admission_confirming_end_Weekday;
@@ -51,18 +52,24 @@ class CampController extends Controller
         $this->trafficService = $trafficService;
         // 營隊資料，存入 view 全域
         $this->batch_id = $request->route()->parameter('batch_id');
-        $this->camp_data = $this->campDataService->getCampData($this->batch_id);
-        if (is_string($this->camp_data) && str_contains($this->camp_data, "查無營隊資料")) {
+        $this->camp_info = $this->campDataService->getCampBatchInfo($this->batch_id);
+
+        if (is_string($this->camp_info) && str_contains($this->camp_info, "查無營隊資料")) {
             // halt if no camp data found
             echo "查無營隊資料，請確認網址是否正確。" . "<br>";
             die();
         }
+        //$this->camp_info = $this->camp_info['camp_info']; //no need?
 
-        $this->camp_data = $this->camp_data['camp_data'];
-        View::share('batch_id', $this->batch_id);
-        View::share('camp_data', $this->camp_data);
         // 動態載入電子郵件設定
-        $this->setEmail($this->camp_data->table, $this->camp_data->variant);
+        $this->setEmail($this->camp_info->table, $this->camp_info->variant);
+
+        //backward compatible
+        $this->camp_data = $this->camp_info;
+
+        View::share('batch_id', $this->batch_id);
+        View::share('camp_info', $this->camp_info);
+        View::share('camp_data', $this->camp_data);
     }
 
     /**
@@ -325,7 +332,7 @@ class CampController extends Controller
                 // 寄送報名資料
                 try {
                     // Mail::to($applicant)->send(new ApplicantMail($applicant, $this->camp_data));
-                    SendApplicantMail::dispatch($applicant->id);
+                    SendApplicantMail::dispatch($applicant->id, $this->camp_info, false);
                 } catch (\Exception $e) {
                     logger($e);
                 }
@@ -482,32 +489,39 @@ class CampController extends Controller
 
     public function campGetApplicantSN(Request $request)
     {
-        $campTable = $this->camp_data->table;
+        $campTable = $this->camp_info->table;
         $applicant = Applicant::select('applicants.id', 'applicants.email', 'applicants.name')
                     ->join($campTable, 'applicants.id', '=', $campTable . '.applicant_id')
                     ->where('batch_id', $this->batch_id)
                     ->where('applicants.name', $request->name);
         if ($request->mobile) {
+            //姓名＋手機
             $applicant = $applicant->where('mobile', $request->mobile)
-            ->withTrashed()->first();
+                ->withTrashed()->first();
         } else {
             $applicant = $applicant->where('birthyear', ltrim($request->birthyear, '0'))
             ->where('birthmonth', ltrim($request->birthmonth, '0'));
             if ($campTable == 'acamp' || $campTable == 'ceocamp') {
+                //姓名＋出生年月
                 $applicant = $applicant->withTrashed()->first();
             } else {
+                //姓名＋出生年月日
                 $applicant = $applicant->where('birthday', ltrim($request->birthday, '0'))
                 ->withTrashed()->first();
             }
         }
+
+        $viewPathCamp = 'camps.' . $campTable . '.getSN';
+        $viewPathGeneral = 'components.general.getSN';
+        $viewPath = View::exists($viewPathCamp)? $viewPathCamp: $viewPathGeneral;
+
         if ($applicant) {
             // 寄送報名序號
             // Mail::to($applicant)->send(new ApplicantMail($applicant, $this->camp_data, true));
-            SendApplicantMail::dispatch($applicant->id, true);
-            return view('camps.' . $campTable . '.getSN')
-                ->with('applicant', $applicant);
+            SendApplicantMail::dispatch($applicant->id, $this->camp_info, true);    //isGetSN=true
+            return view($viewPath, compact('applicant'));
         } else {
-            return view('camps.' . $campTable . '.getSN')
+            return view($viewPath)
                 ->with('error', "找不到報名資料，請確認是否已成功報名，或是輸入了錯誤的查詢資料。");
         }
     }
