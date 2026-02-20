@@ -44,6 +44,7 @@ class BackendController extends Controller
     protected $applicantService;
     protected $backendService;
     protected $gsheetService;
+
     protected $batch_id;
     protected $camp_data;
     protected $batch;
@@ -1708,7 +1709,7 @@ class BackendController extends Controller
                 return "<h1>您沒有權限查看此資料(" . $theStr . ")</h1>";
             }
 
-            $applicant = $this->applicantService->Mandarization($applicant);
+            //$applicant = $this->applicantService->Mandarization($applicant);
         } else {
             return "<h1>異常狀況發生，請將網址提供給開發人員檢查。</h1>";
         }
@@ -1786,7 +1787,8 @@ class BackendController extends Controller
         } elseif ($camp->table == "ycamp") {
             return view('backend.in_camp.attendeeInfoYcamp', compact('camp', 'batch', 'applicant', 'contactlog', 'qrcode', 'departfroms', 'backtos'));
         } else {
-            return view('backend.in_camp.attendeeInfo', compact('camp', 'batch', 'applicant', 'contactlog', 'dynamic_stat_urls', 'qrcode'));
+            $layout = config('camps_attendeeinfo.' . $camp->table) ?? [];
+            return view('backend.in_camp.attendeeInfo', compact('camp', 'batch', 'applicant', 'contactlog', 'dynamic_stat_urls', 'qrcode', 'layout'));
         }
     }
 

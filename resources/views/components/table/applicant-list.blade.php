@@ -65,16 +65,16 @@
         $applicants = $applicants->load('contactlog');
         $applicants = $applicants->each(function ($applicant) use ($camp) {
             $applicant->number = $applicant->number;
-            $applicant->gender = $applicant->gender_zh_tw;
+            //$applicant->gender = $applicant->gender_zh_tw;
             $applicant->age = $applicant->age;
-            match ($applicant->is_attend) {
+            /*match ($applicant->is_attend) {
                 0 => $applicant->is_attend = "不參加",
                 1 => $applicant->is_attend = "參加",
                 2 => $applicant->is_attend = "尚未決定",
                 3 => $applicant->is_attend = "聯絡不上",
                 4 => $applicant->is_attend = "無法全程",
                 default => $applicant->is_attend = "尚未聯絡"
-            };
+            };*/
             $applicant->contactlogHTML = $applicant->contactlogHTML($isShowVolunteers ?? false, $applicant, $camp);
             $applicant->carer = count($applicant->carers) ? $applicant->carers->map(function($item) {
                 return $item->name;
@@ -92,16 +92,16 @@
             foreach ($registeredVolunteers as &$v) {
                 if ($v->application_log) {
                     foreach ($v->application_log as $k => &$a) {
-                        $a->gender = $a->gender_zh_tw;
+                        //$a->gender = $a->gender_zh_tw;
                         $a->age = $a->age;
-                        match ($a->is_attend) {
+                        /*match ($a->is_attend) {
                             0 => $a->is_attend = "不參加",
                             1 => $a->is_attend = "參加",
                             2 => $a->is_attend = "尚未決定",
                             3 => $a->is_attend = "聯絡不上",
                             4 => $a->is_attend = "無法全程",
                             default => $a->is_attend = "尚未聯絡"
-                        };
+                        };*/
                         $a->contactlogHTML = $a->contactlogHTMLoptimized($isShowVolunteers ?? false, $camp);
                         foreach ($columns ?? [] as $key => $item) {
                             if ($key != "batch") {
