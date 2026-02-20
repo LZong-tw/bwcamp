@@ -66,7 +66,7 @@ class LodgingService
             //僅有早鳥價
             $fare_room = $fare_room_early_bird;
         }
-        
+
         return $fare_room;
     }
 }
