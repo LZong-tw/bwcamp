@@ -412,9 +412,7 @@ class CampController extends Controller
             } catch (ModelNotFoundException $e) {
                 return redirect()->back()->withErrors(['找不到報名資料，請確認查詢欄位是否填寫正確，或者是否已成功報名。']);
             }
-        } else {
-            //placeholder
-        }
+        } 
 
         if ($request->isModify) {
             $isModify = true;
@@ -570,9 +568,8 @@ class CampController extends Controller
             } catch (ModelNotFoundException $e) {
                 return redirect()->back()->withErrors(['找不到報名資料，請確認查詢欄位是否填寫正確，或者是否已成功報名。']);
             }
-        } else {
-            //request->name & request->sn are required.
         }
+        
         // try-catch已處理applicant是否存在
         // 但仍需確認找到的applicant是否報名本營隊
         if ($applicant && $applicant->batch->camp_id == $this->camp_data->id) {
