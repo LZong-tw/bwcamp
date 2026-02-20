@@ -65,11 +65,8 @@ class LodgingService
         } elseif ($camp->has_early_bird && $date->lte($camp->early_bird_last_day)) {
             //僅有早鳥價
             $fare_room = $fare_room_early_bird;
-        } else {
-            //僅有正常價
-            $fare_room = $fare_room;
         }
-        //
+        
         return $fare_room;
     }
 }
