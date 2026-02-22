@@ -78,6 +78,9 @@ class Camp extends Model
         'admission_confirming_end_weekday',
         'admission_confirming_end_weekday_eng',
         'admission_confirming_end_weekday_short',
+        'cancellation_deadline_weekday',
+        'early_bird_last_day_weekday',
+        'discount_last_day_weekday',
     ];
 
 
@@ -211,7 +214,7 @@ class Camp extends Model
     protected function registrationStartWeekday(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->registration_start?->locale('zh_TW')->dayName, // 星期一
+            get: fn () => $this->registration_start?->locale('zh_TW')->minDayName, // 星期一
         );
     }
 
@@ -235,7 +238,7 @@ class Camp extends Model
     protected function registrationEndWeekday(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->registration_end?->locale('zh_TW')->dayName, // 星期一
+            get: fn () => $this->registration_end?->locale('zh_TW')->minDayName, // 一
         );
     }
 
@@ -259,7 +262,7 @@ class Camp extends Model
     protected function admissionAnnouncingDateWeekday(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->admission_announcing_date?->locale('zh_TW')->dayName, // 星期一
+            get: fn () => $this->admission_announcing_date?->locale('zh_TW')->minDayName, // 一
         );
     }
 
@@ -283,7 +286,7 @@ class Camp extends Model
     protected function admissionConfirmingEndWeekday(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->admission_confirming_end?->locale('zh_TW')->dayName, // 星期一
+            get: fn () => $this->admission_confirming_end?->locale('zh_TW')->minDayName, // 一
         );
     }
 
@@ -298,6 +301,24 @@ class Camp extends Model
     {
         return Attribute::make(
             get: fn () => $this->admission_confirming_end?->format('D'), // Mon
+        );
+    }
+    protected function cancellationDeadlineWeekday(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->cancellation_deadline?->locale('zh_TW')->minDayName, // 一
+        );
+    }
+    protected function earlyBirdLastDayWeekday(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->early_bird_last_day?->locale('zh_TW')->minDayName, // 一
+        );
+    }
+    protected function discountLastDayWeekday(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->discount_last_day?->locale('zh_TW')->minDayName, // 一
         );
     }
 }

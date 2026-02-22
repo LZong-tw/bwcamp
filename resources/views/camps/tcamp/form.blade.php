@@ -33,7 +33,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     @exit
 {{-- 以上皆非: 檢視資料狀態 --}}
 @else
-    <form action="{{ route("queryupdate", $applicant_batch_id) }}?{{ \Str::random(10) }}={{ \Str::random(10) }}" method="post" class="d-inline">
+    <form action="{{ route("queryupdate", $batch_id) }}?{{ \Str::random(10) }}={{ \Str::random(10) }}" method="post" class="d-inline">
 @endif
     @csrf
     <input type="hidden" name="{{ \Str::random(10) }}" value="{{ \Str::random(10) }}">

@@ -6,13 +6,13 @@
     @if(isset($isRepeat))<div class="alert alert-warning">{{ $isRepeat }}</div>@endif
     <div class="card">
         <div class="card-header">
-            報名成功
+            <h5>報名成功</h5>
         </div>
         <div class="card-body">
-            <p class="card-text">
+            <div class="card-text">
                 恭喜您已完成{{ $camp_data->fullName }}網路報名程序。
                 @include('camps.mvcamp.successMessages')
-            </p>
+            </div>
             <form action="{{ route("queryview", $applicant->batch_id) }}" method="post" class="d-inline">
                 @csrf
                 <input type="hidden" name="sn" value="{{ $applicant->id }}">

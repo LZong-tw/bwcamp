@@ -2442,7 +2442,7 @@ return [
             "avatar" => "大頭照",
             "gender" => "性別",
             "birthyear" => "出生年",
-            //"workshop_credit_type" => "研習時數類型",
+            //"certificate_type" => "研習時數類型",
             //"idno" => "身分證字號",
             "unit" => "服務學校/單位",
             "unit_county" => "服務單位所在縣市",

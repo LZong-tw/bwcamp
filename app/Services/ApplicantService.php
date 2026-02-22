@@ -4,9 +4,20 @@ namespace App\Services;
 
 use App\Models\Applicant;
 use Carbon\Carbon;
+use App\Services\CampDataService;
+use App\Services\LodgingService;
+use App\Services\TrafficService;
 
 class ApplicantService
 {
+    private CampDataService $campDataService;
+
+    public function __construct(CampDataService $campDataService)
+    {
+        $this->campDataService = $campDataService;
+        return;
+    }
+
     public function Mandarization($applicant)
     {
         switch ($applicant->gender) {
@@ -113,6 +124,50 @@ class ApplicantService
         return $applicant;
     }
 
+    /* another version of fetchApplicantData, using eager loading to get related data, and then flatten the array
+     *
+     * @param 營隊 ID
+     * @param 營隊類型 xccamp
+     * @param 交通
+     * @param 住宿
+     * @return array
+     */
+    public function getApplicantData($applicantId, $campTable, $name = null)
+    {
+        // 一次性加載多個關聯
+        if ($name) {
+            $applicant = Applicant::with([$campTable, 'lodging', 'traffic'])
+            ->where('name', $name)
+            ->withTrashed()->findOrFail($applicantId);
+        } else {
+            $applicant = Applicant::with([$campTable, 'lodging', 'traffic'])
+            ->withTrashed()->findOrFail($applicantId);
+        }
+        $applicant->offsetUnset('files'); // files 僅供後台備註使用，同時，現在 files 的記錄方式若轉為 Json，在前端會出錯
+        $applicant->applicant_id = $applicantId;
+
+        // 將主表與關聯表打平合併
+        $mergedData = array_merge(
+            $applicant->toArray(),
+            $applicant->$campTable ? $applicant->$campTable->toArray() : [],
+            $applicant->lodging ? $applicant->lodging->toArray() : [],
+            $applicant->traffic ? $applicant->traffic->toArray() : []
+        );
+        $mergedData ['applicant_id'] = $applicantId;
+        $mergedData [$campTable.'_id'] = $applicant->$campTable ? $applicant->$campTable->id : null;
+        $mergedData ['lodging_id'] = $applicant->lodging ? $applicant->lodging->id : null;
+        $mergedData ['traffic_id'] = $applicant->traffic ? $applicant->traffic->id : null;
+
+        // 移除掉原本嵌套的物件，避免傳輸冗餘資料
+        unset($mergedData[$campTable], $mergedData['lodging'], $mergedData['traffic']);
+        $applicant_data = json_encode($mergedData, JSON_UNESCAPED_UNICODE);
+        $applicant_data = str_replace("\\r", "", $applicant_data);
+        $applicant_data = str_replace("\\n", "", $applicant_data);
+        $applicant_data = str_replace("\\t", "", $applicant_data);
+        $applicant_data = str_replace("'", "\\'", $applicant_data);
+
+        return [$applicant, $applicant_data];
+    }
     public function checkIfPaidEarlyBird($applicant)
     {
         // 須為已錄取
@@ -249,5 +304,62 @@ class ApplicantService
         }
 
         return [$message, $signInSignOutObject];
+    }
+
+    public function updateApplicantXcamp(Applicant $applicant, $campTable, $formData)
+    {
+        $xcamp = $applicant->$campTable;    //applicant's associated camp data
+        //處理檔案及圖片
+        try {
+            $disk = \Storage::disk('local');
+            $path = 'avatars/';
+            if (request()->hasFile('avatar')) {
+                $file = request()->file('avatar');
+                $name = $file->hashName();
+            }
+            if (request()->hasFile('avatar_re')) {
+                $file = request()->file('avatar_re');
+                $name = $file->hashName();
+            }
+
+            if ($file ?? false) {
+                $disk->put($path, $file);
+                $image = Image::make(storage_path($path . $name))->resize(800, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+                $image->save(storage_path($path . $name));
+                $formData['avatar'] = $path . $name;
+            }
+        } catch (\Throwable $e) {
+            logger($e);
+        }
+
+        $updatedApplicant = \DB::transaction(function () use ($applicant, $xcamp, $formData) {
+            if (isset($formData['is_educating'])) {
+                if ($formData['is_educating'] == 0) {
+                    $formData['school_or_course'] = '';
+                    $formData['subject_teaches'] = '';
+                }
+            }
+            $applicantFillable = $applicant->getFillable();
+            $campFillable = $xcamp->getFillable();
+            $applicantData = array();
+            $campData = array();
+            foreach ($formData as $key => $value) {
+                if (in_array($key, $applicantFillable)) {
+                    $applicantData[$key] = $value;
+                }
+                if (in_array($key, $campFillable)) {
+                    $campData[$key] = $value;
+                }
+            }
+            $applicant->fill($applicantData);
+            $applicant->save();
+            $xcamp->fill($campData);
+            $xcamp->save();
+
+            return $applicant; // 回傳更新後的物件
+        });
+        return $updatedApplicant; // 回傳更新後的物件
     }
 }

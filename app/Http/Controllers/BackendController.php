@@ -922,7 +922,7 @@ class BackendController extends Controller
             return back();
         }
         foreach ($request->sns as $sn) {
-            \App\Jobs\SendAdmittedMail::dispatch($sn);
+            \App\Jobs\SendAdmittedMail::dispatch($sn, $request->campTable);
         }
         \Session::flash('message', "錄取通知信寄送程序已被排入任務佇列。");
         return back();

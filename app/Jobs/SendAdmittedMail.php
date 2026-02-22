@@ -11,10 +11,15 @@ use App\Services\ApplicantService;
 use App\Traits\EmailConfiguration;
 use Illuminate\Queue\Middleware\WithoutOverlapping;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
+use App\Models\Applicant;
 
 class SendAdmittedMail implements ShouldQueue, ShouldBeUnique
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, EmailConfiguration;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
+    use EmailConfiguration;
 
     protected $applicant;
 
@@ -25,10 +30,14 @@ class SendAdmittedMail implements ShouldQueue, ShouldBeUnique
      *
      * @return void
      */
-    public function __construct($applicant_id)
+    public function __construct($applicantId, $campTable)
     {
-        //
-        $this->applicant = \App\Models\Applicant::find($applicant_id);
+        //eager load lodging and traffic, which might be needed in the email view
+        if ($campTable == null) {
+            $this->applicant = Applicant::with(['lodging', 'traffic'])->findOrFail($applicantId);
+        } else {
+            $this->applicant = Applicant::with([$campTable, 'lodging', 'traffic'])->findOrFail($applicantId);
+        }
     }
 
     /**
@@ -47,10 +56,9 @@ class SendAdmittedMail implements ShouldQueue, ShouldBeUnique
         $applicant->save();
         // 動態載入電子郵件設定
         $this->setEmail($applicant->batch->camp->table, $applicant->batch->camp->variant);
-        if(!isset($applicant->fee) || $applicant->fee == 0 || $applicant->batch->camp->table == 'utcamp') {
+        if (!isset($applicant->fee) || $applicant->fee == 0 || $applicant->batch->camp->table == 'utcamp') {
             \Mail::to($applicant->email)->send(new \App\Mail\AdmittedMail($applicant, $applicant->batch->camp));
-        }
-        else {
+        } else {
             $paymentFile = \PDF::loadView('camps.' . $applicant->batch->camp->table . '.paymentFormPDF', compact('applicant'))->setPaper('a3')->output();
             \Mail::to($applicant->email)->send(new \App\Mail\AdmittedMail($applicant, $applicant->batch->camp, $paymentFile));
         }
@@ -62,8 +70,9 @@ class SendAdmittedMail implements ShouldQueue, ShouldBeUnique
      *
      * @return array
      */
-    public function middleware() {
-        if(!$this->applicant) {
+    public function middleware()
+    {
+        if (!$this->applicant) {
             \Sentry\captureException(new \Exception('SendAdmittedMail: Applicant not found'));
             return [];
         }

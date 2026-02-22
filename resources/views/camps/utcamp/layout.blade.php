@@ -26,6 +26,34 @@
     {{-- <script src='{{ asset('js/bootstrap.bundle.min.js') }}'></script> --}}
     <!-- Bootstrap confirmation JS -->
     <script src='{{ asset('js/bootstrap-confirmation.min.js') }}'></script>
+    <script
+        src="https://browser.sentry-cdn.com/8.20.0/bundle.tracing.replay.min.js"
+        integrity="sha384-e4DRKCQjGj8HoVTcv07HyAm3g1wDECvRclj9gsw2d06z1aLh+78iJ21phn6RhkJD"
+        crossorigin="anonymous"
+        ></script>
+    <script>
+        Sentry.onLoad(function() {
+            Sentry.init({
+            integrations: [
+                Sentry.replayIntegration({
+                maskAllText: false,
+                blockAllMedia: false,
+                }),
+            ],
+            // Session Replay
+            replaysSessionSampleRate: 0.5, // This sets the sample rate at 10%. You may want to change it to 100% while in development and then sample at a lower rate in production.
+            replaysOnErrorSampleRate: 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
+            });
+        });
+    </script>
+    {!! \Sentry\Laravel\Integration::sentryTracingMeta() !!}
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "ne7yzyapsk");
+    </script>
 </head>
 <BODY>
 <div id='fb-root'></div>
@@ -49,24 +77,20 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ $camp_data->site_url }}">活動網頁</a>
                     </li>
-                    {{--
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('registration', $batch_id) }}">報名表單</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('query', $batch_id) }}">報名查詢/修改</a>
                     </li>
+                    {{--
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('payment', $batch_id) }}">線上繳費</a>
                     </li>
-                    --}}
-                    {{--
-                    @if(\Carbon\Carbon::now() >= $camp_data->admission_announcing_date)
+                    --}}                    
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('queryadmitGET', $batch_id) }}">錄取查詢</a>
                         </li>
-                    @endif
-                    --}}
                     {{--
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('downloads/utcamp2024/2024第32屆教師生命成長營大專教職員梯-活動簡章_含課表紙本報名表_R2.docx') }}">課程表</a>
