@@ -22,7 +22,8 @@ class IntroducerMail extends Mailable
      *
      * @return void
      */
-    public function __construct($applicant, $campInfo) {
+    public function __construct($applicant, $campInfo)
+    {
         //上層查好了($applicant, $campInfo)直接傳進來，不用再查一次
         $this->applicant = $applicant;
         $this->camp_info = $campInfo;   //camp 合併 batch 欄位
@@ -34,7 +35,8 @@ class IntroducerMail extends Mailable
      *
      * @return $this
      */
-    public function build() {
+    public function build()
+    {
         $this->withSwiftMessage(function ($message) {
             $headers = $message->getHeaders();
             $headers->addTextHeader('time', time());

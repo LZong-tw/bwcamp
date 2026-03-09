@@ -513,7 +513,7 @@ class CampController extends Controller
 
         $viewPathCamp = 'camps.' . $campTable . '.getSN';
         $viewPathGeneral = 'components.general.getSN';
-        $viewPath = View::exists($viewPathCamp)? $viewPathCamp: $viewPathGeneral;
+        $viewPath = View::exists($viewPathCamp) ? $viewPathCamp : $viewPathGeneral;
 
         if ($applicant) {
             // 寄送報名序號
