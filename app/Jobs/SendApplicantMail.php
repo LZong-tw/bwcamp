@@ -35,11 +35,6 @@ class SendApplicantMail implements ShouldQueue
         $this->camp_info = $campInfo;   //camp 合併 batch 欄位
         $this->camp_table = $campInfo->table;
         $this->applicant = \App\Models\Applicant::with($this->camp_table)->find($applicantId);
-        if (is_null($this->applicant) || $this->applicant->deleted_at) {
-            return '查無報名者或報名者取消報名';
-        }
-        $campTable = $this->camp_table;
-        $this->applicant->substitute_email = $this->applicant->$campTable?->substitute_email ?? [];
         $this->isGetSN = $isGetSN;
     }
 
@@ -54,12 +49,20 @@ class SendApplicantMail implements ShouldQueue
         sleep(3);
         ini_set('memory_limit', -1);
 
+        //check applicant
+        if (is_null($this->applicant) || $this->applicant->deleted_at) {
+            return '查無報名者或報名者取消報名';
+        }
+
         // 動態載入電子郵件設定
         $this->setEmail($this->camp_table);
 
         \Mail::to($this->applicant->email)->send(new \App\Mail\QueuedApplicantMail($this->applicant, $this->camp_info, $this->isGetSN));
 
         if ($this->camp_table == 'ceocamp' || $this->camp_table == 'wcamp') {
+            $campTable = $this->camp_table;
+            $this->applicant->substitute_email = $this->applicant->$campTable?->substitute_email ?? [];
+
             // 代填人/推薦人：必填, 其實if()可以不用。
             if ($this->applicant->introducer_email) {
                 \Mail::to($this->applicant->introducer_email)->send(new \App\Mail\IntroducerMail($this->applicant, $this->camp_info));
