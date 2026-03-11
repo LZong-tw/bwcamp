@@ -24,13 +24,13 @@ class CampDataService
         //取得梯次資料，以及它所屬的camp
         $batch = Batch::find($batchId);
         if (is_null($batch)) {
-            return "<h1>查無梯次資料</h1>";
+            return null;
         }
 
         //取得營隊資料
         $camp_info = $batch->camp;
         if (is_null($camp_info)) {
-            return "<h1>查無營隊資料</h1>";
+            return null;
         }
 
         // attributesToArray() 只抓欄位跟 appends，排除掉任何 eager loading 的關聯

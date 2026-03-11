@@ -54,10 +54,9 @@ class CampController extends Controller
         $this->batch_id = $request->route()->parameter('batch_id');
         $this->camp_info = $this->campDataService->getCampBatchInfo($this->batch_id);
 
-        if (is_string($this->camp_info) && str_contains($this->camp_info, "查無營隊資料")) {
+        if (is_null($this->camp_info)) {
             // halt if no camp data found
-            echo "查無營隊資料，請確認網址是否正確。" . "<br>";
-            die();
+            abort(404, "查無營隊或梯次資料，請確認網址是否正確。");
         }
         //$this->camp_info = $this->camp_info['camp_info']; //no need?
 
@@ -513,7 +512,7 @@ class CampController extends Controller
 
         $viewPathCamp = 'camps.' . $campTable . '.getSN';
         $viewPathGeneral = 'components.general.getSN';
-        $viewPath = View::exists($viewPathCamp)? $viewPathCamp: $viewPathGeneral;
+        $viewPath = View::exists($viewPathCamp) ? $viewPathCamp : $viewPathGeneral;
 
         if ($applicant) {
             // 寄送報名序號
@@ -591,6 +590,9 @@ class CampController extends Controller
             $fare_room = $this->lodgingService->getLodgingFare($this->camp_data, $applicant->created_at);
             [$fare_depart_from, $fare_back_to] = $this->trafficService->getTrafficFare($this->camp_data);
 
+            if (is_null($applicant->second_bank_barcode)) {
+                $applicant = $this->applicantService->fillPaymentData($applicant);
+            }
             $applicant = $this->applicantService->checkPaymentStatus($applicant);
             $this->camp_data->content_link_chn = $this->camp_data->dynamic_stats?->where('purpose', 'admittedMail_chn')?->first()?->google_sheet_url ?? [];
             return view(
