@@ -65,6 +65,7 @@
                         依據您報名時的選項：<b>{{ $applicant->lodging->room_type }}</b>，您的應繳費用/已交費用為：
                         <div class="ml-2 mb-2 alert alert-info" role='alert'>
                         <b>
+                        您的專屬繳費帳號：{{ $applicant->bank_second_barcode }}<br>
                         =====&nbsp;&nbsp;&nbsp;應交費用：{{ $fare_total }}&nbsp;&nbsp;&nbsp;=====<br>
                         =====&nbsp;&nbsp;&nbsp;已交費用：{{ $sum_total }}&nbsp;&nbsp;&nbsp;=====<br>
                         </b>

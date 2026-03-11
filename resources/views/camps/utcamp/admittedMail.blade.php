@@ -76,23 +76,29 @@
     <li>您的報名日期：{{ $applicant->created_at->format('Y-m-d') }}</li>
     <li>您適用的費率：{{ $rate }}</li>
     <li>您選擇的房型：{{ $applicant->lodging->room_type }}</li>
-    <li>您的應繳費用：NT$<span class="text-danger">{{ $applicant->lodging->fare }}</span>&emsp;</li>
-    <li>匯款帳號：<br>
-        &emsp;邱孟懿 中國信託 板新分行<br>
-        &emsp;帳號：417540291289<br>
-        &emsp;匯款時，請註記：{{ $applicant->name }}大專教師營<br>
-        &emsp;匯款後，請回覆此信告知匯款銀行及尾數5碼。<br>    
+    <li>您的應繳費用：<span style="color: red"><b>NT${{ $applicant->lodging->fare }}</b></span></li>
+    <li>您的銷帳編號（個人專屬繳款帳號）：<span style="color: green"><b>{{ $applicant->bank_second_barcode }}</b></span><br>
+            繳款方式，底下擇一均可：<br>
+            1.上海銀行繳納：請持本繳款單至全台上海商業儲蓄銀行臨櫃繳納，免手續費。<br>
+            2.ATM 轉帳：選擇「轉帳」或「繳費」→ 輸入上海銀行 代號011 → 輸入銷帳編號 → 輸入應繳金額，跨行轉帳須支付手續費。<br>
+            3.其他銀行臨櫃匯款：<br>
+            收款行 = 上海商業儲蓄銀行南京東路分行，<br>
+            銀行代碼 = 0110406<br>
+            戶名 = 財團法人福智文教基金會，<br>
+            帳號 = 銷帳編號(14碼)，須自付手續費。<br>
+            <span style="color: red">
+            ＊＊＊請勿使用他人的繳款帳號＊＊＊<br>
+            ＊＊＊請勿使用您的的繳款帳號代替他人繳款＊＊＊<br>
+            </span>
     <li><a href="{{ route('showadmit', ['batch_id' => $applicant->batch->id, 'sn' => $applicant->id, 'name' => $applicant->name]) }}">按此更改住宿及交通服務選項</a><br>
         若以上連結無法點選，請複製下方文字後，再由瀏覽器進入頁面做回覆：<br>
         {{ route('queryadmitGET', ['batch_id' => $applicant->batch->id]) }}
     </li>
 </ul>
 <br>
-<b>【聯絡我們】</b><br>
-<ul>
-    <li>{!! nl2br(e(str_replace('\n', "\n", $applicant->batch->contact_card))) !!}</li>
-</ul>
-<br>
-<p style="text-align: right">財團法人福智文教基金會&emsp;敬上&emsp;<br>
-{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}&emsp;</p>
+<p>
+財團法人福智文教基金會<br>
+{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}<br>
+{!! nl2br(e(str_replace('\n', "\n", $applicant->batch->contact_card))) !!}
+</p>
 </body>
