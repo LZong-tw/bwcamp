@@ -21,14 +21,14 @@
             $isEmpty = empty(trim((string)$rawValue));
         @endphp
         <!-- <div class="row mb-2 border-bottom pb-1"> -->
-        <div class="row mb-2 pb-1">
+        <div class="row pt-1 pb-1 px-0 mx-1">
             {{-- Label --}}
-            <div class="col-sm-4 font-weight-bold text-muted">
-                {{ $label }}
+            <div class="font-weight-bold text-muted">
+                {{ $label }}：
             </div>
 
             {{-- Value --}}
-            <div class="col-sm-8">
+            <div class="">
                 @if($isEmpty)
                     <span class="text-muted font-italic">(未填寫)</span>
                 
@@ -36,7 +36,6 @@
                     <a href="tel:{{ $dialValue }}" class="text-decoration-none">
                         <i class="fa fa-phone-alt fa-sm mr-1"></i>{{ $displayValue }}
                     </a>
-
                 @elseif(str_contains($lowKey, 'email'))
                     <a href="mailto:{{ $rawValue }}" class="text-decoration-none">
                         <i class="fa fa-envelope fa-sm mr-1"></i>{{ $rawValue }}

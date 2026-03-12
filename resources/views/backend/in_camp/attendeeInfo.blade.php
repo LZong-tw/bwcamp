@@ -152,17 +152,23 @@
     @endif
     <div class="container">
         <div class="row">
-            <div class="col-md-4">
-                <span class="btn btn-warning">{{ $layout['sec_adv1']['title']?? "聯絡方式"}}</span><br><br>
+            <div class="col-md-4 container" >
+                <div class="pt-3 pb-3 px-3" style="background-color:#eaeaea">
+                <span class="font-weight-bold bg-warning" style="font-size: 18px;">　{{ $layout['sec_adv1']['title']?? "聯絡方式"}}　</span><br><br>
                 <x-applicant-data-display :applicant="$applicant" :fields="$fields4" />
+                </div>
             </div>
-            <div class="col-md-4">
-                <span class="btn btn-warning">{{ $layout['sec_adv2']['title']?? "推薦人資訊"}}</span><br><br>
+            <div class="col-md-4 container">
+                <div class="pt-3 pb-3 px-3" style="background-color:#eaeaea">
+                <span class="font-weight-bold bg-warning" style="font-size: 18px;">　{{ $layout['sec_adv2']['title']?? "推薦人資訊"}}　</span><br><br>
                 <x-applicant-data-display :applicant="$applicant" :fields="$fields5" />
+                </div>
             </div>
-            <div class="col-md-4">
-                <span class="btn btn-warning">{{ $layout['sec_adv3']['title']?? "其他資訊"}}</span><br><br>
+            <div class="col-md-4 container">
+                <div class="pt-3 pb-3 px-3" style="background-color:#eaeaea">
+                <span class="font-weight-bold bg-warning" style="font-size: 18px;">　{{ $layout['sec_adv3']['title']?? "其他資訊"}}　</span><br><br>
                 <x-applicant-data-display :applicant="$applicant" :fields="$fields6" />
+                </div>
             </div>
         </div>
     </div>
@@ -180,7 +186,7 @@
                 @endif
             @endif
             @if($layout['sec_remark']['is_shown'])
-                <span class="btn btn-info">備註</span><br>
+                <span class="font-weight-bold text-white bg-info" style="font-size: 18px;">　備註　</span><br>
                 <form action="{{ route('editRemark', $camp->id) }}" method="POST">
                     @csrf
                     <br>
@@ -201,7 +207,7 @@
             @endif
             @if($currentUser->canAccessResource(new App\Models\ContactLog(), 'read', $campFullData, target: $applicant))
                 <div class="col-md-8">
-                    <span class="btn btn-info">關懷記錄</span><br>
+                    <span class="font-weight-bold text-white bg-info" style="font-size: 18px;">　關懷記錄　</span><br>
                     @if($currentUser->canAccessResource(new App\Models\ContactLog(), 'create', $campFullData, target: $applicant))
                         <form action="{{ route('addContactLog', $camp->id) }}" method="POST">
                             <a id="new"></a>
