@@ -63,38 +63,26 @@ class sendApplicantMail extends Command
             $this->error("找不到收件者 {$this->argument('applicant_id')}。");
             return;
         }
+        if ($applicant->batch->camp->id != $camp->id) {
+            $this->error("收件者營隊與指定營隊不一致。");
+            return;
+        }        
         switch ($this->argument('mailType')) {
             case "applicantMail":
-                if ($applicant->batch->camp->id == $camp->id) {
                     Mail::to($applicant)->send(new ApplicantMail($applicant, $camp));
                     $this->info("成功寄送報名成功郵件。");
-                } else {
-                    $this->error("收件者營隊與指定營隊不一致。");
-                }
                 break;
             case "admittedMail":
-                if ($applicant->batch->camp->id == $camp->id) {
                     Mail::to($applicant)->send(new AdmittedMail($applicant, $camp));
                     $this->info("成功寄送錄取郵件。");
-                } else {
-                    $this->error("收件者營隊與指定營隊不一致。");
-                }
                 break;
             case "checkInMail":
-                if ($applicant->batch->camp->id == $camp->id) {
                     Mail::to($applicant)->send(new CheckInMail($applicant));
                     $this->info("成功寄送報到郵件。");
-                } else {
-                    $this->error("收件者營隊與指定營隊不一致。");
-                }
                 break;
             case "notAdmittedMail":
-                if ($applicant->batch->camp->id == $camp->id) {
                     Mail::to($applicant)->send(new NotAdmittedMail($applicant));
                     $this->info("成功寄送不錄取郵件。");
-                } else {
-                    $this->error("收件者營隊與指定營隊不一致。");
-                }
                 break;
         }
         return 0;
