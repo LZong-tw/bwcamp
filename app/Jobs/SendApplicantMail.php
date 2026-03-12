@@ -57,7 +57,7 @@ class SendApplicantMail implements ShouldQueue
             return;
         }
         $campTable = $this->camp_info->table;
-        $this->applicant->substitute_email = $this->applicant->$campTable?->substitute_email ?? "";
+
         // 動態載入電子郵件設定
         $this->setEmail($campTable);
 
@@ -69,8 +69,9 @@ class SendApplicantMail implements ShouldQueue
                 \Mail::to($this->applicant->introducer_email)->send(new \App\Mail\IntroducerMail($this->applicant, $this->camp_info));
             }
             // 秘書：非必填
-            if ($this->applicant->substitute_email) {
-                \Mail::to($this->applicant->substitute_email)->send(new \App\Mail\SubstituteMail($this->applicant, $this->camp_info));
+            $substitute_email = $this->applicant->$campTable?->substitute_email;
+            if ($substitute_email) {
+                \Mail::to($substitute_email)->send(new \App\Mail\SubstituteMail($this->applicant, $this->camp_info));
             }
         }
     }
