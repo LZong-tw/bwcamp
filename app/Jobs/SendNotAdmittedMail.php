@@ -16,7 +16,7 @@ class SendNotAdmittedMail implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, EmailConfiguration;
 
     protected $applicant;
-
+    protected $applicantId;
     protected $tries = 400;
 
     /**
@@ -24,10 +24,11 @@ class SendNotAdmittedMail implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($applicant_id)
+    public function __construct($applicantId)
     {
         //
-        $this->applicant = \App\Models\Applicant::find($applicant_id);
+        $this->applicantId = $applicantId;
+        $this->applicant = \App\Models\Applicant::with('batch.camp')->find($applicantId);
     }
 
     /**
@@ -40,11 +41,17 @@ class SendNotAdmittedMail implements ShouldQueue
         //
         sleep(3);
         ini_set('memory_limit', -1);
+
+        if (!$this->applicant) {
+            \Log::error("SendNotAdmittedMail, Applicant: {$this->applicantId} not found.");    
+            return;
+        }
+
         $applicant = $this->applicant;
         // 動態載入電子郵件設定
         $this->setEmail($applicant->batch->camp->table, $applicant->batch->camp->variant);
         \Mail::to($applicant->email)->send(new \App\Mail\NotAdmittedMail($applicant));
-        \logger('SendNotAdmittedMail ' . $this->applicant->id . ' success');
+        \logger('SendNotAdmittedMail, Applicant: ' . $this->applicantId . ' success');
     }
 
     /**
@@ -54,7 +61,7 @@ class SendNotAdmittedMail implements ShouldQueue
      */
     public function uniqueId()
     {
-        return $this->applicant->id;
+        return $this->applicantId;
     }
 
     /**

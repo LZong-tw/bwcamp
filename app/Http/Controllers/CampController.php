@@ -54,7 +54,7 @@ class CampController extends Controller
         $this->batch_id = $request->route()->parameter('batch_id');
         $this->camp_info = $this->campDataService->getCampBatchInfo($this->batch_id);
 
-        if (is_string($this->camp_info) && str_contains($this->camp_info, "查無營隊資料")) {
+        if (is_null($this->camp_info)) {
             // halt if no camp data found
             echo "查無營隊資料，請確認網址是否正確。" . "<br>";
             die();

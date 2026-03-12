@@ -15,7 +15,6 @@ class IntroducerMail extends Mailable
 
     public $applicant;
     public $camp_info;
-    public $camp_table;
 
     /**
      * Create a new message instance.
@@ -27,7 +26,6 @@ class IntroducerMail extends Mailable
         //上層查好了($applicant, $campInfo)直接傳進來，不用再查一次
         $this->applicant = $applicant;
         $this->camp_info = $campInfo;   //camp 合併 batch 欄位
-        $this->camp_table = $campInfo->table;
     }
 
     /**
@@ -43,6 +41,6 @@ class IntroducerMail extends Mailable
         });
         return $this->subject($this->camp_info->abbreviation . '推薦報名完成')
             ->to($this->applicant->introducer_email)
-            ->view('camps.' . $this->camp_table . ".introducerMail");
+            ->view('camps.' . $this->camp_info->table . ".introducerMail");
     }
 }
