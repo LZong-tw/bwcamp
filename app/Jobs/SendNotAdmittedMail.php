@@ -13,7 +13,11 @@ use Illuminate\Queue\Middleware\WithoutOverlapping;
 
 class SendNotAdmittedMail implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, EmailConfiguration;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
+    use EmailConfiguration;
 
     protected $applicant;
     protected $applicantId;
@@ -43,7 +47,7 @@ class SendNotAdmittedMail implements ShouldQueue
         ini_set('memory_limit', -1);
 
         if (!$this->applicant) {
-            \Log::error("SendNotAdmittedMail, Applicant: {$this->applicantId} not found.");    
+            \Log::error("SendNotAdmittedMail, Applicant: {$this->applicantId} not found.");
             return;
         }
 

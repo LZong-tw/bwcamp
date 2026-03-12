@@ -12,20 +12,25 @@ use Illuminate\Queue\Middleware\WithoutOverlapping;
 
 class SendApplicantMail implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, EmailConfiguration;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
+    use EmailConfiguration;
 
     protected $applicant;
     protected $applicantId;
     protected $camp_info;
     protected $isGetSN;
     protected $campOrVariant;
-    
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($applicantId, $campInfo, $isGetSN = null) {
+    public function __construct($applicantId, $campInfo, $isGetSN = null)
+    {
         $this->applicantId = $applicantId;
         $this->applicant = \App\Models\Applicant::with($campInfo->table)->find($applicantId);
         //上層查好了($campInfo)直接傳進來，不用再查一次
@@ -45,14 +50,14 @@ class SendApplicantMail implements ShouldQueue
         ini_set('memory_limit', -1);
 
         if (!$this->applicant) {
-            \Log::error("SendApplicantMail: applicant {$this->applicantId} not found.");    
+            \Log::error("SendApplicantMail: applicant {$this->applicantId} not found.");
             return;
         } elseif ($this->applicant->deleted_at) {
             \Log::error("SendApplicantMail: applicant {$this->applicantId} cancelled registration");
             return;
         }
         $campTable = $this->camp_info->table;
-        $this->applicant->substitute_email = $this->applicant->$campTable?->substitute_email?? "";
+        $this->applicant->substitute_email = $this->applicant->$campTable?->substitute_email ?? "";
         // 動態載入電子郵件設定
         $this->setEmail($campTable);
 
