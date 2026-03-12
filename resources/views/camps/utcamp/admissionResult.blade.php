@@ -49,7 +49,7 @@
 				<p class="card-text text-indent">恭喜您錄取「{{ $camp_data->fullName }}」，我們竭誠歡迎您的到來，請留意以下資訊，期望您能留下最美好的回憶。</p>
                 @if(!isset($applicant->is_attend) || $applicant->is_attend)
                     <p class="card-text text-indent">
-                        您的報名序號：{{ $applicant->applicant_id }}<br>
+                        您的報名序號：{{ $applicant->id }}<br>
                         您的錄取編號：{{ $applicant->group }}{{ $applicant->number }}<br>
                         營隊期間：{{ $applicant->batch->batch_start }} ({{ $applicant->batch->batch_start_weekday }}) ~ {{ $applicant->batch->batch_end }} ({{ $applicant->batch->batch_end_weekday }})，共三天兩夜<br>
                         營隊地點：{{ $applicant->batch->locationName }} ({{ $applicant->batch->location }})<br>
@@ -111,8 +111,6 @@
                     @endif
                 </form>
                 <br>
-                <h5>聯絡我們</h5>
-                {!! nl2br(e(str_replace('\n', "\n", $applicant->batch->contact_card))) !!}
             @elseif($now->gte($camp_data->rejection_showing_date))
                 <!-----備取=不錄取----->
                 <p class="card-text">親愛的 {{ $applicant->name }} 老師您好</p>
@@ -172,8 +170,10 @@
                 <p class="card-text">親愛的 {{ $applicant->name }} 老師您好</p>
                 <p class="card-text indent">感謝您報名「{{ $camp_data->fullName }}」，錄取作業正在進行中，請稍後再進行錄取查詢。感謝您的耐心等待！</p>
             @endif
-            <p class="card-text text-right">財團法人福智文教基金會　謹此&emsp;<br>
-            {{ $now->format('Y 年 n 月 j 日') }}&emsp;</p>
+            <p>財團法人福智文教基金會<br>
+            {{ $now->format('Y 年 n 月 j 日') }}<br><br>
+            {!! nl2br(e(str_replace('\n', "\n", $applicant->batch->contact_card))) !!}</p>
+
             <p><input type='button' class='btn btn-warning' value='回上一頁' onclick=self.history.back()>
             <a href="{{ $camp_data->site_url }}" class="btn btn-primary">回營隊首頁</a></p>
         </div>

@@ -59,8 +59,10 @@
     <li>{!! nl2br(e(str_replace('\n', "\n", $applicant->batch->contact_card))) !!}</li>
 </ul>
 <br>
-<p style="text-align: right">財團法人福智文教基金會&emsp;敬上&emsp;<br>
-{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}&emsp;</p>
+<p>財團法人福智文教基金會<br>
+{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}<br><br>
+{!! nl2br(e(str_replace('\n', "\n", $applicant->batch->contact_card))) !!}
+</p>
 <br><br>
 <b>【附件：麻布山林入園注意事項】</b><br>
 <br>
