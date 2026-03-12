@@ -9,6 +9,7 @@ use App\Models\Applicant;
 use App\Mail\AdmittedMail;
 use App\Mail\ApplicantMail;
 use App\Mail\CheckInMail;
+use App\Mail\NotAdmittedMail;
 use App\Traits\EmailConfiguration;
 
 class sendApplicantMail extends Command
@@ -53,7 +54,15 @@ class sendApplicantMail extends Command
         } else {
             $camp = Camp::where('table', $this->argument('camp'))->orderBy('id', 'desc')->first();
         }
+        if (!$camp) {
+            $this->error("找不到 {$this->argument('camp')} 營隊資訊。");
+            return;
+        }
         $applicant = Applicant::find($this->argument('applicant_id'));
+        if (!$applicant) {
+            $this->error("找不到收件者 {$this->argument('applicant_id')}。");
+            return;
+        }
         switch ($this->argument('mailType')) {
             case "applicantMail":
                 if ($applicant->batch->camp->id == $camp->id) {
@@ -75,6 +84,14 @@ class sendApplicantMail extends Command
                 if ($applicant->batch->camp->id == $camp->id) {
                     Mail::to($applicant)->send(new CheckInMail($applicant));
                     $this->info("成功寄送報到郵件。");
+                } else {
+                    $this->error("收件者營隊與指定營隊不一致。");
+                }
+                break;
+            case "notAdmittedMail":
+                if ($applicant->batch->camp->id == $camp->id) {
+                    Mail::to($applicant)->send(new NotAdmittedMail($applicant));
+                    $this->info("成功寄送不錄取郵件。");
                 } else {
                     $this->error("收件者營隊與指定營隊不一致。");
                 }
