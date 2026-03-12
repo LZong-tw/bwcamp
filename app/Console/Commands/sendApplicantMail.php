@@ -66,7 +66,8 @@ class sendApplicantMail extends Command
         switch ($this->argument('mailType')) {
             case "applicantMail":
                 if ($applicant->batch->camp->id == $camp->id) {
-                    Mail::to($applicant)->send(new ApplicantMail($applicant, $camp));
+                    \App\Jobs\SendApplicantMail::dispatch($applicant->id, $camp);
+                    //Mail::to($applicant)->send(new ApplicantMail($applicant, $camp));
                     $this->info("成功寄送報名成功郵件。");
                 } else {
                     $this->error("收件者營隊與指定營隊不一致。");
@@ -74,7 +75,8 @@ class sendApplicantMail extends Command
                 break;
             case "admittedMail":
                 if ($applicant->batch->camp->id == $camp->id) {
-                    Mail::to($applicant)->send(new AdmittedMail($applicant, $camp));
+                    \App\Jobs\SendAdmittedMail::dispatch($applicant->id, $camp->table);
+                    //Mail::to($applicant)->send(new AdmittedMail($applicant, $camp));
                     $this->info("成功寄送錄取郵件。");
                 } else {
                     $this->error("收件者營隊與指定營隊不一致。");
@@ -82,7 +84,8 @@ class sendApplicantMail extends Command
                 break;
             case "checkInMail":
                 if ($applicant->batch->camp->id == $camp->id) {
-                    Mail::to($applicant)->send(new CheckInMail($applicant));
+                    \App\Jobs\SendCheckInMail::dispatch($applicant->id);
+                    //Mail::to($applicant)->send(new CheckInMail($applicant));
                     $this->info("成功寄送報到郵件。");
                 } else {
                     $this->error("收件者營隊與指定營隊不一致。");
@@ -90,7 +93,8 @@ class sendApplicantMail extends Command
                 break;
             case "notAdmittedMail":
                 if ($applicant->batch->camp->id == $camp->id) {
-                    Mail::to($applicant)->send(new NotAdmittedMail($applicant));
+                    \App\Jobs\SendNotAdmittedMail::dispatch($applicant->id);
+                    //Mail::to($applicant)->send(new NotAdmittedMail($applicant));
                     $this->info("成功寄送不錄取郵件。");
                 } else {
                     $this->error("收件者營隊與指定營隊不一致。");
