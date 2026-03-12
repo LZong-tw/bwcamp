@@ -77,19 +77,19 @@
     <li>您適用的費率：{{ $rate }}</li>
     <li>您選擇的房型：{{ $applicant->lodging->room_type }}</li>
     <li>您的應繳費用：<span style="color: brown"><b>NT${{ $applicant->lodging->fare }}</b></span></li>
-    <li>您的銷帳編號（個人專屬繳款帳號）：<span style="color: green"><b>{{ $applicant->bank_second_barcode }}</b></span><br>
-            繳款方式<br>
+    <li>您的銷帳編號（個人專屬繳費帳號）：<span style="color: green"><b>{{ $applicant->bank_second_barcode }}</b></span><br>
+            【繳費方式】<br>
             1.臨櫃匯款：<br>
             &emsp;&emsp;收款行 = 上海商業儲蓄銀行南京東路分行<br>
             &emsp;&emsp;銀行代碼 = 0110406<br>
             &emsp;&emsp;戶名 = 財團法人福智文教基金會<br>
             &emsp;&emsp;帳號 = 銷帳編號 <span style="color: green"><b>{{ $applicant->bank_second_barcode }}</b></span><br>
-            &emsp;&emsp;手續費：全台上海商業儲蓄銀行免手續費；其他銀行須自付手續費<br>
+            &emsp;&emsp;<u>手續費：全台上海商業儲蓄銀行免手續費；其他銀行須自付手續費</u><br>
             2.ATM 轉帳：選擇「轉帳」或「繳費」<br>
             &emsp;&emsp;→ 輸入上海銀行 代號011<br>
             &emsp;&emsp;→ 輸入銷帳編號 <span style="color: green"><b>{{ $applicant->bank_second_barcode }}</b></span><br>
             &emsp;&emsp;→ 輸入應繳金額 <span style="color: brown"><b>{{ $applicant->lodging->fare }}</b></span><br>
-            &emsp;&emsp;跨行轉帳須支付手續費。<br>
+            &emsp;&emsp;<u>跨行轉帳須支付手續費</u>。<br>
             <br>
             <span style="color: red">
             ＊＊＊請勿使用他人的繳款帳號＊＊＊<br>

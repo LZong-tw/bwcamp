@@ -65,10 +65,29 @@
                         依據您報名時的選項：<b>{{ $applicant->lodging->room_type }}</b>，您的應繳費用/已交費用為：
                         <div class="ml-2 mb-2 alert alert-info" role='alert'>
                         <b>
-                        您的專屬繳費帳號：{{ $applicant->bank_second_barcode }}<br>
+                        您的銷帳編號（個人專屬繳費帳號）：{{ $applicant->bank_second_barcode }}<br>
                         =====&nbsp;&nbsp;&nbsp;應交費用：{{ $fare_total }}&nbsp;&nbsp;&nbsp;=====<br>
                         =====&nbsp;&nbsp;&nbsp;已交費用：{{ $sum_total }}&nbsp;&nbsp;&nbsp;=====<br>
                         </b>
+                        </div>
+                        <div class="ml-2 mb-2 alert alert-secondary" role='alert'>
+                        <b>【繳費方式】</b><br>
+                        1.臨櫃匯款：<br>
+                        &emsp;&emsp;收款行 = 上海商業儲蓄銀行南京東路分行<br>
+                        &emsp;&emsp;銀行代碼 = 0110406<br>
+                        &emsp;&emsp;戶名 = 財團法人福智文教基金會<br>
+                        &emsp;&emsp;帳號 = 銷帳編號 <span style="color: green"><b>{{ $applicant->bank_second_barcode }}</b></span><br>
+                        &emsp;&emsp;<u>手續費：全台上海商業儲蓄銀行免手續費；其他銀行須自付手續費</u><br>
+                        2.ATM 轉帳：選擇「轉帳」或「繳費」<br>
+                        &emsp;&emsp;→ 輸入上海銀行 代號011<br>
+                        &emsp;&emsp;→ 輸入銷帳編號 <span style="color: green"><b>{{ $applicant->bank_second_barcode }}</b></span><br>
+                        &emsp;&emsp;→ 輸入應繳金額 <span style="color: brown"><b>{{ $applicant->lodging->fare }}</b></span><br>
+                        &emsp;&emsp;<u>跨行轉帳須支付手續費</u>。<br>
+                        <br>
+                        <span style="color: red">
+                        ＊＊＊請勿使用他人的繳款帳號＊＊＊<br>
+                        ＊＊＊請勿使用您的繳款帳號代替他人繳款＊＊＊<br>
+                        </span>
                         </div>
                         請詳閱 <a href="{{ $camp_data->content_link_chn }}" target="_blank">錄取通知</a>，內含繳費、交通、住宿相關資訊。<br>
                         <button type="button" class="btn btn-light" onclick=toggleModifySection(this)>
