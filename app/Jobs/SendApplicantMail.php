@@ -19,8 +19,8 @@ class SendApplicantMail implements ShouldQueue
     use EmailConfiguration;
 
     protected $applicant;
+    protected $applicantId;
     protected $camp_info;
-    protected $camp_table;
     protected $isGetSN;
     protected $campOrVariant;
 
@@ -31,10 +31,10 @@ class SendApplicantMail implements ShouldQueue
      */
     public function __construct($applicantId, $campInfo, $isGetSN = null)
     {
+        $this->applicantId = $applicantId;
+        $this->applicant = \App\Models\Applicant::with($campInfo->table)->find($applicantId);
         //上層查好了($campInfo)直接傳進來，不用再查一次
         $this->camp_info = $campInfo;   //camp 合併 batch 欄位
-        $this->camp_table = $campInfo->table;
-        $this->applicant = \App\Models\Applicant::with($this->camp_table)->find($applicantId);
         $this->isGetSN = $isGetSN;
     }
 
@@ -49,21 +49,22 @@ class SendApplicantMail implements ShouldQueue
         sleep(3);
         ini_set('memory_limit', -1);
 
-        //check applicant
-        if (is_null($this->applicant) || $this->applicant->deleted_at) {
-            return '查無報名者或報名者取消報名';
+        if (!$this->applicant) {
+            \Log::error("SendApplicantMail: applicant {$this->applicantId} not found.");
+            return;
+        } elseif ($this->applicant->deleted_at) {
+            \Log::error("SendApplicantMail: applicant {$this->applicantId} cancelled registration");
+            return;
         }
-
+        $campTable = $this->camp_info->table;
+        $this->applicant->substitute_email = $this->applicant->$campTable?->substitute_email ?? "";
         // 動態載入電子郵件設定
-        $this->setEmail($this->camp_table);
+        $this->setEmail($campTable);
 
         \Mail::to($this->applicant->email)->send(new \App\Mail\QueuedApplicantMail($this->applicant, $this->camp_info, $this->isGetSN));
 
-        if ($this->camp_table == 'ceocamp' || $this->camp_table == 'wcamp') {
-            $campTable = $this->camp_table;
-            $this->applicant->substitute_email = $this->applicant->$campTable?->substitute_email ?? [];
-
-            // 代填人/推薦人：必填, 其實if()可以不用。
+        if ($campTable == 'ceocamp' || $campTable == 'wcamp') {
+            // 代填人/推薦人：必填
             if ($this->applicant->introducer_email) {
                 \Mail::to($this->applicant->introducer_email)->send(new \App\Mail\IntroducerMail($this->applicant, $this->camp_info));
             }
@@ -81,7 +82,7 @@ class SendApplicantMail implements ShouldQueue
      */
     public function uniqueId()
     {
-        return $this->applicant->id;
+        return $this->applicantId;
     }
 
     /**

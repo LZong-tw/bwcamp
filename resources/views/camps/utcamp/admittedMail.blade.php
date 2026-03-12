@@ -58,7 +58,7 @@
     <li>賦歸時間：{{ $applicant->batch->batch_end }}({{ $applicant->batch->batch_end_weekday }})17:00 (接駁車發車時間17:10)<br>
     <li>繳費：<b><span style="color: #DC3545;">請於收到錄取通知後7個工作天之內繳費</span></b>，繳費完成方視為完成報名。各房型費用詳見<a href="https://bwfoce.wixsite.com/ufscamp#comp-kvff5c8s" target="_blank"><span style="color: #0dcaf0;"><u>活動官網說明</u></span></a>。</li>
     <li>交通方式：<br>
-    (1)自行前往：<br>
+    (1)自行前往<br>
     (2)搭乘接駁車：新竹高鐵站來回接駁<br>
     &emsp;&emsp;{{ $applicant->batch->batch_start }}({{ $applicant->batch->batch_start_weekday }})前往麻布山林接駁車：將於新竹高鐵站出口4，12:30發車<br>
     &emsp;&emsp;{{ $applicant->batch->batch_end }}({{ $applicant->batch->batch_end_weekday }})前往新竹高鐵站接駁車：由麻布山林山居外P1停車場，17:10發車<br> 
@@ -76,19 +76,24 @@
     <li>您的報名日期：{{ $applicant->created_at->format('Y-m-d') }}</li>
     <li>您適用的費率：{{ $rate }}</li>
     <li>您選擇的房型：{{ $applicant->lodging->room_type }}</li>
-    <li>您的應繳費用：<span style="color: red"><b>NT${{ $applicant->lodging->fare }}</b></span></li>
-    <li>您的銷帳編號（個人專屬繳款帳號）：<span style="color: green"><b>{{ $applicant->bank_second_barcode }}</b></span><br>
-            繳款方式，底下擇一均可：<br>
-            1.上海銀行繳納：請持本繳款單至全台上海商業儲蓄銀行臨櫃繳納，免手續費。<br>
-            2.ATM 轉帳：選擇「轉帳」或「繳費」→ 輸入上海銀行 代號011 → 輸入銷帳編號 → 輸入應繳金額，跨行轉帳須支付手續費。<br>
-            3.其他銀行臨櫃匯款：<br>
-            收款行 = 上海商業儲蓄銀行南京東路分行，<br>
-            銀行代碼 = 0110406<br>
-            戶名 = 財團法人福智文教基金會，<br>
-            帳號 = 銷帳編號(14碼)，須自付手續費。<br>
+    <li>您的應繳費用：<span style="color: brown"><b>NT${{ $applicant->lodging->fare }}</b></span></li>
+    <li>您的銷帳編號（個人專屬繳費帳號）：<span style="color: green"><b>{{ $applicant->bank_second_barcode }}</b></span><br>
+            【繳費方式】<br>
+            1.臨櫃匯款：<br>
+            &emsp;&emsp;收款行 = 上海商業儲蓄銀行南京東路分行<br>
+            &emsp;&emsp;銀行代碼 = 0110406<br>
+            &emsp;&emsp;戶名 = 財團法人福智文教基金會<br>
+            &emsp;&emsp;帳號 = 銷帳編號 <span style="color: green"><b>{{ $applicant->bank_second_barcode }}</b></span><br>
+            &emsp;&emsp;<u>手續費：全台上海商業儲蓄銀行免手續費；其他銀行須自付手續費</u><br>
+            2.ATM 轉帳：選擇「轉帳」或「繳費」<br>
+            &emsp;&emsp;→ 輸入上海銀行 代號011<br>
+            &emsp;&emsp;→ 輸入銷帳編號 <span style="color: green"><b>{{ $applicant->bank_second_barcode }}</b></span><br>
+            &emsp;&emsp;→ 輸入應繳金額 <span style="color: brown"><b>{{ $applicant->lodging->fare }}</b></span><br>
+            &emsp;&emsp;<u>跨行轉帳須支付手續費</u>。<br>
+            <br>
             <span style="color: red">
             ＊＊＊請勿使用他人的繳款帳號＊＊＊<br>
-            ＊＊＊請勿使用您的的繳款帳號代替他人繳款＊＊＊<br>
+            ＊＊＊請勿使用您的繳款帳號代替他人繳款＊＊＊<br>
             </span>
     <li><a href="{{ route('showadmit', ['batch_id' => $applicant->batch->id, 'sn' => $applicant->id, 'name' => $applicant->name]) }}">按此更改住宿及交通服務選項</a><br>
         若以上連結無法點選，請複製下方文字後，再由瀏覽器進入頁面做回覆：<br>
@@ -98,7 +103,7 @@
 <br>
 <p>
 財團法人福智文教基金會<br>
-{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}<br>
+{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}<br><br>
 {!! nl2br(e(str_replace('\n', "\n", $applicant->batch->contact_card))) !!}
 </p>
 </body>
