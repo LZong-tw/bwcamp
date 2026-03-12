@@ -2,26 +2,28 @@
 
 namespace App\Traits;
 
-trait EmailConfiguration {
-    public static function setEmail($campTable, $variantTable = null) {
-        if($variantTable){ $campTable = $variantTable; }
+trait EmailConfiguration
+{
+    public static function setEmail($campTable, $variantTable = null)
+    {
+        if ($variantTable) {
+            $campTable = $variantTable;
+        }
 
         $config = \Config::get('mail.ses_' . $campTable);    //get mail.ses_$campTable version
         if (!$config || !$config['username']) {
             $config = \Config::get('mail.' . $campTable);    //if null, get mail.$campTable version
-        }
-        else {
+        } else {
             config(['mail.mailers.smtp.host' => $config['host']]);  //mail.ses_$campTable uses AWS SES
         }
-        if($config && $config['username']){     //override
+        if ($config && $config['username']) {     //override
             config([
                 'mail.mailers.smtp.username' => $config['username'],
                 'mail.mailers.smtp.password' => $config['password'],
                 'mail.from.address' => $config['address'],
                 'mail.from.name' => $config['name'],
             ]);
-        }
-        elseif (app()->isLocal()) {
+        } elseif (app()->isLocal()) {
             config([
                 'mail.mailers.smtp.username' => env('MAIL_USERNAME'),
                 'mail.mailers.smtp.password' => env('MAIL_PASSWORD'),
