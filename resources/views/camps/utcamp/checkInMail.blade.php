@@ -54,11 +54,6 @@
 <h2 style="text-align:center;"><span style="background-color: #ffc107;">點我看行前通知</span></h2>
 </a>
 <br>
-<b>【聯絡我們】</b><br>
-<ul>
-    <li>{!! nl2br(e(str_replace('\n', "\n", $applicant->batch->contact_card))) !!}</li>
-</ul>
-<br>
 <p>財團法人福智文教基金會<br>
 {{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}<br><br>
 {!! nl2br(e(str_replace('\n', "\n", $applicant->batch->contact_card))) !!}
