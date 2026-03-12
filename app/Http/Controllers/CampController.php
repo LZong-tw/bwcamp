@@ -56,7 +56,8 @@ class CampController extends Controller
 
         if (is_null($this->camp_info)) {
             // halt if no camp data found
-            abort(404, "查無營隊或梯次資料，請確認網址是否正確。");
+            echo "查無營隊資料，請確認網址是否正確。" . "<br>";
+            die();
         }
         //$this->camp_info = $this->camp_info['camp_info']; //no need?
 

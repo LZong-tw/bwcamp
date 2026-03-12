@@ -16,23 +16,19 @@ class ApplicantMail extends Mailable
 
     public $applicant;
     public $camp_info;
-    public $camp_table;
     public $isGetSN;
 
-    public $camp_data;
-    public $campData;   //for compatibility
+    public $camp_data, $campData;   //for compatibility
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($applicant, $campInfo, $isGetSN = false)
-    {
+    public function __construct($applicant, $campInfo, $isGetSN = false) {
         //上層查好了($applicant, $campInfo)直接傳進來，不用再查一次
         $this->applicant = $applicant;
         $this->camp_info = $campInfo;   //camp 合併 batch 欄位
-        $this->camp_table = $campInfo->table;
         $this->isGetSN = $isGetSN;
         $this->camp_data = $campInfo;
         $this->campData = $campInfo;
@@ -43,25 +39,26 @@ class ApplicantMail extends Mailable
      *
      * @return $this
      */
-    public function build()
-    {
+    public function build() {
         $this->withSwiftMessage(function ($message) {
             $headers = $message->getHeaders();
             $headers->addTextHeader('time', time());
         });
 
+        $campTable = $this->camp_info->table;
+
         if (!$this->isGetSN) {
-            if ($this->camp_table == 'ceocamp' || $this->camp_table == 'wcamp') {
+            if ($campTable == 'ceocamp' || $campTable == 'wcamp') {
                 return $this->subject($this->camp_info->abbreviation . '推薦報名完成')
-                    ->view('camps.' . $this->camp_table . ".applicantMail");
+                    ->view('camps.' . $campTable . ".applicantMail");
             } else {
                 return $this->subject($this->camp_info->abbreviation . '報名完成')
-                    ->view('camps.' . $this->camp_table . ".applicantMail");
+                    ->view('camps.' . $campTable . ".applicantMail");
             }
         } else {
-            $viewPathCamp = 'camps.' . $this->camp_table . '.SNMail';
+            $viewPathCamp = 'camps.' . $campTable . '.SNMail';
             $viewPathGeneral = 'components.general.SNMail';
-            $viewPath = View::exists($viewPathCamp) ? $viewPathCamp : $viewPathGeneral;
+            $viewPath = View::exists($viewPathCamp)? $viewPathCamp: $viewPathGeneral;
             return $this->subject($this->camp_info->abbreviation . '序號查詢')
                     ->view($viewPath);
         }
