@@ -83,6 +83,7 @@ class sendApplicantMail extends Command
             case "checkInMail":
                 if ($applicant->batch->camp->id == $camp->id) {
                     Mail::to($applicant)->send(new CheckInMail($applicant));
+                    //\App\Jobs\SendCheckInMail::dispatch($applicant->id, null);  //with QR code
                     $this->info("成功寄送報到郵件。");
                 } else {
                     $this->error("收件者營隊與指定營隊不一致。");
