@@ -53,7 +53,7 @@ class SendAdmittedMail implements ShouldQueue, ShouldBeUnique
         ini_set('memory_limit', -1);
 
         if (!$this->applicant) {
-            \Log::error("SendAdmittedMail: applicant {$this->applicantId} not found.");    
+            \Log::error("SendAdmittedMail: applicant {$this->applicantId} not found.");
             return;
         }
 
