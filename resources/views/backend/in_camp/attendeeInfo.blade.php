@@ -27,20 +27,21 @@
         {{ session()->get('message') }}
     </div>
 @endif
-            @php
-            $fields1 = $layout['sec_basic']['fields1'];
-            $fields2 = $layout['sec_basic']['fields2'];
-            $fields3 = $layout['sec_basic']['fields3'];
-            $fields4 = $layout['sec_adv1']['fields'];
-            $fields5 = $layout['sec_adv2']['fields'];
-            $fields6 = $layout['sec_adv3']['fields'];
-            $keyword_phone = ['phone','mobile'];
-            @endphp
+@php
+    $fields1 = $layout['sec_basic']['fields1'];
+    $fields2 = $layout['sec_basic']['fields2'];
+    $fields3 = $layout['sec_basic']['fields3'];
+    $fields4 = $layout['sec_adv1']['fields'];
+    $fields5 = $layout['sec_adv2']['fields'];
+    $fields6 = $layout['sec_adv3']['fields'];
+    $keyword_phone = ['phone','mobile'];
+@endphp
 
 @if(isset($applicant))
     <h4>{{ $camp->fullName }}>>個人詳細資料>>{{ $applicant->name }}</h4>
 
     <!-- 修改學員資料,使用報名網頁 -->
+    @if($currentUser->canAccessResource($applicant, 'update', $applicant->camp, target: $applicant))
     <form target="_blank" action="{{ route('queryupdate', $batch->id) }}" method="post">
         @csrf
         <input type="hidden" name="sn" value="{{ $applicant->applicant_id }}">
@@ -50,6 +51,7 @@
         <button class="mr-4 btn btn-primary float-right">修改學員(報名)資料</button>
         <br>
     </form>
+    @endif
     <br>
     <div class="container alert alert-warning">
         <div class="row">

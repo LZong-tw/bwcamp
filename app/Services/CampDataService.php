@@ -22,11 +22,15 @@ class CampDataService
     public function getCampBatchInfo($batchId)
     {
         //取得梯次資料，以及它所屬的camp
-        $batch = Batch::find($batchId);
+        $batch = Batch::with(['camp'])->find($batchId);
         if (is_null($batch)) {
             return null;
         }
+        return $this->getCampInfo($batch);
+    }
 
+    public function getCampInfo(Batch $batch)
+    {
         //取得營隊資料
         $camp_info = $batch->camp;
         if (is_null($camp_info)) {
@@ -41,7 +45,6 @@ class CampDataService
         $camp_info->id = $campId;
         $camp_info->batch_id = $batchId;
 
-        //return時再改名成camp_info?
         return $camp_info;
     }
 
