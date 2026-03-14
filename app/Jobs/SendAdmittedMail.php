@@ -22,7 +22,7 @@ class SendAdmittedMail implements ShouldQueue, ShouldBeUnique
     use EmailConfiguration;
 
     protected $applicant;
-
+    protected $applicantId;
     protected $tries = 400;
 
     /**
@@ -30,14 +30,15 @@ class SendAdmittedMail implements ShouldQueue, ShouldBeUnique
      *
      * @return void
      */
-    public function __construct($applicantId, $campTable)
+    public function __construct($applicantId, $campTable = null)
     {
+        $this->applicantId = $applicantId;
         //eager load lodging and traffic, which might be needed in the email view
-        if ($campTable == null) {
-            $this->applicant = Applicant::with(['lodging', 'traffic'])->findOrFail($applicantId);
-        } else {
-            $this->applicant = Applicant::with([$campTable, 'lodging', 'traffic'])->findOrFail($applicantId);
+        $relations = ['batch.camp', 'lodging', 'traffic'];
+        if ($campTable) {
+            $relations[] = $campTable;
         }
+        $this->applicant = Applicant::with($relations)->find($applicantId);
     }
 
     /**
@@ -50,19 +51,29 @@ class SendAdmittedMail implements ShouldQueue, ShouldBeUnique
         //
         sleep(3);
         ini_set('memory_limit', -1);
+
+        if (!$this->applicant) {
+            \Log::error("SendAdmittedMail: applicant {$this->applicantId} not found.");
+            return;
+        }
+
         $applicant = $this->applicant;
         $applicant = $applicantService->checkIfPaidEarlyBird($applicant);
         $applicant->admitted_at = \Carbon\Carbon::now();    //MCH
         $applicant->save();
+        $camp = $this->applicant->batch->camp;
+
         // 動態載入電子郵件設定
-        $this->setEmail($applicant->batch->camp->table, $applicant->batch->camp->variant);
-        if (!isset($applicant->fee) || $applicant->fee == 0 || $applicant->batch->camp->table == 'utcamp') {
-            \Mail::to($applicant->email)->send(new \App\Mail\AdmittedMail($applicant, $applicant->batch->camp));
+        $this->setEmail($camp->table, $camp->variant);
+        if (!isset($applicant->fee) || $applicant->fee == 0 || $camp->table == 'utcamp') {
+            //無費用，或有費用但不需繳費單
+            \Mail::to($applicant->email)->send(new \App\Mail\AdmittedMail($applicant, $camp));
         } else {
-            $paymentFile = \PDF::loadView('camps.' . $applicant->batch->camp->table . '.paymentFormPDF', compact('applicant'))->setPaper('a3')->output();
-            \Mail::to($applicant->email)->send(new \App\Mail\AdmittedMail($applicant, $applicant->batch->camp, $paymentFile));
+            //需繳費單
+            $paymentFile = \PDF::loadView('camps.' . $camp->table . '.paymentFormPDF', compact('applicant'))->setPaper('a3')->output();
+            \Mail::to($applicant->email)->send(new \App\Mail\AdmittedMail($applicant, $camp, $paymentFile));
         }
-        \logger('SendAdmittedMail, Applicant: ' . $applicant->id . ' Email: ' . $applicant->email . '   success');
+        \logger('SendAdmittedMail: applicant ' . $this->applicantId . ' Email: ' . $applicant->email . ' success');
     }
 
     /**
@@ -86,7 +97,7 @@ class SendAdmittedMail implements ShouldQueue, ShouldBeUnique
      */
     public function uniqueId()
     {
-        return $this->applicant->id;
+        return $this->applicantId;
     }
 
     /**

@@ -10,20 +10,22 @@ use Illuminate\Queue\SerializesModels;
 
 class SubstituteMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
-    public $applicant, $applicant_id, $camp, $campData, $isGetSN;
+    public $applicant;
+    public $camp_info;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($applicant_id, $campOrVariant, $isGetSN = false) {
-        //
-        $this->applicant_id = $applicant_id;
-        $this->camp = $campOrVariant;
-        $this->isGetSN = $isGetSN;
+    public function __construct($applicant, $campInfo)
+    {
+        //上層查好了($applicant, $campInfo)直接傳進來，不用再查一次
+        $this->applicant = $applicant;
+        $this->camp_info = $campInfo;   //camp 合併 batch 欄位
     }
 
     /**
@@ -31,20 +33,14 @@ class SubstituteMail extends Mailable
      *
      * @return $this
      */
-    public function build() {
+    public function build()
+    {
         $this->withSwiftMessage(function ($message) {
             $headers = $message->getHeaders();
             $headers->addTextHeader('time', time());
         });
-        $this->applicant = Applicant::find($this->applicant_id);
-        $this->campData = $this->applicant->batch->camp;
-        if(!$this->isGetSN){
-            return $this->subject($this->applicant->batch->camp->abbreviation . '推薦報名完成')
-                    ->view('camps.' . $this->applicant->batch->camp->table . ".substituteMail");
-        }
-        else{
-            return $this->subject($this->applicant->batch->camp->abbreviation . '序號查詢')
-                    ->view('camps.' . $this->applicant->batch->camp->table . ".SNMail");
-        }
+        return $this->subject($this->camp_info->abbreviation . '推薦報名完成')
+            ->to($this->applicant->substitute_email)
+            ->view('camps.' . $this->camp_info->table . ".substituteMail");
     }
 }

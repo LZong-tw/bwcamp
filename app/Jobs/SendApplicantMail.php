@@ -12,19 +12,29 @@ use Illuminate\Queue\Middleware\WithoutOverlapping;
 
 class SendApplicantMail implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, EmailConfiguration;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
+    use EmailConfiguration;
 
-    protected $applicant, $isGetSN, $campOrVariant;
+    protected $applicant;
+    protected $applicantId;
+    protected $camp_info;
+    protected $isGetSN;
+    protected $campOrVariant;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($applicant_id, $isGetSN = null)
+    public function __construct($applicantId, $campInfo, $isGetSN = null)
     {
-        //
-        $this->applicant = \App\Models\Applicant::find($applicant_id);
+        $this->applicantId = $applicantId;
+        $this->applicant = \App\Models\Applicant::with($campInfo->table)->find($applicantId);
+        //上層查好了($campInfo)直接傳進來，不用再查一次
+        $this->camp_info = $campInfo;   //camp 合併 batch 欄位
         $this->isGetSN = $isGetSN;
     }
 
@@ -38,23 +48,29 @@ class SendApplicantMail implements ShouldQueue
         //
         sleep(3);
         ini_set('memory_limit', -1);
-        $applicant = $this->applicant;
-        if (!$applicant || $applicant->deleted_at) {
+
+        if (!$this->applicant) {
+            \Log::error("SendApplicantMail: applicant {$this->applicantId} not found.");
+            return;
+        } elseif ($this->applicant->deleted_at) {
+            \Log::error("SendApplicantMail: applicant {$this->applicantId} cancelled registration");
             return;
         }
-        $camp = $applicant->batch->camp;
-        $this->campOrVariant = $camp->variant ? $camp->variant : $camp->table;
+        $campTable = $this->camp_info->table;
+        $this->applicant->substitute_email = $this->applicant->$campTable?->substitute_email ?? "";
         // 動態載入電子郵件設定
-        $this->setEmail($this->campOrVariant);
-        \Mail::to($applicant->email)->send(new \App\Mail\QueuedApplicantMail($applicant->id, $this->campOrVariant, $this->isGetSN));
-        if ($this->campOrVariant == 'ceocamp' || $this->campOrVariant == 'wcamp' ) {
-            // 代填人 / 推薦人
-            \Mail::to($applicant->introducer_email)->send(new \App\Mail\IntroducerMail($applicant->id, $this->campOrVariant, $this->isGetSN));
-            $model = '\\App\\Models\\' . ucfirst($camp->table);
-            $camp_related_data = $model::where('applicant_id', $applicant->id)->first();
-            if ($camp_related_data->substitute_email) {
-                // 秘書
-                \Mail::to($camp_related_data->substitute_email)->send(new \App\Mail\SubstituteMail($applicant->id, $this->campOrVariant, $this->isGetSN));
+        $this->setEmail($campTable);
+
+        \Mail::to($this->applicant->email)->send(new \App\Mail\QueuedApplicantMail($this->applicant, $this->camp_info, $this->isGetSN));
+
+        if ($campTable == 'ceocamp' || $campTable == 'wcamp') {
+            // 代填人/推薦人：必填
+            if ($this->applicant->introducer_email) {
+                \Mail::to($this->applicant->introducer_email)->send(new \App\Mail\IntroducerMail($this->applicant, $this->camp_info));
+            }
+            // 秘書：非必填
+            if ($this->applicant->substitute_email) {
+                \Mail::to($this->applicant->substitute_email)->send(new \App\Mail\SubstituteMail($this->applicant, $this->camp_info));
             }
         }
     }
@@ -66,7 +82,7 @@ class SendApplicantMail implements ShouldQueue
      */
     public function uniqueId()
     {
-        return $this->applicant->id;
+        return $this->applicantId;
     }
 
     /**

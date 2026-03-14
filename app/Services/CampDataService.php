@@ -11,6 +11,40 @@ use Illuminate\Support\Str;
 
 class CampDataService
 {
+    /*
+     * 1.正名：
+     * 使用 camp_info 來表示 camp 的資訊，
+     * 使用 applicant.camp_entry 來表示報名者在報名時和營隊相關的選項。
+     * 2.內容：
+     * camp + (one of the batches)，合併到 camp，
+     * 所以不用寫 camp->batch->parameter，可以使用 camp->parameter
+     */
+    public function getCampBatchInfo($batchId)
+    {
+        //取得梯次資料，以及它所屬的camp
+        $batch = Batch::find($batchId);
+        if (is_null($batch)) {
+            return null;
+        }
+
+        //取得營隊資料
+        $camp_info = $batch->camp;
+        if (is_null($camp_info)) {
+            return null;
+        }
+
+        // attributesToArray() 只抓欄位跟 appends，排除掉任何 eager loading 的關聯
+        // forceFill() 會把抓出來的欄位塞入 $camp_info
+        $campId = $camp_info->id;
+        $camp_info->forceFill($batch->attributesToArray());
+        // 恢復被覆蓋的問題
+        $camp_info->id = $campId;
+        $camp_info->batch_id = $batchId;
+
+        //return時再改名成camp_info?
+        return $camp_info;
+    }
+
     public function getCampData($batch_id)
     {
         //營隊基本資料

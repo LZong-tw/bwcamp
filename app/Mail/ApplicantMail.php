@@ -7,23 +7,33 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\View;
 
 class ApplicantMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
-    public $applicant, $campData;
+    public $applicant;
+    public $camp_info;
+    public $isGetSN;
+
+    public $camp_data;
+    public $campData;   //for compatibility
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($applicant, $campData, $isGetSN = false) {
-        //
+    public function __construct($applicant, $campInfo, $isGetSN = false)
+    {
+        //上層查好了($applicant, $campInfo)直接傳進來，不用再查一次
         $this->applicant = $applicant;
-        $this->campData = $campData;
+        $this->camp_info = $campInfo;   //camp 合併 batch 欄位
         $this->isGetSN = $isGetSN;
+        $this->camp_data = $campInfo;
+        $this->campData = $campInfo;
     }
 
     /**
@@ -31,18 +41,29 @@ class ApplicantMail extends Mailable
      *
      * @return $this
      */
-    public function build() {
+    public function build()
+    {
         $this->withSwiftMessage(function ($message) {
             $headers = $message->getHeaders();
             $headers->addTextHeader('time', time());
         });
-        if(!$this->isGetSN){
-            return $this->subject($this->campData->abbreviation . '報名完成')
-                    ->view('camps.' . $this->campData->table . ".applicantMail");
-        }
-        else{
-            return $this->subject($this->campData->abbreviation . '序號查詢')
-                    ->view('camps.' . $this->campData->table . ".SNMail");
+
+        $campTable = $this->camp_info->table;
+
+        if (!$this->isGetSN) {
+            if ($campTable == 'ceocamp' || $campTable == 'wcamp') {
+                return $this->subject($this->camp_info->abbreviation . '推薦報名完成')
+                    ->view('camps.' . $campTable . ".applicantMail");
+            } else {
+                return $this->subject($this->camp_info->abbreviation . '報名完成')
+                    ->view('camps.' . $campTable . ".applicantMail");
+            }
+        } else {
+            $viewPathCamp = 'camps.' . $campTable . '.SNMail';
+            $viewPathGeneral = 'components.general.SNMail';
+            $viewPath = View::exists($viewPathCamp) ? $viewPathCamp : $viewPathGeneral;
+            return $this->subject($this->camp_info->abbreviation . '序號查詢')
+                    ->view($viewPath);
         }
     }
 }

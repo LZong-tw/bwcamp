@@ -82,9 +82,9 @@
         <div class='row form-group'>
             <div class='col-md-12 text-primary'>
                 依房型不同，*每人活動費*如下：<br>
-                1.單人房(1大床)：早鳥優惠NT$9,800元／人。原價NT$14,000元／人<br>
-                2.雙人房(1大床或2床)：早鳥優惠NT$6,600元／人。原價 NT$9,000元／人<br>
-                3.兩人同行優惠(僅能選雙人房)：優惠價NT$5,000元／人<br>
+                1.單人房(1大床)：早鳥優惠NT$9,800／人。原價NT$14,000／人<br>
+                2.雙人房(1大床或2床)：早鳥優惠NT$6,600／人。原價 NT$9,000／人<br>
+                3.兩人同行優惠(僅能選雙人房)：優惠價NT$5,000／人<br>
                 *早鳥優惠截止日期：{{ $camp_data->early_bird_last_day }}<br>
                 *兩人同行優惠截止日期：{{ $camp_data->discount_last_day }}<br>
                 <a href="https://bwfoce.wixsite.com/ufscamp#comp-kvff5c8s" target="_blank"><u>活動費用詳細說明請按此</u></a>
@@ -94,7 +94,7 @@
             <label class="form-check-label">
                 @foreach($fare_room as $key => $value)
                 <input required class="form-check-input" type="radio" name="room_type" value={{ $key }} onclick='changeRoom(this)'>
-                &nbsp;{{ $key }}({{ $value }})&nbsp;&nbsp;&nbsp;<br>
+                &nbsp;{{ $key }}(NT${{ $value }}/人)&nbsp;&nbsp;&nbsp;<br>
                 @endforeach
                 <div class="invalid-feedback">
                     未選擇住宿需求

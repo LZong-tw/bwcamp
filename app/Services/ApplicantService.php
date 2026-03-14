@@ -144,7 +144,7 @@ class ApplicantService
             ->withTrashed()->findOrFail($applicantId);
         }
         $applicant->offsetUnset('files'); // files 僅供後台備註使用，同時，現在 files 的記錄方式若轉為 Json，在前端會出錯
-        $applicant->applicant_id = $applicantId;
+        //$applicant->applicant_id = $applicantId;
 
         // 將主表與關聯表打平合併
         $mergedData = array_merge(
@@ -213,7 +213,7 @@ class ApplicantService
         if ($candidate->batch->camp->table == "ycamp") {
             // todo: 應釐清學員的 fee 和交通的 fare 之間的差別
             $candidate->fee = $candidate->traffic?->fare ?? 0;
-        } elseif ($candidate->batch->camp->table == "ceocamp") {
+        } elseif ($candidate->batch->camp->table == "ceocamp" || $candidate->batch->camp->table == "utcamp") {
             // todo: 應釐清學員的 fee 和交通的 fare 之間的差別
             $candidate->fee = $candidate->lodging?->fare ?? 0;
         } else {

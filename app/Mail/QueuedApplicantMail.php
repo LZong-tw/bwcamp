@@ -7,6 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\View;
 
 class QueuedApplicantMail extends Mailable
 {
@@ -14,23 +15,27 @@ class QueuedApplicantMail extends Mailable
     use SerializesModels;
 
     public $applicant;
-    public $applicant_id;
-    public $camp;
-    public $campData;
-    public $camp_data;
+    public $camp_info;
+    public $camp_table;
     public $isGetSN;
+
+    public $camp_data;
+    public $campData;   //for compatibility
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($applicant_id, $campOrVariant, $isGetSN = false)
+    public function __construct($applicant, $campInfo, $isGetSN = false)
     {
-        //
-        $this->applicant_id = $applicant_id;
-        $this->camp = $campOrVariant;
+        //上層查好了($applicant, $campInfo)直接傳進來，不用再查一次
+        $this->applicant = $applicant;
+        $this->camp_info = $campInfo;   //camp 合併 batch 欄位
+        $this->camp_table = $campInfo->table;
         $this->isGetSN = $isGetSN;
+        $this->camp_data = $campInfo;
+        $this->campData = $campInfo;
     }
 
     /**
@@ -44,25 +49,21 @@ class QueuedApplicantMail extends Mailable
             $headers = $message->getHeaders();
             $headers->addTextHeader('time', time());
         });
-        $this->applicant = Applicant::find($this->applicant_id);
-        if (!$this->applicant) {
-            return;
-        }
-        $this->campData = $this->applicant->batch->camp;
-        $this->camp_data = $this->campData;
-        //$this->admission_announcing_date_Weekday = \Carbon\Carbon::create($this->campData->admission_announcing_date)->locale(\App::getLocale())->isoFormat("dddd");
 
         if (!$this->isGetSN) {
-            if ($this->camp == 'ceocamp' || $this->camp == 'wcamp') {
-                return $this->subject($this->applicant->batch->camp->abbreviation . '推薦報名完成')
-                    ->view('camps.' . $this->applicant->batch->camp->table . ".applicantMail");
+            if ($this->camp_table == 'ceocamp' || $this->camp_table == 'wcamp') {
+                return $this->subject($this->camp_info->abbreviation . '推薦報名完成')
+                    ->view('camps.' . $this->camp_table . ".applicantMail");
             } else {
-                return $this->subject($this->applicant->batch->camp->abbreviation . '報名完成')
-                    ->view('camps.' . $this->applicant->batch->camp->table . ".applicantMail");
+                return $this->subject($this->camp_info->abbreviation . '報名完成')
+                    ->view('camps.' . $this->camp_table . ".applicantMail");
             }
         } else {
-            return $this->subject($this->applicant->batch->camp->abbreviation . '序號查詢')
-                    ->view('camps.' . $this->applicant->batch->camp->table . ".SNMail");
+            $viewPathCamp = 'camps.' . $this->camp_table . '.SNMail';
+            $viewPathGeneral = 'components.general.SNMail';
+            $viewPath = View::exists($viewPathCamp) ? $viewPathCamp : $viewPathGeneral;
+            return $this->subject($this->camp_info->abbreviation . '序號查詢')
+                    ->view($viewPath);
         }
     }
 }
