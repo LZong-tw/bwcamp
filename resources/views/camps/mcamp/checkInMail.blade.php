@@ -46,10 +46,11 @@ $footer_path = $message->embed(public_path() . $str2);
                         &emsp;&emsp;&emsp;&emsp;&emsp;<span style="color: red;">({{ $applicant->batch->vbatch?->location?? [] }})</span></li>
                         <li>交通方式：因會場位於市區內交通便捷，請
                         <ul>
-                            <li>搭乘台北捷運<span style="color: green">綠線</span>至<span style="color: green">小巨蛋站</span>，5號出口往南京東路5段方向直行即可到達(步行約5分鐘)</li>
+                            <li>搭乘台北捷運<span style="color: green">綠線</span>至<br>
+                                <span style="color: green">小巨蛋站</span>，5號出口往南京東路5段方向直行即可到達(步行約5分鐘)</li>
                             <li>搭乘公車至附近站牌：<br>
-                                <span style="color: brown">南京寧安街口</span>」(步行約2分鐘)、或<br>
-                                <span style="color: brown">南京三民路口站</span>」(步行約5分鐘)
+                                <span style="color: brown">南京寧安街口(步行約2分鐘)</span>、或<br>
+                                <span style="color: brown">南京三民路口站(步行約5分鐘)</span>
                             </li>
                         </ul>
                     </ol>
