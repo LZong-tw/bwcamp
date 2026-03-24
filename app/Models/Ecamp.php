@@ -14,8 +14,14 @@ class Ecamp extends Model
     protected $fillable = [
         'applicant_id', 'belief', 'education', 'unit', 'unit_location',
         'title', 'level', 'job_property', 'experience', 'employees',
-        'direct_managed_employees', 'industry', 'after_camp_available_day', 'favored_event'
+        'direct_managed_employees', 'industry', 'info_source',
+        'after_camp_available_day', 'favored_event'
     ];
 
     protected $guarded = [];
+
+    protected $casts = [
+        // 複選題：["選項A", "選項B", "other:使用者填寫的自定義內容"]
+        'info_source' => 'array',
+    ];
 }

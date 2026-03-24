@@ -145,6 +145,13 @@ class CampDataService
                 'motivation' => implode("||/", $request->motivation)
             ]);
         }
+        //複選題&有其它；use JSON
+        if (isset($request->info_source) && is_array($request->info_source)) {
+            if ($request->info_source_other) {
+                $request->info_source[] = 'other:' . $request->info_source_other;
+            }
+        }
+
         //居住地址
         if (isset($request->address)) {
             if ($request->subarea == "000") {

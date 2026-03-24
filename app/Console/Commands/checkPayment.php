@@ -182,7 +182,7 @@ class checkPayment extends Command
                             $traffic->sum = $traffic->deposit + $traffic->cash;
                             $traffic->save();
                             $applicant->save();
-                        } else if ($camp_table == 'ceocamp') {
+                        } else if ($camp_table == 'ceocamp' || $camp_table == 'utcamp' ) {
                             $lodging = $applicant->lodging;
                             if (!$lodging) {
                                 $lodging = new Lodging;
