@@ -336,10 +336,49 @@
                 </div>
                 <div class="col">
                     <div class="card border-light border-1 d-flex p-4" style="background: #d0e1ea;border-radius: 30px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;text-align: left;">
-                        <h1 style="font-size: x-large;" class="required">希望成長營給您的幫助...</h1><textarea style="width: 98%;height: 300px;border-style: none;border-radius: 10px;" name='expectation' id=inputExpect required></textarea>
+
+                        <h3 class="fw-bold pb-md-1 required" style="font-size: 20px;color: #34637a;">透過那那些管道得知營隊報名資訊？(可複選)</h3>
+                        <div class="row gy-4">
+                            <div class="col">
+                                <div>
+                                    <p class="fw-normal text-muted" style="background: rgba(255,255,255,0);">
+                                    <input type="checkbox" class="info_source" name=info_source[] value='在福智上課的親友'>&nbsp;<span style="color: #6ca6c2; background-color: rgba(220, 220, 220, 0);"><strong>在福智上課的親友　</strong></span><br>
+                                    <input type="checkbox" class="info_source" name=info_source[] value='朋友'>&nbsp;<span style="color: #6ca6c2; background-color: rgba(220, 220, 220, 0);"><strong>朋友　</strong></span>
+                                    <input type="checkbox" class="info_source" name=info_source[] value='同事'>&nbsp;<span style="color: #6ca6c2; background-color: rgba(220, 220, 220, 0);"><strong>同事　</strong></span>
+                                    <input type="checkbox" class="info_source" name=info_source[] value='親人'>&nbsp;<span style="color: #6ca6c2; background-color: rgba(220, 220, 220, 0);"><strong>親人　</strong></span><br>
+                                    <input type="checkbox" class="info_source" name=info_source[] value='自行上網搜尋'>&nbsp;<span style="color: #6ca6c2; background-color: rgba(220, 220, 220, 0);"><strong>自行上網搜尋　</strong></span><br>
+                                    <input type="checkbox" class="info_source" name=info_source[] value='曾經報名但因故無法出席'>&nbsp;<span style="color: #6ca6c2; background-color: rgba(220, 220, 220, 0);"><strong>曾經報名但因故無法出席　</strong></span><br>
+                                    <input type="checkbox" class="info_source" name=info_source[] value='其他' id='infoSourceOther_checkbox' onclick='setInfoSourceOther(this)' >&nbsp;<span style="color: #6ca6c2; background-color: rgba(220, 220, 220, 0);"><strong>其他　</strong></span>
+
+                                    <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);">請填寫&nbsp;&nbsp;</span></strong>&nbsp;
+                                    <input type="text" style="background: var(--bs-table-bg);border-radius: 10px;width: 185px;border-style: none;" name='info_source_other' value='' id='infoSourceOther_text' onclick='infoSourceOther_checkbox.checked = true; this.required = true;' ></td>
+
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+
+                        <h3 class="fw-bold pb-md-1 required" style="font-size: 20px;color: #34637a;">希望成長營給您的幫助...</h3>
+                        <textarea required style="width: 98%;height: 300px;border-style: none;border-radius: 10px;" name='expectation' id=inputExpect></textarea>
                     </div>
                 </div>
             </div>
+            
+        <script>
+        function setInfoSourceOther(checkbox_ele) {
+            // 檢查 checkbox_ele 是否被勾選
+            //console.log(checkbox_ele.checked);
+            if(checkbox_ele.checked) {
+            // 被勾選: 把 language_other_text required = true
+                document.getElementById("infoSourceOther_text").required = true;
+            }
+            else {
+            // 否則:把 language_other_text required = false
+                document.getElementById("infoSourceOther_text").required = false;
+            }
+        }
+        </script>
+
             <section>
                 <div class="container py-4 py-xl-5" style="padding: 0px 0px;height: initial;">
                     <div class="row gy-4 gy-md-0">
@@ -463,11 +502,16 @@
                 </div>
             </div>
             <div class="card border-light border-1 d-flex p-4" style="background: rgba(255,255,255,0);border-radius: 30px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;padding: initial;margin: 10px 0px;">
+                <p style="color: rgb(70,78,171);margin: 0px;font-size: initial;text-align: left;"><strong><span style="color: rgb(0, 0, 0);" class="required">附註</span></strong><br><span style="color: rgb(253, 126, 20);">本人同意：福智文教基金會取得之個人資料，於營隊期間及後續基金會所屬福智團體舉辦之活動，作為訊息通知、行政處理等非營利目的之使用，不提供予無相關之其他單位使用。在營隊期間拍照、錄影之活動記錄可使用於營隊及主辦單位之非營利教育推廣使用。</span></p>
+            </div>
+            <!--
+            <div class="card border-light border-1 d-flex p-4" style="background: rgba(255,255,255,0);border-radius: 30px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;padding: initial;margin: 10px 0px;">
                 <p style="color: rgb(70,78,171);margin: 0px;font-size: initial;text-align: left;"><strong><span style="color: rgb(0, 0, 0);" class="required">肖像權</span></strong><br><span style="color: rgb(253, 126, 20);">主辦單位在營隊期間拍照、錄影之活動記錄，可使用於營隊及主辦單位的非營利教育推廣使用，並以網路方式推播。</span><br><input type="radio" required name="portrait_agree" value='1' checked>&nbsp;同意　　<input type="radio" required name="portrait_agree" value='0'>&nbsp;不同意</p>
             </div>
             <div class="card border-light border-1 d-flex p-4" style="background: rgba(255,255,255,0);border-radius: 30px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;padding: initial;margin: 10px 0px;">
                 <p style="color: rgb(70,78,171);margin: 0px;font-size: initial;text-align: left;"><strong><span style="color: rgb(0, 0, 0);" class="required">個人資料</span></strong><br><span style="color: rgb(253, 126, 20);">福智文教基金會（簡稱本基金會）於本次營隊取得我的個人資料，於營隊期間及後續本基金會舉辦之活動，作為訊息通知、行政處理等非營利目的之使用，不會提供給無關之其他私人單位使用。</span><br><input type="radio" required name="profile_agree" value='1' checked>&nbsp;同意　　<input type="radio" required name="profile_agree" value='0'>&nbsp;不同意</p>
             </div>
+            -->
             <div class="col" style="text-align: center;"><button class="btn btn-warning" type="reset" style="border-style: none;border-radius: 20px;box-shadow: 1px 1px 5px rgba(0,0,0,0.4);padding: 8px 20px;margin: 10px;background: rgba(255,210,0,0.59);"><span style="color: rgb(96, 96, 96);">清除重填 🤔</span></button><button class="btn btn-success" type="submit" style="text-align: center;border-radius: 20px;margin: 10px;border-style: none;box-shadow: 1px 1px 8px rgb(55,55,55);padding: 8px 60px;font-size: 20px;background: rgb(253,126,20);">確認送出 😊</button></div>
         </div>
     </form>
