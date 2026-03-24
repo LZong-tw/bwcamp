@@ -564,7 +564,7 @@
             {{-- 以上皆非: 檢視資料狀態 --}}
             @else
                 @if(isset($camp_info->modifying_deadline) && \Carbon\Carbon::now() <= \Carbon\Carbon::createFromFormat("Y-m-d", $camp_info->modifying_deadline))
-                <input type="hidden" name="sn" value="{{ $applicant->id }}">
+                <input type="hidden" name="sn" value="{{ $applicant_id }}">
                 <input type="hidden" name="isModify" value="1">
                 <button type ="submit" class="btn btn-primary">修改報名資料</button>
                 @endif

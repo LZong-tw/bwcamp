@@ -480,7 +480,7 @@ class CampController extends Controller
                 ->with('camp_abbr_from', $campAbbrFrom);
             } else {
                 return view('camps.' . $campTable . $form_str)
-                ->with('applicant_id', $applicant->applicant_id)
+                ->with('applicant_id', $applicant->id)
                 ->with('batch_id', $applicant->batch_id)
                 ->with('applicant_data', $applicant_data)
                 ->with('applicant_raw_data', $applicant)
