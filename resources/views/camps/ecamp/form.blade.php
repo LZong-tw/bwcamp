@@ -349,10 +349,8 @@
                                     <input type="checkbox" class="info_source" name=info_source[] value='自行上網搜尋'>&nbsp;<span style="color: #6ca6c2; background-color: rgba(220, 220, 220, 0);"><strong>自行上網搜尋　</strong></span><br>
                                     <input type="checkbox" class="info_source" name=info_source[] value='曾經報名但因故無法出席'>&nbsp;<span style="color: #6ca6c2; background-color: rgba(220, 220, 220, 0);"><strong>曾經報名但因故無法出席　</strong></span><br>
                                     <input type="checkbox" class="info_source" name=info_source[] value='其他' id='infoSourceOther_checkbox' onclick='setInfoSourceOther(this)' >&nbsp;<span style="color: #6ca6c2; background-color: rgba(220, 220, 220, 0);"><strong>其他　</strong></span>
-
-                                    <td style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;"><strong><span style="color: rgb(108, 166, 194);">請填寫&nbsp;&nbsp;</span></strong>&nbsp;
-                                    <input type="text" style="background: var(--bs-table-bg);border-radius: 10px;width: 185px;border-style: none;" name='info_source_other' value='' id='infoSourceOther_text' onclick='infoSourceOther_checkbox.checked = true; this.required = true;' ></td>
-
+                                    <strong><label style="color: rgb(108, 166, 194);" id='infoSourceOther_label'>請填寫&nbsp;&nbsp;</label></strong>&nbsp;
+                                    <input type="text" style="background: rgb(255,255,255); border-radius: 10px; width: 185px; border-style: none;" name='info_source_other' value='' id='infoSourceOther_text' onclick='setInfoSourceOtherText(this)'>
                                 </div>
                             </div>
                         </div>
@@ -364,21 +362,6 @@
                 </div>
             </div>
             
-        <script>
-        function setInfoSourceOther(checkbox_ele) {
-            // 檢查 checkbox_ele 是否被勾選
-            //console.log(checkbox_ele.checked);
-            if(checkbox_ele.checked) {
-            // 被勾選: 把 language_other_text required = true
-                document.getElementById("infoSourceOther_text").required = true;
-            }
-            else {
-            // 否則:把 language_other_text required = false
-                document.getElementById("infoSourceOther_text").required = false;
-            }
-        }
-        </script>
-
             <section>
                 <div class="container py-4 py-xl-5" style="padding: 0px 0px;height: initial;">
                     <div class="row gy-4 gy-md-0">
@@ -600,6 +583,25 @@
                 Address(ele.options[ele.options.selectedIndex].value);
             }
         }
+
+        function setInfoSourceOther(checkbox_ele) {
+            const label = document.getElementById('infoSourceOther_label');
+            if(checkbox_ele.checked) {
+                document.getElementById("infoSourceOther_text").required = true;
+                label.innerHTML = '<span style="color:red;">＊</span>請填寫&nbsp;&nbsp;';
+            }
+            else {
+                document.getElementById("infoSourceOther_text").required = false;
+                label.innerHTML = '請填寫&nbsp;&nbsp;';
+            }
+        }
+        function setInfoSourceOtherText(text) {
+            const label = document.getElementById('infoSourceOther_label');
+            label.innerHTML = '<span style="color:red;">＊</span>請填寫&nbsp;&nbsp;';
+            document.getElementById("infoSourceOther_checkbox").checked = true;
+            document.getElementById("infoSourceOther_text").required = true;
+        }
+
     </script>
 </body>
 
