@@ -2474,7 +2474,7 @@ return [
             "lodging_deposit" => "已繳費用",
             "depart_from" => "去程交通選項",
             "back_to" => "回程交通選項",
-            "care_log" => "關懷記錄",         
+            "care_log" => "關懷記錄",
         ],
     ],
     //please put the identifier (normally applicant_id) the first one
