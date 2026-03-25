@@ -3,7 +3,15 @@
     header("Pragma: no-cache");
     header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
     header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
-    $regions = ['台北', '桃園', '新竹', '中區', '雲嘉', '台南', '高區'];
+    $regions = $camp_info->regions;
+@endphp
+@php
+    $is_north = FALSE;
+    if(isset($applicant_data)) {
+        if(\Str::contains($applicant_data->batch->name, "北區")) {$is_north = TRUE;}
+    } else {
+        if(\Str::contains($batch->name, "北區")) {$is_north = TRUE;}
+    }
 @endphp
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en">
@@ -38,7 +46,7 @@
 
 <body style="color: #343458;background: rgb(220,220,220);">
     <nav class="navbar navbar-expand-md fixed-top navbar-shrink py-3 navbar-light" id="mainNav" style="background: linear-gradient(rgba(104,163,193,0.4), rgba(255,255,255,0.4) 52%, rgb(208,225,234)), rgba(255,255,255,0.6);border-radius: 0px;height: 60px;box-shadow: 0px 0px 14px;">
-        <div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><span style="font-family: Abel, sans-serif;color: rgb(46,83,99);">2025 企業主管生命成長營</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1" style="width: 43px;height: 40px;padding: 0px 0px;background: rgba(103,162,192,0.3);"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><span style="font-family: Abel, sans-serif;color: rgb(46,83,99);">{{ $camp_info->fullName }}</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1" style="width: 43px;height: 40px;padding: 0px 0px;background: rgba(103,162,192,0.3);"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-1" style="height: 50px;">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item"><a class="nav-link active" href="https://bwfoce.org/ecamp">營隊資訊</a></li>
@@ -51,7 +59,8 @@
         </div>
     </nav>
     <header class="pt-5"></header>
-    <section style="text-align: center;"><img src="{{ asset("img/2025ecampBANNER_1920x565.jpg") }}" style="width: 100%;margin: initial;padding: initial;">
+    <section style="text-align: center;"><img src="{{ asset("img/{$camp_info->year}ecampHeader.png") }}" style="width: 100%;margin: initial;padding: initial;">
+
     {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
     @if(!isset($isModify) || $isModify)
         <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form'>
