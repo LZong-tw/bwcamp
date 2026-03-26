@@ -406,7 +406,7 @@
             <label><input type="checkbox" class="info_source" name=info_source[] value='自行上網搜尋' > 自行上網搜尋</label> <br/>
             <label><input type="checkbox" class="info_source" name=info_source[] value='曾經報名但因故無法出席' > 曾經報名但因故無法出席</label> <br/>
             <label><input type="checkbox" class="info_source" name=info_source[] value='其他' id='infoSourceOther_checkbox' onclick='setInfoSourceOther(this)' > 其他</label> <br/>
-            <input type=text class='form-control' name="infoSourceOther_text" value='' id="infoSourceOther_text" onclick='setInfoSourceOtherText(this)'>
+            <input type=text class='form-control' name="info_source_other" value='' id="infoSourceOther_text" onclick='setInfoSourceOtherText(this)'>
             <div class="invalid-feedback" id="info_source-invalid">
                 請勾選至少一個適合聯絡時間
             </div>
