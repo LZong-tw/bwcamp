@@ -3,14 +3,19 @@
     header("Pragma: no-cache");
     header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
     header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
-    $regions = ['北區', '竹區', '中區', '高區'];
+    $regions = $camp_info->regions;
 @endphp
 @php
     $is_north = FALSE;
     if(isset($applicant_data)) {
-        if(\Str::contains($applicant_raw_data->batch->name, "北區") || \Str::contains($applicant_raw_data->batch->name, "台北")) {$is_north = TRUE;}
+        if(\Str::contains($applicant_raw_data->batch->name, "北區")) {$is_north = TRUE;}
     } else {
-        if(\Str::contains($batch->name, "北區") || \Str::contains($batch->name, "台北")) {$is_north = TRUE;}
+        if(\Str::contains($batch->name, "北區")) {$is_north = TRUE;}
+    }
+    if ($is_north) {
+        $roles_select = ["總部企劃", "關懷組", "秘書組", "行政組", "教務組", "企劃文宣組(新竹)"];
+    } else {
+        $roles_select = ["總部企劃", "秘書組", "關懷組", "教務組", "總務組"];
     }
 @endphp
 @extends('camps.ceovcamp.layout')
@@ -22,15 +27,19 @@
     </div>
 --}}
     <div class='page-header form-group'>
-        <h4>{{ $camp_data->fullName }}線上報名表</h4>
+        <h4>{{ $camp_info->fullName }}線上報名表</h4>
     </div>
 
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態；只在[報名狀態]時提供載入舊資料選項 --}}
 @if(!isset($isModify) && !isset($batch_id_from))
     <hr>
-    <h5 class='form-control-static text-warning bg-secondary'>若您曾報名2024年菁英營義工，請點選下面連結，查詢並使用2024年菁英營義工報名資料<br>
-            <a href="{{ route('query', 181) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary">＊<u>北竹高區</u>＊</a>
-            <a href="{{ route('query', 184) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary">＊<u>中區</u>＊</a>
+    <h5 class='form-control-static text-warning bg-secondary'>若您曾報名{{ $last_year }}年菁英營義工，請點選下面連結，查詢並使用{{ $last_year }}年菁英營義工報名資料<br>
+            @foreach($last_year_camps as $lycamp)
+            @foreach($lycamp->batchs as $lybatch)
+            <a href="{{ route('query', $lybatch->id) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary">
+                ＊<u>@foreach($lycamp->regions as $lyregion) {{ $lyregion->name }} @endforeach</u>＊</a>
+            @endforeach
+            @endforeach
     </h5>
     <hr>
 @endif
@@ -68,10 +77,8 @@
             @if(isset($applicant_data) && !isset($useOldData2Register))
                 <h3>{{ $applicant_raw_data->batch->name }} {{ $applicant_raw_data->batch->batch_start }} ~ {{ $applicant_raw_data->batch->batch_end }} </h3>
                 <input type='hidden' name='applicant_id' value='{{ $applicant_id }}'>
-                <input type="hidden" name="region" value="@foreach($regions as $r) @if(\Str::contains($applicant_raw_data->batch->name, $r)){{ $r }} @break @endif @endforeach">
             @else
                 <h3>{{ $batch->name }} {{ $batch->batch_start }} ~ {{ $batch->batch_end }} </h3>
-                <input type="hidden" name="region" value="@foreach($regions as $r) @if(\Str::contains($batch->name, $r)){{ $r }} @break @endif @endforeach">
             @endif
         </div>
     </div>
@@ -87,38 +94,18 @@
         <div class="row form-group required">
             <label for='inputRegion' class='col-md-2 control-label text-md-right'>區域</label>
             <div class='col-md-10'>
+                @php $i=1 @endphp
+                @foreach($camp_info->regions as $region)
                 <div class="form-check form-check-inline">
                     <label class="form-check-label" for="Pei">
-                        <input class="form-check-input" type="radio" name="region" value="北區" required>北區
+                        <input class="form-check-input" type="radio" name="region" value="{{ $region->name }}" required>{{ $region->name }}
                         <div class="invalid-feedback">
-                            請選擇區域
+                            @if ($i==1) 請選擇區域 @else &nbsp; @endif
                         </div>
                     </label>
                 </div>
-                <div class="form-check form-check-inline">
-                    <label class="form-check-label" for="Chu">
-                        <input class="form-check-input" type="radio" name="region" value="竹區" required>竹區
-                        <div class="invalid-feedback">
-                            &nbsp;
-                        </div>
-                    </label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <label class="form-check-label" for="Chu">
-                        <input class="form-check-input" type="radio" name="region" value="中區" required>中區
-                        <div class="invalid-feedback">
-                            &nbsp;
-                        </div>
-                    </label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <label class="form-check-label" for="Chu">
-                        <input class="form-check-input" type="radio" name="region" value="高區" required>高區
-                        <div class="invalid-feedback">
-                            &nbsp;
-                        </div>
-                    </label>
-                </div>
+                @php $i=$i+1 @endphp
+                @endforeach
             </div>
         </div>
 
@@ -130,12 +117,9 @@
         <div class='col-md-10'>
             <select required class='form-control' name='group_priority1' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
-                <option value='全區/總部幹部' >全區/總部幹部</option>
-                <option value='正副總護持' >正副總護持</option>
-                <option value='關懷規劃組' >關懷規劃組</option>
-                <option value='教務組' >教務組</option>
-                <option value='行政秘書組' >行政秘書組</option>
-                <option value='場地組' >場地組</option>
+                @foreach($roles_select as $role)
+                <option value='{{ $role }}' >{{ $role }}</option>
+                @endforeach
                 <option value='依營隊需求安排' >依營隊需求安排</option>
             </select>
         {{--
@@ -151,13 +135,9 @@
         <div class='col-md-10'>
             <select class='form-control' name='group_priority2' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
-                <option value='全區/總部幹部' >全區/總部幹部</option>
-                <option value='正副總護持' >正副總護持</option>
-                <option value='關懷規劃組' >關懷規劃組</option>
-                <option value='教務組' >教務組</option>
-                <option value='行政秘書組' >行政秘書組</option>
-                <option value='場地組' >場地組</option>
-                <option value='無' >無</option>
+                @foreach($roles_select as $role)
+                <option value='{{ $role }}' >{{ $role }}</option>
+                @endforeach                <option value='無' >無</option>
             </select>
         </div>
     </div>
@@ -167,12 +147,9 @@
         <div class='col-md-10'>
             <select class='form-control' name='group_priority3' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
-                <option value='全區/總部幹部' >全區/總部幹部</option>
-                <option value='正副總護持' >正副總護持</option>
-                <option value='關懷規劃組' >關懷規劃組</option>
-                <option value='教務組' >教務組</option>
-                <option value='行政秘書組' >行政秘書組</option>
-                <option value='場地組' >場地組</option>
+                @foreach($roles_select as $role)
+                <option value='{{ $role }}' >{{ $role }}</option>
+                @endforeach
                 <option value='無' >無</option>
             </select>
         </div>
@@ -766,7 +743,7 @@
                 --}}
             {{-- 以上皆非: 檢視資料狀態 --}}
             @else
-                @if(isset($camp_data->modifying_deadline) && \Carbon\Carbon::now() <= \Carbon\Carbon::createFromFormat("Y-m-d", $camp_data->modifying_deadline))
+                @if(isset($camp_info->modifying_deadline) && \Carbon\Carbon::now() <= \Carbon\Carbon::createFromFormat("Y-m-d", $camp_info->modifying_deadline))
                 <input type="hidden" name="sn" value="{{ $applicant_id }}">
                 <input type="hidden" name="isModify" value="1">
                 <button class="btn btn-primary">修改報名資料</button>
@@ -941,83 +918,6 @@
             // 否則:把 language_other_text required = false
                 document.getElementById("language_other_text").required = false;
             }
-        }
-
-        function showFields(){
-            rowIsEducating.innerHTML = "<div class='row form-group required'>" +
-                "    <label for='inputSchoolOrCourse' class='col-md-2 control-label text-md-right'>任職機關/任教學程</label>" +
-                "    <div class='col-md-10'>" +
-                "        <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=教育部 class='officials'> 教育部" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                請勾選任職機關/任教學程" +
-                "            </div>" +
-                "        </label> " +
-                "        <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=教育局/處 class='officials'> 教育局/處" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                &nbsp;" +
-                "            </div>" +
-                "        </label> " +
-                "        <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=大專校院 class='universities'> 大專校院" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                &nbsp;" +
-                "            </div>" +
-                "        </label> <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=高中職 class='compulsories'> 高中職" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                &nbsp;" +
-                "            </div>" +
-                "        </label> <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=國中 class='compulsories'> 國中" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                &nbsp;" +
-                "            </div>" +
-                "        </label> <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=國小 class='compulsories'> 國小" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                &nbsp;" +
-                "            </div>" +
-                "        </label> <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=幼教 class='compulsories'> 幼教" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                &nbsp;" +
-                "            </div>" +
-                "        </label> " +
-                "    </div>" +
-                "</div>" +
-                "<div class='row form-group required'> " +
-                "<label for='inputSubjectTeaches' class='col-md-2 control-label text-md-right'>任教科系/任教科目</label>" +
-                "    <div class='col-md-10'>" +
-                "        <input type=text required  name='subject_teaches' value='' class='form-control' id='inputSubjectTeaches'>" +
-                "        <div class='invalid-feedback crumb'>" +
-                "            請填寫任教科系/任教科目" +
-                "        </div>" +
-                "    </div>" +
-                "</div>";
-
-            document.getElementById("tip").innerHTML = '請先選擇任教機關/任教學程';
-
-            /*************************************
-             * 物件重建後需重新設定 event listener
-             *************************************/
-            categories = document.getElementsByName("school_or_course");
-            for(let i = 0; i < categories.length; i++){
-                categories[i].addEventListener("click", changeJobTitleList);
-                categories[i].addEventListener("change", changeJobTitleList);
-            }
-
-            titles = document.getElementsByName("data[12]");
-            for(let i = 0; i < titles.length; i++){
-                titles[i].addEventListener("click", fillTheTitle);
-                titles[i].addEventListener("change", fillTheTitle);
-            }
-        }
-
-        function hideFields(){
-            rowIsEducating.innerHTML = '';
-            document.getElementById("tip").innerHTML = '';
         }
 
         function setUnrequired(elements){
