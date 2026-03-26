@@ -100,42 +100,42 @@ class CampDataService
                 'is_child_blisswisdommed' => implode("||/", $request->is_child_blisswisdommed)
             ]);
         }
-        if (isset($request->contact_time)) {
+        if (isset($request->contact_time) && is_array($request->contact_time)) {
             $request->merge([
                 'contact_time' => implode("||/", $request->contact_time)
             ]);
         }
-        if (isset($request->transport)) {
+        if (isset($request->transport) && is_array($request->transport)) {
             $request->merge([
                 'transport' => implode("||/", $request->transport)
             ]);
         }
-        if (isset($request->expertise)) {
+        if (isset($request->expertise) && is_array($request->expertise)) {
             $request->merge([
                 'expertise' => implode("||/", $request->expertise)
             ]);
         }
-        if (isset($request->language) && is_array($request->info_source)) {
+        if (isset($request->language) && is_array($request->language)) {
             $request->merge([
                 'language' => implode("||/", $request->language)
             ]);
         }
-        if (isset($request->favored_event)) {
+        if (isset($request->favored_event) && is_array($request->favored_event)) {
             $request->merge([
                 'favored_event' => implode("||/", $request->favored_event)
             ]);
         }
-        if (isset($request->after_camp_available_day)) {
+        if (isset($request->after_camp_available_day) && is_array($request->after_camp_available_day)) {
             $request->merge([
                 'after_camp_available_day' => implode("||/", $request->after_camp_available_day)
             ]);
         }
-        if (isset($request->participation_dates)) {  //evcamp
+        if (isset($request->participation_dates) && is_array($request->participation_dates)) {  //evcamp
             $request->merge([
                 'participation_dates' => implode("||/", $request->participation_dates)
             ]);
         }
-        if (isset($request->stay_dates)) {  //evcamp
+        if (isset($request->stay_dates) && is_array($request->stay_dates)) {  //evcamp
             $request->merge([
                 'stay_dates' => implode("||/", $request->stay_dates)
             ]);
