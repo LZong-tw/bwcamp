@@ -717,6 +717,8 @@
         </div>
     @endif
 
+    <hr>
+
     <div class="row form-group text-danger tips d-none">
         <div class='col-md-2'></div>
         <div class='col-md-10'>
@@ -743,7 +745,7 @@
                 --}}
             {{-- 以上皆非: 檢視資料狀態 --}}
             @else
-                @if(isset($camp_info->modifying_deadline) && \Carbon\Carbon::now() <= \Carbon\Carbon::createFromFormat("Y-m-d", $camp_info->modifying_deadline))
+                @if(isset($camp_info->modifying_deadline) && \Carbon\Carbon::now()->lte($camp_info->modifying_deadline))
                 <input type="hidden" name="sn" value="{{ $applicant_id }}">
                 <input type="hidden" name="isModify" value="1">
                 <button class="btn btn-primary">修改報名資料</button>

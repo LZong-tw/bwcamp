@@ -3,7 +3,7 @@
         color: red;
     }
 </style>
-@extends('camps.utcamp.layout')
+@extends('camps.'.$camp_info->table.'.layout')
 @section('content')
     @php
         $now = \Carbon\Carbon::now();

@@ -260,7 +260,8 @@ class CampController extends Controller
             $applicant = $this->applicantService->fillPaymentData($applicant);
             $applicant->save();
 
-            return view('camps.' . $this->camp_info->table . '.modifyingSuccessful', ['applicant' => $applicant]);
+            $isModify = 1;
+            return view('camps.' . $this->camp_info->table . '.success', compact('applicant', 'isModify'));
         }
         // 營隊報名
         else {
@@ -432,7 +433,10 @@ class CampController extends Controller
         if ($request->isModify) {
             $isModify = true;
         }
-        if ($applicant) {
+
+        // try-catch已處理applicant是否存在
+        // 但仍需確認找到的applicant是否報名本營隊
+        if ($applicant && $applicant->batch->camp_id == $this->camp_info->id) {
             //使用報名者的報名日期來計算費率，避免修改資料後費率變動的問題
             $fare_room = $this->lodgingService->getLodgingFare($this->camp_info, $applicant->created_at);
             [$fare_depart_from, $fare_back_to] = $this->trafficService->getTrafficFare($this->camp_info);
@@ -494,7 +498,7 @@ class CampController extends Controller
                 ->with('fare_back_to', $fare_back_to);
             }
         } else {
-            return redirect()->back()->withErrors(['找不到報名資料，請確認查詢欄位是否填寫正確，或者是否已成功報名。']);
+            return redirect()->back()->withErrors(['找不到報名資料，請確認查詢欄位及查詢營隊是否正確。']);
         }
     }
 
