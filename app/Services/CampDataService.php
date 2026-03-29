@@ -77,7 +77,8 @@ class CampDataService
         ];
     }
 
-    private function processArray($request) {
+    private function processArray($request)
+    {
         $fields = [
             'blisswisdom_type',
             'is_child_blisswisdommed',
@@ -104,7 +105,8 @@ class CampDataService
         }
     }
 
-    private function processAddress($request) {
+    private function processAddress($request)
+    {
         $addressMap = [
             'address'       => ['subarea', null], // [target_field, custom_else_field]
             'unit_address'  => ['unit_subarea', null],
@@ -112,11 +114,13 @@ class CampDataService
         ];
 
         foreach ($addressMap as $addrField => [$subField, $elseField]) {
-            if (!$request->has($addrField)) continue;
+            if (!$request->has($addrField)) {
+                continue;
+            }
 
             $subValue = $request->input($subField);
 
-            // subarea: 
+            // subarea:
             // 000其它 & 999海外，都使用address as subarea
             // otherwise 台北市松山區 => take 松山區
             // 例外：acamp使用 class_subarea_test
