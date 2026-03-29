@@ -57,7 +57,7 @@ class checkPayment extends Command
     public function handle()
     {
         // 1. FTP 下載檔案
-        if (!$this->option('file')) { 
+        if (!$this->option('file')) {
             $this->ftpFilesFromServer();
             if ($this->errMessage !== "") {
                 $this->sendNotificationEmail();
@@ -85,7 +85,7 @@ class checkPayment extends Command
 
         $this->info("讀檔完畢。");
         $this->mailContent .= "讀檔完畢。\n";
-        
+
         // 4. 將對帳資料寫入資料庫
         if (count($this->arrayList) > 0) {
             try {
@@ -99,15 +99,14 @@ class checkPayment extends Command
 
                 $this->info("資料庫所有資料寫入完成");
                 $this->mailContent .= "資料庫寫入完成\n";
-            } 
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 // 記錄詳細錯誤到 Log
                 \Log::error("[check:Accounting] 資料庫寫入錯誤:" . $e->getMessage(), ['exception' => $e]);
-                
+
                 // 終端機顯示紅色的錯誤訊息與行號
                 $this->error("資料庫寫入錯誤: " . $e->getMessage() . " (Line: " . $e->getLine() . ")");
                 $this->mailContent .= "資料庫寫入錯誤，已停止執行。\n";
-            }                        
+            }
         } else {
             $this->info("今日無營隊所屬入帳資料。");
             $this->mailContent .= "今日無營隊所屬入帳資料。\n";
@@ -121,7 +120,8 @@ class checkPayment extends Command
         return 0;
     }
 
-    private function ftpFilesFromServer() {
+    private function ftpFilesFromServer()
+    {
         // 1. FTP 初始化
         $ftp = \Storage::createFtpDriver([
             'host'     => config('camps_payments.scsb_ftp.host'),
@@ -149,7 +149,7 @@ class checkPayment extends Command
             }
         } catch (\Exception $e) {
             // 記錄詳細錯誤到 Log
-            \Log::error("[check:Accounting] FTP下載檔案失敗: " . $e->getMessage(), ['exception' => $e]);                
+            \Log::error("[check:Accounting] FTP下載檔案失敗: " . $e->getMessage(), ['exception' => $e]);
             // 終端機顯示紅色的錯誤訊息與行號
             $this->error("FTP下載檔案失敗: " . $e->getMessage());
             $this->mailContent = "FTP下載檔案失敗，已停止執行。\n";
@@ -158,7 +158,8 @@ class checkPayment extends Command
         return;
     }
 
-    private function parseTransactionRecords($records) {
+    private function parseTransactionRecords($records)
+    {
         $type = "";
         $sum = 0;
         $total = 0;
@@ -220,7 +221,7 @@ class checkPayment extends Command
     {
         $camp = $this->argument('camp');
         $scsbEnum = config("camps_payments.{$camp}.scsb_enum");
-        
+
         // 1. 寫入 accounting_scsb 表
         \DB::table('accounting_scsb')->insert([
             'name'          => $scsbEnum[$item["代收類別"]] ?? $item["代收類別"],
@@ -286,7 +287,8 @@ class checkPayment extends Command
         );
     }
 
-    private function sendNotificationEmail() {
+    private function sendNotificationEmail()
+    {
         $emails = config('camps_payments.' . $this->argument('camp') . '.email');
         $fileDate = $this->fileDate;
         $mailContent = $this->mailContent;
