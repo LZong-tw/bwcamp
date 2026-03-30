@@ -40,6 +40,7 @@ class CampDataService
         // attributesToArray() 只抓欄位跟 appends，排除掉任何 eager loading 的關聯
         // forceFill() 會把抓出來的欄位塞入 $camp_info
         $campId = $camp_info->id;
+        $batchId = $batch->id;
         $camp_info->forceFill($batch->attributesToArray());
         // 恢復被覆蓋的問題
         $camp_info->id = $campId;
