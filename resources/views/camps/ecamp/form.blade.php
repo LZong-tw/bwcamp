@@ -346,7 +346,7 @@
                 <div class="col">
                     <div class="card border-light border-1 d-flex p-4" style="background: #d0e1ea;border-radius: 30px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;text-align: left;">
 
-                        <h3 class="fw-bold pb-md-1 required" style="font-size: 20px;color: #34637a;">透過那那些管道得知營隊報名資訊？(可複選)</h3>
+                        <h3 class="fw-bold pb-md-1 required" style="font-size: 20px;color: #34637a;">透過哪些管道得知營隊報名資訊？(可複選)</h3>
                         <div class="row gy-4">
                             <div class="col">
                                 <div>
