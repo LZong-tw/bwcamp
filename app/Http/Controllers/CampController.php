@@ -381,8 +381,9 @@ class CampController extends Controller
         return view('camps.' . $campCopy->table . '.form')
         //->with('applicant_id', $applicantOri->applicant_id)
         //->with('batch_id', $applicantOri->batch_id)   //??
-        ->with('applicant_data', $applicant_data)                 //處理過一些空白字元的版本
-        ->with('applicant_raw_data', $applicantOri)             //資料庫抓出的原始資料,已join
+        ->with('applicant_data', $applicant_data)      //處理過一些空白字元的版本
+        ->with('applicant', $applicantOri)             //保留這個:資料庫抓出的原始資料,已join
+        ->with('applicant_raw_data', $applicantOri)    //之後刪除，但先保留以免其他地方用到
         ->with('isModify', true)
         ->with('useOldData2Register', true)                     //新增：使用舊資料報名
         ->with('batch', $batchCopy)
