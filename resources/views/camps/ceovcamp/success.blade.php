@@ -17,7 +17,7 @@
         <div class="card-body">
             <p class="card-text">
                 @if(isset($isModify))
-                    您成功修改報名「{{ $camp_data->fullName }}」的資料。<br>
+                    您成功修改「{{ $camp_data->fullName }}」的報名資料。<br>
                 @else
                     恭喜您已完成「{{ $camp_data->fullName }}」網路報名程序。<br>
                 @endif

@@ -7,8 +7,8 @@
 @endphp
 @php
     $is_north = FALSE;
-    if(isset($applicant_data)) {
-        if(\Str::contains($applicant_raw_data->batch->name, "北區")) {$is_north = TRUE;}
+    if(isset($applicant_data) && !isset($useOldData2Register)) {
+        if(\Str::contains($applicant->batch->name, "北區")) {$is_north = TRUE;}
     } else {
         if(\Str::contains($batch->name, "北區")) {$is_north = TRUE;}
     }
@@ -21,11 +21,6 @@
 @extends('camps.ceovcamp.layout')
 @section('content')
     @include('partials.counties_areas_script')
-{{--
-    <div class='alert alert-info' role='alert'>
-        您在本網站所填寫的個人資料，僅用於此次企業營的報名及活動聯絡之用。
-    </div>
---}}
     <div class='page-header form-group'>
         <h4>{{ $camp_info->fullName }}線上報名表</h4>
     </div>
@@ -75,7 +70,7 @@
         <label for='inputBatch' class='col-md-2 control-label text-md-right'>營隊梯次</label>
         <div class='col-md-10'>
             @if(isset($applicant_data) && !isset($useOldData2Register))
-                <h3>{{ $applicant_raw_data->batch->name }} {{ $applicant_raw_data->batch->batch_start }} ~ {{ $applicant_raw_data->batch->batch_end }} </h3>
+                <h3>{{ $applicant->batch->name }} {{ $applicant->batch->batch_start }} ~ {{ $applicant->batch->batch_end }} </h3>
                 <input type='hidden' name='applicant_id' value='{{ $applicant_id }}'>
             @else
                 <h3>{{ $batch->name }} {{ $batch->batch_start }} ~ {{ $batch->batch_end }} </h3>
@@ -87,7 +82,7 @@
         <div class='row form-group'>
             <label for='inputBatch' class='col-md-2 control-label text-md-right'>報名日期</label>
             <div class='col-md-10'>
-                {{ $applicant_raw_data->created_at }}
+                {{ $applicant->created_at }}
             </div>
         </div>
     @endif
@@ -122,11 +117,6 @@
                 @endforeach
                 <option value='依營隊需求安排' >依營隊需求安排</option>
             </select>
-        {{--
-            <div class="invalid-feedback">
-                請選擇報名組別第1志願
-            </div>
-        --}}
         </div>
     </div>
 
@@ -137,7 +127,8 @@
                 <option value='' selected>- 請選擇 -</option>
                 @foreach($roles_select as $role)
                 <option value='{{ $role }}' >{{ $role }}</option>
-                @endforeach                <option value='無' >無</option>
+                @endforeach                
+                <option value='無' >無</option>
             </select>
         </div>
     </div>
@@ -154,18 +145,6 @@
             </select>
         </div>
     </div>
-
-{{--
-    <div class='row form-group'>
-    <label for='inputGroupPriorityOther' class='col-md-2 control-label text-md-right'>報名組別其它需求</label>
-        <div class='col-md-10'>
-            <input type='text' name='group_priority_other' value='' class='form-control' id='inputGroupPriorityOther' placeholder='若對報名組別有其它需求請在此填寫'>
-            <div class="invalid-feedback">
-                請填寫報名組別其它需求
-            </div>
-        </div>
-    </div>
---}}
 
     <div class='row form-group required'>
         <label for='inputLRClassLevel' class='col-md-2 control-label text-md-right'>廣論研討班別</label>
@@ -346,21 +325,8 @@
                     請選擇日常交通方式，若選其它請填寫何種交通方式。
                 </div>
             </label>
-            {{-- 其它 --}}
         </div>
     </div>
-
-{{--
-    <div class='row form-group'>
-    <label for='inputExpertise' class='col-md-2 control-label text-md-right'>專長</label>
-        <div class='col-md-10'>
-            <input type='text' name='expertise' value='' class='form-control' id='inputExpertise'>
-            <div class="invalid-feedback crumb">
-                請填寫專長
-            </div>
-        </div>
-    </div>
---}}
 
     {{-- 專長 --}}
     <div class='row form-group'>
@@ -537,87 +503,6 @@
             </div>
         </div>
     </div>
-{{--
-    <div class='row form-group'>
-    <label for='inputCapital' class='col-md-2 control-label text-md-right'>資本額(新臺幣:元)</label>
-        <div class='col-md-10'>
-            <input type='number' name='capital' value='' maxlength="40" class='form-control' id='inputTitle' placeholder='請填寫數字'>
-            <div class="invalid-feedback crumb">
-                請填寫資本額
-            </div>
-        </div>
-    </div>
-
-    <div class='row form-group'>
-        <label for='inputOrgType' class='col-md-2 control-label text-md-right'>公司/組織形式</label>
-        <div class='col-md-10'>
-            <label class=radio-inline>
-                <input type=radio name='org_type' value='私人公司' > 私人公司
-                <div class="invalid-feedback">
-                    請選擇公司/組織形式
-                </div>
-            </label>
-            <label class=radio-inline>
-                <input type='radio' name='org_type' value='專業領域(例醫生、作家⋯)' > 專業領域(例醫生、作家⋯)
-                <div class="invalid-feedback">
-                    &nbsp;
-                </div>
-            </label>
-            <label class=radio-inline>
-                <input type='radio' name='org_type' value='政府部門/公營事業' > 政府部門/公營事業
-                <div class="invalid-feedback">
-                    &nbsp;
-                </div>
-            </label>
-            <label class=radio-inline>
-                <input type='radio' name='org_type' value='非政府/非營利組織' > 非政府/非營利組織
-                <div class="invalid-feedback">
-                    &nbsp;
-                </div>
-            </label>
-            <label class=radio-inline>
-                <input type='radio' name='org_type' value='其它' > 其它
-                <div class="invalid-feedback">
-                    &nbsp;
-                </div>
-            </label>
-        </div>
-    </div>
-
-    <div class='row form-group'>
-    <label for='inputOrgTypeOther' class='col-md-2 control-label text-md-right'>公司/組織形式:自填</label>
-        <div class='col-md-10'>
-            <input type='text' name='org_type_other' value='' class='form-control' id='inputOrgTypeOther' placeholder='公司/組織形式若選「其它」請自填'>
-            <div class="invalid-feedback">
-                公司/組織形式若選「其它」請自填
-            </div>
-        </div>
-    </div>
-
-    <div class='row form-group'>
-        <label for='inputYearsOperation' class='col-md-2 control-label text-md-right'>公司成立幾年</label>
-        <div class='col-md-10'>
-            <label class=radio-inline>
-                <input type='radio' name='years_operation' value='10年以上' > 10年以上
-                <div class="invalid-feedback">
-                    請選擇公司成立幾年
-                </div>
-            </label>
-            <label class=radio-inline>
-                <input type='radio' name='years_operation' value='5年~10年' > 5年~10年
-                <div class="invalid-feedback">
-                    &nbsp;
-                </div>
-            </label>
-            <label class=radio-inline>
-                <input type='radio' name='years_operation' value='5年以下' > 5年以下
-                <div class="invalid-feedback">
-                    &nbsp;
-                </div>
-            </label>
-        </div>
-    </div>
---}}
 
     <!--- 同意書 -->
     <div class='row form-group required'>
@@ -676,7 +561,7 @@
 
     @if(isset($applicant_data))
         @if($isModify)
-            @if(!$applicant_raw_data->avatar)
+            @if(!$applicant->avatar)
                 <h5 class='form-control-static text-primary'>請選擇正面、清楚、不戴帽、不戴墨鏡、不戴口罩的大頭照上傳</h5>
                 <div class='row form-group'>
                     <label for='inputAvatar' class='col-md-2 control-label text-md-right'>大頭照</label>
@@ -698,7 +583,7 @@
                 </div>
             @endif
         @else
-            @if(!$applicant_raw_data->avatar)
+            @if(!$applicant->avatar)
                 <h6 class='form-control-static text-info'>未上傳大頭照。</h6>
             @else
                 <h6 class='form-control-static text-info'>您已於報名時成功上傳大頭照，為隱私考量，故不在此顯示。</h6>
@@ -735,8 +620,8 @@
                 @if(isset($useOldData2Register))
                 <input type="hidden" name="useOldData2Register" value="1">
                 @endif
-                @if(isset($applicant_raw_data->avatar))
-                <input type="hidden" name="avatar" value="{{ $applicant_raw_data->avatar }}">
+                @if(isset($applicant->avatar))
+                <input type="hidden" name="avatar" value="{{ $applicant->avatar }}">
                 @endif
                 <input type='button' class='btn btn-success' value='確認送出' data-toggle="confirmation">
                 {{--
@@ -851,38 +736,7 @@
         * Ready functions.
         * Executes commands after the web page is loaded.
         */
-{{--
-        document.onreadystatechange = () => {
-            if (document.readyState === 'complete') {
-                /**
-                * 是否在學校或教育單位任職，勾選後顯示/隱藏任職單位相關欄位。
-                */
-                rowIsEducating = document.getElementById("rowIsEducating");
-                document.getElementById("is_educating_y").addEventListener("change", showFields);
-                document.getElementById("is_educating_n").addEventListener("change", hideFields);
-                if(document.getElementById("is_educating_n").checked){
-                    hideFields();
-                }
-                /**
-                * 任職機關/任教學程，勾選後顯示對應職稱。
-                */
-                categories = document.getElementsByName("school_or_course");
-                for(let i = 0; i < categories.length; i++){
-                    categories[i].addEventListener("click", changeJobTitleList);
-                    categories[i].addEventListener("change", changeJobTitleList);
-                }
 
-                /**
-                * 選擇職稱後，將職稱填至欄位中。
-                */
-                titles = document.getElementsByName("data[12]");
-                for(let i = 0; i < titles.length; i++){
-                    titles[i].addEventListener("click", fillTheTitle);
-                    titles[i].addEventListener("change", fillTheTitle);
-                }
-            }
-        };
---}}
         function setTransportOther(checkbox_ele) {
             // 檢查 checkbox_ele 是否被勾選
             //console.log(checkbox_ele.checked);

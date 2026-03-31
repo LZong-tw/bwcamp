@@ -14,7 +14,7 @@
         <div class="card-body">
             <p class="card-text">
                 @if(isset($isModify))
-                    您成功修改報名「{{ $camp_info->fullName }}」的資料。<br>
+                    您成功修改「{{ $camp_info->fullName }}」的報名資料。<br>
                 @else
                     恭喜您已完成「{{ $camp_info->fullName }}」網路報名程序。<br>
                 @endif
@@ -27,7 +27,7 @@
                 <button class="btn btn-primary">檢視報名資料</button>
             </form>
             {{--
-            <a href="{{ $camp_info->site_url }}" class="btn btn-info">回營隊首頁</a>
+            <a href="{{ $camp_info->site_url }}" class="btn btn-warning">回營隊首頁</a>
             --}}
         </div>
     </div>

@@ -1,4 +1,4 @@
 {{ $applicant->name }} 您好：<br>
 <br>
-    恭喜您已完成{{ $applicant->batch->camp->fullName }}網路報名程序，
+&emsp;&emsp;感謝您報名「{{ $camp_info->fullName }}」。
 @includeIf('camps.' . $camp_info->table . '.successMessages')
