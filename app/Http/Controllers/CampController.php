@@ -408,7 +408,7 @@ class CampController extends Controller
     {
         $campTable = $this->camp_info->table;
         $formPath = "camps.{$campTable}" . (in_array($campTable, ['ecamp', 'ceocamp']) ? '.form_bak' : '.form');
-        
+
         // 1. 取得報名者資料 (封裝邏輯以減少重複的 try-catch)
         try {
             [$applicant, $applicant_data] = $this->getApplicantByRequest($request, $campTable);
@@ -430,7 +430,7 @@ class CampController extends Controller
         [$fare_depart_from, $fare_back_to] = $this->trafficService->getTrafficFare($this->camp_info);
 
         // 4. 檢查修改期限
-            //如果沒有設定修改期限，則預設為當天，讓使用者無法修改資料，因為用lt而非lte
+        //如果沒有設定修改期限，則預設為當天，讓使用者無法修改資料，因為用lt而非lte
         $deadline = $this->camp_info->modifying_deadline ?? Carbon::now();
         $isExpired = $isModify && $deadline->lt(Carbon::today());
         $errorMsg = null;
@@ -489,7 +489,7 @@ class CampController extends Controller
             return $this->applicantService->getApplicantData($request->sn, $campTable);
         }
 
-        throw new ModelNotFoundException;
+        throw new ModelNotFoundException();
     }
 
 
