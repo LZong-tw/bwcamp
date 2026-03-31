@@ -10,14 +10,13 @@
 @endphp
 @extends('camps.ecamp.layout')
 @section('content')
-    @include('partials.schools_script')
     @include('partials.counties_areas_script')
     <div class='alert alert-info' role='alert'>
         您在本網站所填寫的個人資料，僅用於此次企業營的報名及活動聯絡之用。
     </div>
 
     <div class='page-header form-group'>
-        <h4>{{ $camp_data->fullName }}線上報名表</h4>
+        <h4>{{ $camp_info->fullName }}線上報名表</h4>
     </div>
 
 {{-- 使用舊資料報名：如果有batch_id_from參數的話(今年限2021&2022企業營，但沒有寫這個條件) --}}
@@ -398,6 +397,24 @@
     </div>
 
     <div class='row form-group required'>
+        <label for='inputContactTime' class='col-md-2 control-label text-md-right'>透過那那些管道得知營隊報名資訊<br>(可複選)</label>
+        <div class='col-md-10'>
+            <label><input type="checkbox" class="info_source" name=info_source[] value='在福智上課的親友' > 在福智上課的親友</label> <br/>
+            <label><input type="checkbox" class="info_source" name=info_source[] value='朋友' > 朋友</label> <br/>
+            <label><input type="checkbox" class="info_source" name=info_source[] value='同事' > 同事</label> <br/>
+            <label><input type="checkbox" class="info_source" name=info_source[] value='親人' > 親人</label> <br/>
+            <label><input type="checkbox" class="info_source" name=info_source[] value='自行上網搜尋' > 自行上網搜尋</label> <br/>
+            <label><input type="checkbox" class="info_source" name=info_source[] value='曾經報名但因故無法出席' > 曾經報名但因故無法出席</label> <br/>
+            <label><input type="checkbox" class="info_source" name=info_source[] value='其他' id='infoSourceOther_checkbox' onclick='setInfoSourceOther(this)' > 其他</label> <br/>
+            <input type=text class='form-control' name="info_source_other" value='' id="infoSourceOther_text" onclick='setInfoSourceOtherText(this)'>
+            <div class="invalid-feedback" id="info_source-invalid">
+                請勾選至少一個適合聯絡時間
+            </div>
+        </div>
+    </div>
+
+
+    <div class='row form-group required'>
         <label for='inputExpect' class='col-md-2 control-label text-md-right'>期望成長營給您的幫助</label>
         <div class='col-md-10'>
             <textarea required class='form-control' rows=2 name='expectation' id=inputExpect></textarea>
@@ -516,47 +533,16 @@
 
 
     <!--- 同意書 -->
-    <div class='row form-group required'>
-        <label for='inputTerm' class='col-md-2 control-label text-md-right'>肖像權</label>
+    <div class='row form-group'>
+        <label for='notes' class='col-md-2 control-label text-md-right text-danger'>附註</label>
         <div class='col-md-10 form-check'>
             <p class='form-control-static text-danger'>
-            主辦單位在營隊期間拍照、錄影之活動記錄，可使用於營隊及主辦單位的非營利教育推廣使用，並以網路方式推播。
+            本人同意：福智文教基金會取得之個人資料，於營隊期間及後續基金會所屬福智團體舉辦之活動，作為訊息通知、行政處理等非營利目的之使用，不提供予無相關之其他單位使用。在營隊期間拍照、錄影之活動記錄可使用於營隊及主辦單位之非營利教育推廣使用。
             </p>
-            <label class=radio-inline>
-                <input type='radio' required name="portrait_agree" value='1' checked> 我同意
-                <div class="invalid-feedback">
-                    請圈選本欄位
-                </div>
-            </label>
-            <label class=radio-inline>
-                <input type=radio required name="portrait_agree" value='0' > 我不同意
-                <div class="invalid-feedback">
-                    &nbsp;
-                </div>
-            </label>
         </div>
     </div>
-
-    <div class='row form-group required'>
-        <label for='inputTerm' class='col-md-2 control-label text-md-right'>個人資料</label>
-        <div class='col-md-10 form-check'>
-            <p class='form-control-static text-danger'>
-            福智文教基金會（簡稱本基金會）及本基金會所屬福智團體於本次營隊取得我的個人資料，於營隊期間及後續本基金會及本基金會所屬福智團體舉辦之活動，作為訊息通知、行政處理等非營利目的之使用，不會提供給無關之其他私人單位使用。
-            </p>
-            <label class=radio-inline>
-                <input type='radio' required name="profile_agree" value='1' checked> 我同意
-                <div class="invalid-feedback">
-                    請圈選本欄位
-                </div>
-            </label>
-            <label class=radio-inline>
-                <input type=radio required name="profile_agree" value='0' > 我不同意
-                <div class="invalid-feedback">
-                    &nbsp;
-                </div>
-            </label>
-        </div>
-    </div>
+    <input type='hidden' name="profile_agree" value='0'>
+    <input type='hidden' name="portrait_agree" value='0'>
 
     <hr>
     <div class="row form-group text-danger tips d-none">
@@ -577,10 +563,10 @@
                 <input type='reset' class='btn btn-danger' value='清除再來'>
             {{-- 以上皆非: 檢視資料狀態 --}}
             @else
-                @if(isset($camp_data->modifying_deadline) && \Carbon\Carbon::now() <= \Carbon\Carbon::createFromFormat("Y-m-d", $camp_data->modifying_deadline))
+                @if(isset($camp_info->modifying_deadline) && \Carbon\Carbon::now() <= \Carbon\Carbon::createFromFormat("Y-m-d", $camp_info->modifying_deadline))
                 <input type="hidden" name="sn" value="{{ $applicant_id }}">
                 <input type="hidden" name="isModify" value="1">
-                <button class="btn btn-primary">修改報名資料</button>
+                <button type ="submit" class="btn btn-primary">修改報名資料</button>
                 @endif
             @endif
         </div>
@@ -638,114 +624,6 @@
         * Ready functions.
         * Executes commands after the web page is loaded.
         */
-{{--
-        document.onreadystatechange = () => {
-            if (document.readyState === 'complete') {
-                /**
-                * 是否在學校或教育單位任職，勾選後顯示/隱藏任職單位相關欄位。
-                */
-                rowIsEducating = document.getElementById("rowIsEducating");
-                document.getElementById("is_educating_y").addEventListener("change", showFields);
-                document.getElementById("is_educating_n").addEventListener("change", hideFields);
-                if(document.getElementById("is_educating_n").checked){
-                    hideFields();
-                }
-                /**
-                * 任職機關/任教學程，勾選後顯示對應職稱。
-                */
-                categories = document.getElementsByName("school_or_course");
-                for(let i = 0; i < categories.length; i++){
-                    categories[i].addEventListener("click", changeJobTitleList);
-                    categories[i].addEventListener("change", changeJobTitleList);
-                }
-
-                /**
-                * 選擇職稱後，將職稱填至欄位中。
-                */
-                titles = document.getElementsByName("data[12]");
-                for(let i = 0; i < titles.length; i++){
-                    titles[i].addEventListener("click", fillTheTitle);
-                    titles[i].addEventListener("change", fillTheTitle);
-                }
-            }
-        };
---}}
-        function showFields(){
-            rowIsEducating.innerHTML = "<div class='row form-group required'>" +
-                "    <label for='inputSchoolOrCourse' class='col-md-2 control-label text-md-right'>任職機關/任教學程</label>" +
-                "    <div class='col-md-10'>" +
-                "        <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=教育部 class='officials'> 教育部" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                請勾選任職機關/任教學程" +
-                "            </div>" +
-                "        </label> " +
-                "        <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=教育局/處 class='officials'> 教育局/處" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                &nbsp;" +
-                "            </div>" +
-                "        </label> " +
-                "        <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=大專校院 class='universities'> 大專校院" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                &nbsp;" +
-                "            </div>" +
-                "        </label> <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=高中職 class='compulsories'> 高中職" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                &nbsp;" +
-                "            </div>" +
-                "        </label> <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=國中 class='compulsories'> 國中" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                &nbsp;" +
-                "            </div>" +
-                "        </label> <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=國小 class='compulsories'> 國小" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                &nbsp;" +
-                "            </div>" +
-                "        </label> <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=幼教 class='compulsories'> 幼教" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                &nbsp;" +
-                "            </div>" +
-                "        </label> " +
-                "    </div>" +
-                "</div>" +
-                "<div class='row form-group required'> " +
-                "<label for='inputSubjectTeaches' class='col-md-2 control-label text-md-right'>任教科系/任教科目</label>" +
-                "    <div class='col-md-10'>" +
-                "        <input type=text required  name='subject_teaches' value='' class='form-control' id='inputSubjectTeaches'>" +
-                "        <div class='invalid-feedback crumb'>" +
-                "            請填寫任教科系/任教科目" +
-                "        </div>" +
-                "    </div>" +
-                "</div>";
-
-            document.getElementById("tip").innerHTML = '請先選擇任教機關/任教學程';
-
-            /*************************************
-             * 物件重建後需重新設定 event listener
-             *************************************/
-            categories = document.getElementsByName("school_or_course");
-            for(let i = 0; i < categories.length; i++){
-                categories[i].addEventListener("click", changeJobTitleList);
-                categories[i].addEventListener("change", changeJobTitleList);
-            }
-
-            titles = document.getElementsByName("data[12]");
-            for(let i = 0; i < titles.length; i++){
-                titles[i].addEventListener("click", fillTheTitle);
-                titles[i].addEventListener("change", fillTheTitle);
-            }
-        }
-
-        function hideFields(){
-            rowIsEducating.innerHTML = '';
-            document.getElementById("tip").innerHTML = '';
-        }
 
         function setUnrequired(elements){
             for(let i = 0; i < elements.length; i++){
@@ -924,6 +802,25 @@
                 Address(ele.options[ele.options.selectedIndex].value);
             }
         }
+
+        function setInfoSourceOther(checkbox_ele) {
+            const label = document.getElementById('infoSourceOther_label');
+            if(checkbox_ele.checked) {
+                document.getElementById("infoSourceOther_text").required = true;
+                label.innerHTML = '<span style="color:red;">＊</span>請填寫&nbsp;&nbsp;';
+            }
+            else {
+                document.getElementById("infoSourceOther_text").required = false;
+                label.innerHTML = '請填寫&nbsp;&nbsp;';
+            }
+        }
+        function setInfoSourceOtherText(text) {
+            const label = document.getElementById('infoSourceOther_label');
+            label.innerHTML = '<span style="color:red;">＊</span>請填寫&nbsp;&nbsp;';
+            document.getElementById("infoSourceOther_checkbox").checked = true;
+            document.getElementById("infoSourceOther_text").required = true;
+        }
+
     </script>
     <style>
         .required .control-label::after {

@@ -3,6 +3,7 @@
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }}</h4>
     </div>
+
     <div class="card">
         <div class="card-header">
             修改成功
