@@ -45,6 +45,8 @@
                     @elseif(!$isShowVolunteers && !$isShowLearners && $key == "contactlog")
                     @elseif($key == "contactLog" && $currentUser->canAccessResource(new App\Models\ContactLog(), 'read', $campFullData))
                         <th class="text-center" data-field="contactLog" data-sortable="0">關懷記錄</th>
+                    @elseif($key == "gender")
+                        <th class="text-center" data-field="gender->" data-sortable="{{ $item['sort'] }}">{{ $item['name'] }}</th>
                     @else
                         <th class="text-center" data-field="{{ $key }}" data-sortable="{{ $item['sort'] }}">{{ $item['name'] }}</th>
                     @endif
@@ -64,9 +66,9 @@
         $applicants = $applicants->load('carers');
         $applicants = $applicants->load('contactlog');
         $applicants = $applicants->each(function ($applicant) use ($camp) {
-            $applicant->number = $applicant->number;
+            //$applicant->number = $applicant->number;
             //$applicant->gender = $applicant->gender_zh_tw;
-            $applicant->age = $applicant->age;
+            //$applicant->age = $applicant->age;
             /*match ($applicant->is_attend) {
                 0 => $applicant->is_attend = "不參加",
                 1 => $applicant->is_attend = "參加",
@@ -239,6 +241,7 @@
             result = Object.values(result[0]);
         }
         result.forEach(function(item) {
+            item.gender = item.gender_
             if (!item || !item.id) {
                 console.log(item, count);
                 return;

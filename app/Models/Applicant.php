@@ -142,23 +142,7 @@ class Applicant extends Model
      * camp_entry: individual applicant's preferences of the camp
      * camp_info: the camp's (global) settings
      */
-    /*
-    public function camp_entry()
-    {
-        $model = "App\\Models\\". ucfirst($this->camp_table);
 
-        // 檢查類別是否存在，避免 Fatal Error
-        if (!class_exists($model)) {
-            // 回傳一個空的關聯或是拋出異常
-            throw new \Exception("Model {$model} does not exist.");
-        }
-
-        return $this->hasOne($model, 'applicant_id', 'id');
-    }*/
-
-    /* 
-     * make acamp bcamp ccamp dcamp still valid
-     */ 
     public function __call($method, $parameters)
     {
         // 定義所有可能的營隊關鍵字
@@ -383,26 +367,6 @@ class Applicant extends Model
         return $this->birthdate?->diff(now())->format('%y');
     }*/
 
-    /* 換個方式處理birthdate, 分成顯示用display及計算用valid */
-    /**
-     * 1. 顯示專用：會出現 1990-00-00 (Readable Date)
-     * 用法：$applicant->birthdate_display
-     */
-    protected function birthdateDisplay(): Attribute
-    {
-        return Attribute::get(function () {
-            // 感覺沒有year, 還是可以顯示
-            //if (!$this->birthyear) return '0000-00-00';
-            
-            return sprintf(
-                '%04d-%02d-%02d',
-                $this->birthyear ?: 0,
-                $this->birthmonth ?: 0,
-                $this->birthday ?: 0
-            );
-        });
-    }
-
     /**
      * 2. 計算專用：自動補齊成合法日期 (Valid Date)
      * 用法：$applicant->birthdate_valid
@@ -494,6 +458,66 @@ class Applicant extends Model
         }
         $str .= "</div>";
         return $str;
+    }
+
+    /* 換個方式處理birthdate, 分成顯示用display及計算用valid */
+
+    /**
+     * 1. 顯示專用：會出現 1990-00-00 (Readable Date)
+     * 用法：$applicant->birthdate_display
+     */
+    protected function birthdateDisplay(): Attribute
+    {
+        return Attribute::get(function () {
+            // 感覺沒有year, 還是可以顯示
+            //if (!$this->birthyear) return '0000-00-00';
+            
+            return sprintf(
+                '%04d-%02d-%02d',
+                $this->birthyear ?: 0,
+                $this->birthmonth ?: 0,
+                $this->birthday ?: 0
+            );
+        });
+    }
+
+    /**
+     * 2. 計算專用：自動補齊成合法日期 (Valid Date)
+     * 用法：$applicant->birthdate_valid
+     */
+    protected function birthdateValid(): Attribute
+    {
+        return Attribute::get(function () {
+            // 計算時好像都會用到year，如果沒有year，還是return null好了
+            if (!$this->birthyear) return null;
+
+            // 沒月補1月，沒日補1日，確保 Carbon 可以解析
+            return Carbon::create(
+                $this->birthyear, 
+                $this->birthmonth ?: 1, 
+                $this->birthday ?: 1
+            );
+        });
+    }
+
+    /**
+     * 自動根據出生年月日計算目前的年齡
+     * 用法：$applicant->age
+     */
+    protected function age(): Attribute
+    {
+        return Attribute::get(function () {
+            // 呼叫剛才寫好的 birthdate_valid (已自動補齊 1月1日)
+            $date = $this->birthdate_valid;
+
+            if (!$date) {
+                return null; // 連年份都沒有，就無法算年齡
+            }
+
+            // 使用 Carbon 內建的 diffInYears 方法計算到今天為止的差距
+            // Carbon::diffInYears() 會自動處理今天是否過了生日的問題
+            return $date->diffInYears(now());
+        });
     }
 
     /**
