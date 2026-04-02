@@ -367,45 +367,6 @@ class Applicant extends Model
         return $this->birthdate?->diff(now())->format('%y');
     }*/
 
-    /**
-     * 2. 計算專用：自動補齊成合法日期 (Valid Date)
-     * 用法：$applicant->birthdate_valid
-     */
-    protected function birthdateValid(): Attribute
-    {
-        return Attribute::get(function () {
-            // 計算時好像都會用到year，如果沒有year，還是return null好了
-            if (!$this->birthyear) return null;
-
-            // 沒月補1月，沒日補1日，確保 Carbon 可以解析
-            return Carbon::create(
-                $this->birthyear, 
-                $this->birthmonth ?: 1, 
-                $this->birthday ?: 1
-            );
-        });
-    }
-
-    /**
-     * 自動根據出生年月日計算目前的年齡
-     * 用法：$applicant->age
-     */
-    protected function age(): Attribute
-    {
-        return Attribute::get(function () {
-            // 呼叫剛才寫好的 birthdate_valid (已自動補齊 1月1日)
-            $date = $this->birthdate_valid;
-
-            if (!$date) {
-                return null; // 連年份都沒有，就無法算年齡
-            }
-
-            // 使用 Carbon 內建的 diffInYears 方法計算到今天為止的差距
-            // Carbon::diffInYears() 會自動處理今天是否過了生日的問題
-            return $date->diffInYears(now());
-        });
-    }
-
     /* 改用Enum處理：'gender' => Gender::class, */
     public function getGenderZhTwAttribute()
     {

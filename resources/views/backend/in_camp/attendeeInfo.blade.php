@@ -42,6 +42,7 @@
 
     <!-- 修改學員資料,使用報名網頁 -->
     @if($currentUser->canAccessResource($applicant, 'update', $applicant->camp, target: $applicant))
+    <div class="container mr-4 mb-2">
     <form target="_blank" action="{{ route('queryupdate', $batch->id) }}" method="post">
         @csrf
         <input type="hidden" name="sn" value="{{ $applicant->applicant_id }}">
@@ -51,6 +52,7 @@
         <button class="mr-4 btn btn-primary float-right">修改學員(報名)資料</button>
         <br>
     </form>
+    </div>
     @endif
     <br>
     <div class="container alert alert-warning">
@@ -83,7 +85,7 @@
             </div>
         </div>
     </div>
-    @if($layout['sec_lodging']['is_shown'] || $layout['sec_lodging']['is_shown'])
+    @if($layout['sec_lodging']['is_shown'] || $layout['sec_traffic']['is_shown'])
     <div class="container alert" style="background-color:#eaeaea">
         @if($layout['sec_lodging']['is_shown'])
         <div class="row d-flex justify-content-start">
@@ -95,8 +97,8 @@
             @endif
         </div>
         @endif
-    @endif
-    @if($layout['sec_traffic']['is_shown'])
+    
+        @if($layout['sec_traffic']['is_shown'])
         <div class="row d-flex justify-content-start">
             <div class="ml-2 mb-2 font-weight-bold">交通選項</div>：
             @if (!isset($applicant->traffic))
@@ -105,8 +107,10 @@
                 <div class="mr-4 text-success">{{ $applicant->traffic->depart_from }}/{{ $applicant->traffic->back_to }}</div>
             @endif
         </div>
+        @endif
     </div>
     @endif
+
     @if($layout['sec_attend']['is_shown'])
     <div class="container alert alert-warning">
         <div class="row d-flex">
