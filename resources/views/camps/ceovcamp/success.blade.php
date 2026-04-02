@@ -1,4 +1,4 @@
-@extends('camps.'. $camp_info->table .'.layout')
+@extends('camps.' . $camp_info->table . '.layout')
 @section('content')
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }}</h4>
@@ -21,7 +21,7 @@
                 @else
                     恭喜您已完成「{{ $camp_data->fullName }}」網路報名程序。<br>
                 @endif
-                @include('camps.'. $camp_info->table .'.successMessages')
+                @include('camps.' . $camp_info->table . '.successMessages')
             </p>
             <form action="{{ route("queryview", $applicant->batch_id) }}" method="post" class="d-inline">
                 @csrf

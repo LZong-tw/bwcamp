@@ -1,4 +1,4 @@
-@extends('camps.mcamp.layout')
+@extends('camps.' . $camp_info->table . '.layout')
 @section('content')
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }}</h4>
@@ -10,8 +10,8 @@
         </div>
         <div class="card-body">
             <p class="card-text">
-                恭喜您已完成{{ $camp_data->fullName }}網路報名程序。
-                @include('camps.mcamp.successMessages')
+                恭喜您已完成{{ $camp_info->fullName }}網路報名程序。
+                @include('camps.' . $camp_info->table . '.successMessages')
             </p>
             <form action="{{ route("queryview", $applicant->batch_id) }}" method="post" class="d-inline">
                 @csrf

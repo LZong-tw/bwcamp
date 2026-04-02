@@ -1,4 +1,4 @@
-@extends('camps.'. $camp_info->table .'.layout')
+@extends('camps.' . $camp_info->table . '.layout')
 @section('content')
     <div class='page-header form-group'>
         <h4>{{ $camp_info->fullName }}</h4>

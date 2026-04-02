@@ -536,6 +536,7 @@ class CampController extends Controller
     public function campViewAdmission()
     {
         $camp = $this->camp_info;
+        //$camp_info = $this->camp_info; //已在建構子用 View::share 全域傳了，這邊就不需要了
         return view('camps.' . $this->camp_info->table . ".queryadmission", compact('camp'));
     }
 
