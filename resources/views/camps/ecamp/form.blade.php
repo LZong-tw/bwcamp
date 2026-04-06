@@ -493,8 +493,33 @@
                     </div>
                 </div>
             </div>
+            <div>
             <div class="card border-light border-1 d-flex p-4" style="background: rgba(255,255,255,0);border-radius: 30px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;padding: initial;margin: 10px 0px;">
-                <p style="color: rgb(70,78,171);margin: 0px;font-size: initial;text-align: left;"><strong><span style="color: rgb(0, 0, 0);" class="required">附註</span></strong><br><span style="color: rgb(253, 126, 20);">本人同意：福智文教基金會取得之個人資料，於營隊期間及後續基金會所屬福智團體舉辦之活動，作為訊息通知、行政處理等非營利目的之使用，不提供予無相關之其他單位使用。在營隊期間拍照、錄影之活動記錄可使用於營隊及主辦單位之非營利教育推廣使用。</span></p>
+                <h1 style="font-size: x-large; text-align: left;">加　入　會　員</h1>
+                <p style="color: rgb(70,78,171);margin: 0px;font-size: initial;text-align: left;">
+                <strong>
+                <span style="color: rgb(0, 0, 0); required">會員好禮：享有觀看影片、閱讀文章及參加各種課程活動</span><br>
+                <span style="color: rgb(107, 165, 193); background-color: rgba(0, 0, 0, 0);">
+                立即加入福智文教會員中心
+                </span>
+                <span style="color: rgb(107, 165, 193); background-color: rgba(0, 0, 0, 0);" class="required">：&nbsp;</span>
+                <input type="radio" style="border-style: none;border-color: rgb(105,167,190);" name="is_membership" value=1 required>
+                    <span style="color: rgb(107, 165, 193); background-color: rgba(0, 0, 0, 0);">
+                    &nbsp;立即加入　　
+                    </span>
+                <input type="radio" style="border-style: none;border-color: rgb(105,167,190);opacity: 1;"  name="is_membership" value=0 required>
+                    <span style="color: rgb(107, 165, 193); background-color: rgba(0, 0, 0, 0);">
+                    &nbsp;暫時不要
+                    </span>
+                </strong>
+                </p>
+            </div>
+            <div class="card border-light border-1 d-flex p-4" style="background: rgba(255,255,255,0);border-radius: 30px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;padding: initial;margin: 10px 0px;">
+                <p style="color: rgb(70,78,171);margin: 0px;font-size: initial;text-align: left;">
+                    <strong><span style="color: rgb(0, 0, 0);">附註</span></strong><br>
+                    <span style="color: rgb(253, 126, 20);">本人同意：福智文教基金會取得之個人資料，於營隊期間及後續基金會所屬福智團體舉辦之活動，作為訊息通知、行政處理等非營利目的之使用，不提供予無相關之其他單位使用。在營隊期間拍照、錄影之活動記錄可使用於營隊及主辦單位之非營利教育推廣使用。
+                    </span>
+                </p>
             </div>
             <!--
             <div class="card border-light border-1 d-flex p-4" style="background: rgba(255,255,255,0);border-radius: 30px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;padding: initial;margin: 10px 0px;">

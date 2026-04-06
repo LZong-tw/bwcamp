@@ -18,7 +18,7 @@
         $roles_select = ["總部企劃", "秘書組", "關懷組", "教務組", "總務組"];
     }
 @endphp
-@extends('camps.ceovcamp.layout')
+@extends('camps.' . $camp_info->table . '.layout')
 @section('content')
     @include('partials.counties_areas_script')
     <div class='page-header form-group'>
@@ -117,6 +117,9 @@
                 @endforeach
                 <option value='依營隊需求安排' >依營隊需求安排</option>
             </select>
+            <div class="invalid-feedback">
+                請選擇報名組別第1志願
+            </div>
         </div>
     </div>
 
@@ -174,7 +177,7 @@
     <div class='row form-group required'>
         <label for='inputName' class='col-md-2 control-label text-md-right'>中文姓名</label>
         <div class='col-md-10'>
-            <input type='text' name='name' value='' class='form-control' id='inputName' placeholder='請填寫全名' required>
+            <input required type='text' name='name' value='' class='form-control' id='inputName' placeholder='請填寫全名'>
             <div class="invalid-feedback">
                 請填寫姓名
             </div>
@@ -244,9 +247,9 @@
     </div>
 
     <div class='row form-group required'>
-        <label for='inputCell' class='col-md-2 control-label text-md-right'>手機號碼</label>
+        <label for='inputMobile' class='col-md-2 control-label text-md-right'>手機號碼</label>
         <div class='col-md-10'>
-            <input type=tel required name='mobile' value='' class='form-control' id='inputCell' placeholder='格式：0912345678' pattern="[0][9]\d{8}">
+            <input type=tel required name='mobile' value='' class='form-control' id='inputMobile' placeholder='格式：0912345678' pattern="[0][9]\d{8}">
             <div class="invalid-feedback">
                 請填寫手機號碼
             </div>
@@ -376,7 +379,7 @@
     <div class='row form-group required'>
     <label for='inputUnit' class='col-md-2 control-label text-md-right'>公司名稱</label>
         <div class='col-md-10'>
-            <input type=text required name='unit' value='' class='form-control' id='inputUnit' placeholder='若已退休，請填寫退休前資料'>
+            <input required type=text class='form-control' name='unit' id='inputUnit' value='' placeholder='若已退休，請填寫退休前資料'>
             <div class="invalid-feedback crumb">
                 請填寫公司名稱
             </div>
@@ -423,7 +426,7 @@
     <div class='row form-group required'>
     <label for='inputTitle' class='col-md-2 control-label text-md-right'>職稱</label>
         <div class='col-md-10'>
-            <input type='text' required name='title' value='' maxlength="40" class='form-control' id='inputTitle' placeholder='若已退休，請填寫退休前資料'>
+            <input required type='text' class='form-control' name='title' value='' maxlength="40"  id='inputTitle' placeholder='若已退休，請填寫退休前資料'>
             <div class="invalid-feedback">
                 請填寫職稱
             </div>
@@ -462,7 +465,7 @@
         </div>
     </div>
 
-{{--
+<!--
     <div class='row form-group'>
     <label for='inputJobPropertyOther' class='col-md-2 control-label text-md-right'>職務類型:自填</label>
         <div class='col-md-10'>
@@ -482,7 +485,7 @@
             </div>
         </div>
     </div>
---}}
+-->
 
     <div class='row form-group'>
     <label for='inputEmployees' class='col-md-2 control-label text-md-right'>公司員工總數</label>
