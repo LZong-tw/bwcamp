@@ -3,7 +3,10 @@
     header('Pragma: no-cache');
     header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
     header('Expires: Fri, 01 Jan 1990 00:00:00 GMT');
-    $regions = ['北區', '竹區', '中區', '高區'];
+    $regions = $camp_info->regions;
+    if(str_contains($camp_info->name, "北區")) {$county_local = "台北及新北";}
+    else { $county_local = "屏東"; }
+
 @endphp
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="zh-Hant">
@@ -17,17 +20,17 @@
     <meta property='og:url' content='http://bwfoce.org/ceocamp' />
     <meta property='og:title' content='{{ $camp_data->abbreviation }}' />
     <meta property='og:description' content='邀請您推薦報名參加菁英營。' />
-    @if (str_contains($batch->name, "開南"))
-        <meta property="og:image" content="{{ asset('img/ceocamp2025/icon_camp.png') }}"/>
-        <meta property="og:image:width" content="801"/>
-        <meta property="og:image:height" content="605"/>
+    @if (str_contains($camp_info->name, "北區"))
+        <meta property="og:image" content="{{ asset('img/{$camp_info->year}ceocampIcon_date.png') }}"/>
+        <meta property="og:image:width" content="800"/>
+        <meta property="og:image:height" content="640"/>
     @else        
-        <meta property="og:image" content="{{ asset('img/ceocamp2025/icon_camp.png') }}"/>
-        <meta property="og:image:width" content="801"/>
-        <meta property="og:image:height" content="605"/>
+        <meta property="og:image" content="{{ asset('img/{$camp_info->year}ceocampIcon_date.png') }}"/>
+        <meta property="og:image:width" content="800"/>
+        <meta property="og:image:height" content="640"/>
     @endif
     {{-- <link rel='icon' href='/camp/favicon.ico'> --}}
-    <title> {{ $camp_data->fullName }} </title>
+    <title> {{ $camp_info->fullName }} </title>
     <link rel="stylesheet" href="{{ asset('mockup-assets/ceocamp/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Raleway:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
@@ -50,7 +53,7 @@
         style="background: linear-gradient(rgb(186,207,227), rgba(255,255,255,0.4) 52%, rgb(196,207,227)), rgba(255,255,255,0.6);border-radius: 0px;height: 60px;box-shadow: 0px 0px 14px;">
         <div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><span
                     style="font-family: Abel, sans-serif;color: rgb(46,83,99);"><span
-                        style="color: rgb(40, 100, 80);">{{ $camp_data->year }}企業菁英生命成長營推薦</span><span
+                        style="color: rgb(40, 100, 80);">{{ $camp_info->year }}企業菁英生命成長營推薦 {{ $camp_info->name }}</span><span
                         style="color: rgb(154, 0, 0);"><!--（{{ $batch->name }}梯）--></span></span></a><button data-bs-toggle="collapse"
                 class="navbar-toggler" data-bs-target="#navcol-1"
                 style="width: 43px;height: 40px;padding: 0px 0px;background: rgba(255,255,255,0.3);"><span
@@ -68,12 +71,15 @@
     </nav>
     <header class="pt-5"></header>
     <section style="text-align: center;"><img
-            src="{{ asset('mockup-assets/ceocamp/img/illustrations/2025菁英營banner_1920x675.png') }}"
+            src="{{ asset("img/{$camp_info->year}ceocampBanner_1920x675.png") }}"
             style="width: 100%;margin: initial;padding: initial;">
         <div class="container">
-            <p style="text-align: left;margin: 0px;"><span
-                    style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">若您在填寫表格時遇到困難，請洽詢：</span><br>北區—陳小姐
-                0935-237-395、劉小姐 0953-226-558｜竹區—何小姐 0920-431-831、林小姐 0933-973-825｜<br>中區—王小姐 0937-308-673、林小姐 0935-303-658｜高區—陳先生 0952-413-683、陳小姐 0929-350-820</p>
+            <p style="text-align: left;margin: 0px;">
+                <span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">
+                    若您在填寫表格時遇到困難，請洽詢：<br>
+                    {!! nl2br(e(str_replace('\n', "\n", $camp_info->contact_card))) !!}
+                </span>
+            </p>
         </div>
         <div class="container py-4 py-xl-5">
             {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
@@ -216,24 +222,31 @@
                                                 <tr>
                                                     <td
                                                         style="font-size: larger;background: rgba(255,255,255,0);padding: 5px 40px;border-style: none;border-color: rgb(255,255,255);">
-                                                        <strong><span
-                                                                style="color: rgb(105, 57, 62); background-color: rgba(220, 220, 220, 0);">3.
-                                                            </span><span
-                                                                style="color: rgb(60, 145, 190); background-color: rgba(220, 220, 220, 0);">知悉並告知被推薦人</span></strong><span
-                                                                style="color: rgb(35, 35, 35); background-color: rgba(220, 220, 220, 0);">：
-                                                                營隊活動地點為臺中國立勤益科技大學，配合兩天一夜課程，臺中以外縣市學員若由主辦單位安排7/26晚間住宿者（以安排「雙人房」為主），費用為NT$2,400元。欲住宿單人房者，費用為NT$4,800元。</span>
+                                                        <strong>
+                                                            <span style="color: rgb(105, 57, 62); background-color: rgba(220, 220, 220, 0);">3.</span>
+                                                            <span style="color: rgb(60, 145, 190); background-color: rgba(220, 220, 220, 0);">知悉並告知被推薦人</span>
+                                                        </strong>
+                                                        <span style="color: rgb(35, 35, 35); background-color: rgba(220, 220, 220, 0);">：
+                                                            營隊活動地點為{{ $camp_info->locationName }}，配合 {{ substr($camp_info->batch_start,5,5) }}~{{ substr($camp_info->batch_end,5,5) }} 兩天課程，{{ $county_local }}以外縣市學員，若由主辦單位安排 {{ substr($camp_info->batch_start,5,5) }} 晚間住宿者，費用以報名區域為準。
+                                                        </span>
                                                     </td>
                                                 </tr>
                                             @endif
 
-
                                             <tr>
                                                 <td style="font-size: initial;background: rgba(173,192,224,0.3);padding: 5px 40px;border-style: none;border-color: rgb(255,255,255);border-radius: 30px;">
-                                                    @if (str_contains($batch->name, ""))
-                                                        <span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">若有需要，可下載&nbsp;</span><a href="{{ url("downloads/ceocamp2025/2025菁英營學員推薦表v3.docx") }}" target="_blank"><strong><span style="color: rgb(50, 125, 70); background-color: rgba(220, 220, 220, 0);">學員推薦表WORD檔</span></strong></a>&nbsp;<span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">或&nbsp;</span><a href="{{ url("downloads/ceocamp2025/2025菁英營學員推薦表v3.pdf") }}" target="_blank"><strong><span style="color: rgb(50, 125, 70); background-color: rgba(220, 220, 220, 0);">學員推薦表PDF檔</span></strong></a><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">， 請被推薦人提供資料，做為填寫此表單的依據。</span>
-                                                    @else
-                                                        <span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">若有需要，可下載&nbsp;</span><a href="{{ url("downloads/ceocamp2025/2025菁英營學員推薦表v3.docx") }}"><strong><span style="color: rgb(50, 125, 70); background-color: rgba(220, 220, 220, 0);">學員推薦表WORD檔</span></strong></a>&nbsp;<span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">或&nbsp;</span><a href="{{ url("downloads/ceocamp2025/2025菁英營學員推薦表v3.pdf") }}"><strong><span style="color: rgb(50, 125, 70); background-color: rgba(220, 220, 220, 0);">學員推薦表PDF檔</span></strong></a><span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">， 請被推薦人提供資料，做為填寫此表單的依據。</span>
-                                                    @endif
+                                                    <span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">
+                                                        若有需要，可下載&nbsp;</span>
+                                                    <a href="{{ asset('downloads/ceocamp/'. $camp_info->year . '菁英營學員推薦表_' . $camp_info->name . '.docx') }}" 
+                                                    target="_blank"><strong>
+                                                        <span style="color: rgb(50, 125, 70); background-color: rgba(220, 220, 220, 0);">學員推薦表WORD檔</span>
+                                                    </strong></a>&nbsp;
+                                                    <span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">或&nbsp;</span>
+                                                    <a href="{{ asset('downloads/ceocamp/'. $camp_info->year . '菁英營學員推薦表_' . $camp_info->name . '.pdf') }}" 
+                                                    target="_blank"><strong>
+                                                        <span style="color: rgb(50, 125, 70); background-color: rgba(220, 220, 220, 0);">學員推薦表PDF檔</span>
+                                                    </strong></a>
+                                                    <span style="color: rgb(33, 37, 41); background-color: rgba(220, 220, 220, 0);">， 請被推薦人提供資料，做為填寫此表單的依據。</span>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -278,14 +291,11 @@
                                         <td
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                             <span style="color: rgb(0, 0, 0);" class="required">區域別：&nbsp;</span>
-                                                <input type="radio" value="北區　" name="region" required><span
-                                                    style="color: rgb(0, 0, 0);"> 北區　</span>
-                                                <input type="radio" value="竹區" name="region" required><span
-                                                    style="color: rgb(0, 0, 0);"> 竹區　</span>
-                                                <input type="radio" value="中區" name="region" required><span
-                                                    style="color: rgb(0, 0, 0);"> 中區　</span>
-                                                <input type="radio" value="高區" name="region" required><span
-                                                    style="color: rgb(0, 0, 0);"> 高區　</span><br>
+                                                @foreach ($regions as $region)
+                                                     <input type="radio" value="{{ $region->name }}" name="region" required>
+                                                     <span style="color: rgb(0, 0, 0);"> {{ $region->name }}　</span>
+                                                @endforeach
+                                            <br>
                                             <sup><span style="color: rgb(255, 0, 0);">建議根據被推薦人的工作/生活地區選擇</span></sup>
                                         </td>
                                     </tr>
@@ -443,7 +453,7 @@
                                     style="color: rgb(30, 70, 90);">(營隊學員)</span></sup><span
                                 style="color: rgb(30, 70, 90);">其他資料</span></h1>
                         <h1 style="font-size: small;"><span
-                                style="color: rgb(50, 125, 70); background-color: rgba(255, 255, 255, 0);">＊公司及職務相關欄位，若被推薦人已退休，請填寫退休前資料＊</span>
+                                style="color: rgb(50, 125, 70); background-color: rgba(255, 255, 255, 0);">＊公司及職務相關欄位，若被推薦人已退休，請填寫退休前資料，並註明已退休＊</span>
                         </h1>
                         <div class="table-responsive" style="width: 98%;">
                             <table class="table">
@@ -454,7 +464,7 @@
                                     <tr>
                                         <td
                                             style="width: 40%;color: var(--bs-body-color);background: rgba(255,255,255,0);border-style: none;">
-                                            <span style="color: rgb(0, 0, 0);" class="required">公司名稱：&nbsp;</span><input type="text" required name='unit' placeholder='若已退休，請填寫退休前資料'
+                                            <span style="color: rgb(0, 0, 0);" class="required">公司名稱：&nbsp;</span><input type="text" required name='unit' placeholder='若已退休，請填寫退休前資料，並註明已退休'
                                                 style="border-style: none;border-radius: 10px;background: rgba(206,212,218,0.35);padding: 3px 10px; width: 80%;">
                                         </td>
                                     </tr>
@@ -485,7 +495,7 @@
                                         style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                         <td
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                            <span style="color: rgb(0, 0, 0);" class="required">職稱：&nbsp;</span><input type="text" placeholder='若已退休，請填寫退休前資料' required name='title' value='' maxlength="40"
+                                            <span style="color: rgb(0, 0, 0);" class="required">職稱：&nbsp;</span><input type="text" placeholder='若已退休，請填寫退休前資料，並註明已退休' required name='title' value='' maxlength="40"
                                                 style="padding: 3px 10px;border-radius: 10px;border-style: none;background: rgba(206,212,218,0.35); width: 80%;">
                                         </td>
                                     </tr>
@@ -540,7 +550,7 @@
                                         style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
                                         <td
                                             style="color: rgba(255,255,255,0);background: rgba(255,255,255,0);border-style: none;">
-                                            <span style="color: rgb(0, 0, 0);">資本額（新台幣）：&nbsp;</span><input
+                                            <span style="color: rgb(0, 0, 0);">資本額(或營業額)(新台幣)：&nbsp;</span><input
                                                 type="number"  name='capital' value='' maxlength="40"  id='inputTitle' placeholder='請填寫數字，勿填「非數字」。請記得選單位。'
                                                 style="border-radius: 10px;border-style: none;padding: 3px 10px;background: rgba(206,212,218,0.35); width: 100%;">
                                         </td>
