@@ -949,7 +949,6 @@ return [
             'fields' => [
                 'mobile' => '行動電話',
                 'phone_home' => '住家電話',
-                'address' => '居住縣市',
                 'line' => 'lineID',
                 'email' => 'Email',
                 'zipcode' => '郵遞區號',
