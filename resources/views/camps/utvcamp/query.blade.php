@@ -1,4 +1,4 @@
-@extends('camps.utvcamp.layout')
+@extends('camps.' . $camp_info->table . '.layout')
 @section('content')
 @if($errors->any())
     @foreach ($errors->all() as $message)
