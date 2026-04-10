@@ -34,7 +34,7 @@ use Intervention\Image\Facades\Image;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Jobs\CheckResourceAccessJob;
 use Illuminate\Support\Facades\Bus;
-use View;
+use Illuminate\Support\Facades\View;
 
 class BackendController extends Controller
 {
@@ -44,75 +44,109 @@ class BackendController extends Controller
     protected $applicantService;
     protected $backendService;
     protected $gsheetService;
+
     protected $batch_id;
-    protected $camp_data;
     protected $batch;
-    protected $has_attend_data;
+    protected $camp_id;
+    protected $camp;
+    protected $camp_info;
+    protected $camp_table;  //string
+    protected $has_attend_data = false;
     protected $usePermissionOptimization = false;
+
+    protected $camp_data;       //=$camp_info
+    protected $campFullData;    //=$camp
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(
+    public function __construct (
         CampDataService $campDataService,
         ApplicantService $applicantService,
         BackendService $backendService,
         GSheetService $gsheetService,
-        Request $request
-    ) {
+        Request $request )
+    {
         $this->middleware('auth');
         $this->campDataService = $campDataService;
         $this->applicantService = $applicantService;
         $this->backendService = $backendService;
         $this->gsheetService = $gsheetService;
 
-        if ($request->route()->parameter('batch_id')) {
-            // 營隊資料，存入 view 全域
-            $this->batch_id = $request->route()->parameter('batch_id');
-            $this->camp_data = $this->campDataService->getCampData($this->batch_id)['camp_data'];
-            $this->batch = Batch::find($request->route()->parameter('batch_id'));
-            View::share('batch', $this->batch);
-            View::share('batch_id', $this->batch_id);
-            View::share('camp_data', $this->camp_data);
-            if ($this->camp_data->table == 'ycamp' || $this->camp_data->table == 'acamp') {
-                if (
-                    $this->camp_data->admission_confirming_end &&
-                    Carbon::now()->gt($this->camp_data->admission_confirming_end)
-                ) {
+        $this->camp_id = $request->route()->parameter('camp_id') ?? null;
+        $this->batch_id = $request->route()->parameter('batch_id') ?? null;
+
+        if ($this->batch_id) {
+            $this->batch = Batch::with(['camp'])->find($this->batch_id);
+            if (is_null($this->batch)) {
+                echo "<h1>錯誤：查無梯次資料。</h1>" . "<br>";
+                die();
+            }
+            $this->camp_info = $this->campDataService->getCampInfo($this->batch);
+            if (is_string($this->camp_info)) {   //錯誤
+                echo "<h1>" . $this->camp_info . "</h1><br>";
+                die();
+            }
+
+            $this->camp_id = $this->camp_info->camp_id;
+            $this->camp_table = $this->camp_info->camp_table;
+            $this->camp = null;
+
+            $this->camp_data = $this->camp_info;
+            $this->persist(camp: $this->camp_info);
+
+            $camp = $this->camp_info;
+
+            if ($this->camp_table == 'ycamp' || $this->camp_table == 'acamp')
+            {
+                if ($this->camp_info->admission_confirming_end &&
+                    Carbon::now()->gt($this->camp_info->admission_confirming_end))
+                {
                     $this->has_attend_data = true;
                 }
             }
-            $camp = $this->camp_data;
-            if (!$camp) {
-                echo "無此營隊";
-                die();
-            }
-        }
-        if ($request->route()->parameter('camp_id')) {
+        } 
+        else if ($this->camp_id) 
+        {
+            //沒有$batch_id
             $this->middleware('permitted');
-            $this->camp_id = $request->route()->parameter('camp_id');
-            $this->campFullData = Camp::find($request->route()->parameter('camp_id'));
-            View::share('camp_id', $this->camp_id);
-            View::share('campFullData', $this->campFullData);
-            if ($this->campFullData && ($this->campFullData->table == 'ycamp' || $this->campFullData->table == 'acamp')) {
-                if ($this->campFullData->admission_confirming_end && Carbon::now()->gt($this->campFullData->admission_confirming_end)) {
+            $this->camp = Camp::find($this->$camp_id);
+            $this->camp_table = $this->camp->table;
+            if (is_null($this->camp)) 
+            {
+                echo "<h1>錯誤：查無營隊資料。</h1>" . "<br>";
+                die();
+            }
+            $this->campFullData = $this->camp;
+            $this->camp_info = null;
+            $this->persist(camp: $this->camp);
+
+            if ($this->camp_table == 'ycamp' || $this->camp_table == 'acamp') 
+            {
+                if ($this->camp_info->admission_confirming_end &&
+                    Carbon::now()->gt($this->camp_info->admission_confirming_end)) 
+                {
                     $this->has_attend_data = true;
                 }
             }
-            $camp = $this->campFullData;
-            if (!$camp) {
-                echo "無此營隊";
-                die();
-            }
         }
+
         if (\Str::contains(url()->current(), "campManage")) {
             $this->middleware('admin');
         }
-        if ($camp ?? false) {
-            $this->persist(camp: $camp);
-        }
+
+        // 營隊資料，存入 view 全域
+        View::share('batch_id', $this->batch_id);
+        View::share('batch', $this->batch);
+        View::share('camp_id', $this->batch_id);
+        View::share('camp', $this->camp); //??
+        View::share('camp_info', $this->camp_info);
+        View::share('camp_table', $this->camp_table);
+
+        View::share('camp_data', $this->camp_data);
+        View::share('campFullData', $this->campFullData);
     }
 
     public function persist(...$args)
@@ -122,8 +156,8 @@ class BackendController extends Controller
         $this->middleware(function ($request, $next) use ($that, $args) {
             $that->user = \App\Models\User::find(auth()->user()->id);
             $that->isVcamp = str_contains($args["camp"], "vcamp");
-            if ($that->user->roles()->where("camp_id", $this->campFullData->id)->count() == 1 &&
-               $that->user->roles()->where("camp_id", $this->campFullData->id)->where("position", "like", "%關懷小組%")->count()) {
+            if ($that->user->roles()->where("camp_id", $this->camp_id)->count() == 1 &&
+               $that->user->roles()->where("camp_id", $this->camp_id)->where("position", "like", "%關懷小組%")->count()) {
                 $that->user->no_panel = true;
             }
             View::share('currentUser', $that->user);
@@ -1708,7 +1742,7 @@ class BackendController extends Controller
                 return "<h1>您沒有權限查看此資料(" . $theStr . ")</h1>";
             }
 
-            $applicant = $this->applicantService->Mandarization($applicant);
+            //$applicant = $this->applicantService->Mandarization($applicant);
         } else {
             return "<h1>異常狀況發生，請將網址提供給開發人員檢查。</h1>";
         }
@@ -1786,7 +1820,8 @@ class BackendController extends Controller
         } elseif ($camp->table == "ycamp") {
             return view('backend.in_camp.attendeeInfoYcamp', compact('camp', 'batch', 'applicant', 'contactlog', 'qrcode', 'departfroms', 'backtos'));
         } else {
-            return view('backend.in_camp.attendeeInfo', compact('camp', 'batch', 'applicant', 'contactlog', 'dynamic_stat_urls', 'qrcode'));
+            $layout = config('camps_attendeeinfo.' . $camp->table) ?? [];
+            return view('backend.in_camp.attendeeInfo', compact('camp', 'batch', 'applicant', 'contactlog', 'dynamic_stat_urls', 'qrcode', 'layout'));
         }
     }
 
