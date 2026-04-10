@@ -62,13 +62,13 @@ class BackendController extends Controller
      *
      * @return void
      */
-    public function __construct (
+    public function __construct(
         CampDataService $campDataService,
         ApplicantService $applicantService,
         BackendService $backendService,
         GSheetService $gsheetService,
-        Request $request )
-    {
+        Request $request
+    ) {
         $this->middleware('auth');
         $this->campDataService = $campDataService;
         $this->applicantService = $applicantService;
@@ -99,23 +99,18 @@ class BackendController extends Controller
 
             $camp = $this->camp_info;
 
-            if ($this->camp_table == 'ycamp' || $this->camp_table == 'acamp')
-            {
+            if ($this->camp_table == 'ycamp' || $this->camp_table == 'acamp') {
                 if ($this->camp_info->admission_confirming_end &&
-                    Carbon::now()->gt($this->camp_info->admission_confirming_end))
-                {
+                    Carbon::now()->gt($this->camp_info->admission_confirming_end)) {
                     $this->has_attend_data = true;
                 }
             }
-        } 
-        else if ($this->camp_id) 
-        {
+        } elseif ($this->camp_id) {
             //沒有$batch_id
             $this->middleware('permitted');
             $this->camp = Camp::find($this->$camp_id);
             $this->camp_table = $this->camp->table;
-            if (is_null($this->camp)) 
-            {
+            if (is_null($this->camp)) {
                 echo "<h1>錯誤：查無營隊資料。</h1>" . "<br>";
                 die();
             }
@@ -123,11 +118,9 @@ class BackendController extends Controller
             $this->camp_info = null;
             $this->persist(camp: $this->camp);
 
-            if ($this->camp_table == 'ycamp' || $this->camp_table == 'acamp') 
-            {
+            if ($this->camp_table == 'ycamp' || $this->camp_table == 'acamp') {
                 if ($this->camp_info->admission_confirming_end &&
-                    Carbon::now()->gt($this->camp_info->admission_confirming_end)) 
-                {
+                    Carbon::now()->gt($this->camp_info->admission_confirming_end)) {
                     $this->has_attend_data = true;
                 }
             }
