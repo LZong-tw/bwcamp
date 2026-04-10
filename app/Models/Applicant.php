@@ -144,7 +144,7 @@ class Applicant extends Model
      * camp_info: the camp's (global) settings
      */
 
-    public function __call($method, $parameters)
+    /*public function __call($method, $parameters)
     {
         // 定義所有可能的營隊關鍵字
         $camps = ['acamp', 'avcamp', 'actcamp', 'actvcamp',
@@ -165,9 +165,9 @@ class Applicant extends Model
         }
 
         return parent::__call($method, $parameters);
-    }
+    }*/
 
-    /*public function acamp()
+    public function acamp()
     {
         return $this->hasOne(Acamp::class, 'applicant_id', 'id');
     }
@@ -274,7 +274,7 @@ class Applicant extends Model
     public function yvcamp()
     {
         return $this->hasOne(Yvcamp::class, 'applicant_id', 'id');
-    }*/
+    }
 
     public function signData($orderBy = "desc")
     {
@@ -340,34 +340,6 @@ class Applicant extends Model
         return $this->morphMany(DynamicStat::class, 'urltable');
     }
 
-    public function getBirthdateAttribute()
-    {
-        return match ($this->birthyear && $this->birthmonth && $this->birthday) {
-            true => Carbon::parse("{$this->birthyear}-{$this->birthmonth}-{$this->birthday}")->format('Y-m-d'),
-            false => match ($this->birthyear && $this->birthmonth) {
-                true => Carbon::parse("{$this->birthyear}-{$this->birthmonth}")->format('Y-m'),
-                false => match ($this->birthyear && 1) {
-                    // 單獨使用年為參數，要注意 1959 以前（包含 1959）的年份，也可被視為時間，因而造成誤判
-                    // https://github.com/php/php-src/issues/15945
-                    // true => Carbon::parse(mktime(0, year: "{$this->birthyear}",))->format('Y'),
-
-                    // 如果只有一個year參數(1)補齊month,day(2)再create完整日期('Y-m-d')，而非'Y'，不然有可能出現奇怪數字。
-                    true => Carbon::parse(mktime(0, year: "{$this->birthyear}", month: "7", day: "1"))->format('Y-m-d'),
-                    false => null,
-                },
-            },
-        };
-    }
-
-    /*下面重寫
-    public function getAgeAttribute()
-    {
-        if (is_string($this->birthdate)) {
-            return Carbon::parse($this->birthdate)->diff(now())->format('%y');
-        }
-        return $this->birthdate?->diff(now())->format('%y');
-    }*/
-
     protected function gender(): Attribute
     {
         return Attribute::make(
@@ -418,12 +390,29 @@ class Applicant extends Model
         return $str;
     }
 
-    /* 換個方式處理birthdate, 分成顯示用display及計算用valid */
+    /*public function getBirthdateAttribute()
+    {
+        return match ($this->birthyear && $this->birthmonth && $this->birthday) {
+            true => Carbon::parse("{$this->birthyear}-{$this->birthmonth}-{$this->birthday}")->format('Y-m-d'),
+            false => match ($this->birthyear && $this->birthmonth) {
+                true => Carbon::parse("{$this->birthyear}-{$this->birthmonth}")->format('Y-m'),
+                false => match ($this->birthyear && 1) {
+                    // 單獨使用年為參數，要注意 1959 以前（包含 1959）的年份，也可被視為時間，因而造成誤判
+                    // https://github.com/php/php-src/issues/15945
+                    // true => Carbon::parse(mktime(0, year: "{$this->birthyear}",))->format('Y'),
 
+                    // 如果只有一個year參數(1)補齊month,day(2)再create完整日期('Y-m-d')，而非'Y'，不然有可能出現奇怪數字。
+                    true => Carbon::parse(mktime(0, year: "{$this->birthyear}", month: "7", day: "1"))->format('Y-m-d'),
+                    false => null,
+                },
+            },
+        };
+    }*/
+
+    /* 換個方式處理birthdate, 分成顯示用display及計算用valid */
     /**
      * 建立一個虛擬的 birthdate 屬性
      */
-
     protected function birthdate(): Attribute
     {
         return Attribute::make(
@@ -485,6 +474,15 @@ class Applicant extends Model
         });
     }
 
+    /*下面重寫
+    public function getAgeAttribute()
+    {
+        if (is_string($this->birthdate)) {
+            return Carbon::parse($this->birthdate)->diff(now())->format('%y');
+        }
+        return $this->birthdate?->diff(now())->format('%y');
+    }*/
+
     /**
      * 自動根據出生年月日計算目前的年齡
      * 用法：$applicant->age
@@ -534,7 +532,6 @@ class Applicant extends Model
     /**
      * 取得當前營隊關聯
      */
-
     protected function campTable(): Attribute
     {
         return Attribute::get(function () {
@@ -543,6 +540,7 @@ class Applicant extends Model
             return $this->camp?->table; 
         });
     }
+
     /**
      * 重用格式化邏輯的 Accessors
      */
