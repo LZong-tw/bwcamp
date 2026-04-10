@@ -485,7 +485,7 @@ class SheetController extends Controller
                 if ($key == "admitted_no") {
                     $data = $applicant->group . $applicant->number;
                 } elseif ($key == "is_attend") {
-                    $data = $applicant->is_attend->label() ?? "尚未聯絡";
+                    $data = $applicant->is_attend ?? "尚未聯絡";
                 } elseif ($key == "camporg_section") {
                     $user = ($applicant->user ?? null);
                     //$roles = ($user)? $user->roles->where('camp_id', $main_camp_id) : null;

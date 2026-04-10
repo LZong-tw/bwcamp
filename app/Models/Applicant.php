@@ -357,6 +357,23 @@ class Applicant extends Model
         );
     }
 
+    protected function isAttend(): Attribute
+    {
+        return Attribute::make(
+            set: function ($value) {
+                // 如果傳入的是 '男'，轉成 Enum 實例，存入時會自動取其 value ('M')
+                // 如果傳入的已經是 'M'，則嘗試從 value 轉換
+                if ($enum = AttendanceStatus::fromLabel($value)) {
+                    return $enum;
+                }
+
+                // 備援方案：如果直接傳 'M' 或 'F'，嘗試用內建的 tryFrom
+                return AttendanceStatus::tryFrom($value) ?? AttendanceStatus::NotYetCalled;
+            },
+            get: fn ($value) => AttendanceStatus::tryFrom($value)->label()
+        );
+    }
+
     public function contactlogHTML($isShowVolunteers = false, $applicant, $camp = null)
     {
         if (!self::$campCache) {
