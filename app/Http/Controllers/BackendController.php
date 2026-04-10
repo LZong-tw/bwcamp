@@ -108,7 +108,7 @@ class BackendController extends Controller
         } elseif ($this->camp_id) {
             //沒有$batch_id
             $this->middleware('permitted');
-            $this->camp = Camp::find($this->$camp_id);
+            $this->camp = Camp::find($this->camp_id);
             $this->camp_table = $this->camp->table;
             if (is_null($this->camp)) {
                 echo "<h1>錯誤：查無營隊資料。</h1>" . "<br>";
