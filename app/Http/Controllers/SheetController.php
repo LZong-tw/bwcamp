@@ -271,8 +271,13 @@ class SheetController extends Controller
     {
         //update applicant data, e.g. name, email, etc.
         $applicant_xcamp = $applicant?->$table;
-        $applicant->update($colData);          //saved?
-        $applicant_xcamp->update($colData);    //saved?
+        if (!$applicant_xcamp) {
+            //如果applicant_xcamp不存在，則建立一個新的
+            $applicant_xcamp = new ( "App\\Models\\" . ucfirst($table) )();
+            $applicant_xcamp->applicant_id = $applicant->id;
+        }
+        $applicant->update($colData);
+        $applicant_xcamp->update($colData);
         return [$applicant, $applicant_xcamp];
     }
 
