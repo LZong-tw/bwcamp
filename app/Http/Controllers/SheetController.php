@@ -273,7 +273,7 @@ class SheetController extends Controller
         $applicant_xcamp = $applicant?->$table;
         if (!$applicant_xcamp) {
             //如果applicant_xcamp不存在，則建立一個新的
-            $applicant_xcamp = new ( "App\\Models\\" . ucfirst($table) )();
+            $applicant_xcamp = new ("App\\Models\\" . ucfirst($table))();
             $applicant_xcamp->applicant_id = $applicant->id;
         }
         $applicant->update($colData);
