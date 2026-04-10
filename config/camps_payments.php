@@ -35,9 +35,9 @@ return [
             "HI" => "萊爾富",
         ],
         'email' => [
-            "lzong.tw@gmail.com",
-            "minchen.ho@blisswisdom.org",
-            "ceo.camp@blisswisdom.org",
+            env('ADMIN1_EMAIL'),
+            env('ADMIN2_EMAIL'),
+            env('CEOCAMP_MAIL_FROM_ADDRESS'),
         ]
     ],
 
@@ -56,8 +56,10 @@ return [
             "HI" => "萊爾富",
         ],
         'email' => [
-            "lzong.tw@gmail.com",
-            "minchen.ho@blisswisdom.org",
+            env('ADMIN1_EMAIL'),
+            env('ADMIN2_EMAIL'),
+            env('UTCAMP_MAIL_FROM_ADDRESS'),
+
         ]
     ],
 
@@ -76,9 +78,9 @@ return [
             "HI" => "萊爾富",
         ],
         'email' => [
-            "lzong.tw@gmail.com",
-            "minchen.ho@blisswisdom.org",
-            "youth@blisswisdom.org",
+            env('ADMIN1_EMAIL'),
+            env('ADMIN2_EMAIL'),
+            env('YCAMP_MAIL_FROM_ADDRESS'),
         ]
     ],
 
@@ -97,8 +99,9 @@ return [
             "HI" => "萊爾富",
         ],
         'email' => [
-            "lzong.tw@gmail.com",
-            "bwmedu@blisswisdom.org",
+            env('ADMIN1_EMAIL'),
+            env('ADMIN2_EMAIL'),
+            env('TCAMP_MAIL_FROM_ADDRESS'),
         ]
     ],
 
@@ -117,7 +120,9 @@ return [
             "HI" => "萊爾富",
         ],
         'email' => [
-            "lzong.tw@gmail.com",
+            env('ADMIN1_EMAIL'),
+            env('ADMIN2_EMAIL'),
+            env('HCAMP_MAIL_FROM_ADDRESS'),
             "worldofethics@gmail.com"
         ]
     ],
