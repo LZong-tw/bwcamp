@@ -14,7 +14,7 @@ return [
                 'is_manager' => '是否為主管',
                 'belief' => '宗教信仰',
             ],
-            'fields2' => [  //工作        
+            'fields2' => [  //工作
                 'industry' => '產業別',
                 'job_property' => '工作屬性',
                 'unit' => '服務單位',
@@ -107,7 +107,7 @@ return [
             'title' => '訪談記錄',
         ],
     ],
-    
+
     'ceocamp' => [
         'sec_basic' => [
             'is_shown' => 1,
@@ -210,7 +210,7 @@ return [
         ],
     ],
 
-    
+
 
     'actcamp' => [
         'sec_basic' => [
@@ -221,7 +221,7 @@ return [
                 'gender' => '生理性別',
                 'category' => '身分別',
             ],
-            'fields2' => [  //工作        
+            'fields2' => [  //工作
                 'unit' => '服務單位',
                 'title' => '職稱',
             ],
@@ -357,7 +357,7 @@ return [
                 'line' => 'lineID',
                 'zipcode' => '郵遞區號',
                 'address' => '通訊地址',
-                'contact_time' => '適合聯絡時段',        
+                'contact_time' => '適合聯絡時段',
                 'exceptional_conditions' => '特別關懷事項',
             ],
         ],
