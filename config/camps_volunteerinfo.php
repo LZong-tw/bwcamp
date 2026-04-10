@@ -10,7 +10,7 @@ return [
                 'gender' => '生理性別',
                 'age' => '年齡',
             ],
-            'fields2' => [  //工作        
+            'fields2' => [  //工作
                 'unit' => '服務單位',
                 'unit_county' => '服務地點-縣市',
                 'unit_subarea' => '服務地點-區',
@@ -101,7 +101,7 @@ return [
                 'gender' => '生理性別',
                 'age' => '年齡',
             ],
-            'fields2' => [  //工作        
+            'fields2' => [  //工作
                 'unit' => '服務單位',
                 'unit_county' => '服務地點-縣市',
                 'unit_subarea' => '服務地點-區',

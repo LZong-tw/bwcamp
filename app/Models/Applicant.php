@@ -20,12 +20,13 @@ class Applicant extends Model
     protected $fillable = [
         'batch_id', 'name', 'english_name', 'region', 'region_id', 'avatar','gender',
         'group_id', 'number_id', 'is_admitted', 'admitted_at', 'is_paid', 'is_attend',
-        'birthyear', 'birthmonth', 'birthday', 'age_range', 'nationality', 'idno',
+        'birthyear', 'birthmonth', 'birthday', 'birthdate',
+        'age_range', 'nationality', 'idno',
         'is_foreigner', 'is_allow_notified', 'mobile', 'phone_home', 'phone_work',
         'fax', 'line', 'wechat', 'email', 'zipcode', 'address',
         'emergency_name', 'emergency_relationship', 'emergency_mobile', 'emergency_phone_home', 'emergency_phone_work', 'emergency_fax',
         'introducer_name', 'introducer_relationship', 'introducer_phone', 'introducer_email', 'introducer_participated',
-        'portrait_agree', 'profile_agree', 'expectation','fee', 'tax_id_no'
+        'portrait_agree', 'profile_agree', 'expectation','fee', 'tax_id_no', 'created_at'
     ];
 
     //gender
@@ -64,11 +65,11 @@ class Applicant extends Model
 
     //先記錄一部分，主要想辨識 mobile/tel/email
     /*public $fieldTypes = [
-        'mobile' => 'tel', 
+        'mobile' => 'tel',
         'phone_home' => 'tel',
         'phone_work' => 'tel',
         'emergency_mobile'=> 'tel',
-        'emergency_phone_home' => 'tel', 
+        'emergency_phone_home' => 'tel',
         'emergency_phone_work' => 'tel',
         'introducer_phone' => 'tel',
         'email' => 'email',
@@ -136,20 +137,20 @@ class Applicant extends Model
         return $this->hasOne(Lodging::class, 'applicant_id', 'id');
     }
 
-    /* 
+    /*
      * to replace all xcamp()
      * in the future,
      * camp_entry: individual applicant's preferences of the camp
      * camp_info: the camp's (global) settings
      */
 
-    public function __call($method, $parameters)
+    /*public function __call($method, $parameters)
     {
         // 定義所有可能的營隊關鍵字
         $camps = ['acamp', 'avcamp', 'actcamp', 'actvcamp',
-        'ceocamp', 'ceovcamp', 'ecamp', 'evcamp', 'hcamp', 'hvcamp', 
+        'ceocamp', 'ceovcamp', 'ecamp', 'evcamp', 'hcamp', 'hvcamp',
         'icamp', 'ivcamp', 'lrcamp', 'lrvcamp', 'mcamp', 'mvcamp',
-        'nycamp', 'nyvcamp', 'scamp', 'svcamp', 'tcamp', 'tvcamp', 
+        'nycamp', 'nyvcamp', 'scamp', 'svcamp', 'tcamp', 'tvcamp',
         'utcamp', 'utvcamp', 'wcamp', 'wvcamp', 'ycamp', 'yvcamp'];
 
         if (in_array($method, $camps)) {
@@ -164,9 +165,9 @@ class Applicant extends Model
         }
 
         return parent::__call($method, $parameters);
-    }
+    }*/
 
-    /*public function acamp()
+    public function acamp()
     {
         return $this->hasOne(Acamp::class, 'applicant_id', 'id');
     }
@@ -273,7 +274,7 @@ class Applicant extends Model
     public function yvcamp()
     {
         return $this->hasOne(Yvcamp::class, 'applicant_id', 'id');
-    }*/
+    }
 
     public function signData($orderBy = "desc")
     {
@@ -339,52 +340,20 @@ class Applicant extends Model
         return $this->morphMany(DynamicStat::class, 'urltable');
     }
 
-    public function getBirthdateAttribute()
+    protected function gender(): Attribute
     {
-        return match ($this->birthyear && $this->birthmonth && $this->birthday) {
-            true => Carbon::parse("{$this->birthyear}-{$this->birthmonth}-{$this->birthday}")->format('Y-m-d'),
-            false => match ($this->birthyear && $this->birthmonth) {
-                true => Carbon::parse("{$this->birthyear}-{$this->birthmonth}")->format('Y-m'),
-                false => match ($this->birthyear && 1) {
-                    // 單獨使用年為參數，要注意 1959 以前（包含 1959）的年份，也可被視為時間，因而造成誤判
-                    // https://github.com/php/php-src/issues/15945
-                    // true => Carbon::parse(mktime(0, year: "{$this->birthyear}",))->format('Y'),
+        return Attribute::make(
+            set: function ($value) {
+                // 如果傳入的是 '男'，轉成 Enum 實例，存入時會自動取其 value ('M')
+                // 如果傳入的已經是 'M'，則嘗試從 value 轉換
+                if ($enum = Gender::fromLabel($value)) {
+                    return $enum;
+                }
 
-                    // 如果只有一個year參數(1)補齊month,day(2)再create完整日期('Y-m-d')，而非'Y'，不然有可能出現奇怪數字。
-                    true => Carbon::parse(mktime(0, year: "{$this->birthyear}", month: "7", day: "1"))->format('Y-m-d'),
-                    false => null,
-                },
+                // 備援方案：如果直接傳 'M' 或 'F'，嘗試用內建的 tryFrom
+                return Gender::tryFrom($value) ?? Gender::NotToSpecify;
             },
-        };
-    }
-
-    /*下面重寫
-    public function getAgeAttribute()
-    {
-        if (is_string($this->birthdate)) {
-            return Carbon::parse($this->birthdate)->diff(now())->format('%y');
-        }
-        return $this->birthdate?->diff(now())->format('%y');
-    }*/
-
-    /* 改用Enum處理：'gender' => Gender::class, */
-    public function getGenderZhTwAttribute()
-    {
-        switch ($this->gender) {
-            case "M":
-                $gender_cn = '男';
-                break;
-            case "F":
-                $gender_cn = '女';
-                break;
-            case "NC":
-                $gender_cn = '非常規';
-                break;
-            default:
-                $gender_cn = '不提供';
-                break;
-        }
-        return $gender_cn;
+        );
     }
 
     public function contactlogHTML($isShowVolunteers = false, $applicant, $camp = null)
@@ -421,7 +390,51 @@ class Applicant extends Model
         return $str;
     }
 
+    /*public function getBirthdateAttribute()
+    {
+        return match ($this->birthyear && $this->birthmonth && $this->birthday) {
+            true => Carbon::parse("{$this->birthyear}-{$this->birthmonth}-{$this->birthday}")->format('Y-m-d'),
+            false => match ($this->birthyear && $this->birthmonth) {
+                true => Carbon::parse("{$this->birthyear}-{$this->birthmonth}")->format('Y-m'),
+                false => match ($this->birthyear && 1) {
+                    // 單獨使用年為參數，要注意 1959 以前（包含 1959）的年份，也可被視為時間，因而造成誤判
+                    // https://github.com/php/php-src/issues/15945
+                    // true => Carbon::parse(mktime(0, year: "{$this->birthyear}",))->format('Y'),
+
+                    // 如果只有一個year參數(1)補齊month,day(2)再create完整日期('Y-m-d')，而非'Y'，不然有可能出現奇怪數字。
+                    true => Carbon::parse(mktime(0, year: "{$this->birthyear}", month: "7", day: "1"))->format('Y-m-d'),
+                    false => null,
+                },
+            },
+        };
+    }*/
+
     /* 換個方式處理birthdate, 分成顯示用display及計算用valid */
+    /**
+     * 建立一個虛擬的 birthdate 屬性
+     */
+    protected function birthdate(): Attribute
+    {
+        return Attribute::make(
+            set: function ($value) {
+                if (empty($value)) {
+                    return [
+                        'birthyear' => null,
+                        'birthmonth' => null,
+                        'birthday' => null
+                    ];
+                }
+                $date = \Illuminate\Support\Carbon::parse($value);
+
+                return [
+                    'birthyear'  => $date->year,
+                    'birthmonth' => $date->month,
+                    'birthday'   => $date->day,
+                ];
+            },
+            get: fn () => $this->birthdateDisplay()
+        );
+    }
 
     /**
      * 1. 顯示專用：會出現 1990-00-00 (Readable Date)
@@ -432,7 +445,7 @@ class Applicant extends Model
         return Attribute::get(function () {
             // 感覺沒有year, 還是可以顯示
             //if (!$this->birthyear) return '0000-00-00';
-            
+
             return sprintf(
                 '%04d-%02d-%02d',
                 $this->birthyear ?: 0,
@@ -450,16 +463,27 @@ class Applicant extends Model
     {
         return Attribute::get(function () {
             // 計算時好像都會用到year，如果沒有year，還是return null好了
-            if (!$this->birthyear) return null;
+            if (!$this->birthyear) {
+                return null;
+            }
 
             // 沒月補1月，沒日補1日，確保 Carbon 可以解析
             return Carbon::create(
-                $this->birthyear, 
-                $this->birthmonth ?: 1, 
+                $this->birthyear,
+                $this->birthmonth ?: 1,
                 $this->birthday ?: 1
             );
         });
     }
+
+    /*下面重寫
+    public function getAgeAttribute()
+    {
+        if (is_string($this->birthdate)) {
+            return Carbon::parse($this->birthdate)->diff(now())->format('%y');
+        }
+        return $this->birthdate?->diff(now())->format('%y');
+    }*/
 
     /**
      * 自動根據出生年月日計算目前的年齡
@@ -510,59 +534,73 @@ class Applicant extends Model
     /**
      * 取得當前營隊關聯
      */
-
     protected function campTable(): Attribute
     {
         return Attribute::get(function () {
             // 透過 hasOneThrough 抓到的 camp
             // 加上 ?-> 避免 batch 或 camp 不存在時報錯
-            return $this->camp?->table; 
+            return $this->camp?->table;
         });
     }
+
     /**
      * 重用格式化邏輯的 Accessors
      */
-    protected function mobileDisplay(): Attribute {
-        return Attribute::get(fn() => PhoneFormatter::format($this->mobile));
+    protected function mobileDisplay(): Attribute
+    {
+        return Attribute::get(fn () => PhoneFormatter::format($this->mobile));
     }
-    protected function phoneHomeDisplay(): Attribute {
-        return Attribute::get(fn() => PhoneFormatter::format($this->phone_home));
+    protected function phoneHomeDisplay(): Attribute
+    {
+        return Attribute::get(fn () => PhoneFormatter::format($this->phone_home));
     }
-    protected function phoneWorkDisplay(): Attribute {
-        return Attribute::get(fn() => PhoneFormatter::format($this->phone_work));
+    protected function phoneWorkDisplay(): Attribute
+    {
+        return Attribute::get(fn () => PhoneFormatter::format($this->phone_work));
     }
-    protected function emergencyMobileDisplay(): Attribute {
-        return Attribute::get(fn() => PhoneFormatter::format($this->emergency_mobile));
+    protected function emergencyMobileDisplay(): Attribute
+    {
+        return Attribute::get(fn () => PhoneFormatter::format($this->emergency_mobile));
     }
-    protected function emergencyPhoneHomeDisplay(): Attribute {
-        return Attribute::get(fn() => PhoneFormatter::format($this->emergency_phone_home));
+    protected function emergencyPhoneHomeDisplay(): Attribute
+    {
+        return Attribute::get(fn () => PhoneFormatter::format($this->emergency_phone_home));
     }
-    protected function emergencyPhoneWorkDisplay(): Attribute {
-        return Attribute::get(fn() => PhoneFormatter::format($this->emergency_phone_work));
+    protected function emergencyPhoneWorkDisplay(): Attribute
+    {
+        return Attribute::get(fn () => PhoneFormatter::format($this->emergency_phone_work));
     }
-    protected function introducerPhoneDisplay(): Attribute {
-        return Attribute::get(fn() => PhoneFormatter::format($this->introducer_phone));
+    protected function introducerPhoneDisplay(): Attribute
+    {
+        return Attribute::get(fn () => PhoneFormatter::format($this->introducer_phone));
     }
-    protected function mobileDial(): Attribute {
-        return Attribute::get(fn() => PhoneFormatter::dial($this->mobile));
+    protected function mobileDial(): Attribute
+    {
+        return Attribute::get(fn () => PhoneFormatter::dial($this->mobile));
     }
-    protected function phoneHomeDial(): Attribute {
-        return Attribute::get(fn() => PhoneFormatter::dial($this->phone_home));
+    protected function phoneHomeDial(): Attribute
+    {
+        return Attribute::get(fn () => PhoneFormatter::dial($this->phone_home));
     }
-    protected function phoneWorkDial(): Attribute {
-        return Attribute::get(fn() => PhoneFormatter::dial($this->phone_work));
+    protected function phoneWorkDial(): Attribute
+    {
+        return Attribute::get(fn () => PhoneFormatter::dial($this->phone_work));
     }
-    protected function emergencyMobileDial(): Attribute {
-        return Attribute::get(fn() => PhoneFormatter::dial($this->emergency_mobile));
+    protected function emergencyMobileDial(): Attribute
+    {
+        return Attribute::get(fn () => PhoneFormatter::dial($this->emergency_mobile));
     }
-    protected function emergencyPhoneHomeDial(): Attribute {
-        return Attribute::get(fn() => PhoneFormatter::dial($this->emergency_phone_home));
+    protected function emergencyPhoneHomeDial(): Attribute
+    {
+        return Attribute::get(fn () => PhoneFormatter::dial($this->emergency_phone_home));
     }
-    protected function emergencyPhoneWorkDial(): Attribute {
-        return Attribute::get(fn() => PhoneFormatter::dial($this->emergency_phone_work));
+    protected function emergencyPhoneWorkDial(): Attribute
+    {
+        return Attribute::get(fn () => PhoneFormatter::dial($this->emergency_phone_work));
     }
-    protected function introducerPhoneDial(): Attribute {
-        return Attribute::get(fn() => PhoneFormatter::dial($this->introducer_phone));
+    protected function introducerPhoneDial(): Attribute
+    {
+        return Attribute::get(fn () => PhoneFormatter::dial($this->introducer_phone));
     }
 
     /*boolean*/
@@ -574,6 +612,5 @@ class Applicant extends Model
     {
         return Attribute::get(fn () => $this->profile_agree ? '同意' : '不同意');
     }
-
 
 }

@@ -10,7 +10,9 @@ class PhoneFormatter
      */
     public static function format(?string $raw): string
     {
-        if (empty($raw)) return '';
+        if (empty($raw)) {
+            return '';
+        }
 
         // 1. 拆分分機 (捕捉 #, ext, 轉, x 等關鍵字)
         $parts = preg_split('/(#|ext|轉|x)/i', $raw);
@@ -54,7 +56,9 @@ class PhoneFormatter
      */
     public static function dial(?string $raw): string
     {
-        if (empty($raw)) return '';
+        if (empty($raw)) {
+            return '';
+        }
 
         // 1. 拆分分機
         $parts = preg_split('/(#|ext|轉|x)/i', $raw);

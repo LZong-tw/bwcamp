@@ -1709,7 +1709,7 @@ class BackendController extends Controller
                 return "<h1>您沒有權限查看此資料(" . $theStr . ")</h1>";
             }
 
-            //$applicant = $this->applicantService->Mandarization($applicant);
+            $applicant = $this->applicantService->Mandarization($applicant);
         } else {
             return "<h1>異常狀況發生，請將網址提供給開發人員檢查。</h1>";
         }

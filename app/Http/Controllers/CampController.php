@@ -230,7 +230,7 @@ class CampController extends Controller
                     }
                 }
                 $applicant = Applicant::where('id', $formData['applicant_id'])->first();
-                $model = '\\App\\Models\\' . ucfirst($this->camp_data->table);
+                $model = '\\App\\Models\\' . ucfirst($this->camp_info->table);
                 $camp = $model::where('applicant_id', $formData['applicant_id'])->first();
                 $applicantFillable = $applicant->getFillable();
                 $campFillable = $camp->getFillable();
