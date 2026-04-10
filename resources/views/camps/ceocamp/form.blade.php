@@ -6,8 +6,8 @@
     $regions = $camp_info->regions;
     if(str_contains($camp_info->name, "北區")) {$county_local = "台北及新北";}
     else { $county_local = "屏東"; }
-    $imgicon = asset('img/{$camp_info->year}ceocampIcon.png');
-    $imgbg= asset('img/{$camp_info->year}ceocampBackground.png');
+    $imgicon = asset("img/{$camp_info->year}ceocampIcon.png");
+    $imgbg= asset("img/{$camp_info->year}ceocampBackground.png");   
 @endphp
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="zh-Hant">
