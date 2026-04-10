@@ -2475,6 +2475,8 @@ return [
             "depart_from" => "去程交通選項",
             "back_to" => "回程交通選項",
             "care_log" => "關懷記錄",
+            "companion_name" => "同行人姓名",
+            "companion_as_roommate" => "希望同房",
         ],
     ],
     //please put the identifier (normally applicant_id) the first one
