@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Models\Camp;
 use App\Models\Batch;
 use Carbon\Carbon;
 
@@ -56,6 +57,21 @@ class Kernel extends ConsoleKernel
      */
     private function scheduleCampExports(Schedule $schedule)
     {
+        $today = \Carbon\Carbon::today();
+        $thisyear = $today->year;
+        $camps = Camp::where('year', $thisyear);
+        $ceocamps = $camps->where('table', ceocamp);
+        $ceovcamps = $camps->where('table', ceovcamp);
+        $ecamps = $camps->where('table', ecamp);
+        $evcamps = $camps->where('table', evcamp);
+        $utcamps = $camps->where('table', utcamp);
+
+        foreach ($camps as $camp) {
+            if ($today->gte($camp->registration_start) && $today->lte($camp->batch)) {
+                //$schedule->command("export:Applicant {$camp->id}")->dailyAt("0:10");
+            }
+        }
+
         // CEO Camp 相關排程
         // $schedule->command('gen:BankSecondBarcode 96')->dailyAt("0:28");
         // $schedule->command('import:Form 96')->dailyAt("0:29");
