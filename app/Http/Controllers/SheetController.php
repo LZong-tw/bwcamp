@@ -219,6 +219,16 @@ class SheetController extends Controller
                     // 統一將逗號替換為 "||/"，增加比對成功率
                     $colData[$colName[$j]] = str_replace(', ', "||/", $data[$j]);
                     $colData[$colName[$j]] = str_replace(',', "||/", $data[$j]);
+                } else if ($colName[$j] == 'created_at') {
+                    if (str_contains($data[$j], '上午')) {
+                        $data[$j] = str_replace('上午', '', $data[$j]);
+                        $data[$j] = $data[$j].' AM';
+                    } elseif (str_contains($data[$j], '下午')) {
+                        $data[$j] = str_replace('下午', '', $data[$j]);
+                        $data[$j] = $data[$j].' PM';
+                    }
+                    echo("data[j]: " . $data[$j] . "\n");
+                    $colData[$colName[$j]] = $data[$j];
                 }
             } else {
                 continue;
