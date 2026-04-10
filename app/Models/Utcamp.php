@@ -26,13 +26,13 @@ class Utcamp extends Model
     ];*/
 
     protected $appends = [
-        'is_civil_certificate_display', 
+        'is_civil_certificate_display',
         'is_bwfoce_certificate_display',
     ];
 
 
     protected $guarded = [];
-    
+
     /*boolean*/
     protected function isCivilCertificateDisplay(): Attribute
     {
