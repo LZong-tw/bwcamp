@@ -113,7 +113,8 @@ class checkPayment extends Command
         }
 
         // 5. archive 對帳資料
-        if (strlen(trim($this->filename)) > 0) {
+
+        if ((strlen(trim($this->filename)) > 0) && \Storage::disk('local')->exists($path)) {
             \Storage::move('payment_data/' . $this->filename, 'payment_data/history/' . $this->filename);
         }
 
