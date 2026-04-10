@@ -6,7 +6,8 @@
     $regions = $camp_info->regions;
     if(str_contains($camp_info->name, "北區")) {$county_local = "台北及新北";}
     else { $county_local = "屏東"; }
-
+    $imgicon = asset('img/{$camp_info->year}ceocampIcon.png');
+    $imgbg= asset('img/{$camp_info->year}ceocampBackground.png');
 @endphp
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="zh-Hant">
@@ -20,15 +21,9 @@
     <meta property='og:url' content='http://bwfoce.org/ceocamp' />
     <meta property='og:title' content='{{ $camp_data->abbreviation }}' />
     <meta property='og:description' content='邀請您推薦報名參加菁英營。' />
-    @if (str_contains($camp_info->name, "北區"))
-        <meta property="og:image" content="{{ asset('img/{$camp_info->year}ceocampIcon_date.png') }}"/>
+        <meta property="og:image" content='{{ $imgicon }}' />
         <meta property="og:image:width" content="800"/>
         <meta property="og:image:height" content="640"/>
-    @else        
-        <meta property="og:image" content="{{ asset('img/{$camp_info->year}ceocampIcon_date.png') }}"/>
-        <meta property="og:image:width" content="800"/>
-        <meta property="og:image:height" content="640"/>
-    @endif
     {{-- <link rel='icon' href='/camp/favicon.ico'> --}}
     <title> {{ $camp_info->fullName }} </title>
     <link rel="stylesheet" href="{{ asset('mockup-assets/ceocamp/bootstrap/css/bootstrap.min.css') }}">
@@ -48,9 +43,14 @@
     </style>
 </head>
 
-<body style="color: #343458;background: #def0fa;">
+<!--<body style="color: #343458;background: #def0fa;">-->
+<body style="color: #343458; 
+    background-image: {{ $imgbg }}; 
+    background: rgb(202, 203 , 161, 0.3);  
+    background-size: cover;
+    background-attachment: fixed;">
     <nav class="navbar navbar-expand-md fixed-top navbar-shrink py-3 navbar-light" id="mainNav"
-        style="background: linear-gradient(rgb(186,207,227), rgba(255,255,255,0.4) 52%, rgb(196,207,227)), rgba(255,255,255,0.6);border-radius: 0px;height: 60px;box-shadow: 0px 0px 14px;">
+        style="background: linear-gradient(rgb(202, 203,161), rgba(255,255,255,0.4) 52%, rgb(202,203,161)), rgba(255,255,255,0.6);border-radius: 0px;height: 60px;box-shadow: 0px 0px 14px;">
         <div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><span
                     style="font-family: Abel, sans-serif;color: rgb(46,83,99);"><span
                         style="color: rgb(40, 100, 80);">{{ $camp_info->year }}企業菁英生命成長營推薦 {{ $camp_info->name }}</span><span
@@ -93,7 +93,7 @@
             <div class="row gy-4 row-cols-1 row-cols-md-2">
                 <div class="col">
                     <div class="card border-light border-1 d-flex p-4"
-                        style="background: rgba(166,207,227,0.56);border-radius: 20px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;text-align: left;">
+                        style="background: rgba(202,203,161,0.56);border-radius: 20px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;text-align: left;">
                         <h1 style="font-size: x-large;color: rgb(67,36,18);border-color: rgb(255,94,0);"><span
                                 style="color: rgb(30, 70, 90);">推薦人基本資料</span></h1>
                         <div class="table-responsive" style="width: 98%;">
@@ -167,7 +167,7 @@
                 </div>
                 <div class="col">
                     <div class="card border-light border-1 d-flex p-4"
-                        style="background: rgba(166,207,227,0.56);border-radius: 30px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;text-align: left;">
+                        style="background: rgba(202,203,161,0.56);border-radius: 30px;border-style: none;box-shadow: 0px 0px 5px rgba(0,0,0,0.15);height: 100%;text-align: left;">
                         <h1 style="font-size: x-large;color: rgb(67,36,18);"><span
                                 style="color: rgb(30,70,90);" class="required">推薦理由</span></h1>
                         <textarea name='reasons_recommend' style="width: 98%;height: 300px;border-style: none;border-radius: 10px;" required></textarea>
