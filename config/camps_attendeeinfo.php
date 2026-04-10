@@ -36,9 +36,6 @@ return [
         'sec_attend' => [
             'is_shown' => 1,
         ],
-        'sec_traffic' => [
-            'is_shown' => 1,
-        ],
         'sec_lodging' => [
             'is_shown' => 1,
             'is_lodging' => 1,
