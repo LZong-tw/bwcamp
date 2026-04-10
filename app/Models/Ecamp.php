@@ -44,7 +44,7 @@ class Ecamp extends Model
                     return 0;
                 } else {
                     // 如果都不匹配，給予一個預設值（例如 0），避免回傳 null 導致資料庫報錯
-                    return 0; 
+                    return 0;
                 }
             },
             get: fn ($value) => $value

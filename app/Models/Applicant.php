@@ -20,7 +20,7 @@ class Applicant extends Model
     protected $fillable = [
         'batch_id', 'name', 'english_name', 'region', 'region_id', 'avatar','gender',
         'group_id', 'number_id', 'is_admitted', 'admitted_at', 'is_paid', 'is_attend',
-        'birthyear', 'birthmonth', 'birthday', 'birthdate', 
+        'birthyear', 'birthmonth', 'birthday', 'birthdate',
         'age_range', 'nationality', 'idno',
         'is_foreigner', 'is_allow_notified', 'mobile', 'phone_home', 'phone_work',
         'fax', 'line', 'wechat', 'email', 'zipcode', 'address',
@@ -65,11 +65,11 @@ class Applicant extends Model
 
     //先記錄一部分，主要想辨識 mobile/tel/email
     /*public $fieldTypes = [
-        'mobile' => 'tel', 
+        'mobile' => 'tel',
         'phone_home' => 'tel',
         'phone_work' => 'tel',
         'emergency_mobile'=> 'tel',
-        'emergency_phone_home' => 'tel', 
+        'emergency_phone_home' => 'tel',
         'emergency_phone_work' => 'tel',
         'introducer_phone' => 'tel',
         'email' => 'email',
@@ -137,7 +137,7 @@ class Applicant extends Model
         return $this->hasOne(Lodging::class, 'applicant_id', 'id');
     }
 
-    /* 
+    /*
      * to replace all xcamp()
      * in the future,
      * camp_entry: individual applicant's preferences of the camp
@@ -148,9 +148,9 @@ class Applicant extends Model
     {
         // 定義所有可能的營隊關鍵字
         $camps = ['acamp', 'avcamp', 'actcamp', 'actvcamp',
-        'ceocamp', 'ceovcamp', 'ecamp', 'evcamp', 'hcamp', 'hvcamp', 
+        'ceocamp', 'ceovcamp', 'ecamp', 'evcamp', 'hcamp', 'hvcamp',
         'icamp', 'ivcamp', 'lrcamp', 'lrvcamp', 'mcamp', 'mvcamp',
-        'nycamp', 'nyvcamp', 'scamp', 'svcamp', 'tcamp', 'tvcamp', 
+        'nycamp', 'nyvcamp', 'scamp', 'svcamp', 'tcamp', 'tvcamp',
         'utcamp', 'utvcamp', 'wcamp', 'wvcamp', 'ycamp', 'yvcamp'];
 
         if (in_array($method, $camps)) {
@@ -380,7 +380,7 @@ class Applicant extends Model
                 if ($enum = Gender::fromLabel($value)) {
                     return $enum;
                 }
-                
+
                 // 備援方案：如果直接傳 'M' 或 'F'，嘗試用內建的 tryFrom
                 return Gender::tryFrom($value) ?? Gender::NotToSpecify;
             },
@@ -433,8 +433,8 @@ class Applicant extends Model
             set: function ($value) {
                 if (empty($value)) {
                     return [
-                        'birthyear' => null, 
-                        'birthmonth' => null, 
+                        'birthyear' => null,
+                        'birthmonth' => null,
                         'birthday' => null
                     ];
                 }
@@ -459,7 +459,7 @@ class Applicant extends Model
         return Attribute::get(function () {
             // 感覺沒有year, 還是可以顯示
             //if (!$this->birthyear) return '0000-00-00';
-            
+
             return sprintf(
                 '%04d-%02d-%02d',
                 $this->birthyear ?: 0,
@@ -477,12 +477,14 @@ class Applicant extends Model
     {
         return Attribute::get(function () {
             // 計算時好像都會用到year，如果沒有year，還是return null好了
-            if (!$this->birthyear) return null;
+            if (!$this->birthyear) {
+                return null;
+            }
 
             // 沒月補1月，沒日補1日，確保 Carbon 可以解析
             return Carbon::create(
-                $this->birthyear, 
-                $this->birthmonth ?: 1, 
+                $this->birthyear,
+                $this->birthmonth ?: 1,
                 $this->birthday ?: 1
             );
         });
@@ -543,53 +545,67 @@ class Applicant extends Model
         return Attribute::get(function () {
             // 透過 hasOneThrough 抓到的 camp
             // 加上 ?-> 避免 batch 或 camp 不存在時報錯
-            return $this->camp?->table; 
+            return $this->camp?->table;
         });
     }
     /**
      * 重用格式化邏輯的 Accessors
      */
-    protected function mobileDisplay(): Attribute {
-        return Attribute::get(fn() => PhoneFormatter::format($this->mobile));
+    protected function mobileDisplay(): Attribute
+    {
+        return Attribute::get(fn () => PhoneFormatter::format($this->mobile));
     }
-    protected function phoneHomeDisplay(): Attribute {
-        return Attribute::get(fn() => PhoneFormatter::format($this->phone_home));
+    protected function phoneHomeDisplay(): Attribute
+    {
+        return Attribute::get(fn () => PhoneFormatter::format($this->phone_home));
     }
-    protected function phoneWorkDisplay(): Attribute {
-        return Attribute::get(fn() => PhoneFormatter::format($this->phone_work));
+    protected function phoneWorkDisplay(): Attribute
+    {
+        return Attribute::get(fn () => PhoneFormatter::format($this->phone_work));
     }
-    protected function emergencyMobileDisplay(): Attribute {
-        return Attribute::get(fn() => PhoneFormatter::format($this->emergency_mobile));
+    protected function emergencyMobileDisplay(): Attribute
+    {
+        return Attribute::get(fn () => PhoneFormatter::format($this->emergency_mobile));
     }
-    protected function emergencyPhoneHomeDisplay(): Attribute {
-        return Attribute::get(fn() => PhoneFormatter::format($this->emergency_phone_home));
+    protected function emergencyPhoneHomeDisplay(): Attribute
+    {
+        return Attribute::get(fn () => PhoneFormatter::format($this->emergency_phone_home));
     }
-    protected function emergencyPhoneWorkDisplay(): Attribute {
-        return Attribute::get(fn() => PhoneFormatter::format($this->emergency_phone_work));
+    protected function emergencyPhoneWorkDisplay(): Attribute
+    {
+        return Attribute::get(fn () => PhoneFormatter::format($this->emergency_phone_work));
     }
-    protected function introducerPhoneDisplay(): Attribute {
-        return Attribute::get(fn() => PhoneFormatter::format($this->introducer_phone));
+    protected function introducerPhoneDisplay(): Attribute
+    {
+        return Attribute::get(fn () => PhoneFormatter::format($this->introducer_phone));
     }
-    protected function mobileDial(): Attribute {
-        return Attribute::get(fn() => PhoneFormatter::dial($this->mobile));
+    protected function mobileDial(): Attribute
+    {
+        return Attribute::get(fn () => PhoneFormatter::dial($this->mobile));
     }
-    protected function phoneHomeDial(): Attribute {
-        return Attribute::get(fn() => PhoneFormatter::dial($this->phone_home));
+    protected function phoneHomeDial(): Attribute
+    {
+        return Attribute::get(fn () => PhoneFormatter::dial($this->phone_home));
     }
-    protected function phoneWorkDial(): Attribute {
-        return Attribute::get(fn() => PhoneFormatter::dial($this->phone_work));
+    protected function phoneWorkDial(): Attribute
+    {
+        return Attribute::get(fn () => PhoneFormatter::dial($this->phone_work));
     }
-    protected function emergencyMobileDial(): Attribute {
-        return Attribute::get(fn() => PhoneFormatter::dial($this->emergency_mobile));
+    protected function emergencyMobileDial(): Attribute
+    {
+        return Attribute::get(fn () => PhoneFormatter::dial($this->emergency_mobile));
     }
-    protected function emergencyPhoneHomeDial(): Attribute {
-        return Attribute::get(fn() => PhoneFormatter::dial($this->emergency_phone_home));
+    protected function emergencyPhoneHomeDial(): Attribute
+    {
+        return Attribute::get(fn () => PhoneFormatter::dial($this->emergency_phone_home));
     }
-    protected function emergencyPhoneWorkDial(): Attribute {
-        return Attribute::get(fn() => PhoneFormatter::dial($this->emergency_phone_work));
+    protected function emergencyPhoneWorkDial(): Attribute
+    {
+        return Attribute::get(fn () => PhoneFormatter::dial($this->emergency_phone_work));
     }
-    protected function introducerPhoneDial(): Attribute {
-        return Attribute::get(fn() => PhoneFormatter::dial($this->introducer_phone));
+    protected function introducerPhoneDial(): Attribute
+    {
+        return Attribute::get(fn () => PhoneFormatter::dial($this->introducer_phone));
     }
 
     /*boolean*/

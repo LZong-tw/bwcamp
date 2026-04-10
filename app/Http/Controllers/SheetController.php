@@ -180,7 +180,7 @@ class SheetController extends Controller
         foreach ($colMap as $key => $value) {
             $idx_found = null;
             foreach ($titles as $idx => $title) {
-                if (str_contains($title, $key)) { 
+                if (str_contains($title, $key)) {
                     $idx_found = $idx;
                     break; // 找到第一個就停
                 }
@@ -213,7 +213,7 @@ class SheetController extends Controller
                         $colData[$colName[$j]] = 0;
                     } else {
                         // 如果都不匹配，給予一個預設值（例如 0），避免回傳 null 導致資料庫報錯
-                        $colData[$colName[$j]] = 0; 
+                        $colData[$colName[$j]] = 0;
                     }
                 } elseif ($colName[$j] == 'info_source') {
                     // 統一將逗號替換為 "||/"，增加比對成功率
@@ -303,7 +303,7 @@ class SheetController extends Controller
         foreach ($dss as $ds) {
             //all rows;
             [$contents, $titles, $nCols, $nRows] = $this->getSheetContents($ds);
-            $colName = $this->title2ColName($titles, $table);   //colName: sheet title -> db column name 
+            $colName = $this->title2ColName($titles, $table);   //colName: sheet title -> db column name
 
             $create_count = 0;
             $update_count = 0;
