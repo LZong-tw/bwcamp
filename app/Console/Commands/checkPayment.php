@@ -113,7 +113,9 @@ class checkPayment extends Command
         }
 
         // 5. archive 對帳資料
-        \Storage::move('payment_data/' . $this->filename, 'payment_data/history/' . $this->filename);
+        if (strlen(trim($this->filename)) > 0) {
+            \Storage::move('payment_data/' . $this->filename, 'payment_data/history/' . $this->filename);
+        }
 
         // 6. 寄出通知信
         $this->sendNotificationEmail();
