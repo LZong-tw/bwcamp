@@ -16,6 +16,7 @@ class Ecamp extends Model
         'title', 'level', 'job_property', 'experience', 'employees',
         'direct_managed_employees', 'industry', 'info_source', 'info_source_other',
         'is_membership', 'after_camp_available_day', 'favored_event'
+        'after_camp_available_day', 'favored_event', 'created_at'
     ];
 
     protected $guarded = [];

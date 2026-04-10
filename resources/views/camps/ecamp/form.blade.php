@@ -59,7 +59,7 @@
         </div>
     </nav>
     <header class="pt-5"></header>
-    <section style="text-align: center;"><img src="{{ asset("img/{$camp_info->year}ecampHeader.png") }}" style="width: 100%;margin: initial;padding: initial;">
+    <section style="text-align: center;"><img src="{{ asset("img/{$camp_info->year}ecampBanner_1920x565.png") }}" style="width: 100%;margin: initial;padding: initial;">
 
     {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
     @if(!isset($isModify) || $isModify)
