@@ -227,7 +227,6 @@ class SheetController extends Controller
                         $data[$j] = str_replace('下午', '', $data[$j]);
                         $data[$j] = $data[$j].' PM';
                     }
-                    echo("data[j]: " . $data[$j] . "\n");
                     $colData[$colName[$j]] = $data[$j];
                 }
             } else {

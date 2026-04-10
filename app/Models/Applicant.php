@@ -353,6 +353,7 @@ class Applicant extends Model
                 // 備援方案：如果直接傳 'M' 或 'F'，嘗試用內建的 tryFrom
                 return Gender::tryFrom($value) ?? Gender::NotToSpecify;
             },
+            get: fn ($value) => Gender::tryFrom($value)->label()
         );
     }
 
