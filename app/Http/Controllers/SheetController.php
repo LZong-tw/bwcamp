@@ -415,9 +415,9 @@ class SheetController extends Controller
         $camp = Camp::find($request->camp_id);
         $table = $camp->table;
         $mainCampId = $this->getMainCampId($camp, $request->camp_id);
-        
+
         $dss = $this->getSheetConfig($request->camp_id, 'App\Models\Camp', 'exportApplicant');
-        
+
         if ($dss->isEmpty()) {
             \Log::info("sheet not found\n");
             exit(1);
