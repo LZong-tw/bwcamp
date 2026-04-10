@@ -257,11 +257,11 @@ class SheetController extends Controller
         $isCreate = false;
         if ($applicant) {   //if exist, update
             //update applicant data, e.g. name, email, etc.
-            [$applicant, $applicant_xcamp] = $this->updateApplicant($applicant, $colData, $table);   
+            [$applicant, $applicant_xcamp] = $this->updateApplicant($applicant, $colData, $table);
             $isCreate = false;
         } else {            //create new
             //create applicant data, e.g. name, email, etc.
-            [$applicant, $applicant_xcamp] = $this->createApplicant($colData, $table);   
+            [$applicant, $applicant_xcamp] = $this->createApplicant($colData, $table);
             $isCreate = true;
         }
         return [$isCreate, $applicant, $applicant_xcamp];
