@@ -17,7 +17,7 @@ class importApplicant extends Command
     //ds_id: dynamic_stat_id
     //is_app: import applicant or not
     //is_org: assign org or not
-     protected $signature = 'import:Applicant {camp_id} {ds_id} {--is_app=1} {--is_org=0}';
+     protected $signature = 'import:Applicant {batch_id} {--is_app=1} {--is_org=0}';
 
     /**
      * The console command description.
@@ -48,8 +48,7 @@ class importApplicant extends Command
      */
     public function handle()
     {
-        $this->request->camp_id = $this->argument('camp_id');
-        $this->request->ds_id = $this->argument('ds_id');
+        $this->request->batch_id = $this->argument('batch_id');
         $this->request->is_app = $this->option('is_app');
         $this->request->is_org = $this->option('is_org');
         $this->sheetControl->importGSApplicants($this->request);

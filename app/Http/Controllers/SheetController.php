@@ -8,6 +8,7 @@ use App\Services\BackendService;
 use App\Services\GSheetService;
 use App\Models\Applicant;
 use App\Models\Camp;
+use App\Models\Batch;
 use App\Models\CheckIn;
 use App\Models\DynamicStat;
 use App\Models\Lodging;
@@ -48,6 +49,35 @@ class SheetController extends Controller
         $sheets = $this->gsheetservice->Get(config('google.post_spreadsheet_id'), config('google.post_sheet_id'));
         dd($sheets);
     }
+
+    /**
+     * 取得申請者匯出的 Google Sheets 設定
+     */
+    private function getSheetConfig(int $id, string $type, string $purpose): ?object
+    {
+        return DynamicStat::select('dynamic_stats.*')
+            ->where('urltable_id', $id)
+            ->where('urltable_type', $type)
+            ->where('purpose', $purpose)
+            ->get();
+    }
+
+    /**
+     * 取得 Google Sheets 內容
+     */
+    private function getSheetContents(DynamicStat $ds): ?array
+    {
+        $sheet_id = $ds->spreadsheet_id;
+        $sheet_name = $ds->sheet_name;
+        $contents = $this->gsheetservice->Get($sheet_id, $sheet_name);
+
+        $titles = $contents[0];
+        $nCols = count($titles);
+        $nRows = count($contents);
+
+        return [$contents, $titles, $nCols, $nRows];
+    }
+
 
     public function showGSFeedback(Request $request)
     {
@@ -140,38 +170,130 @@ class SheetController extends Controller
 
         return view('backend.in_camp.gsFeedback', compact('titles', 'contents', 'content_count'));
     }
+    private function updateApplicant($applicant, $colData, $table) {
+        //update applicant data, e.g. name, email, etc.
+        $applicant_xcamp = $applicant?->$table;
+        $applicant->update($col_data);          //saved?
+        $applicant_xcamp->update($col_data);    //saved?
+        return [applicant, $applicant_xcamp];
+    }
+    private function createApplicant($colData, $table) {
+        $model = "App\\Models\\" . ucfirst($table);
+        [$applicant, $xcamp] = \DB::transaction(function () use ($colData,$model) {
+            $applicant = Applicant::create($colData);
+            $colData['applicant_id'] = $applicant->id;
+            $applicant_xcamp = $model::create($colData);
+            return [$applicant, $applicant_xcamp];
+        });
+        return [$applicant, $applicant_xcamp];
+    }
     /*
-        public function importGSApplicants(Request $request)
-        {
-            // 取得營隊相關資訊
-            $camp = Camp::find($request->camp_id);
-            $table = $camp->table;
-            $mainCampId = $this->getMainCampId($camp, $request->camp_id);
+    $data: one entry of sheet, e.g. ['2020-4-19', '3000', '2000', '', 'test']
+    $colName: hashed array of db column name and value, e.g. ['name => 'xxx', 'email' => 'yyy']
+    $table: e.g. 'ceocamp'
+    */
+    private function importOneApplicant($batchId, $data, $colName, $table, $nCols) {
+        //colData is a hashed array of db column name and value, e.g. ['name' => 'xxx', 'email' => 'yyy']
+        $colData = [];
+        for ($j=0; $j<$nCols; $j++) {
+            if (isset($colName[$j]) && isset($data[$j])) {
+                $colData[$colName[$j]] = $data[$j];
+            } else {
+                continue;
+            }
+        }
+        $colData['batch_id'] = $batchId;
+        
+        //find applicant by batch_id, name and (email): if exist, update; if not exist, create new)
+        $applicants = Applicant::select('applicants.*')
+            ->where('batch_id', $batchId)
+            ->where('name', $colData['name'])
+            //->where('email', $colData['email'])
+            ->get();
 
-            // 取得 Google Sheets 設定
-            $type = '\App\Models\Camp';
-            $purpose = 'exportApplicants';
-            $sheetConfig = $this->getApplicantSheetConfig($request->camp_id, $type, $purpose);
-            if (!$sheetConfig) {
-                $this->outputError("sheet not found");
-                return;
+        if ($applicants->count() > 1) {
+            //if more than 1, find by email
+            $applicant = $applicants->where('email', $colData['email'])->first();
+        } elseif ($applicants->count() == 1) {
+            $applicant = $applicants->first();
+        } else {
+            $applicant = null;
+        }
+
+        $isCreate = false;
+        if ($applicant) {   //if exist, update
+            $this->updateApplicant($applicant, $colData, $table);   //update applicant data, e.g. name, email, etc.
+            $isCreate = false;
+        } else {            //create new
+            $this->createApplicant($colData, $table);   //create applicant data, e.g. name, email, etc.
+            $isCreate = true;
+        }
+        return [$isCreate, $colData];
+    }
+
+    public function importGSApplicants(Request $request)
+    {
+        $batchId = $request->batch_id;
+        $batch = Batch::with(['camp'])->find($batchId);
+        $table = $batch->camp->table;
+
+        //maybe more than one
+        $dss = $this->getSheetConfig($request->batch_id, 'App\\Models\\Batch', 'importApplicant');
+
+        if ($dss->isEmpty()) {
+            \Log::info("sheet not found\n");
+            exit(1);
+        }
+
+        foreach ($dss as $ds) {
+            [$contents, $titles, $nCols, $nRows] = $this->getSheetContents($ds);
+
+            //colMap: sheet title -> db column name
+            $colMap = config('camps_fields.import.' . $table) ?? [];
+
+            foreach ($colMap as $key => $value) {
+                $idx_found = null;
+                foreach ($titles as $idx => $title) {
+                    if (str_contains($title, $key)) {
+                        $idx_found = $idx;
+                        break; // 找到第一個就停
+                    }
+                }
+                if ($idx_found !== null) {
+                    //$titles[$idx] <---> $colMap[$idx] is a pair of sheet title and db column name
+                    $colName[$idx_found] = $value;
+                }
             }
 
-            // 取得申請者資料
-            $applicants = $this->getApplicantsForExport($request->camp_id, $table);
-            // 取得匯出欄位設定
-            $columns = config('camps_fields.export4stat.' . $table) ?? [];
-
-            // 準備並匯出資料
-            $this->exportApplicantsToSheet(
-                $sheetConfig,
-                $applicants,
-                $columns,
-                $mainCampId,
-                $request->app_id
-            );
+            $create_count = 0;
+            $update_count = 0;
+            for ($i=1; $i<$nRows; $i++) {
+                $data = $contents[$i];    //one entry
+                [$isCreate, $colData] = $this->importOneApplicant($batchId, $data, $colName, $table, $nCols);
+                if ($isCreate) {
+                    $create_count++;
+                } else {
+                    $update_count++;
+                }
+                if ($request->is_org) {
+                    $candidates = array();
+                    $candidates[0]["type"] = "applicant";
+                    $candidates[0]["id"] = $applicant->id;
+                    $candidates[0]["uses_user_id"] = "generation_needed";
+                    $orgId = $colData['org_id'];
+                    //dd($candidates);
+                    $this->backendService->setGroupOrg($candidates, $orgId);
+                }
+                if ($i % 500 == 0) {
+                    sleep(5);
+                    //dd($fail_count);
+                }
+            }
         }
-    */
+        \Log::info("import:Applicants $create_count created, $update_count updated \n");
+        return;
+    }
+    
     /**
      * 取得主營隊 ID
      */
@@ -183,18 +305,6 @@ class SheetController extends Controller
         } else {
             return $campId;
         }
-    }
-
-    /**
-     * 取得申請者匯出的 Google Sheets 設定
-     */
-    private function getApplicantSheetConfig(int $id, string $type, string $purpose): ?object
-    {
-        return DynamicStat::select('dynamic_stats.*')
-            ->where('urltable_id', $id)
-            ->where('urltable_type', $type)
-            ->where('purpose', $purpose)
-            ->first();
     }
 
     /**
@@ -210,7 +320,6 @@ class SheetController extends Controller
             ->orderBy('applicants.id')
             ->get();
     }
-
 
     /**
      * 匯出申請者資料到 Google Sheets
@@ -272,7 +381,7 @@ class SheetController extends Controller
         $ds = DynamicStat::select('dynamic_stats.*')
             ->where('urltable_id', $request->camp_id)
             ->where('urltable_type', 'App\Models\Camp')
-            ->where('purpose', 'exportApplicants')
+            ->where('purpose', 'exportApplicant')
             ->first();
 
         if ($ds == null) {
