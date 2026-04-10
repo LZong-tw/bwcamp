@@ -51,7 +51,7 @@ class SheetController extends Controller
     }
 
     /**
-     * 取得申請者匯出的 Google Sheets 設定
+     * 取得 Google Sheets 設定
      */
     private function getSheetConfig(int $id, string $type, string $purpose): ?object
     {
@@ -170,46 +170,77 @@ class SheetController extends Controller
 
         return view('backend.in_camp.gsFeedback', compact('titles', 'contents', 'content_count'));
     }
-    private function updateApplicant($applicant, $colData, $table)
+
+    private function title2ColName($titles, $table)
     {
-        //update applicant data, e.g. name, email, etc.
-        $applicant_xcamp = $applicant?->$table;
-        $applicant->update($col_data);          //saved?
-        $applicant_xcamp->update($col_data);    //saved?
-        return [applicant, $applicant_xcamp];
-    }
-    private function createApplicant($colData, $table)
-    {
-        $model = "App\\Models\\" . ucfirst($table);
-        [$applicant, $xcamp] = \DB::transaction(function () use ($colData, $model) {
-            $applicant = Applicant::create($colData);
-            $colData['applicant_id'] = $applicant->id;
-            $applicant_xcamp = $model::create($colData);
-            return [$applicant, $applicant_xcamp];
-        });
-        return [$applicant, $applicant_xcamp];
+        //colMap: sheet title -> db column name
+        $colMap = config('camps_fields.import.' . $table) ?? [];
+
+        $colName = [];
+        foreach ($colMap as $key => $value) {
+            $idx_found = null;
+            foreach ($titles as $idx => $title) {
+                if (str_contains($title, $key)) { 
+                    $idx_found = $idx;
+                    break; // 找到第一個就停
+                }
+            }
+            if ($idx_found !== null) {
+                //$titles[$idx] <---> $colMap[$idx] is a pair of sheet title and db column name
+                $colName[$idx_found] = $value;
+            }
+        }
+        return $colName;
     }
     /*
     $data: one entry of sheet, e.g. ['2020-4-19', '3000', '2000', '', 'test']
     $colName: hashed array of db column name and value, e.g. ['name => 'xxx', 'email' => 'yyy']
     $table: e.g. 'ceocamp'
     */
-    private function importOneApplicant($batchId, $data, $colName, $table, $nCols)
+    private function processOneRow($batchId, $data, $colName, $nCols)
     {
         //colData is a hashed array of db column name and value, e.g. ['name' => 'xxx', 'email' => 'yyy']
         $colData = [];
         for ($j = 0; $j < $nCols; $j++) {
             if (isset($colName[$j]) && isset($data[$j])) {
                 $colData[$colName[$j]] = $data[$j];
+                if ($colName[$j] == 'is_membership') {
+                    // 統一轉為字串並去除空白，增加比對成功率
+                    $valueStr = (string)$data[$j];
+                    if ($valueStr === '1' || $valueStr === '是' || str_contains($valueStr, '立即加入')) {
+                        $colData[$colName[$j]] = 1;
+                    } elseif ($valueStr === '0' || $valueStr === '否' || str_contains($valueStr, '暫時不要')) {
+                        $colData[$colName[$j]] = 0;
+                    } else {
+                        // 如果都不匹配，給予一個預設值（例如 0），避免回傳 null 導致資料庫報錯
+                        $colData[$colName[$j]] = 0; 
+                    }
+                } elseif ($colName[$j] == 'info_source') {
+                    // 統一將逗號替換為 "||/"，增加比對成功率
+                    $colData[$colName[$j]] = str_replace(', ', "||/", $data[$j]);
+                    $colData[$colName[$j]] = str_replace(',', "||/", $data[$j]);
+                }
             } else {
                 continue;
             }
         }
-        $colData['batch_id'] = $batchId;
+        if (!isset($colData['batch_id'])) {
+            $colData['batch_id'] = $batchId;
+        }
+        if (!isset($colData['profile_agree'])) {
+            $colData['profile_agree'] = false;
+        }
+        if (!isset($colData['portrait_agree'])) {
+            $colData['portrait_agree'] = false;
+        }
+        return $colData;
+    }
 
+    private function importOneApplicant($colData, $table)
+    {
         //find applicant by batch_id, name and (email): if exist, update; if not exist, create new)
         $applicants = Applicant::select('applicants.*')
-            ->where('batch_id', $batchId)
+            ->where('batch_id', $colData['batch_id'])
             ->where('name', $colData['name'])
             //->where('email', $colData['email'])
             ->get();
@@ -234,6 +265,27 @@ class SheetController extends Controller
         return [$isCreate, $colData];
     }
 
+    private function updateApplicant($applicant, $colData, $table)
+    {
+        //update applicant data, e.g. name, email, etc.
+        $applicant_xcamp = $applicant?->$table;
+        $applicant->update($colData);          //saved?
+        $applicant_xcamp->update($colData);    //saved?
+        return [$applicant, $applicant_xcamp];
+    }
+
+    private function createApplicant($colData, $table)
+    {
+        $model = "App\\Models\\" . ucfirst($table);
+        [$applicant, $applicant_xcamp] = \DB::transaction(function () use ($colData, $model) {
+            $applicant = Applicant::create($colData);
+            $colData['applicant_id'] = $applicant->id;
+            $applicant_xcamp = $model::create($colData);
+            return [$applicant, $applicant_xcamp];
+        });
+        return [$applicant, $applicant_xcamp];
+    }
+
     public function importGSApplicants(Request $request)
     {
         $batchId = $request->batch_id;
@@ -249,35 +301,23 @@ class SheetController extends Controller
         }
 
         foreach ($dss as $ds) {
+            //all rows;
             [$contents, $titles, $nCols, $nRows] = $this->getSheetContents($ds);
-
-            //colMap: sheet title -> db column name
-            $colMap = config('camps_fields.import.' . $table) ?? [];
-
-            foreach ($colMap as $key => $value) {
-                $idx_found = null;
-                foreach ($titles as $idx => $title) {
-                    if (str_contains($title, $key)) {
-                        $idx_found = $idx;
-                        break; // 找到第一個就停
-                    }
-                }
-                if ($idx_found !== null) {
-                    //$titles[$idx] <---> $colMap[$idx] is a pair of sheet title and db column name
-                    $colName[$idx_found] = $value;
-                }
-            }
+            $colName = $this->title2ColName($titles, $table);   //colName: sheet title -> db column name 
 
             $create_count = 0;
             $update_count = 0;
             for ($i = 1; $i < $nRows; $i++) {
-                $data = $contents[$i];    //one entry
-                [$isCreate, $colData] = $this->importOneApplicant($batchId, $data, $colName, $table, $nCols);
+                //one row
+                $data = $contents[$i];    //one row
+                $colData = $this->processOneRow($batchId, $data, $colName, $nCols);   //process data, e.g. convert "是" to 1, "否" to 0, etc.
+                [$isCreate, $colData] = $this->importOneApplicant($colData, $table);
                 if ($isCreate) {
                     $create_count++;
                 } else {
                     $update_count++;
                 }
+                //to be checked
                 if ($request->is_org) {
                     $candidates = array();
                     $candidates[0]["type"] = "applicant";

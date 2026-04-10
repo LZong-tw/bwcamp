@@ -2481,11 +2481,11 @@ return [
     'import' => [
         'ecamp' => [
             "報名序號" => "applicant_id",
-            "時間戳記" => "updated_at",
+            "時間戳記" => "created_at",
             "姓名" => "name",
-            "生理性別" =>  "gender ",
+            "生理性別" =>  "gender",
             "生日" => "birthdate",
-            "宗教信仰"  => "religion",
+            "宗教信仰"  => "belief",
             "最高學歷" => "education",
             "服務單位名稱" => "unit",
             "單位所在地" => "unit_location",
@@ -2506,8 +2506,8 @@ return [
             "介紹人關係" => "introducer_relationship",
             "介紹人電話" => "introducer_phone",
             "介紹人福智班別" => "introducer_participated",
-            "透過哪些管道得知營隊報名資訊" => "info_source",
-            "加入福智文教會員中心" => "is_membership",
+            "透過哪些管道" => "info_source",
+            "加入福智" => "is_membership",
         ],
 
         'ceocamp' => [
