@@ -432,7 +432,14 @@ class Applicant extends Model
                     'birthday'   => $date->day,
                 ];
             },
-            get: fn () => $this->birthdateDisplay()
+            get: fn () {
+                return sprintf(
+                    '%04d-%02d-%02d',
+                    $this->birthyear ?: 0,
+                    $this->birthmonth ?: 0,
+                    $this->birthday ?: 0
+                );
+            }
         );
     }
 
