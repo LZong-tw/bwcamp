@@ -108,110 +108,6 @@ return [
         ],
     ],
 
-    'ceocamp' => [
-        'sec_basic' => [
-            'is_shown' => 1,
-            'title' => 'none',
-            'fields' => [
-                'photo' => '照片',
-                'name'  => '中文姓名',
-                'birthday' => '生日',
-                'english_name'  => '英文姓名',
-                'gender' => '性別',
-                'belief' => '是否已加入廣論班',
-                'belief' => '廣論班別',
-                'industry' => '產業別',
-                'unit' => '公司名稱',
-                'title' => '職稱',
-                'job_property' => '職務類型',
-                'applicant_id' => '報名序號',
-                'group' => '所屬組別',
-                'carers' => '關懷員',
-                'participation_mode' => '參加形式',
-            ],
-        ],
-
-        'sec_attend' => [
-            'is_shown' => 1,
-        ],
-        'sec_traffic' => [
-            'is_shown' => 1,
-        ],
-        'sec_lodging' => [
-            'is_shown' => 1,
-        ],
-        'sec_file_upload' => [
-            'is_shown' => 1,
-        ],
-        'sec_adv1' => [
-            'is_shown' => 1,
-            'title' => '聯絡方式',
-            'fields' => [
-                'mobile'  => '手機號碼',
-                'phone_work' => '公司電話',
-                'email' => '電子信箱',
-                'line' => 'lineID',
-                'substitute' => '代理人',
-                'substitute_phone' => '代理人電話',
-                'substitute_email' => '代理人電子信箱',
-                'contact_time' => '適合聯絡時段',
-                'address' => '地址',
-            ],
-        ],
-        'sec_adv2' => [
-            'is_shown' => 1,
-            'title' => '關係人資訊',
-            'fields' => [
-                'introducer_name' => '介紹人姓名',
-                'introducer_phone' => '介紹人電話',
-                'introducer_relationship' => '介紹人關係',
-                'introducer_participated' => '介紹人福智班別',
-                'emergency_name' => '緊急聯絡人姓名',
-                'emergency_mobile' => '緊急聯絡人電話',
-                'emergency_relationship' => '緊急聯絡人關係',
-                'is_inperson' => '是否本人填表',
-                'agent_name' => '代填人姓名',
-                'agent_phone' => '代填人電話',
-                'agent_relationship' => '代填人關係',
-            ],
-        ],
-
-        'sec_adv3' => [
-            'is_shown' => 1,
-            'title' => '其它資訊',
-            'fields' => [
-                'way' => '如何得知營隊',
-                'motivation' => '報名動機',
-                'motivation_other' => '報名動機(其它)',
-                'blisswisdom_type' => '參與過福智活動',
-                'blisswisdom_type_other' => '參與過福智活動(其它)',
-                'portrait_agree' => '肖像權',
-                'profile_agree' => '個資使用',
-            ],
-        ],
-        'sec_interest' => [
-            'is_shown' => 0,
-        ],
-        'sec_remark' => [
-            'is_shown' => 1,
-            'title' => '備註',
-        ],
-        'sec_qrcode' => [
-            'is_shown' => 1,
-            'title' => '報到條碼',
-        ],
-        'sec_contact_log' => [
-            'is_shown' => 1,
-            'title' => '關懷記錄',
-        ],
-       'sec_ceovcamp_excel' => [
-            'is_shown' => 0,
-            'title' => '訪談記錄',
-        ],
-    ],
-
-
-
     'actcamp' => [
         'sec_basic' => [
             'is_shown' => 1,
@@ -295,7 +191,6 @@ return [
             'title' => '訪談記錄',
         ],
     ],
-
 
     'ceocamp' => [
         'sec_basic' => [

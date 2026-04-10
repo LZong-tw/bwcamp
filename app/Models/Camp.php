@@ -108,9 +108,9 @@ class Camp extends Model
             "北部", "中部", "南部", "東部",
             "海外", "其他"
         ];
-        $orderString = '"' . implode('","', $order) . '"';
+        $placeholders = implode(',', array_fill(0, count($order), '?'));
         return $this->belongsToMany(Region::class, 'region_camp_xref', 'camp_id', 'region_id')
-                ->orderByRaw("FIELD(name, {$orderString})");
+                ->orderByRaw("FIELD(name, $placeholders)", $order);
     }
 
     public function applicants()
