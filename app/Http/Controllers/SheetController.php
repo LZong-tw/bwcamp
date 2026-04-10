@@ -170,16 +170,18 @@ class SheetController extends Controller
 
         return view('backend.in_camp.gsFeedback', compact('titles', 'contents', 'content_count'));
     }
-    private function updateApplicant($applicant, $colData, $table) {
+    private function updateApplicant($applicant, $colData, $table)
+    {
         //update applicant data, e.g. name, email, etc.
         $applicant_xcamp = $applicant?->$table;
         $applicant->update($col_data);          //saved?
         $applicant_xcamp->update($col_data);    //saved?
         return [applicant, $applicant_xcamp];
     }
-    private function createApplicant($colData, $table) {
+    private function createApplicant($colData, $table)
+    {
         $model = "App\\Models\\" . ucfirst($table);
-        [$applicant, $xcamp] = \DB::transaction(function () use ($colData,$model) {
+        [$applicant, $xcamp] = \DB::transaction(function () use ($colData, $model) {
             $applicant = Applicant::create($colData);
             $colData['applicant_id'] = $applicant->id;
             $applicant_xcamp = $model::create($colData);
@@ -192,10 +194,11 @@ class SheetController extends Controller
     $colName: hashed array of db column name and value, e.g. ['name => 'xxx', 'email' => 'yyy']
     $table: e.g. 'ceocamp'
     */
-    private function importOneApplicant($batchId, $data, $colName, $table, $nCols) {
+    private function importOneApplicant($batchId, $data, $colName, $table, $nCols)
+    {
         //colData is a hashed array of db column name and value, e.g. ['name' => 'xxx', 'email' => 'yyy']
         $colData = [];
-        for ($j=0; $j<$nCols; $j++) {
+        for ($j = 0; $j < $nCols; $j++) {
             if (isset($colName[$j]) && isset($data[$j])) {
                 $colData[$colName[$j]] = $data[$j];
             } else {
@@ -203,7 +206,7 @@ class SheetController extends Controller
             }
         }
         $colData['batch_id'] = $batchId;
-        
+
         //find applicant by batch_id, name and (email): if exist, update; if not exist, create new)
         $applicants = Applicant::select('applicants.*')
             ->where('batch_id', $batchId)
@@ -267,7 +270,7 @@ class SheetController extends Controller
 
             $create_count = 0;
             $update_count = 0;
-            for ($i=1; $i<$nRows; $i++) {
+            for ($i = 1; $i < $nRows; $i++) {
                 $data = $contents[$i];    //one entry
                 [$isCreate, $colData] = $this->importOneApplicant($batchId, $data, $colName, $table, $nCols);
                 if ($isCreate) {
@@ -293,7 +296,7 @@ class SheetController extends Controller
         \Log::info("import:Applicants $create_count created, $update_count updated \n");
         return;
     }
-    
+
     /**
      * 取得主營隊 ID
      */

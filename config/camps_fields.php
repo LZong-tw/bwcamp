@@ -2509,7 +2509,7 @@ return [
             "透過哪些管道得知營隊報名資訊" => "info_source",
             "加入福智文教會員中心" => "is_membership",
         ],
-    
+
         'ceocamp' => [
             "報名序號" => "applicant_id",
             "是否參加營隊" => "is_attend",
