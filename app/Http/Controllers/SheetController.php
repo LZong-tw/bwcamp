@@ -256,13 +256,15 @@ class SheetController extends Controller
 
         $isCreate = false;
         if ($applicant) {   //if exist, update
-            $this->updateApplicant($applicant, $colData, $table);   //update applicant data, e.g. name, email, etc.
+            //update applicant data, e.g. name, email, etc.
+            [$applicant, $applicant_xcamp] = $this->updateApplicant($applicant, $colData, $table);   
             $isCreate = false;
         } else {            //create new
-            $this->createApplicant($colData, $table);   //create applicant data, e.g. name, email, etc.
+            //create applicant data, e.g. name, email, etc.
+            [$applicant, $applicant_xcamp] = $this->createApplicant($colData, $table);   
             $isCreate = true;
         }
-        return [$isCreate, $colData];
+        return [$isCreate, $applicant, $applicant_xcamp];
     }
 
     private function updateApplicant($applicant, $colData, $table)
@@ -311,7 +313,7 @@ class SheetController extends Controller
                 //one row
                 $data = $contents[$i];    //one row
                 $colData = $this->processOneRow($batchId, $data, $colName, $nCols);   //process data, e.g. convert "是" to 1, "否" to 0, etc.
-                [$isCreate, $colData] = $this->importOneApplicant($colData, $table);
+                [$isCreate, $applicant, $applicant_xcamp] = $this->importOneApplicant($colData, $table);
                 if ($isCreate) {
                     $create_count++;
                 } else {
