@@ -8,7 +8,7 @@ use App\Models\Traffic;
 use App\Models\Lodging;
 use Carbon\Carbon;
 
-class checkPayment extends Command
+class CheckPayment extends Command
 {
     use EmailConfiguration;
 
