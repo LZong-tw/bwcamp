@@ -311,11 +311,10 @@ return [
             ],
             'fields2' => [
                 'industry' => '產業別',
-                //'industry_other' => '產業別:自填',
                 'unit' => '公司名稱',
                 'title' => '職稱',
                 'job_property' => '職務類型',
-                //'job_property_other' => '職務類型:自填',
+            ],
             'fields3' => [
                 'applicant_id' => '報名序號',
                 'created_at' => '報名日期',
