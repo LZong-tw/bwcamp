@@ -14,7 +14,7 @@ return [
                 'is_manager' => '是否為主管',
                 'belief' => '宗教信仰',
             ],
-            'fields2' => [  //工作        
+            'fields2' => [  //工作
                 'industry' => '產業別',
                 'job_property' => '工作屬性',
                 'unit' => '服務單位',
@@ -34,9 +34,6 @@ return [
         ],
 
         'sec_attend' => [
-            'is_shown' => 1,
-        ],
-        'sec_traffic' => [
             'is_shown' => 1,
         ],
         'sec_lodging' => [
@@ -110,7 +107,7 @@ return [
             'title' => '訪談記錄',
         ],
     ],
-    
+
     'ceocamp' => [
         'sec_basic' => [
             'is_shown' => 1,
@@ -213,7 +210,7 @@ return [
         ],
     ],
 
-    
+
 
     'actcamp' => [
         'sec_basic' => [
@@ -224,7 +221,7 @@ return [
                 'gender' => '生理性別',
                 'category' => '身分別',
             ],
-            'fields2' => [  //工作        
+            'fields2' => [  //工作
                 'unit' => '服務單位',
                 'title' => '職稱',
             ],
@@ -314,11 +311,10 @@ return [
             ],
             'fields2' => [
                 'industry' => '產業別',
-                //'industry_other' => '產業別:自填',
                 'unit' => '公司名稱',
                 'title' => '職稱',
                 'job_property' => '職務類型',
-                //'job_property_other' => '職務類型:自填',
+            ],
             'fields3' => [
                 'applicant_id' => '報名序號',
                 'created_at' => '報名日期',
@@ -361,7 +357,7 @@ return [
                 'line' => 'lineID',
                 'zipcode' => '郵遞區號',
                 'address' => '通訊地址',
-                'contact_time' => '適合聯絡時段',        
+                'contact_time' => '適合聯絡時段',
                 'exceptional_conditions' => '特別關懷事項',
             ],
         ],
@@ -451,9 +447,6 @@ return [
 
         'sec_attend' => [
             'is_shown' => 1,
-        ],
-        'sec_traffic' => [
-            'is_shown' => 0,
         ],
         'sec_lodging' => [
             'is_shown' => 0,
@@ -956,7 +949,6 @@ return [
             'fields' => [
                 'mobile' => '行動電話',
                 'phone_home' => '住家電話',
-                'address' => '居住縣市',
                 'line' => 'lineID',
                 'email' => 'Email',
                 'zipcode' => '郵遞區號',
