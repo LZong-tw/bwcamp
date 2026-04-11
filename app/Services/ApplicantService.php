@@ -158,7 +158,7 @@ class ApplicantService
             }
         }
         $mergedData = array_merge(
-            $applicantData, 
+            $applicantData,
             $applicant->$campTable ? $applicant->$campTable->toArray() : [],
             $applicant->lodging ? $applicant->lodging->toArray() : [],
             $applicant->traffic ? $applicant->traffic->toArray() : []
