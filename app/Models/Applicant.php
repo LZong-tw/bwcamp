@@ -346,7 +346,7 @@ class Applicant extends Model
     {
         return Attribute::make(
             set: function ($value) {
-                switch  ($value) {
+                switch ($value) {
                     case '男': return 'M';
                     case '女': return 'F';
                     case '非常規性別': return 'NC';
@@ -379,13 +379,13 @@ class Applicant extends Model
     {
         return Attribute::make(
             set: function ($value) {
-                switch  ($value) {
+                switch ($value) {
                     case '不參加': return 0;
                     case '參加': return 1;
                     case '尚未決定': return 2;
                     case '聯絡不上': return 3;
                     case '無法全程': return 4;
-                    case '尚未聯絡': return 5; 
+                    case '尚未聯絡': return 5;
                     default: return null;
                 }
             },
