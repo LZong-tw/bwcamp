@@ -81,7 +81,7 @@
             <div class="col-md-3">
                 @foreach($fields3 as $key => $val)
                 <b>{{$val}}</b>：{{$applicant->$key?? ""}}<br>
-                @endforeach  
+                @endforeach
             </div>
         </div>
     </div>
@@ -97,7 +97,7 @@
             @endif
         </div>
         @endif
-    
+
         @if($layout['sec_traffic']['is_shown'])
         <div class="row d-flex justify-content-start">
             <div class="ml-2 mb-2 font-weight-bold">交通選項</div>：

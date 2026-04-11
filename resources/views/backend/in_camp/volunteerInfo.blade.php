@@ -8,6 +8,12 @@
     .card-link:hover{
         color: #33B2FF!important;
     }
+    iframe {
+        overflow: scroll;
+        width: 100%;
+        height: 100vh;
+        border: 0;
+    }
 </style>
 @if($errors->any())
     @foreach ($errors->all() as $message)
@@ -28,13 +34,16 @@
     $fields4 = $layout['sec_adv1']['fields'];
     $fields5 = $layout['sec_adv2']['fields'];
     $fields6 = $layout['sec_adv3']['fields'];
+    $fields7 = $layout['sec_lrclass']['fields'];
     $keyword_phone = ['phone','mobile'];
 @endphp
+
 @if(isset($applicant))
     <h4>{{ $camp->fullName }}>>義工詳細資料>>{{ $applicant->name }}</h4>
 
     <!-- 修改學員資料,使用報名網頁 -->
-    @if(\App\Models\User::find(auth()->user()->id)->canAccessResource(new \App\Models\Volunteer, "update", $camp, target: $applicant))
+    @if($currentUser->canAccessResource($applicant, 'update', $applicant->camp, target: $applicant))
+    <div class="container mr-4 mb-2">
     <form target="_blank" action="{{ route('queryupdate', $batch->id) }}" method="post">
         @csrf
         <input type="hidden" name="sn" value="{{ $applicant->applicant_id }}">
@@ -44,6 +53,7 @@
         <button class="mr-4 btn btn-primary float-right">修改義工(報名)資料</button>
         <br>
     </form>
+    </div>
     @endif
     <br>
     <div class="container alert alert-warning">
@@ -76,37 +86,23 @@
                 }
             @endphp
             <div class="col-md-3">
-                <b>義工任務</b>：
-                @forelse($roles as $role)
-                    {{ $role->batch?->name }}{{ $role->section }} - {{ $role->position }}@if($currentUser->canAccessResource(new \App\Models\OrgUser, 'delete', $applicant->vcamp->mainCamp))（<a href="{{ route('deleteUserRole', [$camp->id, "user_id" => $applicant->user->id, "role_id" => $role->id, "applicant_id" => $applicant->id]) }}" class="text-danger">刪除</a>）@endif @if(!$loop->last)、@endif
-                @empty
-                    此義工尚未分配任何職務
-                @endforelse
-                <br>
-                <b>交通方式</b>：{{$applicant->group_legacy}}
-                <br>
-                <b>專長</b>：
-                @if(isset($applicant->expertise_split))
-                    @foreach($applicant->expertise_split as $expertise)
-                        {{$expertise}}
-                        @if(!$loop->last)、@endif
-                    @endforeach
-                @endif
-                <br>
-                <b>語言</b>：
-                @if(isset($applicant->language_split))
-                    @foreach($applicant->language_split as $language)
-                        {{$language}}
-                        @if(!$loop->last)、@endif
-                    @endforeach
-                @endif
-                <br>
                 @foreach($fields3 as $key => $val)
-                <b>{{$val}}</b>：{{$applicant->$key?? ""}}<br>
+                    @if ($key == "義工任務")
+                        <b>義工任務</b>：
+                        <br>
+                        @forelse($roles as $role)
+                            {{ $role->batch?->name }}{{ $role->section }} - {{ $role->position }}@if($currentUser->canAccessResource(new \App\Models\OrgUser, 'delete', $applicant->vcamp->mainCamp))（<a href="{{ route('deleteUserRole', [$camp->id, "user_id" => $applicant->user->id, "role_id" => $role->id, "applicant_id" => $applicant->id]) }}" class="text-danger">刪除</a>）@endif @if(!$loop->last)、@endif
+                        @empty
+                            此義工尚未分配任何職務
+                        @endforelse
+                    @else
+                        <b>{{$val}}</b>：{{$applicant->$key?? ""}}<br>
+                    @endif
                 @endforeach
             </div>
         </div>
-    @if($layout['sec_lodging']['is_shown'] || $layout['sec_lodging']['is_shown'])
+    </div>
+    @if($layout['sec_lodging']['is_shown'] || $layout['sec_traffic']['is_shown'])
     <div class="container alert" style="background-color:#eaeaea">
         @if($layout['sec_lodging']['is_shown'])
         <div class="row d-flex justify-content-start">
@@ -118,8 +114,8 @@
             @endif
         </div>
         @endif
-    @endif
-    @if($layout['sec_traffic']['is_shown'])
+
+        @if($layout['sec_traffic']['is_shown'])
         <div class="row d-flex justify-content-start">
             <div class="ml-2 mb-2 font-weight-bold">交通選項</div>：
             @if (!isset($applicant->traffic))
@@ -128,15 +124,17 @@
                 <div class="mr-4 text-success">{{ $applicant->traffic->depart_from }}/{{ $applicant->traffic->back_to }}</div>
             @endif
         </div>
+        @endif
     </div>
     @endif
+
     @if($layout['sec_attend']['is_shown'])
     <div class="container alert alert-warning">
         <div class="row d-flex">
             <div class="ml-2 mb-2 font-weight-bold">參加意願</div>：
             @if($applicant->is_attend)
-            <div class="mr-4 mb-2 {{ $applicant->is_attend->colorClass() }}">
-                {{ $applicant->is_attend->label() }}
+            <div class="mr-4 mb-2">
+                {{ $applicant->is_attend_chn }}
             </div>
             @else
             <div class="mr-4 mb-2 text-primary">尚未聯絡。</div>
@@ -199,22 +197,16 @@
     </div>
     <br>
 
-
     <div class="container">
         <div class="row">
             <div class="col-md-4">
 	            @if($layout['sec_lrclass']['is_shown'])
-	            	<span class="btn btn-info">護持記錄</span><br><br>
-                <span class="btn btn-info">班級護持記錄</span><br><br>
-                {{ $applicant->cadre_experiences }}<br>
-                <br>
-                <span class="btn btn-info">義工護持記錄</span><br><br>
-                {{ $applicant->volunteer_experiences }}<br>
+                    <span class="font-weight-bold text-white bg-info" style="font-size: 18px;">　護持記錄　</span><br><br>
+	                <x-applicant-data-display :applicant="$applicant" :fields="$fields7" />
                 <br>
 	            
                 @endif
                 @if($layout['sec_remark']['is_shown'])
-
                 <span class="font-weight-bold text-white bg-info" style="font-size: 18px;">　備註　</span><br>
                 <form action="{{ route('editRemark', $camp->id) }}" method="POST">
                     @csrf
