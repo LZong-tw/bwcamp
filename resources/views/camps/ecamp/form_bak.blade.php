@@ -537,7 +537,7 @@
             <label class="form-check-label text-info">會員好禮：享有觀看影片、閱讀文章及參加各種課程活動</label><br>
             <div class="form-check form-check-inline">
                 <label class="form-check-label" for="1">
-                    <input class="form-check-input" type="radio" name="is_member" value="1">
+                    <input class="form-check-input" type="radio" name="is_membership" value="1">
                     立即加入
                     <div class="invalid-feedback">
                         未選擇加入會員
@@ -546,7 +546,7 @@
             </div>
             <div class="form-check form-check-inline">
                 <label class="form-check-label" for="0">
-                    <input class="form-check-input" type="radio" name="gender" value="F">
+                    <input class="form-check-input" type="radio" name="is_membership" value="0">
                     暫時不要
                     <div class="invalid-feedback">
                         &nbsp;
