@@ -33,7 +33,7 @@
     </a>
 @elseif($key === 'is_attend' && $applicant->is_attend)
     <span class="{{ $applicant->is_attend->colorClass() }}">
-        {{ $applicant->is_attend->label() }}
+        {{ $applicant->is_attend_chn }}
     </span>
 @else
     {{ $displayValue }}
