@@ -35,8 +35,8 @@ class Applicant extends Model
     //自動轉換： 當你儲存資料時 $applicant->gender = Gender::Female，Laravel 會自動幫你存入 F。
 
     protected $casts = [
-        'gender' => Gender::class,
-        'is_attend' => AttendanceStatus::class,
+        //'gender' => Gender::class,
+        //'is_attend' => AttendanceStatus::class,
     ];
 
     protected $appends = [
@@ -61,6 +61,8 @@ class Applicant extends Model
         'introducer_phone_dial',
         'portrait_agree_display',
         'profile_agree_display',
+        'gender_chn',
+        'is_attend_chn',
         ];
 
     //先記錄一部分，主要想辨識 mobile/tel/email
@@ -344,33 +346,65 @@ class Applicant extends Model
     {
         return Attribute::make(
             set: function ($value) {
-                // 如果傳入的是 '男'，轉成 Enum 實例，存入時會自動取其 value ('M')
-                // 如果傳入的已經是 'M'，則嘗試從 value 轉換
-                if ($enum = Gender::fromLabel($value)) {
-                    return $enum;
+                switch  ($value) {
+                    case '男': return 'M';
+                    case '女': return 'F';
+                    case '非常規性別': return 'NC';
+                    case '不提供': return 'NS';
+                    case 'M': case 'F':
+                    case 'NC': case 'NS':
+                        return $value;
+                    default: return null;
                 }
-
-                // 備援方案：如果直接傳 'M' 或 'F'，嘗試用內建的 tryFrom
-                return Gender::tryFrom($value) ?? Gender::NotToSpecify;
             },
-            get: fn ($value) => Gender::tryFrom($value)?->value
+            get: fn ($value) => $value
         );
     }
+
+    protected function genderChn(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => match ($this->gender) {
+                'M' => '男',
+                'F' => '女',
+                'NC' => '非常規性別',
+                'NS' => '不提供',
+                default => '-',
+            }
+        );
+    }
+
 
     protected function isAttend(): Attribute
     {
         return Attribute::make(
             set: function ($value) {
-                // 如果傳入的是 '男'，轉成 Enum 實例，存入時會自動取其 value ('M')
-                // 如果傳入的已經是 'M'，則嘗試從 value 轉換
-                if ($enum = AttendanceStatus::fromLabel($value)) {
-                    return $enum;
+                switch  ($value) {
+                    case '不參加': return 0;
+                    case '參加': return 1;
+                    case '尚未決定': return 2;
+                    case '聯絡不上': return 3;
+                    case '無法全程': return 4;
+                    case '尚未聯絡': return 5; 
+                    default: return null;
                 }
-
-                // 備援方案：如果直接傳 'M' 或 'F'，嘗試用內建的 tryFrom
-                return AttendanceStatus::tryFrom($value) ?? AttendanceStatus::NotYetCalled;
             },
-            get: fn ($value) => AttendanceStatus::tryFrom($value)->label()
+            get: fn ($value) => $value
+        );
+    }
+
+    protected function isAttendChn(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => match ($this->is_attend) {
+                0 => '不參加',
+                1 => '參加',
+                2 => '尚未決定',
+                3 => '聯絡不上',
+                4 => '無法全程',
+                5 => '尚未聯絡',
+                default => '-',
+            }
         );
     }
 

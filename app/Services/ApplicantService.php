@@ -149,16 +149,8 @@ class ApplicantService
         //$applicant->applicant_id = $applicantId;
 
         // 將主表與關聯表打平合併
-        // 使用toArray(),Enum會出現問題；先手動寫toArray()，之後再找時間優化
-        $applicantFields = array_merge($applicant->getFillable(), $applicant->getAppends());
-        $applicantData = [];
-        foreach ($applicantFields as $field) {
-            if (isset($applicant->$field)) {
-                $applicantData[$field] = $applicant->$field;
-            }
-        }
         $mergedData = array_merge(
-            $applicantData,
+            $applicant->toArray(),
             $applicant->$campTable ? $applicant->$campTable->toArray() : [],
             $applicant->lodging ? $applicant->lodging->toArray() : [],
             $applicant->traffic ? $applicant->traffic->toArray() : []
