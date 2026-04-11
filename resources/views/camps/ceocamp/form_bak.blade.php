@@ -958,18 +958,6 @@
             }
         }
 
-        function fillTheTitle(){
-            if(this.value == '其他'){
-                document.getElementById('title').value = '請在此處自行輸入職稱';
-            }
-            else if(this.value == '兼課老師'){
-                document.getElementById('title').value = '兼課老師(兼課時數: 小時)';
-            }
-            else if(this.value != null){
-                document.getElementById('title').value = this.value;
-            }
-        }
-
         @if(isset($applicant_data))
             {{-- 回填報名資料 --}}
             (function() {

@@ -1803,7 +1803,8 @@ class BackendController extends Controller
         $qrcode = $this->generateQrCodeWithText($applicant);
 
         if (str_contains($camp->table, "vcamp")) {
-            return view('backend.in_camp.volunteerInfo', compact('camp', 'batch', 'applicant', 'contactlog', 'qrcode'));
+            $layout = config('camps_volunteerinfo.' . $camp->table) ?? [];
+            return view('backend.in_camp.volunteerInfo', compact('camp', 'batch', 'applicant', 'contactlog', 'qrcode', 'layout'));
         } elseif ($camp->table == "acamp") {
             return view('backend.in_camp.attendeeInfoAcamp', compact('camp', 'batch', 'applicant', 'contactlog', 'qrcode'));
         } elseif ($camp->table == "ceocamp") {
