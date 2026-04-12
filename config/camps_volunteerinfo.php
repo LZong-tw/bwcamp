@@ -313,9 +313,6 @@ return [
                 'group_priority1' => '組別志願1',
                 'group_priority2' => '組別志願2',
                 'group_priority3' => '組別志願3',
-                'role_section' => '功能組別',
-                'role_position' => '職務',
-
             ],
         ],
 
@@ -329,7 +326,7 @@ return [
             'is_shown' => 0,
         ],
         'sec_file_upload' => [
-            'is_shown' => 1,
+            'is_shown' => 0,
         ],
         'sec_adv1' => [
             'is_shown' => 1,
@@ -366,17 +363,10 @@ return [
             'title' => '護持記錄',
             'fields' => [
                 'trclass' => '儲訓班別',
-                'trclass_no' => '編號',
+                'trclass_no' => '儲訓班編號',
                 'lrclass' => '廣論班別',
                 'cadre_experiences' => '班級護持記錄',
                 'volunteer_experiences' => '義工護持記錄',
-            ],
-        ],
-        'sec_interest' => [
-            'is_shown' => 0,
-            'title' => '有興趣的活動',
-            'fields' => [
-                'favored_event_split'  => '有興趣的活動',
             ],
         ],
         'sec_remark' => [
@@ -390,10 +380,6 @@ return [
         'sec_contact_log' => [
             'is_shown' => 1,
             'title' => '關懷記錄',
-        ],
-       'sec_ceovcamp_excel' => [
-            'is_shown' => 0,
-            'title' => '訪談記錄',
         ],
     ],
 
@@ -732,22 +718,13 @@ return [
             'title' => 'none',
             'fields1' => [  //姓名姓別年齡
                 'name'  => '中文姓名',
-                'english_name'  => '英文姓名',
                 'gender' => '生理性別',
-                'age' => '年齡',
             ],
             'fields2' => [  //工作
-                'unit' => '服務學校/單位',
-                'unit_county' => '服務單位所在縣市',
-                'department' => '服務系所/部門',
-                'position' => '身分別',
-                'title' => '職稱',
+                'region' => '區域',
             ],
             'fields3' => [  //營隊
                 'roles' => '義工任務',
-                'transportation' => '交通方式',
-                'expertise' => '專長',
-                'language' => '語言',
                 'applicant_id' => '報名序號',
                 'created_at' => '報名日期',
             ],
@@ -757,10 +734,10 @@ return [
             'is_shown' => 1,
         ],
         'sec_lodging' => [
-            'is_shown' => 1,
+            'is_shown' => 0,
         ],
         'sec_traffic' => [
-            'is_shown' => 1,
+            'is_shown' => 0,
         ],
         'sec_file_upload' => [
             'is_shown' => 0,
@@ -771,10 +748,6 @@ return [
             'title' => '聯絡方式',
             'fields' => [
                 'mobile' => '行動電話',
-                'phone_home' => '住家電話',
-                'phone_work' => '工作電話',
-                'address' => '居住縣市',
-                'line' => 'lineID',
                 'email' => 'Email',
             ],
         ],
@@ -782,31 +755,19 @@ return [
             'is_shown' => 1,
             'title' => '關係人資訊',
             'fields' => [
-                'info_source' => '得知管道',
-                'introducer_name' => '介紹人姓名',
-                'expectation' => '對營隊的期待',
-                'emergency_name' => '緊急聯絡人姓名',
-                'emergency_mobile' => '緊急聯絡人電話',
             ],
         ],
         'sec_adv3' => [  //其它
             'is_shown' => 1,
             'title' => '其它資訊',
             'fields' => [
-                'is_civil_certificate' => '公務員研習時數',
-                'idno' => '身分證字號',
-                'is_bwfoce_certificate' => '基金會研習證明',
-                'invoice_type' => '發票類型',
-                'taxid' => '統編',
-                'invoice_title' => '發票抬頭',
+                'self_intro' => '我是誰',
             ],
         ],
         'sec_lrclass' => [
             'is_shown' => 1,
             'title' => '護持記錄',
             'fields' => [
-                'cadre_experiences' => '班級護持記錄',
-                'volunteer_experiences' => '義工護持記錄',
             ],
         ],
         'sec_remark' => [
@@ -814,16 +775,12 @@ return [
             'title' => '備註',
         ],
         'sec_qrcode' => [
-            'is_shown' => 1,
+            'is_shown' => 0,
             'title' => '報到條碼',
         ],
         'sec_contact_log' => [
             'is_shown' => 1,
             'title' => '關懷記錄',
-        ],
-       'sec_ceovcamp_excel' => [
-            'is_shown' => 0,
-            'title' => '訪談記錄',
         ],
     ],
 
