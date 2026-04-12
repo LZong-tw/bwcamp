@@ -85,16 +85,13 @@ class BackendController extends Controller
                 die();
             }
             $this->camp_info = $this->campDataService->getCampInfo($this->batch);
-            if (is_string($this->camp_info)) {   //錯誤
-                echo "<h1>" . $this->camp_info . "</h1><br>";
+            if (is_null($this->camp_info)) {
+                echo "<h1>錯誤：查無營隊資料。</h1>" . "<br>";
                 die();
             }
-
             $this->camp_id = $this->camp_info->camp_id;
-            $this->camp_table = $this->camp_info->camp_table;
-            $this->camp = null;
-
-            $this->camp_data = $this->camp_info;
+            $this->camp_table = $this->camp_info->table;
+            $this->camp = $this->camp_info;
             $this->persist(camp: $this->camp_info);
 
             $camp = $this->camp_info;
@@ -114,7 +111,6 @@ class BackendController extends Controller
                 echo "<h1>錯誤：查無營隊資料。</h1>" . "<br>";
                 die();
             }
-            $this->campFullData = $this->camp;
             $this->camp_info = $this->camp; //without batch_id, camp_info and camp are the same
             $this->persist(camp: $this->camp);
 
@@ -129,6 +125,10 @@ class BackendController extends Controller
         if (\Str::contains(url()->current(), "campManage")) {
             $this->middleware('admin');
         }
+
+        //backward compatibility, to avoid changing too many places at once
+        $this->camp_data = $this->camp_info;
+        $this->campFullData = $this->camp;
 
         // 營隊資料，存入 view 全域
         View::share('batch_id', $this->batch_id);

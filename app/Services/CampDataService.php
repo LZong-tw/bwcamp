@@ -44,6 +44,7 @@ class CampDataService
         $camp_info->forceFill($batch->attributesToArray());
         // 恢復被覆蓋的問題
         $camp_info->id = $campId;
+        $camp_info->camp_id = $campId;
         $camp_info->batch_id = $batchId;
 
         return $camp_info;
