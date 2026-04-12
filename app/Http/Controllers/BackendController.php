@@ -115,7 +115,7 @@ class BackendController extends Controller
                 die();
             }
             $this->campFullData = $this->camp;
-            $this->camp_info = null;
+            $this->camp_info = $this->camp; //without batch_id, camp_info and camp are the same
             $this->persist(camp: $this->camp);
 
             if ($this->camp_table == 'ycamp' || $this->camp_table == 'acamp') {
