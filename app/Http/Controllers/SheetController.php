@@ -488,12 +488,12 @@ class SheetController extends Controller
                     $data = $applicant->is_attend ?? "尚未聯絡";
                 } elseif ($key == "camporg_section") {
                     $user = ($applicant->user ?? null);
-                    //$roles = ($user)? $user->roles->where('camp_id', $main_camp_id) : null;
-                    $roles = $user?->roles?->where('camp_id', $main_camp_id) ?? null;
+                    //$roles = ($user)? $user->roles->where('camp_id', $mainCampId) : null;
+                    $roles = $user?->roles?->where('camp_id', $mainCampId) ?? null;
                     $data = ($roles) ? $roles->flatten()->pluck('section')->implode(',') : "";
                 } elseif ($key == "camporg_position") {
                     $user = ($applicant->user ?? null);
-                    $roles = ($user) ? $user->roles->where('camp_id', $main_camp_id) : null;
+                    $roles = ($user) ? $user->roles->where('camp_id', $mainCampId) : null;
                     $data = ($roles) ? $roles->flatten()->pluck('position')->implode(',') : "";
                 } elseif (array_key_exists($key, $propertyMap)) {
                     $data = $propertyMap[$key]($applicant) ?? '';
