@@ -133,7 +133,7 @@ class BackendController extends Controller
         // 營隊資料，存入 view 全域
         View::share('batch_id', $this->batch_id);
         View::share('batch', $this->batch);
-        View::share('camp_id', $this->batch_id);
+        View::share('camp_id', $this->camp_id);
         View::share('camp', $this->camp); //??
         View::share('camp_info', $this->camp_info);
         View::share('camp_table', $this->camp_table);
