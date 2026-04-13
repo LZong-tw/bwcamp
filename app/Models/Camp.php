@@ -65,7 +65,6 @@ class Camp extends Model
         put attribute in $appends，這樣當把 Model 轉成 JSON 時，這些欄位才會出現
     */
     protected $appends = [
-        //先轉幾個會用到的，其它之後再加？
         'registration_start_weekday',
         'registration_start_weekday_eng',
         'registration_start_weekday_short',
@@ -81,12 +80,37 @@ class Camp extends Model
         'cancellation_deadline_weekday',
         'early_bird_last_day_weekday',
         'discount_last_day_weekday',
+        'batch_start_earliest',
+        'batch_start_latest',
     ];
 
+    //to correct spelling mistake in table name, but keep the old one for compatibility
+    public function batches()
+    {
+        return $this->hasMany('App\Models\Batch');
+    }
 
     public function batchs()
     {
-        return $this->hasMany('App\Models\Batch');
+        return $this->batches();
+    }
+
+    // 取得該營隊所有 batches 最早的 batch_start 日期
+    protected function batchStartEarliest(): Attribute
+    {
+        return Attribute::make(
+            // min('batch_start') 會直接在資料庫層級下 query，效率不錯
+            get: fn () => $this->batches()->min('batch_start'),
+        );
+    }
+
+    // 取得該營隊所有 batches 最晚的 batch_end 日期
+    protected function batchStartLatest(): Attribute
+    {
+        return Attribute::make(
+            // max('batch_end') 會直接在資料庫層級下 query，效率不錯
+            get: fn () => $this->batches()->max('batch_end'),
+        );
     }
 
     public function currencies()
@@ -118,9 +142,15 @@ class Camp extends Model
         return $this->hasManyThrough(Applicant::class, Batch::class);
     }
 
-    public function organizations()
+    public function orgs()
     {
         return $this->hasMany(CampOrg::class);
+    }
+
+    //for compatibility
+    public function organizations()
+    {
+        return $this->orgs();
     }
 
     public function org_root()
@@ -329,4 +359,5 @@ class Camp extends Model
             get: fn () => $this->discount_last_day?->locale('zh_TW')->minDayName, // 一
         );
     }
+
 }
