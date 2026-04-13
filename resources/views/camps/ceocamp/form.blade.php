@@ -45,8 +45,8 @@
 
 <!--<body style="color: #343458;background: #def0fa;">-->
 <body style="color: #343458; 
-    background-image: {{ $imgbg }}; 
     background: rgb(202, 203 , 161, 0.3);  
+    background-image: url('{{ $imgbg }}'); 
     background-size: cover;
     background-attachment: fixed;">
     <nav class="navbar navbar-expand-md fixed-top navbar-shrink py-3 navbar-light" id="mainNav"
