@@ -2278,7 +2278,7 @@ return [
             "admitted_no" => "組別",
             "name" => "姓名",
             "gender" => "生理性別",
-            "birthdate" => "出生年",
+            "birthdate" => "生日",
             "belief" => "宗教信仰",
             "education" => "最高學歷",
             "unit" => "服務單位",
