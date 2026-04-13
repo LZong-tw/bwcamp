@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ceocamp extends Model
 {
-    //
+
     protected $table = 'ceocamp';
 
     public $resourceNameInMandarin = '菁英營特殊欄位';
@@ -20,4 +20,22 @@ class Ceocamp extends Model
     ];
 
     protected $guarded = [];
+
+    protected $appends = [
+        //'contact_time_csv',
+    ];
+
+    /*
+     * 取得 contact_time 的 CSV 格式
+     */
+    protected function contactTimeCsv(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $trimmed = trim($this->contact_time ?? '', '||/');
+                return str_replace('||/', ',', $trimmed);
+            },
+        );
+    }
+
 }

@@ -10,6 +10,8 @@ use App\Mail\AdmittedMail;
 use App\Mail\ApplicantMail;
 use App\Mail\CheckInMail;
 use App\Mail\NotAdmittedMail;
+use App\Mail\IntroducerMail;
+use App\Mail\SubstituteMail;
 use App\Traits\EmailConfiguration;
 
 class sendApplicantMail extends Command
@@ -83,6 +85,10 @@ class sendApplicantMail extends Command
             case "notAdmittedMail":
                 Mail::to($applicant)->send(new NotAdmittedMail($applicant));
                 $this->info("成功寄送不錄取郵件。");
+                break;
+            case "introducerMail":
+                Mail::to($applicant)->send(new IntroducerMail($applicant, $camp));
+                $this->info("成功寄送推薦人郵件。");
                 break;
         }
         return 0;
