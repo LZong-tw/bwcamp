@@ -42,7 +42,7 @@
     <h4>{{ $camp->fullName }}>>義工詳細資料>>{{ $applicant->name }}</h4>
 
     <!-- 修改學員資料,使用報名網頁 -->
-    @if($currentUser->canAccessResource($applicant, 'update', $applicant->camp, target: $applicant))
+    @if(\App\Models\User::find(auth()->user()->id)->canAccessResource(new \App\Models\Volunteer, "update", $camp, target: $applicant))
     <div class="container mr-4 mb-2">
     <form target="_blank" action="{{ route('queryupdate', $batch->id) }}" method="post">
         @csrf
@@ -87,14 +87,14 @@
             @endphp
             <div class="col-md-3">
                 @foreach($fields3 as $key => $val)
-                    @if ($key == "義工任務")
-                        <b>義工任務</b>：
-                        <br>
+                    @if ($key == "roles")
+                        <b>{{$val}}</b>：
                         @forelse($roles as $role)
                             {{ $role->batch?->name }}{{ $role->section }} - {{ $role->position }}@if($currentUser->canAccessResource(new \App\Models\OrgUser, 'delete', $applicant->vcamp->mainCamp))（<a href="{{ route('deleteUserRole', [$camp->id, "user_id" => $applicant->user->id, "role_id" => $role->id, "applicant_id" => $applicant->id]) }}" class="text-danger">刪除</a>）@endif @if(!$loop->last)、@endif
                         @empty
                             此義工尚未分配任何職務
                         @endforelse
+                        <br>
                     @else
                         <b>{{$val}}</b>：{{$applicant->$key?? ""}}<br>
                     @endif

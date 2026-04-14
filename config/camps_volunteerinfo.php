@@ -893,10 +893,8 @@ return [
                 'roles' => '義工任務',
                 'applicant_id' => '報名序號',
                 'created_at' => '報名日期',
-                'admitted_at' => '錄取日期',
-                'group' => '組別',
-                'number' => '座號',
-                'carers' => '關懷員',
+                'batch_name' => '梯次',
+                'region' => '區域',
             ],
         ],
 
@@ -917,7 +915,6 @@ return [
             'title' => '聯絡方式',
             'fields' => [
                 'mobile' => '行動電話',
-                'address' => '居住縣市',
                 'line' => 'lineID',
                 'email' => 'Email',
             ],
@@ -926,10 +923,8 @@ return [
             'is_shown' => 1,
             'title' => '關係人資訊',
             'fields' => [
-                'info_source' => '得知管道',
-                'introducer_name' => '介紹人',
-                'expectation' => '對營隊的期待',
                 'emergency_name' => '緊急聯絡人姓名',
+                'emergency_relationship' => '緊急聯絡人關係',
                 'emergency_mobile' => '緊急聯絡人電話',
             ],
         ],
@@ -938,31 +933,16 @@ return [
             'is_shown' => 1,
             'title' => '其它資訊',
             'fields' => [
-                'medical_specialty' => '醫事人員職種類別',
-                'work_category' => '長照人員職種類別',
-                'portrait_agree' => '肖像權',
-                'profile_agree' => '個資使用',
+                'self_intro' => '我是誰',
             ],
-        ],
-        'sec_interest' => [
-            'is_shown' => 0,
-            'title' => '關心議題',
         ],
         'sec_remark' => [
             'is_shown' => 1,
             'title' => '備註',
         ],
-        'sec_qrcode' => [
-            'is_shown' => 1,
-            'title' => '報到條碼',
-        ],
         'sec_contact_log' => [
             'is_shown' => 1,
             'title' => '關懷記錄',
-        ],
-       'sec_ceovcamp_excel' => [
-            'is_shown' => 1,
-            'title' => '訪談記錄',
         ],
     ],
 
@@ -1061,25 +1041,30 @@ return [
         'sec_basic' => [
             'is_shown' => 1,
             'title' => 'none',
-            'fields1' => [  //姓名姓別年齡
+            'fields1' => [
+                'photo' => '照片',
                 'name'  => '中文姓名',
-                'english_name'  => '英文姓名',
+                'english_name'  => '英文慣用名',
                 'gender' => '生理性別',
-                'age' => '年齡',
+                'birthdate' => '生日',
             ],
-            'fields2' => [  //工作
-                'unit' => '服務學校/單位',
-                'unit_county' => '服務單位所在縣市',
-                'position' => '身分別',
+            'fields2' => [
+                'unit' => '公司名稱',
+                'industry' => '產業別',
                 'title' => '職稱',
+                'job_property' => '職務類型',
+                'employees' => '公司員工總數',
+                'direct_managed_employees' => '所轄員工人數',
             ],
-            'fields3' => [  //營隊
+        'fields3' => [
+                'roles' => '義工任務',
                 'applicant_id' => '報名序號',
                 'created_at' => '報名日期',
-                'admitted_at' => '錄取日期',
-                'group' => '組別',
-                'number' => '座號',
-                'carers' => '關懷員',
+                'batch_name' => '梯次',
+                'region' => '區域',
+                'group_priority1' => '組別志願1',
+                'group_priority2' => '組別志願2',
+                'group_priority3' => '組別志願3',
             ],
         ],
 
@@ -1093,33 +1078,35 @@ return [
             'is_shown' => 1,
         ],
         'sec_file_upload' => [
-            'is_shown' => 0,
+            'is_shown' => 1,
         ],
-
-        'sec_adv1' => [  //聯絡方式
+        'sec_adv1' => [
             'is_shown' => 1,
             'title' => '聯絡方式',
             'fields' => [
-                'mobile' => '行動電話',
-                'phone_home' => '住家電話',
-                'phone_work' => '工作電話',
-                'email' => 'Email',
+                'mobile'  => '行動電話',
+                'email' => '電子信箱',
                 'line' => 'lineID',
-                'address' => '居住地',
             ],
         ],
-        'sec_adv2' => [  //關係人
+        'sec_adv2' => [
             'is_shown' => 1,
             'title' => '關係人資訊',
             'fields' => [
-                'emergency_name' => '緊急聯絡人姓名',
-                'emergency_mobile' => '緊急聯絡人電話',
+                'introducer_name' => '邀請人姓名'
             ],
         ],
-        'sec_adv3' => [  //其它
+
+        'sec_adv3' => [
             'is_shown' => 1,
             'title' => '其它資訊',
             'fields' => [
+                'transport' => '日常交通方式',
+                'transport_other' => '日常交通方式:其它',
+                'expertise' => '專長',
+                'expertise_other' => '專長:其它',
+                'language' => '語言',
+                'language_other' => '語言:其它',
                 'portrait_agree' => '肖像權',
                 'profile_agree' => '個資使用',
             ],
@@ -1128,26 +1115,23 @@ return [
             'is_shown' => 1,
             'title' => '護持記錄',
             'fields' => [
-                'lrclass' => '廣論班別',
-                'trclass' => '儲訓班別',
+                'lrclass_level' => '廣論班別',
+                'lrclass' => '廣論班別詳',
                 'cadre_experiences' => '班級護持記錄',
                 'volunteer_experiences' => '義工護持記錄',
             ],
         ],
-        'sec_interest' => [
-            'is_shown' => 0,
-            'title' => '關心議題',
-        ],
+
         'sec_remark' => [
             'is_shown' => 1,
             'title' => '備註',
         ],
         'sec_qrcode' => [
-            'is_shown' => 0,
+            'is_shown' => 1,
             'title' => '報到條碼',
         ],
         'sec_contact_log' => [
-            'is_shown' => 0,
+            'is_shown' => 1,
             'title' => '關懷記錄',
         ],
        'sec_ceovcamp_excel' => [
