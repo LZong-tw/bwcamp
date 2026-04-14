@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ceocamp extends Model
 {
-
     protected $table = 'ceocamp';
 
     public $resourceNameInMandarin = '菁英營特殊欄位';
