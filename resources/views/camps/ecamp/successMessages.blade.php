@@ -1,5 +1,5 @@
 
-請記下您的<span class="text-danger font-weight-bold">《 報名序號：{{ $applicant->id }} 》</span>作為日後查詢使用。<br>
+請記下您的<b><span style="color: #DC3545;">《 報名序號：{{ $applicant->id }} 》</span></b>作為日後查詢使用。<br>
 <u>{{ $camp_info->admission_announcing_date }} ({{ $camp_info->admission_announcing_date_weekday }}) </u>以後將以E-mail通知您營隊後續訊息。
 <br>
 <p>
