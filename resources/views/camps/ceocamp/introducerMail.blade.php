@@ -1,6 +1,6 @@
 {{ $applicant->introducer_name }} 您好：<br>
 <br>
-&emsp;&emsp;您推薦 {{ $applicant->name }} 報名 「{{ $camp_info->fullName }}」，推薦報名手續已完成，請記下 {{ $applicant->name }} 的<span class="text-danger font-weight-bold">《 報名序號：{{ $applicant->id }} 》</span>，作為日後查詢使用。若您有任何問題，歡迎您與主辦單位聯繫。<br>
+&emsp;&emsp;您推薦 {{ $applicant->name }} 報名 「{{ $camp_info->year }}企業菁英生命成長營&emsp;{{$camp_info->locationName }}梯」，推薦報名手續已完成，請記下 {{ $applicant->name }} 的<span class="text-danger font-weight-bold">《 報名序號：{{ $applicant->id }} 》</span>，作為日後查詢使用。若您有任何問題，歡迎您與主辦單位聯繫。<br>
 <br>
 &emsp;&emsp;主辦單位於營隊活動前，會安排關懷員與您聯繫，說明活動相關訊息及注意事項。<br>
 <br>

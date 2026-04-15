@@ -51,10 +51,10 @@
     background-attachment: fixed;">
     <nav class="navbar navbar-expand-md fixed-top navbar-shrink py-3 navbar-light" id="mainNav"
         style="background: linear-gradient(rgb(202, 203,161), rgba(255,255,255,0.4) 52%, rgb(202,203,161)), rgba(255,255,255,0.6);border-radius: 0px;height: 60px;box-shadow: 0px 0px 14px;">
-        <div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><span
+        <div class="container"><a class="navbar-brand d-flex align-items-center" href="{{ $camp_info->site_url }}" target="_blank"><span
                     style="font-family: Abel, sans-serif;color: rgb(46,83,99);"><span
-                        style="color: rgb(40, 100, 80);">{{ $camp_info->year }}企業菁英生命成長營推薦 {{ $camp_info->name }}</span><span
-                        style="color: rgb(154, 0, 0);"><!--（{{ $batch->name }}梯）--></span></span></a><button data-bs-toggle="collapse"
+                        style="color: rgb(40, 100, 80);">{{ $camp_info->year }}企業菁英生命成長營推薦 </span><span
+                        style="color: rgb(123, 83, 130);">{{ $camp_info->locationName }}梯</span></span></a><button data-bs-toggle="collapse"
                 class="navbar-toggler" data-bs-target="#navcol-1"
                 style="width: 43px;height: 40px;padding: 0px 0px;background: rgba(255,255,255,0.3);"><span
                     class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>

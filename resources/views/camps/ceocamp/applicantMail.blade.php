@@ -1,6 +1,6 @@
 {{ $applicant->name }} 您好：<br>
 <br>
-&emsp;&emsp;{{ $applicant->introducer_name }}推薦您報名「{{ $camp_info->fullName }}」，推薦報名手續已完成。若您有任何問題，歡迎您與主辦單位聯繫。<br>
+&emsp;&emsp;{{ $applicant->introducer_name }}推薦您報名「{{ $camp_info->year }}企業菁英生命成長營&nbsp; {{$camp_info->locationName }}梯」，推薦報名手續已完成。若您有任何問題，歡迎您與主辦單位聯繫。<br>
 <br>
 &emsp;&emsp;主辦單位於營隊活動前，會安排關懷員與您聯繫，說明活動相關訊息及注意事項。<br>
 <br>
