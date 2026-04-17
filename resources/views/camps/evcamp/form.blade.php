@@ -43,7 +43,7 @@
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態；只在[報名狀態]時提供載入舊資料選項 --}}
 @if(!isset($isModify) && !isset($batch_id_from))
     <hr>
-    <h5 class='form-control-static text-warning bg-secondary'>若您曾報名{{ $last_year }}年菁英營義工，請點選下面連結，查詢並使用{{ $last_year }}年菁英營義工報名資料<br>
+    <h5 class='form-control-static text-warning bg-secondary'>若您曾報名{{ $last_year }}年企業營義工，請點選下面連結，查詢並使用{{ $last_year }}年企業營義工報名資料<br>
             @foreach($last_year_camps as $lycamp)
             @foreach($lycamp->batchs as $lybatch)
             <a href="{{ route('query', $lybatch->id) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary">＊<u>{{ $lycamp->fullName }}</u>＊</a><br>
