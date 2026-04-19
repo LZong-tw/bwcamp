@@ -219,6 +219,15 @@ class SheetController extends Controller
                     // 統一將逗號替換為 "||/"，增加比對成功率
                     $colData[$colName[$j]] = str_replace(', ', "||/", $data[$j]);
                     $colData[$colName[$j]] = str_replace(',', "||/", $data[$j]);
+                } elseif ($colName[$j] == 'created_at') {
+                    if (str_contains($data[$j], '上午')) {
+                        $data[$j] = str_replace('上午', '', $data[$j]);
+                        $data[$j] = $data[$j].' AM';
+                    } elseif (str_contains($data[$j], '下午')) {
+                        $data[$j] = str_replace('下午', '', $data[$j]);
+                        $data[$j] = $data[$j].' PM';
+                    }
+                    $colData[$colName[$j]] = $data[$j];
                 }
             } else {
                 continue;
@@ -256,21 +265,28 @@ class SheetController extends Controller
 
         $isCreate = false;
         if ($applicant) {   //if exist, update
-            $this->updateApplicant($applicant, $colData, $table);   //update applicant data, e.g. name, email, etc.
+            //update applicant data, e.g. name, email, etc.
+            [$applicant, $applicant_xcamp] = $this->updateApplicant($applicant, $colData, $table);
             $isCreate = false;
         } else {            //create new
-            $this->createApplicant($colData, $table);   //create applicant data, e.g. name, email, etc.
+            //create applicant data, e.g. name, email, etc.
+            [$applicant, $applicant_xcamp] = $this->createApplicant($colData, $table);
             $isCreate = true;
         }
-        return [$isCreate, $colData];
+        return [$isCreate, $applicant, $applicant_xcamp];
     }
 
     private function updateApplicant($applicant, $colData, $table)
     {
         //update applicant data, e.g. name, email, etc.
         $applicant_xcamp = $applicant?->$table;
-        $applicant->update($colData);          //saved?
-        $applicant_xcamp->update($colData);    //saved?
+        if (!$applicant_xcamp) {
+            //如果applicant_xcamp不存在，則建立一個新的
+            $applicant_xcamp = new ("App\\Models\\" . ucfirst($table))();
+            $applicant_xcamp->applicant_id = $applicant->id;
+        }
+        $applicant->update($colData);
+        $applicant_xcamp->update($colData);
         return [$applicant, $applicant_xcamp];
     }
 
@@ -311,7 +327,7 @@ class SheetController extends Controller
                 //one row
                 $data = $contents[$i];    //one row
                 $colData = $this->processOneRow($batchId, $data, $colName, $nCols);   //process data, e.g. convert "是" to 1, "否" to 0, etc.
-                [$isCreate, $colData] = $this->importOneApplicant($colData, $table);
+                [$isCreate, $applicant, $applicant_xcamp] = $this->importOneApplicant($colData, $table);
                 if ($isCreate) {
                     $create_count++;
                 } else {
@@ -367,7 +383,7 @@ class SheetController extends Controller
     /**
      * 匯出申請者資料到 Google Sheets
      */
-    private function exportApplicantsToSheet(
+    /*private function exportApplicantsToSheet(
         object $sheetConfig,
         $applicants,
         array $columns,
@@ -408,41 +424,28 @@ class SheetController extends Controller
             sleep(1);
             usleep(5000);
         }
-    }
+    }*/
 
     public function exportGSApplicants(Request $request)
     {
         $camp = Camp::find($request->camp_id);
         $table = $camp->table;
-        if ($camp->is_vcamp()) {
-            $vcamp = Vcamp::find($request->camp_id);
-            $main_camp_id = $vcamp->mainCamp->id;
-        } else {
-            $main_camp_id = null;
-        }
+        $mainCampId = $this->getMainCampId($camp, $request->camp_id);
 
-        $ds = DynamicStat::select('dynamic_stats.*')
-            ->where('urltable_id', $request->camp_id)
-            ->where('urltable_type', 'App\Models\Camp')
-            ->where('purpose', 'exportApplicant')
-            ->first();
+        $dss = $this->getSheetConfig($request->camp_id, 'App\Models\Camp', 'exportApplicant');
 
-        if ($ds == null) {
+        if ($dss->isEmpty()) {
             \Log::info("sheet not found\n");
             exit(1);
+        } else {
+            $ds = $dss->first();
         }
 
         $sheet_id = $ds->spreadsheet_id;
         $sheet_name = $ds->sheet_name;
         $sheets = $this->gsheetservice->Get($sheet_id, $sheet_name);
 
-        $applicants = Applicant::select('applicants.*', $table . '.*')
-        ->join($table, 'applicants.id', '=', $table . '.applicant_id')
-        ->join('batchs', 'applicants.batch_id', '=', 'batchs.id')
-        ->join('camps', 'batchs.camp_id', '=', 'camps.id')
-        ->where('camps.id', $request->camp_id)
-        ->orderBy('applicants.id')
-        ->get();
+        $applicants = $this->getApplicantsForExport($request->camp_id, $table);
 
         $columns = config('camps_fields.export4stat.' . $table) ?? [];
         foreach ($columns as $key => $v) {
@@ -482,22 +485,15 @@ class SheetController extends Controller
                 if ($key == "admitted_no") {
                     $data = $applicant->group . $applicant->number;
                 } elseif ($key == "is_attend") {
-                    match ($applicant->is_attend) {
-                        0 => $data = "不參加",
-                        1 => $data = "參加",
-                        2 => $data = "尚未決定",
-                        3 => $data = "聯絡不上",
-                        4 => $data = "無法全程",
-                        default => $data = "尚未聯絡"
-                    };
+                    $data = $applicant->is_attend ?? "尚未聯絡";
                 } elseif ($key == "camporg_section") {
                     $user = ($applicant->user ?? null);
-                    //$roles = ($user)? $user->roles->where('camp_id', $main_camp_id) : null;
-                    $roles = $user?->roles?->where('camp_id', $main_camp_id) ?? null;
+                    //$roles = ($user)? $user->roles->where('camp_id', $mainCampId) : null;
+                    $roles = $user?->roles?->where('camp_id', $mainCampId) ?? null;
                     $data = ($roles) ? $roles->flatten()->pluck('section')->implode(',') : "";
                 } elseif ($key == "camporg_position") {
                     $user = ($applicant->user ?? null);
-                    $roles = ($user) ? $user->roles->where('camp_id', $main_camp_id) : null;
+                    $roles = ($user) ? $user->roles->where('camp_id', $mainCampId) : null;
                     $data = ($roles) ? $roles->flatten()->pluck('position')->implode(',') : "";
                 } elseif (array_key_exists($key, $propertyMap)) {
                     $data = $propertyMap[$key]($applicant) ?? '';
