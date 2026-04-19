@@ -230,7 +230,7 @@ class CampController extends Controller
                     }
                 }
                 $applicant = Applicant::where('id', $formData['applicant_id'])->first();
-                $model = '\\App\\Models\\' . ucfirst($this->camp_data->table);
+                $model = '\\App\\Models\\' . ucfirst($this->camp_info->table);
                 $camp = $model::where('applicant_id', $formData['applicant_id'])->first();
                 $applicantFillable = $applicant->getFillable();
                 $campFillable = $camp->getFillable();
@@ -260,7 +260,8 @@ class CampController extends Controller
             $applicant = $this->applicantService->fillPaymentData($applicant);
             $applicant->save();
 
-            return view('camps.' . $this->camp_info->table . '.modifyingSuccessful', ['applicant' => $applicant]);
+            $isModify = 1;
+            return view('camps.' . $this->camp_info->table . '.success', compact('applicant', 'isModify'));
         }
         // 營隊報名
         else {
@@ -380,8 +381,9 @@ class CampController extends Controller
         return view('camps.' . $campCopy->table . '.form')
         //->with('applicant_id', $applicantOri->applicant_id)
         //->with('batch_id', $applicantOri->batch_id)   //??
-        ->with('applicant_data', $applicant_data)                 //處理過一些空白字元的版本
-        ->with('applicant_raw_data', $applicantOri)             //資料庫抓出的原始資料,已join
+        ->with('applicant_data', $applicant_data)      //處理過一些空白字元的版本
+        ->with('applicant', $applicantOri)             //保留這個:資料庫抓出的原始資料,已join
+        ->with('applicant_raw_data', $applicantOri)    //之後刪除，但先保留以免其他地方用到
         ->with('isModify', true)
         ->with('useOldData2Register', true)                     //新增：使用舊資料報名
         ->with('batch', $batchCopy)
@@ -404,98 +406,90 @@ class CampController extends Controller
      */
     public function campViewRegistrationData(Request $request)
     {
-        $applicant = null;
-        $isModify = false;
         $campTable = $this->camp_info->table;
+        $formPath = "camps.{$campTable}" . (in_array($campTable, ['ecamp', 'ceocamp']) ? '.form_bak' : '.form');
 
-        $form_str = $campTable == "ecamp" || $campTable == "ceocamp" ? ".form_bak" : ".form";
-        if ($request->name != null && $request->sn != null) {
-            try {
-                [$applicant, $applicant_data] = $this->applicantService->getApplicantData($request->sn, $campTable, $request->name);
-            } catch (ModelNotFoundException $e) {
-                return redirect()->back()->withErrors(['找不到報名資料，請確認查詢欄位是否填寫正確，或者是否已成功報名。']);
-            }
+        // 1. 取得報名者資料 (封裝邏輯以減少重複的 try-catch)
+        try {
+            [$applicant, $applicant_data] = $this->getApplicantByRequest($request, $campTable);
+        } catch (ModelNotFoundException $e) {
+            return redirect()->back()->withErrors(['找不到報名資料，請確認查詢欄位或序號是否正確。']);
         }
-        // 只使用報名 ID（報名序號）查詢資料，僅開放有限的存取
-        //（因會有個資洩漏的疑慮，故只在檢視報名資料及報名資料送出後的畫面允許使用）
-        // 唯三允許進入修改資料的來源：兩個地方（報名、報名資料修改）的報名資料送出後
-        //                        及檢視報名資料頁面所進來的請求
-        elseif (Str::contains(request()->headers->get('referer'), 'submit') ||
-                Str::contains(request()->headers->get('referer'), 'queryupdate') ||
-                Str::contains(request()->headers->get('referer'), 'queryview')) {
-            try {
-                [$applicant, $applicant_data] = $this->applicantService->getApplicantData($request->sn, $campTable);
-            } catch (ModelNotFoundException $e) {
-                return redirect()->back()->withErrors(['找不到報名資料，請確認查詢欄位是否填寫正確，或者是否已成功報名。']);
-            }
-        }
-        if ($request->isModify) {
-            $isModify = true;
-        }
-        if ($applicant) {
-            //使用報名者的報名日期來計算費率，避免修改資料後費率變動的問題
-            $fare_room = $this->lodgingService->getLodgingFare($this->camp_info, $applicant->created_at);
-            [$fare_depart_from, $fare_back_to] = $this->trafficService->getTrafficFare($this->camp_info);
 
-            if ($this->camp_info->modifying_deadline) {
-                $modifying_deadline = $this->camp_info->modifying_deadline;
-            } else {
-                $modifying_deadline = Carbon::now();
-            }
-            if ($isModify && $modifying_deadline->lt(Carbon::today())) {
-                if (!Str::contains(request()->headers->get('referer'), 'queryview')) {
-                    return back()->withInput()->withErrors(['很抱歉，報名資料修改期限已過。']);
-                } else {
-                    return view('camps.' . $campTable . $form_str)
-                            ->with('applicant_id', $applicant->id)
-                            ->with('batch_id', $applicant->batch_id)
-                            ->with('applicant_data', $applicant_data)
-                            ->with('applicant_raw_data', $applicant)
-                            ->with('isModify', false)
-                            ->with('isBackend', $request->isBackend)
-                            ->with('batch', Batch::find($request->batch_id))
-                            ->with('camp_info', $this->camp_info)
-                            ->with('camp_data', $this->camp_data)   //to be removed
-                            ->with('fare_room', $fare_room)
-                            ->with('fare_depart_from', $fare_depart_from)
-                            ->with('fare_back_to', $fare_back_to)
-                            ->withErrors(['很抱歉，報名資料修改期限已過。']);
-                }
-            }
-            if ($request->batch_id_from) {
-                $batchFrom = Batch::find($request->batch_id_from);
-                $campFrom = $batchFrom->camp;
-                $campAbbrFrom = $campFrom->abbreviation;   //查詢營隊名
-                return view('camps.' . $campTable . $form_str)
-                ->with('applicant_id', $applicant->id)
-                ->with('batch_id', $applicant->batch_id)
-                ->with('applicant_data', $applicant_data)
-                ->with('applicant_raw_data', $applicant)
-                ->with('isModify', $isModify)
-                ->with('isBackend', $request->isBackend)
-                ->with('batch', Batch::find($request->batch_id))
-                ->with('camp_info', $campFrom)
-                ->with('camp_data', $campFrom)  //to remove
-                ->with('batch_id_from', $request->batch_id_from)
-                ->with('camp_abbr_from', $campAbbrFrom);
-            } else {
-                return view('camps.' . $campTable . $form_str)
-                ->with('applicant_id', $applicant->id)
-                ->with('batch_id', $applicant->batch_id)
-                ->with('applicant_data', $applicant_data)
-                ->with('applicant_raw_data', $applicant)
-                ->with('isModify', $isModify)
-                ->with('isBackend', $request->isBackend)
-                ->with('batch', Batch::find($request->batch_id))
-                ->with('camp_info', $this->camp_info)
-                ->with('camp_data', $this->camp_data)   //to remove
-                ->with('fare_room', $fare_room)
-                ->with('fare_depart_from', $fare_depart_from)
-                ->with('fare_back_to', $fare_back_to);
-            }
-        } else {
-            return redirect()->back()->withErrors(['找不到報名資料，請確認查詢欄位是否填寫正確，或者是否已成功報名。']);
+        // 2. 驗證營隊所屬權限
+        if (!$applicant || $applicant->batch->camp_id != $this->camp_info->id) {
+            return redirect()->back()->withErrors(['找不到報名資料，請確認查詢欄位及查詢營隊是否正確。']);
         }
+        // 如果需排除特定欄位
+        // return back()->withInput($request->except('password'));
+
+        // 3. 準備基礎資料與費率計算
+        $isModify = (bool)$request->isModify;
+        $batch = Batch::find($request->batch_id);
+        $fare_room = $this->lodgingService->getLodgingFare($this->camp_info, $applicant->created_at);
+        [$fare_depart_from, $fare_back_to] = $this->trafficService->getTrafficFare($this->camp_info);
+
+        // 4. 檢查修改期限
+        //如果沒有設定修改期限，則預設為當天，讓使用者無法修改資料，因為用lt而非lte
+        $deadline = $this->camp_info->modifying_deadline ?? Carbon::now();
+        $isExpired = $isModify && $deadline->lt(Carbon::today());
+        $errorMsg = null;
+
+        if ($isExpired) {
+            $isModify = false; // 強制關閉修改權限
+            $errorMsg = '很抱歉，報名資料修改期限已過。';
+            // 若非來自查詢頁面，直接擋掉
+            if (!Str::contains(request()->headers->get('referer'), 'queryview')) {
+                return back()->withInput()->withErrors([$errorMsg]);
+            }
+        }
+
+        // 5. 彙整要傳送到 View 的變數
+        $viewData = [
+            'applicant_id'       => $applicant->id,
+            'applicant_data'     => $applicant_data,
+            'applicant'          => $applicant, //保留這個
+            'applicant_raw_data' => $applicant, //之後刪除，但先保留以免其他地方用到
+            'batch_id'           => $applicant->batch_id,
+            'batch'              => $batch,
+            //'camp_info'          => $this->camp_info, //已在建構子用 View::share 全域傳了，這邊就不需要了
+            //'camp_data'          => $this->camp_data, //己在建構子用 View::share 全域傳了，這邊就不需要了
+            'isModify'           => $isModify,
+            'isBackend'          => $request->isBackend,
+            'fare_room'          => $fare_room,
+            'fare_depart_from'   => $fare_depart_from,
+            'fare_back_to'       => $fare_back_to,
+        ];
+
+        // 處理特殊來源營隊 (如轉載或跨營隊資訊)
+        if ($request->batch_id_from) {
+            $batchFrom = Batch::find($request->batch_id_from);
+            $campFrom = $batchFrom->camp;
+            $viewData['camp_info'] = $campFrom;
+            $viewData['camp_data'] = $campFrom;
+            $viewData['batch_id_from'] = $request->batch_id_from;
+            $viewData['camp_abbr_from'] = $campFrom->abbreviation;
+        }
+
+        $view = view($formPath, $viewData);
+        return $errorMsg ? $view->withErrors([$errorMsg]) : $view;
+    }
+
+    /**
+     * 輔助方法：根據請求來源判定查詢方式
+     */
+    private function getApplicantByRequest($request, $campTable)
+    {
+        $referer = request()->headers->get('referer');
+        $isSafeSource = Str::contains($referer, ['submit', 'queryupdate', 'queryview']);
+
+        if ($request->name && $request->sn) {
+            return $this->applicantService->getApplicantData($request->sn, $campTable, $request->name);
+        } elseif ($isSafeSource && $request->sn) {
+            return $this->applicantService->getApplicantData($request->sn, $campTable);
+        }
+
+        throw new ModelNotFoundException();
     }
 
     public function campGetApplicantSN(Request $request)

@@ -3,7 +3,7 @@
         color: red;
     }
 </style>
-@extends('camps.utcamp.layout')
+@extends('camps.' . $camp_info->table . '.layout')
 @section('content')
     @php
         $now = \Carbon\Carbon::now();
@@ -103,7 +103,7 @@
                             <input type="hidden" name="camp_table" value="utcamp">
                             <input type="hidden" name="nights" value="{{ $applicant->lodging?->nights ?? 0}}">
 
-                            @include('camps.utcamp.formSection')
+                            @include('camps.' . $camp_info->table . '.formSection')
 
                             <input class="btn btn-success" type="submit" value="確認修改" id="confirmafteradmitted" name="confirmafteradmitted">
                         </form>

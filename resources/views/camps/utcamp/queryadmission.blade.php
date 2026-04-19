@@ -1,4 +1,4 @@
-@extends('camps.utcamp.layout')
+@extends('camps.' . $camp_info->table . '.layout')
 @section('content')
 @if($errors->any())
     @foreach ($errors->all() as $message)
@@ -6,11 +6,6 @@
             {{ $message }}
         </div>
     @endforeach
-@endif
-@if($camp->variant == "utcamp")
-    <div class="alert alert-success" role="alert">
-        您好，感謝您報名 【2024第32屆教師生命成長營 大專教職員梯】，大會預計於：{{ $camp_data->admission_announcing_date }}({{ $camp_data->admission_announcing_date_weekday  }})寄發「錄取通知」電子信件(email)，並同步於報名網站提供查詢。
-    </div>
 @endif
 <form method="post" action="{{ route("queryadmit", $batch_id) }}" name="QueryRegis" class="form-horizontal">
     @csrf

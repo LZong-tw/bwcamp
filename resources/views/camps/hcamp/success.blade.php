@@ -1,4 +1,4 @@
-@extends('camps.hcamp.layout')
+@extends('camps.' . $camp_info->table . '.layout')
 @section('content')
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }}</h4>
@@ -10,8 +10,8 @@
         </div>
         <div class="card-body">
             <p class="card-text">
-                感謝您報名{{ $camp_data->fullName }}，我們已收到您的報名資料。 
-                @include('camps.hcamp.successMessages', compact('applicant'))
+                感謝您報名{{ $camp_info->fullName }}，我們已收到您的報名資料。 
+                @include('camps.' . $camp_info->table . '.successMessages', compact('applicant'))
             </p>
             <form action="{{ route("queryview", $applicant->batch_id) }}" method="post" class="d-inline">
                 @csrf

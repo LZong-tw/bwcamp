@@ -22,11 +22,15 @@ class CampDataService
     public function getCampBatchInfo($batchId)
     {
         //取得梯次資料，以及它所屬的camp
-        $batch = Batch::find($batchId);
+        $batch = Batch::with(['camp'])->find($batchId);
         if (is_null($batch)) {
             return null;
         }
+        return $this->getCampInfo($batch);
+    }
 
+    public function getCampInfo(Batch $batch)
+    {
         //取得營隊資料
         $camp_info = $batch->camp;
         if (is_null($camp_info)) {
@@ -36,12 +40,13 @@ class CampDataService
         // attributesToArray() 只抓欄位跟 appends，排除掉任何 eager loading 的關聯
         // forceFill() 會把抓出來的欄位塞入 $camp_info
         $campId = $camp_info->id;
+        $batchId = $batch->id;
         $camp_info->forceFill($batch->attributesToArray());
         // 恢復被覆蓋的問題
         $camp_info->id = $campId;
+        $camp_info->camp_id = $campId;
         $camp_info->batch_id = $batchId;
 
-        //return時再改名成camp_info?
         return $camp_info;
     }
 
@@ -74,6 +79,64 @@ class CampDataService
         ];
     }
 
+    private function processArray($request)
+    {
+        $fields = [
+            'blisswisdom_type',
+            'is_child_blisswisdommed',
+            'contact_time',
+            'transport',
+            'expertise',
+            'language',
+            'favored_event',
+            'after_camp_available_day',
+            'participation_dates',
+            'stay_dates',
+            'motivation',
+            'info_source',
+            'interesting'
+        ];
+
+        foreach ($fields as $field) {
+            // Check if the field exists and is actually an array before imploding
+            if (isset($request->$field) && is_array($request->$field)) {
+                $request->merge([
+                    $field => implode("||/", $request->$field)
+                ]);
+            }
+        }
+    }
+
+    private function processAddress($request)
+    {
+        $addressMap = [
+            'address'       => ['subarea', null], // [target_field, custom_else_field]
+            'unit_address'  => ['unit_subarea', null],
+            'class_address' => ['class_subarea', 'class_subarea_text'],
+        ];
+
+        foreach ($addressMap as $addrField => [$subField, $elseField]) {
+            if (!$request->has($addrField)) {
+                continue;
+            }
+
+            $subValue = $request->input($subField);
+
+            // subarea:
+            // 000其它 & 999海外，都使用address as subarea
+            // otherwise 台北市松山區 => take 松山區
+            // 例外：acamp使用 class_subarea_test
+
+            if (in_array($subValue, ["000", "999"])) {
+                $request->merge([$subField => $request->input($addrField)]);
+            } else {
+                // Use custom text field if provided (for class_address), otherwise substring
+                $newValue = $elseField ? $request->input($elseField) : \Str::substr($request->input($addrField), 3);
+                $request->merge([$subField => $newValue]);
+            }
+        }
+    }
+
     public function checkBoxToArray($request)
     {
         // 各營隊客製化欄位特殊處理
@@ -84,126 +147,8 @@ class CampDataService
         // 教師營：得知管道、參加過的福智活動(選項)、有興趣的主題(選項)、營隊後方便參加時間
         // 襌修營：中英文姓名、居住地
 
-        if (isset($request->blisswisdom_type) && is_array($request->blisswisdom_type)) {
-            $request->merge([
-                'blisswisdom_type' => implode("||/", $request->blisswisdom_type)
-            ]);
-        }
-        /*
-        if(isset($request->blisswisdom_type_complement)) {
-            $request->merge([
-                'blisswisdom_type_complement' => implode("||/", $request->blisswisdom_type_complement)
-            ]);
-        }*/
-        if (isset($request->is_child_blisswisdommed)) {
-            $request->merge([
-                'is_child_blisswisdommed' => implode("||/", $request->is_child_blisswisdommed)
-            ]);
-        }
-        if (isset($request->contact_time)) {
-            $request->merge([
-                'contact_time' => implode("||/", $request->contact_time)
-            ]);
-        }
-        if (isset($request->transport)) {
-            $request->merge([
-                'transport' => implode("||/", $request->transport)
-            ]);
-        }
-        if (isset($request->expertise)) {
-            $request->merge([
-                'expertise' => implode("||/", $request->expertise)
-            ]);
-        }
-        if (isset($request->language) && is_array($request->info_source)) {
-            $request->merge([
-                'language' => implode("||/", $request->language)
-            ]);
-        }
-        if (isset($request->favored_event)) {
-            $request->merge([
-                'favored_event' => implode("||/", $request->favored_event)
-            ]);
-        }
-        if (isset($request->after_camp_available_day)) {
-            $request->merge([
-                'after_camp_available_day' => implode("||/", $request->after_camp_available_day)
-            ]);
-        }
-        if (isset($request->participation_dates)) {  //evcamp
-            $request->merge([
-                'participation_dates' => implode("||/", $request->participation_dates)
-            ]);
-        }
-        if (isset($request->stay_dates)) {  //evcamp
-            $request->merge([
-                'stay_dates' => implode("||/", $request->stay_dates)
-            ]);
-        }
-        if (isset($request->motivation) && is_array($request->motivation)) {
-            $request->merge([
-                'motivation' => implode("||/", $request->motivation)
-            ]);
-        }
-        //居住地址
-        if (isset($request->address)) {
-            if ($request->subarea == "000") {
-                $request->merge([
-                    'subarea' => $request->address
-                ]);
-            } elseif ($request->subarea == "999") {
-                $request->merge([
-                    'subarea' => $request->address
-                ]);
-            } else {
-                $request->merge([
-                    'subarea' => \Str::substr($request->address, 3)
-                ]);
-            }
-        }
-        //工作地址
-        if (isset($request->unit_address)) {
-            if ($request->unit_subarea == "000") {
-                $request->merge([
-                    'unit_subarea' => $request->unit_address
-                ]);
-            } elseif ($request->unit_subarea == "999") {
-                $request->merge([
-                    'unit_subarea' => $request->unit_address
-                ]);
-            } else {
-                $request->merge([
-                    'unit_subarea' => \Str::substr($request->unit_address, 3)
-                ]);
-            }
-        }
-        //上課地址,acamp only
-        if (isset($request->class_address)) {
-            if ($request->class_subarea == "000") { //其它
-                $request->merge([
-                    'class_subarea' => $request->class_address
-                ]);
-            } elseif ($request->unit_subarea == "999") {  //海外
-                $request->merge([
-                    'class_subarea' => $request->class_address
-                ]);
-            } else {
-                $request->merge([
-                    //'calss_subarea' => \Str::substr($request->class_address, 3)
-                    'class_subarea' => $request->class_subarea_text
-                ]);
-            }
-        }
-        if (isset($request->info_source) && is_array($request->info_source)) {
-            $request->merge([
-                'info_source' => implode("||/", $request->info_source)
-            ]);
-        }
-        if (isset($request->interesting)) {
-            $request->merge([
-                'interesting' => implode("||/", $request->interesting)
-            ]);
-        }
+        $this->processArray($request);
+        $this->processAddress($request);
 
         //----- nycamp -----
         //residence: nycamp asks city, state, and country separately, merge them to form address

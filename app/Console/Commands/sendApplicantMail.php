@@ -10,6 +10,8 @@ use App\Mail\AdmittedMail;
 use App\Mail\ApplicantMail;
 use App\Mail\CheckInMail;
 use App\Mail\NotAdmittedMail;
+use App\Mail\IntroducerMail;
+use App\Mail\SubstituteMail;
 use App\Traits\EmailConfiguration;
 
 class sendApplicantMail extends Command
@@ -58,14 +60,21 @@ class sendApplicantMail extends Command
             $this->error("找不到 {$this->argument('camp')} 營隊資訊。");
             return;
         }
-        $applicant = Applicant::find($this->argument('applicant_id'));
+
+        $applicant = Applicant::with('batch')->find($this->argument('applicant_id'));
         if (!$applicant) {
             $this->error("找不到收件者 {$this->argument('applicant_id')}。");
             return;
         }
+        $batch = $applicant ? $applicant->batch : null;
+
+        //感覺輸入時可以不要 {camp} 資訊，而是直接從applicant去讀取，就不用做這樣額外檢查？
         if ($applicant->batch->camp->id != $camp->id) {
             $this->error("收件者營隊與指定營隊不一致。");
             return;
+        } else {
+            //補上Batch的資訊，和CampController裡面的camp_info一樣，因為Email裡面會用到Batch的資訊
+            $camp->forceFill($batch->attributesToArray());
         }
         switch ($this->argument('mailType')) {
             case "applicantMail":
@@ -83,6 +92,10 @@ class sendApplicantMail extends Command
             case "notAdmittedMail":
                 Mail::to($applicant)->send(new NotAdmittedMail($applicant));
                 $this->info("成功寄送不錄取郵件。");
+                break;
+            case "introducerMail":
+                Mail::to($applicant)->send(new IntroducerMail($applicant, $camp));
+                $this->info("成功寄送推薦人郵件。");
                 break;
         }
         return 0;

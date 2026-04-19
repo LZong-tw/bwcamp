@@ -7,6 +7,8 @@ use Carbon\Carbon;
 use App\Services\CampDataService;
 use App\Services\LodgingService;
 use App\Services\TrafficService;
+use Enums\Gender;
+use Enums\AttendStatus;
 
 class ApplicantService
 {
@@ -136,11 +138,11 @@ class ApplicantService
     {
         // 一次性加載多個關聯
         if ($name) {
-            $applicant = Applicant::with([$campTable, 'lodging', 'traffic'])
+            $applicant = Applicant::with([$campTable, 'batch', 'lodging', 'traffic'])
             ->where('name', $name)
             ->withTrashed()->findOrFail($applicantId);
         } else {
-            $applicant = Applicant::with([$campTable, 'lodging', 'traffic'])
+            $applicant = Applicant::with([$campTable, 'batch', 'lodging', 'traffic'])
             ->withTrashed()->findOrFail($applicantId);
         }
         $applicant->offsetUnset('files'); // files 僅供後台備註使用，同時，現在 files 的記錄方式若轉為 Json，在前端會出錯
