@@ -393,7 +393,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-    @include('camps.utcamp.formSection');
+    @include('camps.' . $camp_info->table . '.formSection');
 
 {{-- 
     <!--- 同意書 -->

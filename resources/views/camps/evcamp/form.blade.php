@@ -3,32 +3,58 @@
     header("Pragma: no-cache");
     header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
     header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
-    $regions = ['北區', '竹區', '中區', '高區'];
+    $regions = $camp_info->regions;
+    $today = \Carbon\Carbon::now();
+    $this_year = $today->year;
+    $this_year_2digit = $this_year % 100;
 @endphp
-@extends('camps.evcamp.layout')
+@php
+    $is_north = FALSE;
+    if(isset($applicant_data) && !isset($useOldData2Register)) {
+        if(\Str::contains($applicant->batch->name, "北區")) {$is_north = TRUE;}
+    } else {
+        if(\Str::contains($batch->name, "北區")) {$is_north = TRUE;}
+    }
+	$roles_select = [
+		"總部：關懷規劃", 
+		"總部：課程規劃", 
+		"總部：資訊規劃", 
+		"總部：宣傳規劃", 
+		"總部：公關規劃", 
+		"總部：行政規劃", 
+		"關懷大組：報名報到", 
+		"關懷大組：關懷行政", 
+		"關懷大組：關懷教育", 
+		"關懷大組：關懷服務", 
+		"關懷大組：關懷影視(視聽)", 
+		"關懷大組：關懷小組", 
+		"關懷大組：企業勤務", 
+		"關懷大組：關懷窗口", 
+		"關懷大組：關懷大組"
+	];
+@endphp
+@extends('camps.' . $camp_info->table . '.layout')
 @section('content')
     @include('partials.counties_areas_script')
-{{--
-    <div class='alert alert-info' role='alert'>
-        您在本網站所填寫的個人資料，僅用於此次企業營的報名及活動聯絡之用。
-    </div>
---}}
     <div class='page-header form-group'>
-        <h4>{{ $camp_data->fullName }}線上報名表</h4>
+        <h4>{{ $camp_info->fullName }}線上報名表</h4>
     </div>
 
-{{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態；只在報名時提供載入舊資料選項--}}
-    @if(!isset($isModify) && !isset($batch_id_from))
+{{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態；只在[報名狀態]時提供載入舊資料選項 --}}
+@if(!isset($isModify) && !isset($batch_id_from))
     <hr>
-    <h5 class='form-control-static text-warning bg-secondary'>若您曾報名2024年企業營義工，請點選下面連結，查詢並使用2024年企業營義工報名資料<br>
-    <a href="{{ route('query', 167) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"><u>北區場</u>　</a>
-    <a href="{{ route('query', 168) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary"><u>中區場</u>　</a>
+    <h5 class='form-control-static text-warning bg-secondary'>若您曾報名{{ $last_year }}年菁英營義工，請點選下面連結，查詢並使用{{ $last_year }}年菁英營義工報名資料<br>
+            @foreach($last_year_camps as $lycamp)
+            @foreach($lycamp->batchs as $lybatch)
+            <a href="{{ route('query', $lybatch->id) }}?batch_id_from={{ $batch_id }}" class="text-warning bg-secondary">＊<u>{{ $lycamp->fullName }}</u>＊</a><br>
+            @endforeach
+            @endforeach
     </h5>
     <hr>
-    @endif
+@endif
 
-    {{-- 使用舊資料報名：如果有batch_id_from參數的話 --}}
-    @if(isset($batch_id_from))
+{{-- 使用舊資料報名：如果有batch_id_from參數的話 --}}
+@if(isset($batch_id_from))
     <hr>
     <form action="{{ route('formCopy', $batch_id_from) }}" method="POST">
         @csrf
@@ -38,14 +64,14 @@
         <input type="submit" class="btn btn-success" value="使用此資料報名{{ $camp_abbr_from }}">
     </form>
     <hr>
-    @endif
+@endif
 
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
 @if(!isset($isModify) || $isModify)
     <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form' enctype="multipart/form-data">
 {{-- 以上皆非: 檢視資料狀態 --}}
 @else
-    <form action="{{ route("queryupdate", $batch_id) }}" method="post" class="d-inline">
+    <form action="{{ route('queryupdate', $batch_id) }}" method="post" class="d-inline">
 @endif
     @csrf
     <div class='row form-group'>
@@ -58,12 +84,12 @@
         <label for='inputBatch' class='col-md-2 control-label text-md-right'>營隊梯次</label>
         <div class='col-md-10'>
             @if(isset($applicant_data) && !isset($useOldData2Register))
-                <h3>{{ $applicant_raw_data->batch->name }} {{ $applicant_raw_data->batch->batch_start }} ~ {{ $applicant_raw_data->batch->batch_end }} </h3>
+                <h3>{{ $applicant->batch->name }} {{ $applicant->batch->batch_start }} ~ {{ $applicant->batch->batch_end }} </h3>
                 <input type='hidden' name='applicant_id' value='{{ $applicant_id }}'>
-                <input type="hidden" name="region" value="@foreach($regions as $r) @if(\Str::contains($applicant_raw_data->batch->name, $r)){{ $r }} @break @endif @endforeach">
+                <input type="hidden" name="region" value="@foreach($regions as $r) @if(\Str::contains($applicant->batch->name, $r->name)){{ $r->name }} @break @endif @endforeach">
             @else
                 <h3>{{ $batch->name }} {{ $batch->batch_start }} ~ {{ $batch->batch_end }} </h3>
-                <input type="hidden" name="region" value="@foreach($regions as $r) @if(\Str::contains($batch->name, $r)){{ $r }} @break @endif @endforeach">
+                <input type="hidden" name="region" value="@foreach($regions as $r) @if(\Str::contains($batch->name, $r->name)){{ $r->name }} @break @endif @endforeach">
             @endif
         </div>
     </div>
@@ -72,37 +98,24 @@
         <div class='row form-group'>
             <label for='inputBatch' class='col-md-2 control-label text-md-right'>報名日期</label>
             <div class='col-md-10'>
-                {{ $applicant_raw_data->created_at }}
+                {{ $applicant->created_at }}
             </div>
         </div>
     @endif
 
     <hr>
-    <!--<h5 class='form-control-static text-info'>說明：我們非常重視您的志願選擇，但也會考量營隊人力需求來分配組別，尚請多多理解。感恩！</h5>-->
+<!--
+	<h5 class='form-control-static text-info'>說明：我們非常重視您的志願選擇，但也會考量營隊人力需求來分配組別，尚請多多理解。感恩！</h5>
+-->
 
     <div class='row form-group required'>
         <label for='inputGroupPriority1' class='col-md-2 control-label text-md-right'>報名組別</label>
         <div class='col-md-10'>
             <select required class='form-control' name='group_priority1' id='inputGroupPriority1' onChange=''>
                 <option value='' selected>- 請選擇 -</option>
-                @if(str_contains($batch->name, "第一梯"))
-                @else
-                    <option value='總部：關懷規劃' >總部：關懷規劃</option>
-                    <option value='總部：課程規劃' >總部：課程規劃</option>
-                    <option value='總部：資訊規劃' >總部：資訊規劃</option>
-                    <option value='總部：宣傳規劃' >總部：宣傳規劃</option>
-                    <option value='總部：公關規劃' >總部：公關規劃</option>
-                    <option value='總部：行政規劃' >總部：行政規劃</option>
-                    <option value='關懷大組：報名報到' >關懷大組：報名報到</option>
-                    <option value='關懷大組：關懷行政' >關懷大組：關懷行政</option>
-                    <option value='關懷大組：關懷教育' >關懷大組：關懷教育</option>
-                    <option value='關懷大組：關懷服務' >關懷大組：關懷服務</option>
-                    <option value='關懷大組：關懷影視(視聽)' >關懷大組：關懷影視(視聽)</option>
-                    <option value='關懷大組：關懷小組' >關懷大組：關懷小組</option>
-                    <option value='關懷大組：企業勤務' >關懷大組：企業勤務</option>
-                    <option value='關懷大組：關懷窗口' >關懷大組：關懷窗口</option>
-                    <option value='關懷大組：關懷大組' >關懷大組：關懷大組</option>
-                @endif
+                @foreach($roles_select as $role)
+                <option value='{{ $role }}' >{{ $role }}</option>
+                @endforeach
                 <!--<option value='依營隊需求安排' >依營隊需求安排</option>-->
             </select>
             <div class="invalid-feedback">
@@ -172,7 +185,7 @@
             <div class='col-auto'>
                 <select required class='form-control' name='lrYear' onchange="if(this.value == ''){ document.getElementById('inputLRClass').value = ''; } else {document.getElementById('inputLRClass').value = document.Camp.lrRegion.value + this.value;}">
                     <option value=''>- 年度 -</option>
-                    @for($i = 10; $i <= 25; $i++)
+                    @for($i = 10; $i <= $this_year_2digit; $i++)
                     <option value='{{ $i }}'>{{ $i }}</option>
                     @endfor
                 </select>
@@ -204,12 +217,11 @@
     <div class='row form-group'>
         <label for='inputTrClass' class='col-md-2 control-label text-md-right'>儲訓班別</label>
         <div class='col-auto'>
+        @for($i = 24; $i <= $this_year_2digit; $i++)
             <label class=radio-inline>
-                <input type=radio  name='trclass' value='24' > 24
+                <input type=radio  name='trclass' value='{{ $i }}' >&nbsp{{ $i }}&nbsp
             </label>
-            <label class=radio-inline>
-                <input type=radio  name='trclass' value='25' > 25
-            </label>
+        @endfor
         </div>
         <div class='col-auto'>
             編號
@@ -222,7 +234,7 @@
     <div class='row form-group required'>
         <label for='inputName' class='col-md-2 control-label text-md-right'>中文姓名</label>
         <div class='col-md-10'>
-            <input type='text' required name='name' value='' class='form-control' id='inputName' placeholder='請填寫全名'>
+            <input required type='text' name='name' value='' class='form-control' id='inputName' placeholder='請填寫全名'>
             <div class="invalid-feedback">
                 請填寫姓名
             </div>
@@ -261,7 +273,7 @@
                     西元
                 </div>
                 <div class="col-md-3">
-                    <input type='number' class='form-control itemreq_long' name='birthyear' min='{{ \Carbon\Carbon::now()->subYears(90)->year }}' max='{{ \Carbon\Carbon::now()->subYears(16)->year }}' value='' placeholder=''>
+                    <input type='number' class='form-control itemreq_long' name='birthyear' min='{{ $today->subYears(90)->year }}' max='{{ \Carbon\Carbon::now()->subYears(16)->year }}' value='' placeholder=''>
                     <div class="invalid-feedback">
                         未填寫或日期不正確
                     </div>
@@ -495,18 +507,6 @@
         </div>
     </div>
 
-{{--
-    <div class='row form-group field_long' style='display:none'>
-    <label for='inputExpertise' class='col-md-2 control-label text-md-right'>專長</label>
-        <div class='col-md-10'>
-            <input type='text' name='expertise' value='' class='form-control' id='inputExpertise'>
-            <div class="invalid-feedback crumb">
-                請填寫專長
-            </div>
-        </div>
-    </div>
---}}
-
     {{-- 專長 --}}
     <div class='row form-group field_long' style='display:none'>
         <label for='inputExpertise' class='col-md-2 control-label text-md-right'>專長(多選)</label>
@@ -559,7 +559,7 @@
     <div class='row form-group required field_long' style='display:none'>
     <label for='inputUnit' class='col-md-2 control-label text-md-right itemreg_long'>公司名稱</label>
         <div class='col-md-10'>
-            <input type=text class='form-control itemreq_long' name='unit' id='inputUnit' value=''  placeholder='若已退休，請填寫退休前資料'>
+            <input type=text class='form-control itemreq_long' name='unit' id='inputUnit' value='' placeholder='若已退休，請填寫退休前資料'>
             <div class="invalid-feedback crumb">
                 請填寫公司名稱
             </div>
@@ -641,6 +641,7 @@
             </div>
         </div>
     </div>
+
 <!--
     <div class='row form-group field_long' style='display:none'>
     <label for='inputJobPropertyOther' class='col-md-2 control-label text-md-right'>職務類型:自填</label>
@@ -682,7 +683,7 @@
             </div>
         </div>
     </div>
-{{--
+<!--
     <div class='row form-group field_long' style='display:none'>
     <label for='inputCapital' class='col-md-2 control-label text-md-right'>資本額(新臺幣:元)</label>
         <div class='col-md-10'>
@@ -762,7 +763,7 @@
             </label>
         </div>
     </div>
---}}
+-->
 
     <!--- 同意書 -->
     <div class='row form-group required'>
