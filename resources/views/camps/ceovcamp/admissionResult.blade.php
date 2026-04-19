@@ -1,4 +1,4 @@
-@extends('camps.ceovcamp.layout')
+@extends('camps.' . $camp_info->table . '.layout')
 @section('content')
     <style>
         .indent{
