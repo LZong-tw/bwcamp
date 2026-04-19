@@ -13,7 +13,10 @@ use Carbon\Carbon;
 
 class ProcessDailyExportCamps implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * Create a new job instance.
@@ -45,7 +48,7 @@ class ProcessDailyExportCamps implements ShouldQueue
         $table_prev = "";
         $add30 = 0;
         foreach ($thisYearCamps as $camp) {
-            
+
             // 找出該類別中最前面的日期 (利用前面定義的 Accessor 或直接 min)
             $exportStartDate = $camp->registration_start; // 假設這是你用來判斷是否開始匯出的日期欄位
             $exportEndDate = $camp->batch_end_latest; // 假設這是你用來判斷是否結束匯出的日期欄位
@@ -57,7 +60,7 @@ class ProcessDailyExportCamps implements ShouldQueue
                 $times = $this->getCustomTimeForCamp($camp->table);
                 if ($camp->table === $table_prev) {
                     $add30 += 30;
-                    $times = array_map(function($time) use ($add30) {
+                    $times = array_map(function ($time) use ($add30) {
                         return Carbon::parse($time)->addSeconds($add30)->format('H:i');
                     }, $times);
                 } else {
