@@ -111,7 +111,7 @@
                 @else
                     <td style='color: rgb(0, 132, 255);'>尚未聯絡</td>
                 @endif
-                @if($camp_data->table != "ycamp" && $camp_data->table == "nycamp")
+                @if($camp_data->table != "ycamp" && $camp_data->table != "nycamp")
                 <td>{!! $applicant->is_paid == "是" ? "<a style='color: green;'>是</a>" : "<a style='color: red;'>否</a>" !!}</td>
                 @endif
                 <td>

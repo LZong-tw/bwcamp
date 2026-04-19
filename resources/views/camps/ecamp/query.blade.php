@@ -1,4 +1,4 @@
-@extends('camps.ecamp.layout')
+@extends('camps.' . $camp_info->table . '.layout')
 @section('content')
 @if($errors->any())
     @foreach ($errors->all() as $message)
@@ -139,5 +139,4 @@
         </div>
     </div>
 </form>
-
 @stop
