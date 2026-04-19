@@ -41,7 +41,7 @@
                             @if($applicant->gender !== "N/A" && $applicant->deleted_at === null)
                                 <input type="hidden" name="id[]" value="{{ $applicant->applicant_id }}">
                                 @if(!$applicant->group && !$applicant->number)
-                                    <input type="text" name="admittedSN[]" value="{{ $applicant->getBatch->admission_suffix }}" class="form-control" required pattern=".{5}">
+                                    <input type="text" name="admittedSN[]" value="{{ $applicant->batch->admission_suffix }}" class="form-control" required pattern=".{5}">
                                 @else
                                     <input type="text" name="admittedSN[]" value="{{ $applicant->group.$applicant->number }}" class="form-control" required pattern=".{5}">
                                 @endif

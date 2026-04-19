@@ -1,4 +1,4 @@
-@extends('camps.ceovcamp.layout')
+@extends('camps.' . $camp_info->table . '.layout')
 @section('content')
 @if($errors->any())
     @foreach ($errors->all() as $message)
@@ -19,13 +19,13 @@
     <div class='row form-group'>
         <label for='inputName' class='col-md-2'>姓名</label>
         <div class='col-md-10'>
-            <input type='text' name='name' class='form-control' id='inputName' placeholder='' value="{{ old('name') }}" required>
+            <input type='text' name='name' class='form-control' id='inputName' placeholder='' value='{{ old('name') }}' required>
         </div>
     </div>
     <div class="row form-group">
         <label for='inputSN' class='col-md-2'>報名序號</label>
         <div class='col-md-10'>
-            <input type='text' name='sn' class='form-control' id='inputSN' maxlength=5 placeholder='' value="{{ old('sn') }}" required>
+            <input type='text' name='sn' class='form-control' id='inputSN' maxlength=5 placeholder='' value='{{ old('sn') }}' required>
         </div>
     </div>
     {{-- <div class="row form-group">

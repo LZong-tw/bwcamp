@@ -22,10 +22,10 @@ class Batch extends Model
     'check_in_day', 'tel', 'num_groups', 'contact_card'];
 
     protected $casts = [
-        'batch_start' => 'date',
-        'batch_end' => 'date',
-        'late_registration_end' => 'date',
-        'check_in_day' => 'date',
+        'batch_start' => 'date:Y-m-d',
+        'batch_end' => 'date:Y-m-d',
+        'late_registration_end' => 'date:Y-m-d',
+        'check_in_day' => 'date:Y-m-d',
     ];
 
     /*

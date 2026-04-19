@@ -1,24 +1,27 @@
 {{ $applicant->introducer_name }} 您好：<br>
 <br>
-    您推薦{{ $applicant->name }}報名{{ $applicant->batch->camp->fullName }}，推薦報名手續已完成，請記下{{ $applicant->name }}的報名序號： {{ $applicant->id }} 作為日後查詢使用。若您有任何問題，歡迎您與主辦單位聯繫。<br>
-    主辦單位於營隊活動前，會安排關懷員與被推薦人聯繫，說明活動相關訊息及注意事項。<br>
-    為落實個人資料之保護，於本次營隊活動及活動結束後，福智文教基金會（簡稱本基金會）將利用被推薦人所提供之個人資料通知被推薦人本次營隊活動相關訊息，及日後本基金會相關課程、活動訊息通知之非營利目的使用。同意期間自被推薦人同意參加活動之日起，至被推薦人提出刪除日止。營隊活動期間由本基金會保存被推薦人的個人資料，以作為被推薦人、本基金會查詢、確認證明之用。<br>
-    除上述情形外，本基金會於本次營隊取得之個人資料，不會未經被推薦人以言詞、書面、電話、簡訊、電子郵件、傳真、電子文件等方式同意提供給第三單位使用。<br>
-    <!-- 錄取名單將於 {{ $applicant->batch->camp->admission_announcing_date }} 後陸續以E-mail通知。<br> -->
-    <br>
-    洽詢電話：<br>
-    　北區：陳小姐 0935-237-395，劉小姐 0953-226-558<br>
-    　竹區：何小姐 0920-431-831，林小姐 0933-973-825<br>
-    　中區：王小姐 0937-308-673，林小姐 0935-303-658<br>
-    　​高區：陳先生 0952-413-683，陳小姐 0929-350-820<br>
-    電子郵件：ceo.camp@blisswisdom.org<br>
-    <br>
-<blockquote>財團法人福智文教基金會  敬啟</blockquote>
---
-為推薦{{ $applicant->name }}參加本次營隊活動，您於填寫推薦報名表時，提供了被推薦人的下述資料：<br>
+&emsp;&emsp;您推薦 {{ $applicant->name }} 報名 「{{ $camp_info->year }}企業菁英生命成長營&nbsp;{{$applicant->batch->locationName }}場」，推薦報名手續已完成，請記下 {{ $applicant->name }} 的<b><span style="color: #DC3545;">《 報名序號：{{ $applicant->id }} 》</span></b>，作為日後查詢使用。若您有任何問題，歡迎您與主辦單位聯繫。<br>
+<br>
+&emsp;&emsp;主辦單位於營隊活動前，會安排關懷員與您聯繫，說明活動相關訊息及注意事項。<br>
+<br>
+&emsp;&emsp;為落實個人資料之保護，於本次營隊活動及活動結束後，福智文教基金會（簡稱本基金會）將利用被推薦人所提供之個人資料通知被推薦人本次營隊活動相關訊息，及日後本基金會相關課程、活動訊息通知之非營利目的使用。同意期間自被推薦人同意參加活動之日起，至被推薦人提出刪除日止。營隊活動期間由本基金會保存被推薦人的個人資料，以作為被推薦人、本基金會查詢、確認證明之用。<br>
+<br>
+&emsp;&emsp;除上述情形外，本基金會於本次營隊取得之個人資料，不會未經被推薦人以言詞、書面、電話、簡訊、電子郵件、傳真、電子文件等方式同意提供給第三單位使用。<br>
+<!-- 錄取名單將於 {{ $camp_info->admission_announcing_date }} 後陸續以E-mail通知。<br> -->
+<br>
+<p>
+財團法人福智文教基金會&emsp;敬啟<br>
+{{ \Carbon\Carbon::now()->format('Y 年 n 月 j 日') }}<br><br>
+洽詢電話：<br>
+{!! nl2br(e(str_replace('\n', "\n", $applicant->batch->contact_card))) !!}
+電子郵件：ceo.camp@blisswisdom.org<br>
+</p>
+
+--<br>
+為推薦 {{ $applicant->name }} 參加本次營隊活動，您於填寫推薦報名表時，提供了被推薦人的下述資料：<br>
 中文姓名：{{ $applicant->name }}<br>
 英文慣用名：{{ $applicant->english_name }}<br>
-性別：{{ $applicant->gender }}<br>
+性別：{{ $applicant->gender_chn }}<br>
 出生年月：{{ $applicant->birthyear }}/{{ $applicant->birthmonth }}<br>
 手機號碼：{{ $applicant->mobile }}<br>
 電子信箱：{{ $applicant->email }}<br>
