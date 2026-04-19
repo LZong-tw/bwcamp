@@ -4,6 +4,9 @@
     header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
     header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     $regions = $camp_info->regions;
+    if(str_contains($camp_info->name, "北區")) {$county_local = "台北及新北";}
+    else { $county_local = "屏東"; }
+    $regions = $camp_info->regions;
     $idx = 0;
     foreach ($regions as $r) {
         if ($idx == 0) {
@@ -171,10 +174,8 @@
 
     <h6 class='form-control-static text-danger'>若繼續填寫下方資料，表示您已確認：<br>
         （1）被推薦人同意參加本次營隊活動，並且<br>
-        （2）被推薦人同意將營隊推薦報名表内相關資料提供給主辦單位。
-        @if (str_contains($batch->name, ""))
-            <br>（3）知悉並告知被推薦人：營隊活動地點為臺中國立勤益科技大學，配合兩天一夜課程，臺中以外縣市學員若由主辦單位安排7/26晚間住宿者（以安排「雙人房」為主），費用為NT$2,400元。欲住宿單人房者，費用為NT$4,800元。
-        @endif
+        （2）被推薦人同意將營隊推薦報名表内相關資料提供給主辦單位。<br>
+        （3）知悉並告知被推薦人：營隊活動地點為{{ $camp_info->locationName }}，配合 {{ substr($camp_info->batch_start,5,5) }}~{{ substr($camp_info->batch_end,5,5) }} 兩天課程，{{ $county_local }}以外縣市學員，若由主辦單位安排 {{ substr($camp_info->batch_start,5,5) }} 晚間住宿者，費用以報名區域為準。
     </h6>
 
     <hr>
