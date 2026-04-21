@@ -28,12 +28,12 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // 每日固定排程任務
-        //$this->scheduleAccountingChecks($schedule);
+        $this->scheduleAccountingChecks($schedule);
         $this->scheduleMaintenanceTasks($schedule);
         $this->scheduleCampExports($schedule);
 
         // 動態報到匯出排程
-        $this->scheduleCheckInExports($schedule);
+        //$this->scheduleCheckInExports($schedule);
     }
 
     /**
@@ -41,7 +41,7 @@ class Kernel extends ConsoleKernel
      */
     private function scheduleAccountingChecks(Schedule $schedule)
     {
-        $schedule->command('check:Accounting ycamp')->dailyAt("16:30");
+        $schedule->command('check:Accounting utcamp')->dailyAt("16:30");
     }
 
     /**
@@ -57,37 +57,28 @@ class Kernel extends ConsoleKernel
      */
     private function scheduleCampExports(Schedule $schedule)
     {
-        $today = \Carbon\Carbon::today();
-        $thisyear = $today->year;
-        $camps = Camp::where('year', $thisyear);
-        $ceocamps = $camps->where('table', ceocamp);
-        $ceovcamps = $camps->where('table', ceovcamp);
-        $ecamps = $camps->where('table', ecamp);
-        $evcamps = $camps->where('table', evcamp);
-        $utcamps = $camps->where('table', utcamp);
-
-        foreach ($camps as $camp) {
-            if ($today->gte($camp->registration_start) && $today->lte($camp->batch)) {
-                //$schedule->command("export:Applicant {$camp->id}")->dailyAt("0:10");
-            }
-        }
-
         // CEO Camp 相關排程
         // $schedule->command('gen:BankSecondBarcode 96')->dailyAt("0:28");
         // $schedule->command('import:Form 96')->dailyAt("0:29");
         // $schedule->command('export:Applicant 96')->dailyAt("0:30");
 
         // 其他營隊匯出排程
-        // $schedule->command('export:Applicant 97')->dailyAt("0:45");  // ceovcamp
-        // $schedule->command('export:Applicant 102')->dailyAt("1:00");  // ecamp_c
-        // $schedule->command('export:Applicant 100')->dailyAt("1:30");  // ecamp_s
-        // $schedule->command('export:Applicant 106')->dailyAt("2:00");  // ecamp_n
-        // $schedule->command('export:Applicant 103')->dailyAt("2:30");  // evcamp_c
-        // $schedule->command('export:Applicant 101')->dailyAt("3:00");  // evcamp_s
-        // $schedule->command('export:Applicant 107')->dailyAt("3:30");  // evcamp_n
-        $schedule->command('export:Applicant 110')->dailyAt("0:10");  // nycamp
-        $schedule->command('export:Applicant 108')->dailyAt("0:30");  // tcamp
-        $schedule->command('export:Applicant 112')->dailyAt("1:00");  // utcamp
+        $schedule->command('export:Applicant 125')->dailyAt("0:10");  // ceovcamp_n
+        $schedule->command('export:Applicant 129')->dailyAt("0:20");  // ceovcamp_s
+        $schedule->command('export:Applicant 120')->dailyAt("1:00");  // ecamp_n
+        $schedule->command('export:Applicant 122')->dailyAt("1:30");  // ecamp_s
+        $schedule->command('export:Applicant 121')->dailyAt("2:00");  // evcamp_n
+        $schedule->command('export:Applicant 123')->dailyAt("2:30");  // evcamp_s
+        // $schedule->command('export:Applicant 110')->dailyAt("0:10");  // nycamp
+        // $schedule->command('export:Applicant 108')->dailyAt("0:30");  // tcamp
+        
+        //utcamp
+        $schedule->command('gen:BankSecondBarcode 118')->dailyAt("11:49");
+        $schedule->command('export:Applicant 118')->dailyAt("11:50");  // utcamp
+        $schedule->command('gen:BankSecondBarcode 118')->dailyAt("16:29");
+        $schedule->command('export:Applicant 118')->dailyAt("16:31");  // utcamp
+        $schedule->command('gen:BankSecondBarcode 118')->dailyAt("0:49");
+        $schedule->command('export:Applicant 118')->dailyAt("00:50");  // utcamp
     }
 
     /**

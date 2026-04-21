@@ -15,18 +15,19 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 @endif
 
-    <div class='page-header form-group'>
-        <h4>{{ $camp_info->fullName }}線上報名表</h4>
-    </div>
+<div class='page-header form-group'>
+    <h4>{{ $camp_info->fullName }}線上報名表</h4>
+</div>
 
-    {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
+{{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
 @if(!isset($isModify) || $isModify)
     <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form'>
     {{-- 以上皆非: 檢視資料狀態 --}}
 @else
     <form action="{{ route("queryupdate", $batch_id) }}" method="post" class="d-inline">
 @endif
-    @csrf
+
+@csrf
     <div class='row form-group'>
         <div class='col-md-2'></div>
         <div class='col-md-10'>
@@ -52,6 +53,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 @endif
+
     <div class='row form-group required'>
         <label for='inputName' class='col-md-2 control-label text-md-right'>姓名</label>
         <div class='col-md-10'>
@@ -523,7 +525,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <script language='javascript'>
-
     function parent_field(show) {
         var show_q= '<label>父母親若不是福智學員，本欄不用填寫 <input type=reset class="btn btn-info" value="清除資料" onClick="parent_field(0);"></label>' ;
 
@@ -531,11 +532,11 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         var show_field2 = ' <div class="row form-group"> <label for="mother_name" class="col-md-2 control-label">母親姓名</label> <div class="col-md-2"> <input type=text  name="mother_name" id="mother_name" value="" class=form-control > </div>  <label for="mother_lamrim" class="col-md-2 control-label">廣論班別</label>  <div class="col-md-2"> <input type=text  name="mother_lamrim" id="mother_lamrim" value="" placeholder="例：北20增016班" class=form-control > </div>  <label for="mother_phone" class="col-md-2 control-label">聯絡電話</label>  <div class="col-md-2"> <input type=tel  name="mother_phone" id="mother_phone" value="" class=form-control > </div>    </div>' ;
         hidden_field = '<label>父母親為福智學員，請填寫資料<input type=button class="btn btn-info" value="填寫父母親資料" onClick="parent_field(1);"></label>' ;
 
-    if (show == 0) { 
-        document.getElementById('parent').innerHTML = hidden_field ; 
-    } else { 
-        document.getElementById('parent').innerHTML = show_q + show_field1 + show_field2 ; 
-    }
+        if (show == 0) { 
+            document.getElementById('parent').innerHTML = hidden_field ; 
+        } else { 
+            document.getElementById('parent').innerHTML = show_q + show_field1 + show_field2 ; 
+        }
     }
     </script>
 
@@ -855,15 +856,15 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 @endif
             })();
 
-        function checkIfNull(val) {
-            return val == "";
-        }
-    @endif
-</script>
-<style>
+            function checkIfNull(val) {
+                return val == "";
+            }
+        @endif
+    </script>
+    <style>
     .required .control-label::after {
         content: "＊";
         color: red;
     }
-</style>
+    </style>
 @stop
