@@ -93,7 +93,7 @@ class ProcessDailyExportCamps implements ShouldQueue
             'ceovcamp' => ["00:45"],
             'ecamp'    => ["1:00"], //1:30, 2:00
             'evcamp'   => ["2:30"], //3:00, 3:30
-            `nycamp`   => ["4:00"],
+            'nycamp'   => ["4:00"],
             'tcamp'    => ["4:30"],
             'utcamp'   => ["5:00", "11:30", "16:35"],
             // ... 其他對應

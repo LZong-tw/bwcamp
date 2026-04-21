@@ -81,7 +81,7 @@ class Camp extends Model
         'early_bird_last_day_weekday',
         'discount_last_day_weekday',
         'batch_start_earliest',
-        'batch_start_latest',
+        'batch_end_latest',
     ];
 
     //to correct spelling mistake in table name, but keep the old one for compatibility
