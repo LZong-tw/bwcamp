@@ -4,16 +4,16 @@ header("Pragma: no-cache");
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 ?>
-@extends('camps.utcamp.layout')
+@extends('camps.' $camp_info->table . '.layout')
 @section('content')
-    @if(!isset($isBackend))
+@if(!isset($isBackend))
     <div class='alert alert-info' role='alert'>
         您在本網站所填寫的個人資料，僅用於此次教師營的報名及活動聯絡之用。
     </div>
-    @endif
+@endif
 
     <div class='page-header form-group'>
-        <h4>{{ $camp_data->fullName }} 報名表</h4>
+        <h4>{{ $camp_info->fullName }} 報名表</h4>
     </div>
 
     <span id="utcamp-layout">
@@ -37,7 +37,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-    @if(isset($applicant_data))
+@if(isset($applicant_data))
     <div class='row form-group'>
         <label for='inputBatch' class='col-md-2 control-label text-md-right'>營隊梯次</label>
         <div class='col-md-10'>
@@ -51,10 +51,10 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             {{ $applicant_raw_data->created_at }}
         </div>
     </div>
-    @else
+@else
     {{-- $applicant_data不存在，表示是報名狀態。報名時預設會參加。 --}}
     <input type="hidden" name="is_attend" value=1>
-    @endif
+@endif
 
     <div class='row form-group required'>
         <label for='inputName' class='col-md-2 control-label text-md-right'>姓名</label>
@@ -824,4 +824,3 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     }
 </style>
 @stop
-

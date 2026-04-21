@@ -1,9 +1,14 @@
+@php
+	$today = \Carbon\Carbon::now();
+	$this_year = $today->year;
+@endphp
 <html lang='zh-Hant'>
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
     <meta name='description' content='向生命更深的維度啟航，成為帶給世界溫暖與希望的人。' />
     <meta name='author' content='福智文教基金會'>
     <meta property='og:url' content='http://bwfoce.org/ycamp/'/>
@@ -11,11 +16,11 @@
     <meta property='og:description' content='向生命更深的維度啟航，成為帶給世界溫暖與希望的人。' />
     {{-- <meta property='og:image' content='http://youth.blisswisdom.org/camp/media/2016Wbanner.png'/> --}}
     {{-- <link rel='icon' href='/camp/favicon.ico'> --}}
-    @if ($camp_data->year < now()->year || !$camp_data->year)
+    @if ($camp_info->year < $this_year || !$camp_info->year)
         <meta name="googlebot" content="noindex, nofollow">
         <meta name="robots" content="noindex, nofollow">
     @endif
-    <title> {{ $camp_data->fullName }} </title>
+    <title> {{ $camp_info->fullName }} </title>
     <!-- Bootstrap core CSS -->
     <link href='{{ asset('css/bootstrap.min.css') }}' rel='stylesheet'>
     <!-- Custom styles for this template -->
@@ -57,7 +62,6 @@
         })(window, document, "clarity", "script", "ne7yzyapsk");
     </script>
 </head>
-
 <BODY>
 <div id='fb-root'></div>
 @if(isset($isBackend))
@@ -86,12 +90,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('query', $batch_id) }}">報名查詢/修改</a>
                     </li>
-                    @if(\Carbon\Carbon::now() >= \Carbon\Carbon::createFromFormat("Y-m-d", $camp_data->admission_announcing_date))
+                    @if($today->gte($camp_info->admission_announcing_date))
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('queryadmitGET', $batch_id) }}">錄取查詢</a>
                         </li>
                     @endif
-                    @if(\Carbon\Carbon::now() >= \Carbon\Carbon::createFromFormat("Y-m-d", $camp_data->admission_announcing_date))
+                    @if($today->gte($camp_info->certificate_available_date))
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('queryadmitGET', $batch_id) }}">下載研習證明</a>
                         </li>
@@ -110,7 +114,7 @@
         </div>
     </nav>
 @endif
-<div class=container>
+<div class="container w-full">
     @yield('content')
     <!-- Site footer -->
     <footer class='footer'>
