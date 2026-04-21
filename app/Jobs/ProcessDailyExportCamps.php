@@ -55,13 +55,13 @@ class ProcessDailyExportCamps implements ShouldQueue
 
             // 3. 根據該類別的最早日期，決定是否要執行排程
             // 範例：如果今天已經超過最早日期，才開始執行某個匯出指令
-            if ($exportStartDate && now()->startOfDay()->gte(Carbon::parse($exportStartDate)) && now()->startOfDay()->lte(Carbon::parse($exportEndDate))) {
+            if ($exportStartDate && now()->startOfDay()->gte(Carbon::parse($exportStartDate)) && now()->endOfDay()->lte(Carbon::parse($exportEndDate))) {
 
                 $times = $this->getCustomTimeForCamp($camp->table);
                 if ($camp->table === $table_prev) {
                     $add30 += 30;
                     $times = array_map(function ($time) use ($add30) {
-                        return Carbon::parse($time)->addSeconds($add30)->format('H:i');
+                        return Carbon::parse($time)->addMinuets($add30)->format('H:i');
                     }, $times);
                 } else {
                     $add30 = 0; // reset for new camp
@@ -71,10 +71,10 @@ class ProcessDailyExportCamps implements ShouldQueue
                 //one may export data multiple times a day
                 foreach ($times as $time) {
                     if ($camp->table === 'ceocamp') {
-                        $timeSubOneMIn = Carbon::parse($time)->subMinute()->format('H:i');
+                        $timeSubOneMin = Carbon::parse($time)->subMinute()->format('H:i');
                         $timeSubTwoMin = Carbon::parse($time)->subMinute(2)->format('H:i');
-                        $schedule->command('gen:BankSecondBarcode 96')->dailyAt(timeSubTwoMIn);
-                        // $schedule->command('import:Form 96')->dailyAt(timeSubTwoMin);
+                        $schedule->command('gen:BankSecondBarcode $camp->id')->dailyAt(timeSubTwoMin);
+                        $schedule->command('import:Form $camp->id')->dailyAt(timeSubOneMin);
                     }
                     $schedule->command("export:Applicant {$camp->id}")
                         ->dailyAt($time);

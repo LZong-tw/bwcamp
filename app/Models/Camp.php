@@ -105,7 +105,7 @@ class Camp extends Model
     }
 
     // 取得該營隊所有 batches 最晚的 batch_end 日期
-    protected function batchStartLatest(): Attribute
+    protected function batchEndLatest(): Attribute
     {
         return Attribute::make(
             // max('batch_end') 會直接在資料庫層級下 query，效率不錯
