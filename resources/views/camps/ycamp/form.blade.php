@@ -4,7 +4,7 @@ header("Pragma: no-cache");
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 ?>
-@extends('camps.' $camp_info->table . '.layout')
+@extends('camps.ycamp.layout')
 @section('content')
 
 @include('partials.schools_script')
