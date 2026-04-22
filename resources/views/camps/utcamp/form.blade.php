@@ -4,7 +4,7 @@ header("Pragma: no-cache");
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 ?>
-@extends('camps.' $camp_info->table . '.layout')
+@extends('camps.utcamp.layout')
 @section('content')
 @if(!isset($isBackend))
     <div class='alert alert-info' role='alert'>
@@ -12,22 +12,22 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 @endif
 
-    <div class='page-header form-group'>
-        <h4>{{ $camp_info->fullName }} 報名表</h4>
-    </div>
+<div class='page-header form-group'>
+    <h4>{{ $camp_info->fullName }} 報名表</h4>
+</div>
 
-    <span id="utcamp-layout">
-    {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
-    @if((!isset($isModify) && $batch->is_appliable) || (isset($isModify) && $isModify))
+<span id="utcamp-layout">
+{{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
+@if((!isset($isModify) && $batch->is_appliable) || (isset($isModify) && $isModify))
     <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form'>
-    {{-- 禁止前台報名 --}}
-    @elseif(!$batch->is_appliable)
+{{-- 禁止前台報名 --}}
+@elseif(!$batch->is_appliable)
     <script>window.location = "/";</script>
         @exit
-    {{-- 以上皆非: 檢視資料狀態 --}}
-    @else
+{{-- 以上皆非: 檢視資料狀態 --}}
+@else
     <form action="{{ route('queryupdate', $batch_id) }}" method="post" class="d-inline">
-    @endif
+@endif
 
     @csrf
     <div class='row form-group'>

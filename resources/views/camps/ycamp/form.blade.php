@@ -20,14 +20,18 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 </div>
 
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
-@if(!isset($isModify) || $isModify)
+@if((!isset($isModify) && $batch->is_appliable) || (isset($isModify) && $isModify))
     <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form'>
-    {{-- 以上皆非: 檢視資料狀態 --}}
+{{-- 禁止前台報名 --}}
+@elseif(!$batch->is_appliable)
+    <script>window.location = "/";</script>
+        @exit
+{{-- 以上皆非: 檢視資料狀態 --}}
 @else
-    <form action="{{ route("queryupdate", $batch_id) }}" method="post" class="d-inline">
+    <form action="{{ route('queryupdate', $batch_id) }}" method="post" class="d-inline">
 @endif
 
-@csrf
+    @csrf
     <div class='row form-group'>
         <div class='col-md-2'></div>
         <div class='col-md-10'>
@@ -837,7 +841,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 if(introducer.every(checkIfNull)){
                     referer_field(0);
                 }
-
                 @if(!$isModify)
                     for (var i = 0; i < inputs.length; i++){
                         if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox"){
