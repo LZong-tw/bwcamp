@@ -3,7 +3,19 @@
     header("Pragma: no-cache");
     header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
     header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
-    $regions = ['北區', '竹區', '中區', '高區'];
+    $regions = $camp_info->regions;
+    if(str_contains($camp_info->name, "北區")) {$county_local = "台北及新北";}
+    else { $county_local = "屏東"; }
+    $regions = $camp_info->regions;
+    $idx = 0;
+    foreach ($regions as $r) {
+        if ($idx == 0) {
+            $r->invalid_str = "請選擇區域";
+        } else {
+            $r->invalid_str = "&nbsp;";
+        }
+        $idx++;
+    }
 @endphp
 @extends('camps.ceocamp.layout')
 @section('content')
@@ -18,16 +30,7 @@
     <div class='page-header form-group'>
         <h4>{{ $camp_data->fullName }}線上推薦報名表</h4>
         若您在填寫表格時遇到困難，請洽詢：<br>
-        {{--@if($batch->name == '北區')--}}
-            北區—陳小姐 0935-237-395、劉小姐 0953-226-558<br>
-        {{--@elseif($batch->name == '竹區')--}}
-            竹區—何小姐 0920-431-831、林小姐 0933-973-825<br>
-        {{--@elseif($batch->name == '中區') --}}
-            中區—王小姐 0937-308-673、林小姐 0935-303-658<br>
-        {{--@elseif($batch->name == '高區')--}}
-            高區—陳先生 0952-413-683、陳小姐 0929-350-820<br>
-        {{--@else
-        @endif--}}
+        {!! nl2br(e(str_replace('\n', "\n", $camp_info->contact_card))) !!}
     </div>
 
 {{-- 使用舊資料報名：如果有batch_id_from參數的話(今年限2021&2022企業營，但沒有寫這個條件) --}}
@@ -63,10 +66,8 @@
             @if(isset($applicant_data))
                 <h3>{{ $applicant_raw_data->batch->name }} {{ $applicant_raw_data->batch->batch_start }} ~ {{ $applicant_raw_data->batch->batch_end }} </h3>
                 <input type='hidden' name='applicant_id' value='{{ $applicant_id }}'>
-                <input type="hidden" name="region" value="@foreach($regions as $r) @if(\Str::contains($applicant_raw_data->batch->name, $r)){{ $r }} @break @endif @endforeach">
             @else
                 <h3>{{ $batch->name }} {{ $batch->batch_start }} ~ {{ $batch->batch_end }} </h3>
-                <input type="hidden" name="region" value="@foreach($regions as $r) @if(\Str::contains($batch->name, $r)){{ $r }} @break @endif @endforeach">
             @endif
         </div>
     </div>
@@ -81,39 +82,17 @@
     <div class="row form-group required">
         <label for='inputRegion' class='col-md-2 control-label text-md-right'>區域</label>
         <div class='col-md-10'>
-                <div class="form-check form-check-inline">
-                    <label class="form-check-label" for="Pei">
-                        <input class="form-check-input" type="radio" name="region" value="北區" required>北區
-                        <div class="invalid-feedback">
-                            請選擇區域
-                        </div>
-                    </label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <label class="form-check-label" for="Chu">
-                        <input class="form-check-input" type="radio" name="region" value="竹區" required>竹區
-                        <div class="invalid-feedback">
-                            &nbsp;
-                        </div>
-                    </label>
-                </div>
-		        <div class="form-check form-check-inline">
-                    <label class="form-check-label" for="Pei">
-                        <input class="form-check-input" type="radio" name="region" value="中區" required>中區
-                        <div class="invalid-feedback">
-                            &nbsp;
-                        </div>
-                    </label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <label class="form-check-label" for="Chu">
-                        <input class="form-check-input" type="radio" name="region" value="高區" required>高區
-                        <div class="invalid-feedback">
-                            &nbsp;
-                        </div>
-                    </label>
-                </div>
-                <div><span class='text-danger'>建議根據被推薦人的工作/生活地區選擇</span></div>
+        @foreach ($regions as $region)
+            <div class="form-check form-check-inline">
+                <label class="form-check-label" for="Pei">
+                    <input class="form-check-input" type="radio" name="region" value="{{ $region->name }}" required> {{ $region->name }}　
+                    <div class="invalid-feedback">
+                        {{ $region->invalid_str }}
+                    </div>
+                </label>
+            </div>
+        @endforeach
+            <div><span class='text-danger'>建議根據被推薦人的工作/生活地區選擇</span></div>
         </div>
     </div>
     <hr>
@@ -195,19 +174,13 @@
 
     <h6 class='form-control-static text-danger'>若繼續填寫下方資料，表示您已確認：<br>
         （1）被推薦人同意參加本次營隊活動，並且<br>
-        （2）被推薦人同意將營隊推薦報名表内相關資料提供給主辦單位。
-        @if (str_contains($batch->name, ""))
-            <br>（3）知悉並告知被推薦人：營隊活動地點為臺中國立勤益科技大學，配合兩天一夜課程，臺中以外縣市學員若由主辦單位安排7/26晚間住宿者（以安排「雙人房」為主），費用為NT$2,400元。欲住宿單人房者，費用為NT$4,800元。
-        @endif
+        （2）被推薦人同意將營隊推薦報名表内相關資料提供給主辦單位。<br>
+        （3）知悉並告知被推薦人：營隊活動地點為{{ $camp_info->locationName }}，配合 {{ substr($camp_info->batch_start,5,5) }}~{{ substr($camp_info->batch_end,5,5) }} 兩天課程，{{ $county_local }}以外縣市學員，若由主辦單位安排 {{ substr($camp_info->batch_start,5,5) }} 晚間住宿者，費用以報名區域為準。
     </h6>
 
     <hr>
     <h5 class='form-control-static'>被推薦人(營隊學員)基本資料：</h5>
-        @if (str_contains($batch->name, ""))
-            <h6>＊＊若有需要，可下載<a href="{{ url("downloads/ceocamp2025/2025菁英營學員推薦表v3.docx") }}" target="_blank">學員推薦表WORD檔</a>或<a href="{{ url("downloads/ceocamp2025/2025菁英營學員推薦表v3.pdf") }}" target="_blank">學員推薦表PDF檔</a>， 請被推薦人提供資料，做為填寫此表單的依據。＊＊</h6>
-        @else
-            <h6>＊＊若有需要，可下載<a href="{{ url("downloads/ceocamp2025/2025菁英營學員推薦表v3.docx") }}" target="_blank">學員推薦表WORD檔</a>或<a href="{{ url("downloads/ceocamp2025/2025菁英營學員推薦表v3.pdf") }}" target="_blank">學員推薦表PDF檔</a>， 請被推薦人提供資料，做為填寫此表單的依據。＊＊</h6>
-        @endif
+            <h6>＊＊若有需要，可下載<a href="{{ asset('downloads/ceocamp/'. $camp_info->year . '菁英營學員推薦表_' . $camp_info->name . '.docx') }}" target="_blank">學員推薦表WORD檔</a>或<a href="{{ asset('downloads/ceocamp/'. $camp_info->year . '菁英營學員推薦表_' . $camp_info->name . '.pdf') }}" target="_blank">學員推薦表PDF檔</a>， 請被推薦人提供資料，做為填寫此表單的依據。＊＊</h6>
     <br>
 
     <div class='row form-group required'>
@@ -948,109 +921,6 @@
         * Ready functions.
         * Executes commands after the web page is loaded.
         */
-{{--
-        document.onreadystatechange = () => {
-            if (document.readyState === 'complete') {
-                /**
-                * 是否在學校或教育單位任職，勾選後顯示/隱藏任職單位相關欄位。
-                */
-                rowIsEducating = document.getElementById("rowIsEducating");
-                document.getElementById("is_educating_y").addEventListener("change", showFields);
-                document.getElementById("is_educating_n").addEventListener("change", hideFields);
-                if(document.getElementById("is_educating_n").checked){
-                    hideFields();
-                }
-                /**
-                * 任職機關/任教學程，勾選後顯示對應職稱。
-                */
-                categories = document.getElementsByName("school_or_course");
-                for(let i = 0; i < categories.length; i++){
-                    categories[i].addEventListener("click", changeJobTitleList);
-                    categories[i].addEventListener("change", changeJobTitleList);
-                }
-
-                /**
-                * 選擇職稱後，將職稱填至欄位中。
-                */
-                titles = document.getElementsByName("data[12]");
-                for(let i = 0; i < titles.length; i++){
-                    titles[i].addEventListener("click", fillTheTitle);
-                    titles[i].addEventListener("change", fillTheTitle);
-                }
-            }
-        };
---}}
-        function showFields(){
-            rowIsEducating.innerHTML = "<div class='row form-group required'>" +
-                "    <label for='inputSchoolOrCourse' class='col-md-2 control-label text-md-right'>任職機關/任教學程</label>" +
-                "    <div class='col-md-10'>" +
-                "        <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=教育部 class='officials'> 教育部" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                請勾選任職機關/任教學程" +
-                "            </div>" +
-                "        </label> " +
-                "        <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=教育局/處 class='officials'> 教育局/處" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                &nbsp;" +
-                "            </div>" +
-                "        </label> " +
-                "        <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=大專校院 class='universities'> 大專校院" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                &nbsp;" +
-                "            </div>" +
-                "        </label> <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=高中職 class='compulsories'> 高中職" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                &nbsp;" +
-                "            </div>" +
-                "        </label> <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=國中 class='compulsories'> 國中" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                &nbsp;" +
-                "            </div>" +
-                "        </label> <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=國小 class='compulsories'> 國小" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                &nbsp;" +
-                "            </div>" +
-                "        </label> <label class=radio-inline>" +
-                "            <input type=radio required name='school_or_course' value=幼教 class='compulsories'> 幼教" +
-                "            <div class='invalid-feedback crumb'>" +
-                "                &nbsp;" +
-                "            </div>" +
-                "        </label> " +
-                "    </div>" +
-                "</div>" +
-                "<div class='row form-group required'> " +
-                "<label for='inputSubjectTeaches' class='col-md-2 control-label text-md-right'>任教科系/任教科目</label>" +
-                "    <div class='col-md-10'>" +
-                "        <input type=text required  name='subject_teaches' value='' class='form-control' id='inputSubjectTeaches'>" +
-                "        <div class='invalid-feedback crumb'>" +
-                "            請填寫任教科系/任教科目" +
-                "        </div>" +
-                "    </div>" +
-                "</div>";
-
-            document.getElementById("tip").innerHTML = '請先選擇任教機關/任教學程';
-
-            /*************************************
-             * 物件重建後需重新設定 event listener
-             *************************************/
-            categories = document.getElementsByName("school_or_course");
-            for(let i = 0; i < categories.length; i++){
-                categories[i].addEventListener("click", changeJobTitleList);
-                categories[i].addEventListener("change", changeJobTitleList);
-            }
-
-            titles = document.getElementsByName("data[12]");
-            for(let i = 0; i < titles.length; i++){
-                titles[i].addEventListener("click", fillTheTitle);
-                titles[i].addEventListener("change", fillTheTitle);
-            }
-        }
 
         function hideFields(){
             rowIsEducating.innerHTML = '';
@@ -1086,18 +956,6 @@
                         titleSets[i].style.display = "none";
                     }
                 }
-            }
-        }
-
-        function fillTheTitle(){
-            if(this.value == '其他'){
-                document.getElementById('title').value = '請在此處自行輸入職稱';
-            }
-            else if(this.value == '兼課老師'){
-                document.getElementById('title').value = '兼課老師(兼課時數: 小時)';
-            }
-            else if(this.value != null){
-                document.getElementById('title').value = this.value;
             }
         }
 

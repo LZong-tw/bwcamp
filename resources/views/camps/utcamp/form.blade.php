@@ -6,28 +6,28 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 ?>
 @extends('camps.utcamp.layout')
 @section('content')
-    @if(!isset($isBackend))
+@if(!isset($isBackend))
     <div class='alert alert-info' role='alert'>
         您在本網站所填寫的個人資料，僅用於此次教師營的報名及活動聯絡之用。
     </div>
-    @endif
+@endif
 
-    <div class='page-header form-group'>
-        <h4>{{ $camp_data->fullName }} 報名表</h4>
-    </div>
+<div class='page-header form-group'>
+    <h4>{{ $camp_info->fullName }} 報名表</h4>
+</div>
 
-    <span id="utcamp-layout">
-    {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
-    @if((!isset($isModify) && $batch->is_appliable) || (isset($isModify) && $isModify))
+<span id="utcamp-layout">
+{{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
+@if((!isset($isModify) && $batch->is_appliable) || (isset($isModify) && $isModify))
     <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form'>
-    {{-- 禁止前台報名 --}}
-    @elseif(!$batch->is_appliable)
+{{-- 禁止前台報名 --}}
+@elseif(!$batch->is_appliable)
     <script>window.location = "/";</script>
         @exit
-    {{-- 以上皆非: 檢視資料狀態 --}}
-    @else
+{{-- 以上皆非: 檢視資料狀態 --}}
+@else
     <form action="{{ route('queryupdate', $batch_id) }}" method="post" class="d-inline">
-    @endif
+@endif
 
     @csrf
     <div class='row form-group'>
@@ -37,7 +37,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-    @if(isset($applicant_data))
+@if(isset($applicant_data))
     <div class='row form-group'>
         <label for='inputBatch' class='col-md-2 control-label text-md-right'>營隊梯次</label>
         <div class='col-md-10'>
@@ -51,10 +51,10 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             {{ $applicant_raw_data->created_at }}
         </div>
     </div>
-    @else
+@else
     {{-- $applicant_data不存在，表示是報名狀態。報名時預設會參加。 --}}
     <input type="hidden" name="is_attend" value=1>
-    @endif
+@endif
 
     <div class='row form-group required'>
         <label for='inputName' class='col-md-2 control-label text-md-right'>姓名</label>
@@ -393,7 +393,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-    @include('camps.utcamp.formSection');
+    @include('camps.' . $camp_info->table . '.formSection');
 
 {{-- 
     <!--- 同意書 -->
@@ -824,4 +824,3 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     }
 </style>
 @stop
-

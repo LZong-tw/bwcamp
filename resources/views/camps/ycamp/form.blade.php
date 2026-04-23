@@ -1,6 +1,3 @@
-{{-- 
-    參考頁面：https://youth.blisswisdom.org/camp/winter/form/index_addto.php
-    --}}
 <?php
 header("Cache-Control: no-cache, no-store, must-revalidate, post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
@@ -9,24 +6,31 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 ?>
 @extends('camps.ycamp.layout')
 @section('content')
-    @include('partials.schools_script')
-    @include('partials.counties_areas_script')
-    @if(!isset($isBackend))
-        <div class='alert alert-info' role='alert'>
-            您在本網站所填寫的個人資料，僅用於此次大專營的報名及活動聯絡之用。
-        </div>
-    @endif
 
-    <div class='page-header form-group'>
-        <h4>{{ $camp_data->fullName }}線上報名表</h4>
+@include('partials.schools_script')
+@include('partials.counties_areas_script')
+@if(!isset($isBackend))
+    <div class='alert alert-info' role='alert'>
+        您在本網站所填寫的個人資料，僅用於此次大專營的報名及活動聯絡之用。
     </div>
+@endif
+
+<div class='page-header form-group'>
+    <h4>{{ $camp_info->fullName }}線上報名表</h4>
+</div>
+
 {{-- !isset($isModify): 沒有 $isModify 變數，即為報名狀態、 $isModify: 修改資料狀態 --}}
-@if(!isset($isModify) || $isModify)
+@if((!isset($isModify) && $batch->is_appliable) || (isset($isModify) && $isModify))
     <form method='post' action='{{ route('formSubmit', [$batch_id]) }}' id='Camp' name='Camp' class='form-horizontal needs-validation' role='form'>
+{{-- 禁止前台報名 --}}
+@elseif(!$batch->is_appliable)
+    <script>window.location = "/";</script>
+        @exit
 {{-- 以上皆非: 檢視資料狀態 --}}
 @else
-    <form action="{{ route("queryupdate", $batch_id) }}" method="post" class="d-inline">
+    <form action="{{ route('queryupdate', $batch_id) }}" method="post" class="d-inline">
 @endif
+
     @csrf
     <div class='row form-group'>
         <div class='col-md-2'></div>
@@ -35,31 +39,28 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-    @if(isset($applicant_data))
+@if(isset($applicant_data))
     <div class='row form-group'>
         <label for='inputBatch' class='col-md-2 control-label text-md-right'>營隊梯次</label>
         <div class='col-md-10'>
-                <h3>{{ $applicant_raw_data->batch->name . '梯' }} {{ $applicant_raw_data->batch->batch_start }} ~ {{ $applicant_raw_data->batch->batch_end }} </h3>
-                {{-- <h3>線上 {{ $applicant_raw_data->batch->batch_start }} ~ {{ $applicant_raw_data->batch->batch_end }} </h3> --}}
-                <input type='hidden' name='applicant_id' value='{{ $applicant_id }}'>
+            <h3>{{ $applicant_raw_data->batch->name . '梯' }} {{ $applicant_raw_data->batch->batch_start }} ~ {{ $applicant_raw_data->batch->batch_end }} </h3>
+            <input type='hidden' name='applicant_id' value='{{ $applicant_id }}'>
         </div>
     </div>
-    @endif
+@endif
 
-    @if(isset($isModify))
-        <div class='row form-group'>
-            <label for='inputBatch' class='col-md-2 control-label text-md-right'>報名日期</label>
-            <div class='col-md-10'>
-                {{ $applicant_raw_data->created_at }}
-            </div>
+@if(isset($isModify))
+    <div class='row form-group'>
+        <label for='inputBatch' class='col-md-2 control-label text-md-right'>報名日期</label>
+        <div class='col-md-10'>
+            {{ $applicant_raw_data->created_at }}
         </div>
-    @endif
+    </div>
+@endif
+
     <div class='row form-group required'>
         <label for='inputName' class='col-md-2 control-label text-md-right'>姓名</label>
         <div class='col-md-10'>
-            <!--
-            <input type='text' name='name' value='' class='form-control' id='inputName' placeholder='請填寫全名' required @if(isset($isModify) && $isModify) disabled @endif>
-            -->
             <input type='text' name='name' value='' class='form-control' id='inputName' placeholder='請填寫全名' required>
             <div class="invalid-feedback">
                 請填寫姓名
@@ -72,9 +73,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         <div class='col-md-10'>
             <div class="form-check form-check-inline">
                 <label class="form-check-label" for="M">
-                    <!--
-                    <input class="form-check-input" type="radio" name="gender" value="M" required @if(isset($isModify) && $isModify) disabled @endif>
-                    -->
                     <input class="form-check-input" type="radio" name="gender" value="M" required>
                     男
                     <div class="invalid-feedback">
@@ -84,9 +82,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
             <div class="form-check form-check-inline">
                 <label class="form-check-label" for="F">
-                    <!--
-                    <input class="form-check-input" type="radio" name="gender" value="F" required @if(isset($isModify) && $isModify) disabled @endif>
-                    -->
                     <input class="form-check-input" type="radio" name="gender" value="F" required>
                     女
                     <div class="invalid-feedback">
@@ -96,40 +91,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     </div>
-{{--
-    <div class="row form-group">
-        <label for='inputGenderIdentity' class='col-md-2 control-label text-md-right'>生理性別認同</label>
-        <div class='col-md-10'>
-            <div class="form-check form-check-inline">
-                <label class="form-check-label" for="M">
-                    <input class="form-check-input" type="radio" name="gender_identity" value="男">
-                    男
-                    <div class="invalid-feedback">
-                        未選擇生理性別認同
-                    </div>
-                </label>
-            </div>
-            <div class="form-check form-check-inline">
-                <label class="form-check-label" for="F">
-                    <input class="form-check-input" type="radio" name="gender_identity" value="女">
-                    女
-                    <div class="invalid-feedback">
-                        &nbsp;
-                    </div>
-                </label>
-            </div>
-            <div class="form-check form-check-inline">
-                <label class="form-check-label" for="F">
-                    <input class="form-check-input" type="radio" name="gender_identity" value="不願透露">
-                    不願透露
-                    <div class="invalid-feedback">
-                        &nbsp;
-                    </div>
-                </label>
-            </div>
-        </div>
-    </div>
---}}
+
     <div class='row form-group required'>
         <label for='inputNationName' class='col-md-2 control-label text-md-right'>國籍</label>
         <div class='col-md-2'>
@@ -197,7 +159,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         </div>
     </div>
 
-
     <div class='row form-group'>
         <label for='inputInterest' class='col-md-2 control-label text-md-right'>興趣</label>
         <div class='col-md-10'>
@@ -208,9 +169,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputEmail' class='col-md-2 control-label text-md-right'>電子郵件</label>
         <div class='col-md-10'>
-            <!--
-            <input type='email' required name='email' value='' class='form-control' id='inputEmail' placeholder='請務必填寫正確，以利營隊相關訊息通知' @if(isset($isModify) && $isModify) disabled @endif>
-            -->
             <input type='email' required name='email' value='' class='form-control' id='inputEmail' placeholder='請務必填寫正確，以利營隊相關訊息通知'>
             <div class="invalid-feedback">
                 未填電子信箱或格式不正確
@@ -227,11 +185,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class='row form-group required'>
         <label for='inputEmail' class='col-md-2 control-label text-md-right'>確認電子郵件</label>
         <div class='col-md-10'>
-            <!--
-            <input type='email' required  name='emailConfirm' value='' class='form-control' id='inputEmailConfirm' placeholder='請再次填寫(勿複製貼上)，確認電子信箱正確' @if(isset($isModify) && $isModify) disabled @endif>
-            -->
             <input type='email' required  name='emailConfirm' value='' class='form-control' id='inputEmailConfirm' placeholder='請再次填寫(勿複製貼上)，確認電子信箱正確'>
-            {{-- data-match='#inputEmail' data-match-error='郵件不符合' placeholder='請再次填寫確認郵件填寫正確' --}}
             <div class="invalid-feedback">
                 未填電子信箱或格式不正確
             </div>
@@ -395,9 +349,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
 
     <div class='row form-group'>
         <label for='inputAddress' class='col-md-2 control-label text-md-right'>通訊地址</label>
-        {{--
-        <label class='col-md-10 form-control-static text-info'>請填寫暑假期間能收到教材包的地址，並確認地址正確性，否則可能導致教材包延遲寄達或被退貨。</label>
-        --}}
     </div>
 
     <div class='row form-group'>
@@ -549,17 +500,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </div>
         </div>
     </div>
-{{--
-    <div class='row form-group'>
-        <label for='inputFoodAllergy' class='col-md-2 control-label text-md-right'>是否對什麼食物過敏？</label>
-        <div class='col-md-10'>
-            <textarea class='form-control' rows=1 name='food_allergy' id=inputExpect></textarea>
-            <div class="invalid-feedback">
-                請填寫本欄位
-            </div>
-        </div>
-    </div>
---}}
 
     <!--- 福智活動 -->
     <div class='row form-group'>
@@ -569,16 +509,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             <label><input type="checkbox" name=blisswisdom_type[] value='福智中小學' > 就讀福智中小學</label> <br/>
             <label><input type="checkbox" name=blisswisdom_type[] value='青少年班' > 參加青少年班</label> <br/>
             <label><input type="checkbox" name=blisswisdom_type[] value='讀經班' > 參加讀經班</label> <br/>
-            {{--
-            <div class='row form-group'>
-                <div class='col-md-2'>
-                    <label>其它：</label>
-                </div>
-                <div class='col-md-10'>
-                    <input type=text class='form-control' name=blisswisdom_type_other[] value=''>
-                </div>
-            </div>
-            --}}
+            <label><input type="checkbox" name=blisswisdom_type[] value='福青社活動' > 參與福青社活動</label> <br/>            
             <label>
                 <input type="checkbox" name=blisswisdom_type[] value='其它' id="blisswisdom_type_other_checkbox"> 其它：
                 <input type="text" name="blisswisdom_type_other" class="form-control" onclick="blisswisdom_type_other_checkbox.checked = true; this.required = true;">
@@ -588,18 +519,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             </label>
         </div>
     </div>
-{{--
-    <!--- 錄取通知  -->
-    <div class='row form-group'>
-        <label for='inputNotice' class='col-md-2 control-label text-md-right'>錄取通知方式</label>
-        <div class='col-md-10'>
-        <p class='form-control-static text-danger'>
-        請於 {{ $camp_data->admission_announcing_date }} ({{ $camp_data->admission_announcing_date_weekday }}) 起自行上網查詢。<br>
-        並於 {{ $camp_data->admission_confirming_end }} ({{ $camp_data->admission_confirming_end_weekday }}) 前上網回覆確認參加，倘未回覆，視同放棄。
-        </p>
-        </div>
-    </div>
---}}
     <!--- 父母親資料  -->
     <div class='row form-group'>
         <div class='col-md-12' id=parent>
@@ -610,7 +529,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     </div>
 
     <script language='javascript'>
-
     function parent_field(show) {
         var show_q= '<label>父母親若不是福智學員，本欄不用填寫 <input type=reset class="btn btn-info" value="清除資料" onClick="parent_field(0);"></label>' ;
 
@@ -618,11 +536,11 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         var show_field2 = ' <div class="row form-group"> <label for="mother_name" class="col-md-2 control-label">母親姓名</label> <div class="col-md-2"> <input type=text  name="mother_name" id="mother_name" value="" class=form-control > </div>  <label for="mother_lamrim" class="col-md-2 control-label">廣論班別</label>  <div class="col-md-2"> <input type=text  name="mother_lamrim" id="mother_lamrim" value="" placeholder="例：北20增016班" class=form-control > </div>  <label for="mother_phone" class="col-md-2 control-label">聯絡電話</label>  <div class="col-md-2"> <input type=tel  name="mother_phone" id="mother_phone" value="" class=form-control > </div>    </div>' ;
         hidden_field = '<label>父母親為福智學員，請填寫資料<input type=button class="btn btn-info" value="填寫父母親資料" onClick="parent_field(1);"></label>' ;
 
-    if (show == 0) { 
-        document.getElementById('parent').innerHTML = hidden_field ; 
-    } else { 
-        document.getElementById('parent').innerHTML = show_q + show_field1 + show_field2 ; 
-    }
+        if (show == 0) { 
+            document.getElementById('parent').innerHTML = hidden_field ; 
+        } else { 
+            document.getElementById('parent').innerHTML = show_q + show_field1 + show_field2 ; 
+        }
     }
     </script>
 
@@ -765,7 +683,7 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
     <div class="row form-group text-danger tips d-none">
         <div class='col-md-2'></div>
         <div class='col-md-10'>
-            請檢查是否有未填寫或格式錯誤的欄位。
+            請檢查是否有未填寫或格式不正確的欄位。
         </div>
     </div>
 
@@ -796,23 +714,23 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
             btnCancelLabel: "再檢查一下",
             popout: true,
             onConfirm: function() {
-                        if (document.Camp.checkValidity() === false) {
-                            $(".tips").removeClass('d-none');
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        else{
-                            $(".tips").addClass('d-none');
-                            if(typeof document.getElementsByName("father_name")[0] === "undefined"){
-                                parent_field(1);
-                            }
-                            if(typeof document.getElementsByName("introducer_name")[0] === "undefined"){
-                                referer_field(1);
-                            }
-                            document.Camp.submit();
-                        }
-                        document.Camp.classList.add('was-validated');
+                if (document.Camp.checkValidity() === false) {
+                    $(".tips").removeClass('d-none');
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                else{
+                    $(".tips").addClass('d-none');
+                    if(typeof document.getElementsByName("father_name")[0] === "undefined"){
+                        parent_field(1);
                     }
+                    if(typeof document.getElementsByName("introducer_name")[0] === "undefined"){
+                        referer_field(1);
+                    }
+                    document.Camp.submit();
+                }
+                document.Camp.classList.add('was-validated');
+            }
         });
 
         /**
@@ -923,7 +841,6 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
                 if(introducer.every(checkIfNull)){
                     referer_field(0);
                 }
-
                 @if(!$isModify)
                     for (var i = 0; i < inputs.length; i++){
                         if(typeof applicant_data[inputs[i].name] !== "undefined" || inputs[i].type == "checkbox"){
@@ -948,12 +865,9 @@ header("Expires: Fri, 01 Jan 1990 00:00:00 GMT");
         @endif
     </script>
     <style>
-        .required .control-label::after {
-            content: "＊";
-            color: red;
-        }
+    .required .control-label::after {
+        content: "＊";
+        color: red;
+    }
     </style>
 @stop
-{{-- 
-    參考頁面：https://youth.blisswisdom.org/camp/winter/form/index_addto.php
-    --}}

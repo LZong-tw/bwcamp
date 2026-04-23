@@ -44,28 +44,27 @@ class Camp extends Model
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
-        'registration_start' => 'date',
-        'registration_end' => 'date',
-        'final_registration_end' => 'date',
-        'admission_announcing_date' => 'date',
-        'final_registration_end' => 'date',
-        'rejection_showing_date' => 'date',
-        'certificate_available_date' => 'date',
-        'admission_confirming_end' => 'date',
-        'modifying_deadline' => 'date',
-        'cancellation_deadline' => 'date',
-        'payment_startdate' => 'date',
-        'payment_deadline' => 'date',
-        'early_bird_last_day' => 'date',
-        'discount_last_day' => 'date',
+        //'email_verified_at' => 'datetime',
+        'registration_start' => 'date:Y-m-d',
+        'registration_end' => 'date:Y-m-d',
+        'final_registration_end' => 'date:Y-m-d:',
+        'admission_announcing_date' => 'date:Y-m-d',
+        'final_registration_end' => 'date:Y-m-d',
+        'rejection_showing_date' => 'date:Y-m-d',
+        'certificate_available_date' => 'date:Y-m-d',
+        'admission_confirming_end' => 'date:Y-m-d',
+        'modifying_deadline' => 'date:Y-m-d',
+        'cancellation_deadline' => 'date:Y-m-d',
+        'payment_startdate' => 'date:Y-m-d',
+        'payment_deadline' => 'date:Y-m-d',
+        'early_bird_last_day' => 'date:Y-m-d',
+        'discount_last_day' => 'date:Y-m-d',
     ];
 
     /*
         put attribute in $appends，這樣當把 Model 轉成 JSON 時，這些欄位才會出現
     */
     protected $appends = [
-        //先轉幾個會用到的，其它之後再加？
         'registration_start_weekday',
         'registration_start_weekday_eng',
         'registration_start_weekday_short',
@@ -81,12 +80,37 @@ class Camp extends Model
         'cancellation_deadline_weekday',
         'early_bird_last_day_weekday',
         'discount_last_day_weekday',
+        'batch_start_earliest',
+        'batch_end_latest',
     ];
 
+    //to correct spelling mistake in table name, but keep the old one for compatibility
+    public function batches()
+    {
+        return $this->hasMany('App\Models\Batch');
+    }
 
     public function batchs()
     {
-        return $this->hasMany('App\Models\Batch');
+        return $this->batches();
+    }
+
+    // 取得該營隊所有 batches 最早的 batch_start 日期
+    protected function batchStartEarliest(): Attribute
+    {
+        return Attribute::make(
+            // min('batch_start') 會直接在資料庫層級下 query，效率不錯
+            get: fn () => $this->batches()->min('batch_start'),
+        );
+    }
+
+    // 取得該營隊所有 batches 最晚的 batch_end 日期
+    protected function batchEndLatest(): Attribute
+    {
+        return Attribute::make(
+            // max('batch_end') 會直接在資料庫層級下 query，效率不錯
+            get: fn () => $this->batches()->max('batch_end'),
+        );
     }
 
     public function currencies()
@@ -102,7 +126,15 @@ class Camp extends Model
 
     public function regions()
     {
-        return $this->belongsToMany(Region::class, 'region_camp_xref', 'camp_id', 'region_id');
+        $order = [
+            "北苑", "基隆", "台北", "桃園", "新竹", "台中", "雲嘉", "雲林", "嘉義", "台南", "高屏", "高雄", "屏東", "宜蘭", "花蓮", "金馬",
+            "北區", "桃區", "竹區", "中區", "南區", "高區",
+            "北部", "中部", "南部", "東部",
+            "海外", "其他"
+        ];
+        $placeholders = implode(',', array_fill(0, count($order), '?'));
+        return $this->belongsToMany(Region::class, 'region_camp_xref', 'camp_id', 'region_id')
+                ->orderByRaw("FIELD(name, $placeholders)", $order);
     }
 
     public function applicants()
@@ -110,9 +142,15 @@ class Camp extends Model
         return $this->hasManyThrough(Applicant::class, Batch::class);
     }
 
-    public function organizations()
+    public function orgs()
     {
         return $this->hasMany(CampOrg::class);
+    }
+
+    //for compatibility
+    public function organizations()
+    {
+        return $this->orgs();
     }
 
     public function org_root()
@@ -321,4 +359,5 @@ class Camp extends Model
             get: fn () => $this->discount_last_day?->locale('zh_TW')->minDayName, // 一
         );
     }
+
 }
